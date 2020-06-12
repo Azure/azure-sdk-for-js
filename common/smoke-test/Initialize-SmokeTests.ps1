@@ -80,7 +80,22 @@ function SetEnvironmentVariable {
 pushd ../../
 
 Write-Verbose "Reading manifest..."
-$manifest = (Get-Content -Path common/smoke-test/samples-manifest.json | ConvertFrom-Json)
+# $manifest = (Get-Content -Path common/smoke-test/samples-manifest.json | ConvertFrom-Json)
+
+Write-Verbose "Detecting samples..."
+$javascriptSamples = (Get-ChildItem .\ -Filter "javascript" -Directory -Recurse
+  | Where-Object {
+    ($_.Parent.Name -eq "samples") -and ($_.Parent.Parent.Parent.Parent.Name -eq "sdk") -and (Test-Path "$_/package.json") })
+
+$manifest = $javascriptSamples | ForEach-Object {
+  # Example: C:\code\azure-sdk-for-js\sdk\appconfiguration\app-configuration\samples\javascript
+  @{
+    Name               = $_.Parent.Parent.Name; # Package name for example "app-configuration"
+    PackageDirectory   = $_.Parent.Parent.FullName; # Path to "app-configuration" part from example
+    ResourcesDirectory = $_.Parent.Parent.Parent.Name; # Service Directory for example "appconfiguration"
+    SamplesDirectory   = $_.FullName; # Samples directory
+  }
+}
 
 $deployedServiceDirectories = @{ }
 $runManifest = @()
@@ -93,8 +108,8 @@ SetEnvironmentVariable -Name 'AZURE_RESOURCEGROUP_NAME' -Value $resourceGroupNam
 
 foreach ($entry in $manifest) {
   try {
-    Write-Verbose "Deploying resources for $($entry.name)..."
-    if ($deployedServiceDirectories.ContainsKey($entry.resourcesDirectory) -ne $true) {
+    Write-Verbose "Deploying resources for $($entry.Name)..."
+    if ($deployedServiceDirectories.ContainsKey($entry.ResourcesDirectory) -ne $true) {
 
       # Force -CI to false here. This is to have the script make use of
       # -BaseName so that all resources are created within the same resource
@@ -103,7 +118,7 @@ foreach ($entry in $manifest) {
       $deployOutput = eng/common/TestResources/New-TestResources.ps1 `
         -BaseName  $baseName `
         -ResourceGroupName $resourceGroupName `
-        -ServiceDirectory $entry.resourcesDirectory `
+        -ServiceDirectory $entry.ResourcesDirectory `
         -TestApplicationId $TestApplicationId `
         -TestApplicationSecret $TestApplicationSecret `
         -ProvisionerApplicationId $TestApplicationId `
@@ -118,27 +133,28 @@ foreach ($entry in $manifest) {
         -Verbose `
         -CI:$CI
 
-      $deployedServiceDirectories[$entry.resourcesDirectory] = $true;
+      $deployedServiceDirectories[$entry.ResourcesDirectory] = $true;
 
       foreach ($key in $deployOutput.Keys) {
         SetEnvironmentVariable -Name $key -Value $deployOutput[$key]
       }
     }
     else {
-      Write-Verbose "Skipping resource directory deployment (already deployed) for $($entry.resourcesDirectory)"
+      Write-Verbose "Skipping resource directory deployment (already deployed) for $($entry.ResourcesDirectory)"
     }
 
   }
   catch {
-    Write-Warning "Failed to deploy $($entry.name)"
+    Write-Warning "Failed to deploy $($entry.Name)"
     Write-Host $_Exception.Message
     continue
   }
 
-  Write-Verbose "Preparing samples for $($entry.name)"
-  node common/scripts/prep-samples.js $entry.path --use-packages
+  Write-Verbose "Preparing samples for $($entry.Name)"
+  node common/scripts/prep-samples.js $entry.PackageDirectory --use-packages
 
-  $packageSpec = (Get-Content -Path $entry.samplePackageJson | ConvertFrom-Json -AsHashtable)
+  $packageSpec = (Get-Content -Path "$($entry.SamplesDirectory)/package.json"
+    | ConvertFrom-Json -AsHashtable)
 
   # Set outputs
   $runManifest += $entry

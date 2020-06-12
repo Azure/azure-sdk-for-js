@@ -1,3 +1,5 @@
+const fs = require("fs").promises;
+
 // Runs smoke tests from manifest
 async function main() {
   // Read manifest
@@ -9,11 +11,26 @@ async function main() {
 
   // Bring all samples and includes into memory
   for (let entry of manifest) {
-    for (let targetSample of entry.targetSamples) {
-      const sampleModule = require(`../../${entry.path}/${targetSample}`);
+    console.log(`Importing samples for ${entry.Name}...`);
+
+    // Read configuration from package.json's //smokeTestConfiguration field
+    const packageJson = require(`${entry.SamplesDirectory}/package.json`);
+    const smokeTestConfig = packageJson["//smokeTestConfiguration"] || {};
+
+    if (smokeTestConfig.skipFolder) {
+      continue;
+    }
+
+    const skipFiles = smokeTestConfig.skip || [];
+    const jsFiles = (await fs.readdir(entry.SamplesDirectory))
+      .filter((name) => name.endsWith(".js"))
+      .filter((name) => !skipFiles.includes(name));
+
+    for (let targetSample of jsFiles) {
+      const sampleModule = require(`${entry.SamplesDirectory}/${targetSample}`);
       samplesToExecute.push({
         entrypoint: sampleModule.main,
-        name: entry.name,
+        name: entry.Name,
         sampleFile: targetSample,
       });
     }
@@ -32,12 +49,13 @@ async function main() {
     }
   }
 
-  console.log("SMOKE TEST FAILURES");
   if (failures.length > 0) {
+    console.log("SMOKE TEST FAILURES");
     for (let failure of failures) {
       console.error(
-        `Test Failed: ${failure.sample.name}\nException: ${failure.exception}`
+        `Test Failed\nPackage: ${failure.sample.name}\nFile:${failure.sample.sampleFile}\nException: ${failure.result.exception}`
       );
+      console.log(failure);
     }
   }
 
@@ -73,7 +91,7 @@ async function executeSample(sample) {
 // logs error messages.
 if (process.argv[2] == "--devops-logging") {
   const oldConsoleError = console.error;
-  console.error = function() {
+  console.error = function () {
     // Mutate arguments to use new warning format
     arguments[0] = `##vso[task.logissue type=error]${arguments[0]}`;
     oldConsoleError.call(this, ...arguments);

@@ -5,31 +5,24 @@ jobs:
         Linux (AzureCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          ArmTemplateParameters: $(azureCloudArmParameters)
         Windows (AzureCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          ArmTemplateParameters: $(azureCloudArmParameters)
         Mac (AzureCloud):
           OSVmImage: "macOS-10.14"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-          ArmTemplateParameters: $(azureCloudArmParameters)
         Linux (AzureUSGovernment):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
-          ArmTemplateParameters: $(azureUSGovernmentArmParameters)
         Windows (AzureUSGovernment):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
-          ArmTemplateParameters: $(azureUSGovernmentArmParameters)
         Linux (AzureChinaCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
-          ArmTemplateParameters: $(azureChinaCloudArmParameters)
         Windows (AzureChinaCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
-          ArmTemplateParameters: $(azureChinaCloudArmParameters)
 
     pool:
       vmImage: $(OSVmImage)
@@ -38,13 +31,6 @@ jobs:
       - template: ../../eng/pipelines/templates/variables/globals.yml
       - name: Location
         value: ""
-      - name: azureCloudArmParameters
-        value: "@{ storageEndpointSuffix = 'core.windows.net'; azureCloud = 'AzureCloud'; }"
-      - name: azureUSGovernmentArmParameters
-        value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net'; azureCloud = 'AzureUSGovernment'; }"
-      - name: azureChinaCloudArmParameters
-        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; azureCloud = 'AzureChinaCloud';  deployCosmosDb = $false }"
-
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml
 
@@ -62,7 +48,7 @@ jobs:
             $(SubscriptionConfiguration)
           "@ | ConvertFrom-Json -AsHashtable;
 
-          ./Update-SmokeTests.ps1 `
+          ./Initialize-SmokeTests.ps1 `
             -CI `
             -Verbose `
             -AdditionalParameters $(ArmTemplateParameters) `
