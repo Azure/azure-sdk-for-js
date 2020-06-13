@@ -7,7 +7,6 @@ import { EventData } from "./eventData";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { createConnectionContext } from "./impl/eventHubClient";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
-import { EventHubProducerOptions } from "./models/private";
 import {
   CreateBatchOptions,
   EventHubClientOptions,
@@ -154,6 +153,8 @@ export class EventHubProducerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal in the options.
    */
   async createBatch(options?: CreateBatchOptions): Promise<EventDataBatch> {
+    throwErrorIfConnectionClosed(this._context);
+
     if (options && options.partitionId && options.partitionKey) {
       throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
     }
@@ -161,7 +162,9 @@ export class EventHubProducerClient {
     let producer = this._producersMap.get("");
 
     if (!producer) {
-      producer = this._createProducer();
+      producer = new EventHubProducer(this._context, {
+        retryOptions: this._clientOptions.retryOptions
+      });
       this._producersMap.set("", producer);
     }
 
@@ -202,6 +205,8 @@ export class EventHubProducerClient {
     batch: EventDataBatch | EventData[],
     options: SendBatchOptions | OperationOptions = {}
   ): Promise<void> {
+    throwErrorIfConnectionClosed(this._context);
+
     let partitionId: string | undefined;
     let partitionKey: string | undefined;
     if (isEventDataBatch(batch)) {
@@ -238,7 +243,8 @@ export class EventHubProducerClient {
 
     let producer = this._producersMap.get(partitionId);
     if (!producer) {
-      producer = this._createProducer({
+      producer = new EventHubProducer(this._context, {
+        retryOptions: this._clientOptions.retryOptions,
         partitionId: partitionId === "" ? undefined : partitionId
       });
       this._producersMap.set(partitionId, producer);
@@ -309,39 +315,5 @@ export class EventHubProducerClient {
       ...options,
       retryOptions: this._clientOptions.retryOptions
     });
-  }
-
-  /**
-   * Creates an Event Hub producer that can send events to the Event Hub.
-   * If `partitionId` is specified in the `options`, all event data sent using the producer
-   * will be sent to the specified partition.
-   * Otherwise, they are automatically routed to an available partition by the Event Hubs service.
-   *
-   * Automatic routing of partitions is recommended because:
-   *  - The sending of events will be highly available.
-   *  - The event data will be evenly distributed among all available partitions.
-   *
-   * @param options The set of options to apply when creating the producer.
-   * - `partitionId`  : The identifier of the partition that the producer can be bound to.
-   * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   *
-   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
-   * @returns EventHubProducer
-   */
-  private _createProducer(options?: EventHubProducerOptions): EventHubProducer {
-    if (!options) {
-      options = {};
-    }
-    if (!options.retryOptions) {
-      options.retryOptions = this._clientOptions.retryOptions;
-    }
-    throwErrorIfConnectionClosed(this._context);
-    return new EventHubProducer(
-      this.eventHubName,
-      this.fullyQualifiedNamespace,
-      this._context,
-      options
-    );
   }
 }

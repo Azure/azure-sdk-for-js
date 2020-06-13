@@ -68,8 +68,6 @@ export class EventHubProducer {
    * @ignore
    */
   constructor(
-    eventHubName: string,
-    fullyQualifiedNamespace: string,
     context: ConnectionContext,
     options?: EventHubProducerOptions
   ) {
@@ -80,8 +78,8 @@ export class EventHubProducer {
         ? String(this._senderOptions.partitionId)
         : undefined;
     this._eventHubSender = EventHubSender.create(this._context, partitionId);
-    this._eventHubName = eventHubName;
-    this._fullyQualifiedNamespace = fullyQualifiedNamespace;
+    this._eventHubName = this._context.config.entityPath;
+    this._fullyQualifiedNamespace = this._context.config.host;
   }
 
   /**
