@@ -201,3 +201,6 @@ export const ToBlobEndpointHostMappings = [["dfs.core.windows.net", "blob.core.w
 // Mapping pairs to transform url from blob endpoint to dfs endpoint
 // Customize this value to add more mapping patterns
 export const ToDfsEndpointHostMappings = [["blob.core.windows.net", "dfs.core.windows.net"]];
+
+// e.g. azsdk-js-storagedatalake/10.0.0
+export const libInfo = `azsdk-js-storagedatalake/${SDK_VERSION}`;

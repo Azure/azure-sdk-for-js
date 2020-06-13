@@ -101,3 +101,6 @@ export const StorageQueueLoggingAllowedQueryParameters = [
   "popreceipt",
   "visibilitytimeout"
 ];
+
+// e.g. azsdk-js-storagequeue/11.0.0
+export const libInfo = `azsdk-js-storagequeue/${SDK_VERSION}`;

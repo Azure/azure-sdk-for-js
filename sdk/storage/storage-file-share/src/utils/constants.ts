@@ -133,3 +133,6 @@ export const StorageFileLoggingAllowedQueryParameters = [
   "copyid",
   "restype"
 ];
+
+// e.g. azsdk-js-storagefile/11.0.0
+export const libInfo = `azsdk-js-storagefile/${SDK_VERSION}`;

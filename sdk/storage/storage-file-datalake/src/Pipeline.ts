@@ -22,7 +22,9 @@ import {
   TokenCredential,
   tracingPolicy,
   UserAgentOptions,
-  WebResource
+  WebResource,
+  userAgentPolicy,
+  getDefaultUserAgentValue
 } from "@azure/core-http";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -30,9 +32,9 @@ import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCreden
 import { logger } from "./log";
 import { StorageBrowserPolicyFactory } from "./StorageBrowserPolicyFactory";
 import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
-import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { Pipeline as BlobPipeline } from "@azure/storage-blob";
 import {
+  libInfo,
   StorageDataLakeLoggingAllowedHeaderNames,
   StorageDataLakeLoggingAllowedQueryParameters,
   StorageOAuthScopes
@@ -192,11 +194,29 @@ export function newPipeline(
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
 
-  const telemetryPolicy = new TelemetryPolicyFactory(pipelineOptions.userAgentOptions);
+
+  let userAgentValue = "";
+  const telemetryString = (pipelineOptions.userAgentOptions?.userAgentPrefix || "").replace(" ", "");
+  if (telemetryString.length > 0) {
+    userAgentValue += telemetryString;
+  }
+  // Add the library information if it isn't already specified
+  if (userAgentValue === "") {
+    userAgentValue = libInfo;
+  } else if (userAgentValue.indexOf(libInfo) === -1) {
+    userAgentValue += ` ${libInfo}`;
+  }
+  // Add the default user agent value if it isn't already specified
+  // by the userAgentPrefix option.
+  const defaultUserAgentInfo = getDefaultUserAgentValue();
+  if (userAgentValue.indexOf(defaultUserAgentInfo) === -1) {
+    userAgentValue += ` ${defaultUserAgentInfo}`;
+  }
+
   const factories: RequestPolicyFactory[] = [
-    tracingPolicy({ userAgent: telemetryPolicy.telemetryString }),
+    tracingPolicy({ userAgent: userAgentValue }),
     keepAlivePolicy(pipelineOptions.keepAliveOptions),
-    telemetryPolicy,
+    userAgentPolicy({ value: userAgentValue }),
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer

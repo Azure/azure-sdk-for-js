@@ -201,3 +201,6 @@ export const StorageBlobLoggingAllowedQueryParameters = [
   "skv",
   "snapshot"
 ];
+
+// e.g. azsdk-js-storageblob/10.0.0
+export const libInfo = `azsdk-js-storageblob/${SDK_VERSION}`;
