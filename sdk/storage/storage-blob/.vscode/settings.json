@@ -13,7 +13,8 @@
     "[json]": {
       "editor.formatOnSave": true,
       "editor.tabSize": 2,
-      "editor.detectIndentation": false
+      "editor.detectIndentation": false,
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "[yaml]": {
       "editor.formatOnSave": true,
@@ -25,5 +26,4 @@
     ],
     "typescript.preferences.quoteStyle": "double",
     "javascript.preferences.quoteStyle": "double"
-
   }
