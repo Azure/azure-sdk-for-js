@@ -28,6 +28,11 @@ import { LinkEntity } from "./linkEntity";
 import { logErrorStackTrace, logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { OperationNames } from "./models/private";
+import { Span, SpanContext, SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { getParentSpan, OperationOptions } from "./util/operationOptions";
+import { getTracer } from "@azure/core-tracing";
 /**
  * Describes the runtime information of an Event Hub.
  */
@@ -158,48 +163,52 @@ export class ManagementClient extends LinkEntity {
    * @param connection - The established amqp connection
    * @returns
    */
-  async getHubRuntimeInformation(options?: {
-    retryOptions?: RetryOptions;
-    abortSignal?: AbortSignalLike;
-  }): Promise<EventHubProperties> {
-    if (!options) {
-      options = {};
+  async getEventHubProperties(
+    options: OperationOptions & { retryOptions?: RetryOptions } = {}
+  ): Promise<EventHubProperties> {
+    throwErrorIfConnectionClosed(this._context);
+    const clientSpan = this._createClientSpan(
+      "getEventHubProperties",
+      getParentSpan(options.tracingOptions)
+    );
+    try {
+      const securityToken = await this.getSecurityToken();
+      const request: Message = {
+        body: Buffer.from(JSON.stringify([])),
+        message_id: uuid(),
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.readOperation,
+          name: this.entityPath as string,
+          type: `${Constants.vendorString}:${Constants.eventHub}`,
+          security_token: securityToken?.token
+        }
+      };
+
+      const info: any = await this._makeManagementRequest(request, {
+        ...options,
+        requestName: "getHubRuntimeInformation"
+      });
+      const runtimeInfo: EventHubProperties = {
+        name: info.name,
+        createdOn: new Date(info.created_at),
+        partitionIds: info.partition_ids
+      };
+      logger.verbose("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
+
+      clientSpan.setStatus({ code: CanonicalCode.OK });
+      return runtimeInfo;
+    } catch (error) {
+      clientSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      logger.warning("An error occurred while getting the hub runtime information: %O", error);
+      logErrorStackTrace(error);
+      throw error;
+    } finally {
+      clientSpan.end();
     }
-    const securityToken = await this.getSecurityToken();
-    const request: Message = {
-      body: Buffer.from(JSON.stringify([])),
-      message_id: uuid(),
-      reply_to: this.replyTo,
-      application_properties: {
-        operation: Constants.readOperation,
-        name: this.entityPath as string,
-        type: `${Constants.vendorString}:${Constants.eventHub}`,
-        security_token: securityToken?.token
-      }
-    };
-
-    const info: any = await this._makeManagementRequest(request, {
-      ...options,
-      requestName: "getHubRuntimeInformation"
-    });
-    const runtimeInfo: EventHubProperties = {
-      name: info.name,
-      createdOn: new Date(info.created_at),
-      partitionIds: info.partition_ids
-    };
-    logger.verbose("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
-    return runtimeInfo;
-  }
-
-  /**
-   * Provides an array of partitionIds.
-   * @ignore
-   * @param connection - The established amqp connection
-   * @returns
-   */
-  async getPartitionIds(): Promise<Array<string>> {
-    const runtimeInfo = await this.getHubRuntimeInformation();
-    return runtimeInfo.partitionIds;
   }
 
   /**
@@ -210,41 +219,67 @@ export class ManagementClient extends LinkEntity {
    */
   async getPartitionProperties(
     partitionId: string,
-    options?: { retryOptions?: RetryOptions; abortSignal?: AbortSignalLike }
+    options: OperationOptions & { retryOptions?: RetryOptions } = {}
   ): Promise<PartitionProperties> {
-    if (!options) {
-      options = {};
+    throwErrorIfConnectionClosed(this._context);
+    throwTypeErrorIfParameterMissing(
+      this._context.connectionId,
+      "getPartitionProperties",
+      "partitionId",
+      partitionId
+    );
+    partitionId = String(partitionId);
+
+    const clientSpan = this._createClientSpan(
+      "getPartitionProperties",
+      getParentSpan(options.tracingOptions)
+    );
+
+    try {
+      const securityToken = await this.getSecurityToken();
+      const request: Message = {
+        body: Buffer.from(JSON.stringify([])),
+        message_id: uuid(),
+        reply_to: this.replyTo,
+        application_properties: {
+          operation: Constants.readOperation,
+          name: this.entityPath as string,
+          type: `${Constants.vendorString}:${Constants.partition}`,
+          partition: `${partitionId}`,
+          security_token: securityToken?.token
+        }
+      };
+
+      const info: any = await this._makeManagementRequest(request, {
+        ...options,
+        requestName: "getPartitionInformation"
+      });
+
+      const partitionInfo: PartitionProperties = {
+        beginningSequenceNumber: info.begin_sequence_number,
+        eventHubName: info.name,
+        lastEnqueuedOffset: info.last_enqueued_offset,
+        lastEnqueuedOnUtc: new Date(info.last_enqueued_time_utc),
+        lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,
+        partitionId: info.partition,
+        isEmpty: info.is_partition_empty
+      };
+      logger.verbose("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
+
+      clientSpan.setStatus({ code: CanonicalCode.OK });
+
+      return partitionInfo;
+    } catch (error) {
+      clientSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      logger.warning("An error occurred while getting the partition information: %O", error);
+      logErrorStackTrace(error);
+      throw error;
+    } finally {
+      clientSpan.end();
     }
-    const securityToken = await this.getSecurityToken();
-    const request: Message = {
-      body: Buffer.from(JSON.stringify([])),
-      message_id: uuid(),
-      reply_to: this.replyTo,
-      application_properties: {
-        operation: Constants.readOperation,
-        name: this.entityPath as string,
-        type: `${Constants.vendorString}:${Constants.partition}`,
-        partition: `${partitionId}`,
-        security_token: securityToken?.token
-      }
-    };
-
-    const info: any = await this._makeManagementRequest(request, {
-      ...options,
-      requestName: "getPartitionInformation"
-    });
-
-    const partitionInfo: PartitionProperties = {
-      beginningSequenceNumber: info.begin_sequence_number,
-      eventHubName: info.name,
-      lastEnqueuedOffset: info.last_enqueued_offset,
-      lastEnqueuedOnUtc: new Date(info.last_enqueued_time_utc),
-      lastEnqueuedSequenceNumber: info.last_enqueued_sequence_number,
-      partitionId: info.partition,
-      isEmpty: info.is_partition_empty
-    };
-    logger.verbose("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
-    return partitionInfo;
   }
 
   /**
@@ -470,5 +505,23 @@ export class ManagementClient extends LinkEntity {
 
   private _isMgmtRequestResponseLinkOpen(): boolean {
     return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
+  }
+
+  private _createClientSpan(
+    operationName: OperationNames,
+    parentSpan?: Span | SpanContext | null,
+    internal: boolean = false
+  ): Span {
+    const tracer = getTracer();
+    const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
+      kind: internal ? SpanKind.INTERNAL : SpanKind.CLIENT,
+      parent: parentSpan
+    });
+
+    span.setAttribute("az.namespace", "Microsoft.EventHub");
+    span.setAttribute("message_bus.destination", this._context.config.entityPath);
+    span.setAttribute("peer.address", this._context.config.endpoint);
+
+    return span;
   }
 }
