@@ -14,7 +14,8 @@ import {
   systemErrorRetryPolicy,
   ServiceClientCredentials,
   UserAgentOptions,
-  getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue
+  getDefaultUserAgentValue as getCoreHttpDefaultUserAgentValue,
+  userAgentPolicy
 } from "@azure/core-http";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { TokenCredential } from "@azure/identity";
@@ -51,7 +52,7 @@ import {
   transformKeyValue,
   formatAcceptDateTime
 } from "./internal/helpers";
-import { tracingPolicy, isNode as coreHttpIsNode } from "@azure/core-http";
+import { tracingPolicy } from "@azure/core-http";
 import { Spanner } from "./internal/tracingHelpers";
 import {
   GetKeyValuesResponse,
@@ -539,12 +540,11 @@ export function getGeneratedClientOptions(
     requestPolicyFactories: (defaults) => [
       tracingPolicy({ userAgent }),
       syncTokenPolicy(syncTokens),
+      userAgentPolicy({ value: userAgent }),
       ...retryPolicies,
       ...defaults
     ],
-    generateClientRequestIdHeader: true,
-    userAgentHeaderName: getUserAgentHeaderName(internalAppConfigOptions.isNodeOverride),
-    userAgent
+    generateClientRequestIdHeader: true
   };
 }
 
@@ -562,19 +562,3 @@ export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): s
   return `${userSuppliedUserAgent} ${appConfigDefaultUserAgent}`;
 }
 
-/**
- * @ignore
- * @internal
- */
-function getUserAgentHeaderName(isNodeOverride: boolean | undefined): string {
-  const definitelyIsNode = isNodeOverride != null ? isNodeOverride : coreHttpIsNode;
-
-  if (definitelyIsNode) {
-    return "User-Agent";
-  } else {
-    // we only need to override this when we're in the browser
-    // where we're (mostly) not allowed to override the User-Agent
-    // header.
-    return "x-ms-useragent";
-  }
-}
