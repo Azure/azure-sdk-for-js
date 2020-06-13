@@ -51,7 +51,6 @@ jobs:
           ./Initialize-SmokeTests.ps1 `
             -CI `
             -Verbose `
-            -AdditionalParameters $(ArmTemplateParameters) `
             @subscriptionConfiguration
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
         displayName: Deploy Smoke Test resources and prepare samples
