@@ -407,7 +407,6 @@ export class EventHubConsumerClient {
         options
       ));
     } else if (
-      typeof handlersOrPartitionId1 === "string" &&
       isSubscriptionEventHandlers(optionsOrHandlers2)
     ) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
@@ -416,7 +415,7 @@ export class EventHubConsumerClient {
         validateEventPositions(options.startPosition);
       }
       ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForSinglePartition(
-        handlersOrPartitionId1,
+        String(handlersOrPartitionId1),
         optionsOrHandlers2,
         possibleOptions3
       ));
