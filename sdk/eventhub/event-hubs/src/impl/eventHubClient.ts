@@ -235,7 +235,7 @@ export class EventHubClient {
   async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     return this._context.managementSession!.getEventHubProperties({
       retryOptions: this._clientOptions.retryOptions,
-      abortSignal: options.abortSignal
+      ...options
     });
   }
 
@@ -265,7 +265,7 @@ export class EventHubClient {
   ): Promise<PartitionProperties> {
     return this._context.managementSession!.getPartitionProperties(partitionId, {
       retryOptions: this._clientOptions.retryOptions,
-      abortSignal: options.abortSignal
+      ...options
     });
   }
 }
