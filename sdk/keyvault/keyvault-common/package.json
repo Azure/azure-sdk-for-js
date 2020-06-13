@@ -5,7 +5,7 @@
   "author": "Microsoft Corporation",
   "version": "1.0.0",
   "license": "MIT",
-  "description": "Isomorphic client library for Azure KeyVault's certificates.",
+  "description": "Common internal functionality for all of the Azure Key Vault clients in the Azure SDK for JavaScript",
   "repository": "github:Azure/azure-sdk-for-js",
   "main": "./src/index.ts",
   "module": "dist-esm/index.js",
