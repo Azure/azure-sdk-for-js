@@ -2,25 +2,25 @@
 // Licensed under the MIT license.
 
 import { v4 as uuid } from "uuid";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import {
+  AmqpError,
   AwaitableSender,
+  AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  AwaitableSenderOptions,
-  message,
-  AmqpError
+  message
 } from "rhea-promise";
 import {
-  defaultLock,
-  retry,
-  translate,
   AmqpMessage,
+  Constants,
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
   RetryOptions,
-  Constants
+  defaultLock,
+  retry,
+  translate
 } from "@azure/core-amqp";
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -29,7 +29,7 @@ import { EventHubProducerOptions } from "./models/private";
 import { SendOptions } from "./models/public";
 
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 
 /**
@@ -171,15 +171,22 @@ export class EventHubSender extends LinkEntity {
    * @returns Promise<void>
    */
   async close(): Promise<void> {
-    if (this._sender) {
-      logger.info(
-        "[%s] Closing the Sender for the entity '%s'.",
-        this._context.connectionId,
-        this._context.config.entityPath
-      );
-      const senderLink = this._sender;
-      this._deleteFromCache();
-      await this._closeLink(senderLink);
+    try {
+      if (this._sender) {
+        logger.info(
+          "[%s] Closing the Sender for the entity '%s'.",
+          this._context.connectionId,
+          this._context.config.entityPath
+        );
+        const senderLink = this._sender;
+        this._deleteFromCache();
+        await this._closeLink(senderLink);
+      }
+    } catch (err) {
+      const msg = `[${this._context.connectionId}] An error occurred while closing sender ${this.name}: ${err}`;
+      logger.warning(msg);
+      logErrorStackTrace(err);
+      throw err;
     }
   }
 
@@ -561,6 +568,9 @@ export class EventHubSender extends LinkEntity {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
+
+        // Wait for the connectionContext to be ready to open the link.
+        await this._context.readyToOpenLink();
         await this._negotiateClaim();
 
         logger.verbose(

@@ -5,7 +5,7 @@ import chai from "chai";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { MessagingError, delay, ServiceBusMessage } from "../src";
+import { MessagingError, ServiceBusMessage, delay } from "../src";
 import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
@@ -35,7 +35,7 @@ describe("renew lock sessions", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     sessionId = Date.now().toString();
@@ -55,9 +55,9 @@ describe("renew lock sessions", () => {
     // Hence, commenting the following code since there is no need to purge/peek into a freshly created entity
 
     // await purge(receiver);
-    // const browsedMsgs = await receiver.browseMessages();
+    // const peekedMsgs = await receiver.peekMessages();
     // const receiverEntityType = receiver.entityType;
-    // if (browsedMsgs.length) {
+    // if (peekedMsgs.length) {
     //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }

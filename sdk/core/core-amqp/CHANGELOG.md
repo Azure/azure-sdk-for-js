@@ -1,5 +1,12 @@
 # Release History
 
+## 1.1.4 (Unreleased)
+
+- Fixes issue [9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
+  where operations that used the `RequestResponseLink` and encountered an error
+  would fail to cleanup their internal timer.
+  This caused exiting the process to be delayed until the timer reached its timeout.
+
 ## 1.1.3 (2020-06-02)
 
 - Updated to use the latest version of the `rhea` package.

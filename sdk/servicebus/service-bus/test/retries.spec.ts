@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const should = chai.should();
-import { Receiver, ReceivedMessageWithLock, SessionReceiver } from "../src";
+import { ReceivedMessageWithLock, Receiver, SessionReceiver } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender, SenderImpl } from "../src/sender";
@@ -41,7 +41,7 @@ describe("Retries - ManagementClient", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     // subscriptionRuleManager = serviceBusClient.test.addToCleanup(
@@ -137,13 +137,13 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.browseMessages();
+        await receiver.peekMessages();
       });
     });
 
     it("Unpartitioned Queue: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.browseMessages({ fromSequenceNumber: new Long(0) });
+        await receiver.peekMessages({ fromSequenceNumber: new Long(0) });
       });
     });
   });
@@ -161,13 +161,13 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue with Sessions: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.browseMessages();
+        await sessionReceiver.peekMessages();
       });
     });
 
     it("Unpartitioned Queue with Sessions: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.browseMessages({ fromSequenceNumber: new Long(0) });
+        await sessionReceiver.peekMessages({ fromSequenceNumber: new Long(0) });
       });
     });
 
@@ -252,7 +252,7 @@ describe("Retries - MessageSender", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 
@@ -308,7 +308,11 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.send(1 as any);
+      const batch = await sender.createBatch();
+      batch.tryAdd({
+        body: "hello"
+      });
+      await sender.send(batch);
     });
   });
 
@@ -329,7 +333,11 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue with Sessions: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.send(1 as any);
+      const batch = await sender.createBatch();
+      batch.tryAdd({
+        body: "hello"
+      });
+      await sender.send(batch);
     });
   });
 });
@@ -453,7 +461,7 @@ describe("Retries - onDetached", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
   }

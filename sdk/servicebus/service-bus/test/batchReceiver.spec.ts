@@ -4,17 +4,17 @@
 import chai from "chai";
 import Long from "long";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ServiceBusMessage } from "../src";
+import { ServiceBusMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver, ReceiverImpl } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
-  createServiceBusClientForTests,
   ServiceBusClientForTests,
+  createServiceBusClientForTests,
   testPeekMsgsLength
 } from "./utils/testutils2";
-import { ReceivedMessageWithLock, ReceivedMessage } from "../src/serviceBusMessage";
+import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-amqp";
 import { ReceiverEvents } from "rhea-promise";
@@ -44,7 +44,7 @@ describe("batchReceiver", () => {
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
@@ -1033,7 +1033,7 @@ describe("Batching - disconnects", function(): void {
     }
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 

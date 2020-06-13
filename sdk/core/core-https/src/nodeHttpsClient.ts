@@ -5,7 +5,7 @@ import * as https from "https";
 import * as zlib from "zlib";
 import { Transform } from "stream";
 import FormData from "form-data";
-import httpsProxyAgent from "https-proxy-agent";
+import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import {
   HttpsClient,
@@ -175,7 +175,7 @@ export class NodeHttpsClient implements HttpsClient {
     const proxySettings = request.proxySettings;
     if (proxySettings) {
       if (!this.proxyAgent) {
-        const proxyAgentOptions: httpsProxyAgent.HttpsProxyAgentOptions = {
+        const proxyAgentOptions: HttpsProxyAgentOptions = {
           host: proxySettings.host,
           port: proxySettings.port,
           headers: request.headers.toJSON()
@@ -183,7 +183,7 @@ export class NodeHttpsClient implements HttpsClient {
         if (proxySettings.username && proxySettings.password) {
           proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
         }
-        this.proxyAgent = new httpsProxyAgent(proxyAgentOptions);
+        this.proxyAgent = (new HttpsProxyAgent(proxyAgentOptions) as unknown) as https.Agent;
       }
       return this.proxyAgent;
     } else if (request.keepAlive) {

@@ -4,26 +4,26 @@
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
 import {
-  ServiceBusClient,
-  SessionReceiver,
+  CreateSessionReceiverOptions,
   Receiver,
-  CreateSessionReceiverOptions
+  ServiceBusClient,
+  SessionReceiver
 } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
-import { getEnvVars, EnvVarNames } from "./envVarUtils";
+import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import * as dotenv from "dotenv";
 import {
   recreateQueue,
-  recreateTopic,
   recreateSubscription,
+  recreateTopic,
   verifyMessageCount
 } from "./managementUtils";
 import { ServiceBusClientOptions } from "../../src";
 import chai from "chai";
 import {
-  ReceivedMessageWithLock,
   ReceivedMessage,
+  ReceivedMessageWithLock,
   ServiceBusMessage
 } from "../../src/serviceBusMessage";
 
@@ -468,12 +468,12 @@ export async function testPeekMsgsLength(
   peekableReceiver: Receiver<ReceivedMessage>,
   expectedPeekLength: number
 ): Promise<void> {
-  const browsedMsgs = await peekableReceiver.browseMessages({
+  const peekedMsgs = await peekableReceiver.peekMessages({
     maxMessageCount: expectedPeekLength + 1
   });
 
   should.equal(
-    browsedMsgs.length,
+    peekedMsgs.length,
     expectedPeekLength,
     "Unexpected number of msgs found when peeking"
   );

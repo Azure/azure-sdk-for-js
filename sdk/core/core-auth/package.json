@@ -69,7 +69,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.8",
     "@opentelemetry/api": "^0.6.1",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -99,7 +99,7 @@
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^3.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "~3.9.3",
     "util": "^0.12.1"
   }

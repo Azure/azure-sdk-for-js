@@ -17,7 +17,7 @@ export interface CopyPollerOperationOptions {
   /**
    * Time between each polling in milliseconds.
    */
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   /**
    * callback to receive events on the progress of download operation.
    */
@@ -100,7 +100,7 @@ export type BeginCopyModelPollerOptions = {
   targetResourceId: string;
   targetResourceRegion: string;
   copyAuthorization: CopyAuthorization;
-  intervalInMs?: number;
+  updateIntervalInMs?: number;
   resultId?: string;
   onProgress?: (state: BeginCopyModelPollState) => void;
   resumeFrom?: string;
@@ -110,12 +110,12 @@ export type BeginCopyModelPollerOptions = {
  * Class that represents a poller that waits until a model has been trained.
  */
 export class BeginCopyModelPoller extends Poller<BeginCopyModelPollState, CustomFormModelInfo> {
-  public intervalInMs: number;
+  public updateIntervalInMs: number;
 
   constructor(options: BeginCopyModelPollerOptions) {
     const {
       client,
-      intervalInMs = 5000,
+      updateIntervalInMs = 5000,
       modelId,
       resultId,
       targetResourceId,
@@ -149,11 +149,11 @@ export class BeginCopyModelPoller extends Poller<BeginCopyModelPollState, Custom
       this.onProgress(onProgress);
     }
 
-    this.intervalInMs = intervalInMs;
+    this.updateIntervalInMs = updateIntervalInMs;
   }
 
   public delay(): Promise<void> {
-    return delay(this.intervalInMs);
+    return delay(this.updateIntervalInMs);
   }
 }
 /**

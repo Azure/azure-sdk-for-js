@@ -7,6 +7,7 @@ import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
 import { AzureCliCredential } from "./azureCliCredential";
 import { VSCodeCredential } from "./vscodeCredential";
+import { TokenCredential } from "@azure/core-http";
 
 /**
  * Provides a default {@link ChainedTokenCredential} configuration for
@@ -21,22 +22,35 @@ import { VSCodeCredential } from "./vscodeCredential";
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
+   * Returns the list of credentials DefaultAzureCredential will use to authenticate.
+   *
+   * @param options Options for configuring the client which makes the authentication request.
+   */
+  static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[] {
+    let credentials = [];
+    credentials.push(new EnvironmentCredential(tokenCredentialOptions));
+    credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
+    if (process.env.AZURE_CLIENT_ID) {
+      credentials.push(
+        new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions)
+      );
+    }
+    credentials.push(new AzureCliCredential());
+    credentials.push(new VSCodeCredential(tokenCredentialOptions));
+
+    return credentials;
+  }
+  /**
    * Creates an instance of the DefaultAzureCredential class.
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(tokenCredentialOptions?: TokenCredentialOptions) {
-    let credentials = [];
-    credentials.push(new EnvironmentCredential(tokenCredentialOptions));
-    credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
-    if (process.env.AZURE_CLIENT_ID) {
-      credentials.push(new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions));
-    }
-    credentials.push(new AzureCliCredential());
-    credentials.push(new VSCodeCredential(tokenCredentialOptions));
-
+    let credentials = DefaultAzureCredential.credentials(tokenCredentialOptions);
     super(
       ...credentials
     );
+    this.UnavailableMessage =
+      "DefaultAzureCredential failed to retrieve a token from the included credentials";
   }
 }

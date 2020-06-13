@@ -4,14 +4,14 @@
 import { EventData } from "./eventData";
 import { EventHubSender } from "./eventHubSender";
 import { EventHubProducerOptions } from "../src/models/private";
-import { SendOptions, CreateBatchOptions } from "../src/models/public";
+import { CreateBatchOptions, SendOptions } from "../src/models/public";
 import { ConnectionContext } from "./connectionContext";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { EventDataBatch, isEventDataBatch, EventDataBatchImpl } from "./eventDataBatch";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { getTracer } from "@azure/core-tracing";
-import { SpanContext, Span, SpanKind, CanonicalCode, Link } from "@opentelemetry/api";
-import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
+import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { getParentSpan } from "./util/operationOptions";
 
@@ -142,9 +142,9 @@ export class EventHubProducer {
   }
 
   /**
-   * Send one or more of events to the associated Event Hub.
+   * Send events to the associated Event Hub.
    *
-   * @param eventData  An individual `EventData` object, or an array of `EventData` objects or an
+   * @param eventData  An array of `EventData` objects or an
    * instance of `EventDataBatch`.
    * @param options The set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
@@ -162,7 +162,7 @@ export class EventHubProducer {
    * Create a new producer using the EventHubClient createProducer method.
    */
   async send(
-    eventData: EventData | EventData[] | EventDataBatch,
+    eventData: EventData[] | EventDataBatch,
     options: SendOptions = {}
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();

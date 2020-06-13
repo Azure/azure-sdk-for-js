@@ -54,14 +54,14 @@ Authenticating as a managed identity requires no configuration, but does require
 
 `DefaultAzureCredential` and `EnvironmentCredential` are configured for service principal authentication with these environment variables:
 
-| variable name                   | value                                                                                 |
-| ------------------------------- | ------------------------------------------------------------------------------------- |
-| `AZURE_CLIENT_ID`               | service principal's app id                                                            |
-| `AZURE_TENANT_ID`               | id of the principal's Azure Active Directory tenant                                   |
-| `AZURE_CLIENT_SECRET`           | one of the service principal's client secrets (implies `ClientSecretCredential`)      |
+| variable name                   | value                                                                                                |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `AZURE_CLIENT_ID`               | service principal's app id                                                                           |
+| `AZURE_TENANT_ID`               | id of the principal's Azure Active Directory tenant                                                  |
+| `AZURE_CLIENT_SECRET`           | one of the service principal's client secrets (implies `ClientSecretCredential`)                     |
 | `AZURE_CLIENT_CERTIFICATE_PATH` | path to a PEM-encoded certificate file including private key (implies `ClientCertificateCredential`) |
-| `AZURE_USERNAME`                | the username of a user in the tenant (implies `UsernamePasswordCredential`)           |
-| `AZURE_PASSWORD`                | the password of the user specified in `AZURE_USERNAME`                                |
+| `AZURE_USERNAME`                | the username of a user in the tenant (implies `UsernamePasswordCredential`)                          |
+| `AZURE_PASSWORD`                | the password of the user specified in `AZURE_USERNAME`                                               |
 
 ## Examples
 
@@ -148,6 +148,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [7]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/authorizationcodecredential.html
 [8]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/interactivebrowsercredential.html
 [9]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/usernamepasswordcredential.html
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

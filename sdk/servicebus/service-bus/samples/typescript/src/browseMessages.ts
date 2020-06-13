@@ -6,7 +6,7 @@
   For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
-  This sample demonstrates how the browseMessages() function can be used to browse a Service Bus message.
+  This sample demonstrates how the peekMessages() function can be used to browse a Service Bus message.
 
   See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
   about message browsing.
@@ -21,8 +21,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString =
-  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 export async function main() {
@@ -35,7 +34,7 @@ export async function main() {
 
   try {
     for (let i = 0; i < 20; i++) {
-      const messages = await queueReceiver.browseMessages();
+      const messages = await queueReceiver.peekMessages();
       if (!messages.length) {
         console.log("No more messages to peek");
         break;
@@ -48,6 +47,6 @@ export async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

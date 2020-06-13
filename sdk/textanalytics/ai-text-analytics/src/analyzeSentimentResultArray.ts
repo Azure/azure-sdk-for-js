@@ -5,7 +5,7 @@ import {
   TextDocumentBatchStatistics,
   DocumentError,
   DocumentSentiment,
-  MultiLanguageInput
+  TextDocumentInput
 } from "./generated/models";
 import {
   AnalyzeSentimentResult,
@@ -33,7 +33,7 @@ export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResul
 }
 
 export function makeAnalyzeSentimentResultArray(
-  input: MultiLanguageInput[],
+  input: TextDocumentInput[],
   documents: DocumentSentiment[],
   errors: DocumentError[],
   modelVersion: string,

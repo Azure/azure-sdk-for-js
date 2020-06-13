@@ -34,7 +34,7 @@ export async function main() {
 async function sendMessages() {
   const sbClient = new ServiceBusClient(connectionString);
   // createSender() can also be used to create a sender for a topic.
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   const data = [
     { step: 1, title: "Shop" },

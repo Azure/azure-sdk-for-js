@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
 import { EventHubClient } from "./impl/eventHubClient";
@@ -10,9 +10,9 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
-import { getParentSpan, OperationOptions } from "./util/operationOptions";
+import { OperationOptions, getParentSpan } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/api";
+import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 

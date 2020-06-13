@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, ServiceBusMessage, ReceivedMessage, Receiver } from "../src";
+import { ReceivedMessage, Receiver, ServiceBusMessage, delay } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
-import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 chai.use(chaiAsPromised);
@@ -35,7 +35,7 @@ describe("Sample scenarios for track 2", () => {
     });
 
     beforeEach(async () => {
-      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(queueName));
+      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queueName));
     });
 
     afterEach(async () => {
@@ -47,7 +47,7 @@ describe("Sample scenarios for track 2", () => {
         serviceBusClient.createReceiver(queueName, "peekLock")
       );
 
-      await sendSampleMessage(sender, "Queue, peek/lock");
+      await sendSampleMessage(sender, "Queue, peek/lock", undefined, "single");
 
       const errors: string[] = [];
       const receivedBodies: string[] = [];
@@ -70,7 +70,7 @@ describe("Sample scenarios for track 2", () => {
         serviceBusClient.createReceiver(queueName, "receiveAndDelete")
       );
 
-      await sendSampleMessage(sender, "Queue, peek/lock, receiveBatch");
+      await sendSampleMessage(sender, "Queue, peek/lock, receiveBatch", undefined, "array");
 
       const receivedBodies: string[] = [];
 
@@ -87,7 +87,7 @@ describe("Sample scenarios for track 2", () => {
         serviceBusClient.createReceiver(queueName, "peekLock")
       );
 
-      await sendSampleMessage(sender, "Queue, peek/lock, iterate messages");
+      await sendSampleMessage(sender, "Queue, peek/lock, iterate messages", undefined, "batch");
 
       // etc...
       // receiver.getRules();
@@ -160,12 +160,8 @@ describe("Sample scenarios for track 2", () => {
           continue;
         }
 
-        try {
-          receivedBodies.push(message.body);
-          break;
-        } catch (err) {
-          throw err;
-        }
+        receivedBodies.push(message.body);
+        break;
       }
 
       await waitAndValidate(
@@ -192,7 +188,7 @@ describe("Sample scenarios for track 2", () => {
     });
 
     beforeEach(async () => {
-      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(topic));
+      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(topic));
     });
 
     afterEach(async () => {
@@ -306,12 +302,8 @@ describe("Sample scenarios for track 2", () => {
           continue;
         }
 
-        try {
-          receivedBodies.push(message.body);
-          break;
-        } catch (err) {
-          throw err;
-        }
+        receivedBodies.push(message.body);
+        break;
       }
 
       await waitAndValidate(
@@ -332,7 +324,7 @@ describe("Sample scenarios for track 2", () => {
         TestClientType.UnpartitionedQueueWithSessions
       );
       queue = entities.queue!;
-      sender = serviceBusClient.test.addToCleanup(await serviceBusClient.createSender(queue));
+      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queue));
     });
 
     it("Queue, next unlocked session, sessions", async () => {
@@ -430,7 +422,12 @@ describe("Sample scenarios for track 2", () => {
     });
   });
 
-  async function sendSampleMessage(sender: Sender, body: string, sessionId?: string) {
+  async function sendSampleMessage(
+    sender: Sender,
+    body: string,
+    sessionId?: string,
+    method: "single" | "array" | "batch" = "single"
+  ): Promise<void> {
     const message: ServiceBusMessage = {
       body
     };
@@ -439,7 +436,22 @@ describe("Sample scenarios for track 2", () => {
       message.sessionId = sessionId;
     }
 
-    await sender.send(message);
+    switch (method) {
+      case "single": {
+        await sender.send(message);
+        break;
+      }
+      case "array": {
+        await sender.send([message]);
+        break;
+      }
+      case "batch": {
+        const batch = await sender.createBatch();
+        assert.isTrue(batch.tryAdd(message));
+        await sender.send(batch);
+        break;
+      }
+    }
   }
 });
 
@@ -461,7 +473,7 @@ async function waitAndValidate(
   receivedBodies: string[],
   errors: string[],
   receiver: Receiver<ReceivedMessage>
-) {
+): Promise<void> {
   const maxChecks = 20;
   let numChecks = 0;
 
@@ -472,7 +484,7 @@ async function waitAndValidate(
     await delay(500);
   }
 
-  const remainingMessages = (await receiver.browseMessages()).map((m) => m.body);
+  const remainingMessages = (await receiver.peekMessages()).map((m) => m.body);
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);

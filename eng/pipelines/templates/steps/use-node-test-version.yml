@@ -1,12 +1,10 @@
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: $(NodeTestVersion)
-    displayName: "Use NodeJS $(NodeTestVersion)"
+parameters:
+  NodeTestVersion: $(NodeTestVersion)
 
-  - script: |
-      node --version && npm --version
-    displayName: Node versions
+steps:
+  - template: use-node-version.yml
+    parameters:
+      NodeVersion: $(NodeTestVersion)
 
   # Packages with native dependencies must be reinstalled after changing Node versions
   - pwsh: |
@@ -29,9 +27,3 @@ steps:
       # Install matching version of package
       npm install --no-package-lock keytar@$KeytarVersion
     displayName: Reinstall native dependencies
-
-  # After changing Node versions, Rush will attempt to reinstall itself, but will be blocked on
-  # Windows due to issue microsoft/rushstack#1878.  A workaround is to manually delete the Rush
-  # install folder.
-  - pwsh: Remove-Item -Recurse -Force common/temp/install-run
-    displayName: Delete Rush install folder

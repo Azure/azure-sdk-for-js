@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  GreedyPartitionLoadBalancer,
-  FairPartitionLoadBalancer
+  FairPartitionLoadBalancer,
+  GreedyPartitionLoadBalancer
 } from "../src/partitionLoadBalancer";
 import { PartitionOwnership } from "../src/eventProcessor";
 

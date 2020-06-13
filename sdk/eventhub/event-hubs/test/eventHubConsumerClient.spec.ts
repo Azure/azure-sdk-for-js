@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
+  CheckpointStore,
   EventHubProducerClient,
   Subscription,
   SubscriptionEventHandlers,
-  CheckpointStore,
   latestEventPosition,
   logger
 } from "../src";
@@ -16,7 +16,7 @@ import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
 import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
-import { FullEventProcessorOptions, EventProcessor } from "../src/eventProcessor";
+import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
 import { SinonStubbedInstance, createStubInstance } from "sinon";
 
 const should = chai.should();
@@ -63,13 +63,13 @@ describe("EventHubConsumerClient", () => {
         fakeEventProcessor = createStubInstance(EventProcessor);
 
         client = new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         );
 
         clientWithCheckpointStore = new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path,
           // it doesn't actually matter _what_ checkpoint store gets passed in
@@ -88,7 +88,7 @@ describe("EventHubConsumerClient", () => {
           checkpointStore: CheckpointStore,
           options: FullEventProcessorOptions
         ) => {
-          consumerGroup.should.equal(EventHubClient.defaultConsumerGroupName);
+          consumerGroup.should.equal(EventHubConsumerClient.defaultConsumerGroupName);
           subscriptionEventHandlers.should.equal(subscriptionHandlers);
           (typeof eventHubClient.createConsumer).should.equal("function");
           isCheckpointStore(checkpointStore).should.be.ok;
@@ -440,7 +440,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         )
@@ -475,7 +475,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         )
@@ -514,7 +514,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path
         )
@@ -552,7 +552,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
@@ -570,7 +570,7 @@ describe("EventHubConsumerClient", () => {
 
       clients.push(
         new EventHubConsumerClient(
-          EventHubClient.defaultConsumerGroupName,
+          EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString!,
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
@@ -680,6 +680,65 @@ describe("EventHubConsumerClient", () => {
         closeCalled,
         "processClose was not called the same number of times as processInitialize."
       );
+    });
+
+    describe("processError", function(): void {
+      it("supports awaiting subscription.close on non partition-specific errors", async function(): Promise<
+        void
+      > {
+        // Use an invalid Event Hub name to trigger a non partition-specific error.
+        const client = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          "Fake-Hub"
+        );
+
+        let subscription: Subscription;
+        const caughtErr: Error = await new Promise((resolve) => {
+          subscription = client.subscribe({
+            processEvents: async () => {},
+            processError: async (err, context) => {
+              if (!context.partitionId) {
+                await subscription.close();
+                resolve(err);
+              }
+            }
+          });
+        });
+
+        should.exist(caughtErr);
+
+        await client.close();
+      });
+
+      it("supports awaiting subscription.close on partition-specific errors", async function(): Promise<
+        void
+      > {
+        // Use an invalid Event Hub name to trigger a non partition-specific error.
+        const client = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+
+        let subscription: Subscription;
+        const caughtErr: Error = await new Promise((resolve) => {
+          // Subscribe to an invalid partition id to trigger a partition-specific error.
+          subscription = client.subscribe("-1", {
+            processEvents: async () => {},
+            processError: async (err, context) => {
+              if (context.partitionId) {
+                await subscription.close();
+                resolve(err);
+              }
+            }
+          });
+        });
+
+        should.exist(caughtErr);
+
+        await client.close();
+      });
     });
   });
 });

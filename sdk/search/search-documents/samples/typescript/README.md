@@ -55,7 +55,7 @@ npx cross-env SEARCH_API_ENDPOINT="<endpoint>" SEARCH_API_KEY="<api key>" node d
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [readonly]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples/typescript/src/readonlyQuery.ts
-[apiref]: https://aka.ms/azsdk-js-search-ref-docs
+[apiref]: https://aka.ms/azsdk/js/search/docs
 [search_resource]: https://docs.microsoft.com/azure/search/search-create-service-portal
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/README.md

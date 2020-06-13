@@ -2,31 +2,33 @@
 // Licensed under the MIT license.
 
 import {
-  translate,
-  Constants,
-  MessagingError,
-  retry,
-  RetryOperationType,
-  RetryConfig,
   ConditionErrorNameMapper,
+  Constants,
   ErrorNameConditionMapper,
-  RetryOptions
+  MessagingError,
+  RetryConfig,
+  RetryOperationType,
+  RetryOptions,
+  retry,
+  translate
 } from "@azure/core-amqp";
 import {
-  Receiver,
-  OnAmqpEvent,
-  EventContext,
-  ReceiverOptions,
   AmqpError,
+  EventContext,
+  OnAmqpEvent,
+  Receiver,
+  ReceiverOptions,
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
-import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
+import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { calculateRenewAfterDuration, getUniqueName, StandardAbortMessage } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
+import { AbortSignalLike } from "@azure/core-http";
+import { AbortError } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -757,8 +759,17 @@ export class MessageReceiver extends LinkEntity {
    *
    * @returns {Promise<void>} Promise<void>.
    */
-  protected async _init(options?: ReceiverOptions): Promise<void> {
+  protected async _init(options?: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
+    const checkAborted = (): void => {
+      if (abortSignal?.aborted) {
+        throw new AbortError(StandardAbortMessage);
+      }
+    };
+
     const connectionId = this._context.namespace.connectionId;
+
+    checkAborted();
+
     try {
       if (!this.isOpen() && !this.isConnecting) {
         if (this.wasCloseInitiated) {
@@ -781,7 +792,10 @@ export class MessageReceiver extends LinkEntity {
         }
 
         this.isConnecting = true;
+
         await this._negotiateClaim();
+        checkAborted();
+
         if (!options) {
           options = this._createReceiverOptions();
         }
@@ -794,6 +808,8 @@ export class MessageReceiver extends LinkEntity {
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
         this.isConnecting = false;
+        checkAborted();
+
         log.error(
           "[%s] Receiver '%s' with address '%s' has established itself.",
           connectionId,
@@ -817,7 +833,7 @@ export class MessageReceiver extends LinkEntity {
         } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
           this._context.batchingReceiver = this as any;
         }
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       } else {
         log.error(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
@@ -915,7 +931,7 @@ export class MessageReceiver extends LinkEntity {
       //   - Any non MessagingError because such errors do not get
       //     translated by `@azure/core-amqp` to a MessagingError
       //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
-      let shouldReopen =
+      const shouldReopen =
         translatedError instanceof MessagingError ? translatedError.retryable : true;
 
       // Non-retryable errors that aren't caused by disconnect
