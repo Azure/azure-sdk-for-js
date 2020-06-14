@@ -180,7 +180,7 @@ export interface DataSource extends ProxyResource {
   /**
    * The ETag of the data source.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Possible values include: 'WindowsEvent', 'WindowsPerformanceCounter', 'IISLogs',
    * 'LinuxSyslog', 'LinuxSyslogCollection', 'LinuxPerformanceObject',
@@ -793,7 +793,7 @@ export interface SavedSearch extends ProxyResource {
   /**
    * The ETag of the saved search.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The category of the saved search. This helps the user to find a saved search faster.
    */
