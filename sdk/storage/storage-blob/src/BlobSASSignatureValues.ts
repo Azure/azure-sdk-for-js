@@ -375,6 +375,13 @@ function generateBlobSASQueryParameters20150405(
   if (blobSASSignatureValues.versionId) {
     throw RangeError("'version' must be >= '2019-10-10' when provided 'versionId'.");
   }
+  if (
+    blobSASSignatureValues.permissions &&
+    (blobSASSignatureValues.permissions as BlobSASPermissions).deleteVersion &&
+    version < "2019-10-10"
+  ) {
+    throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
+  }
 
   if (blobSASSignatureValues.permissions && blobSASSignatureValues.permissions.tag) {
     throw RangeError("'version' must be >= '2019-12-12' when provided 't' permission.");
@@ -481,6 +488,13 @@ function generateBlobSASQueryParameters20181109(
 
   if (blobSASSignatureValues.versionId && version < "2019-10-10") {
     throw RangeError("'version' must be >= '2019-10-10' when provided 'versionId'.");
+  }
+  if (
+    blobSASSignatureValues.permissions &&
+    (blobSASSignatureValues.permissions as BlobSASPermissions).deleteVersion &&
+    version < "2019-10-10"
+  ) {
+    throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
   }
 
   if (
@@ -597,11 +611,27 @@ function generateBlobSASQueryParametersUDK20181109(
     );
   }
 
-  if (blobSASSignatureValues.permissions && blobSASSignatureValues.permissions.tag) {
+  const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
+
+  if (blobSASSignatureValues.versionId && version < "2019-10-10") {
+    throw RangeError("'version' must be >= '2019-10-10' when provided 'versionId'.");
+  }
+  if (
+    blobSASSignatureValues.permissions &&
+    (blobSASSignatureValues.permissions as BlobSASPermissions).deleteVersion &&
+    version < "2019-10-10"
+  ) {
+    throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
+  }
+
+  if (
+    blobSASSignatureValues.permissions &&
+    blobSASSignatureValues.permissions.tag &&
+    version < "2019-12-12"
+  ) {
     throw RangeError("'version' must be >= '2019-12-12' when provided 't' permission.");
   }
 
-  const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
   let resource: string = "c";
   let verifiedPermissions: string | undefined;
 
