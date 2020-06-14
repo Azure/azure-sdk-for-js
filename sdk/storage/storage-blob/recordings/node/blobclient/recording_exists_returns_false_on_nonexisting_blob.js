@@ -1,89 +1,93 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container156996518819302613","blob":"blob156996518831607346","newblob":"newblob156996518842704926"}
+module.exports.hash = "b6ffef6fd36884a673d91d53eb793b98";
+
+module.exports.testInfo = {"uniqueName":{"container":"container159210827452908738","blob":"blob159210827454504483","newblob":"newblob159210827456009618"},"newDate":{}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156996518819302613')
+  .put('/container159210827452908738')
   .query(true)
-  .reply(201, "", [ 'Content-Length',
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Last-Modified',
-  'Tue, 01 Oct 2019 21:26:27 GMT',
+  'Sun, 14 Jun 2020 04:17:54 GMT',
   'ETag',
-  '"0x8D746B6051C39C3"',
+  '"0x8D81019E9316E65"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '6094db23-401e-007e-569e-78afb9000000',
+  'c13091b8-201e-003e-4d02-42dadf000000',
   'x-ms-client-request-id',
-  '811cb5a4-6d74-47ef-b531-7afa7da9ae43',
+  'e5b7f512-964b-47ae-b9ac-343aa7ea02d1',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'Date',
-  'Tue, 01 Oct 2019 21:26:27 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:53 GMT'
+]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156996518819302613/blob156996518831607346', "Hello World")
-  .reply(201, "", [ 'Content-Length',
+  .put('/container159210827452908738/blob159210827454504483', "Hello World")
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Tue, 01 Oct 2019 21:26:28 GMT',
+  'Sun, 14 Jun 2020 04:17:54 GMT',
   'ETag',
-  '"0x8D746B6052D2F48"',
+  '"0x8D81019E93423CD"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd1fbeb88-501e-00c0-239e-78ba32000000',
+  'c13091c3-201e-003e-5702-42dadf000000',
   'x-ms-client-request-id',
-  '4734fd0b-7097-4b67-8b79-df291957afed',
+  '9b951d21-64dd-4a77-8971-14ba1f8ac6c1',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'x-ms-content-crc64',
   'YeJLfssylmU=',
   'x-ms-request-server-encrypted',
   'true',
+  'x-ms-version-id',
+  '2020-06-14T04:17:54.5660365Z',
   'Date',
-  'Tue, 01 Oct 2019 21:26:27 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:53 GMT'
+]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .head('/container156996518819302613/newblob156996518842704926')
-  .reply(404, "", [ 'Transfer-Encoding',
+  .head('/container159210827452908738/newblob159210827456009618')
+  .reply(404, "", [
+  'Transfer-Encoding',
   'chunked',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b5b8b31c-501e-0121-6f9e-781b12000000',
+  'c13091cf-201e-003e-6302-42dadf000000',
   'x-ms-client-request-id',
-  'd7859f5c-2fee-422f-a0c9-f08ed0f0b325',
+  '287d79c3-182d-48fa-a20a-7c1c8a4b205e',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'x-ms-error-code',
   'BlobNotFound',
-  'Access-Control-Expose-Headers',
-  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,x-ms-error-code,Content-Length,Date,Transfer-Encoding',
-  'Access-Control-Allow-Origin',
-  '*',
   'Date',
-  'Tue, 01 Oct 2019 21:26:27 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:53 GMT'
+]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container156996518819302613')
+  .delete('/container159210827452908738')
   .query(true)
-  .reply(202, "", [ 'Content-Length',
+  .reply(202, "", [
+  'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b1efc903-601e-0087-1b9e-786559000000',
+  'c13091d5-201e-003e-6902-42dadf000000',
   'x-ms-client-request-id',
-  'c5562c67-fa1b-4a03-9d01-692525828f37',
+  'b65f946c-f9ba-4ba8-a854-be70044ff77f',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'Date',
-  'Tue, 01 Oct 2019 21:26:28 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:53 GMT'
+]);
