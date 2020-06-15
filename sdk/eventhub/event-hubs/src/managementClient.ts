@@ -160,8 +160,6 @@ export class ManagementClient extends LinkEntity {
   /**
    * Provides the eventhub runtime information.
    * @ignore
-   * @param connection - The established amqp connection
-   * @returns
    */
   async getEventHubProperties(
     options: OperationOptions & { retryOptions?: RetryOptions } = {}
@@ -214,7 +212,6 @@ export class ManagementClient extends LinkEntity {
   /**
    * Provides information about the specified partition.
    * @ignore
-   * @param connection - The established amqp connection
    * @param partitionId Partition ID for which partition information is required.
    */
   async getPartitionProperties(
