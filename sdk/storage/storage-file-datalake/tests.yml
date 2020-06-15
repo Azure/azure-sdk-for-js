@@ -1,7 +1,7 @@
 trigger: none
 
-jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-    parameters:
-      PackageName: "@azure/storage-file-datalake"
-      TestSamples: false
+extends:
+  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  parameters:
+    PackageName: "@azure/storage-file-datalake"
+    TestSamples: false
