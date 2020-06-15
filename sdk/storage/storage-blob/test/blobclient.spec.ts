@@ -719,6 +719,28 @@ describe("BlobClient", () => {
     }
     assert.ok(exceptionCaught);
   });
+
+  it.only("exists with condition", async () => {
+    const leaseResp = await blobClient.getBlobLeaseClient().acquireLease(30);
+    assert.ok(leaseResp.leaseId);
+
+    assert.ok(await blobClient.exists({ conditions: { leaseId: leaseResp.leaseId! } }));
+
+    let exceptionCaught = false;
+    try {
+      let guid = "ca761232ed4211cebacd00aa0057b223";
+      if (guid === leaseResp.leaseId) {
+        guid = "ca761232ed4211cebacd00aa0057b224";
+      }
+
+      const existsRes = await blobClient.exists({ conditions: { leaseId: guid } });
+      console.log(existsRes);
+    } catch (err) {
+      assert.equal(err.details.errorCode, "LeaseIdMismatchWithBlobOperation");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
 });
 
 describe("BlobClient - Verify Name Properties", () => {

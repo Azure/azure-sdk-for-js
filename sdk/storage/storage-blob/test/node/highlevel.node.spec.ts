@@ -15,6 +15,7 @@ import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
+import { Test_CPK_INFO } from "../utils/constants";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -453,6 +454,30 @@ describe("Highlevel", () => {
       });
     } catch (err) {}
     assert.ok(eventTriggered);
+  });
+
+  it.only("downloadToBuffer with CPK", async () => {
+    const content = "Hello World";
+    const CPKblobName = recorder.getUniqueName("blobCPK");
+    const CPKblobClient = containerClient.getBlobClient(CPKblobName);
+    const CPKblockBlobClient = CPKblobClient.getBlockBlobClient();
+    await CPKblockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+
+    const downloadToBufferRes = await CPKblockBlobClient.downloadToBuffer(undefined, undefined, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.ok(downloadToBufferRes.equals(Buffer.from(content)));
+
+    let exceptionCaught = false;
+    try {
+      await CPKblobClient.downloadToBuffer();
+    } catch (err) {
+      assert.equal(err.details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
   });
 
   it("blobclient.download should success when internal stream unexpected ends at the stream end", async () => {
