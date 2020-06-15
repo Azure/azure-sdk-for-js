@@ -36,7 +36,8 @@
     "skip": [
       "backupAndRestore.js",
       "listCertificates.js",
-      "mergeCertificate.js"
+      "mergeCertificate.js",
+      "contacts.js"
     ]
   }
 }
