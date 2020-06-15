@@ -720,7 +720,7 @@ describe("BlobClient", () => {
     assert.ok(exceptionCaught);
   });
 
-  it.only("exists with condition", async () => {
+  it("exists with condition", async () => {
     const leaseResp = await blobClient.getBlobLeaseClient().acquireLease(30);
     assert.ok(leaseResp.leaseId);
 

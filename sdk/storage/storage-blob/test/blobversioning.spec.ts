@@ -21,7 +21,7 @@ import {
 import { setURLParameter } from "../src/utils/utils.common";
 dotenv.config({ path: "../.env" });
 
-describe.only("Blob versioning", () => {
+describe("Blob versioning", () => {
   let blobServiceClient: BlobServiceClient;
   let containerName: string;
   let containerClient: ContainerClient;
@@ -300,11 +300,7 @@ describe.only("Blob versioning", () => {
     assert.ok(versionExists);
   });
 
-  it.only("promote a version: as the copy source", async () => {
-    recorder.skip(
-      "browser",
-      "Failed with One of the query parameters specified in the request URI is not supported."
-    );
+  it("promote a version: as the copy source", async () => {
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.getProperties();
 

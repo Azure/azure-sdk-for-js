@@ -456,7 +456,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
-  it.only("downloadToBuffer with CPK", async () => {
+  it("downloadToBuffer with CPK", async () => {
     const content = "Hello World";
     const CPKblobName = recorder.getUniqueName("blobCPK");
     const CPKblobClient = containerClient.getBlobClient(CPKblobName);
