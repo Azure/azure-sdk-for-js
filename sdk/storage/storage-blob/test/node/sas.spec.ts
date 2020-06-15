@@ -1020,4 +1020,59 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     await containerClient.delete();
   });
+
+  it("generateBlobSASQueryParameters should work for blob version delete and blob tags", async function() {
+    if (isBlobVersioningDisabled()) {
+      this.skip();
+    }
+
+    // create versions
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+
+    // generate SAS
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        blobName: blobClient.name,
+        containerName: blobClient.containerName,
+        startsOn: now,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdxt"),
+        protocol: SASProtocol.HttpsAndHttp,
+        versionId: uploadRes.versionId
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.withVersion(uploadRes.versionId!).url}&${blobSAS}`;
+    const blobClientWithSAS = new BlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blobClientWithSAS.setTags(tags);
+
+    await blobClientWithSAS.delete();
+    assert.ok(!(await blobClientWithSAS.exists()));
+
+    await containerClient.delete();
+  });
 });

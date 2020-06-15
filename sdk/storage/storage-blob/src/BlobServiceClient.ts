@@ -699,10 +699,8 @@ export class BlobServiceClient extends StorageClient {
       return await this.serviceContext.listContainersSegment({
         abortSignal: options.abortSignal,
         marker,
-        options: {
-          ...options,
-          include: typeof options.include === "string" ? [options.include] : options.include
-        },
+        ...options,
+        include: typeof options.include === "string" ? [options.include] : options.include,
         spanOptions
       });
     } catch (e) {
