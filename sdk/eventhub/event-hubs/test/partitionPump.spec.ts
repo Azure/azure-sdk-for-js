@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createProcessingSpan, trace } from "../src/partitionPump";
+import { PartitionPump, createProcessingSpan, trace } from "../src/partitionPump";
 import { NoOpSpan, TestSpan, TestTracer } from "@azure/core-tracing";
 import { CanonicalCode, SpanKind, SpanOptions } from "@opentelemetry/api";
 import chai from "chai";
 import { ReceivedEventData } from "../src/eventData";
 import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
 import { setTracerForTest } from "./utils/testUtils";
+import { PartitionProcessor } from "../src/partitionProcessor";
+import { AbortController } from "@azure/abort-controller";
 
 const should = chai.should();
 
@@ -123,5 +125,41 @@ describe("PartitionPump", () => {
       span.status!.message!.should.equal("error thrown from fn");
       span.endCalled.should.be.ok;
     });
+  });
+
+  it("can be cancelled", async () => {
+    const mockPartitionProcessor = new PartitionProcessor(
+      {
+        async processError() {
+          /* no-op for test */
+        },
+        async processEvents() {
+          /* no-op for test */
+        }
+      },
+      {} as any,
+      { partitionId: "0" } as any
+    );
+
+    const testAbortController = new AbortController();
+    const pump = new PartitionPump(
+      {} as any,
+      mockPartitionProcessor,
+      { enqueuedOn: new Date() },
+      testAbortController.signal,
+      { maxBatchSize: 1, maxWaitTimeInSeconds: 1 }
+    );
+
+    const waitForCancellation = new Promise<any>((resolve) => {
+      // The PartitionPump has its own AbortController to cancel requests if it is stopped.
+      // The internal AbortController should listen to the abort signal passed to the pump.
+      pump["_abortController"].signal.addEventListener("abort", resolve);
+    });
+
+    // Trigger the cancellation on the abort signal passed in.
+    testAbortController.abort();
+
+    const event = await waitForCancellation;
+    event.type.should.equal("abort");
   });
 });

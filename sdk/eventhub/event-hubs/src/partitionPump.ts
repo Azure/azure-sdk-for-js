@@ -8,7 +8,7 @@ import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
-import { AbortController } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
 import { OperationOptions, getParentSpan } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
@@ -33,12 +33,13 @@ export class PartitionPump {
     eventHubClient: EventHubClient,
     partitionProcessor: PartitionProcessor,
     private readonly _startPosition: EventPosition,
+    parentAbortSignal: AbortSignalLike,
     options: CommonEventProcessorOptions
   ) {
     this._eventHubClient = eventHubClient;
     this._partitionProcessor = partitionProcessor;
     this._processorOptions = options;
-    this._abortController = new AbortController();
+    this._abortController = new AbortController(parentAbortSignal);
   }
 
   public get isReceiving(): boolean {

@@ -134,6 +134,7 @@ export class PumpManagerImpl implements PumpManager {
       eventHubClient,
       partitionProcessor,
       startPosition,
+      abortSignal,
       this._options
     );
 

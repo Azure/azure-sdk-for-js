@@ -5,6 +5,10 @@
 - Fixes issue [#9289](https://github.com/Azure/azure-sdk-for-js/issues/9289)
   where calling `await subscription.close()` inside of a subscription's `processError`
   handler would cause the subscription to deadlock.
+- Fixes issue [8598](https://github.com/Azure/azure-sdk-for-js/issues/8598)
+  where the EventHubConsumerClient would remain open in the background beyond
+  when `subscription.close()` was called. This would prevent the process from
+  exiting until the `maxWaitTimeInSeconds` (default 60) was reached.
 
 ## 5.2.1 (2020-06-08)
 
