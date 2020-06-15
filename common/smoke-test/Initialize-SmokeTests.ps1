@@ -129,6 +129,7 @@ foreach ($entry in $manifest) {
         -Location $Location `
         -Environment $Environment `
         -AdditionalParameters $AdditionalParameters `
+        -DeleteAfterHours 24 `
         -Force `
         -Verbose `
         -CI:$CI
