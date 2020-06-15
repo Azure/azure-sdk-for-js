@@ -37,7 +37,8 @@
       "backupAndRestore.js",
       "listCertificates.js",
       "mergeCertificate.js",
-      "contacts.js"
+      "contacts.js",
+      "deleteAndRecover.js"
     ]
   }
 }
