@@ -126,6 +126,22 @@ export function generateAccountSASQueryParameters(
     throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
   }
 
+  if (
+    accountSASSignatureValues.permissions &&
+    accountSASSignatureValues.permissions.tag &&
+    version < "2019-12-12"
+  ) {
+    throw RangeError("'version' must be >= '2019-12-12' when provided 't' permission.");
+  }
+
+  if (
+    accountSASSignatureValues.permissions &&
+    accountSASSignatureValues.permissions.filter &&
+    version < "2019-12-12"
+  ) {
+    throw RangeError("'version' must be >= '2019-12-12' when provided 'f' permission.");
+  }
+
   const parsedPermissions = AccountSASPermissions.parse(
     accountSASSignatureValues.permissions.toString()
   );

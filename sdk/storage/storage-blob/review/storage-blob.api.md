@@ -49,10 +49,12 @@ export class AccountSASPermissions {
     create: boolean;
     delete: boolean;
     deleteVersion: boolean;
+    filter: boolean;
     list: boolean;
     static parse(permissions: string): AccountSASPermissions;
     process: boolean;
     read: boolean;
+    tag: boolean;
     toString(): string;
     update: boolean;
     write: boolean;
@@ -1674,6 +1676,7 @@ export class ContainerSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    deleteVersion: boolean;
     list: boolean;
     static parse(permissions: string): ContainerSASPermissions;
     read: boolean;

@@ -377,13 +377,17 @@ function generateBlobSASQueryParameters20150405(
   }
   if (
     blobSASSignatureValues.permissions &&
-    (blobSASSignatureValues.permissions as BlobSASPermissions).deleteVersion &&
+    blobSASSignatureValues.permissions.deleteVersion &&
     version < "2019-10-10"
   ) {
     throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
   }
 
-  if (blobSASSignatureValues.permissions && blobSASSignatureValues.permissions.tag) {
+  if (
+    blobSASSignatureValues.permissions &&
+    blobSASSignatureValues.permissions.tag &&
+    version < "2019-12-12"
+  ) {
     throw RangeError("'version' must be >= '2019-12-12' when provided 't' permission.");
   }
 
@@ -491,7 +495,7 @@ function generateBlobSASQueryParameters20181109(
   }
   if (
     blobSASSignatureValues.permissions &&
-    (blobSASSignatureValues.permissions as BlobSASPermissions).deleteVersion &&
+    blobSASSignatureValues.permissions.deleteVersion &&
     version < "2019-10-10"
   ) {
     throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
@@ -618,7 +622,7 @@ function generateBlobSASQueryParametersUDK20181109(
   }
   if (
     blobSASSignatureValues.permissions &&
-    (blobSASSignatureValues.permissions as BlobSASPermissions).deleteVersion &&
+    blobSASSignatureValues.permissions.deleteVersion &&
     version < "2019-10-10"
   ) {
     throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");

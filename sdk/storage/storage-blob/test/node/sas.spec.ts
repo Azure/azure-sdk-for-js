@@ -385,6 +385,65 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
+  it("generateBlobSASQueryParameters should work for container for blob tags", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        cacheControl: "cache-control-override",
+        containerName: blobClient.containerName,
+        contentDisposition: "content-disposition-override",
+        contentEncoding: "content-encoding-override",
+        contentLanguage: "content-language-override",
+        contentType: "content-type-override",
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: BlobSASPermissions.parse("racwdt"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasURL = `${blobClient.url}?${blobSAS}`;
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blobClientWithSAS.setTags(tags);
+
+    const properties = await blobClientWithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerClient.delete();
+  });
+
   it("generateBlobSASQueryParameters should work for blob snapshot", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
@@ -1076,7 +1135,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it.only("account SAS permission f for filter blob tags should work", async function() {
+  it("account SAS permission f, t for blob tags should work", async function() {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
     const tmr = recorder.newDate("tmr");
@@ -1090,7 +1149,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       {
         expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: AccountSASPermissions.parse("rwdlacupf"),
+        permissions: AccountSASPermissions.parse("rwdlacupft"),
         protocol: SASProtocol.HttpsAndHttp,
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
@@ -1136,6 +1195,59 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       assert.deepStrictEqual(blob.name, blobName1);
       assert.deepStrictEqual(blob.tagValue, tags1[key1]);
     }
+    await containerClient.delete();
+  });
+
+  it("account SAS permission x for blob version delete should work", async function() {
+    if (isBlobVersioningDisabled()) {
+      this.skip();
+    }
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacupx"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        startsOn: now,
+        version: "2019-12-12"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const sasClient = `${blobServiceClient.url}?${sas}`;
+    const serviceClientWithSAS = new BlobServiceClient(
+      sasClient,
+      newPipeline(new AnonymousCredential())
+    );
+
+    // create version
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = serviceClientWithSAS.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+
+    const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
+    console.log(blobVersionClient.url);
+    await blobVersionClient.delete();
+    assert.ok(!(await blobVersionClient.exists()));
+
     await containerClient.delete();
   });
 });

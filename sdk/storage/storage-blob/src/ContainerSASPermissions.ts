@@ -47,6 +47,9 @@ export class ContainerSASPermissions {
         case "t":
           containerSASPermissions.tag = true;
           break;
+        case "x":
+          containerSASPermissions.deleteVersion = true;
+          break;
         default:
           throw new RangeError(`Invalid permission ${char}`);
       }
@@ -96,6 +99,14 @@ export class ContainerSASPermissions {
   public delete: boolean = false;
 
   /**
+   * Specifies Delete version access granted.
+   *
+   * @type {boolean}
+   * @memberof ContainerSASPermissions
+   */
+  public deleteVersion: boolean = false;
+
+  /**
    * Specifies List access granted.
    *
    * @type {boolean}
@@ -107,7 +118,7 @@ export class ContainerSASPermissions {
    * Specfies Tag access granted.
    *
    * @type {boolean}
-   * @memberof BlobSASPermissions
+   * @memberof ContainerSASPermissions
    */
   public tag: boolean = false;
 
@@ -137,6 +148,9 @@ export class ContainerSASPermissions {
     }
     if (this.delete) {
       permissions.push("d");
+    }
+    if (this.deleteVersion) {
+      permissions.push("x");
     }
     if (this.list) {
       permissions.push("l");
