@@ -63,9 +63,8 @@ async function update(
   } = {}
 ): Promise<RestoreKeyBackupPollOperation> {
   const state = this.state;
-  const { backup, client } = state;
+  const { backup, client, requestOptions = {} } = state;
 
-  const requestOptions = state.requestOptions || {};
   if (options.abortSignal) {
     requestOptions.abortSignal = options.abortSignal;
   }
@@ -85,10 +84,9 @@ async function update(
 }
 
 /**
- * @summary Reaches to the service and cancels the key's operation, also updating the key's poll operation
  * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
  */
-async function cancel(this: RestoreKeyBackupPollOperation): Promise<RestoreKeyBackupPollOperation> {
+async function cancel(this: RestoreKeyBackupPollOperation): Promise<never> {
   throw new Error("Canceling the restoration of a key is not supported.");
 }
 
