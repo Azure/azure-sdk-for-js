@@ -13,7 +13,8 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-eventhub";
-const packageVersion = "3.3.0";
+<<<<<<< Updated upstream
+const packageVersion = "4.0.0";
 
 export class EventHubManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
