@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/hubVirtualNetworkConnectionsMappers";
 import * as Parameters from "../models/parameters";
@@ -24,6 +25,34 @@ export class HubVirtualNetworkConnections {
    */
   constructor(client: NetworkManagementClientContext) {
     this.client = client;
+  }
+
+  /**
+   * Creates a hub virtual network connection if it doesn't exist else updates the existing one.
+   * @param resourceGroupName The resource group name of the HubVirtualNetworkConnection.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param connectionName The name of the HubVirtualNetworkConnection.
+   * @param hubVirtualNetworkConnectionParameters Parameters supplied to create or update a hub
+   * virtual network connection.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse>
+   */
+  createOrUpdate(resourceGroupName: string, virtualHubName: string, connectionName: string, hubVirtualNetworkConnectionParameters: Models.HubVirtualNetworkConnection, options?: msRest.RequestOptionsBase): Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,virtualHubName,connectionName,hubVirtualNetworkConnectionParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.HubVirtualNetworkConnectionsCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Deletes a HubVirtualNetworkConnection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param connectionName The name of the HubVirtualNetworkConnection.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,virtualHubName,connectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -92,6 +121,49 @@ export class HubVirtualNetworkConnections {
       },
       listOperationSpec,
       callback) as Promise<Models.HubVirtualNetworkConnectionsListResponse>;
+  }
+
+  /**
+   * Creates a hub virtual network connection if it doesn't exist else updates the existing one.
+   * @param resourceGroupName The resource group name of the HubVirtualNetworkConnection.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param connectionName The name of the HubVirtualNetworkConnection.
+   * @param hubVirtualNetworkConnectionParameters Parameters supplied to create or update a hub
+   * virtual network connection.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdate(resourceGroupName: string, virtualHubName: string, connectionName: string, hubVirtualNetworkConnectionParameters: Models.HubVirtualNetworkConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualHubName,
+        connectionName,
+        hubVirtualNetworkConnectionParameters,
+        options
+      },
+      beginCreateOrUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes a HubVirtualNetworkConnection.
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param connectionName The name of the HubVirtualNetworkConnection.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, virtualHubName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualHubName,
+        connectionName,
+        options
+      },
+      beginDeleteMethodOperationSpec,
+      options);
   }
 
   /**
@@ -169,6 +241,68 @@ const listOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.ListHubVirtualNetworkConnectionsResult
     },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualHubName,
+    Parameters.connectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "hubVirtualNetworkConnectionParameters",
+    mapper: {
+      ...Mappers.HubVirtualNetworkConnection,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.HubVirtualNetworkConnection
+    },
+    201: {
+      bodyMapper: Mappers.HubVirtualNetworkConnection
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/hubVirtualNetworkConnections/{connectionName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualHubName,
+    Parameters.connectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
