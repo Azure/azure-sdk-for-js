@@ -300,7 +300,7 @@ describe.only("Blob versioning", () => {
     assert.ok(versionExists);
   });
 
-  it("promote a version: as the copy source", async () => {
+  it.only("promote a version: as the copy source", async () => {
     recorder.skip(
       "browser",
       "Failed with One of the query parameters specified in the request URI is not supported."

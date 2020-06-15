@@ -2,47 +2,47 @@ let nock = require('nock');
 
 module.exports.hash = "225342bc54f257faee0103248ddc59dd";
 
-module.exports.testInfo = {"uniqueName":{"container":"container158511669236805116","blob":"blob158511669646200888"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"container":"container159218741823804712","blob":"blob159218741852503916"},"newDate":{}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container158511669236805116')
+  .put('/container159218741823804712')
   .query(true)
   .reply(201, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Last-Modified',
-  'Wed, 25 Mar 2020 06:11:36 GMT',
+  'Mon, 15 Jun 2020 02:16:58 GMT',
   'ETag',
-  '"0x8D7D08360141C11"',
+  '"0x8D810D22E900975"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5866e7db-301e-000f-566c-02f352000000',
+  '0f46f6ae-701e-006e-24bb-42188f000000',
   'x-ms-client-request-id',
-  'b7c3b932-dcd6-4e44-8cd6-e64865a984f0',
+  '588c2e07-8d36-49d9-b4bc-2a626167d421',
   'x-ms-version',
   '2019-12-12',
   'Date',
-  'Wed, 25 Mar 2020 06:11:36 GMT'
+  'Mon, 15 Jun 2020 02:16:57 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container158511669236805116/blob158511669646200888', "Hello World")
+  .put('/container159218741823804712/blob159218741852503916', "Hello World")
   .reply(201, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Wed, 25 Mar 2020 06:11:37 GMT',
+  'Mon, 15 Jun 2020 02:16:58 GMT',
   'ETag',
-  '"0x8D7D08360A37E50"',
+  '"0x8D810D22EBBB11E"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5866e856-301e-000f-446c-02f352000000',
+  '4bfa9398-e01e-0021-03bb-4269db000000',
   'x-ms-client-request-id',
-  'c042277d-609f-414b-a596-e6034624a489',
+  'e2747464-382c-429f-8626-941f8395ea33',
   'x-ms-version',
   '2019-12-12',
   'x-ms-content-crc64',
@@ -50,28 +50,28 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-version-id',
-  '2020-03-25T06:11:37.6845161Z',
+  '2020-06-15T02:16:58.6154270Z',
   'Date',
-  'Wed, 25 Mar 2020 06:11:37 GMT'
+  'Mon, 15 Jun 2020 02:16:57 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container158511669236805116/blob158511669646200888')
+  .put('/container159218741823804712/blob159218741852503916')
   .reply(201, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Content-MD5',
   '1B2M2Y8AsgTpgAmY7PhCfg==',
   'Last-Modified',
-  'Wed, 25 Mar 2020 06:11:40 GMT',
+  'Mon, 15 Jun 2020 02:16:58 GMT',
   'ETag',
-  '"0x8D7D083627119AE"',
+  '"0x8D810D22EE735D9"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5866e90f-301e-000f-6b6c-02f352000000',
+  '0f46f803-701e-006e-72bb-42188f000000',
   'x-ms-client-request-id',
-  '5e503553-0e09-45be-9b31-feb74f0c8777',
+  '997c9903-fa85-41dc-93ca-b59b3426cf02',
   'x-ms-version',
   '2019-12-12',
   'x-ms-content-crc64',
@@ -79,43 +79,43 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-request-server-encrypted',
   'true',
   'x-ms-version-id',
-  '2020-03-25T06:11:40.7097022Z',
+  '2020-06-15T02:16:58.9016297Z',
   'Date',
-  'Wed, 25 Mar 2020 06:11:40 GMT'
+  'Mon, 15 Jun 2020 02:16:57 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container158511669236805116/blob158511669646200888')
+  .put('/container159218741823804712/blob159218741852503916')
   .query(true)
   .reply(201, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Last-Modified',
-  'Wed, 25 Mar 2020 06:11:40 GMT',
+  'Mon, 15 Jun 2020 02:16:58 GMT',
   'ETag',
-  '"0x8D7D083627119AE"',
+  '"0x8D810D22EE735D9"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5866e920-301e-000f-786c-02f352000000',
+  '4bfa9463-e01e-0021-45bb-4269db000000',
   'x-ms-client-request-id',
-  '3587b8b4-f8d1-4ec9-9d35-49570198205e',
+  'db6380d1-d73a-463a-b04b-9040b972ba91',
   'x-ms-version',
   '2019-12-12',
   'x-ms-version-id',
-  '2020-03-25T06:11:41.0089164Z',
+  '2020-06-15T02:16:59.1908338Z',
   'x-ms-snapshot',
-  '2020-03-25T06:11:41.0079164Z',
+  '2020-06-15T02:16:59.1898338Z',
   'x-ms-request-server-encrypted',
   'false',
   'Date',
-  'Wed, 25 Mar 2020 06:11:40 GMT'
+  'Mon, 15 Jun 2020 02:16:58 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container158511669236805116/blob158511669646200888')
+  .delete('/container159218741823804712/blob159218741852503916')
   .query(true)
-  .reply(400, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:5866e932-301e-000f-066c-02f352000000\nTime:2020-03-25T06:11:41.2891209Z</Message><QueryParameterName>versionid</QueryParameterName><QueryParameterValue>2020-03-25T06:11:37.6845161Z</QueryParameterValue><Reason>This operation is only allowed on the root blob. Version id should not be provided.</Reason></Error>", [
+  .reply(400, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:0f46f942-701e-006e-25bb-42188f000000\nTime:2020-06-15T02:16:59.4741506Z</Message><QueryParameterName>versionid</QueryParameterName><QueryParameterValue>2020-06-15T02:16:58.6154270Z</QueryParameterValue><Reason>This operation is only allowed on the root blob. Version id should not be provided.</Reason></Error>", [
   'Content-Length',
   '494',
   'Content-Type',
@@ -123,21 +123,21 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5866e932-301e-000f-066c-02f352000000',
+  '0f46f942-701e-006e-25bb-42188f000000',
   'x-ms-client-request-id',
-  'c399a343-f3f5-47d0-aa1a-efa9f8374633',
+  '54d1f88d-aa1f-4a2d-830c-bd8e3c3c64c8',
   'x-ms-version',
   '2019-12-12',
   'x-ms-error-code',
   'InvalidQueryParameterValue',
   'Date',
-  'Wed, 25 Mar 2020 06:11:40 GMT'
+  'Mon, 15 Jun 2020 02:16:58 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container158511669236805116/blob158511669646200888')
+  .delete('/container159218741823804712/blob159218741852503916')
   .query(true)
-  .reply(400, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:5866e94f-301e-000f-186c-02f352000000\nTime:2020-03-25T06:11:41.5833335Z</Message><QueryParameterName>versionid</QueryParameterName><QueryParameterValue>2020-03-25T06:11:40.7097022Z</QueryParameterValue><Reason>This operation is only allowed on the root blob. Version id should not be provided.</Reason></Error>", [
+  .reply(400, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>InvalidQueryParameterValue</Code><Message>Value for one of the query parameters specified in the request URI is invalid.\nRequestId:4bfa950c-e01e-0021-61bb-4269db000000\nTime:2020-06-15T02:16:59.7550179Z</Message><QueryParameterName>versionid</QueryParameterName><QueryParameterValue>2020-06-15T02:16:58.9016297Z</QueryParameterValue><Reason>This operation is only allowed on the root blob. Version id should not be provided.</Reason></Error>", [
   'Content-Length',
   '494',
   'Content-Type',
@@ -145,31 +145,31 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5866e94f-301e-000f-186c-02f352000000',
+  '4bfa950c-e01e-0021-61bb-4269db000000',
   'x-ms-client-request-id',
-  'eb7f104d-7dde-4a87-816f-af32f6db306e',
+  '65dfd122-faf8-4b95-9ee0-9b294023e53a',
   'x-ms-version',
   '2019-12-12',
   'x-ms-error-code',
   'InvalidQueryParameterValue',
   'Date',
-  'Wed, 25 Mar 2020 06:11:41 GMT'
+  'Mon, 15 Jun 2020 02:16:59 GMT'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container158511669236805116')
+  .delete('/container159218741823804712')
   .query(true)
   .reply(202, "", [
-  'Transfer-Encoding',
-  'chunked',
+  'Content-Length',
+  '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5866e963-301e-000f-286c-02f352000000',
+  '0f46faa5-701e-006e-02bb-42188f000000',
   'x-ms-client-request-id',
-  'c69694de-4765-4d24-be1e-4643fdd46a73',
+  '760feece-80cb-4118-90b0-8d52753fb831',
   'x-ms-version',
   '2019-12-12',
   'Date',
-  'Wed, 25 Mar 2020 06:11:41 GMT'
+  'Mon, 15 Jun 2020 02:16:59 GMT'
 ]);
