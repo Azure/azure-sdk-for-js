@@ -22,15 +22,15 @@ pr:
     include:
       - sdk/eventhub/
 
-stages:
-  - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
-    parameters:
-      ServiceDirectory: eventhub
-      RunUnitTests: false
-      Artifacts:
-        - name: azure-event-hubs
-          safeName: azureeventhubs
-        - name: azure-eventhubs-checkpointstore-blob
-          safeName: azureeventhubscheckpointstoreblob
-        - name: azure-event-processor-host
-          safename: azureeventprocessorhost
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: eventhub
+    RunUnitTests: false
+    Artifacts:
+      - name: azure-event-hubs
+        safeName: azureeventhubs
+      - name: azure-eventhubs-checkpointstore-blob
+        safeName: azureeventhubscheckpointstoreblob
+      - name: azure-event-processor-host
+        safename: azureeventprocessorhost

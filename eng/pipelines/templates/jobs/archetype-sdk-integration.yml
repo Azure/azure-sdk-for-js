@@ -1,17 +1,50 @@
+resources:
+  repositories:
+    - repository: azure-sdk-tools
+      type: github
+      name: azure/azure-sdk-tools
+      endpoint: azure
+
 parameters:
-  PackageName: ""
-  PreIntegrationSteps: ""
-  PostIntegrationSteps: ""
-  ResourceServiceDirectory: ""
-  EnvVars: {}
-  MaxParallel: 0
-  TimeoutInMinutes: 60
-  PublishCodeCoverage: false
-  TestBrowser: true
-  TestSamples: true
-  TestMinMax: false
-  TestSame: false
-  Matrix:
+- name: PackageName
+  type: string
+  default: ""
+- name: PreIntegrationSteps
+  type: string
+  default: ""
+- name: PostIntegrationSteps
+  type: string
+  default: ""
+- name: ResourceServiceDirectory
+  type: string
+  default: ""
+- name: EnvVars
+  type: object
+  default: {}
+- name: MaxParallel
+  type: number
+  default: 0
+- name: TimeoutInMinutes
+  type: number
+  default: 0
+- name: PublishCodeCoverage
+  type: boolean
+  default: false
+- name: TestBrowser
+  type: boolean
+  default: true
+- name: TestSamples
+  type: boolean
+  default: true
+- name: TestMinMax
+  type: boolean
+  default: false
+- name: TestSame
+  type: boolean
+  default: false
+- name: Matrix
+  type: object
+  default:
     Linux Node 8:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"

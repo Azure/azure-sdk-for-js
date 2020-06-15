@@ -22,11 +22,11 @@ pr:
     include:
       - sdk/test-utils/
 
-stages:
-  - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
-    parameters:
-      ServiceDirectory: test-utils
-      IncludeRelease: false
-      Artifacts:
-        - name: azure-test-utils-recorder
-          safeName: azuretestutilsrecorder
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: test-utils
+    IncludeRelease: false
+    Artifacts:
+      - name: azure-test-utils-recorder
+        safeName: azuretestutilsrecorder

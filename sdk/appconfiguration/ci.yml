@@ -22,10 +22,10 @@ pr:
     include:
       - sdk/appconfiguration/
 
-stages:
-  - template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
-    parameters:
-      ServiceDirectory: appconfiguration
-      Artifacts:
-        - name: azure-app-configuration
-          safeName: azureappconfiguration
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: appconfiguration
+    Artifacts:
+      - name: azure-app-configuration
+        safeName: azureappconfiguration

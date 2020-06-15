@@ -1,10 +1,31 @@
+resources:
+  repositories:
+    - repository: azure-sdk-tools
+      type: github
+      name: azure/azure-sdk-tools
+      endpoint: azure
+    - repository: azure-sdk-build-tools
+      type: git
+      name: internal/azure-sdk-build-tools
+      ref: refs/tags/azure-sdk-build-tools_20200514.1
+
 parameters:
-  Artifacts: []
-  ServiceDirectory: not-specified
-  IncludeRelease: true
-  TargetDocRepoOwner: 'MicrosoftDocs'
-  TargetDocRepoName: 'azure-docs-sdk-node'
-  
+- name: Artifacts
+  type: object
+  default: []
+- name: ServiceDirectory
+  type: string
+  default: not-specified
+- name: IncludeRelease
+  type: boolean
+  default: true
+- name: TargetDocRepoOwner
+  type: string
+  default: MicrosoftDocs
+- name: TargetDocRepoName
+  type: string
+  default: azure-docs-sdk-node
+
 stages:
 - stage: Build
   jobs:
@@ -23,4 +44,3 @@ stages:
       ArtifactName: packages
       TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
       TargetDocRepoName: ${{ parameters.TargetDocRepoName }}
-      
