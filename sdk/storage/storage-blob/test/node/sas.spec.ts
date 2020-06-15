@@ -14,10 +14,11 @@ import {
   BlobServiceClient,
   StorageSharedKeyCredential,
   newPipeline,
-  BlobClient
+  BlobClient,
+  Tags
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getBSU, getTokenBSU, recorderEnvSetup, isBlobVersioningDisabled } from "../utils";
+import { getBSU, getTokenBSU, recorderEnvSetup, isBlobVersioningDisabled, sleep } from "../utils";
 import { delay, record } from "@azure/test-utils-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 
@@ -956,8 +957,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  // TODO: prepare ACCOUNT_TOKEN for the test account
-  it.skip("GenerateUserDelegationSAS should work for blob version delete", async function() {
+  it("GenerateUserDelegationSAS should work for blob version delete", async function() {
     if (isBlobVersioningDisabled()) {
       this.skip();
     }
@@ -1073,6 +1073,69 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await blobClientWithSAS.delete();
     assert.ok(!(await blobClientWithSAS.exists()));
 
+    await containerClient.delete();
+  });
+
+  it.only("account SAS permission f for filter blob tags should work", async function() {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (blobServiceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: AccountSASPermissions.parse("rwdlacupf"),
+        protocol: SASProtocol.HttpsAndHttp,
+        resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
+        services: AccountSASServices.parse("btqf").toString(),
+        startsOn: now,
+        version: "2019-12-12"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    ).toString();
+
+    const sasClient = `${blobServiceClient.url}?${sas}`;
+    const serviceClientWithSAS = new BlobServiceClient(
+      sasClient,
+      newPipeline(new AnonymousCredential())
+    );
+
+    // prepare
+    const containerName = recorder.getUniqueName("container1");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const key1 = recorder.getUniqueName("key");
+    const key2 = recorder.getUniqueName("key2");
+
+    const blobName1 = recorder.getUniqueName("blobname1");
+    const appendBlobClient1 = containerClient.getAppendBlobClient(blobName1);
+    const tags1: Tags = {};
+    tags1[key1] = recorder.getUniqueName("val1");
+    tags1[key2] = "default";
+    await appendBlobClient1.create({ tags: tags1 });
+
+    const blobName2 = recorder.getUniqueName("blobname2");
+    const appendBlobClient2 = containerClient.getAppendBlobClient(blobName2);
+    const tags2: Tags = {};
+    tags2[key1] = recorder.getUniqueName("val2");
+    tags2[key2] = "default";
+    await appendBlobClient2.create({ tags: tags2 });
+
+    // Wait for indexing tags
+    await sleep(2);
+
+    for await (const blob of serviceClientWithSAS.findBlobsByTags(`${key1}='${tags1[key1]}'`)) {
+      assert.deepStrictEqual(blob.containerName, containerName);
+      assert.deepStrictEqual(blob.name, blobName1);
+      assert.deepStrictEqual(blob.tagValue, tags1[key1]);
+    }
     await containerClient.delete();
   });
 });

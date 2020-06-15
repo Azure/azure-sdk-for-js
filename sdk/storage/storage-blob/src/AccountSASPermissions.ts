@@ -54,6 +54,12 @@ export class AccountSASPermissions {
         case "p":
           accountSASPermissions.process = true;
           break;
+        case "t":
+          accountSASPermissions.tag = true;
+          break;
+        case "f":
+          accountSASPermissions.filter = true;
+          break;
         default:
           throw new RangeError(`Invalid permission character: ${c}`);
       }
@@ -135,6 +141,22 @@ export class AccountSASPermissions {
   public process: boolean = false;
 
   /**
+   * Specfies Tag access granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissions
+   */
+  public tag: boolean = false;
+
+  /**
+   * Permission to filter blobs.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissions
+   */
+  public filter: boolean = false;
+
+  /**
    * Produces the SAS permissions string for an Azure Storage account.
    * Call this method to set AccountSASSignatureValues Permissions field.
    *
@@ -162,6 +184,12 @@ export class AccountSASPermissions {
     }
     if (this.deleteVersion) {
       permissions.push("x");
+    }
+    if (this.filter) {
+      permissions.push("f");
+    }
+    if (this.tag) {
+      permissions.push("t");
     }
     if (this.list) {
       permissions.push("l");
