@@ -123,7 +123,7 @@ export function generateAccountSASQueryParameters(
     accountSASSignatureValues.permissions.deleteVersion &&
     version < "2019-10-10"
   ) {
-    throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
+    throw RangeError("'version' must be >= '2019-10-10' when provided 'x' permission.");
   }
 
   if (

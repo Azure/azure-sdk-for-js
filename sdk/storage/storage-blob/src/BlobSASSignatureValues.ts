@@ -380,7 +380,7 @@ function generateBlobSASQueryParameters20150405(
     blobSASSignatureValues.permissions.deleteVersion &&
     version < "2019-10-10"
   ) {
-    throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
+    throw RangeError("'version' must be >= '2019-10-10' when provided 'x' permission.");
   }
 
   if (
@@ -498,7 +498,7 @@ function generateBlobSASQueryParameters20181109(
     blobSASSignatureValues.permissions.deleteVersion &&
     version < "2019-10-10"
   ) {
-    throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
+    throw RangeError("'version' must be >= '2019-10-10' when provided 'x' permission.");
   }
 
   if (
@@ -625,7 +625,7 @@ function generateBlobSASQueryParametersUDK20181109(
     blobSASSignatureValues.permissions.deleteVersion &&
     version < "2019-10-10"
   ) {
-    throw RangeError("'version' must be >= '2019-12-12' when provided 'x' permission.");
+    throw RangeError("'version' must be >= '2019-10-10' when provided 'x' permission.");
   }
 
   if (
