@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logErrorStackTrace, logger } from "../log";
 import {
   ConnectionConfig,
   EventHubConnectionConfig,
@@ -16,13 +15,8 @@ import {
 import { ConnectionContext } from "../connectionContext";
 import { EventHubProperties, PartitionProperties } from "../managementClient";
 import { EventPosition } from "../eventPosition";
-import { EventHubProducer } from "../sender";
 import { EventHubConsumer } from "../receiver";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "../util/error";
-import { getTracer } from "@azure/core-tracing";
-import { CanonicalCode, Span, SpanContext, SpanKind } from "@opentelemetry/api";
-import { getParentSpan } from "../util/operationOptions";
-import { EventHubProducerOptions, OperationNames } from "../models/private";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
@@ -147,86 +141,20 @@ export class EventHubClient {
     credentialOrOptions?: TokenCredential | EventHubClientOptions,
     options?: EventHubClientOptions
   ) {
-    let connectionString;
-    let config;
-    let credential: TokenCredential | SharedKeyCredential;
-    hostOrConnectionString = String(hostOrConnectionString);
-
-    if (!isTokenCredential(credentialOrOptions)) {
-      const parsedCS = parseConnectionString<EventHubConnectionStringModel>(hostOrConnectionString);
-      if (
-        !(
-          parsedCS.EntityPath ||
-          (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions)
-        )
-      ) {
-        throw new TypeError(
-          `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
-            `must contain "EntityPath=<your-event-hub-name>".`
-        );
-      }
-      if (
-        parsedCS.EntityPath &&
-        typeof eventHubNameOrOptions === "string" &&
-        eventHubNameOrOptions &&
-        parsedCS.EntityPath !== eventHubNameOrOptions
-      ) {
-        throw new TypeError(
-          `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
-            `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
-        );
-      }
-      connectionString = hostOrConnectionString;
-      if (typeof eventHubNameOrOptions !== "string") {
-        // connectionstring and/or options were passed to constructor
-        config = EventHubConnectionConfig.create(connectionString);
-        options = eventHubNameOrOptions;
-      } else {
-        // connectionstring, eventHubName and/or options were passed to constructor
-        const eventHubName = eventHubNameOrOptions;
-        config = EventHubConnectionConfig.create(connectionString, eventHubName);
-        options = credentialOrOptions;
-      }
-      // Since connectionstring was passed, create a SharedKeyCredential
-      credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+    this._context = createConnectionContext(
+      hostOrConnectionString,
+      eventHubNameOrOptions,
+      credentialOrOptions,
+      options
+    );
+    this.endpoint = this._context.config.endpoint;
+    if (typeof eventHubNameOrOptions !== "string") {
+      this._clientOptions = eventHubNameOrOptions || {};
+    } else if (!isTokenCredential(credentialOrOptions)) {
+      this._clientOptions = credentialOrOptions || {};
     } else {
-      // host, eventHubName, a TokenCredential and/or options were passed to constructor
-      const eventHubName = eventHubNameOrOptions;
-      let host = hostOrConnectionString;
-      credential = credentialOrOptions;
-      if (!eventHubName) {
-        throw new TypeError(`"eventHubName" is missing`);
-      }
-
-      if (!host.endsWith("/")) host += "/";
-      connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubName}`;
-      config = EventHubConnectionConfig.create(connectionString);
+      this._clientOptions = options || {};
     }
-
-    ConnectionConfig.validate(config);
-
-    this.endpoint = config.endpoint;
-
-    this._clientOptions = options || {};
-    this._context = ConnectionContext.create(config, credential, this._clientOptions);
-  }
-
-  private _createClientSpan(
-    operationName: OperationNames,
-    parentSpan?: Span | SpanContext | null,
-    internal: boolean = false
-  ): Span {
-    const tracer = getTracer();
-    const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
-      kind: internal ? SpanKind.INTERNAL : SpanKind.CLIENT,
-      parent: parentSpan
-    });
-
-    span.setAttribute("az.namespace", "Microsoft.EventHub");
-    span.setAttribute("message_bus.destination", this.eventHubName);
-    span.setAttribute("peer.address", this.endpoint);
-
-    return span;
   }
 
   /**
@@ -236,66 +164,7 @@ export class EventHubClient {
    * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
-    try {
-      if (this._context.connection.isOpen()) {
-        // Close all the senders.
-        for (const senderName of Object.keys(this._context.senders)) {
-          await this._context.senders[senderName].close();
-        }
-        // Close all the receivers.
-        for (const receiverName of Object.keys(this._context.receivers)) {
-          await this._context.receivers[receiverName].close();
-        }
-        // Close the cbs session;
-        await this._context.cbsSession.close();
-        // Close the management session
-        await this._context.managementSession!.close();
-        await this._context.connection.close();
-        this._context.wasConnectionCloseCalled = true;
-        logger.info("Closed the amqp connection '%s' on the client.", this._context.connectionId);
-      }
-    } catch (err) {
-      err = err instanceof Error ? err : JSON.stringify(err);
-      logger.warning(
-        `An error occurred while closing the connection "${this._context.connectionId}":\n${err}`
-      );
-      logErrorStackTrace(err);
-      throw err;
-    }
-  }
-
-  /**
-   * Creates an Event Hub producer that can send events to the Event Hub.
-   * If `partitionId` is specified in the `options`, all event data sent using the producer
-   * will be sent to the specified partition.
-   * Otherwise, they are automatically routed to an available partition by the Event Hubs service.
-   *
-   * Automatic routing of partitions is recommended because:
-   *  - The sending of events will be highly available.
-   *  - The event data will be evenly distributed among all available partitions.
-   *
-   * @param options The set of options to apply when creating the producer.
-   * - `partitionId`  : The identifier of the partition that the producer can be bound to.
-   * - `retryOptions` : The retry options used to govern retry attempts when an issue is encountered while sending events.
-   * A simple usage can be `{ "maxRetries": 4 }`.
-   *
-   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
-   * @returns EventHubProducer
-   */
-  createProducer(options?: EventHubProducerOptions): EventHubProducer {
-    if (!options) {
-      options = {};
-    }
-    if (!options.retryOptions) {
-      options.retryOptions = this._clientOptions.retryOptions;
-    }
-    throwErrorIfConnectionClosed(this._context);
-    return new EventHubProducer(
-      this.eventHubName,
-      this.fullyQualifiedNamespace,
-      this._context,
-      options
-    );
+    return this._context.close();
   }
 
   /**
@@ -364,29 +233,10 @@ export class EventHubClient {
    * @throws AbortError if the operation is cancelled via the abortSignal3.
    */
   async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
-    throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan(
-      "getEventHubProperties",
-      getParentSpan(options.tracingOptions)
-    );
-    try {
-      const result = await this._context.managementSession!.getHubRuntimeInformation({
-        retryOptions: this._clientOptions.retryOptions,
-        abortSignal: options.abortSignal
-      });
-      clientSpan.setStatus({ code: CanonicalCode.OK });
-      return result;
-    } catch (err) {
-      clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: err.message
-      });
-      logger.warning("An error occurred while getting the hub runtime information: %O", err);
-      logErrorStackTrace(err);
-      throw err;
-    } finally {
-      clientSpan.end();
-    }
+    return this._context.managementSession!.getEventHubProperties({
+      retryOptions: this._clientOptions.retryOptions,
+      ...options
+    });
   }
 
   /**
@@ -397,34 +247,8 @@ export class EventHubClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
-    throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan(
-      "getPartitionIds",
-      getParentSpan(options.tracingOptions),
-      true
-    );
-    try {
-      const runtimeInfo = await this.getProperties({
-        ...options,
-        tracingOptions: {
-          spanOptions: {
-            parent: clientSpan.context()
-          }
-        }
-      });
-      clientSpan.setStatus({ code: CanonicalCode.OK });
-      return runtimeInfo.partitionIds;
-    } catch (err) {
-      clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: err.message
-      });
-      logger.warning("An error occurred while getting the partition ids: %O", err);
-      logErrorStackTrace(err);
-      throw err;
-    } finally {
-      clientSpan.end();
-    }
+    const properties = await this.getProperties(options);
+    return properties.partitionIds;
   }
 
   /**
@@ -439,35 +263,73 @@ export class EventHubClient {
     partitionId: string,
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
-    throwErrorIfConnectionClosed(this._context);
-    throwTypeErrorIfParameterMissing(
-      this._context.connectionId,
-      "getPartitionProperties",
-      "partitionId",
-      partitionId
-    );
-    partitionId = String(partitionId);
-    const clientSpan = this._createClientSpan(
-      "getPartitionProperties",
-      getParentSpan(options.tracingOptions)
-    );
-    try {
-      const result = await this._context.managementSession!.getPartitionProperties(partitionId, {
-        retryOptions: this._clientOptions.retryOptions,
-        abortSignal: options.abortSignal
-      });
-      clientSpan.setStatus({ code: CanonicalCode.OK });
-      return result;
-    } catch (err) {
-      clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: err.message
-      });
-      logger.warning("An error occurred while getting the partition information: %O", err);
-      logErrorStackTrace(err);
-      throw err;
-    } finally {
-      clientSpan.end();
-    }
+    return this._context.managementSession!.getPartitionProperties(partitionId, {
+      retryOptions: this._clientOptions.retryOptions,
+      ...options
+    });
   }
+}
+
+export function createConnectionContext(
+  hostOrConnectionString: string,
+  eventHubNameOrOptions?: string | EventHubClientOptions,
+  credentialOrOptions?: TokenCredential | EventHubClientOptions,
+  options?: EventHubClientOptions
+): ConnectionContext {
+  let connectionString;
+  let config;
+  let credential: TokenCredential | SharedKeyCredential;
+  hostOrConnectionString = String(hostOrConnectionString);
+
+  if (!isTokenCredential(credentialOrOptions)) {
+    const parsedCS = parseConnectionString<EventHubConnectionStringModel>(hostOrConnectionString);
+    if (
+      !(parsedCS.EntityPath || (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions))
+    ) {
+      throw new TypeError(
+        `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
+          `must contain "EntityPath=<your-event-hub-name>".`
+      );
+    }
+    if (
+      parsedCS.EntityPath &&
+      typeof eventHubNameOrOptions === "string" &&
+      eventHubNameOrOptions &&
+      parsedCS.EntityPath !== eventHubNameOrOptions
+    ) {
+      throw new TypeError(
+        `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
+          `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
+      );
+    }
+    connectionString = hostOrConnectionString;
+    if (typeof eventHubNameOrOptions !== "string") {
+      // connectionstring and/or options were passed to constructor
+      config = EventHubConnectionConfig.create(connectionString);
+      options = eventHubNameOrOptions;
+    } else {
+      // connectionstring, eventHubName and/or options were passed to constructor
+      const eventHubName = eventHubNameOrOptions;
+      config = EventHubConnectionConfig.create(connectionString, eventHubName);
+      options = credentialOrOptions;
+    }
+    // Since connectionstring was passed, create a SharedKeyCredential
+    credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+  } else {
+    // host, eventHubName, a TokenCredential and/or options were passed to constructor
+    const eventHubName = eventHubNameOrOptions;
+    let host = hostOrConnectionString;
+    credential = credentialOrOptions;
+    if (!eventHubName) {
+      throw new TypeError(`"eventHubName" is missing`);
+    }
+
+    if (!host.endsWith("/")) host += "/";
+    connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubName}`;
+    config = EventHubConnectionConfig.create(connectionString);
+  }
+
+  ConnectionConfig.validate(config);
+
+  return ConnectionContext.create(config, credential, options);
 }

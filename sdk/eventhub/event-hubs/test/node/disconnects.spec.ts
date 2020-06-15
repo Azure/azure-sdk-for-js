@@ -89,7 +89,7 @@ describe("disconnected", function() {
   describe("EventHubProducerClient", function() {
     it("runtimeInfo work after disconnect", async () => {
       const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
+      const clientConnectionContext = client["_context"];
 
       await client.getPartitionIds({});
       const originalConnectionId = clientConnectionContext.connectionId;
@@ -108,7 +108,7 @@ describe("disconnected", function() {
 
     it("should send after a disconnect", async () => {
       const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
+      const clientConnectionContext = client["_context"];
 
       await client.sendBatch([{ body: "test" }]);
       const originalConnectionId = clientConnectionContext.connectionId;
@@ -126,7 +126,7 @@ describe("disconnected", function() {
 
     it("should not throw an uncaught exception", async () => {
       const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
+      const clientConnectionContext = client["_context"];
 
       // Send an event to open the connection.
       await client.sendBatch([{ body: "test" }]);
