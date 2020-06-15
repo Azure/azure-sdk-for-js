@@ -85,6 +85,8 @@ describe("Highlevel", () => {
     } catch (err) {
       assert.equal(err.name, "AbortError");
     }
+
+    fs.unlinkSync(tempFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
