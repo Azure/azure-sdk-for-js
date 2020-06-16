@@ -20,10 +20,10 @@ export interface AnalyzedTokenInfo {
 
 // @public
 export interface AnalyzeRequest {
-    analyzer?: string;
+    analyzerName?: string;
     charFilters?: string[];
     tokenFilters?: string[];
-    tokenizer?: string;
+    tokenizerName?: string;
 }
 
 // @public
@@ -207,7 +207,7 @@ export interface CustomAnalyzer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
     tokenFilters?: string[];
-    tokenizer: string;
+    tokenizerName: string;
 }
 
 // @public
@@ -948,27 +948,6 @@ export interface PhoneticTokenFilter {
 export type QueryType = 'simple' | 'full';
 
 // @public
-export interface RawSearchRequest {
-    facets?: string[];
-    filter?: string;
-    highlightFields?: string;
-    highlightPostTag?: string;
-    highlightPreTag?: string;
-    includeTotalResultCount?: boolean;
-    minimumCoverage?: number;
-    orderBy?: string;
-    queryType?: QueryType;
-    scoringParameters?: string[];
-    scoringProfile?: string;
-    searchFields?: string;
-    searchMode?: SearchMode;
-    searchText?: string;
-    select?: string;
-    skip?: number;
-    top?: number;
-}
-
-// @public
 export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 // @public
@@ -1217,16 +1196,37 @@ export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fie
 export type SearchMode = 'any' | 'all';
 
 // @public
-export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
+export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fields>;
 
 // @public
-export interface SearchRequest<Fields> {
+export interface SearchRequest {
     facets?: string[];
     filter?: string;
     highlightFields?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
-    includeTotalResultCount?: boolean;
+    includeTotalCount?: boolean;
+    minimumCoverage?: number;
+    orderBy?: string;
+    queryType?: QueryType;
+    scoringParameters?: string[];
+    scoringProfile?: string;
+    searchFields?: string;
+    searchMode?: SearchMode;
+    searchText?: string;
+    select?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface SearchRequestOptions<Fields> {
+    facets?: string[];
+    filter?: string;
+    highlightFields?: string;
+    highlightPostTag?: string;
+    highlightPreTag?: string;
+    includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string[];
     queryType?: QueryType;

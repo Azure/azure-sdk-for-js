@@ -16,6 +16,7 @@ export {
   SearchDocumentsPageResult,
   SearchIterator,
   SearchOptions,
+  SearchRequestOptions,
   SearchRequest,
   SearchResult,
   SuggestDocumentsResult,
@@ -58,6 +59,7 @@ export {
   KnownTokenizerNames,
   ScoringFunction,
   ScoringProfile,
+  CustomAnalyzer,
   PatternAnalyzer,
   PatternTokenizer,
   SearchField,
@@ -109,11 +111,9 @@ export {
   IndexDocumentsResult,
   IndexingResult,
   QueryType,
-  SearchMode,
-  SearchRequest as RawSearchRequest
+  SearchMode
 } from "./generated/data/models";
 export {
-  CustomAnalyzer,
   RegexFlags,
   LuceneStandardAnalyzer,
   StopAnalyzer,
