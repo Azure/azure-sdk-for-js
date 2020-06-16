@@ -19,7 +19,6 @@ import { logger } from "./logger";
 import {
   AutocompleteResult,
   AutocompleteRequest,
-  SearchRequest,
   SuggestRequest,
   IndexDocumentsResult
 } from "./generated/data/models";
@@ -43,7 +42,8 @@ import {
   DeleteDocumentsOptions,
   SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  ContinuableSearchResult
+  ContinuableSearchResult,
+  SearchRequest
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
@@ -258,6 +258,7 @@ export class SearchClient<T> {
       const result = await this.client.documents.searchPost(
         {
           ...fullOptions,
+          includeTotalResultCount: fullOptions.includeTotalCount,
           searchText: searchText
         },
         operationOptionsToRequestOptionsBase(updatedOptions)

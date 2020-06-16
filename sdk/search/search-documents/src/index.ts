@@ -16,6 +16,7 @@ export {
   SearchDocumentsPageResult,
   SearchIterator,
   SearchOptions,
+  SearchRequestOptions,
   SearchRequest,
   SearchResult,
   SuggestDocumentsResult,
@@ -110,8 +111,7 @@ export {
   IndexDocumentsResult,
   IndexingResult,
   QueryType,
-  SearchMode,
-  SearchRequest as RawSearchRequest
+  SearchMode
 } from "./generated/data/models";
 export {
   RegexFlags,
