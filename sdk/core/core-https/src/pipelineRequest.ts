@@ -155,7 +155,8 @@ class PipelineRequestImpl implements PipelineRequest {
       streamResponseBody: this.streamResponseBody,
       timeout: this.timeout,
       withCredentials: this.withCredentials,
-      spanOptions: this.spanOptions
+      spanOptions: this.spanOptions,
+      requestId: this.requestId
     });
   }
 }
