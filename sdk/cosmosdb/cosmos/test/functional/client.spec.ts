@@ -81,7 +81,7 @@ describe("NodeJS CRUD Tests", function () {
       try {
         const controller = new AbortController();
         const signal = controller.signal;
-        setTimeout(() => controller.abort(), 5000);
+        setTimeout(() => controller.abort(), 50);
         // Setting maxItemCount = 1 to ensure this query take a long time
         await container.items
           .query("SELECT * from c", { abortSignal: signal, maxItemCount: 1 })
