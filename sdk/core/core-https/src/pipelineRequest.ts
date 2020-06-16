@@ -145,7 +145,7 @@ class PipelineRequestImpl implements PipelineRequest {
       abortSignal: this.abortSignal,
       body: this.body,
       formData: this.formData,
-      headers: this.headers,
+      headers: this.headers.clone(),
       keepAlive: this.keepAlive,
       method: this.method,
       onDownloadProgress: this.onDownloadProgress,

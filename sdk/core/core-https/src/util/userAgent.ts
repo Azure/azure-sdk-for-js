@@ -13,10 +13,16 @@ function getUserAgentString(telemetryInfo: Map<string, string>): string {
   return parts.join(" ");
 }
 
+/**
+ * @ignore @internal
+ */
 export function getUserAgentHeaderName(): string {
   return getHeaderName();
 }
 
+/**
+ * @ignore @internal
+ */
 export function getUserAgentValue(prefix?: string): string {
   const runtimeInfo = new Map<string, string>();
   runtimeInfo.set("core-http", SDK_VERSION);

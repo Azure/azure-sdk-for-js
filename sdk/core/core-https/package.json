@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-https",
-  "version": "1.0.0",
+  "version": "1.0.0-preview.1",
   "private": true,
   "description": "Isomorphic client library for making HTTPS requests in node.js and browser.",
   "sdk-type": "client",
@@ -15,7 +15,7 @@
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
-  "types": "types/latest/coreHttps.d.ts",
+  "types": "types/latest/core-https.d.ts",
   "typesVersions": {
     "<3.6": {
       "types/latest/src/*": [

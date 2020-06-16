@@ -3,6 +3,9 @@
 
 import { URL } from "./url";
 
+/**
+ * @ignore @internal
+ */
 export interface SanitizerOptions {
   /**
    * Header names whose values will be logged when logging is enabled.
@@ -19,6 +22,9 @@ export interface SanitizerOptions {
   additionalAllowedQueryParameters?: string[];
 }
 
+/**
+ * @ignore @internal
+ */
 export type UnknownObject = { [s: string]: unknown };
 
 const RedactedString = "REDACTED";
@@ -66,6 +72,9 @@ const defaultAllowedHeaderNames = [
 
 const defaultAllowedQueryParameters: string[] = ["api-version"];
 
+/**
+ * @ignore @internal
+ */
 export class Sanitizer {
   private allowedHeaderNames: Set<string>;
   private allowedQueryParameters: Set<string>;

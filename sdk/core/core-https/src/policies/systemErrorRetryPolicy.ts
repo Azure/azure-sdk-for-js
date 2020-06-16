@@ -3,6 +3,7 @@
 
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
+import { logger } from "../log";
 import { RestError } from "../restError";
 import { delay, getRandomIntegerInclusive } from "../util/helpers";
 
@@ -108,6 +109,7 @@ export function systemErrorRetryPolicy(
     retryData = updateRetryData(retryData, requestError);
     if (shouldRetry(retryData, requestError)) {
       try {
+        logger.info(`Retrying request in ${retryData.retryInterval}`);
         await delay(retryData.retryInterval);
         const res = await next(request.clone());
         return retry(next, retryData, request, res);

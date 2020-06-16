@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 /**
  * Generated Universall Unique Identifier
  *
- * @return {string} RFC4122 v4 UUID.
+ * @return RFC4122 v4 UUID.
+ * @ignore @internal
  */
 export function generateUuid(): string {
   return uuidv4();
