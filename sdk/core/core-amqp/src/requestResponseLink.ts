@@ -85,8 +85,8 @@ export class RequestResponseLink implements ReqResLink {
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 
-    // Adding a backup message_id in case it is `undefined`,
-    // helps in differentiating the responses inside `messageCallback` defined a few lines below.
+    // If message_id is not already set on the request, set it to a unique value 
+    // This helps in determining the right response for current request among multiple incoming messages
     if (!request.message_id) {
       request.message_id = generate_uuid();
     }
