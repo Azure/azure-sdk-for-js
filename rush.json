@@ -478,6 +478,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/tables",
+      "projectFolder": "sdk/tables/azure-tables",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/template",
       "projectFolder": "sdk/template/template",
       "versionPolicyName": "client"
