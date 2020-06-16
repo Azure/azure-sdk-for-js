@@ -43,7 +43,8 @@
       "receiveMessagesStreaming.js",
       "scheduledMessages.js",
       "sendMessages.js",
-      "session.js"
+      "session.js",
+      "useProxy.js"
     ]
   }
 }
