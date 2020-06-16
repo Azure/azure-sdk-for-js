@@ -16,7 +16,7 @@ import { ConnectionContext } from "../connectionContext";
 import { EventHubProperties, PartitionProperties } from "../managementClient";
 import { EventPosition } from "../eventPosition";
 import { EventHubConsumer } from "../receiver";
-import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "../util/error";
+import { throwErrorIfConnectionClosed } from "../util/error";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
