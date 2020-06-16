@@ -58,6 +58,7 @@ export {
   KnownTokenizerNames,
   ScoringFunction,
   ScoringProfile,
+  CustomAnalyzer,
   PatternAnalyzer,
   PatternTokenizer,
   SearchField,
@@ -113,7 +114,6 @@ export {
   SearchRequest as RawSearchRequest
 } from "./generated/data/models";
 export {
-  CustomAnalyzer,
   RegexFlags,
   LuceneStandardAnalyzer,
   StopAnalyzer,
