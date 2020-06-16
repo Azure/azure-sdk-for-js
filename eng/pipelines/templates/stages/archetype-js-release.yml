@@ -61,7 +61,7 @@ stages:
                   deploy:
                     steps:
                       - checkout: self
-                      - pwsh: |
+                      - script: |
                           export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*.tgz`
                           echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
                         displayName: Detecting package archive
