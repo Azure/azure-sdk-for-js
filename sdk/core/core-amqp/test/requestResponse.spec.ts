@@ -136,7 +136,7 @@ describe("RequestResponseLink", function() {
     assert.equal(responses[1].correlation_id, reqs[1].message_id);
   });
 
-  it("request without `message_id` gets a new `message_id` and does not match a response with `undefined` correlationId", async function() {
+  it("request without `message_id` gets a new `message_id`", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     const reqs: AmqpMessage[] = [];
@@ -162,37 +162,20 @@ describe("RequestResponseLink", function() {
     const request1: AmqpMessage = {
       body: "Hello World!!"
     };
-    setTimeout(() => {
-      rcvr.emit("message", {
-        message: {
-          correlation_id: undefined,
-          application_properties: {
-            statusCode: 200,
-            errorCondition: null,
-            statusDescription: null,
-            "com.microsoft:tracking-id": null
-          },
-          body: request1.body
-        }
+    let errorWasThrown = false;
+    try {
+      await link.sendRequest(request1, {
+        timeoutInMs: 2000
       });
-    }, 1500);
-    assert.equal(
-      await Promise.race([
-        link.sendRequest(request1, {
-          timeoutInMs: 4000
-        }),
-        new Promise((resolve) =>
-          setTimeout(() => resolve("Defeated the sendRequest() in the race"), 2000)
-        )
-      ]),
-      "Defeated the sendRequest() in the race",
-      "Unexpected result from `await Promise.race()`"
-    );
-    assert.equal(
-      request1.message_id == undefined,
-      false,
-      "`message_id` on the request is undefined."
-    );
+    } catch (error) {
+      assert.equal(
+        request1.message_id == undefined,
+        false,
+        "`message_id` on the request is undefined."
+      );
+      errorWasThrown = true;
+    }
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
   it("should send parallel requests and receive responses correctly (one failure)", async function() {
