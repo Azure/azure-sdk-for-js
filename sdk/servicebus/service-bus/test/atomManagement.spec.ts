@@ -1041,9 +1041,9 @@ describe("Atom management - Authentication", function(): void {
     input: undefined,
     output: {
       authorizationRules: undefined,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
-      duplicateDetectionHistoryTimeWindow: "PT10M",
+      autoDeleteOnIdleInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, //"P10675199DT2H48M5.4775807S",
+      defaultMessageTtlInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, //"P10675199DT2H48M5.4775807S",
+      duplicateDetectionHistoryTimeWindowInSeconds: 10 * 60, //"PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
       maxSizeInMegabytes: 1024,
@@ -1058,9 +1058,9 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "all properties",
     input: {
       requiresDuplicateDetection: true,
-      defaultMessageTtl: "P2D",
+      defaultMessageTtlInSeconds: 2 * 24 * 60 * 60, //"P2D",
       deadLetteringOnMessageExpiration: true,
-      duplicateDetectionHistoryTimeWindow: "PT1M",
+      duplicateDetectionHistoryTimeWindowInSeconds: 60, // "PT1M",
       enableBatchedOperations: false,
       status: "SendDisabled" as EntityStatus,
       enablePartitioning: true,
@@ -1068,15 +1068,15 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata"
     },
     output: {
-      defaultMessageTtl: "P2D",
-      duplicateDetectionHistoryTimeWindow: "PT1M",
+      defaultMessageTtlInSeconds: 2 * 24 * 60 * 60, // "P2D",
+      duplicateDetectionHistoryTimeWindowInSeconds: 60, // "PT1M",
       status: "SendDisabled",
       enableBatchedOperations: false,
       supportOrdering: false,
       requiresDuplicateDetection: true,
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      autoDeleteOnIdleInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, //"P10675199DT2H48M5.4775807S",
       authorizationRules: undefined,
       userMetadata: "test metadata",
       name: managementTopic1
@@ -1115,15 +1115,15 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "Undefined subscription options",
     input: undefined,
     output: {
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      autoDeleteOnIdleInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, //"P10675199DT2H48M5.4775807S",
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtlInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, // "P10675199DT2H48M5.4775807S",
       forwardDeadLetteredMessagesTo: undefined,
       enableBatchedOperations: true,
       forwardTo: undefined,
       userMetadata: undefined,
-      lockDuration: "PT1M",
+      lockDurationInSeconds: 60, //"PT1M",
       maxDeliveryCount: 10,
       requiresSession: false,
       status: "Active",
@@ -1134,10 +1134,10 @@ describe("Atom management - Authentication", function(): void {
   {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
-      lockDuration: "PT5M",
+      lockDurationInSeconds: 5 * 60, //"PT5M",
       maxDeliveryCount: 20,
-      defaultMessageTtl: "P2D",
-      autoDeleteOnIdle: "PT1H",
+      defaultMessageTtlInSeconds: 2 * 24 * 60 * 60, //"P2D",
+      autoDeleteOnIdleInSeconds: 60 * 60, //"PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -1146,10 +1146,10 @@ describe("Atom management - Authentication", function(): void {
       status: "ReceiveDisabled" as EntityStatus
     },
     output: {
-      lockDuration: "PT5M",
+      lockDurationInSeconds: 5 * 60, //"PT5M",
       maxDeliveryCount: 20,
-      defaultMessageTtl: "P2D",
-      autoDeleteOnIdle: "PT1H",
+      defaultMessageTtlInSeconds: 2 * 24 * 60 * 60, //"P2D",
+      autoDeleteOnIdleInSeconds: 60 * 60, //"PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
@@ -1209,9 +1209,9 @@ describe("Atom management - Authentication", function(): void {
       forwardTo: managementQueue1
     },
     output: {
-      lockDuration: "PT1M",
+      lockDurationInSeconds: 60, // "PT1M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtlInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, //"P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
@@ -1219,7 +1219,7 @@ describe("Atom management - Authentication", function(): void {
 
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementQueue1}`,
       forwardTo: `${endpointWithProtocol}${managementQueue1}`,
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      autoDeleteOnIdleInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, //"P10675199DT2H48M5.4775807S",
 
       defaultRuleDescription: undefined,
 
@@ -1297,12 +1297,12 @@ describe("Atom management - Authentication", function(): void {
       autoDeleteOnIdleInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807,
       // "P10675199DT2H48M5.4775807S",
       deadLetteringOnMessageExpiration: false,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
-      duplicateDetectionHistoryTimeWindow: "PT10M",
+      defaultMessageTtlInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, // "P10675199DT2H48M5.4775807S",
+      duplicateDetectionHistoryTimeWindowInSeconds: 10 * 60, //"PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
       forwardDeadLetteredMessagesTo: undefined,
-      lockDuration: "PT1M",
+      lockDurationInSeconds: 60, // "PT1M",
       maxDeliveryCount: 10,
       maxSizeInMegabytes: 1024,
       name: managementQueue1,
@@ -1316,16 +1316,15 @@ describe("Atom management - Authentication", function(): void {
   {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
-      lockDuration: "PT45S",
+      lockDurationInSeconds: 45, //"PT45S",
       requiresDuplicateDetection: true,
       requiresSession: true,
-      defaultMessageTtl: "P2D",
+      defaultMessageTtl: 2 * 24 * 60 * 60, // "P2D",
       deadLetteringOnMessageExpiration: true,
-      duplicateDetectionHistoryTimeWindow: "PT1M",
+      duplicateDetectionHistoryTimeWindow: 60, //"PT1M",
       maxDeliveryCount: 8,
       enableBatchedOperations: false,
-      autoDeleteOnIdleInSeconds: 60 * 60,
-      //"PT1H",
+      autoDeleteOnIdleInSeconds: 60 * 60, //"PT1H",
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1353,16 +1352,15 @@ describe("Atom management - Authentication", function(): void {
       status: "ReceiveDisabled" as EntityStatus
     },
     output: {
-      duplicateDetectionHistoryTimeWindow: "PT1M",
-      lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
+      duplicateDetectionHistoryTimeWindowInSeconds: 60, //"PT1M",
+      lockDurationInSeconds: 45, //"PT45S",
+      defaultMessageTtlInSeconds: 2 * 24 * 60 * 60, //"P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       maxDeliveryCount: 8,
       requiresDuplicateDetection: true,
       requiresSession: true,
-      autoDeleteOnIdleInSeconds: 60 * 60,
-      //"PT1H",
+      autoDeleteOnIdleInSeconds: 60 * 60, //"PT1H",
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1601,14 +1599,13 @@ describe("Atom management - Authentication", function(): void {
   {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
-      lockDuration: "PT50S",
-      defaultMessageTtl: "P1D",
+      lockDurationInSeconds: 50, //"PT50S",
+      defaultMessageTtlInSeconds: 24 * 60 * 60, //"P1D",
       deadLetteringOnMessageExpiration: true,
-      duplicateDetectionHistoryTimeWindow: "PT2M",
+      duplicateDetectionHistoryTimeWindowInSeconds: 2 * 60, //"PT2M",
       maxDeliveryCount: 5,
       enableBatchedOperations: false,
-      autoDeleteOnIdleInSeconds: 2 * 60 * 60,
-      //"PT2H",
+      autoDeleteOnIdleInSeconds: 2 * 60 * 60, //"PT2H",
       authorizationRules: [
         {
           claimType: "SharedAccessKey",
@@ -1636,9 +1633,9 @@ describe("Atom management - Authentication", function(): void {
       status: "ReceiveDisabled" as EntityStatus
     },
     output: {
-      duplicateDetectionHistoryTimeWindow: "PT2M",
-      lockDuration: "PT50S",
-      defaultMessageTtl: "P1D",
+      duplicateDetectionHistoryTimeWindowInSeconds: 2 * 60, //"PT2M",
+      lockDurationInSeconds: 50, // "PT50S",
+      defaultMessageTtlInSeconds: 24 * 60 * 60, // "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       requiresDuplicateDetection: true,
@@ -1667,8 +1664,7 @@ describe("Atom management - Authentication", function(): void {
       ],
       maxDeliveryCount: 5,
       maxSizeInMegabytes: 16384,
-      autoDeleteOnIdleInSeconds: 2 * 60 * 60,
-      //"PT2H",
+      autoDeleteOnIdleInSeconds: 2 * 60 * 60, //"PT2H",
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
@@ -1681,16 +1677,15 @@ describe("Atom management - Authentication", function(): void {
   describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1, {
-        lockDuration: "PT45S",
+        lockDurationInSeconds: 45, //"PT45S"
         requiresDuplicateDetection: true,
         requiresSession: true,
-        defaultMessageTtl: "P2D",
+        defaultMessageTtlInSeconds: 2 * 24 * 60 * 60, //"P2D",
         deadLetteringOnMessageExpiration: true,
-        duplicateDetectionHistoryTimeWindow: "PT1M",
+        duplicateDetectionHistoryTimeWindowInSeconds: 60, //"PT1M",
         maxDeliveryCount: 8,
         enableBatchedOperations: false,
-        autoDeleteOnIdleInSeconds: 60 * 60,
-        //"PT1H",
+        autoDeleteOnIdleInSeconds: 60 * 60, //"PT1H",
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
@@ -1753,9 +1748,9 @@ describe("Atom management - Authentication", function(): void {
       forwardTo: managementTopic1
     },
     output: {
-      duplicateDetectionHistoryTimeWindow: "PT1M",
-      lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
+      duplicateDetectionHistoryTimeWindowInSeconds: 60, //"PT1M",
+      lockDurationInSeconds: 45, //"PT45S",
+      defaultMessageTtlInSeconds: 2 * 24 * 60 * 60, //"P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
 
@@ -1786,7 +1781,7 @@ describe("Atom management - Authentication", function(): void {
 
       forwardDeadLetteredMessagesTo: `${endpointWithProtocol}${managementTopic1}`,
       forwardTo: `${endpointWithProtocol}${managementTopic1}`,
-      autoDeleteOnIdle: "PT1H",
+      autoDeleteOnIdleInSeconds: 60 * 60, //"PT1H",
       maxDeliveryCount: 8,
       maxSizeInMegabytes: 16384,
 
@@ -1861,17 +1856,17 @@ describe("Atom management - Authentication", function(): void {
       status: "SendDisabled" as EntityStatus,
       userMetadata: "test metadata",
       requiresDuplicateDetection: false,
-      defaultMessageTtl: "P1D",
-      duplicateDetectionHistoryTimeWindow: "PT2M",
-      autoDeleteOnIdle: "PT2H",
+      defaultMessageTtlInSeconds: 24 * 60 * 60, //"P1D",
+      duplicateDetectionHistoryTimeWindowInSeconds: 2 * 60, //"PT2M",
+      autoDeleteOnIdleInSeconds: 2 * 60 * 60, //"PT2H",
       supportOrdering: true,
       maxSizeInMegabytes: 3072
     },
     output: {
       requiresDuplicateDetection: false,
-      defaultMessageTtl: "P1D",
-      duplicateDetectionHistoryTimeWindow: "PT2M",
-      autoDeleteOnIdle: "PT2H",
+      defaultMessageTtlInSeconds: 24 * 60 * 60, // "P1D",
+      duplicateDetectionHistoryTimeWindowInSeconds: 2 * 60, //"PT2M",
+      autoDeleteOnIdleInSeconds: 2 * 60 * 60, //"PT2H",
       supportOrdering: true,
       maxSizeInMegabytes: 3072,
       enableBatchedOperations: true,
@@ -1921,10 +1916,10 @@ describe("Atom management - Authentication", function(): void {
   {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
-      lockDuration: "PT3M",
+      lockDurationInSeconds: 3 * 60, //"PT3M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtlInSeconds: 24 * 60 * 60, //"P1D",
+      autoDeleteOnIdleInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, //"P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
@@ -1933,10 +1928,10 @@ describe("Atom management - Authentication", function(): void {
       status: "ReceiveDisabled" as EntityStatus
     },
     output: {
-      lockDuration: "PT3M",
+      lockDurationInSeconds: 3 * 60, //"PT3M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
-      autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
+      defaultMessageTtl: 24 * 60 * 60, //"P1D",
+      autoDeleteOnIdle: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.4775807, //"P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
@@ -2192,7 +2187,7 @@ async function createEntity(
   if (!overrideOptions) {
     if (queueOptions == undefined) {
       queueOptions = {
-        lockDuration: "PT1M",
+        lockDurationInSeconds: 60, //"PT1M",
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
@@ -2216,7 +2211,7 @@ async function createEntity(
 
     if (subscriptionOptions == undefined) {
       subscriptionOptions = {
-        lockDuration: "PT1M"
+        lockDurationInSeconds: 60 //"PT1M"
       };
     }
 
@@ -2408,7 +2403,7 @@ async function updateEntity(
   if (!overrideOptions) {
     if (queueOptions == undefined) {
       queueOptions = {
-        lockDuration: "PT1M",
+        lockDurationInSeconds: 60, //"PT1M",
         authorizationRules: [
           {
             claimType: "SharedAccessKey",
@@ -2432,7 +2427,7 @@ async function updateEntity(
 
     if (subscriptionOptions == undefined) {
       subscriptionOptions = {
-        lockDuration: "PT1M"
+        lockDurationInSeconds: 60 //"PT1M"
       };
     }
 
