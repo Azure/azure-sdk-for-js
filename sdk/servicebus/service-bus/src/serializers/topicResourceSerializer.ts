@@ -17,7 +17,9 @@ import {
   getIntegerOrUndefined,
   getRawAuthorizationRules,
   getString,
-  getStringOrUndefined
+  getStringOrUndefined,
+  getISO8601DurationInSeconds,
+  getISO8601DurationFromSeconds
 } from "../util/utils";
 
 /**
@@ -30,16 +32,18 @@ import {
  */
 export function buildTopicOptions(topic: TopicDescription): InternalTopicOptions {
   return {
-    DefaultMessageTimeToLive: topic.defaultMessageTtl,
+    DefaultMessageTimeToLive: getISO8601DurationFromSeconds(topic.defaultMessageTtlInSeconds),
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
-    DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
+    DuplicateDetectionHistoryTimeWindow: getISO8601DurationFromSeconds(
+      topic.duplicateDetectionHistoryTimeWindowInSeconds
+    ),
     EnableBatchedOperations: getStringOrUndefined(topic.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(topic.authorizationRules),
     Status: getStringOrUndefined(topic.status),
     UserMetadata: getStringOrUndefined(topic.userMetadata),
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
-    AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
+    AutoDeleteOnIdle: getISO8601DurationFromSeconds(topic.autoDeleteOnIdleInSeconds),
     EnablePartitioning: getStringOrUndefined(topic.enablePartitioning)
   };
 }
@@ -63,19 +67,17 @@ export function buildTopic(rawTopic: any): TopicDescription {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
-      rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+    defaultMessageTtlInSeconds: getISO8601DurationInSeconds(
+      rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE]
     ),
-    autoDeleteOnIdle: getStringOrUndefined(rawTopic[Constants.AUTO_DELETE_ON_IDLE]),
+    autoDeleteOnIdleInSeconds: getISO8601DurationInSeconds(rawTopic[Constants.AUTO_DELETE_ON_IDLE]),
 
     requiresDuplicateDetection: getBoolean(
       rawTopic[Constants.REQUIRES_DUPLICATE_DETECTION],
       "requiresDuplicateDetection"
     ),
-    duplicateDetectionHistoryTimeWindow: getString(
-      rawTopic[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
-      "duplicateDetectionHistoryTimeWindow"
+    duplicateDetectionHistoryTimeWindowInSeconds: getISO8601DurationInSeconds(
+      rawTopic[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW]
     ),
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawTopic[Constants.AUTHORIZATION_RULES]),
@@ -118,10 +120,8 @@ export interface TopicDescription {
    * with a smaller TTL. Based on whether dead-lettering is enabled, a message whose
    * TTL has expired will either be moved to the subscription’s associated dead-letter
    * sub-queue or will be permanently deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  defaultMessageTtl?: string;
+  defaultMessageTtlInSeconds?: number;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -142,10 +142,8 @@ export interface TopicDescription {
 
   /**
    * Specifies the time span during which the Service Bus will detect message duplication.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  duplicateDetectionHistoryTimeWindow?: string;
+  duplicateDetectionHistoryTimeWindowInSeconds?: number;
 
   /**
    * Specifies if batched operations should be allowed.
@@ -176,10 +174,8 @@ export interface TopicDescription {
 
   /**
    * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  autoDeleteOnIdle?: string;
+  autoDeleteOnIdleInSeconds?: number;
 
   /**
    * Specifies whether the topic should be partitioned
