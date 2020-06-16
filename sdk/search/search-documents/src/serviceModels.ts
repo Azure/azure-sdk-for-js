@@ -319,12 +319,14 @@ export interface AnalyzeRequest {
    * The name of the analyzer to use to break the given text. If this parameter is not specified,
    * you must specify a tokenizer instead. The tokenizer and analyzer parameters are mutually
    * exclusive. KnownAnalyzerNames is an enum containing known values.
+   * NOTE: Either analyzerName or tokenizerName is required in an AnalyzeRequest.
    */
   analyzerName?: string;
   /**
    * The name of the tokenizer to use to break the given text. If this parameter is not specified,
    * you must specify an analyzer instead. The tokenizer and analyzer parameters are mutually
    * exclusive. KnownTokenizerNames is an enum containing known values.
+   * NOTE: Either analyzerName or tokenizerName is required in an AnalyzeRequest.
    */
   tokenizerName?: string;
   /**
