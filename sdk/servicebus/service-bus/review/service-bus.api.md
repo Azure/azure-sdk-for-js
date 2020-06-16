@@ -230,13 +230,13 @@ export interface QueueDescription {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdleInSeconds?: number;
     deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTtl?: string;
-    duplicateDetectionHistoryTimeWindow?: string;
+    defaultMessageTtlInSeconds?: number;
+    duplicateDetectionHistoryTimeWindowInSeconds?: number;
     enableBatchedOperations?: boolean;
     enablePartitioning?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
-    lockDuration?: string;
+    lockDurationInSeconds?: number;
     maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
     name: string;
@@ -490,14 +490,14 @@ export interface SubscribeOptions extends OperationOptions, MessageHandlerOption
 
 // @public
 export interface SubscriptionDescription {
-    autoDeleteOnIdle?: string;
+    autoDeleteOnIdleInSeconds?: number;
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTtl?: string;
+    defaultMessageTtlInSeconds?: number;
     enableBatchedOperations?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
-    lockDuration?: string;
+    lockDurationInSeconds?: number;
     maxDeliveryCount?: number;
     requiresSession?: boolean;
     status?: EntityStatus;
@@ -529,9 +529,9 @@ export { TokenType }
 // @public
 export interface TopicDescription {
     authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle?: string;
-    defaultMessageTtl?: string;
-    duplicateDetectionHistoryTimeWindow?: string;
+    autoDeleteOnIdleInSeconds?: number;
+    defaultMessageTtlInSeconds?: number;
+    duplicateDetectionHistoryTimeWindowInSeconds?: number;
     enableBatchedOperations?: boolean;
     enablePartitioning?: boolean;
     maxSizeInMegabytes?: number;
