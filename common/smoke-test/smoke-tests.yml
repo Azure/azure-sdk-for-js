@@ -5,24 +5,31 @@ jobs:
         Linux (AzureCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
         Windows (AzureCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
         Mac (AzureCloud):
           OSVmImage: "macOS-10.14"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
         Linux (AzureUSGovernment):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
+          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
         Windows (AzureUSGovernment):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
+          ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
         Linux (AzureChinaCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
+          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
         Windows (AzureChinaCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
+          ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
 
     pool:
       vmImage: $(OSVmImage)
@@ -31,6 +38,13 @@ jobs:
       - template: ../../eng/pipelines/templates/variables/globals.yml
       - name: Location
         value: ""
+      - name: AzureCloudArmTemplateParameters
+        value: "@{ }"
+      - name: AzureUSGovernmentArmTemplateParameters
+        value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net' }"
+      - name: AzureChinaCloudArmTemplateParameters
+        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn' }"
+
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml
 
@@ -51,7 +65,8 @@ jobs:
           ./Initialize-SmokeTests.ps1 `
             -CI `
             -Verbose `
-            @subscriptionConfiguration
+            @subscriptionConfiguration `
+            -AdditionalParameters $(ArmTemplateParameters)
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
         displayName: Deploy Smoke Test resources and prepare samples
 
