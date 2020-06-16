@@ -91,7 +91,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create block blob blob should work with tags", async () => {
+  it("Create block blob should work with tags", async () => {
     await blockBlobClient.delete();
 
     const tags = {

@@ -510,12 +510,8 @@ describe("BlobServiceClient", () => {
     }
 
     const blobs = [];
-    for await (const segment of blobServiceClient
-      .findBlobsByTags(`${key1}='${tags2[key1]}'`)
-      .byPage()) {
-      for (const blob of segment.blobs) {
-        blobs.push(blob);
-      }
+    for await (const blob of blobServiceClient.findBlobsByTags(`${key1}='${tags2[key1]}'`)) {
+      blobs.push(blob);
     }
     assert.deepStrictEqual(blobs.length, 1);
     assert.deepStrictEqual(blobs[0].containerName, containerName);
