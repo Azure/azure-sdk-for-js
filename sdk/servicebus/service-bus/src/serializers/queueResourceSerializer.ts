@@ -34,13 +34,15 @@ import {
  */
 export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions {
   return {
-    LockDuration: queue.lockDuration,
+    LockDuration: getISO8601DurationFromSeconds(queue.lockDurationInSeconds),
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(queue.requiresDuplicateDetection),
     RequiresSession: getStringOrUndefined(queue.requiresSession),
-    DefaultMessageTimeToLive: queue.defaultMessageTtl,
+    DefaultMessageTimeToLive: getISO8601DurationFromSeconds(queue.defaultMessageTtlInSeconds),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(queue.deadLetteringOnMessageExpiration),
-    DuplicateDetectionHistoryTimeWindow: queue.duplicateDetectionHistoryTimeWindow,
+    DuplicateDetectionHistoryTimeWindow: getISO8601DurationFromSeconds(
+      queue.duplicateDetectionHistoryTimeWindowInSeconds
+    ),
     MaxDeliveryCount: getStringOrUndefined(queue.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),
@@ -67,7 +69,7 @@ export function buildQueue(rawQueue: any): QueueDescription {
     forwardTo: getStringOrUndefined(rawQueue[Constants.FORWARD_TO]),
     userMetadata: rawQueue[Constants.USER_METADATA],
 
-    lockDuration: getString(rawQueue[Constants.LOCK_DURATION], "lockDuration"),
+    lockDurationInSeconds: getISO8601DurationInSeconds(rawQueue[Constants.LOCK_DURATION]),
     maxSizeInMegabytes: getInteger(rawQueue[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
 
     maxDeliveryCount: getInteger(rawQueue[Constants.MAX_DELIVERY_COUNT], "maxDeliveryCount"),
@@ -79,9 +81,8 @@ export function buildQueue(rawQueue: any): QueueDescription {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
-      rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+    defaultMessageTtlInSeconds: getISO8601DurationInSeconds(
+      rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE]
     ),
     autoDeleteOnIdleInSeconds: getISO8601DurationInSeconds(rawQueue[Constants.AUTO_DELETE_ON_IDLE]),
 
@@ -89,9 +90,8 @@ export function buildQueue(rawQueue: any): QueueDescription {
       rawQueue[Constants.REQUIRES_DUPLICATE_DETECTION],
       "requiresDuplicateDetection"
     ),
-    duplicateDetectionHistoryTimeWindow: getString(
-      rawQueue[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
-      "duplicateDetectionHistoryTimeWindow"
+    duplicateDetectionHistoryTimeWindowInSeconds: getISO8601DurationInSeconds(
+      rawQueue[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW]
     ),
     deadLetteringOnMessageExpiration: getBoolean(
       rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
@@ -139,10 +139,8 @@ export interface QueueDescription {
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and available
    * for consumption by the next receiver. Settable only at queue creation time.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  lockDuration?: string;
+  lockDurationInSeconds?: number;
 
   /**
    * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that
@@ -171,10 +169,8 @@ export interface QueueDescription {
    * This value is overwritten by a TTL specified on the message
    * if and only if the message TTL is smaller than the TTL set on the queue.
    * This value is immutable after the Queue has been created.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  defaultMessageTtl?: string;
+  defaultMessageTtlInSeconds?: number;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message
@@ -186,10 +182,8 @@ export interface QueueDescription {
 
   /**
    * Specifies the time span during which the Service Bus detects message duplication.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  duplicateDetectionHistoryTimeWindow?: string;
+  duplicateDetectionHistoryTimeWindowInSeconds?: number;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
