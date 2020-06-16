@@ -31,7 +31,7 @@ dotenv.config();
 const env = getEnvVars();
 const should = chai.should();
 
-const defaultLockDuration = "PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
+const defaultLockDuration = 30; //"PT30S"; // 30 seconds in ISO 8601 FORMAT - equivalent to "P0Y0M0DT0H0M30S"
 
 function getEntityNames(
   testClientType: TestClientType
@@ -95,7 +95,7 @@ async function createTestEntities(
 
   if (relatedEntities.queue) {
     await recreateQueue(relatedEntities.queue, {
-      lockDuration: defaultLockDuration,
+      lockDurationInSeconds: defaultLockDuration,
       enableBatchedOperations: true,
       enablePartitioning: relatedEntities.isPartitioned,
       requiresSession: relatedEntities.usesSessions
@@ -111,7 +111,7 @@ async function createTestEntities(
 
   if (relatedEntities.topic && relatedEntities.subscription) {
     await recreateSubscription(relatedEntities.topic, relatedEntities.subscription, {
-      lockDuration: defaultLockDuration,
+      lockDurationInSeconds: defaultLockDuration,
       enableBatchedOperations: true,
       requiresSession: relatedEntities.usesSessions
     });
