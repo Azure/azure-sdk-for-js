@@ -958,8 +958,10 @@ export interface BlobSetExpiryOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 
   /**
-   * The time to set the blob to expiry. Number of milliseconds elapsed from the relative time
+   * The time to set the blob to expiry. Number of milliseconds elapsed from the relative time in decimal string
    * or absolute time in RFC 1123 Format.
+   * When specifying the number, it should be no greater than the maximum value of UINT64.
+   * When specifying time, an expiry time in the past is not allowed.
    *
    * @type {string}
    * @memberof BlobSetExpiryOptions
@@ -1576,6 +1578,39 @@ export class BlobClient extends StorageClient {
   ): Promise<BlobSetExpiryResponse> {
     const { span, spanOptions } = createSpan("BlobClient-setExpiry", options.tracingOptions);
     try {
+      if (mode === "NeverExpire" && options.expiresOn) {
+        throw new Error(`Shouldn't specify options.expiresOn when using mode ${mode}`);
+      }
+      if (!options.expiresOn && mode !== "NeverExpire") {
+        throw new Error(`Must specify options.expiresOn when using modes other than ${mode}`);
+      }
+
+      if (mode === "RelativeToNow" || mode === "RelativeToCreation") {
+        const regexp = /^\d+$/;
+        if (!regexp.test(options.expiresOn!)) {
+          throw new Error(
+            `options.expiresOn should be the number of milliseconds elapsed from the relative time in decimal string when using mode ${mode}, but is ${options.expiresOn}`
+          );
+        }
+        // MINOR: need check against <= 2**64, but JS number has the precision problem.
+      }
+      if (mode === "Absolute") {
+        const expiresOn = new Date(options.expiresOn!);
+        if (isNaN(expiresOn.getTime())) {
+          throw new Error(
+            `options.expiresOn should be a time string when using mode ${mode}, but is ${options.expiresOn}`
+          );
+        }
+        const now = new Date();
+        if (expiresOn.getTime() <= now.getTime()) {
+          throw new Error(
+            `options.expiresOn should be later than now ${now.toUTCString()} when using mode ${mode}, but is ${
+              options.expiresOn
+            }`
+          );
+        }
+      }
+
       return await this.blobContext.setExpiry(mode, {
         ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
