@@ -28,7 +28,7 @@ npm install @azure/ms-rest-azure-js
 
 ```typescript
 import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
-import { QnAMakerClient } from "@azure/cognitiveservices-qnamaker";
+import { QnAMakerClient } from "@azure/cognitiveservices-qnamaker-runtime";
 
 async function main() {
   const QNAMAKER_KEY = process.env["QNAMAKER_KEY"] || "<QNAMAKER_KEY>";
