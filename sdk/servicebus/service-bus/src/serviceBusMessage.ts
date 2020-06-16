@@ -669,6 +669,14 @@ export function fromAmqpMessage(
 }
 
 /**
+ * @internal
+ * @ignore
+ */
+export function isServiceBusMessage(possible: any): possible is ServiceBusMessage {
+  return possible != null && typeof possible === "object" && "body" in possible;
+}
+
+/**
  * Describes the message received from Service Bus.
  *
  * @internal

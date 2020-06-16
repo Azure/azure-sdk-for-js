@@ -492,7 +492,7 @@ describe("EventHubProducerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       env[EnvVarKeys.EVENTHUB_NAME]
     );
-    testUserAgentString(producerClient["_client"]["_context"]);
+    testUserAgentString(producerClient["_context"]);
     await producerClient.close();
   });
 
@@ -503,7 +503,7 @@ describe("EventHubProducerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_NAME],
       { userAgent: customUserAgent }
     );
-    testUserAgentString(producerClient["_client"]["_context"], customUserAgent);
+    testUserAgentString(producerClient["_context"], customUserAgent);
     await producerClient.close();
   });
 });

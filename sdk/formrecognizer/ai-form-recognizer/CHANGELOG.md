@@ -1,6 +1,10 @@
 # Release History
 
-## 1.0.0-preview.3 (2020-06-09)
+## 1.0.0-preview.4 (Unreleased)
+
+- [Breaking] Rename `includeTextDetails` to `includeTextContent` in custom form and receipt recognition options to be consistent with other languages.
+
+## 1.0.0-preview.3 (2020-06-10)
 
 - Blank pages in receipt recognition are now handled properly.
 - Support Azure Active Directory credential.

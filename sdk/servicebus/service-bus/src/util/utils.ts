@@ -572,6 +572,12 @@ export type EntityStatus =
   | "Unknown";
 
 /**
+ * @internal
+ * @ignore
+ */
+export const StandardAbortMessage = "The operation was aborted.";
+
+/**
  * An executor for a function that returns a Promise that obeys both a timeout and an
  * optional AbortSignal.
  * @param timeoutMs - The number of milliseconds to allow before throwing an OperationTimeoutError.
@@ -588,36 +594,39 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   actionFn: () => Promise<T>;
   timeoutMs: number;
   timeoutMessage: string;
-  abortMessage: string;
   abortSignal?: AbortSignalLike;
+  // these are optional and only here for testing.
+  timeoutFunctions?: {
+    setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+    clearTimeoutFn: (timeoutId: any) => void;
+  };
 }): Promise<T> {
   if (args.abortSignal && args.abortSignal.aborted) {
-    throw new AbortError(args.abortMessage);
+    throw new AbortError(StandardAbortMessage);
   }
 
   let timer: any | undefined = undefined;
   let clearAbortSignal: (() => void) | undefined = undefined;
 
   const clearAbortSignalAndTimer = (): void => {
-    clearTimeout(timer);
+    (args.timeoutFunctions?.clearTimeoutFn ?? clearTimeout)(timer);
 
     if (clearAbortSignal) {
       clearAbortSignal();
     }
   };
 
+  // eslint-disable-next-line promise/param-names
   const abortOrTimeoutPromise = new Promise<T>((_resolve, reject) => {
-    clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortMessage, args.abortSignal);
+    clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortSignal);
 
-    // using a named function here so we can identify it in our unit tests
-    timer = setTimeout(function timeoutCallback() {
+    timer = (args.timeoutFunctions?.setTimeoutFn ?? setTimeout)(() => {
       reject(new OperationTimeoutError(args.timeoutMessage));
     }, args.timeoutMs);
   });
 
-  const actionPromise = args.actionFn();
   try {
-    return await Promise.race([abortOrTimeoutPromise, actionPromise]);
+    return await Promise.race([abortOrTimeoutPromise, args.actionFn()]);
   } finally {
     clearAbortSignalAndTimer();
   }
@@ -637,7 +646,6 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
  */
 export function checkAndRegisterWithAbortSignal(
   onAbortFn: (abortError: AbortError) => void,
-  abortMessage: string,
   abortSignal?: AbortSignalLike
 ): () => void {
   if (abortSignal == null) {
@@ -645,12 +653,12 @@ export function checkAndRegisterWithAbortSignal(
   }
 
   if (abortSignal.aborted) {
-    throw new AbortError(abortMessage);
+    throw new AbortError(StandardAbortMessage);
   }
 
   const onAbort = (): void => {
     abortSignal.removeEventListener("abort", onAbort);
-    onAbortFn(new AbortError(abortMessage));
+    onAbortFn(new AbortError(StandardAbortMessage));
   };
 
   abortSignal.addEventListener("abort", onAbort);

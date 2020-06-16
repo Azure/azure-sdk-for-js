@@ -262,7 +262,7 @@ export class ManagementClient extends LinkEntity {
           this._mgmtReqResLink!.sender.name,
           this._mgmtReqResLink!.receiver.name
         );
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       }
     } catch (err) {
       err = translate(err);
