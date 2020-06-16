@@ -85,13 +85,10 @@ export class RequestResponseLink implements ReqResLink {
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 
-    // Adding a backup message_id and correlation_id in case they are `undefined`,
+    // Adding a backup message_id in case it is `undefined`,
     // helps in differentiating the responses inside `messageCallback` defined a few lines below.
     if (!request.message_id) {
       request.message_id = generate_uuid();
-    }
-    if (!request.correlation_id) {
-      request.correlation_id = generate_uuid();
     }
 
     return new Promise<AmqpMessage>((resolve: any, reject: any) => {
@@ -162,10 +159,7 @@ export class RequestResponseLink implements ReqResLink {
           request.to || "$management",
           context.message
         );
-        if (
-          request.message_id !== responseCorrelationId &&
-          request.correlation_id !== responseCorrelationId
-        ) {
+        if (request.message_id !== responseCorrelationId) {
           // do not remove message listener.
           // parallel requests listen on the same receiver, so continue waiting until response that matches
           // request via correlationId is found.
