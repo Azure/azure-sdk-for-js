@@ -180,7 +180,7 @@ export class EventHubProducerClient {
           `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
         );
         logger.warning(
-          `[${this._context.connectionId}] Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
+          `[${this._context.connectionId}] ${error.message}`
         );
         logErrorStackTrace(error);
         throw error;
