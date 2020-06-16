@@ -53,8 +53,9 @@ async function main() {
     console.log("SMOKE TEST FAILURES");
     for (let failure of failures) {
       console.error(
-        `Test Failed\nPackage: ${failure.sample.name}\nFile:${failure.sample.sampleFile}\nException: ${failure.result.exception}`
+        `Test Failed - Package: ${failure.sample.name} - Sample File:${failure.sample.sampleFile}`
       );
+      console.log(`Exception: ${failure.result.exception}`);
       console.log(failure);
     }
   }
