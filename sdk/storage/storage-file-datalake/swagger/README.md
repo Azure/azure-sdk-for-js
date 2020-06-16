@@ -15,7 +15,6 @@ output-folder: ../src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2019-12-12/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
-enum-types: true
 ```
 ## Customizations for Track 2 Generator
 
@@ -93,6 +92,7 @@ directive:
 ```
 
 ### Rename eTag -> etag
+
 ``` yaml
 directive:
 - from: swagger-document
@@ -103,4 +103,14 @@ directive:
   where: $["definitions"]..["eTag"]
   transform: >
     $["x-ms-client-name"] = "etag";
+```
+
+### workaround: adding parameter location for `PathSetAccessControlRecursiveMode`
+ 
+``` yaml
+directive:
+- from: swagger-document
+  where: $["parameters"].PathSetAccessControlRecursiveMode
+  transform: >
+    $["x-ms-parameter-location"] = "method";
 ```
