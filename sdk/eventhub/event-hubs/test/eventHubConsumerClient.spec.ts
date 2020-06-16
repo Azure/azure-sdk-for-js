@@ -225,7 +225,7 @@ describe("EventHubConsumerClient", () => {
       await producerClient.close();
     });
 
-    describe("#close()", function(): void {
+    describe.only("#close()", function(): void {
       it("stops any actively running subscriptions", async function(): Promise<void> {
         const subscriptions: Subscription[] = [];
         const client = new EventHubConsumerClient(
@@ -260,6 +260,11 @@ describe("EventHubConsumerClient", () => {
         for (const subscription of subscriptions) {
           subscription.isRunning.should.equal(false, "The subscription should not be running.");
         }
+
+        client["_subscriptions"].size.should.equal(
+          0,
+          "Some dangling subscriptions are still hanging around!"
+        );
       });
     });
 

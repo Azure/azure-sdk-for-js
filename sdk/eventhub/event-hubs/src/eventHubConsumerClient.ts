@@ -56,11 +56,11 @@ export class EventHubConsumerClient {
   private _id = uuid();
 
   /**
-   * The EventProcessors that were spawned by calling `subscribe()`.
-   * EventProcessors that have been stopped by the user will not
+   * The Subscriptions that were spawned by calling `subscribe()`.
+   * Subscriptions that have been stopped by the user will not
    * be present in this set.
    */
-  private _eventProcessors = new Set<EventProcessor>();
+  private _subscriptions = new Set<Subscription>();
 
   /**
    * @property
@@ -318,11 +318,10 @@ export class EventHubConsumerClient {
    */
   async close(): Promise<void> {
     // Stop all the actively running subscriptions.
-    const activeEventProcessors = Array.from(this._eventProcessors);
+    const activeSubscriptions = Array.from(this._subscriptions);
     await Promise.all(
-      activeEventProcessors.map((eventProcessor) => {
-        this._eventProcessors.delete(eventProcessor);
-        return eventProcessor.stop();
+      activeSubscriptions.map((subscription) => {
+        return subscription.close();
       })
     );
     // Close the connection via the client.
@@ -441,18 +440,19 @@ export class EventHubConsumerClient {
     }
 
     eventProcessor.start();
-    this._eventProcessors.add(eventProcessor);
 
-    return {
+    const subscription = {
       get isRunning() {
         return eventProcessor.isRunning();
       },
       close: () => {
         this._partitionGate.remove(targetedPartitionId);
-        this._eventProcessors.delete(eventProcessor);
+        this._subscriptions.delete(subscription);
         return eventProcessor.stop();
       }
     };
+    this._subscriptions.add(subscription);
+    return subscription;
   }
 
   private createEventProcessorForAllPartitions(
