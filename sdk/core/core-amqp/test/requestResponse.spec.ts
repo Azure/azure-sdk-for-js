@@ -136,6 +136,60 @@ describe("RequestResponseLink", function() {
     assert.equal(responses[1].correlation_id, reqs[1].message_id);
   });
 
+  it("request without `message_id` should not match a response with `undefined` correlationId", async function() {
+    const connectionStub = stub(new Connection());
+    const rcvr = new EventEmitter();
+    const reqs: AmqpMessage[] = [];
+    connectionStub.createSession.resolves({
+      connection: {
+        id: "connection-1"
+      },
+      createSender: () => {
+        return Promise.resolve({
+          send: (request: AmqpMessage) => {
+            reqs.push(request);
+          }
+        });
+      },
+      createReceiver: () => {
+        return Promise.resolve(rcvr);
+      }
+    } as any);
+    const sessionStub = await connectionStub.createSession();
+    const senderStub = await sessionStub.createSender();
+    const receiverStub = await sessionStub.createReceiver();
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const request1: AmqpMessage = {
+      body: "Hello World!!"
+    };
+    setTimeout(() => {
+      rcvr.emit("message", {
+        message: {
+          correlation_id: undefined,
+          application_properties: {
+            statusCode: 200,
+            errorCondition: null,
+            statusDescription: null,
+            "com.microsoft:tracking-id": null
+          },
+          body: request1.body
+        }
+      });
+    }, 1500);
+    assert.equal(
+      await Promise.race([
+        link.sendRequest(request1, {
+          timeoutInMs: 4000
+        }),
+        new Promise((resolve) =>
+          setTimeout(() => resolve("Defeated the sendRequest() in the race"), 2000)
+        )
+      ]),
+      "Defeated the sendRequest() in the race",
+      "Unexpected result from `await Promise.race()`"
+    );
+  });
+
   it("should send parallel requests and receive responses correctly (one failure)", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
