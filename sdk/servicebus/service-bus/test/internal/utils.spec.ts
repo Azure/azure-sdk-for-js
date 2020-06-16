@@ -36,6 +36,10 @@ describe("utils", () => {
         durationInSeconds: 3
       },
       {
+        iso8601TimeDuration: "PT5.4775807S",
+        durationInSeconds: 5.4775807
+      },
+      {
         iso8601TimeDuration: "PT2H3S",
         durationInSeconds: 2 * 60 * 60 + 3
       },
@@ -58,6 +62,10 @@ describe("utils", () => {
       {
         iso8601TimeDuration: "P1DT2H3M4.65794S",
         durationInSeconds: 24 * 60 * 60 + 2 * 60 * 60 + 3 * 60 + 4.65794
+      },
+      {
+        iso8601TimeDuration: "P10675199DT2H48M5.477S",
+        durationInSeconds: 10675199 * 24 * 60 * 60 + 2 * 60 * 60 + 48 * 60 + 5.477
       }
     ];
 
