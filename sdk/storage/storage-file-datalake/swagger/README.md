@@ -49,6 +49,16 @@ directive:
     $.Path = undefined
 ```
 
+### workaround: adding parameter location for `PathSetAccessControlRecursiveMode`
+
+``` yaml
+directive:
+- from: swagger-document
+  where: $["parameters"].PathSetAccessControlRecursiveMode
+  transform: >
+    $["x-ms-parameter-location"] = "method";
+```
+
 ### Rename path-HTTP-headers to path-Http-headers
 ```yaml
 directive:
