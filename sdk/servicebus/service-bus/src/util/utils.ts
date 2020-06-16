@@ -326,6 +326,9 @@ export function getISO8601DurationFromSeconds(
   if (timeInSeconds == null) {
     return undefined;
   }
+  if (typeof timeInSeconds != "number") {
+    throw new Error(`Invalid input for time duration - ${timeInSeconds}`);
+  }
   const second = { label: "S", inSeconds: 1 };
   const minute = { label: "M", inSeconds: 60 };
   const hour = { label: "H", inSeconds: minute.inSeconds * 60 };
