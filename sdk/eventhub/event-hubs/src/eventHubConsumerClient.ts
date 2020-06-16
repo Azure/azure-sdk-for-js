@@ -56,6 +56,13 @@ export class EventHubConsumerClient {
   private _id = uuid();
 
   /**
+   * The EventProcessors that were spawned by calling `subscribe()`.
+   * EventProcessors that have been stopped by the user will not
+   * be present in this set.
+   */
+  private _eventProcessors = new Set<EventProcessor>();
+
+  /**
    * @property
    * The name of the default consumer group in the Event Hubs service.
    */
@@ -309,7 +316,16 @@ export class EventHubConsumerClient {
    * @returns Promise<void>
    * @throws Error if the underlying connection encounters an error while closing.
    */
-  close(): Promise<void> {
+  async close(): Promise<void> {
+    // Stop all the actively running subscriptions.
+    const activeEventProcessors = Array.from(this._eventProcessors);
+    await Promise.all(
+      activeEventProcessors.map((eventProcessor) => {
+        this._eventProcessors.delete(eventProcessor);
+        return eventProcessor.stop();
+      })
+    );
+    // Close the connection via the client.
     return this._eventHubClient.close();
   }
 
@@ -425,6 +441,7 @@ export class EventHubConsumerClient {
     }
 
     eventProcessor.start();
+    this._eventProcessors.add(eventProcessor);
 
     return {
       get isRunning() {
@@ -432,6 +449,7 @@ export class EventHubConsumerClient {
       },
       close: () => {
         this._partitionGate.remove(targetedPartitionId);
+        this._eventProcessors.delete(eventProcessor);
         return eventProcessor.stop();
       }
     };

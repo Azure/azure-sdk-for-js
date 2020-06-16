@@ -225,6 +225,44 @@ describe("EventHubConsumerClient", () => {
       await producerClient.close();
     });
 
+    describe("#close()", function(): void {
+      it("stops any actively running subscriptions", async function(): Promise<void> {
+        const subscriptions: Subscription[] = [];
+        const client = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+
+        // Spin up multiple subscriptions.
+        for (const partitionId of partitionIds) {
+          subscriptions.push(
+            client.subscribe(partitionId, {
+              async processError() {
+                /* no-op for test */
+              },
+              async processEvents() {
+                /* no-op for test */
+              }
+            })
+          );
+        }
+
+        // Assert that the subscriptions are all running.
+        for (const subscription of subscriptions) {
+          subscription.isRunning.should.equal(true, "The subscription should be running.");
+        }
+
+        // Stop the client, which should stop the subscriptions.
+        await client.close();
+
+        // Assert that the subscriptions are all not running.
+        for (const subscription of subscriptions) {
+          subscription.isRunning.should.equal(false, "The subscription should not be running.");
+        }
+      });
+    });
+
     describe("Reinitialize partition processing after error", function(): void {
       it("when subscribed to single partition", async function(): Promise<void> {
         const partitionId = "0";
