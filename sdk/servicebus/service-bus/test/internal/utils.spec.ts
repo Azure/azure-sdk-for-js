@@ -72,16 +72,55 @@ describe("utils", () => {
           );
         });
       });
+
+      [3, "abcd", [1, "2"], undefined, null, "D", "P0S", "P0S1M", "PT2D10M", "P2D3M4.5S"].forEach(
+        (testCase) => {
+          it(`Invalid input for ISO-8601 time duration throws error - "${testCase}"`, () => {
+            let errorWasThrown = false;
+            try {
+              getISO8601DurationInSeconds(testCase as any);
+            } catch (error) {
+              should.equal(error.message, `Unable to parse the ISO-8601 duration - ${testCase}`);
+              errorWasThrown = true;
+            }
+            should.equal(errorWasThrown, true, "Error was not thrown");
+          });
+        }
+      );
     });
 
     describe("getISO8601DurationFromSeconds", () => {
-      timeDurationArray.forEach((testCase) => {
-        it(`Input in seconds - "${testCase.durationInSeconds}"`, () => {
-          should.equal(
-            getISO8601DurationFromSeconds(testCase.durationInSeconds),
-            testCase.iso8601TimeDuration,
-            "Unexpected duration in seconds returned."
-          );
+      timeDurationArray
+        .concat([
+          {
+            iso8601TimeDuration: undefined as any,
+            durationInSeconds: undefined as any
+          },
+          {
+            iso8601TimeDuration: undefined,
+            durationInSeconds: null
+          }
+        ])
+        .forEach((testCase) => {
+          it(`Input in seconds - "${testCase.durationInSeconds}"`, () => {
+            should.equal(
+              getISO8601DurationFromSeconds(testCase.durationInSeconds),
+              testCase.iso8601TimeDuration,
+              "Unexpected duration in seconds returned."
+            );
+          });
+        });
+
+      ["abcd", [1, "2"]].forEach((testCase) => {
+        it(`Invalid input throws error - "${testCase}"`, () => {
+          let errorWasThrown = false;
+          try {
+            getISO8601DurationFromSeconds(testCase as any);
+          } catch (error) {
+            should.equal(error.message, `Invalid input for time duration - ${testCase}`);
+            errorWasThrown = true;
+          }
+          should.equal(errorWasThrown, true, "Error was not thrown");
         });
       });
     });
