@@ -214,7 +214,7 @@ stages:
               displayName: Detecting package archive_${{artifact.safeName}}
 
             - task: PowerShell@2
-              displayName: "Publish_${{artifact.safeName}} to npmjs.org"
+              displayName: "Publish_${{artifact.safeName}} to dev feed"
               inputs:
                 targetType: filePath
                 filePath: "eng/tools/publish-to-npm.ps1"
