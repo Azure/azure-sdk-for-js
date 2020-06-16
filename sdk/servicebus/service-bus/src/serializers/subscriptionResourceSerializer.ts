@@ -15,7 +15,9 @@ import {
   getInteger,
   getString,
   getStringOrUndefined,
-  MessageCountDetails
+  MessageCountDetails,
+  getISO8601DurationFromSeconds,
+  getISO8601DurationInSeconds
 } from "../util/utils";
 
 /**
@@ -30,9 +32,11 @@ export function buildSubscriptionOptions(
   subscription: SubscriptionDescription
 ): InternalSubscriptionOptions {
   return {
-    LockDuration: subscription.lockDuration,
+    LockDuration: getISO8601DurationFromSeconds(subscription.lockDurationInSeconds),
     RequiresSession: getStringOrUndefined(subscription.requiresSession),
-    DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTtl),
+    DefaultMessageTimeToLive: getISO8601DurationFromSeconds(
+      subscription.defaultMessageTtlInSeconds
+    ),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
       subscription.deadLetteringOnMessageExpiration
     ),
@@ -45,7 +49,7 @@ export function buildSubscriptionOptions(
     ForwardTo: getStringOrUndefined(subscription.forwardTo),
     UserMetadata: getStringOrUndefined(subscription.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
-    AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle)
+    AutoDeleteOnIdle: getISO8601DurationFromSeconds(subscription.autoDeleteOnIdleInSeconds)
   };
 }
 
@@ -61,7 +65,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionDescription
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
 
-    lockDuration: getString(rawSubscription[Constants.LOCK_DURATION], "lockDuration"),
+    lockDurationInSeconds: getISO8601DurationInSeconds(rawSubscription[Constants.LOCK_DURATION]),
     maxDeliveryCount: getInteger(rawSubscription[Constants.MAX_DELIVERY_COUNT], "maxDeliveryCount"),
 
     requiresSession: getBoolean(rawSubscription[Constants.REQUIRES_SESSION], "requiresSession"),
@@ -70,11 +74,12 @@ export function buildSubscription(rawSubscription: any): SubscriptionDescription
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
-      rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+    defaultMessageTtlInSeconds: getISO8601DurationInSeconds(
+      rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE]
     ),
-    autoDeleteOnIdle: getString(rawSubscription[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
+    autoDeleteOnIdleInSeconds: getISO8601DurationInSeconds(
+      rawSubscription[Constants.AUTO_DELETE_ON_IDLE]
+    ),
 
     deadLetteringOnMessageExpiration: getBoolean(
       rawSubscription[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
@@ -131,10 +136,8 @@ export interface SubscriptionDescription {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
    * duration. Settable only at subscription creation time.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  lockDuration?: string;
+  lockDurationInSeconds?: number;
 
   /**
    * If set to true, the subscription will be session-aware and only SessionReceiver
@@ -147,10 +150,8 @@ export interface SubscriptionDescription {
    * Determines how long a message lives in the subscription. Based on whether
    * dead-lettering is enabled, a message whose TTL has expired will either be moved
    * to the subscription’s associated DeadLtterQueue or permanently deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  defaultMessageTtl?: string;
+  defaultMessageTtlInSeconds?: number;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from
@@ -213,10 +214,8 @@ export interface SubscriptionDescription {
 
   /**
    * Max idle time before entity is deleted.
-   * This is to be specified in ISO-8601 duration format
-   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    */
-  autoDeleteOnIdle?: string;
+  autoDeleteOnIdleInSeconds?: number;
 }
 
 /**
