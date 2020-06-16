@@ -38,10 +38,10 @@ class SecurityCenter extends SecurityCenterContext {
   regulatoryComplianceStandards: operations.RegulatoryComplianceStandards;
   regulatoryComplianceControls: operations.RegulatoryComplianceControls;
   regulatoryComplianceAssessments: operations.RegulatoryComplianceAssessments;
-  serverVulnerabilityAssessment: operations.ServerVulnerabilityAssessmentOperations;
   subAssessments: operations.SubAssessments;
   automations: operations.Automations;
   alertsSuppressionRules: operations.AlertsSuppressionRules;
+  serverVulnerabilityAssessment: operations.ServerVulnerabilityAssessmentOperations;
   assessmentsMetadata: operations.AssessmentsMetadata;
   assessments: operations.Assessments;
   adaptiveApplicationControls: operations.AdaptiveApplicationControls;
@@ -86,10 +86,10 @@ class SecurityCenter extends SecurityCenterContext {
     this.regulatoryComplianceStandards = new operations.RegulatoryComplianceStandards(this);
     this.regulatoryComplianceControls = new operations.RegulatoryComplianceControls(this);
     this.regulatoryComplianceAssessments = new operations.RegulatoryComplianceAssessments(this);
-    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(this);
     this.subAssessments = new operations.SubAssessments(this);
     this.automations = new operations.Automations(this);
     this.alertsSuppressionRules = new operations.AlertsSuppressionRules(this);
+    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(this);
     this.assessmentsMetadata = new operations.AssessmentsMetadata(this);
     this.assessments = new operations.Assessments(this);
     this.adaptiveApplicationControls = new operations.AdaptiveApplicationControls(this);

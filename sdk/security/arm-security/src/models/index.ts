@@ -1400,7 +1400,7 @@ export interface IoTSecuritySolutionModel {
   /**
    * Workspace resource ID
    */
-  workspace: string;
+  workspace?: string;
   /**
    * Resource display name.
    */
@@ -2166,25 +2166,6 @@ export interface RegulatoryComplianceAssessment extends Resource {
 }
 
 /**
- * Describes the server vulnerability assessment details on a resource
- */
-export interface ServerVulnerabilityAssessment extends Resource {
-  /**
-   * The provisioningState of the vulnerability assessment capability on the VM. Possible values
-   * include: 'Succeeded', 'Failed', 'Canceled', 'Provisioning', 'Deprovisioning'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/**
- * List of server vulnerability assessments
- */
-export interface ServerVulnerabilityAssessmentsList {
-  value?: ServerVulnerabilityAssessment[];
-}
-
-/**
  * Status of the sub-assessment
  */
 export interface SubAssessmentStatus {
@@ -2729,6 +2710,25 @@ export interface AlertsSuppressionRule extends Resource {
    * The suppression conditions
    */
   suppressionAlertsScope?: SuppressionAlertsScope;
+}
+
+/**
+ * Describes the server vulnerability assessment details on a resource
+ */
+export interface ServerVulnerabilityAssessment extends Resource {
+  /**
+   * The provisioningState of the vulnerability assessment capability on the VM. Possible values
+   * include: 'Succeeded', 'Failed', 'Canceled', 'Provisioning', 'Deprovisioning'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * List of server vulnerability assessments
+ */
+export interface ServerVulnerabilityAssessmentsList {
+  value?: ServerVulnerabilityAssessment[];
 }
 
 /**
@@ -3807,17 +3807,17 @@ export interface AadConnectivityState1 {
  */
 export interface SecureScoreItem extends Resource {
   /**
-   * User friendly display name of the secure score item
+   * The initiative’s name
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly displayName?: string;
   /**
-   * Maximum score applicable
+   * Maximum score available
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly max?: number;
   /**
-   * Actual score
+   * Current score
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly current?: number;
@@ -3841,13 +3841,12 @@ export interface SecureScoreControlScore {
 }
 
 /**
- * representing the source of the control
+ * The type of the security control (For example, BuiltIn)
  */
 export interface SecureScoreControlDefinitionSource {
   /**
-   * BuiltIn if the control is built-in from Azure Security Center managed assessments, Custom
-   * (Future) if the assessment based on custom Azure Policy definition, CustomerManaged (future)
-   * for customers who build their own controls. Possible values include: 'BuiltIn', 'Custom'
+   * The type of security control (for example, BuiltIn). Possible values include: 'BuiltIn',
+   * 'Custom'
    */
   sourceType?: ControlType;
 }
@@ -3864,7 +3863,7 @@ export interface AzureResourceLink {
 }
 
 /**
- * Secure Score Control's Definition information
+ * Information about the security control.
  */
 export interface SecureScoreControlDefinitionItem extends Resource {
   /**
@@ -3888,14 +3887,14 @@ export interface SecureScoreControlDefinitionItem extends Resource {
    */
   readonly source?: SecureScoreControlDefinitionSource;
   /**
-   * array of assessments metadata IDs that are included in this control
+   * Array of assessments metadata IDs that are included in this security control
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly assessmentDefinitions?: AzureResourceLink[];
 }
 
 /**
- * Secure score control (calculated) object
+ * Details of the security control, its score, and the health status of the relevant resources.
  */
 export interface SecureScoreControlDetails extends Resource {
   /**
@@ -3904,12 +3903,12 @@ export interface SecureScoreControlDetails extends Resource {
    */
   readonly displayName?: string;
   /**
-   * Maximum score applicable
+   * Maximum score available
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly max?: number;
   /**
-   * Actual score
+   * Current score
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly current?: number;
@@ -4566,7 +4565,7 @@ export interface ExternalSecuritySolutionList extends Array<ExternalSecuritySolu
 
 /**
  * @interface
- * Page of a secure scores list
+ * List of secure scores
  * @extends Array<SecureScoreItem>
  */
 export interface SecureScoresList extends Array<SecureScoreItem> {
@@ -4579,7 +4578,7 @@ export interface SecureScoresList extends Array<SecureScoreItem> {
 
 /**
  * @interface
- * Page of a secure score controls list
+ * List of security controls
  * @extends Array<SecureScoreControlDetails>
  */
 export interface SecureScoreControlList extends Array<SecureScoreControlDetails> {
@@ -4592,7 +4591,7 @@ export interface SecureScoreControlList extends Array<SecureScoreControlDetails>
 
 /**
  * @interface
- * Page of a secure score controls definition list
+ * List of security controls definition
  * @extends Array<SecureScoreControlDefinitionItem>
  */
 export interface SecureScoreControlDefinitionList extends Array<SecureScoreControlDefinitionItem> {
@@ -6800,66 +6799,6 @@ export type RegulatoryComplianceAssessmentsListNextResponse = RegulatoryComplian
 };
 
 /**
- * Contains response data for the listByExtendedResource operation.
- */
-export type ServerVulnerabilityAssessmentListByExtendedResourceResponse = ServerVulnerabilityAssessmentsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessmentsList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServerVulnerabilityAssessmentGetResponse = ServerVulnerabilityAssessment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServerVulnerabilityAssessmentCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
-};
-
-/**
  * Contains response data for the listAll operation.
  */
 export type SubAssessmentsListAllResponse = SecuritySubAssessmentList & {
@@ -7176,6 +7115,66 @@ export type AlertsSuppressionRulesListNextResponse = AlertsSuppressionRulesList 
        * The response body as parsed JSON or XML
        */
       parsedBody: AlertsSuppressionRulesList;
+    };
+};
+
+/**
+ * Contains response data for the listByExtendedResource operation.
+ */
+export type ServerVulnerabilityAssessmentListByExtendedResourceResponse = ServerVulnerabilityAssessmentsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessmentsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServerVulnerabilityAssessmentGetResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ServerVulnerabilityAssessmentCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
     };
 };
 

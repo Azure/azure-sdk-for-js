@@ -27,7 +27,7 @@ export class SecureScores {
   }
 
   /**
-   * Get secure scores on all your initiatives inside a scope
+   * List secure scores for all your Security Center initiatives within your current scope.
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoresListResponse>
    */
@@ -51,19 +51,23 @@ export class SecureScores {
   }
 
   /**
-   * Get secure score for a specific initiatives inside a scope
-   * @param secureScoreName The secure score initiative name
+   * Get secure score for a specific Security Center initiative within your current scope. For the
+   * ASC Default initiative, use 'ascScore'.
+   * @param secureScoreName The initiative name. For the ASC Default initiative, use 'ascScore' as in
+   * the sample request below.
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoresGetResponse>
    */
   get(secureScoreName: string, options?: msRest.RequestOptionsBase): Promise<Models.SecureScoresGetResponse>;
   /**
-   * @param secureScoreName The secure score initiative name
+   * @param secureScoreName The initiative name. For the ASC Default initiative, use 'ascScore' as in
+   * the sample request below.
    * @param callback The callback
    */
   get(secureScoreName: string, callback: msRest.ServiceCallback<Models.SecureScoreItem>): void;
   /**
-   * @param secureScoreName The secure score initiative name
+   * @param secureScoreName The initiative name. For the ASC Default initiative, use 'ascScore' as in
+   * the sample request below.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -79,7 +83,7 @@ export class SecureScores {
   }
 
   /**
-   * Get secure scores on all your initiatives inside a scope
+   * List secure scores for all your Security Center initiatives within your current scope.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoresListNextResponse>
