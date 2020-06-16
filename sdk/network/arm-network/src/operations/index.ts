@@ -9,6 +9,8 @@
  */
 
 export * from "./applicationGateways";
+export * from "./applicationGatewayPrivateLinkResources";
+export * from "./applicationGatewayPrivateEndpointConnections";
 export * from "./applicationSecurityGroups";
 export * from "./availableDelegations";
 export * from "./availableResourceGroupDelegations";
@@ -31,7 +33,7 @@ export * from "./expressRoutePortsLocations";
 export * from "./expressRoutePorts";
 export * from "./expressRouteLinks";
 export * from "./firewallPolicies";
-export * from "./firewallPolicyRuleGroups";
+export * from "./firewallPolicyRuleCollectionGroups";
 export * from "./ipAllocations";
 export * from "./ipGroups";
 export * from "./loadBalancers";
@@ -52,6 +54,8 @@ export * from "./networkSecurityGroups";
 export * from "./securityRules";
 export * from "./defaultSecurityRules";
 export * from "./networkVirtualAppliances";
+export * from "./virtualApplianceSites";
+export * from "./virtualApplianceSkus";
 export * from "./networkWatchers";
 export * from "./packetCaptures";
 export * from "./connectionMonitors";
@@ -100,5 +104,8 @@ export * from "./vpnServerConfigurationsAssociatedWithVirtualWan";
 export * from "./virtualHubRouteTableV2s";
 export * from "./expressRouteGateways";
 export * from "./expressRouteConnections";
+export * from "./virtualHubBgpConnection";
+export * from "./virtualHubBgpConnections";
+export * from "./virtualHubIpConfiguration";
 export * from "./hubRouteTables";
 export * from "./webApplicationFirewallPolicies";
