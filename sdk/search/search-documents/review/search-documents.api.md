@@ -20,10 +20,10 @@ export interface AnalyzedTokenInfo {
 
 // @public
 export interface AnalyzeRequest {
-    analyzer?: string;
+    analyzerName?: string;
     charFilters?: string[];
     tokenFilters?: string[];
-    tokenizer?: string;
+    tokenizerName?: string;
 }
 
 // @public

@@ -581,7 +581,9 @@ export class SearchIndexClient {
         indexName,
         {
           ...restOptions,
-          text
+          text,
+          analyzer: restOptions.analyzerName,
+          tokenizer: restOptions.tokenizerName
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
