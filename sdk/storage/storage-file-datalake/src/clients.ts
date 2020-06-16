@@ -42,15 +42,13 @@ import {
   PathExistsOptions,
   PathGetAccessControlOptions,
   PathGetAccessControlResponse,
-  PathGetPropertiesAction,
   PathGetPropertiesOptions,
   PathGetPropertiesResponse,
   PathHttpHeaders,
   PathMoveOptions,
   PathMoveResponse,
   PathPermissions,
-  PathRenameMode,
-  PathResourceType,
+  PathResourceTypeModel,
   PathSetAccessControlOptions,
   PathSetAccessControlResponse,
   PathSetHttpHeadersOptions,
@@ -60,7 +58,10 @@ import {
   PathSetPermissionsOptions,
   PathSetPermissionsResponse,
   RemovePathAccessControlItem,
-  FileQueryOptions
+  FileQueryOptions,
+  FileExpiryMode,
+  FileSetExpiryOptions,
+  FileSetExpiryResponse
 } from "./models";
 import { PathSetAccessControlRecursiveMode } from "./models.internal";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
@@ -319,13 +320,13 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceType} resourceType Resource type, "directory" or "file".
+   * @param {PathResourceTypeModel} resourceType Resource type, "directory" or "file".
    * @param {PathCreateOptions} [options={}] Optional. Options when creating path.
    * @returns {Promise<PathCreateResponse>}
    * @memberof DataLakePathClient
    */
   public async create(
-    resourceType: PathResourceType,
+    resourceType: PathResourceTypeModel,
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
     options.conditions = options.conditions || {};
@@ -544,7 +545,7 @@ export class DataLakePathClient extends StorageClient {
     );
     try {
       const response = await this.pathContext.getProperties({
-        action: PathGetPropertiesAction.GetAccessControl,
+        action: "getAccessControl",
         upn: options.userPrincipalName,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -923,7 +924,7 @@ export class DataLakePathClient extends StorageClient {
 
     try {
       return await destPathClient.pathContext.create({
-        mode: PathRenameMode.Legacy, // By default
+        mode: "legacy", // By default
         renameSource,
         sourceLeaseId: options.conditions.leaseId,
         leaseAccessConditions: options.destinationConditions,
@@ -963,13 +964,13 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceType} resourceType Resource type, must be "directory" for DataLakeDirectoryClient.
+   * @param {PathResourceTypeModel} resourceType Resource type, must be "directory" for DataLakeDirectoryClient.
    * @param {PathCreateOptions} [options] Optional. Options when creating directory.
    * @returns {Promise<PathCreateResponse>}
    * @memberof DataLakeDirectoryClient
    */
   public async create(
-    resourceType: PathResourceType,
+    resourceType: PathResourceTypeModel,
     options?: PathCreateOptions
   ): Promise<PathCreateResponse>;
 
@@ -985,16 +986,16 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   public async create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
 
   public async create(
-    resourceTypeOrOptions?: PathResourceType | PathCreateOptions,
+    resourceTypeOrOptions?: PathResourceTypeModel | PathCreateOptions,
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
-    if (resourceTypeOrOptions === PathResourceType.Directory) {
-      return super.create(resourceTypeOrOptions as PathResourceType, options);
+    if (resourceTypeOrOptions === "directory") {
+      return super.create(resourceTypeOrOptions as PathResourceTypeModel, options);
     }
 
-    if (resourceTypeOrOptions === PathResourceType.File) {
+    if (resourceTypeOrOptions === "file") {
       throw TypeError(
-        `DataLakeDirectoryClient:create() resourceType cannot be ${PathResourceType.File}. Refer to DataLakeFileClient for file creation.`
+        `DataLakeDirectoryClient:create() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeFileClient for file creation.`
       );
     }
 
@@ -1005,7 +1006,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
       options.tracingOptions
     );
     try {
-      return await super.create(PathResourceType.Directory, {
+      return await super.create("directory", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
@@ -1135,6 +1136,15 @@ export class DataLakeFileClient extends DataLakePathClient {
   private pathContextInternal: PathOperations;
 
   /**
+   * pathContextInternal provided by protocol layer, with its url pointing to the Blob endpoint.
+   *
+   * @private
+   * @type {PathOperations}
+   * @memberof DataLakeFileClient
+   */
+  private pathContextInternalToBlobEndpoint: PathOperations;
+
+  /**
    * blockBlobClientInternal provided by @azure/storage-blob package.
    *
    * @private
@@ -1196,6 +1206,9 @@ export class DataLakeFileClient extends DataLakePathClient {
 
     this.pathContextInternal = new PathOperations(this.storageClientContext);
     this.blockBlobClientInternal = new BlockBlobClient(this.blobEndpointUrl, this.pipeline);
+    this.pathContextInternalToBlobEndpoint = new PathOperations(
+      this.storageClientContextToBlobEndpoint
+    );
   }
 
   /**
@@ -1203,13 +1216,13 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceType} resourceType Resource type, must be "file" for DataLakeFileClient.
+   * @param {PathResourceTypeModel} resourceType Resource type, must be "file" for DataLakeFileClient.
    * @param {PathCreateOptions} [options] Optional. Options when creating file.
    * @returns {Promise<PathCreateResponse>}
    * @memberof DataLakeFileClient
    */
   public async create(
-    resourceType: PathResourceType,
+    resourceType: PathResourceTypeModel,
     options?: PathCreateOptions
   ): Promise<PathCreateResponse>;
 
@@ -1225,16 +1238,16 @@ export class DataLakeFileClient extends DataLakePathClient {
   public async create(options?: FileCreateOptions): Promise<FileCreateResponse>;
 
   public async create(
-    resourceTypeOrOptions?: PathResourceType | PathCreateOptions,
+    resourceTypeOrOptions?: PathResourceTypeModel | PathCreateOptions,
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
-    if (resourceTypeOrOptions === PathResourceType.File) {
-      return super.create(resourceTypeOrOptions as PathResourceType, options);
+    if (resourceTypeOrOptions === "file") {
+      return super.create(resourceTypeOrOptions as PathResourceTypeModel, options);
     }
 
-    if (resourceTypeOrOptions === PathResourceType.Directory) {
+    if (resourceTypeOrOptions === "directory") {
       throw TypeError(
-        `DataLakeFileClient:create() resourceType cannot be ${PathResourceType.Directory}. Refer to DataLakeDirectoryClient for directory creation.`
+        `DataLakeFileClient:create() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeDirectoryClient for directory creation.`
       );
     }
 
@@ -1242,7 +1255,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("DataLakeFileClient-create", options.tracingOptions);
     try {
-      return await super.create(PathResourceType.File, {
+      return await super.create("file", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
@@ -2002,6 +2015,61 @@ export class DataLakeFileClient extends DataLakePathClient {
       delete rawResponse.blobContentMD5;
       delete rawResponse._response.parsedHeaders.blobContentMD5;
       return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sets an expiry time on a file, once that time is met the file is deleted.
+   *
+   * @param {FileExpiryMode} mode
+   * @param {FileSetExpiryOptions} [options={}]
+   * @returns {Promise<FileSetExpiryResponse>}
+   * @memberof DataLakeFileClient
+   */
+  public async setExpiry(
+    mode: FileExpiryMode,
+    options: FileSetExpiryOptions = {}
+  ): Promise<FileSetExpiryResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-setExpiry",
+      options.tracingOptions
+    );
+    try {
+      let expiresOn: string | undefined = undefined;
+      if (mode === "RelativeToNow" || mode === "RelativeToCreation") {
+        if (!options.timeToExpireInMs) {
+          throw new Error(`Should specify options.timeToExpireInMs when using mode ${mode}.`);
+        }
+        // MINOR: need check against <= 2**64, but JS number has the precision problem.
+        expiresOn = Math.round(options.timeToExpireInMs).toString();
+      }
+
+      if (mode === "Absolute") {
+        if (!options.expiresOn) {
+          throw new Error(`Should specify options.expiresOn when using mode ${mode}.`);
+        }
+        const now = new Date();
+        if (!(options.expiresOn!.getTime() > now.getTime())) {
+          throw new Error(
+            `options.expiresOn should be later than now: ${now.toUTCString()} when using mode ${mode}, but is ${options.expiresOn?.toUTCString()}`
+          );
+        }
+        expiresOn = options.expiresOn!.toUTCString();
+      }
+
+      const adaptedOptions = { ...options, expiresOn };
+      return await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
+        ...adaptedOptions,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
