@@ -2,10 +2,16 @@
 // Licensed under the MIT license.
 
 import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
+import { getTracer } from "@azure/core-tracing";
+import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext } from "./connectionContext";
+import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import { createMessageSpan } from "./diagnostics/messageSpan";
 import { EventData } from "./eventData";
-import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
+import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
+import { EventHubSender } from './eventHubSender';
 import { createConnectionContext } from "./impl/eventHubClient";
+import { logErrorStackTrace, logger } from './log';
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   CreateBatchOptions,
@@ -15,9 +21,8 @@ import {
   GetPartitionPropertiesOptions,
   SendBatchOptions
 } from "./models/public";
-import { EventHubProducer } from "./sender";
-import { throwErrorIfConnectionClosed } from "./util/error";
-import { OperationOptions } from "./util/operationOptions";
+import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
+import { getParentSpan, OperationOptions } from "./util/operationOptions";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.
@@ -42,10 +47,9 @@ export class EventHubProducerClient {
    */
   private _clientOptions: EventHubClientOptions;
   /**
-   * Map of partitionId to producers
+   * Map of partitionId to senders
    */
-  private _producersMap: Map<string, EventHubProducer>;
-
+  private _sendersMap: Map<string, EventHubSender>;
   /**
    * @property
    * @readonly
@@ -135,7 +139,7 @@ export class EventHubProducerClient {
       this._clientOptions = options4 || {};
     }
 
-    this._producersMap = new Map();
+    this._sendersMap = new Map();
   }
 
   /**
@@ -152,23 +156,43 @@ export class EventHubProducerClient {
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal in the options.
    */
-  async createBatch(options?: CreateBatchOptions): Promise<EventDataBatch> {
+  async createBatch(options: CreateBatchOptions = {}): Promise<EventDataBatch> {
     throwErrorIfConnectionClosed(this._context);
 
-    if (options && options.partitionId && options.partitionKey) {
+    if (options.partitionId && options.partitionKey) {
       throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
     }
 
-    let producer = this._producersMap.get("");
-
-    if (!producer) {
-      producer = new EventHubProducer(this._context, {
-        retryOptions: this._clientOptions.retryOptions
-      });
-      this._producersMap.set("", producer);
+    let sender = this._sendersMap.get("");
+    if (!sender) {
+      sender = EventHubSender.create(this._context);
+      this._sendersMap.set("", sender);
     }
 
-    return producer.createBatch(options);
+    let maxMessageSize = await sender.getMaxMessageSize({
+      retryOptions: this._clientOptions.retryOptions,
+      abortSignal: options.abortSignal
+    });
+
+    if (options.maxSizeInBytes) {
+      if (options.maxSizeInBytes > maxMessageSize) {
+        const error = new Error(
+          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+        );
+        logger.warning(
+          `[${this._context.connectionId}] Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link. ${error}`
+        );
+        logErrorStackTrace(error);
+        throw error;
+      }
+      maxMessageSize = options.maxSizeInBytes;
+    }
+    return new EventDataBatchImpl(
+      this._context,
+      maxMessageSize,
+      options.partitionKey,
+      options.partitionId
+    );
   }
 
   /**
@@ -206,9 +230,14 @@ export class EventHubProducerClient {
     options: SendBatchOptions | OperationOptions = {}
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "sendBatch", "batch", batch);
 
     let partitionId: string | undefined;
     let partitionKey: string | undefined;
+
+    // link message span contexts
+    let spanContextsToLink: SpanContext[] = [];
+  
     if (isEventDataBatch(batch)) {
       // For batches, partitionId and partitionKey would be set on the batch.
       partitionId = batch.partitionId;
@@ -224,11 +253,29 @@ export class EventHubProducerClient {
           `The partitionId (${unexpectedOptions.partitionId}) set on sendBatch does not match the partitionId (${partitionId}) set when creating the batch.`
         );
       }
+
+      spanContextsToLink = batch._messageSpanContexts;
     } else {
+      if (!Array.isArray(batch)) {
+        batch = [batch];
+      }
+
       // For arrays of events, partitionId and partitionKey would be set in the options.
       const expectedOptions = options as SendBatchOptions;
       partitionId = expectedOptions.partitionId;
       partitionKey = expectedOptions.partitionKey;
+
+      for (let i = 0; i < batch.length; i++) {
+        const event = batch[i];
+        if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
+          const messageSpan = createMessageSpan(getParentSpan(options.tracingOptions));
+          // since these message spans are created from same context as the send span,
+          // these message spans don't need to be linked.
+          // replace the original event with the instrumented one
+          batch[i] = instrumentEventData(batch[i], messageSpan);
+          messageSpan.end();
+        }
+      }
     }
     if (partitionId && partitionKey) {
       throw new Error(
@@ -236,20 +283,35 @@ export class EventHubProducerClient {
       );
     }
 
-    if (!partitionId) {
-      // The producer map requires that partitionId be a string.
-      partitionId = "";
+    let sender = this._sendersMap.get(partitionId || "");
+    if (!sender) {
+      sender = EventHubSender.create(this._context, partitionId);
+      this._sendersMap.set(partitionId || "", sender);
     }
 
-    let producer = this._producersMap.get(partitionId);
-    if (!producer) {
-      producer = new EventHubProducer(this._context, {
-        retryOptions: this._clientOptions.retryOptions,
-        partitionId: partitionId === "" ? undefined : partitionId
+    const sendSpan = this._createSendSpan(
+      getParentSpan(options.tracingOptions),
+      spanContextsToLink
+    );
+
+    try {
+      const result = await sender.send(batch, {
+        ...options,
+        partitionId,
+        partitionKey,
+        retryOptions: this._clientOptions.retryOptions
       });
-      this._producersMap.set(partitionId, producer);
+      sendSpan.setStatus({ code: CanonicalCode.OK });
+      return result;
+    } catch (error) {
+      sendSpan.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      sendSpan.end();
     }
-    return producer.send(batch, options);
   }
 
   /**
@@ -261,10 +323,10 @@ export class EventHubProducerClient {
   async close(): Promise<void> {
     await this._context.close();
 
-    for (const pair of this._producersMap) {
+    for (const pair of this._sendersMap) {
       await pair[1].close();
     }
-    this._producersMap.clear();
+    this._sendersMap.clear();
   }
 
   /**
@@ -316,5 +378,28 @@ export class EventHubProducerClient {
       ...options,
       retryOptions: this._clientOptions.retryOptions
     });
+  }
+
+  private _createSendSpan(
+    parentSpan?: Span | SpanContext | null,
+    spanContextsToLink: SpanContext[] = []
+  ): Span {
+    const links: Link[] = spanContextsToLink.map((context) => {
+      return {
+        context
+      };
+    });
+    const tracer = getTracer();
+    const span = tracer.startSpan("Azure.EventHubs.send", {
+      kind: SpanKind.CLIENT,
+      parent: parentSpan,
+      links
+    });
+
+    span.setAttribute("az.namespace", "Microsoft.EventHub");
+    span.setAttribute("message_bus.destination", this._context.config.entityPath);
+    span.setAttribute("peer.address", this._context.config.host);
+
+    return span;
   }
 }

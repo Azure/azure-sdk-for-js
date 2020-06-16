@@ -297,38 +297,6 @@ export class EventHubSender extends LinkEntity {
     options?: SendOptions & EventHubProducerOptions
   ): Promise<void> {
     try {
-      // throw an error if partition key and partition id are both defined
-      if (
-        options &&
-        typeof options.partitionKey === "string" &&
-        typeof options.partitionId === "string"
-      ) {
-        const error = new Error(
-          "Partition key is not supported when using producers that were created using a partition id."
-        );
-        logger.warning(
-          "[%s] Partition key is not supported when using producers that were created using a partition id. %O",
-          this._context.connectionId,
-          error
-        );
-        logErrorStackTrace(error);
-        throw error;
-      }
-
-      // throw an error if partition key is different than the one provided in the options.
-      if (isEventDataBatch(events) && options && options.partitionKey) {
-        const error = new Error(
-          "Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead."
-        );
-        logger.warning(
-          "[%s] Partition key is not supported when sending a batch message. Pass the partition key when creating the batch message instead. %O",
-          this._context.connectionId,
-          error
-        );
-        logErrorStackTrace(error);
-        throw error;
-      }
-
       logger.info(
         "[%s] Sender '%s', trying to send EventData[].",
         this._context.connectionId,
@@ -337,8 +305,16 @@ export class EventHubSender extends LinkEntity {
 
       let encodedBatchMessage: Buffer | undefined;
       if (isEventDataBatch(events)) {
+        if (events.count === 0) {
+          logger.info(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
+          return;
+        }
         encodedBatchMessage = events._generateMessage();
       } else {
+        if (events.length === 0) {
+          logger.info(`[${this._context.connectionId}] Empty array was passed. No events to send.`);
+          return;
+        }
         const partitionKey = (options && options.partitionKey) || undefined;
         const messages: AmqpMessage[] = [];
         // Convert EventData to AmqpMessage.
