@@ -89,7 +89,9 @@ import {
   ContainerListBlobFlatSegmentHeaders,
   BlobProperties,
   ContainerListBlobHierarchySegmentHeaders,
-  ListBlobsHierarchySegmentResponseModel
+  ListBlobsHierarchySegmentResponseModel,
+  BlobSetExpiryResponse,
+  BlobExpiryMode
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -940,6 +942,32 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
 }
 
 /**
+ * Option interface for the {@link BlobClient.setExpiry} operation.
+ *
+ * @export
+ * @interface BlobSetExpiryOptions
+ */
+export interface BlobSetExpiryOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlobSetExpiryOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * The time to set the blob to expiry. Number of milliseconds elapsed from the relative time
+   * or absolute time in RFC 1123 Format.
+   *
+   * @type {string}
+   * @memberof BlobSetExpiryOptions
+   */
+  expiresOn?: string;
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  *
@@ -1521,6 +1549,36 @@ export class BlobClient extends StorageClient {
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sets an expiry time on a blob, once that time is met the blob is deleted.
+   * Only supported in accounts that have a hierarchical namespace (Azure Data Lake Storage Gen2).
+   *
+   * @param {BlobExpiryMode} mode
+   * @param {BlobSetExpiryOptions} [options={}]
+   * @returns {Promise<BlobSetExpiryResponse>}
+   * @memberof BlobClient
+   */
+  public async setExpiry(
+    mode: BlobExpiryMode,
+    options: BlobSetExpiryOptions = {}
+  ): Promise<BlobSetExpiryResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-setExpiry", options.tracingOptions);
+    try {
+      return await this.blobContext.setExpiry(mode, {
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -6072,7 +6130,7 @@ export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
   /**
    * An opaque DateTime value that, when present, specifies the version
    * of the blob to delete. It's for service version 2019-10-10 and newer.
-   * 
+   *
    * @type {string}
    * @memberof ContainerDeleteBlobOptions
    */

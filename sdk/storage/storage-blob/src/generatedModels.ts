@@ -142,5 +142,8 @@ export {
   UserDelegationKey as UserDelegationKeyModel,
   ContainerEncryptionScope,
   ServiceFilterBlobsResponse as ServiceFindBlobsByTagsSegmentResponse,
-  FilterBlobItem
+  FilterBlobItem,
+  BlobSetExpiryResponse,
+  BlobExpiryOptions as BlobExpiryMode,
+  BlobSetExpiryHeaders
 } from "./generated/src/models";

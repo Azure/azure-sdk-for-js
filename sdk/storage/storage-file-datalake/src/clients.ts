@@ -47,7 +47,10 @@ import {
   PathSetMetadataOptions,
   PathSetMetadataResponse,
   PathSetPermissionsOptions,
-  PathSetPermissionsResponse
+  PathSetPermissionsResponse,
+  FileExpiryMode,
+  FileSetExpiryOptions,
+  FileSetExpiryResponse
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -1228,7 +1231,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (numBlocks > BLOCK_BLOB_MAX_BLOCKS) {
         throw new RangeError(
           `The data's size is too big or the chunkSize is too small;` +
-          `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
+            `the number of chunks must be <= ${BLOCK_BLOB_MAX_BLOCKS}`
         );
       }
 
@@ -1498,6 +1501,38 @@ export class DataLakeFileClient extends DataLakePathClient {
       return await this.blobClientInternal.downloadToFile(filePath, offset, count, {
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sets an expiry time on a file, once that time is met the file is deleted.
+   *
+   * @param {FileExpiryMode} mode
+   * @param {FileSetExpiryOptions} [options={}]
+   * @returns {Promise<FileSetExpiryResponse>}
+   * @memberof DataLakeFileClient
+   */
+  public async setExpiry(
+    mode: FileExpiryMode,
+    options: FileSetExpiryOptions = {}
+  ): Promise<FileSetExpiryResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-setExpiry",
+      options.tracingOptions
+    );
+    try {
+      return await this.blobClientInternal.setExpiry(mode, {
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
       });
     } catch (e) {
       span.setStatus({

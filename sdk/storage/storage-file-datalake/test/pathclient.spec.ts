@@ -1,5 +1,5 @@
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder } from "@azure/core-http";
+import { isNode, URLBuilder, delay } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
 import { record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
@@ -331,5 +331,53 @@ describe("DataLakePathClient", () => {
     );
     const dirResult = await newDirectoryClient.exists();
     assert.ok(dirResult === false, "exists() should return false for a non-existing directory");
+  });
+
+  it("set expiry - NeverExpire", async () => {
+    await fileClient.setExpiry("NeverExpire");
+    const getRes = await fileClient.getProperties();
+    assert.equal(getRes.expiresOn, undefined);
+  });
+
+  it("set expiry - Absolute", async () => {
+    const now = recorder.newDate("now");
+    const delta = 5 * 1000;
+    const later = new Date(now.getTime() + delta);
+    const expiresOn = later.toUTCString();
+    await fileClient.setExpiry("Absolute", { expiresOn });
+
+    const getRes = await fileClient.getProperties();
+    assert.equal(getRes.expiresOn?.getTime(), new Date(expiresOn).getTime()); // milliseconds dropped
+
+    await delay(delta);
+    assert.ok(!(await fileClient.exists()));
+  });
+
+  it("set expiry - RelativeToNow", async () => {
+    const delta = 1000;
+    await fileClient.setExpiry("RelativeToNow", { expiresOn: delta.toString() });
+
+    await delay(delta);
+    assert.ok(!(await fileClient.exists()));
+  });
+
+  it("set expiry - RelativeToCreation", async () => {
+    const delta = 1000 * 3600;
+    await fileClient.setExpiry("RelativeToCreation", { expiresOn: delta.toString() });
+
+    const getRes = await fileClient.getProperties();
+    assert.equal(getRes.expiresOn?.getTime(), getRes.createdOn!.getTime() + delta);
+  });
+
+  it("set expiry - override", async () => {
+    const delta = 1000 * 3600;
+    await fileClient.setExpiry("RelativeToCreation", { expiresOn: delta.toString() });
+
+    const getRes = await fileClient.getProperties();
+    assert.equal(getRes.expiresOn?.getTime(), getRes.createdOn!.getTime() + delta);
+
+    await fileClient.setExpiry("NeverExpire");
+    const getRes2 = await fileClient.getProperties();
+    assert.equal(getRes2.expiresOn, undefined);
   });
 });

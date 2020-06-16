@@ -9,6 +9,9 @@ import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
+import { BlobExpiryMode as FileExpiryMode } from '@azure/storage-blob';
+import { BlobSetExpiryOptions as FileSetExpiryOptions } from '@azure/storage-blob';
+import { BlobSetExpiryResponse as FileSetExpiryResponse } from '@azure/storage-blob';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
@@ -149,6 +152,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToFile(filePath: string, offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
+    setExpiry(mode: FileExpiryMode, options?: FileSetExpiryOptions): Promise<FileSetExpiryResponse>;
     upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
     uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
@@ -295,6 +299,8 @@ export interface FileCreateOptions extends PathCreateOptions {
 export interface FileCreateResponse extends PathCreateResponse {
 }
 
+export { FileExpiryMode }
+
 // @public (undocumented)
 export interface FileFlushOptions extends CommonOptions {
     // (undocumented)
@@ -420,6 +426,10 @@ export interface FileReadToBufferOptions extends CommonOptions {
     maxRetryRequestsPerChunk?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
+
+export { FileSetExpiryOptions }
+
+export { FileSetExpiryResponse }
 
 // @public (undocumented)
 export interface FileSystemCreateHeaders {
@@ -1029,6 +1039,7 @@ export interface PathGetPropertiesHeaders {
     encryptionKeySha256?: string;
     // (undocumented)
     etag?: string;
+    expiresOn?: Date;
     // (undocumented)
     isIncrementalCopy?: boolean;
     // (undocumented)

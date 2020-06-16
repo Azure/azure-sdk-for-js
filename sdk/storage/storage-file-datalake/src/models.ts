@@ -22,7 +22,10 @@ export {
   ServiceListContainersSegmentResponse,
   Lease,
   LeaseOperationOptions,
-  LeaseOperationResponse
+  LeaseOperationResponse,
+  BlobExpiryMode as FileExpiryMode,
+  BlobSetExpiryResponse as FileSetExpiryResponse,
+  BlobSetExpiryOptions as FileSetExpiryOptions
 } from "@azure/storage-blob";
 
 export {
@@ -262,12 +265,12 @@ export interface SignedIdentifier<T> {
 export type FileSystemGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier<AccessPolicy>[];
 } & FileSystemGetAccessPolicyHeaders & {
-  _response: HttpResponse & {
-    parsedHeaders: FileSystemGetAccessPolicyHeaders;
-    bodyAsText: string;
-    parsedBody: SignedIdentifier<RawAccessPolicy>[];
+    _response: HttpResponse & {
+      parsedHeaders: FileSystemGetAccessPolicyHeaders;
+      bodyAsText: string;
+      parsedBody: SignedIdentifier<RawAccessPolicy>[];
+    };
   };
-};
 
 export interface FileSystemSetAccessPolicyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -354,7 +357,7 @@ export interface Metadata {
 
 export interface DataLakeRequestConditions
   extends ModifiedAccessConditions,
-  LeaseAccessConditions { }
+    LeaseAccessConditions {}
 
 export interface RolePermissions {
   read: boolean;
@@ -488,6 +491,11 @@ export interface PathGetPropertiesHeaders {
   accessTierInferred?: boolean;
   archiveStatus?: string;
   accessTierChangedOn?: Date;
+
+  /**
+   * The time the file will expire.
+   */
+  expiresOn?: Date;
 }
 
 export type PathGetPropertiesResponse = PathGetPropertiesHeaders & {
@@ -593,9 +601,9 @@ export interface PathExistsOptions extends CommonOptions {
 /** DataLakeDirectoryClient option and response related models **/
 /****************************************************************/
 
-export interface DirectoryCreateOptions extends PathCreateOptions { }
+export interface DirectoryCreateOptions extends PathCreateOptions {}
 
-export interface DirectoryCreateResponse extends PathCreateResponse { }
+export interface DirectoryCreateResponse extends PathCreateResponse {}
 
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
@@ -667,9 +675,9 @@ export interface FileFlushOptions extends CommonOptions {
   pathHttpHeaders?: PathHttpHeaders;
 }
 
-export interface FileCreateOptions extends PathCreateOptions { }
+export interface FileCreateOptions extends PathCreateOptions {}
 
-export interface FileCreateResponse extends PathCreateResponse { }
+export interface FileCreateResponse extends PathCreateResponse {}
 
 /**
  * Option interface for Data Lake file - Upload operations

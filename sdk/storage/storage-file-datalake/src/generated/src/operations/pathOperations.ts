@@ -72,11 +72,15 @@ export class PathOperations {
    * the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are
    * mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
    * 'setAccessControl', 'setAccessControlRecursive'
+   * @param mode Mode "set" sets POSIX access control rights on files and directories, "modify"
+   * modifies one or more POSIX access control rights  that pre-exist on files and directories,
+   * "remove" removes one or more POSIX access control rights  that were present earlier on files and
+   * directories. Possible values include: 'set', 'modify', 'remove'
    * @param body Initial data
    * @param [options] The optional parameters
    * @returns Promise<Models.PathUpdateResponse>
    */
-  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, options?: Models.PathUpdateOptionalParams): Promise<Models.PathUpdateResponse>;
+  update(action: Models.PathUpdateAction, mode: Models.PathSetAccessControlRecursiveMode, body: coreHttp.HttpRequestBody, options?: Models.PathUpdateOptionalParams): Promise<Models.PathUpdateResponse>;
   /**
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
@@ -87,10 +91,14 @@ export class PathOperations {
    * the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are
    * mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
    * 'setAccessControl', 'setAccessControlRecursive'
+   * @param mode Mode "set" sets POSIX access control rights on files and directories, "modify"
+   * modifies one or more POSIX access control rights  that pre-exist on files and directories,
+   * "remove" removes one or more POSIX access control rights  that were present earlier on files and
+   * directories. Possible values include: 'set', 'modify', 'remove'
    * @param body Initial data
    * @param callback The callback
    */
-  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
+  update(action: Models.PathUpdateAction, mode: Models.PathSetAccessControlRecursiveMode, body: coreHttp.HttpRequestBody, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
   /**
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
@@ -101,15 +109,20 @@ export class PathOperations {
    * the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are
    * mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
    * 'setAccessControl', 'setAccessControlRecursive'
+   * @param mode Mode "set" sets POSIX access control rights on files and directories, "modify"
+   * modifies one or more POSIX access control rights  that pre-exist on files and directories,
+   * "remove" removes one or more POSIX access control rights  that were present earlier on files and
+   * directories. Possible values include: 'set', 'modify', 'remove'
    * @param body Initial data
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, options: Models.PathUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
-  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, options?: Models.PathUpdateOptionalParams | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>, callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): Promise<Models.PathUpdateResponse> {
+  update(action: Models.PathUpdateAction, mode: Models.PathSetAccessControlRecursiveMode, body: coreHttp.HttpRequestBody, options: Models.PathUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
+  update(action: Models.PathUpdateAction, mode: Models.PathSetAccessControlRecursiveMode, body: coreHttp.HttpRequestBody, options?: Models.PathUpdateOptionalParams | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>, callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): Promise<Models.PathUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         action,
+        mode,
         body,
         options
       },
@@ -286,22 +299,35 @@ export class PathOperations {
 
   /**
    * Set the access control list for a path and subpaths.
+   * @param mode Mode "set" sets POSIX access control rights on files and directories, "modify"
+   * modifies one or more POSIX access control rights  that pre-exist on files and directories,
+   * "remove" removes one or more POSIX access control rights  that were present earlier on files and
+   * directories. Possible values include: 'set', 'modify', 'remove'
    * @param [options] The optional parameters
    * @returns Promise<Models.PathSetAccessControlRecursiveResponse>
    */
-  setAccessControlRecursive(options?: Models.PathSetAccessControlRecursiveOptionalParams): Promise<Models.PathSetAccessControlRecursiveResponse>;
+  setAccessControlRecursive(mode: Models.PathSetAccessControlRecursiveMode, options?: Models.PathSetAccessControlRecursiveOptionalParams): Promise<Models.PathSetAccessControlRecursiveResponse>;
   /**
+   * @param mode Mode "set" sets POSIX access control rights on files and directories, "modify"
+   * modifies one or more POSIX access control rights  that pre-exist on files and directories,
+   * "remove" removes one or more POSIX access control rights  that were present earlier on files and
+   * directories. Possible values include: 'set', 'modify', 'remove'
    * @param callback The callback
    */
-  setAccessControlRecursive(callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
+  setAccessControlRecursive(mode: Models.PathSetAccessControlRecursiveMode, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
   /**
+   * @param mode Mode "set" sets POSIX access control rights on files and directories, "modify"
+   * modifies one or more POSIX access control rights  that pre-exist on files and directories,
+   * "remove" removes one or more POSIX access control rights  that were present earlier on files and
+   * directories. Possible values include: 'set', 'modify', 'remove'
    * @param options The optional parameters
    * @param callback The callback
    */
-  setAccessControlRecursive(options: Models.PathSetAccessControlRecursiveOptionalParams, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
-  setAccessControlRecursive(options?: Models.PathSetAccessControlRecursiveOptionalParams | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>, callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): Promise<Models.PathSetAccessControlRecursiveResponse> {
+  setAccessControlRecursive(mode: Models.PathSetAccessControlRecursiveMode, options: Models.PathSetAccessControlRecursiveOptionalParams, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
+  setAccessControlRecursive(mode: Models.PathSetAccessControlRecursiveMode, options?: Models.PathSetAccessControlRecursiveOptionalParams | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>, callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): Promise<Models.PathSetAccessControlRecursiveResponse> {
     return this.client.sendOperationRequest(
       {
+        mode,
         options
       },
       setAccessControlRecursiveOperationSpec,
