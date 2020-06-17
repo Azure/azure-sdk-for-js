@@ -112,7 +112,6 @@ export function convertAnalyzersToGenerated(
   const result: LexicalAnalyzerUnion[] = [];
   for (const analyzer of analyzers) {
     switch (analyzer.odatatype) {
-      case "#Microsoft.Azure.Search.CustomAnalyzer":
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
         result.push(analyzer);
@@ -122,6 +121,13 @@ export function convertAnalyzersToGenerated(
           ...analyzer,
           flags: analyzer.flags ? analyzer.flags.join("|") : undefined
         });
+        break;
+      case "#Microsoft.Azure.Search.CustomAnalyzer":
+        result.push({
+          ...analyzer,
+          tokenizer: analyzer.tokenizerName
+        });
+        break;
     }
   }
   return result;
@@ -137,7 +143,6 @@ export function convertAnalyzersToPublic(
   const result: LexicalAnalyzer[] = [];
   for (const analyzer of analyzers) {
     switch (analyzer.odatatype) {
-      case "#Microsoft.Azure.Search.CustomAnalyzer":
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
         result.push(analyzer);
@@ -147,6 +152,13 @@ export function convertAnalyzersToPublic(
           ...analyzer,
           flags: analyzer.flags ? (analyzer.flags.split("|") as RegexFlags[]) : undefined
         });
+        break;
+      case "#Microsoft.Azure.Search.CustomAnalyzer":
+        result.push({
+          ...analyzer,
+          tokenizerName: analyzer.tokenizer
+        });
+        break;
     }
   }
   return result;

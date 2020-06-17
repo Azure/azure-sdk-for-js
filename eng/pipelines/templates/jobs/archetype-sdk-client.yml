@@ -55,7 +55,7 @@ jobs:
         condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
         displayName: "Install dependencies"
 
-      - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
+      - template: /eng/common/pipelines/templates/steps/replace-relative-links.yml
         parameters:
           TargetFolder: $(Build.SourcesDirectory)/sdk/$(folder)
           RootFolder: $(Build.SourcesDirectory)
@@ -136,7 +136,7 @@ jobs:
           ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
         displayName: "Verify Readmes"
 
-      - template: eng/pipelines/templates/scripts/verify-path-length.yml@azure-sdk-tools
+      - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
         parameters:
           SourceDirectory: $(Build.SourcesDirectory)
 
