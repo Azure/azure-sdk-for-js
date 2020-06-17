@@ -15,9 +15,8 @@ steps:
   ServiceDirectory: 'not-specified'
 
 steps:
-- pwsh: |     
-    $directory = Join-Path "$(Build.SourcesDirectory)" "sdk"
-    $directory = Join-Path $directory "${{parameters.ServiceDirectory}}"
+- pwsh: |
+    $directory = Join-Path $directory "sdk/${{ parameters.ServiceDirectory }}"
     Write-Host "directory = $directory"
     foreach ($md in $(dir $directory -r -i *.md)){
       $(Build.SourcesDirectory)/eng/common/scripts/Verify-Links.ps1 $md
