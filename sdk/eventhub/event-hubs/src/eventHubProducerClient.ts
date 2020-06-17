@@ -159,7 +159,7 @@ export class EventHubProducerClient {
   async createBatch(options: CreateBatchOptions = {}): Promise<EventDataBatch> {
     throwErrorIfConnectionClosed(this._context);
 
-    if (options.partitionId && options.partitionKey) {
+    if (options.partitionId != undefined && options.partitionKey != undefined) {
       throw new Error("partitionId and partitionKey cannot both be set when creating a batch");
     }
 
@@ -277,10 +277,17 @@ export class EventHubProducerClient {
         }
       }
     }
-    if (partitionId && partitionKey) {
+    if (partitionId != undefined && partitionKey != undefined) {
       throw new Error(
         `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
       );
+    }
+
+    if (partitionId != undefined) {
+      partitionId = String(partitionId)
+    }
+    if (partitionKey != undefined) {
+      partitionKey = String(partitionKey)
     }
 
     let sender = this._sendersMap.get(partitionId || "");
