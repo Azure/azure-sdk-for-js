@@ -5,12 +5,12 @@ import * as assert from "assert";
 import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
-import { KeyClient } from "../../src";
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
   parseWWWAuthenticate
-} from "../../src/core/challengeBasedAuthenticationPolicy";
+} from "../../../keyvault-common/src";
+import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 

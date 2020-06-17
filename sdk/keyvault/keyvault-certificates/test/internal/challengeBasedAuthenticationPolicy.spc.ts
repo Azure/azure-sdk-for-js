@@ -5,12 +5,12 @@ import * as assert from "assert";
 import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
-import { CertificateClient } from "../../src";
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
   parseWWWAuthenticate
-} from "../../src/core/challengeBasedAuthenticationPolicy";
+} from "../../../keyvault-common/src";
+import { CertificateClient } from "../../src";
 import { testPollerProperties } from '../utils/recorderUtils';
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
@@ -57,10 +57,16 @@ describe("Challenge based authentication tests", () => {
     // Now we run what would be a normal use of the client.
     // Here we will create two keys, then flush them.
     // testClient.flushCertificate deletes, then purges the keys.
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     const certificateNames = [`${certificateName}-0`, `${certificateName}-1`];
     for (const name of certificateNames) {
-      const poller = await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
+      const poller = await client.beginCreateCertificate(
+        name,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
       await poller.pollUntilDone();
     }
     for (const name of certificateNames) {
@@ -77,7 +83,9 @@ describe("Challenge based authentication tests", () => {
   });
 
   it("Authentication should work for parallel requests", async function() {
-    const certificateName = testClient.formatName(`${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`);
+    const certificateName = testClient.formatName(
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+    );
     const certificateNames = [`${certificateName}-0`, `${certificateName}-1`];
 
     const sandbox = createSandbox();
@@ -85,7 +93,11 @@ describe("Challenge based authentication tests", () => {
     const spyEqualTo = sandbox.spy(AuthenticationChallenge.prototype, "equalTo");
 
     const promises = certificateNames.map((name) => {
-      const promise = client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
+      const promise = client.beginCreateCertificate(
+        name,
+        basicCertificatePolicy,
+        testPollerProperties
+      );
       return { promise, name };
     });
 
