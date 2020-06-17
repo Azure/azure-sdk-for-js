@@ -22,6 +22,7 @@ export interface AnalyzedTokenInfo {
 export interface AnalyzeRequest {
     analyzerName?: string;
     charFilters?: string[];
+    text: string;
     tokenFilters?: string[];
     tokenizerName?: string;
 }
@@ -1047,7 +1048,7 @@ export interface SearchIndex {
 // @public
 export class SearchIndexClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexClientOptions);
-    analyzeText(indexName: string, text: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
+    analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
     createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;

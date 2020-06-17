@@ -568,11 +568,7 @@ export class SearchIndexClient {
    * @param text The text to break into tokens.
    * @param options Additional arguments
    */
-  public async analyzeText(
-    indexName: string,
-    text: string,
-    options: AnalyzeTextOptions
-  ): Promise<AnalyzeResult> {
+  public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
     const { operationOptions, restOptions } = utils.extractOperationOptions(options);
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
@@ -581,7 +577,6 @@ export class SearchIndexClient {
         indexName,
         {
           ...restOptions,
-          text,
           analyzer: restOptions.analyzerName,
           tokenizer: restOptions.tokenizerName
         },

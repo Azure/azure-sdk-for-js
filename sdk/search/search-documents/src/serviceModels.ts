@@ -316,6 +316,10 @@ export interface DeleteDataSourceConnectionOptions extends OperationOptions {
  */
 export interface AnalyzeRequest {
   /**
+   * The text to break into tokens.
+   */
+  text: string;
+  /**
    * The name of the analyzer to use to break the given text. If this parameter is not specified,
    * you must specify a tokenizer instead. The tokenizer and analyzer parameters are mutually
    * exclusive. KnownAnalyzerNames is an enum containing known values.
