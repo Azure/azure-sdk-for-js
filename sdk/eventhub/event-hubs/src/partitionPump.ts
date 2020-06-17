@@ -28,6 +28,11 @@ export class PartitionPump {
   private _isReceiving: boolean = false;
   private _isStopped: boolean = false;
   private _abortController: AbortController;
+  /**
+   * The function that gets called when the abort signal
+   * passed to the constructor emits an `abort` event.
+   */
+  private _onParentSignalCancelled: () => void;
 
   constructor(
     eventHubClient: EventHubClient,
@@ -39,7 +44,16 @@ export class PartitionPump {
     this._eventHubClient = eventHubClient;
     this._partitionProcessor = partitionProcessor;
     this._processorOptions = options;
-    this._abortController = new AbortController(parentAbortSignal);
+    this._abortController = new AbortController();
+    this._onParentSignalCancelled = () => {
+      // Clean up the event listener.
+      parentAbortSignal.removeEventListener("abort", this._onParentSignalCancelled);
+      this.stop(CloseReason.Shutdown);
+    };
+    parentAbortSignal.addEventListener("abort", this._onParentSignalCancelled);
+    if (parentAbortSignal.aborted) {
+      this._abortController.abort();
+    }
   }
 
   public get isReceiving(): boolean {

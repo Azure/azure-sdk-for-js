@@ -150,6 +150,7 @@ describe("PartitionPump", () => {
       { maxBatchSize: 1, maxWaitTimeInSeconds: 1 }
     );
 
+    pump["_isStopped"].should.equal(false, "The pump should not be stopped yet.");
     const waitForCancellation = new Promise<any>((resolve) => {
       // The PartitionPump has its own AbortController to cancel requests if it is stopped.
       // The internal AbortController should listen to the abort signal passed to the pump.
@@ -161,5 +162,6 @@ describe("PartitionPump", () => {
 
     const event = await waitForCancellation;
     event.type.should.equal("abort");
+    pump["_isStopped"].should.equal(true, "The pump should have been stopped.");
   });
 });
