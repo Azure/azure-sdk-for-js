@@ -79,7 +79,8 @@ describe("EventHub Receiver", function(): void {
       let subscription: Subscription | undefined;
       await new Promise((resolve, reject) => {
         subscription = consumerClient.subscribe(
-          0 as any,
+          // @ts-expect-error
+          0,
           {
             processEvents: async () => {
               resolve();
