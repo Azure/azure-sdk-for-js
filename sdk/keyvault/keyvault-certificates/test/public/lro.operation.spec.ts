@@ -2,16 +2,17 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { env, Recorder } from "@azure/test-utils-recorder";
+
 import {
   CertificateClient,
   CertificateOperation,
   DefaultCertificatePolicy,
   KeyVaultCertificateWithPolicy
-} from "../src";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { env, Recorder } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+} from "../../src";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 
 describe("Certificates client - LRO - certificate operation", () => {
   const certificatePrefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;

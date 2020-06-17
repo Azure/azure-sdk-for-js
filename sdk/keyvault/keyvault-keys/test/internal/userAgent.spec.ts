@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { version } from "../package.json";
-import { SDK_VERSION } from "../src/core/utils/constants";
-import { packageVersion } from "../src/core/keyVaultClientContext";
+import { version } from "../../package.json";
+import { SDK_VERSION } from "../../src/core/utils/constants";
+import { packageVersion } from "../../src/core/keyVaultClientContext";
 
 describe("Keys client's user agent", () => {
   // The tests follow

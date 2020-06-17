@@ -5,16 +5,17 @@ import os from "os";
 import fs from "fs";
 import childProcess from "child_process";
 import * as assert from "assert";
-import { CertificateClient } from "../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
 import { AbortController } from "@azure/abort-controller";
-import { assertThrowsAbortError } from "./utils/utils.common";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
+
+import { CertificateClient } from "../../src";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 
 describe("Certificates client - create, read, update and delete", () => {
   const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;

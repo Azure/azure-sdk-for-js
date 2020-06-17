@@ -2,16 +2,17 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { KeyClient } from "../src";
+import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+
+import { KeyClient } from "../../src";
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
   parseWWWAuthenticate
-} from "../src/core/challengeBasedAuthenticationPolicy";
-import { createSandbox } from "sinon";
+} from "../../src/core/challengeBasedAuthenticationPolicy";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).

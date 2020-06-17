@@ -57,7 +57,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/test/*.test.js"];
+    baseConfig.input = ["dist-esm/test/**/*.spec.js"];
     baseConfig.plugins.unshift(
       multiEntry({ exports: false }),
       json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
@@ -128,7 +128,7 @@ export function browserConfig(test = false) {
 
   baseConfig.external = ["fs-extra", "path", "crypto", "constants"];
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.test.js"];
+    baseConfig.input = ["dist-esm/test/**/*.spec.js"];
     baseConfig.plugins.unshift(
       multiEntry({ exports: false }),
       json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
