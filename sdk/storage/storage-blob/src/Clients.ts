@@ -958,15 +958,18 @@ export interface BlobSetExpiryOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 
   /**
-   * The time to set the blob to expiry. Number of milliseconds elapsed from the relative time in decimal string
-   * or absolute time in RFC 1123 Format.
+   * The time to set the blob to expiry, used in combination with {@link BlobExpiryMode}.
+   * When using 'RelativeToCreation' or 'RelativeToNow' mode, should be the number of milliseconds elapsed from the relative time, in decimal string.
+   * when using 'Absolute', should be a valid time.
+   * When using 'NeverExpire', it shouldn't be provided.
+   *
    * When specifying the number, it should be no greater than the maximum value of UINT64.
    * When specifying time, an expiry time in the past is not allowed.
    *
-   * @type {string}
+   * @type {string | Date}
    * @memberof BlobSetExpiryOptions
    */
-  expiresOn?: string;
+  expiresOn?: string | Date;
 }
 
 /**
@@ -1584,10 +1587,9 @@ export class BlobClient extends StorageClient {
       if (!options.expiresOn && mode !== "NeverExpire") {
         throw new Error(`Must specify options.expiresOn when using modes other than ${mode}`);
       }
-
       if (mode === "RelativeToNow" || mode === "RelativeToCreation") {
         const regexp = /^\d+$/;
-        if (!regexp.test(options.expiresOn!)) {
+        if (typeof options.expiresOn !== "string" || !regexp.test(options.expiresOn!)) {
           throw new Error(
             `options.expiresOn should be the number of milliseconds elapsed from the relative time in decimal string when using mode ${mode}, but is ${options.expiresOn}`
           );
@@ -1595,24 +1597,23 @@ export class BlobClient extends StorageClient {
         // MINOR: need check against <= 2**64, but JS number has the precision problem.
       }
       if (mode === "Absolute") {
-        const expiresOn = new Date(options.expiresOn!);
-        if (isNaN(expiresOn.getTime())) {
+        if (typeof options.expiresOn === "string") {
           throw new Error(
-            `options.expiresOn should be a time string when using mode ${mode}, but is ${options.expiresOn}`
+            `options.expiresOn should be a valid time when using mode ${mode}, but is ${options.expiresOn}`
           );
         }
         const now = new Date();
-        if (expiresOn.getTime() <= now.getTime()) {
+        if (options.expiresOn!.getTime() <= now.getTime()) {
           throw new Error(
-            `options.expiresOn should be later than now ${now.toUTCString()} when using mode ${mode}, but is ${
-              options.expiresOn
-            }`
+            `options.expiresOn should be later than now: ${now.toUTCString()} when using mode ${mode}, but is ${options.expiresOn?.toUTCString()}`
           );
         }
+        options.expiresOn = options.expiresOn?.toUTCString();
       }
 
+      const adaptedOptions = { ...options, expiresOn: options.expiresOn as string };
       return await this.blobContext.setExpiry(mode, {
-        ...options,
+        ...adaptedOptions,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
     } catch (e) {
