@@ -11,11 +11,6 @@
 // for both node and web
 import { isNode } from "@azure/core-http";
 
-export interface Foo {
-  bar: number;
-  test: string;
-}
-
 export function helloWorld(): string {
   if (isNode) {
     console.log("Node 👊");
