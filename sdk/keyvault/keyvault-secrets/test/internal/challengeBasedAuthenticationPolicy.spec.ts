@@ -10,7 +10,7 @@ import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
   parseWWWAuthenticate
-} from "../../src/core/challengeBasedAuthenticationPolicy";
+} from "../../../keyvault-common/src";
 import { createSandbox } from "sinon";
 
 // Following the philosophy of not testing the insides if we can test the outsides...

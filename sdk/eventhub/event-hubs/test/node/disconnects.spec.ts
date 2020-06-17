@@ -133,7 +133,7 @@ describe("disconnected", function() {
       const originalConnectionId = clientConnectionContext.connectionId;
 
       // We need to dig deep into the internals to get the awaitable sender so that .
-      const awaitableSender = client["_producersMap"].get("")!["_eventHubSender"]!["_sender"]!;
+      const awaitableSender = client["_sendersMap"].get("")!["_sender"]!;
 
       let thirdSend: Promise<void>;
       // Change the timeout on the awaitableSender so it forces an OperationTimeoutError
