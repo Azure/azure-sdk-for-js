@@ -46,7 +46,7 @@ packages:
       is-buffer: 2.0.4
       jssha: 2.4.2
       process: 0.11.10
-      rhea: 1.0.21
+      rhea: 1.0.22
       rhea-promise: 0.1.15
       stream-browserify: 2.0.2
       tslib: 1.13.0
@@ -5721,7 +5721,7 @@ packages:
   /rhea-promise/0.1.15:
     dependencies:
       debug: 3.2.6
-      rhea: 1.0.21
+      rhea: 1.0.22
       tslib: 1.13.0
     dev: false
     resolution:
@@ -5729,17 +5729,17 @@ packages:
   /rhea-promise/1.0.0:
     dependencies:
       debug: 3.2.6
-      rhea: 1.0.21
+      rhea: 1.0.22
       tslib: 1.13.0
     dev: false
     resolution:
       integrity: sha512-odAjpbB/IpFFBenPDwPkTWMQldt+DUlMBH9yI48Ct5OgTeDuuQcBnlhB+YCc6g2z8+URiP2ejms88joEanNCaw==
-  /rhea/1.0.21:
+  /rhea/1.0.22:
     dependencies:
       debug: 3.2.6
     dev: false
     resolution:
-      integrity: sha512-9ddxyJR0nlWmynukzZTWN+bSYWu7KLHVMkIH/7PpFG5RHfV5t7zXIfZ6rqJSJe9wBAgnNr2Xz41KM2nPujWiFQ==
+      integrity: sha512-FLZtI4+Nka43ppZUvpdzC0TadWrLsXHhGEDm4WidmqSRVhaXs0Q3jCdCHCoQCBIV80KJU1cj79Xviklx4Avgag==
   /rimraf/2.6.3:
     dependencies:
       glob: 7.1.6
@@ -7559,7 +7559,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea: 1.0.21
+      rhea: 1.0.22
       rhea-promise: 1.0.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -7577,7 +7577,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-vQuyRkXvsxNXFld08NdABYHJ7GykKzizzfXA/PjeGjlzVQGSkdycxTAG8iu/g+/IAw04CWNIvgo0UODO79lOdQ==
+      integrity: sha512-O9SjBtzJUJGm6edK2ZcPVRJ1eZFQKA4zIiEEbl+PpVZ+kpE43eWXk2M/hGDooT3QUICGVTNNpiq7z+EC5rI2fw==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9037,7 +9037,7 @@ packages:
       async-lock: 1.2.4
       death: 1.1.0
       debug: 4.1.1
-      rhea: 1.0.21
+      rhea: 1.0.22
       rimraf: 3.0.2
       tslib: 2.0.0
       typescript: 3.9.5
@@ -9046,7 +9046,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-wWCeWZLGFaZKJOdG2zTpsvZxIdzw5SSDZfCYo/gcI3i0/IK+ukijKncP1wy1SpQG7pnc0CRY3IaJ6UdaMI93bg==
+      integrity: sha512-R9/COBIorRIHPSx3rLFHrAkZ7yxCG0wJJpd96rjxMHQwg3LmZjHLd2ex9c+EwV3NaKq+dZF77KubBuPwNDjw5Q==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
