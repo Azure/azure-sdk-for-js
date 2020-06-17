@@ -90,7 +90,7 @@ describe("EventHub Receiver", function(): void {
           },
           {
             startPosition: latestEventPosition,
-            maxWaitTimeInSeconds: 2
+            maxWaitTimeInSeconds: 0 // Set timeout of 0 to resolve the promise ASAP
           }
         );
       });
@@ -891,7 +891,7 @@ describe("EventHub Receiver", function(): void {
               resolve(err);
             }
           },
-          { maxWaitTimeInSeconds: 2 }
+          { maxWaitTimeInSeconds: 0 } // TODO: Remove after https://github.com/Azure/azure-sdk-for-js/pull/9543 is merged
         );
       });
       await subscription!.close();
