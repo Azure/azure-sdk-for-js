@@ -379,7 +379,6 @@ export class BlobClient extends StorageClient {
     getTags(options?: BlobGetTagsOptions): Promise<BlobGetTagsResponse>;
     get name(): string;
     setAccessTier(tier: BlockBlobTier | PremiumPageBlobTier | string, options?: BlobSetTierOptions): Promise<BlobSetTierResponse>;
-    setExpiry(mode: BlobExpiryMode, options?: BlobSetExpiryOptions): Promise<BlobSetExpiryResponse>;
     setHTTPHeaders(blobHTTPHeaders?: BlobHTTPHeaders, options?: BlobSetHTTPHeadersOptions): Promise<BlobSetHTTPHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: BlobSetMetadataOptions): Promise<BlobSetMetadataResponse>;
     setTags(tags: Tags, options?: BlobSetTagsOptions): Promise<BlobSetTagsResponse>;
@@ -571,9 +570,6 @@ export interface BlobExistsOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     customerProvidedKey?: CpkInfo;
 }
-
-// @public
-export type BlobExpiryMode = 'NeverExpire' | 'RelativeToCreation' | 'RelativeToNow' | 'Absolute';
 
 // @public
 export interface BlobFlatListSegment {
@@ -933,31 +929,6 @@ export interface BlobServiceStatistics {
     // (undocumented)
     geoReplication?: GeoReplication;
 }
-
-// @public
-export interface BlobSetExpiryHeaders {
-    clientRequestId?: string;
-    date?: Date;
-    // (undocumented)
-    errorCode?: string;
-    etag?: string;
-    lastModified?: Date;
-    requestId?: string;
-    version?: string;
-}
-
-// @public
-export interface BlobSetExpiryOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-    expiresOn?: string;
-}
-
-// @public
-export type BlobSetExpiryResponse = BlobSetExpiryHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: BlobSetExpiryHeaders;
-    };
-};
 
 // @public
 export interface BlobSetHTTPHeadersHeaders {

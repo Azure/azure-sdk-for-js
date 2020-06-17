@@ -9,9 +9,6 @@ import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
-import { BlobExpiryMode as FileExpiryMode } from '@azure/storage-blob';
-import { BlobSetExpiryOptions as FileSetExpiryOptions } from '@azure/storage-blob';
-import { BlobSetExpiryResponse as FileSetExpiryResponse } from '@azure/storage-blob';
 import { HttpHeaders } from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
 import { HttpRequestBody } from '@azure/core-http';
@@ -299,7 +296,17 @@ export interface FileCreateOptions extends PathCreateOptions {
 export interface FileCreateResponse extends PathCreateResponse {
 }
 
-export { FileExpiryMode }
+// @public
+export enum FileExpiryMode {
+    // (undocumented)
+    Absolute = "Absolute",
+    // (undocumented)
+    NeverExpire = "NeverExpire",
+    // (undocumented)
+    RelativeToCreation = "RelativeToCreation",
+    // (undocumented)
+    RelativeToNow = "RelativeToNow"
+}
 
 // @public (undocumented)
 export interface FileFlushOptions extends CommonOptions {
@@ -427,9 +434,30 @@ export interface FileReadToBufferOptions extends CommonOptions {
     onProgress?: (progress: TransferProgressEvent) => void;
 }
 
-export { FileSetExpiryOptions }
+// @public
+export interface FileSetExpiryHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
 
-export { FileSetExpiryResponse }
+// @public
+export interface FileSetExpiryOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    expiresOn?: string | Date;
+}
+
+// @public
+export type FileSetExpiryResponse = FileSetExpiryHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: FileSetExpiryHeaders;
+    };
+};
 
 // @public (undocumented)
 export interface FileSystemCreateHeaders {

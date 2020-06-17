@@ -22,10 +22,7 @@ export {
   ServiceListContainersSegmentResponse,
   Lease,
   LeaseOperationOptions,
-  LeaseOperationResponse,
-  BlobExpiryMode as FileExpiryMode,
-  BlobSetExpiryResponse as FileSetExpiryResponse,
-  BlobSetExpiryOptions as FileSetExpiryOptions
+  LeaseOperationResponse
 } from "@azure/storage-blob";
 
 export {
@@ -48,7 +45,10 @@ export {
   PathFlushDataResponse as FileFlushResponse,
   PathFlushDataResponse as FileUploadResponse,
   PathGetPropertiesAction,
-  PathRenameMode
+  PathRenameMode,
+  PathExpiryOptions as FileExpiryMode,
+  PathSetExpiryResponse as FileSetExpiryResponse,
+  PathSetExpiryHeaders as FileSetExpiryHeaders
 } from "./generated/src/models";
 
 export { PathCreateResponse };
@@ -864,6 +864,37 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * @memberof FileReadToBufferOptions
    */
   concurrency?: number;
+}
+
+/**
+ * Option interface for the {@link DataLakeFileClient.setExpiry} operation.
+ *
+ * @export
+ * @interface FileSetExpiryOptions
+ */
+export interface FileSetExpiryOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileSetExpiryOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * The time to set the file to expiry, used in combination with {@link FileExpiryMode}.
+   * When using 'RelativeToCreation' or 'RelativeToNow' mode, should be the number of milliseconds elapsed from the relative time, in decimal string.
+   * when using 'Absolute', should be a valid time. And milliseconds will be dropped.
+   * When using 'NeverExpire', it shouldn't be provided.
+   *
+   * When specifying the number, it should be no greater than the maximum value of UINT64.
+   * When specifying time, an expiry time in the past is not allowed.
+   *
+   * @type {string | Date}
+   * @memberof FileSetExpiryOptions
+   */
+  expiresOn?: string | Date;
 }
 
 /***********************************************************/

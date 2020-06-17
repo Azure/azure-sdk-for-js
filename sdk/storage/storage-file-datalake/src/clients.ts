@@ -760,6 +760,15 @@ export class DataLakeFileClient extends DataLakePathClient {
   private pathContextInternal: PathOperations;
 
   /**
+   * pathContextInternal provided by protocol layer, with its url pointing to the Blob endpoint.
+   *
+   * @private
+   * @type {PathOperations}
+   * @memberof DataLakeFileClient
+   */
+  private pathContextInternalToBlobEndpoint: PathOperations;
+
+  /**
    * blobClientInternal provided by @azure/storage-blob package.
    *
    * @private
@@ -820,6 +829,9 @@ export class DataLakeFileClient extends DataLakePathClient {
     }
 
     this.pathContextInternal = new PathOperations(this.storageClientContext);
+    this.pathContextInternalToBlobEndpoint = new PathOperations(
+      this.storageClientContextToBlobEndpoint
+    );
     this.blobClientInternal = new BlobClient(this.blobEndpointUrl, this.pipeline);
   }
 
@@ -1530,8 +1542,39 @@ export class DataLakeFileClient extends DataLakePathClient {
       options.tracingOptions
     );
     try {
-      return await this.blobClientInternal.setExpiry(mode, {
-        ...options,
+      if (mode === "NeverExpire" && options.expiresOn) {
+        throw new Error(`Shouldn't specify options.expiresOn when using mode ${mode}`);
+      }
+      if (!options.expiresOn && mode !== "NeverExpire") {
+        throw new Error(`Must specify options.expiresOn when using modes other than ${mode}`);
+      }
+      if (mode === "RelativeToNow" || mode === "RelativeToCreation") {
+        const regexp = /^\d+$/;
+        if (typeof options.expiresOn !== "string" || !regexp.test(options.expiresOn!)) {
+          throw new Error(
+            `options.expiresOn should be the number of milliseconds elapsed from the relative time in decimal string when using mode ${mode}, but is ${options.expiresOn}`
+          );
+        }
+        // MINOR: need check against <= 2**64, but JS number has the precision problem.
+      }
+      if (mode === "Absolute") {
+        if (typeof options.expiresOn === "string") {
+          throw new Error(
+            `options.expiresOn should be a valid time when using mode ${mode}, but is ${options.expiresOn}`
+          );
+        }
+        const now = new Date();
+        if (options.expiresOn!.getTime() <= now.getTime()) {
+          throw new Error(
+            `options.expiresOn should be later than now: ${now.toUTCString()} when using mode ${mode}, but is ${options.expiresOn?.toUTCString()}`
+          );
+        }
+        options.expiresOn = options.expiresOn?.toUTCString();
+      }
+
+      const adaptedOptions = { ...options, expiresOn: options.expiresOn as string };
+      return await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
+        ...adaptedOptions,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
     } catch (e) {
