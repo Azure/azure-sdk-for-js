@@ -113,6 +113,11 @@ describe("EventHub Sender", function(): void {
       should.equal(batch.partitionKey, "0");
     });
 
+    it("maxSizeInBytes is set as expected", async () => {
+      const batch = await producerClient.createBatch({ maxSizeInBytes: 30 });
+      should.equal(batch.maxSizeInBytes, 30);
+    })
+
     it("should be sent successfully", async function(): Promise<void> {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
 
@@ -157,7 +162,7 @@ describe("EventHub Sender", function(): void {
     it("should be sent successfully when partitionId is 0 i.e. falsy", async function(): Promise<
       void
     > {
-      const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
+      const list = ["Albert", "Marie"];
 
       const batch = await producerClient.createBatch({
         //@ts-expect-error
@@ -169,8 +174,7 @@ describe("EventHub Sender", function(): void {
       batch.maxSizeInBytes.should.be.gt(0);
 
       batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.not.be.ok; // The Mike message will be rejected - it's over the limit.
-      batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
+      batch.tryAdd({ body: list[1] }).should.be.ok; 
 
       const {
         subscriptionEventHandler,
@@ -190,9 +194,7 @@ describe("EventHub Sender", function(): void {
         await subscriber.close();
       }
 
-      // Mike didn't make it - the message was too big for the batch
-      // and was rejected above.
-      [list[0], list[2]].should.be.deep.eq(
+      list.should.be.deep.eq(
         receivedEvents.map((event) => event.body),
         "Received messages should be equal to our sent messages"
       );
@@ -201,7 +203,7 @@ describe("EventHub Sender", function(): void {
     it("should be sent successfully when partitionKey is 0 i.e. falsy", async function(): Promise<
       void
     > {
-      const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
+      const list = ["Albert", "Marie"];
 
       const batch = await producerClient.createBatch({
         //@ts-expect-error
@@ -213,8 +215,7 @@ describe("EventHub Sender", function(): void {
       batch.maxSizeInBytes.should.be.gt(0);
 
       batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.not.be.ok; // The Mike message will be rejected - it's over the limit.
-      batch.tryAdd({ body: list[2] }).should.be.ok; // Marie should get added";
+      batch.tryAdd({ body: list[1] }).should.be.ok;
 
       const {
         subscriptionEventHandler,
@@ -234,9 +235,7 @@ describe("EventHub Sender", function(): void {
         await subscriber.close();
       }
 
-      // Mike didn't make it - the message was too big for the batch
-      // and was rejected above.
-      [list[0], list[2]].should.be.deep.eq(
+      list.should.be.deep.eq(
         receivedEvents.map((event) => event.body),
         "Received messages should be equal to our sent messages"
       );
