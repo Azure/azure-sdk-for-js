@@ -385,7 +385,7 @@ export interface PipelineOptions {
    * The HttpsClient implementation to use for outgoing HTTP requests.
    * Defaults to DefaultHttpsClient.
    */
-  httpClient?: HttpsClient;
+  httpsClient?: HttpsClient;
 
   /**
    * Options that control how to retry failed requests.
