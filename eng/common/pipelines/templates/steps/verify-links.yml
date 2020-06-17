@@ -16,7 +16,7 @@ steps:
 
 steps:
 - pwsh: |
-    $directory = Join-Path $directory "sdk/${{ parameters.ServiceDirectory }}"
+    $directory = Join-Path $(Build.SourcesDirectory) "sdk/${{ parameters.ServiceDirectory }}"
     Write-Host "directory = $directory"
     foreach ($md in $(dir $directory -r -i *.md)){
       $(Build.SourcesDirectory)/eng/common/scripts/Verify-Links.ps1 $md
