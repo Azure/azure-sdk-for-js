@@ -15,7 +15,8 @@ import {
   latestEventPosition,
   earliestEventPosition,
   EventHubConsumerClient,
-  EventHubProducerClient
+  EventHubProducerClient,
+  Subscription
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
@@ -30,7 +31,8 @@ describe("EventHub Receiver", function(): void {
     path: env[EnvVarKeys.EVENTHUB_NAME]
   };
   const client = new EventHubClient(service.connectionString, service.path);
-  const producerClient = new EventHubProducerClient(service.connectionString, service.path);
+  let producerClient: EventHubProducerClient;
+  let consumerClient: EventHubConsumerClient;
 
   let receiver: EventHubConsumer | undefined;
   let partitionIds: string[];
@@ -51,7 +53,18 @@ describe("EventHub Receiver", function(): void {
     await producerClient.close();
   });
 
-  afterEach("close the receiver link", async function(): Promise<void> {
+  beforeEach("Creating the clients", async () => {
+    producerClient = new EventHubProducerClient(service.connectionString, service.path);
+    consumerClient = new EventHubConsumerClient(
+      EventHubConsumerClient.defaultConsumerGroupName,
+      service.connectionString,
+      service.path
+    );
+  });
+
+  afterEach("Closing the clients", async () => {
+    await producerClient.close();
+    await consumerClient.close();
     if (receiver && !receiver.isClosed) {
       await receiver.close();
       debug("After each - Receiver closed.");
@@ -61,10 +74,26 @@ describe("EventHub Receiver", function(): void {
 
   describe("with partitionId 0 as number", function(): void {
     it("should not throw an error", async function(): Promise<void> {
-      receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, 0 as any, {
-        sequenceNumber: 0
+      let subscription: Subscription | undefined;
+      await new Promise((resolve, reject) => {
+        subscription = consumerClient.subscribe(
+          // @ts-expect-error
+          0,
+          {
+            processEvents: async () => {
+              resolve();
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: latestEventPosition,
+            maxWaitTimeInSeconds: 0 // Set timeout of 0 to resolve the promise ASAP
+          }
+        );
       });
-      await receiver.receiveBatch(10, 20);
+      await subscription!.close();
     });
   });
 
@@ -574,53 +603,6 @@ describe("EventHub Receiver", function(): void {
     });
   });
 
-  describe("Errors when calling createConsumer", function(): void {
-    it("should throw an error if EventPosition is missing", function() {
-      try {
-        client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, "0", undefined as any);
-        throw new Error("Test failure");
-      } catch (err) {
-        err.name.should.equal("TypeError");
-        err.message.should.equal(`createConsumer called without required argument "eventPosition"`);
-      }
-    });
-
-    it("should throw an error if consumerGroup is missing", function() {
-      try {
-        client.createConsumer(undefined as any, "0", earliestEventPosition);
-        throw new Error("Test failure");
-      } catch (err) {
-        err.name.should.equal("TypeError");
-        err.message.should.equal(`createConsumer called without required argument "consumerGroup"`);
-      }
-    });
-
-    it("should throw MessagingEntityNotFoundError fr non existing consumer group", function(done: Mocha.Done): void {
-      try {
-        debug(">>>>>>>> client created.");
-        const onMessage = (data: any) => {
-          debug(">>>>> data: ", data);
-        };
-        const onError = (error: any) => {
-          debug(">>>>>>>> error occurred", error);
-          // sleep for 3 seconds so that receiver link and the session can be closed properly then
-          // in aftereach the connection can be closed. closing the connection while the receiver
-          // link and it's session are being closed (and the session being removed from rhea's
-          // internal map) can create havoc.
-          setTimeout(() => {
-            done(should.equal(error.code, "MessagingEntityNotFoundError"));
-          }, 3000);
-        };
-        receiver = client.createConsumer("some-random-name", "0", earliestEventPosition);
-        receiver.receive(onMessage, onError);
-        debug(">>>>>>>> attached the error handler on the receiver...");
-      } catch (err) {
-        debug(">>> Some error", err);
-        throw new Error("This code path must not have hit.. " + JSON.stringify(err));
-      }
-    });
-  });
-
   describe("with trackLastEnqueuedEventProperties", function(): void {
     it("should have lastEnqueuedEventProperties populated", async function(): Promise<void> {
       const partitionId = partitionIds[0];
@@ -891,123 +873,48 @@ describe("EventHub Receiver", function(): void {
   });
 
   describe("Negative scenarios", function(): void {
-    describe("on invalid partition ids like", function(): void {
-      const invalidIds = ["XYZ", "-1", "1000", "-"];
-      invalidIds.forEach(function(id: string): void {
-        it(`"${id}" should throw an error`, async function(): Promise<void> {
-          try {
-            debug("Created receiver and will be receiving messages from partition id ...", id);
-            const d = await client
-              .createConsumer(EventHubConsumerClient.defaultConsumerGroupName, id, latestEventPosition)
-              .receiveBatch(10, 3);
-            debug("received messages ", d.length);
-            throw new Error("Test failure");
-          } catch (err) {
-            debug("Receiver received an error", err);
-            should.exist(err);
-            err.message.should.match(
-              /.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi
-            );
-          }
-        });
+    it("should throw MessagingEntityNotFoundError for non existing consumer group", async function(): Promise<
+      void
+    > {
+      const badConsumerClient = new EventHubConsumerClient(
+        "boo",
+        service.connectionString,
+        service.path
+      );
+      let subscription: Subscription | undefined;
+      const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
+        subscription = badConsumerClient.subscribe(
+          {
+            processEvents: async () => {},
+            processError: async (err) => {
+              resolve(err);
+            }
+          },
+          { maxWaitTimeInSeconds: 0 } // TODO: Remove after https://github.com/Azure/azure-sdk-for-js/pull/9543 is merged
+        );
       });
+      await subscription!.close();
+      await badConsumerClient.close();
 
-      it(`" " should throw an invalid EventHub address error`, async function(): Promise<void> {
-        try {
-          const id = " ";
-          debug("Created receiver and will be receiving messages from partition id ...", id);
-          const d = await client
-            .createConsumer(EventHubConsumerClient.defaultConsumerGroupName, id, latestEventPosition)
-            .receiveBatch(10, 3);
-          debug("received messages ", d.length);
-          throw new Error("Test failure");
-        } catch (err) {
-          debug("Receiver received an error", err);
-          should.exist(err);
-          err.message.should.match(
-            /.*Invalid EventHub address. It must be either of the following.*/gi
-          );
-        }
-      });
-
-      const invalidIds2 = [""];
-      invalidIds2.forEach(function(id: string): void {
-        it(`"${id}" should throw an error`, async function(): Promise<void> {
-          try {
-            await client
-              .createConsumer(EventHubConsumerClient.defaultConsumerGroupName, id, latestEventPosition)
-              .receiveBatch(10, 3);
-            throw new Error("Test failure");
-          } catch (err) {
-            debug(`>>>> Received error - `, err);
-            should.exist(err);
-          }
-        });
-      });
+      should.exist(caughtErr);
+      should.equal((caughtErr as MessagingError).code, "MessagingEntityNotFoundError");
     });
 
-    it("should receive 'QuotaExceededError' when attempting to connect more than 5 receivers to a partition in a consumer group", function(done: Mocha.Done): void {
-      const partitionId = partitionIds[0];
-      const rcvHndlrs: ReceiveHandler[] = [];
-      const rcvrs: any[] = [];
-
-      // This test does not require recieving any messages.  Just attempting to connect the 6th receiver causes
-      // onerr2() to be called with QuotaExceededError.  So it's fastest to use latestEventPosition.
-      // Using EventPosition.earliestEventPosition() can cause timeouts or ServiceUnavailableException if the EventHub has
-      // a large number of messages.
-      const eventPosition = latestEventPosition;
-
-      debug(">>> Receivers length: ", rcvHndlrs.length);
-      for (let i = 1; i <= 5; i++) {
-        const rcvrId = `rcvr-${i}`;
-        debug(rcvrId);
-        const onMsg = (_data: ReceivedEventData) => {
-          if (!rcvrs[i]) {
-            rcvrs[i] = rcvrId;
-            debug("receiver id %s", rcvrId);
+    it(`should throw an invalid EventHub address error for invalid partition`, async function(): Promise<
+      void
+    > {
+      let subscription: Subscription | undefined;
+      const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
+        subscription = consumerClient.subscribe("boo", {
+          processEvents: async () => {},
+          processError: async (err) => {
+            resolve(err);
           }
-        };
-        const onError = (err: MessagingError | Error) => {
-          debug("@@@@ Error received by receiver %s", rcvrId);
-          debug(err);
-        };
-        const rcvHndlr = client
-          .createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, eventPosition)
-          .receive(onMsg, onError);
-        rcvHndlrs.push(rcvHndlr);
-      }
-      debug(">>> Attached message handlers to each receiver.");
-      setTimeout(() => {
-        debug(`Created 6th receiver - "rcvr-6"`);
-        const onmsg2 = () => {
-          // debug(data);
-        };
-        const onerr2 = (err: MessagingError | Error) => {
-          debug("@@@@ Error received by receiver rcvr-6");
-          debug(err);
-          should.equal((err as any).code, "QuotaExceededError");
-          const promises = [];
-          for (const rcvr of rcvHndlrs) {
-            promises.push(rcvr.stop());
-          }
-          Promise.all(promises)
-            .then(() => {
-              debug("Successfully closed all the receivers..");
-              done();
-            })
-            .catch((err) => {
-              debug(
-                "An error occurred while closing the receiver in the 'QuotaExceededError' test.",
-                err
-              );
-              done();
-            });
-        };
-        const failedRcvHandler = client
-          .createConsumer(EventHubConsumerClient.defaultConsumerGroupName, partitionId, eventPosition)
-          .receive(onmsg2, onerr2);
-        rcvHndlrs.push(failedRcvHandler);
-      }, 5000);
+        });
+      });
+      await subscription!.close();
+      should.exist(caughtErr);
+      should.equal((caughtErr as MessagingError).code, "ArgumentOutOfRangeError");
     });
   });
 }).timeout(90000);
