@@ -16,7 +16,6 @@ import {
 } from "./utils/testutils2";
 import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-amqp";
 import { ReceiverEvents } from "rhea-promise";
 
 const should = chai.should();
@@ -1015,7 +1014,7 @@ describe("batchReceiver", () => {
   });
 });
 
-describe("Batching - disconnects", function(): void {
+describe.only("Batching - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
@@ -1036,14 +1035,6 @@ describe("Batching - disconnects", function(): void {
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
-
-  beforeEach(function() {
-    if (!isNode) {
-      // Skipping the "disconnect" tests in the browser since they fail.
-      // More info - https://github.com/Azure/azure-sdk-for-js/pull/8664#issuecomment-622651713
-      this.skip();
-    }
-  });
 
   afterEach(async () => {
     if (serviceBusClient) {
@@ -1080,7 +1071,9 @@ describe("Batching - disconnects", function(): void {
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    (receiver as any)["_context"].namespace.connection["_connection"].idle();
+    (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"].namespace.connection[
+      "_connection"
+    ].idle();
 
     // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
