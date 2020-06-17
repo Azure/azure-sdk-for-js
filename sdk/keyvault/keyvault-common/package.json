@@ -14,8 +14,8 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "audit": "node ../../../keyvault-common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
+    "audit": "echo skipped",
+    "build:minify": "echo skipped",
     "build:samples": "echo skipped",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "echo skipped",
