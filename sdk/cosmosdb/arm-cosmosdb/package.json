@@ -2,7 +2,7 @@
   "name": "@azure/arm-cosmosdb",
   "author": "Microsoft Corporation",
   "description": "CosmosDBManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.0.1",
     "@azure/ms-rest-js": "^2.0.4",
