@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  EncryptionAlgorithm,
-} from "../keysModels";
+import { EncryptionAlgorithm } from "../keysModels";
 
-
-export class LocalCryptographyUnsupportedError extends Error {
-}
+export class LocalCryptographyUnsupportedError extends Error {}
 
 /**
  * Result of the {@link encrypt} operation.

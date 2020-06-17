@@ -1,15 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  JsonWebKey,
-  GetKeyOptions,
-  CryptographyOptions,
-  KeyVaultKey,
-  EncryptionAlgorithm,
-  CryptographyClientOptions,
-  LATEST_API_VERSION
-} from "./keysModels";
+import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
+import * as constants from "constants";
+
 import {
   TokenCredential,
   isNode,
@@ -22,17 +16,28 @@ import {
 
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
+
 import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { SDK_VERSION } from "./core/utils/constants";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
-import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
-import * as constants from "constants";
-import { LocalCryptographyUnsupportedError, EncryptResult } from "./cryptography/models";
+
+import { LocalCryptographyUnsupportedError, EncryptResult } from "./localCryptography/models";
+import { convertJWKtoPEM } from "./localCryptography/conversions";
+import { LocalSupportedAlgorithmName } from "./localCryptography/algorithms";
+
 import { LocalCryptographyClient } from "./localCryptographyClient";
-import { convertJWKtoPEM } from "./cryptography/conversions";
-import { LocalSupportedAlgorithmName } from "./cryptography/algorithms";
+
+import {
+  JsonWebKey,
+  GetKeyOptions,
+  CryptographyOptions,
+  KeyVaultKey,
+  EncryptionAlgorithm,
+  CryptographyClientOptions,
+  LATEST_API_VERSION
+} from "./keysModels";
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
@@ -145,8 +150,31 @@ export class CryptographyClient {
     ciphertext: Uint8Array,
     options: DecryptOptions = {}
   ): Promise<DecryptResult> {
+    const localCryptographyClient = await this.getLocalCryptographyClient();
+
+    const jsonKey = this.key as JsonWebKey;
+    if (jsonKey.keyOps && !jsonKey.keyOps.includes("decrypt")) {
+      throw new Error("Key does not support the encrypt operation");
+    }
+
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);
+
+    if (localCryptographyClient) {
+      try {
+        return localCryptographyClient.decrypt(
+          algorithm as LocalSupportedAlgorithmName,
+          ciphertext
+        );
+      } catch (e) {
+        if (!(e instanceof LocalCryptographyUnsupportedError)) {
+          span.end();
+          throw e;
+        }
+      }
+    }
+
+    // Default to the service
 
     let result;
     try {

@@ -8,7 +8,7 @@ import {
   LocalSupportedAlgorithmName
 } from "./algorithms";
 
-export function nodeEncrypt(
+export function encrypt(
   keyType: string,
   keyPEM: string,
   algorithmName: LocalSupportedAlgorithmName,

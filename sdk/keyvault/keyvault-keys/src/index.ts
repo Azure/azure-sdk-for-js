@@ -83,7 +83,6 @@ import {
   DecryptOptions,
   DecryptResult,
   EncryptOptions,
-  EncryptResult,
   SignatureAlgorithm,
   KeyWrapAlgorithm,
   SignOptions,
@@ -95,6 +94,7 @@ import {
   WrapKeyOptions,
   WrapResult
 } from "./cryptographyClient";
+import { EncryptResult } from "./localCryptography/models";
 
 export {
   CryptographyClientOptions,
