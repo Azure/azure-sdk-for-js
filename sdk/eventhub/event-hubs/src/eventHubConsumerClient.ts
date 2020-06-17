@@ -415,6 +415,8 @@ export class EventHubConsumerClient {
         validateEventPositions(options.startPosition);
       }
       ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForSinglePartition(
+        // cast to string as downstream code expects partitionId to be string, but JS users could have given us anything.
+        // we don't validate the user input and instead rely on service throwing errors if any
         String(handlersOrPartitionId1),
         optionsOrHandlers2,
         possibleOptions3
