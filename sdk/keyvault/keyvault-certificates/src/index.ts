@@ -7,6 +7,8 @@
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
 /* eslint-disable @typescript-eslint/member-ordering */
 
+/// <reference lib="esnext.asynciterable" />
+
 import {
   TokenCredential,
   isTokenCredential,

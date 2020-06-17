@@ -3,7 +3,7 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "lib": ["dom", "esnext.asynciterable"],
+    "lib": ["dom"],
     "resolveJsonModule": true
   },
   "exclude": ["node_modules", "../keyvault-common/node_modules", "./samples/**/*.ts"],
