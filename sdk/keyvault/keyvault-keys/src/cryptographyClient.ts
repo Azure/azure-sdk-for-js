@@ -29,6 +29,10 @@ import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
 import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
 import * as constants from "constants";
+import { LocalCryptographyUnsupportedError, EncryptResult } from "./cryptography/models";
+import { LocalCryptographyClient } from "./localCryptographyClient";
+import { convertJWKtoPEM } from "./cryptography/conversions";
+import { LocalSupportedAlgorithmName } from "./cryptography/algorithms";
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
@@ -83,52 +87,29 @@ export class CryptographyClient {
     plaintext: Uint8Array,
     options: EncryptOptions = {}
   ): Promise<EncryptResult> {
+    const localCryptographyClient = await this.getLocalCryptographyClient();
+
+    const jsonKey = this.key as JsonWebKey;
+    if (jsonKey.keyOps && !jsonKey.keyOps.includes("encrypt")) {
+      throw new Error("Key does not support the encrypt operation");
+    }
+
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("encrypt", requestOptions);
 
-    if (isNode) {
-      await this.fetchFullKeyIfPossible();
-
-      if (typeof this.key !== "string") {
-        switch (algorithm) {
-          case "RSA1_5": {
-            if (this.key.kty !== "RSA") {
-              span.end();
-              throw new Error("Key type does not match algorithm");
-            }
-
-            if (this.key.keyOps && !this.key.keyOps.includes("encrypt")) {
-              span.end();
-              throw new Error("Key does not support the encrypt operation");
-            }
-
-            const keyPEM = convertJWKtoPEM(this.key);
-
-            const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
-            const encrypted = publicEncrypt(padded, Buffer.from(plaintext));
-            return { result: encrypted, algorithm, keyID: this.key.kid };
-          }
-          case "RSA-OAEP": {
-            if (this.key.kty !== "RSA") {
-              span.end();
-              throw new Error("Key type does not match algorithm");
-            }
-
-            if (this.key.keyOps && !this.key.keyOps.includes("encrypt")) {
-              span.end();
-              throw new Error("Key does not support the encrypt operation");
-            }
-
-            const keyPEM = convertJWKtoPEM(this.key);
-
-            const encrypted = publicEncrypt(keyPEM, Buffer.from(plaintext));
-            return { result: encrypted, algorithm, keyID: this.key.kid };
-          }
+    if (localCryptographyClient) {
+      try {
+        return localCryptographyClient.encrypt(algorithm as LocalSupportedAlgorithmName, plaintext);
+      } catch (e) {
+        if (!(e instanceof LocalCryptographyUnsupportedError)) {
+          span.end();
+          throw e;
         }
       }
     }
 
     // Default to the service
+
     let result;
     try {
       result = await this.client.encrypt(
@@ -205,7 +186,7 @@ export class CryptographyClient {
     const span = this.createSpan("wrapKey", requestOptions);
 
     if (isNode) {
-      await this.fetchFullKeyIfPossible();
+      await this.getLocalCryptographyClient();
 
       if (typeof this.key !== "string") {
         switch (algorithm) {
@@ -467,7 +448,7 @@ export class CryptographyClient {
     const span = this.createSpan("verifyData", requestOptions);
 
     if (isNode) {
-      await this.fetchFullKeyIfPossible();
+      await this.getLocalCryptographyClient();
 
       if (typeof this.key !== "string") {
         switch (algorithm) {
@@ -585,22 +566,6 @@ export class CryptographyClient {
   /**
    * @internal
    * @ignore
-   * Attempts to fetch the key from the service.
-   */
-  private async fetchFullKeyIfPossible(): Promise<void> {
-    if (!this.hasTriedToGetKey) {
-      try {
-        this.key = await this.getKey();
-      } catch {
-        // Nothing to do here.
-      }
-      this.hasTriedToGetKey = true;
-    }
-  }
-
-  /**
-   * @internal
-   * @ignore
    * Attempts to retrieve the ID of the key.
    */
   private getKeyID(): string | undefined {
@@ -618,6 +583,11 @@ export class CryptographyClient {
    * The base URL to the vault
    */
   public readonly vaultUrl: string;
+
+  /**
+   * Instance of the Local Cryptography Client
+   */
+  public localCryptographyClient?: LocalCryptographyClient;
 
   /**
    * @internal
@@ -643,9 +613,25 @@ export class CryptographyClient {
   private version: string;
 
   /**
-   * Has the client tried to fetch the full key yet
+   * Tries to load the full Key Vault Key and then creates the Local Cryptography Client
    */
-  private hasTriedToGetKey: boolean;
+  private _localCryptographyClientPromise?: Promise<LocalCryptographyClient>;
+
+  private getLocalCryptographyClient(): Promise<LocalCryptographyClient> | undefined {
+    if (!this._localCryptographyClientPromise) {
+      try {
+        this._localCryptographyClientPromise = this.configureLocalCryptographyClient();
+      } catch {
+        // Nothing to do here.
+      }
+    }
+    return this._localCryptographyClientPromise;
+  }
+
+  private async configureLocalCryptographyClient(): Promise<LocalCryptographyClient> {
+    this.key = await this.getKey();
+    return new LocalCryptographyClient(this.key as JsonWebKey);
+  }
 
   /**
    * Constructs a new instance of the Cryptography client for the given key
@@ -665,7 +651,7 @@ export class CryptographyClient {
    * // or
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * ```
-   * @param key The key to use during cryptography tasks.
+   * @param key The key to use during cryptography operations.
    * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
@@ -719,11 +705,9 @@ export class CryptographyClient {
     if (typeof key === "string") {
       this.key = key;
       parsed = parseKeyvaultIdentifier("keys", this.key);
-      this.hasTriedToGetKey = false;
     } else if (key.key) {
       this.key = key.key;
       parsed = parseKeyvaultIdentifier("keys", this.key.kid!);
-      this.hasTriedToGetKey = true;
     } else {
       throw new Error(
         "The provided key is malformed as it does not have a value for the `key` property."
@@ -790,105 +774,6 @@ export class CryptographyClient {
       return options;
     }
   }
-}
-
-/**
- * @internal
- * @ignore
- * Encodes a length of a packet in DER format
- */
-function encodeLength(length: number): Uint8Array {
-  if (length <= 127) {
-    return Uint8Array.of(length);
-  } else if (length < 256) {
-    return Uint8Array.of(0x81, length);
-  } else if (length < 65536) {
-    return Uint8Array.of(0x82, length >> 8, length & 0xff);
-  } else {
-    throw new Error("Unsupported length to encode");
-  }
-}
-
-/**
- * @internal
- * @ignore
- * Encodes a buffer for DER, as sets the id to the given id
- */
-function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
-  if (buffer.length === 0) {
-    return buffer;
-  }
-
-  let result = new Uint8Array(buffer);
-
-  // If the high bit is set, prepend a 0
-  if ((result[0] & 0x80) === 0x80) {
-    const array = new Uint8Array(result.length + 1);
-    array[0] = 0;
-    array.set(result, 1);
-    result = array;
-  }
-
-  // Prepend the DER header for this buffer
-  const encodedLength = encodeLength(result.length);
-
-  const totalLength = 1 + encodedLength.length + result.length;
-
-  const outputBuffer = new Uint8Array(totalLength);
-  outputBuffer[0] = bufferId;
-  outputBuffer.set(encodedLength, 1);
-  outputBuffer.set(result, 1 + encodedLength.length);
-
-  return outputBuffer;
-}
-
-/**
- * @internal
- * @ignore
- * Encode a JWK to PEM format. To do so, it internally repackages the JWK as a DER
- * that is then encoded as a PEM.
- */
-export function convertJWKtoPEM(key: JsonWebKey): string {
-  if (!key.n || !key.e) {
-    throw new Error("Unsupported key format for local operations");
-  }
-  const encoded_n = encodeBuffer(key.n, 0x2); // INTEGER
-  const encoded_e = encodeBuffer(key.e, 0x2); // INTEGER
-
-  const encoded_ne = new Uint8Array(encoded_n.length + encoded_e.length);
-  encoded_ne.set(encoded_n, 0);
-  encoded_ne.set(encoded_e, encoded_n.length);
-
-  const full_encoded = encodeBuffer(encoded_ne, 0x30); // SEQUENCE
-
-  const buffer = Buffer.from(full_encoded).toString("base64");
-
-  const beginBanner = "-----BEGIN RSA PUBLIC KEY-----\n";
-  const endBanner = "-----END RSA PUBLIC KEY-----";
-
-  /*
-   Fill in the PEM with 64 character lines as per RFC:
-
-   "To represent the encapsulated text of a PEM message, the encoding
-   function's output is delimited into text lines (using local
-   conventions), with each line except the last containing exactly 64
-   printable characters and the final line containing 64 or fewer
-   printable characters."
-  */
-  let outputString = beginBanner;
-  const lines = buffer.match(/.{1,64}/g);
-
-  if (lines) {
-    for (const line of lines) {
-      outputString += line;
-      outputString += "\n";
-    }
-  } else {
-    throw new Error("Could not create correct PEM");
-  }
-  outputString += endBanner;
-
-  return outputString;
 }
 
 /**
@@ -981,24 +866,6 @@ export interface DecryptResult {
    * The {@link EncryptionAlgorithm} used to decrypt the encrypted data.
    */
   algorithm: EncryptionAlgorithm;
-}
-
-/**
- * Result of the {@link encrypt} operation.
- */
-export interface EncryptResult {
-  /**
-   * Result of the {@link encrypt} operation in bytes.
-   */
-  result: Uint8Array;
-  /**
-   * The {@link EncryptionAlgorithm} used to encrypt the data.
-   */
-  algorithm: EncryptionAlgorithm;
-  /**
-   * The ID of the KeyVault Key used to encrypt the data.
-   */
-  keyID?: string;
 }
 
 /**
