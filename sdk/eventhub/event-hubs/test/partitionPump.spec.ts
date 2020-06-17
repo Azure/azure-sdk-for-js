@@ -127,7 +127,7 @@ describe("PartitionPump", () => {
     });
   });
 
-  it("can be cancelled", async () => {
+  it.only("can be cancelled", async () => {
     const mockPartitionProcessor = new PartitionProcessor(
       {
         async processError() {
@@ -163,5 +163,32 @@ describe("PartitionPump", () => {
     const event = await waitForCancellation;
     event.type.should.equal("abort");
     pump["_isStopped"].should.equal(true, "The pump should have been stopped.");
+  });
+
+  it.only("can be cancelled by already cancelled signal", async () => {
+    const mockPartitionProcessor = new PartitionProcessor(
+      {
+        async processError() {
+          /* no-op for test */
+        },
+        async processEvents() {
+          /* no-op for test */
+        }
+      },
+      {} as any,
+      { partitionId: "0" } as any
+    );
+
+    const testAbortController = new AbortController();
+    testAbortController.abort();
+    const pump = new PartitionPump(
+      {} as any,
+      mockPartitionProcessor,
+      { enqueuedOn: new Date() },
+      testAbortController.signal,
+      { maxBatchSize: 1, maxWaitTimeInSeconds: 1 }
+    );
+
+    pump["_isStopped"].should.equal(true, "The pump should be stopped.");
   });
 });

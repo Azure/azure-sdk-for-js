@@ -45,13 +45,18 @@ export class PartitionPump {
     this._partitionProcessor = partitionProcessor;
     this._processorOptions = options;
     this._abortController = new AbortController();
+
+    // React to the parent cancellation signal emitting.
     this._onParentSignalCancelled = () => {
       // Clean up the event listener.
       parentAbortSignal.removeEventListener("abort", this._onParentSignalCancelled);
       this.stop(CloseReason.Shutdown);
     };
     parentAbortSignal.addEventListener("abort", this._onParentSignalCancelled);
+
+    // Handle the edge case where the parent signal was already cancelled.
     if (parentAbortSignal.aborted) {
+      this._isStopped = true;
       this._abortController.abort();
     }
   }
