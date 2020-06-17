@@ -1,7 +1,11 @@
 # Release History
 
+## 3.7.3 (Unreleased)
+
+
 ## 3.7.2 (Unreleased)
 
+- BUGFIX: Internal abort signal incorrectly triggered when user passes a custom abort signal. See #9510 for details.
 
 ## 3.7.1 (2020-6-12)
 
@@ -202,14 +206,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key"
-  }
+    masterKey: "your-primary-key",
+  },
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key"
+  key: "your-primary-key",
 });
 ```
 

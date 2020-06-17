@@ -3,6 +3,7 @@ parameters:
   ArtifactName: 'not-specified'
   DependsOn: Build
   Registry: 'https://registry.npmjs.org/'
+  PrivateRegistry: 'https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/'
   DocArtifact: 'documentation'
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
@@ -193,14 +194,28 @@ stages:
           artifact: ${{parameters.ArtifactName}}
           timeoutInMinutes: 5
         - ${{ each artifact in parameters.Artifacts }}:
-            - script: |
-                export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*-dev*.tgz`
-                echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
+            - pwsh: |
+                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*-dev*.tgz
+                echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
+                $devopsPublish=$false
+                if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
+                  $npmToken="$(azure-sdk-npm-token)"
+                  $registry="${{parameters.Registry}}" 
+                  $devopsPublish=$false      
+                }         
+                else {
+                  $npmToken="$(azure-sdk-devops-npm-token)"
+                  $registry="${{parameters.PrivateRegistry}}"
+                  $devopsPublish=$true
+                }
+                echo "##vso[task.setvariable variable=NpmToken]$npmToken"
+                echo "##vso[task.setvariable variable=Registry]$registry"
+                echo "##vso[task.setvariable variable=DevopsPublish]$devopsPublish"
               displayName: Detecting package archive_${{artifact.safeName}}
 
             - task: PowerShell@2
-              displayName: "Publish_${{artifact.safeName}} to npmjs.org"
+              displayName: "Publish_${{artifact.safeName}} to dev feed"
               inputs:
                 targetType: filePath
                 filePath: "eng/tools/publish-to-npm.ps1"
-                arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
+                arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)" -devopsFeed $(DevopsPublish)'
