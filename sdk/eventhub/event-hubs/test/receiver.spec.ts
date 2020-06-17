@@ -53,8 +53,7 @@ describe("EventHub Receiver", function(): void {
     await producerClient.close();
   });
 
-  beforeEach(async () => {
-    debug("Creating the clients..");
+  beforeEach("Creating the clients", async () => {
     producerClient = new EventHubProducerClient(service.connectionString, service.path);
     consumerClient = new EventHubConsumerClient(
       EventHubConsumerClient.defaultConsumerGroupName,
@@ -63,8 +62,7 @@ describe("EventHub Receiver", function(): void {
     );
   });
 
-  afterEach(async () => {
-    debug("Closing the clients..");
+  afterEach("Closing the clients", async () => {
     await producerClient.close();
     await consumerClient.close();
     if (receiver && !receiver.isClosed) {
