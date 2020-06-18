@@ -4,22 +4,9 @@
 import { logErrorStackTrace, logger } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { EventHubConsumerOptions } from "./impl/eventHubClient";
-import {
-  EventHubReceiver,
-  LastEnqueuedEventProperties,
-  OnError,
-  OnMessage
-} from "./eventHubReceiver";
+import { EventHubReceiver, LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
-import {
-  Constants,
-  MessagingError,
-  RetryConfig,
-  RetryOperationType,
-  RetryOptions,
-  retry
-} from "@azure/core-amqp";
-import { ReceiveHandler } from "./receiveHandler";
+import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed } from "./util/error";
 import { EventPosition } from "./eventPosition";
@@ -53,18 +40,9 @@ export class EventHubConsumer {
    */
   private _context: ConnectionContext;
   /**
-   * @property The consumer group from which the receiver should receive events from.
-   */
-  private _consumerGroup: string;
-  /**
    * @property Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
-  /**
-   * @property The identifier of the Event Hub partition that this consumer is associated with.
-   * Events will be read only from this partition.
-   */
-  private _partitionId: string;
   /**
    * @property The set of options to configure the behavior of an EventHubConsumer.
    */
@@ -98,37 +76,6 @@ export class EventHubConsumer {
   }
 
   /**
-   * @property The identifier of the Event Hub partition that this consumer is associated with.
-   * Events will be read only from this partition.
-   * @readonly
-   */
-  public get partitionId(): string {
-    return this._partitionId;
-  }
-
-  /**
-   * @property The name of the consumer group that this consumer is associated with.
-   * Events will be read only in the context of this group.
-   * @readonly
-   */
-  get consumerGroup(): string {
-    return this._consumerGroup;
-  }
-
-  /**
-   * @property The owner level associated with an exclusive consumer; for a non-exclusive consumer, this value will be null or undefined.
-   *
-   * When provided, the owner level indicates that a consumer is intended to be the exclusive receiver of events for the
-   * requested partition and the associated consumer group.
-   * When multiple consumers exist for the same partition/consumer group pair, then the ones with lower or no
-   * `ownerLevel` will get a `ReceiverDisconnectedError` during the next attempted receive operation.
-   * @readonly
-   */
-  get ownerLevel(): number | undefined {
-    return this._receiverOptions.ownerLevel;
-  }
-
-  /**
    * Indicates whether the consumer is currently receiving messages or not.
    * When this returns true, new `receive()` or `receiveBatch()` calls cannot be made.
    */
@@ -151,8 +98,6 @@ export class EventHubConsumer {
     options?: EventHubConsumerOptions
   ) {
     this._context = context;
-    this._consumerGroup = consumerGroup;
-    this._partitionId = partitionId;
     this._lastEnqueuedEventProperties = {};
     this._receiverOptions = options || {};
     this._retryOptions = this._receiverOptions.retryOptions || {};
@@ -163,85 +108,6 @@ export class EventHubConsumer {
       eventPosition,
       options
     );
-  }
-  /**
-   * Starts receiving events from the service and calls the user provided message handler for each event.
-   * Returns an object that can be used to query the state of the receiver and to stop receiving events as well.
-   *
-   * @param onMessage The message handler to receive event data objects.
-   * @param onError The error handler for errora that can occur when receiving events.
-   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   * @returns ReceiveHandler - An object that provides a mechanism to stop receiving more messages.
-   * @throws AbortError if the operation is cancelled via the abortSignal.
-   * @throws TypeError if a required parameter is missing.
-   * @throws Error if the underlying connection or receiver has been closed.
-   * Create a new EventHubConsumer using the EventHubClient createConsumer method.
-   * @throws Error if the receiver is already receiving messages.
-   */
-  receive(onMessage: OnMessage, onError: OnError, abortSignal?: AbortSignalLike): ReceiveHandler {
-    this._throwIfReceiverOrConnectionClosed();
-    this._throwIfAlreadyReceiving();
-    const baseConsumer = this._baseConsumer!;
-
-    if (typeof onMessage !== "function") {
-      throw new TypeError("The parameter 'onMessage' must be of type 'function'.");
-    }
-    if (typeof onError !== "function") {
-      throw new TypeError("The parameter 'onError' must be of type 'function'.");
-    }
-
-    // return immediately if the abortSignal is already aborted.
-    if (abortSignal && abortSignal.aborted) {
-      onError(new AbortError("The receive operation has been cancelled by the user."));
-      // close this receiver when user triggers a cancellation.
-      this.close().catch(() => {}); // no-op close error handler
-      return new ReceiveHandler(baseConsumer);
-    }
-
-    const wrappedOnError = (error: Error) => {
-      // ignore retryable errors
-      if ((error as MessagingError).retryable) {
-        return;
-      }
-
-      logger.warning(
-        "[%s] Since the error is not retryable, we let the user know about it by calling the user's error handler.",
-        this._context.connectionId
-      );
-      logErrorStackTrace(error);
-
-      if (error.name === "AbortError") {
-        // close this receiver when user triggers a cancellation.
-        this.close().catch(() => {}); // no-op close error handler
-      }
-      onError(error);
-    };
-
-    const onAbort = () => {
-      if (this._baseConsumer) {
-        this._baseConsumer.abort();
-      }
-    };
-
-    baseConsumer.registerHandlers(
-      onMessage,
-      wrappedOnError,
-      Constants.defaultPrefetchCount,
-      true,
-      abortSignal,
-      onAbort
-    );
-
-    if (
-      this._receiverOptions.trackLastEnqueuedEventProperties &&
-      this._baseConsumer &&
-      this._baseConsumer.runtimeInfo
-    ) {
-      this._lastEnqueuedEventProperties = this._baseConsumer.runtimeInfo;
-    }
-
-    return new ReceiveHandler(baseConsumer);
   }
 
   /**
