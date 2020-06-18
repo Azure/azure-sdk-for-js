@@ -16,7 +16,7 @@ import { ConnectionContext } from "../connectionContext";
 import { EventHubProperties, PartitionProperties } from "../managementClient";
 import { EventPosition } from "../eventPosition";
 import { EventHubConsumer } from "../receiver";
-import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "../util/error";
+import { throwErrorIfConnectionClosed } from "../util/error";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
@@ -203,24 +203,6 @@ export class EventHubClient {
       options.retryOptions = this._clientOptions.retryOptions;
     }
     throwErrorIfConnectionClosed(this._context);
-    throwTypeErrorIfParameterMissing(
-      this._context.connectionId,
-      "createConsumer",
-      "consumerGroup",
-      consumerGroup
-    );
-    throwTypeErrorIfParameterMissing(
-      this._context.connectionId,
-      "createConsumer",
-      "partitionId",
-      partitionId
-    );
-    throwTypeErrorIfParameterMissing(
-      this._context.connectionId,
-      "createConsumer",
-      "eventPosition",
-      eventPosition
-    );
     partitionId = String(partitionId);
     return new EventHubConsumer(this._context, consumerGroup, partitionId, eventPosition, options);
   }

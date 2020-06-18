@@ -148,10 +148,14 @@ export class PartitionPump {
     this._isStopped = true;
     this._isReceiving = false;
     try {
+      // Trigger the cancellation before closing the receiver,
+      // otherwise the receiver will remove the listener on the abortSignal
+      // before it has a chance to be emitted.
+      this._abortController.abort();
+
       if (this._receiver) {
         await this._receiver.close();
       }
-      this._abortController.abort();
       await this._partitionProcessor.close(reason);
     } catch (err) {
       logger.warning("An error occurred while closing the receiver.", err);

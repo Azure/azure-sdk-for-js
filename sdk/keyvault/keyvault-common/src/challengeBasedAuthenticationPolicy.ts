@@ -6,7 +6,7 @@ import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyOptions,
-  RequestPolicyFactory
+  RequestPolicyFactory,
 } from "@azure/core-http";
 import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
@@ -78,7 +78,7 @@ export function challengeBasedAuthenticationPolicy(
         tokenCache,
         challengeCache
       );
-    }
+    },
   };
 }
 
@@ -103,7 +103,7 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
   const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
     (result, [key, value]: string[]) => ({
       ...result,
-      [key]: value.slice(1, -1)
+      [key]: value.slice(1, -1),
     }),
     {}
   );

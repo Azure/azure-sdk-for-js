@@ -7,11 +7,12 @@ import {
   Subscription,
   SubscriptionEventHandlers,
   latestEventPosition,
-  logger
+  logger,
+  CloseReason
 } from "../src";
 import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
-import { EnvVarKeys, getEnvVars, loopUntil } from "./utils/testUtils";
+import { EnvVarKeys, getEnvVars, loopUntil, getStartingPositionsForTests } from "./utils/testUtils";
 import chai from "chai";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { LogTester } from "./utils/logHelpers";
@@ -223,6 +224,122 @@ describe("EventHubConsumerClient", () => {
 
       clients = [];
       await producerClient.close();
+    });
+
+    describe("#close()", function(): void {
+      it("stops any actively running subscriptions", async function(): Promise<void> {
+        const subscriptions: Subscription[] = [];
+        const client = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+
+        // Spin up multiple subscriptions.
+        for (const partitionId of partitionIds) {
+          subscriptions.push(
+            client.subscribe(partitionId, {
+              async processError() {
+                /* no-op for test */
+              },
+              async processEvents() {
+                /* no-op for test */
+              }
+            })
+          );
+        }
+
+        // Assert that the subscriptions are all running.
+        for (const subscription of subscriptions) {
+          subscription.isRunning.should.equal(true, "The subscription should be running.");
+        }
+
+        // Stop the client, which should stop the subscriptions.
+        await client.close();
+
+        // Assert that the subscriptions are all not running.
+        for (const subscription of subscriptions) {
+          subscription.isRunning.should.equal(false, "The subscription should not be running.");
+        }
+
+        client["_subscriptions"].size.should.equal(
+          0,
+          "Some dangling subscriptions are still hanging around!"
+        );
+      });
+
+      it("gracefully stops running subscriptions", async function(): Promise<void> {
+        const client = new EventHubConsumerClient(
+          EventHubConsumerClient.defaultConsumerGroupName,
+          service.connectionString,
+          service.path
+        );
+
+        const startingPositions = await getStartingPositionsForTests(client);
+
+        let waitForInitializeResolver: () => void;
+        const waitForInitialize = new Promise<void>(
+          (resolve) => (waitForInitializeResolver = resolve)
+        );
+        let waitForCloseResolver: (reason: CloseReason) => void;
+        const waitForClose = new Promise<CloseReason>(
+          (resolve) => (waitForCloseResolver = resolve)
+        );
+        let unexpectedError: Error | undefined;
+        let eventsWereReceived = false;
+
+        const subscription = client.subscribe(
+          partitionIds[0],
+          {
+            async processInitialize() {
+              waitForInitializeResolver();
+            },
+            async processError(err) {
+              unexpectedError = err;
+            },
+            async processEvents() {
+              eventsWereReceived = true;
+            },
+            async processClose(reason) {
+              waitForCloseResolver(reason);
+            }
+          },
+          {
+            startPosition: startingPositions
+          }
+        );
+
+        // Assert that the subscription is running.
+        subscription.isRunning.should.equal(true, "The subscription should be running.");
+
+        // Wait until we see a `processInitialze` handler get invoked.
+        // This lets us know that the subscription is starting to read from a partition.
+        await waitForInitialize;
+
+        // Stop the client, which should stop the subscriptions.
+        await client.close();
+
+        // Ensure that the `processClose` handler was invoked with the expected reason.
+        const closeReason = await waitForClose;
+        closeReason.should.equal(
+          CloseReason.Shutdown,
+          "Subscription closed for an unexpected reason."
+        );
+
+        // Ensure no errors were thrown.
+        should.not.exist(unexpectedError, "Did not expect to observe an error.");
+
+        // Ensure the event handler wasn't called.
+        eventsWereReceived.should.equal(false, "Should not have received events.");
+
+        // Assert that the subscription is not running.
+        subscription.isRunning.should.equal(false, "The subscription should not be running.");
+
+        client["_subscriptions"].size.should.equal(
+          0,
+          "Some dangling subscriptions are still hanging around!"
+        );
+      });
     });
 
     describe("Reinitialize partition processing after error", function(): void {
