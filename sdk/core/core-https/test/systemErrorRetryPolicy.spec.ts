@@ -41,7 +41,7 @@ describe("systemErrorRetryPolicy", function() {
     // allow the delay to occur
     const time = await clock.nextAsync();
     // should be at least the standard delay
-    assert.isAtLeast(time, 30000);
+    assert.isAtLeast(time, 1000);
     assert.isTrue(next.calledTwice);
 
     const result = await promise;
@@ -68,7 +68,8 @@ describe("systemErrorRetryPolicy", function() {
       assert.strictEqual(e, systemError);
     });
     await clock.runAllAsync();
-    assert.strictEqual(next.callCount, 4);
+    // should be one more than the default retry count
+    assert.strictEqual(next.callCount, 11);
     assert.isTrue(catchCalled);
   });
 });

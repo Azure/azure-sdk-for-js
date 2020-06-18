@@ -7,10 +7,10 @@ import { logger } from "../log";
 import { RestError } from "../restError";
 import { delay, getRandomIntegerInclusive } from "../util/helpers";
 
-const DEFAULT_CLIENT_RETRY_COUNT = 3;
+const DEFAULT_CLIENT_RETRY_COUNT = 10;
 // intervals are in ms
-const DEFAULT_CLIENT_RETRY_INTERVAL = 1000 * 30;
-const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 90;
+const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
+const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
 
 /**
  * The programmatic identifier of the systemErrorRetryPolicy.
@@ -34,20 +34,20 @@ interface RetryError extends Error {
  */
 export interface SystemErrorRetryPolicyOptions {
   /**
-   * The maximum number of retry attempts.  Defaults to 3.
+   * The maximum number of retry attempts.  Defaults to 10.
    */
   maxRetries?: number;
 
   /**
-   * The amount of delay in milliseconds between retry attempts. Defaults to 30000
-   * (30 seconds). The delay increases exponentially with each retry up to a maximum
+   * The amount of delay in milliseconds between retry attempts. Defaults to 1000
+   * (1 second.) The delay increases exponentially with each retry up to a maximum
    * specified by maxRetryDelayInMs.
    */
   retryDelayInMs?: number;
 
   /**
    * The maximum delay in milliseconds allowed before retrying an operation. Defaults
-   * to 90000 (90 seconds).
+   * to 64000 (64 seconds).
    */
   maxRetryDelayInMs?: number;
 }
