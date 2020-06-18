@@ -6,15 +6,16 @@ import { assert } from "chai";
 import {
   toTextLine,
   toFormPage,
-  toFormElement,
-  toFormText,
-  toFormField,
-  toFieldValue,
+  toFormContent,
+  toFieldText,
+  toFormFieldFromKeyValuePairModel,
+  toFormFieldFromFieldValueModel,
   toFieldsFromFieldValue,
   toFormTable,
   toRecognizeFormResultResponse,
   toReceiptResultResponse,
-  toFormModelResponse
+  toFormModelResponse,
+  toRecognizedForm
 } from "../src/transforms";
 import {
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
@@ -22,18 +23,12 @@ import {
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse,
   ReadResult as ReadResultModel,
   FieldValue as FieldValueModel,
-  DataTable as DataTableModel
+  DataTable as DataTableModel,
+  DocumentResult as DocumentResultModel
 } from "../src/generated/models";
 import {
-  StringFieldValue,
-  DateFieldValue,
-  TimeFieldValue,
-  PhoneNumberFieldValue,
-  NumberFieldValue,
-  IntegerFieldValue,
-  ArrayFieldValue,
-  ObjectFieldValue,
-  Point2D
+  Point2D,
+  FormField
 } from "../src/models";
 
 describe("Transforms", () => {
@@ -136,7 +131,7 @@ describe("Transforms", () => {
     const stringRef = "#/readResults/0/lines/0/words/0";
     const readResults = [originalReadResult1, originalReadResult2].map(toFormPage);
 
-    const transformed = toFormElement(stringRef, readResults);
+    const transformed = toFormContent(stringRef, readResults);
 
     assert.deepStrictEqual(transformed, readResults[0].lines![0].words[0]);
   });
@@ -146,7 +141,7 @@ describe("Transforms", () => {
   it("toExtractedElement() converts line string reference to extracted line", () => {
     const stringRef = "#/readResults/1/lines/1";
 
-    const transformed = toFormElement(stringRef, formPages);
+    const transformed = toFormContent(stringRef, formPages);
 
     assert.deepStrictEqual(transformed, formPages[1].lines![1]);
   });
@@ -158,8 +153,9 @@ describe("Transforms", () => {
   };
 
   it("toKeyValueElement() converts original KeyValueElementModel", () => {
-    const transformed = toFormText(originalKeyValueElement1, formPages);
+    const transformed = toFieldText(0, originalKeyValueElement1, formPages);
 
+    assert.equal(transformed.pageNumber, 0);
     assert.equal(transformed.text, originalKeyValueElement1.text);
     assert.ok(transformed.boundingBox);
     verifyBoundingBox(transformed.boundingBox!, originalKeyValueElement1.boundingBox);
@@ -175,20 +171,19 @@ describe("Transforms", () => {
       value: originalKeyValueElement1
     };
 
-    const transformed = toFormField(original, formPages);
+    const transformed = toFormFieldFromKeyValuePairModel(1, original, formPages);
 
     assert.equal(transformed.name, original.label);
     assert.equal(transformed.confidence, original.confidence);
-    assert.ok(transformed.fieldLabel);
-    assert.ok(transformed.fieldLabel!.boundingBox);
+    assert.ok(transformed.labelText);
+    assert.ok(transformed.labelText!.boundingBox);
+    assert.equal(transformed.labelText!.pageNumber, 1);
     assert.ok(transformed.valueText);
+    assert.equal(transformed.valueText!.pageNumber, 1);
     assert.ok(transformed.valueText!.boundingBox);
-    verifyBoundingBox(transformed.fieldLabel!.boundingBox!, original.key.boundingBox);
+    verifyBoundingBox(transformed.labelText!.boundingBox!, original.key.boundingBox);
     verifyBoundingBox(transformed.valueText!.boundingBox!, original.value.boundingBox);
-    assert.deepStrictEqual(
-      transformed.fieldLabel!.textContent![0],
-      formPages[0].lines![0].words[0]
-    );
+    assert.deepStrictEqual(transformed.labelText!.textContent![0], formPages[0].lines![0].words[0]);
     assert.deepStrictEqual(transformed.valueText!.textContent![1], formPages[0].lines![0].words[1]);
   });
 
@@ -199,7 +194,7 @@ describe("Transforms", () => {
     elements: ["#/readResults/0/lines/0/words/0", "#/readResults/0/lines/0/words/1"]
   };
 
-  describe("toFieldValue()", () => {
+  describe("toFormFieldFromFieldValueModel()", () => {
     it("converts field value of string", () => {
       const original: FieldValueModel = {
         type: "string",
@@ -207,11 +202,13 @@ describe("Transforms", () => {
         ...commonProperties
       };
 
-      const transformed = toFieldValue(original, formPages);
+      const transformed = toFormFieldFromFieldValueModel(original, "keyName", formPages);
 
-      assert.equal(transformed.type, "string");
+      assert.equal(transformed.name, "keyName");
+      assert.equal(transformed.valueType, "string");
       assert.equal(transformed.value, original.valueString);
-      assert.equal((transformed as StringFieldValue).text, original.text);
+      assert.ok(transformed.valueText, "Expecting valid 'transformed.valueText'");
+      assert.equal(transformed.valueText!.text, original.text);
     });
 
     it("converts field value of date", () => {
@@ -221,11 +218,13 @@ describe("Transforms", () => {
         ...commonProperties
       };
 
-      const transformed = toFieldValue(original, formPages);
+      const transformed = toFormFieldFromFieldValueModel(original, "keyName", formPages);
 
-      assert.equal(transformed.type, "date");
+      assert.equal(transformed.name, "keyName");
+      assert.equal(transformed.valueType, "date");
       assert.equal(transformed.value, original.valueDate);
-      assert.equal((transformed as DateFieldValue).text, original.text);
+      assert.ok(transformed.valueText, "Expecting valid 'transformed.valueText'");
+      assert.equal(transformed.valueText!.text, original.text);
     });
 
     it("converts field value of time", () => {
@@ -235,11 +234,13 @@ describe("Transforms", () => {
         ...commonProperties
       };
 
-      const transformed = toFieldValue(original, formPages);
+      const transformed = toFormFieldFromFieldValueModel(original, "keyName", formPages);
 
-      assert.equal(transformed.type, "time");
+      assert.equal(transformed.name, "keyName");
+      assert.equal(transformed.valueType, "time");
       assert.equal(transformed.value, original.valueTime);
-      assert.equal((transformed as TimeFieldValue).text, original.text);
+      assert.ok(transformed.valueText, "Expecting valid 'transformed.valueText'");
+      assert.equal(transformed.valueText!.text, original.text);
     });
 
     it("converts field value of phoneNumber", () => {
@@ -249,11 +250,12 @@ describe("Transforms", () => {
         ...commonProperties
       };
 
-      const transformed = toFieldValue(original, formPages);
+      const transformed = toFormFieldFromFieldValueModel(original, "keyName", formPages);
 
-      assert.equal(transformed.type, "phoneNumber");
+      assert.equal(transformed.valueType, "phoneNumber");
       assert.equal(transformed.value, original.valuePhoneNumber);
-      assert.equal((transformed as PhoneNumberFieldValue).text, original.text);
+      assert.ok(transformed.valueText, "Expecting valid 'transformed.valueText'");
+      assert.equal(transformed.valueText!.text, original.text);
     });
 
     it("converts field value of number", () => {
@@ -263,11 +265,12 @@ describe("Transforms", () => {
         ...commonProperties
       };
 
-      const transformed = toFieldValue(original, formPages);
+      const transformed = toFormFieldFromFieldValueModel(original, "keyName", formPages);
 
-      assert.equal(transformed.type, "number");
+      assert.equal(transformed.valueType, "number");
       assert.equal(transformed.value, original.valueNumber);
-      assert.equal((transformed as NumberFieldValue).text, original.text);
+      assert.ok(transformed.valueText, "Expecting valid 'transformed.valueText'");
+      assert.equal(transformed.valueText!.text, original.text);
     });
 
     it("converts field value of integer", () => {
@@ -277,11 +280,12 @@ describe("Transforms", () => {
         ...commonProperties
       };
 
-      const transformed = toFieldValue(original, formPages);
+      const transformed = toFormFieldFromFieldValueModel(original, "keyName", formPages);
 
-      assert.equal(transformed.type, "integer");
+      assert.equal(transformed.valueType, "integer");
       assert.equal(transformed.value, original.valueInteger);
-      assert.equal((transformed as IntegerFieldValue).text, original.text);
+      assert.ok(transformed.valueText, "Expecting valid 'transformed.valueText'");
+      assert.equal(transformed.valueText!.text, original.text);
     });
 
     it("converts field value of array", () => {
@@ -300,21 +304,23 @@ describe("Transforms", () => {
         valueArray: [originalDate, originalInteger]
       };
 
-      const transformed = toFieldValue(original, formPages);
+      const transformed = toFormFieldFromFieldValueModel(original, "keyName", formPages);
 
-      assert.equal(transformed.type, "array");
+      assert.equal(transformed.valueType, "array");
 
-      const array = (transformed as ArrayFieldValue).value;
-      assert.equal(array![0].type, "date");
+      const array = transformed.value as FormField[];
+      assert.equal(array![0].valueType, "date");
       assert.equal(array![0].value, originalDate.valueDate);
-      assert.equal((array![0] as DateFieldValue).text, originalDate.text);
+      assert.ok(array![0].valueText, "Expecting valid 'transformed.valueText'");
+      assert.equal(array![0].valueText!.text, originalDate.text);
       assert.deepStrictEqual(
-        (array![0] as DateFieldValue).textContent![0],
+        array![0].valueText!.textContent![0],
         formPages[0].lines![0].words[0]
       );
-      assert.equal(array![1].type, "integer");
+      assert.equal(array![1].valueType, "integer");
       assert.equal(array![1].value, originalInteger.valueInteger);
-      assert.equal((array![1] as DateFieldValue).text, originalDate.text);
+      assert.ok(array![1].valueText, "Expecting valid 'transformed.valueText'");
+      assert.equal(array![1].valueText!.text, originalInteger.text);
     });
 
     it("converts field value of object", () => {
@@ -336,14 +342,14 @@ describe("Transforms", () => {
         }
       };
 
-      const transformed = toFieldValue(original, formPages);
+      const transformed = toFormFieldFromFieldValueModel(original, "keyName", formPages);
 
-      assert.equal(transformed.type, "object");
+      assert.equal(transformed.valueType, "object");
 
-      const obj = transformed as ObjectFieldValue;
-      assert.equal(obj.type, "object");
-      assert.equal(obj.value!["dateProperty"].value, originalDate.valueDate);
-      assert.equal(obj.value!["integerProperty"].value, originalInteger.valueInteger);
+      const obj = transformed.value as { [proertyName: string] : FormField};
+      assert.ok(obj, "Expecting valid transformed.value")
+      assert.equal(obj!["dateProperty"].value, originalDate.valueDate);
+      assert.equal(obj!["integerProperty"].value, originalInteger.valueInteger);
     });
   });
 
@@ -372,9 +378,9 @@ describe("Transforms", () => {
       "Expecting missingField has undefined confidence"
     );
     assert.equal(
-      transformed.missingField.fieldLabel,
+      transformed.missingField.labelText,
       undefined,
-      "Expecting missingField has undefined fieldLabel"
+      "Expecting missingField has undefined labelText"
     );
     assert.equal(
       transformed.missingField.value,
@@ -456,6 +462,19 @@ describe("Transforms", () => {
     assert.equal(transformed.rows[2].cells[0].columnSpan, 2);
   });
 
+  it("toRecognizedForm() should handle empty page", () => {
+    const original: DocumentResultModel = {
+      docType: "prebuilt:receipt",
+      pageRange: [1, 1],
+      fields: {}
+    };
+
+    const transformed = toRecognizedForm(original, formPages);
+
+    assert.ok(transformed, "Expected valid recognized form");
+    assert.deepStrictEqual(transformed.fields, {}, "expected empty fields in recognzied form");
+  });
+
   it("toRecognizeFormResultResponse() converts unsupervised response into recognized forms", () => {
     const original: GetAnalyzeFormResultResponse = JSON.parse(unsupervisedResponseString);
     const transformed = toRecognizeFormResultResponse(original);
@@ -500,7 +519,7 @@ describe("Transforms", () => {
   it("toFormModelResponse() converts labeled model response", () => {
     const original: GetCustomModelResponse = JSON.parse(labeledModelResponse);
     const transformed = toFormModelResponse(original);
-    const models = transformed.models;
+    const models = transformed.submodels;
 
     assert.deepStrictEqual(
       transformed.trainingDocuments,
@@ -516,14 +535,15 @@ describe("Transforms", () => {
     assert.equal(models![0].accuracy, original.trainResult!.averageModelAccuracy);
     assert.deepStrictEqual(models![0].fields!["InvoiceDate"], {
       name: "InvoiceDate",
-      accuracy: 0.8
+      accuracy: 0.8,
+      label: null
     });
   });
 
   it("toFormModelResponse() converts unlabeled model response", () => {
     const original: GetCustomModelResponse = JSON.parse(unlabeledModelResponse);
     const transformed = toFormModelResponse(original);
-    const models = transformed.models;
+    const models = transformed.submodels;
 
     assert.deepStrictEqual(
       transformed.trainingDocuments,
@@ -546,22 +566,6 @@ describe("Transforms", () => {
 
     assert.ok(transformed.receipts, "Expecting non-empty recognized receipts");
     assert.equal(transformed.receipts![0].recognizedForm.formType, "prebuilt:receipt");
-    assert.equal(transformed.receipts![0].locale, "US"); // default to "US" for now
-  });
-
-  it("toUSReceipt() converts receipt to USA sales receipt", () => {
-    const original: GetAnalyzeReceiptResultResponse = JSON.parse(receiptResponseString);
-    const receiptResult = toReceiptResultResponse(original);
-    const usReceipt = receiptResult.receipts![0];
-
-    assert.equal(usReceipt.receiptType, "itemized");
-    assert.equal(usReceipt.locale, "US");
-    assert.ok(usReceipt.tax, "Expecting valid 'tax' field");
-    assert.equal(usReceipt.tax!.name, "Tax");
-    assert.ok(usReceipt.tip, "Expecting valid 'tip' field");
-    assert.equal(typeof usReceipt.tip!.value!, "number");
-    assert.ok(usReceipt.total, "Expecting valid 'total' field");
-    assert.equal(usReceipt.total!.value!, 14.5);
   });
 });
 

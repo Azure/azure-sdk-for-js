@@ -7,6 +7,8 @@
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
 /* eslint-disable @typescript-eslint/member-ordering */
 
+/// <reference lib="esnext.asynciterable" />
+
 import {
   TokenCredential,
   isTokenCredential,
@@ -140,8 +142,7 @@ import { SDK_VERSION } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
-
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
@@ -232,7 +233,10 @@ export {
 /**
  * Deprecated KeyVault copy of core-lro's PollerLike.
  */
-export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<TState, TResult>;
+export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<
+  TState,
+  TResult
+>;
 
 function toCoreAttributes(properties: CertificateProperties): CoreCertificateAttributes {
   return {
@@ -1438,7 +1442,10 @@ export class CertificateClient {
         this.vaultUrl,
         certificateName,
         version,
-        this.setParentSpan(span, requestOptions)
+        {
+          ...this.setParentSpan(span, requestOptions),
+          certificateAttributes: toCoreAttributes(options)
+        }
       );
     } finally {
       span.end();
@@ -2150,7 +2157,6 @@ export class CertificateClient {
     const attributes: any = item.attributes || {};
 
     const abstractProperties: any = {
-      name: parsedId.name,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,

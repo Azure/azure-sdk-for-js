@@ -1,6 +1,18 @@
 # Release History
 
-## 1.0.0-preview.5 (Unreleased)
+## 1.0.0 (2020-06-09)
+
+- This release marks the general availability of the `@azure/ai-text-analytics` package.
+
+## 1.0.0-preview.5 (2020-05-26)
+- [Breaking] Renamed all result array types that extend JavaScript's base `Array` class to end with the word `Array` instead of `Collection` (e.g. `AnalyzeSentimentResultCollection` is now `AnalyzeSentimentResultArray`)
+- [Breaking] Renamed `score` to `confidenceScore` in the `Match`, `Entity`, and `DetectedLanguage` types.
+- [Breaking] Removed the `graphemeOffset` and `graphemeLength` properties of the `Match`, `Entity`, and `SentenceSentiment` types.
+- [Breaking] Renamed the `graphemeCount` property of `TextDocumentStatistics` back to `characterCount`
+- Added a `text` property to `SentenceSentiment` that contains the sentence text
+- [Breaking] Removed the `warnings` property of `SentenceSentiment`.
+- Added `warnings` property to every document response object containing a list of `TextAnalyticsWarning` objects relevant to the corresponding document.
+- Migrated to using the Text Analytics v3.0 (General Availability) service endpoint.
 
 
 ## 1.0.0-preview.4 (2020-04-07)
@@ -33,7 +45,7 @@
 
 - This release is a preview of our efforts to create a client library that is user friendly and
   idiomatic to the JavaScript ecosystem. The reasons for most of the changes in this update can be found in the
-  [Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
+  [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html).
 - Differences from previous public package `@azure/cognitiveservices-textanalytics`
   - Package name changed from `@azure/cognitiveservices-textanalytics` to `@azure/ai-text-analytics`.
   - Package targets version `3.0` of the service API.

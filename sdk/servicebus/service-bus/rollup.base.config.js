@@ -54,12 +54,10 @@ export function nodeConfig({ test = false, production = false } = {}) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (true) since this is for node only.
-          // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)",
-          "if (!isNode)": "if (false)"
-        }
+        // replace dynamic checks with if (true) since this is for node only.
+        // Allows rollup's dead code elimination to be more aggressive.
+        "if (isNode)": "if (true)",
+        "if (!isNode)": "if (false)"
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs(),
@@ -76,13 +74,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
     baseConfig.output.file = "test-dist/index.js";
 
     // mark assert as external
-    baseConfig.external.push(
-      "assert",
-      "fs",
-      "path",
-      "@azure/arm-servicebus",
-      "@azure/ms-rest-nodeauth"
-    );
+    baseConfig.external.push("assert", "fs", "path", "@azure/identity");
 
     baseConfig.onwarn = ignoreKnownWarnings;
 
@@ -114,13 +106,11 @@ export function browserConfig(test = false) {
         // ms-rest-js is externalized so users must include it prior to using this bundle.
         {
           delimiters: ["", ""],
-          values: {
-            // replace dynamic checks with if (false) since this is for
-            // browser only. Rollup's dead code elimination will remove
-            // any code guarded by if (isNode) { ... }
-            "if (isNode)": "if (false)",
-            "if (!isNode)": "if (true)"
-          }
+          // replace dynamic checks with if (false) since this is for
+          // browser only. Rollup's dead code elimination will remove
+          // any code guarded by if (isNode) { ... }
+          "if (isNode)": "if (false)",
+          "if (!isNode)": "if (true)"
         }
       ),
       // fs, net, and tls are used by rhea and need to be shimmed

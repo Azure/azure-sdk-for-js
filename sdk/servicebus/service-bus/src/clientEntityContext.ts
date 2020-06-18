@@ -6,12 +6,11 @@ import { StreamingReceiver } from "./core/streamingReceiver";
 import { MessageSender } from "./core/messageSender";
 import { ManagementClient, ManagementClientOptions } from "./core/managementClient";
 import { ConnectionContext } from "./connectionContext";
-import { Dictionary, AmqpError } from "rhea-promise";
+import { AmqpError, Dictionary } from "rhea-promise";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
 import { MessageSession } from "./session/messageSession";
-import { SessionManager } from "./session/sessionManager";
 import { MessagingError } from "@azure/core-amqp";
 
 /**
@@ -68,11 +67,6 @@ export interface ClientEntityContextBase {
    * messages received using the management client.
    */
   requestResponseLockedMessages: ConcurrentExpiringMap<string>;
-  /**
-   * @property {SessionManager} [sessionManager] SessionManager is responsible for efficiently
-   * receiving messages from multiple message sessions.
-   */
-  sessionManager?: SessionManager;
   /**
    * @property {string} [clientId] Unique Id of the client for which this context is created
    */
@@ -132,10 +126,6 @@ export namespace ClientEntityContext {
       messageSessions: {},
       expiredMessageSessions: {}
     };
-
-    (entityContext as ClientEntityContext).sessionManager = new SessionManager(
-      entityContext as ClientEntityContext
-    );
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
       if (sessionId != undefined && entityContext.expiredMessageSessions[sessionId]) {
@@ -295,11 +285,6 @@ export namespace ClientEntityContext {
       // Close all the MessageSessions.
       for (const messageSessionId of Object.keys(entityContext.messageSessions)) {
         await entityContext.messageSessions[messageSessionId].close();
-      }
-
-      // Close the sessionManager.
-      if (entityContext.sessionManager) {
-        entityContext.sessionManager.close();
       }
 
       // Make sure that we clear the map of deferred messages

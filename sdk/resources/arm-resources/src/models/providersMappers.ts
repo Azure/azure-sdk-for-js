@@ -7,8 +7,9 @@
  */
 
 export {
-  AliasPathType,
-  AliasType,
+  Alias,
+  AliasPath,
+  AliasPattern,
   CloudError,
   ErrorAdditionalInfo,
   ErrorResponse,

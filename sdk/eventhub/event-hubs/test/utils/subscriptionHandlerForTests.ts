@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  SubscriptionEventHandlers,
-  PartitionContext
-} from "../../src/eventHubConsumerClientModels";
-import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
-import { EventHubProducerClient } from "../../src/eventHubProducerClient";
-import { EventHubClient } from "../../src/impl/eventHubClient";
-import { CloseReason, EventPosition, ReceivedEventData } from "../../src";
-import { loggerForTest } from "./logHelpers";
-import { loopUntil } from "./testUtils";
 import { delay } from "@azure/core-amqp";
 import chai from "chai";
+import {
+  CloseReason,
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  EventPosition,
+  ReceivedEventData
+} from "../../src";
+import {
+  PartitionContext,
+  SubscriptionEventHandlers
+} from "../../src/eventHubConsumerClientModels";
+import { loggerForTest } from "./logHelpers";
+import { loopUntil } from "./testUtils";
 const should = chai.should();
 
 export interface HandlerAndPositions {
@@ -25,7 +28,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
   private _timeBetweenChecksMs = 1000;
 
   static async startingFromHere(
-    client: EventHubClient | EventHubProducerClient | EventHubConsumerClient
+    client: EventHubProducerClient | EventHubConsumerClient
   ): Promise<HandlerAndPositions> {
     const partitionIds = await client.getPartitionIds({});
     const startPosition: { [partitionId: string]: EventPosition } = {};
@@ -173,16 +176,14 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
 export async function sendOneMessagePerPartition(
   partitionIds: string[],
-  client: EventHubClient
+  producerClient: EventHubProducerClient
 ): Promise<{ body: string; partitionId: string }[]> {
   const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
   const sentMessages = [];
 
   for (const partitionId of partitionIds) {
-    const producer = client.createProducer({ partitionId });
     const body = expectedMessagePrefix + partitionId;
-    await producer.send({ body });
-    await producer.close();
+    await producerClient.sendBatch([{ body }], { partitionId });
     sentMessages.push({
       body,
       partitionId

@@ -27,22 +27,17 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });
   await poller.pollUntilDone();
-  const response = poller.getResult();
+  const forms = poller.getResult();
 
-  if (!response) {
-    throw new Error("Expecting valid response!");
-  }
-
-  console.log(response.status);
   console.log("Forms:");
   let i = 0;
-  for (const form of response.forms || []) {
+  for (const form of forms || []) {
     console.log(`  Form #${i++} has type ${form.formType}`);
     console.log("  Fields:");
     for (const fieldName in form.fields) {
@@ -79,9 +74,6 @@ async function main() {
       }
     }
   }
-
-  console.log("Errors:");
-  console.log(response.errors);
 }
 
 main().catch((err) => {

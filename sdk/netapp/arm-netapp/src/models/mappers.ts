@@ -757,6 +757,36 @@ export const MountTarget: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      subnet: {
+        serializedName: "properties.subnet",
+        type: {
+          name: "String"
+        }
+      },
+      startIp: {
+        serializedName: "properties.startIp",
+        type: {
+          name: "String"
+        }
+      },
+      endIp: {
+        serializedName: "properties.endIp",
+        type: {
+          name: "String"
+        }
+      },
+      gateway: {
+        serializedName: "properties.gateway",
+        type: {
+          name: "String"
+        }
+      },
+      netmask: {
+        serializedName: "properties.netmask",
+        type: {
+          name: "String"
+        }
+      },
       smbServerFqdn: {
         serializedName: "properties.smbServerFqdn",
         type: {
@@ -1133,28 +1163,6 @@ export const VolumePatch: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "VolumePatchPropertiesExportPolicy"
-        }
-      }
-    }
-  }
-};
-
-export const MountTargetList: msRest.CompositeMapper = {
-  serializedName: "mountTargetList",
-  type: {
-    name: "Composite",
-    className: "MountTargetList",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "MountTarget"
-            }
-          }
         }
       }
     }

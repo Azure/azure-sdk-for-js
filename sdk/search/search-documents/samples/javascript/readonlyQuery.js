@@ -5,7 +5,7 @@
  * Performs a query over a public dataset
  */
 
-const { SearchIndexClient, AzureKeyCredential, odata } = require("@azure/search-documents");
+const { SearchClient, AzureKeyCredential, odata } = require("@azure/search-documents");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -19,15 +19,16 @@ async function main() {
   const indexName = "hotels";
 
   const credential = new AzureKeyCredential(apiKey);
-  const client = new SearchIndexClient(endpoint, indexName, credential);
+  const client = new SearchClient(endpoint, indexName, credential);
 
-  const count = await client.countDocuments();
+  const count = await client.getDocumentsCount();
   console.log(`${count} documents in index ${client.indexName}`);
 
   const state = "FL";
   const country = "USA";
-  const searchResults = await client.search({
-    searchText: "WiFi",
+  const searchResults = await client.search(
+    "WiFi",
+    {
     filter: odata`Address/StateProvince eq ${state} and Address/Country eq ${country}`,
     orderBy: ["Rating desc"],
     select: ["HotelId", "HotelName", "Rating"]

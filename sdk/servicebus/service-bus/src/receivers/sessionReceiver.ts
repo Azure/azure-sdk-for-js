@@ -3,35 +3,35 @@
 
 import { ClientEntityContext } from "../clientEntityContext";
 import {
-  SessionMessageHandlerOptions,
   MessageHandlers,
-  SubscribeOptions,
   ReceiveBatchOptions,
-  ReceivedMessage
+  ReceivedMessage,
+  SessionMessageHandlerOptions,
+  SubscribeOptions
 } from "..";
 import {
-  GetMessageIteratorOptions,
+  PeekMessagesOptions,
   CreateSessionReceiverOptions,
-  BrowseMessagesOptions
+  GetMessageIteratorOptions
 } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
-  throwErrorIfConnectionClosed,
+  getAlreadyReceivingErrorMsg,
   getOpenSessionReceiverErrorMsg,
   getReceiverClosedErrorMsg,
-  getAlreadyReceivingErrorMsg,
+  throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterNotLongArray
 } from "../util/errors";
 import * as log from "../log";
-import { OnMessage, OnError } from "../core/messageReceiver";
+import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
-import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
+import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 
@@ -336,12 +336,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     return retry<any>(config);
   }
 
-  async browseMessages(options: BrowseMessagesOptions = {}): Promise<ReceivedMessage[]> {
+  async peekMessages(options: PeekMessagesOptions = {}): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
     const managementRequestOptions = {
       ...options,
-      requestName: "browseMessages",
+      requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs
     };
     const peekOperationPromise = async () => {

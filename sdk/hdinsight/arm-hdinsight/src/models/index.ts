@@ -1469,6 +1469,16 @@ export interface Operation {
 }
 
 /**
+ * The cluster host information.
+ */
+export interface HostInfo {
+  /**
+   * The host name
+   */
+  name?: string;
+}
+
+/**
  * An interface representing HDInsightManagementClientOptions.
  */
 export interface HDInsightManagementClientOptions extends AzureServiceClientOptions {
@@ -2177,5 +2187,25 @@ export type OperationsListNextResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the listHosts operation.
+ */
+export type VirtualMachinesListHostsResponse = Array<HostInfo> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HostInfo[];
     };
 };

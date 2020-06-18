@@ -1,4 +1,4 @@
-# Guide to migrate from @azure/service-bus v1 to v7.preview.2
+# Guide to migrate from @azure/service-bus v1 to v7.preview.3
 
 This document is intended for users that would like to try out preview 7
 for @azure/service-bus. As the package is in preview, these details might
@@ -87,7 +87,7 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   });
   ```
 
-* `peek()`is renamed to `browseMessages()` to avoid confusion with the PeekLock mode
+* `peekBySequenceNumber()`is removed in favor of an overload to `peekMessages()` that would take the sequence number to start peeking from in the options.
 
 * Subscription rule management has been moved to its own class, rather than being part of the now-removed `SubscriptionClient`
 
@@ -108,11 +108,11 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   ruleManager.removeRule();
   ```
 
-* createSender() and createSessionReceiver() are now async methods and initialize the connection
+* createSessionReceiver() is now an async method. The promise returned by this method
+  is resolved when a receiver link has been initialized with a session in the service.
 
-Prior to v7 `createSender()` and `createSessionReceiver()` worked using lazy-initialization, where the
-AMQP connection would only be initialized on first send or receiving of a message.
+Prior to v7 `createSessionReceiver()` worked using lazy-initialization, where the
+receiver link to the session was only initialized when the async methods on the `SessionReceiver`
+were first called.
 
-The connection and link are now initialized after calling either method.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FMIGRATIONGUIDE.png)

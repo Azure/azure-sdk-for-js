@@ -2,34 +2,32 @@
 // Licensed under the MIT license.
 
 import {
-  MessageHandlers,
-  SubscribeOptions,
+  PeekMessagesOptions,
   GetMessageIteratorOptions,
+  MessageHandlers,
   ReceiveBatchOptions,
-  MessageHandlerOptions,
-  BrowseMessagesOptions
+  SubscribeOptions
 } from "../models";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 import { ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
-  throwErrorIfConnectionClosed,
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterNotLongArray,
-  throwErrorIfClientOrConnectionClosed
+  throwTypeErrorIfParameterNotLongArray
 } from "../util/errors";
 import * as log from "../log";
-import { OnMessage, OnError, ReceiveOptions } from "../core/messageReceiver";
+import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
 import { assertValidMessageHandlers, getMessageIterator } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
-import { ServiceBusMessageImpl, ReceivedMessageWithLock } from "../serviceBusMessage";
-import { RetryConfig, RetryOperationType, retry, Constants, RetryOptions } from "@azure/core-amqp";
+import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 
 /**
@@ -93,25 +91,29 @@ export interface Receiver<ReceivedMessageT> {
   isReceivingMessages(): boolean;
 
   /**
-   * Browse the next batch of active messages (including deferred but not deadlettered messages) on the
+   * Peek the next batch of active messages (including deferred but not deadlettered messages) on the
    * queue or subscription without modifying them.
-   * - The first call to `browseMessages()` fetches the first active message. Each subsequent call fetches the
+   * - The first call to `peekMessages()` fetches the first active message. Each subsequent call fetches the
    * subsequent message.
-   * - Unlike a "received" message, "browsed" message is a read-only version of the message.
+   * - Unlike a "received" message, "peeked" message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`.
-   * @param options Options that allow to specify the maximum number of messages to browse,
-   * the sequenceNumber to start browsing from or an abortSignal to abort the operation.
+   * @param options Options that allow to specify the maximum number of messages to peek,
+   * the sequenceNumber to start peeking from or an abortSignal to abort the operation.
    */
-  browseMessages(options?: BrowseMessagesOptions): Promise<ReceivedMessage[]>;
+  peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
   /**
-   * Path for the client entity.
+   * Path of the entity for which the receiver has been created.
    */
   entityPath: string;
   /**
    * ReceiveMode provided to the client.
    */
   receiveMode: "peekLock" | "receiveAndDelete";
-
+  /**
+   * @property Returns `true` if either the receiver or the client that created it has been closed
+   * @readonly
+   */
+  isClosed: boolean;
   /**
    * Closes the receiver.
    */
@@ -205,7 +207,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
-    options?: MessageHandlerOptions
+    options?: SubscribeOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
@@ -219,7 +221,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    StreamingReceiver.create(this._context, {
+    this._createStreamingReceiver(this._context, {
       ...options,
       receiveMode: convertToInternalReceiveMode(this.receiveMode),
       retryOptions: this._retryOptions
@@ -238,6 +240,19 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       .catch((err) => {
         onError(err);
       });
+  }
+
+  private _createStreamingReceiver(
+    context: ClientEntityContext,
+    options?: ReceiveOptions &
+      Pick<OperationOptions, "abortSignal"> & {
+        createStreamingReceiver?: (
+          context: ClientEntityContext,
+          options?: ReceiveOptions
+        ) => StreamingReceiver;
+      }
+  ): Promise<StreamingReceiver> {
+    return StreamingReceiver.create(context, options);
   }
 
   /**
@@ -268,11 +283,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
           maxConcurrentCalls: 0,
           receiveMode: convertToInternalReceiveMode(this.receiveMode)
         };
-        this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+        this._context.batchingReceiver = this._createBatchingReceiver(this._context, options);
       }
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
-        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs
+        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
+        options?.abortSignal
       );
       return (receivedMessages as unknown) as ReceivedMessageT[];
     };
@@ -407,16 +423,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
   // ManagementClient methods # Begin
 
-  async browseMessages(options: BrowseMessagesOptions = {}): Promise<ReceivedMessage[]> {
-    throwErrorIfClientOrConnectionClosed(
-      this._context.namespace,
-      this._context.entityPath,
-      this._context.isClosed
-    );
-
+  async peekMessages(options: PeekMessagesOptions = {}): Promise<ReceivedMessage[]> {
+    this._throwIfReceiverOrConnectionClosed();
     const managementRequestOptions = {
       ...options,
-      requestName: "browseMessages",
+      requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs
     };
     const peekOperationPromise = async () => {
@@ -512,5 +523,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       return true;
     }
     return false;
+  }
+
+  private _createBatchingReceiver(
+    context: ClientEntityContext,
+    options?: ReceiveOptions
+  ): BatchingReceiver {
+    return BatchingReceiver.create(context, options);
   }
 }

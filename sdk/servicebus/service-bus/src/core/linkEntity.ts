@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  defaultLock,
-  TokenType,
   AccessToken,
   Constants,
-  SharedKeyCredential
+  SharedKeyCredential,
+  TokenType,
+  defaultLock
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
@@ -176,7 +176,7 @@ export class LinkEntity {
       this.address
     );
     if (setTokenRenewal) {
-      await this._ensureTokenRenewal();
+      this._ensureTokenRenewal();
     }
   }
 
@@ -184,7 +184,7 @@ export class LinkEntity {
    * Ensures that the token is renewed within the predefined renewal margin.
    * @returns {void}
    */
-  protected async _ensureTokenRenewal(): Promise<void> {
+  protected _ensureTokenRenewal(): void {
     if (!this._tokenTimeout) {
       return;
     }

@@ -4,7 +4,7 @@
 import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage } from "./serviceBusMessage";
+import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
 import { ClientEntityContext } from "./clientEntityContext";
 import {
   getSenderClosedErrorMsg,
@@ -14,13 +14,13 @@ import {
   throwTypeErrorIfParameterNotLongArray
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions, CreateSenderOptions } from "./models";
+import { CreateBatchOptions, SenderOpenOptions } from "./models";
 import {
-  retry,
-  RetryOperationType,
+  MessagingError,
   RetryConfig,
+  RetryOperationType,
   RetryOptions,
-  MessagingError
+  retry
 } from "@azure/core-amqp";
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
@@ -91,6 +91,17 @@ export interface Sender {
   createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
 
   /**
+   * Opens the AMQP link to Azure Service Bus from the sender.
+   *
+   * It is not necessary to call this method in order to use the sender. It is
+   * recommended to call this before your first send() or sendBatch() call if you
+   * want to front load the work of setting up the AMQP link to the service.
+   *
+   * @param options - Options bag to pass an abort signal.
+   */
+  open(options?: SenderOpenOptions): Promise<void>;
+
+  /**
    * @property Returns `true` if either the sender or the client that created it has been closed
    * @readonly
    */
@@ -151,7 +162,10 @@ export interface Sender {
    * @throws MessagingError if the service returns an error while canceling scheduled messages.
    */
   cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
-
+  /**
+   * Path of the entity for which the sender has been created.
+   */
+  entityPath: string;
   /**
    * Closes the underlying AMQP sender link.
    * Once closed, the sender cannot be used for any further operations.
@@ -179,6 +193,7 @@ export class SenderImpl implements Sender {
    */
   private _isClosed: boolean = false;
   private _sender: MessageSender;
+  public entityPath: string;
 
   /**
    * @internal
@@ -187,6 +202,7 @@ export class SenderImpl implements Sender {
   constructor(context: ClientEntityContext, retryOptions: RetryOptions = {}) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
+    this.entityPath = context.entityPath;
     this._sender = MessageSender.create(this._context, retryOptions);
     this._retryOptions = retryOptions;
   }
@@ -194,10 +210,7 @@ export class SenderImpl implements Sender {
   private _throwIfSenderOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      const errorMessage = getSenderClosedErrorMsg(
-        this._context.entityPath,
-        this._context.isClosed
-      );
+      const errorMessage = getSenderClosedErrorMsg(this._context.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
@@ -234,13 +247,12 @@ export class SenderImpl implements Sender {
       return this._sender.sendBatch(batch, options);
     } else if (isServiceBusMessageBatch(messageOrMessagesOrBatch)) {
       return this._sender.sendBatch(messageOrMessagesOrBatch, options);
-    } else {
-      throwTypeErrorIfParameterMissing(
-        this._context.namespace.connectionId,
-        "message, messages or messageBatch",
-        messageOrMessagesOrBatch
-      );
+    } else if (isServiceBusMessage(messageOrMessagesOrBatch)) {
       return this._sender.send(messageOrMessagesOrBatch, options);
+    } else {
+      throw new TypeError(
+        "Invalid type for message. Must be a ServiceBusMessage, an array of ServiceBusMessage or a ServiceBusMessageBatch"
+      );
     }
   }
 
@@ -400,11 +412,11 @@ export class SenderImpl implements Sender {
     return retry<void>(config);
   }
 
-  async open(options?: CreateSenderOptions): Promise<void> {
+  async open(options?: SenderOpenOptions): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
 
     const config: RetryConfig<void> = {
-      operation: () => this._sender.open(),
+      operation: () => this._sender.open(undefined, options?.abortSignal),
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.senderLink,
       retryOptions: this._retryOptions,

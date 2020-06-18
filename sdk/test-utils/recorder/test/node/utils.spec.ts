@@ -45,7 +45,10 @@ describe("NodeJS utils", () => {
     });
 
     it("should throw if the file at a given recording path doesn't exist", function() {
-      if (isBrowser()) return this.skip();
+      if (isBrowser()) {
+        this.skip();
+        return 
+      }
 
       // Require shouldn't be mocked in this test since we should be preventing require from being reached.
 

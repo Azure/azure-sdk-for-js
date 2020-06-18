@@ -1,7 +1,25 @@
 # Release History
 
-## 7.0.0-preview.3 (Unreleased)
+## 7.0.0-preview.4 (Unreleased)
 
+- Adds abortSignal support throughout Sender and non-session Receivers.
+  [PR 9233](https://github.com/Azure/azure-sdk-for-js/pull/9233)
+  [PR 9284](https://github.com/Azure/azure-sdk-for-js/pull/9284)
+
+## 7.0.0-preview.3 (2020-06-08)
+
+- Improves the performance of the `ServiceBusMessageBatch.tryAdd` method.
+  [PR 8772](https://github.com/Azure/azure-sdk-for-js/pull/8772)
+- Added management api features which allows CRUD operations on the entities of a namespace.
+  [PR 9116](https://github.com/Azure/azure-sdk-for-js/pull/9116)
+  [PR 9221](https://github.com/Azure/azure-sdk-for-js/pull/9221)
+
+### Breaking Changes
+
+- `ServiceBusClient.createSender()` which was made async in the previous preview to include the link initialization is no longer async. Instead, the sender now has an `open()` method that can be used to proactively initialize the link.
+  [PR 9302](https://github.com/Azure/azure-sdk-for-js/pull/9302)
+- `Receiver/SessionReceiver.browseMessages()` has been renamed to `Receiver/SessionReceiver.peekMessages()`.
+  [PR 9280](https://github.com/Azure/azure-sdk-for-js/pull/9280)
 
 ## 7.0.0-preview.2 (2020-05-05)
 
@@ -20,14 +38,14 @@
 
 - The `createSender` and `createSessionReceiver` methods are now async. The promise returned by them are resolved after the link is successfully established with the service. The same will be done to the `createReceiver` method in the next preview.
 - Remove rule operations from `ServiceBusClient` in favor of having similar operations via the management apis
-which would apply to queues, topics, subscriptions and rules in the upcoming previews. 
+  which would apply to queues, topics, subscriptions and rules in the upcoming previews.
   [PR 8660](https://github.com/Azure/azure-sdk-for-js/pull/8660)
 
 ## 7.0.0-preview.1 (2020-04-07)
 
 - This release is a preview of our efforts to create a client library that is user friendly and
   idiomatic to the JavaScript ecosystem. The reasons for most of the changes in this update can be found in the
-  [Azure SDK Design Guidelines for TypeScript](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html).
+  [Azure SDK Design Guidelines for TypeScript](https://azure.github.io/azure-sdk/typescript_introduction.html).
 
   We also provide a migration guide for users familiar with the stable package that would like to try the preview: [migration guide to move from Service Bus V1 to Service Bus V7 Preview](https://github.com/azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.1/sdk/servicebus/service-bus/migrationguide.md).
 

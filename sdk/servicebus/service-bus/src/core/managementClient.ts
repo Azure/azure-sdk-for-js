@@ -4,33 +4,33 @@
 import Long from "long";
 import {
   EventContext,
-  SenderEvents,
   ReceiverEvents,
-  SenderOptions,
   ReceiverOptions,
-  types,
   message as RheaMessageUtil,
+  SenderEvents,
+  SenderOptions,
   generate_uuid,
-  string_to_uuid
+  string_to_uuid,
+  types
 } from "rhea-promise";
 import {
-  defaultLock,
-  translate,
-  Constants,
-  RequestResponseLink,
-  ConditionErrorNameMapper,
   AmqpMessage,
+  ConditionErrorNameMapper,
+  Constants,
+  MessagingError,
+  RequestResponseLink,
   SendRequestOptions as SendManagementRequestOptions,
-  MessagingError
+  defaultLock,
+  translate
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
+  DispositionType,
   ReceivedMessage,
-  ServiceBusMessageImpl,
   ServiceBusMessage,
-  toAmqpMessage,
+  ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
-  DispositionType
+  toAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
@@ -38,10 +38,10 @@ import { ReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
 import {
   throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterIsEmptyString,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterTypeMismatch,
-  throwTypeErrorIfParameterIsEmptyString
+  throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
@@ -50,8 +50,6 @@ import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 import { AbortError } from "@azure/abort-controller";
 
 /**
- * @internal
- * @ignore
  * Represents a Rule on a Subscription that is used to filter the incoming message from the
  * Subscription.
  */
@@ -61,9 +59,9 @@ export interface RuleDescription {
    * - `string`: SQL-like condition expression that is evaluated against the messages'
    * user-defined properties and system properties. All system properties will be prefixed with
    * `sys.` in the condition expression.
-   * - `CorrelationFilter`: Properties of the filter will be used to match with the message properties.
+   * - `CorrelationRuleFilter`: Properties of the filter will be used to match with the message properties.
    */
-  filter?: string | CorrelationFilter;
+  filter?: string | CorrelationRuleFilter;
   /**
    * Action to perform if the message satisfies the filtering expression.
    */
@@ -75,14 +73,11 @@ export interface RuleDescription {
 }
 
 /**
- * @internal
- * @ignore
- *
  * Represents the correlation filter expression.
- * A CorrelationFilter holds a set of conditions that are matched against user and system properties
+ * A CorrelationRuleFilter holds a set of conditions that are matched against user and system properties
  * of incoming messages from a Subscription.
  */
-export interface CorrelationFilter {
+export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the `correlationId` property of the incoming message.
    */
@@ -267,7 +262,7 @@ export class ManagementClient extends LinkEntity {
           this._mgmtReqResLink!.sender.name,
           this._mgmtReqResLink!.receiver.name
         );
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       }
     } catch (err) {
       err = translate(err);
@@ -1306,7 +1301,7 @@ export class ManagementClient extends LinkEntity {
    */
   async addRule(
     ruleName: string,
-    filter: boolean | string | CorrelationFilter,
+    filter: boolean | string | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
     options?: OperationOptions & SendManagementRequestOptions
   ): Promise<void> {
@@ -1327,7 +1322,7 @@ export class ManagementClient extends LinkEntity {
       !correlationProperties.some((validProperty) => filter.hasOwnProperty(validProperty))
     ) {
       throw new TypeError(
-        `The parameter "filter" should be either a boolean, string or implement the CorrelationFilter interface.`
+        `The parameter "filter" should be either a boolean, string or implement the CorrelationRuleFilter interface.`
       );
     }
 

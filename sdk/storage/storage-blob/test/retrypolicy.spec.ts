@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
 import { ContainerClient, RestError, BlobServiceClient } from "../src";
-import { newPipeline, Pipeline } from "../src/Pipeline";
+import { newPipeline, Pipeline } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -38,6 +38,7 @@ describe("RetryPolicy", () => {
         injectCounter++;
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
     const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
@@ -62,6 +63,7 @@ describe("RetryPolicy", () => {
         injectCounter++;
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
 
     const factories = (containerClient as any).pipeline.factories.slice(); // clone factories array
@@ -123,6 +125,7 @@ describe("RetryPolicy", () => {
       if (injectCounter++ < 1) {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
 
     const url = blobServiceClient.url;

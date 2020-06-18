@@ -16,7 +16,7 @@ async function main() {
   const accountKey = process.env.ACCOUNT_KEY || "";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
 
   // List containers
@@ -91,7 +91,7 @@ async function main() {
   }
 
   // 7. Passing marker as an argument (similar to the previous example)
-  console.log("Listing all containers byPage(), using iteartor.next() and continuation token");
+  console.log("Listing all containers byPage(), using iterator.next() and continuation token");
   i = 1;
   iterator = blobServiceClient.listContainers().byPage({ maxPageSize: 2 });
   response = await iterator.next();

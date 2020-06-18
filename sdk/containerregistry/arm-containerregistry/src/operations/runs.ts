@@ -252,7 +252,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RunListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -278,7 +278,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Run
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -304,7 +304,7 @@ const getLogSasUrlOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RunGetLogResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -340,7 +340,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Run
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -365,7 +365,7 @@ const beginCancelOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -386,7 +386,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RunListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

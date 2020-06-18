@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
 import { EventHubClient } from "./impl/eventHubClient";
@@ -10,9 +10,9 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
-import { getParentSpan, OperationOptions } from "./util/operationOptions";
+import { OperationOptions, getParentSpan } from "./util/operationOptions";
 import { getTracer } from "@azure/core-tracing";
-import { Span, SpanKind, Link, CanonicalCode } from "@opentelemetry/api";
+import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 
@@ -148,10 +148,14 @@ export class PartitionPump {
     this._isStopped = true;
     this._isReceiving = false;
     try {
+      // Trigger the cancellation before closing the receiver,
+      // otherwise the receiver will remove the listener on the abortSignal
+      // before it has a chance to be emitted.
+      this._abortController.abort();
+
       if (this._receiver) {
         await this._receiver.close();
       }
-      this._abortController.abort();
       await this._partitionProcessor.close(reason);
     } catch (err) {
       logger.warning("An error occurred while closing the receiver.", err);

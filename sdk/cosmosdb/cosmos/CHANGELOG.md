@@ -1,9 +1,23 @@
 # Release History
 
-## 3.7.0 (Unreleased)
+## 3.7.3 (Unreleased)
 
-- FEATURE: Allows string value `partitionKey` parameter when creating containers
+
+## 3.7.2 (Unreleased)
+
+- BUGFIX: Internal abort signal incorrectly triggered when user passes a custom abort signal. See #9510 for details.
+
+## 3.7.1 (2020-6-12)
+
+- BUGFIX: Typo in globalCrypto.js causing errors in IE browser
+- BUGFIX: Resource tokens not matching for item delete operations (#9110)
+
+## 3.7.0 (2020-6-08)
+
 - BUGFIX: Support crypto functions in Internet Explorer browser
+- BUGFIX: Incorrect key casing in object returned by `setAuthorizationHeader`
+- FEATURE: Adds `readOffer` methods to container and database
+- FEATURE: Allows string value `partitionKey` parameter when creating containers
 
 The following result in the same behavior:
 
@@ -176,7 +190,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - User cancelable requests
 - Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
-- Better align with the new [Azure JS SDK guidlines](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html)
+- Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
 ### Migration Guide for Breaking Changes
 
@@ -192,14 +206,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key"
-  }
+    masterKey: "your-primary-key",
+  },
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key"
+  key: "your-primary-key",
 });
 ```
 

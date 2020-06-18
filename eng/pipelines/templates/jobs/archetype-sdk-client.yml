@@ -4,19 +4,19 @@ parameters:
   Matrix:
     Linux_Node8:
       OSVmImage: "ubuntu-18.04"
-      NodeVersion: "8.x"
+      NodeTestVersion: "8.x"
       TestType: "node"
     Windows_Node10:
       OSVmImage: "windows-2019"
-      NodeVersion: "10.x"
+      NodeTestVersion: "10.x"
       TestType: "node"
     macOS_Node12:
       OSVmImage: "macOS-10.15"
-      NodeVersion: "12.x"
+      NodeTestVersion: "12.x"
       TestType: "node"
     Browser_Linux_Node12:
       OSVmImage: "ubuntu-18.04"
-      NodeVersion: "12.x"
+      NodeTestVersion: "12.x"
       TestType: "browser"
 
 jobs:
@@ -47,15 +47,15 @@ jobs:
           npm install ./eng/tools/versioning
           node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
           node common/scripts/install-run-rush.js update
-        condition: and(succeededOrFailed(),eq(variables['SetDevVersion'],'true'))
+        condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
         displayName: "Update package versions for dev build"
 
       - script: |
           node common/scripts/install-run-rush.js install
-        condition: and(succeededOrFailed(),ne(variables['SetDevVersion'],'true'))
+        condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
         displayName: "Install dependencies"
 
-      - template: eng/pipelines/templates/scripts/replace-relative-links.yml@azure-sdk-tools
+      - template: /eng/common/pipelines/templates/steps/replace-relative-links.yml
         parameters:
           TargetFolder: $(Build.SourcesDirectory)/sdk/$(folder)
           RootFolder: $(Build.SourcesDirectory)
@@ -67,6 +67,10 @@ jobs:
       - script: |
           node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
         displayName: "Build libraries"
+
+      - pwsh: |
+          eng/tools/check-api-warning.ps1 
+        displayName: "Check api extractor output changes"
 
       - script: |
           node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
@@ -132,7 +136,7 @@ jobs:
           ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
         displayName: "Verify Readmes"
 
-      - template: eng/pipelines/templates/scripts/verify-path-length.yml@azure-sdk-tools
+      - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
         parameters:
           SourceDirectory: $(Build.SourcesDirectory)
 
@@ -221,19 +225,21 @@ jobs:
             node eng/tools/rush-runner.js build:test --verbose -p max
           displayName: "Build test assets"
 
+        - template: ../steps/use-node-test-version.yml
+
         # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
         # The default on Windows is "cores - 1" (microsoft/rushstack#436).
         - script: |
             node eng/tools/rush-runner.js unit-test:node "${{parameters.ServiceDirectory}}" --verbose -p max
           displayName: "Test libraries"
-          condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'))
+          condition: and(succeeded(),eq(variables['TestType'], 'node'))
         
         # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
         # The default on Windows is "cores - 1" (microsoft/rushstack#436).
         - script: |
             node eng/tools/rush-runner.js unit-test:browser "${{parameters.ServiceDirectory}}" --verbose -p max
           displayName: "Test libraries"
-          condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'))
+          condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
         # Unlink node_modules folders to significantly improve performance of subsequent tasks
         # which need to walk the directory tree (and are hardcoded to follow symlinks).
@@ -258,7 +264,7 @@ jobs:
           inputs:
             searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.xml"
-            testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeVersion)]"
+            testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeTestVersion)]"
           condition: and(always(),eq(variables['TestType'], 'node'))
           displayName: "Publish NodeJS unit test results"
 
@@ -268,6 +274,6 @@ jobs:
           inputs:
             searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
             testResultsFiles: "**/test-results.browser.xml"
-            testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeVersion)]"
+            testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeTestVersion)]"
           condition: and(always(),eq(variables['TestType'], 'browser'))
           displayName: "Publish browser unit test results"
