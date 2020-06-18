@@ -109,9 +109,9 @@ export function buildSubscriptionRuntimeInfo(rawSubscription: any): Subscription
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
     messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
     messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
-    createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
-    accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
+    createdOn: getDate(rawSubscription[Constants.CREATED_AT], "createdOn"),
+    updatedOn: getDate(rawSubscription[Constants.UPDATED_AT], "updatedOn"),
+    accessedOn: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedOn")
   };
 }
 
@@ -345,17 +345,17 @@ export interface SubscriptionRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdAt: Date;
+  createdOn: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  updatedOn: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt: Date;
+  accessedOn: Date;
 }
 
 /**

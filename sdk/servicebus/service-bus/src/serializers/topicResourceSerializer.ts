@@ -98,9 +98,9 @@ export function buildTopicRuntimeInfo(rawTopic: any): TopicRuntimeInfo {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
-    createdAt: getDate(rawTopic[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getDate(rawTopic[Constants.UPDATED_AT], "updatedAt"),
-    accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt")
+    createdOn: getDate(rawTopic[Constants.CREATED_AT], "createdOn"),
+    updatedOn: getDate(rawTopic[Constants.UPDATED_AT], "updatedOn"),
+    accessedOn: getDate(rawTopic[Constants.ACCESSED_AT], "accessedOn")
   };
 }
 
@@ -293,17 +293,17 @@ export interface TopicRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdAt: Date;
+  createdOn: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  updatedOn: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedAt: Date;
+  accessedOn: Date;
 }
 
 /**

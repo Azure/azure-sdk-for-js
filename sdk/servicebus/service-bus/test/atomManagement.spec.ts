@@ -60,7 +60,7 @@ describe("Atom management - Namespace", function(): void {
     assert.deepEqualExcluding(
       namespaceProperties,
       { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
-      ["_response", "createdAt", "updatedAt", "name"]
+      ["_response", "createdOn", "updatedOn", "name"]
     );
   });
 });
@@ -415,9 +415,9 @@ describe("Atom management - Authentication", function(): void {
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -558,7 +558,7 @@ describe("Atom management - Authentication", function(): void {
     it(`Gets runtime info for existing ${testCase.entityType} entities(multiple) successfully`, async () => {
       const response = await getEntitiesRuntimeInfo(testCase.entityType, managementTopic1);
       const name = testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name";
-      const paramsToExclude = ["createdAt", "accessedAt", "updatedAt"];
+      const paramsToExclude = ["createdOn", "accessedOn", "updatedOn"];
       for (const info of response) {
         if (info[name] == testCase[1].alwaysBeExistingEntity) {
           assert.deepEqualExcluding(info, testCase[1].output, paramsToExclude);
@@ -1101,9 +1101,9 @@ describe("Atom management - Authentication", function(): void {
       should.equal(response.name, managementTopic1, "Topic name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -1193,9 +1193,9 @@ describe("Atom management - Authentication", function(): void {
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -1413,9 +1413,9 @@ describe("Atom management - Authentication", function(): void {
 
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -1585,9 +1585,9 @@ describe("Atom management - Authentication", function(): void {
       should.equal(response.name, managementRule1, "Rule name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdAt",
-        "updatedAt",
-        "accessedAt"
+        "createdOn",
+        "updatedOn",
+        "accessedOn"
       ]);
     });
   });
@@ -1728,9 +1728,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdAt",
-          "updatedAt",
-          "accessedAt"
+          "createdOn",
+          "updatedOn",
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1899,9 +1899,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdAt",
-          "updatedAt",
-          "accessedAt"
+          "createdOn",
+          "updatedOn",
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1971,9 +1971,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdAt",
-          "updatedAt",
-          "accessedAt"
+          "createdOn",
+          "updatedOn",
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -2135,9 +2135,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdAt",
-          "updatedAt",
-          "accessedAt"
+          "createdOn",
+          "updatedOn",
+          "accessedOn"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
