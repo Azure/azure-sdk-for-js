@@ -24,9 +24,11 @@ import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { calculateRenewAfterDuration, getUniqueName } from "../util/utils";
+import { calculateRenewAfterDuration, getUniqueName, StandardAbortMessage } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
+import { AbortSignalLike } from "@azure/core-http";
+import { AbortError } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -757,8 +759,17 @@ export class MessageReceiver extends LinkEntity {
    *
    * @returns {Promise<void>} Promise<void>.
    */
-  protected async _init(options?: ReceiverOptions): Promise<void> {
+  protected async _init(options?: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
+    const checkAborted = (): void => {
+      if (abortSignal?.aborted) {
+        throw new AbortError(StandardAbortMessage);
+      }
+    };
+
     const connectionId = this._context.namespace.connectionId;
+
+    checkAborted();
+
     try {
       if (!this.isOpen() && !this.isConnecting) {
         if (this.wasCloseInitiated) {
@@ -781,7 +792,10 @@ export class MessageReceiver extends LinkEntity {
         }
 
         this.isConnecting = true;
+
         await this._negotiateClaim();
+        checkAborted();
+
         if (!options) {
           options = this._createReceiverOptions();
         }
@@ -794,6 +808,8 @@ export class MessageReceiver extends LinkEntity {
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
         this.isConnecting = false;
+        checkAborted();
+
         log.error(
           "[%s] Receiver '%s' with address '%s' has established itself.",
           connectionId,
@@ -817,7 +833,7 @@ export class MessageReceiver extends LinkEntity {
         } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
           this._context.batchingReceiver = this as any;
         }
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       } else {
         log.error(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +

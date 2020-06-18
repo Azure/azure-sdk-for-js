@@ -16,6 +16,7 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
+    "follow-redirects": "1.11.0"
   },
   /**
    * When set to true, for all projects in the repo, all dependencies will be automatically added as preferredVersions,

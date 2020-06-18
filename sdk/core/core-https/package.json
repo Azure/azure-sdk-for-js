@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-https",
-  "version": "1.0.0",
+  "version": "1.0.0-preview.1",
   "private": true,
   "description": "Isomorphic client library for making HTTPS requests in node.js and browser.",
   "sdk-type": "client",
@@ -8,10 +8,14 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/defaultHttpsClient.js": "./dist-esm/src/defaultHttpsClient.browser.js",
+    "./dist-esm/src/policies/disableResponseDecompressionPolicy.js": "./dist-esm/src/policies/disableResponseDecompressionPolicy.browser.js",
+    "./dist-esm/src/policies/formDataPolicy.js": "./dist-esm/src/policies/formDataPolicy.browser.js",
+    "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
-    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
+    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js",
+    "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
-  "types": "types/latest/coreHttps.d.ts",
+  "types": "types/latest/core-https.d.ts",
   "typesVersions": {
     "<3.6": {
       "types/latest/src/*": [
@@ -76,12 +80,23 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-https/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
+    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
     "form-data": "^3.0.0",
-    "tslib": "^1.10.0",
-    "https-proxy-agent": "^5.0.0"
+    "tslib": "^2.0.0",
+    "https-proxy-agent": "^5.0.0",
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",
@@ -94,6 +109,7 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@types/sinon": "^9.0.4",
+    "@types/uuid": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -124,7 +140,7 @@
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^3.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "typescript": "~3.9.3",

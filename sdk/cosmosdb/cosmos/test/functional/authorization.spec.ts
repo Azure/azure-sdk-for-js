@@ -179,7 +179,6 @@ describe("NodeJS CRUD Tests", function() {
         entities.doc1.id,
         "Expected to read children using parent permissions"
       );
-
       // TODO: Permission Feed uses RID right now
       /*
             const col2Client = new CosmosClient({
@@ -245,16 +244,61 @@ describe("NodeJS CRUD Tests", function() {
       }
     };
 
-    it("nativeApi Should do authorization successfully name based", async function() {
+    it("Should do authorization successfully name based", async function() {
       await authorizationCRUDTest(false);
     });
 
-    it("nativeApi Should do authorization successfully name based with upsert", async function() {
+    it("Should do authorization successfully name based with upsert", async function() {
       await authorizationCRUDTest(true);
     });
 
-    it("nativeApi Should do authorization over multiple partitions successfully name based", async function() {
+    it("Should do authorization over multiple partitions successfully name based", async function() {
       await authorizationCRUDOverMultiplePartitionsTest();
+    });
+
+    it("should allow deletion of a doc with container token", async function() {
+      const container = await getTestContainer("Validate Authorization container");
+
+      const { resource: item } = await container.items.create({
+        id: "coll1doc1",
+        foo: "bar",
+        key: "value"
+      });
+
+      // Create User
+      const { resource: user } = await container.database.users.create({ id: "user1" });
+
+      // Create Permission
+      const { resource: permission } = await createOrUpsertPermission(
+        container.database.user(user.id),
+        {
+          id: "permission On Coll1",
+          permissionMode: PermissionMode.All,
+          resource: (await container.read()).resource._self
+        },
+        undefined,
+        false
+      );
+
+      const resourceTokens = {
+        [`dbs/${container.database.id}/colls/${container.id}`]: permission._token
+      };
+
+      const client = new CosmosClient({
+        resourceTokens: resourceTokens,
+        endpoint: endpoint,
+        connectionPolicy: {
+          enableEndpointDiscovery: false
+        }
+      });
+
+      const { statusCode } = await client
+        .database(container.database.id)
+        .container(container.id)
+        .item(item.id)
+        .delete();
+
+      assert.equal(statusCode, 204);
     });
   });
 });
