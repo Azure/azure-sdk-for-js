@@ -248,4 +248,4 @@ while ($pageUrisToCheck.Count -ne 0)
 Write-Host "Found $($checkedLinks.Count) links with $($badLinks.Count) broken"
 $badLinks | ForEach-Object { Write-Host "  $_" }
 
-exit $badLinks.Count
+#exit $badLinks.Count
