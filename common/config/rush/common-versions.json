@@ -16,6 +16,7 @@
      * instead of the latest version.
      */
     // "some-library": "1.2.3"
+    "follow-redirects": "1.11.0"
   },
   /**
    * When set to true, for all projects in the repo, all dependencies will be automatically added as preferredVersions,
@@ -41,7 +42,9 @@
    * This design avoids unnecessary churn in this file.
    */
   "allowedAlternativeVersions": {
-    "@azure/ms-rest-js": ["^2.0.0"],
+    "@azure/ms-rest-js": [
+      "^2.0.0"
+    ],
     /**
      * For example, allow some projects to use an older TypeScript compiler
      * (in addition to whatever "usual" version is being used by other projects in the repo):
@@ -50,8 +53,12 @@
     //   "~2.4.0"
     // ]
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
-    "@azure/event-hubs": ["^2.1.4"],
+    "@azure/event-hubs": [
+      "^2.1.4"
+    ],
     // Allow packages to continue to use old eslint-plugin-azure-sdk until they can adapt to 3.0.0
-    "@azure/eslint-plugin-azure-sdk": ["^2.0.1"]
+    "@azure/eslint-plugin-azure-sdk": [
+      "^2.0.1"
+    ]
   }
 }
