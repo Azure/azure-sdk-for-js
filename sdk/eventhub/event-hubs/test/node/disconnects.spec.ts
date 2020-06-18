@@ -89,7 +89,7 @@ describe("disconnected", function() {
   describe("EventHubProducerClient", function() {
     it("runtimeInfo work after disconnect", async () => {
       const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
+      const clientConnectionContext = client["_context"];
 
       await client.getPartitionIds({});
       const originalConnectionId = clientConnectionContext.connectionId;
@@ -108,7 +108,7 @@ describe("disconnected", function() {
 
     it("should send after a disconnect", async () => {
       const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
+      const clientConnectionContext = client["_context"];
 
       await client.sendBatch([{ body: "test" }]);
       const originalConnectionId = clientConnectionContext.connectionId;
@@ -126,14 +126,14 @@ describe("disconnected", function() {
 
     it("should not throw an uncaught exception", async () => {
       const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
+      const clientConnectionContext = client["_context"];
 
       // Send an event to open the connection.
       await client.sendBatch([{ body: "test" }]);
       const originalConnectionId = clientConnectionContext.connectionId;
 
       // We need to dig deep into the internals to get the awaitable sender so that .
-      const awaitableSender = client["_producersMap"].get("")!["_eventHubSender"]!["_sender"]!;
+      const awaitableSender = client["_sendersMap"].get("")!["_sender"]!;
 
       let thirdSend: Promise<void>;
       // Change the timeout on the awaitableSender so it forces an OperationTimeoutError

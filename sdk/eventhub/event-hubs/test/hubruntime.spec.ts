@@ -10,11 +10,13 @@ const debug = debugModule("azure:event-hubs:hubruntime-spec");
 import { EnvVarKeys, getEnvVars, setTracerForTest } from "./utils/testUtils";
 const env = getEnvVars();
 
-import { EventHubClient } from "../src/impl/eventHubClient";
 import { AbortController } from "@azure/abort-controller";
 import { SpanGraph } from "@azure/core-tracing";
+import { EventHubProducerClient, EventHubConsumerClient, MessagingError } from "../src";
+
 describe("RuntimeInformation", function(): void {
-  let client: EventHubClient;
+  let producerClient: EventHubProducerClient;
+  let consumerClient: EventHubConsumerClient;
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -30,8 +32,19 @@ describe("RuntimeInformation", function(): void {
     );
   });
 
+  beforeEach(async () => {
+    debug("Creating the clients..");
+    producerClient = new EventHubProducerClient(service.connectionString, service.path);
+    consumerClient = new EventHubConsumerClient(
+      EventHubConsumerClient.defaultConsumerGroupName,
+      service.connectionString,
+      service.path
+    );
+  });
+
   afterEach("close the connection", async function(): Promise<void> {
-    await client.close();
+    await producerClient.close();
+    await consumerClient.close();
   });
 
   function arrayOfIncreasingNumbersFromZero(length: any): Array<string> {
@@ -43,18 +56,21 @@ describe("RuntimeInformation", function(): void {
   }
 
   describe("getPartitionIds", function(): void {
-    it("returns an array of partition IDs", async function(): Promise<void> {
-      client = new EventHubClient(service.connectionString, service.path);
-      const ids = await client.getPartitionIds({});
+    it("EventHubProducerClient returns an array of partition IDs", async function(): Promise<void> {
+      const ids = await producerClient.getPartitionIds({});
       ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
     });
 
-    it("respects cancellationTokens", async function(): Promise<void> {
-      client = new EventHubClient(service.connectionString, service.path);
+    it("EventHubConsumerClient returns an array of partition IDs", async function(): Promise<void> {
+      const ids = await consumerClient.getPartitionIds({});
+      ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
+    });
+
+    it("EventHubProducerClient respects cancellationTokens", async function(): Promise<void> {
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
-        await client.getPartitionIds({
+        await producerClient.getPartitionIds({
           abortSignal: controller.signal
         });
         throw new Error(`Test failure`);
@@ -63,69 +79,97 @@ describe("RuntimeInformation", function(): void {
       }
     });
 
-    it("can be ran in parallel without retries", async function(): Promise<void> {
-      client = new EventHubClient(service.connectionString, service.path, {
-        retryOptions: {
-          maxRetries: 0
+    it("EventHubConsumerClient respects cancellationTokens", async function(): Promise<void> {
+      try {
+        const controller = new AbortController();
+        setTimeout(() => controller.abort(), 1);
+        await consumerClient.getPartitionIds({
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+      }
+    });
+
+    it("EventHubProducerClient can be manually traced", async function(): Promise<void> {
+      const { tracer, resetTracer } = setTracerForTest();
+
+      const rootSpan = tracer.startSpan("root");
+      const ids = await producerClient.getPartitionIds({
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan.context()
+          }
         }
       });
-      const results = await Promise.all([client.getPartitionIds({}), client.getPartitionIds({})]);
+      ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
+      rootSpan.end();
 
-      for (const result of results) {
-        result.should.have.members(arrayOfIncreasingNumbersFromZero(result.length));
-      }
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root span.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.getEventHubProperties",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
-  });
 
-  it("can be manually traced", async function(): Promise<void> {
-    const { tracer, resetTracer } = setTracerForTest();
+    it("EventHubConsumerClient can be manually traced", async function(): Promise<void> {
+      const { tracer, resetTracer } = setTracerForTest();
 
-    const rootSpan = tracer.startSpan("root");
-    client = new EventHubClient(service.connectionString, service.path);
-    const ids = await client.getPartitionIds({
-      tracingOptions: {
-        spanOptions: {
-          parent: rootSpan.context()
+      const rootSpan = tracer.startSpan("root");
+      const ids = await consumerClient.getPartitionIds({
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan.context()
+          }
         }
-      }
+      });
+      ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root span.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.getEventHubProperties",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
     });
-    ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    rootSpans.length.should.equal(1, "Should only have one root span.");
-    rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.EventHubs.getPartitionIds",
-              children: [
-                {
-                  name: "Azure.EventHubs.getEventHubProperties",
-                  children: []
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    };
-
-    tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-    tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-    resetTracer();
   });
 
   describe("hub runtime information", function(): void {
-    it("gets the hub runtime information", async function(): Promise<void> {
-      client = new EventHubClient(service.connectionString, service.path, {
-        userAgent: "/js-event-processor-host=0.2.0"
-      });
-      const hubRuntimeInfo = await client.getProperties();
+    it("EventHubProducerClient gets the hub runtime information", async function(): Promise<void> {
+      const hubRuntimeInfo = await producerClient.getEventHubProperties();
       debug(hubRuntimeInfo);
       hubRuntimeInfo.name.should.equal(service.path);
 
@@ -135,14 +179,24 @@ describe("RuntimeInformation", function(): void {
       hubRuntimeInfo.createdOn.should.be.instanceof(Date);
     });
 
-    it("can cancel a request for hub runtime information", async function(): Promise<void> {
-      client = new EventHubClient(service.connectionString, service.path, {
-        userAgent: "/js-event-processor-host=0.2.0"
-      });
+    it("EventHubConsumerClient gets the hub runtime information", async function(): Promise<void> {
+      const hubRuntimeInfo = await consumerClient.getEventHubProperties();
+      debug(hubRuntimeInfo);
+      hubRuntimeInfo.name.should.equal(service.path);
+
+      hubRuntimeInfo.partitionIds.should.have.members(
+        arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+      );
+      hubRuntimeInfo.createdOn.should.be.instanceof(Date);
+    });
+
+    it("EventHubProducerClient can cancel a request for hub runtime information", async function(): Promise<
+      void
+    > {
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
-        await client.getProperties({
+        await producerClient.getEventHubProperties({
           abortSignal: controller.signal
         });
         throw new Error(`Test failure`);
@@ -151,12 +205,65 @@ describe("RuntimeInformation", function(): void {
       }
     });
 
-    it("can be manually traced", async function(): Promise<void> {
+    it("EventHubConsumerClient can cancel a request for hub runtime information", async function(): Promise<
+      void
+    > {
+      try {
+        const controller = new AbortController();
+        setTimeout(() => controller.abort(), 1);
+        await consumerClient.getEventHubProperties({
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+      }
+    });
+
+    it("EventHubProducerClient can be manually traced", async function(): Promise<void> {
       const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
-      client = new EventHubClient(service.connectionString, service.path);
-      const hubRuntimeInfo = await client.getProperties({
+      const hubRuntimeInfo = await producerClient.getEventHubProperties({
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan.context()
+          }
+        }
+      });
+      hubRuntimeInfo.partitionIds.should.have.members(
+        arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+      );
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root span.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.getEventHubProperties",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
+    });
+
+    it("EventHubConsumerClient can be manually traced", async function(): Promise<void> {
+      const { tracer, resetTracer } = setTracerForTest();
+
+      const rootSpan = tracer.startSpan("root");
+      const hubRuntimeInfo = await consumerClient.getEventHubProperties({
         tracingOptions: {
           spanOptions: {
             parent: rootSpan.context()
@@ -193,10 +300,11 @@ describe("RuntimeInformation", function(): void {
   });
 
   describe("partition runtime information", function(): void {
-    it("should throw an error if partitionId is missing", async function(): Promise<void> {
+    it("EventHubProducerClient should throw an error if partitionId is missing", async function(): Promise<
+      void
+    > {
       try {
-        client = new EventHubClient(service.connectionString, service.path);
-        await client.getPartitionProperties(undefined as any);
+        await producerClient.getPartitionProperties(undefined as any);
         throw new Error("Test failure");
       } catch (err) {
         err.name.should.equal("TypeError");
@@ -206,11 +314,24 @@ describe("RuntimeInformation", function(): void {
       }
     });
 
-    it("gets the partition runtime information with partitionId as a string", async function(): Promise<
+    it("EventHubConsumerClient should throw an error if partitionId is missing", async function(): Promise<
       void
     > {
-      client = new EventHubClient(service.connectionString, service.path);
-      const partitionRuntimeInfo = await client.getPartitionProperties("0");
+      try {
+        await consumerClient.getPartitionProperties(undefined as any);
+        throw new Error("Test failure");
+      } catch (err) {
+        err.name.should.equal("TypeError");
+        err.message.should.equal(
+          `getPartitionProperties called without required argument "partitionId"`
+        );
+      }
+    });
+
+    it("EventHubProducerClient gets the partition runtime information with partitionId as a string", async function(): Promise<
+      void
+    > {
+      const partitionRuntimeInfo = await producerClient.getPartitionProperties("0");
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
       partitionRuntimeInfo.eventHubName.should.equal(service.path);
@@ -219,11 +340,10 @@ describe("RuntimeInformation", function(): void {
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
     });
 
-    it("gets the partition runtime information with partitionId as a number", async function(): Promise<
+    it("EventHubConsumerClient gets the partition runtime information with partitionId as a string", async function(): Promise<
       void
     > {
-      client = new EventHubClient(service.connectionString, service.path);
-      const partitionRuntimeInfo = await client.getPartitionProperties(0 as any);
+      const partitionRuntimeInfo = await consumerClient.getPartitionProperties("0");
       debug(partitionRuntimeInfo);
       partitionRuntimeInfo.partitionId.should.equal("0");
       partitionRuntimeInfo.eventHubName.should.equal(service.path);
@@ -232,29 +352,63 @@ describe("RuntimeInformation", function(): void {
       should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
     });
 
-    const invalidIds = ["XYZ", -1, 1000, "-", " ", ""];
-    invalidIds.forEach(function(id: any): void {
-      it(`should fail the partition runtime information when partitionId is "${id}"`, async function(): Promise<void> {
-        try {
-          client = new EventHubClient(service.connectionString, service.path);
-          await client.getPartitionProperties(id as any);
-          throw new Error("Test failure");
-        } catch (err) {
-          debug(`>>>> Received error - `, err);
-          should.exist(err);
-          err.message.should.match(
-            /.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi
-          );
-        }
-      });
+    it("EventHubProducerClient gets the partition runtime information with partitionId as a number", async function(): Promise<
+      void
+    > {
+      const partitionRuntimeInfo = await producerClient.getPartitionProperties(0 as any);
+      debug(partitionRuntimeInfo);
+      partitionRuntimeInfo.partitionId.should.equal("0");
+      partitionRuntimeInfo.eventHubName.should.equal(service.path);
+      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
+      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
+      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
     });
 
-    it("can cancel a request for getPartitionInformation", async function(): Promise<void> {
-      client = new EventHubClient(service.connectionString, service.path);
+    it("EventHubConsumerClient gets the partition runtime information with partitionId as a number", async function(): Promise<
+      void
+    > {
+      const partitionRuntimeInfo = await consumerClient.getPartitionProperties(0 as any);
+      debug(partitionRuntimeInfo);
+      partitionRuntimeInfo.partitionId.should.equal("0");
+      partitionRuntimeInfo.eventHubName.should.equal(service.path);
+      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
+      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
+      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+    });
+
+    it("EventHubProducerClient bubbles up error from service for invalid partitionId", async function(): Promise<
+      void
+    > {
+      try {
+        await producerClient.getPartitionProperties("boo");
+        throw new Error("Test failure");
+      } catch (err) {
+        debug(`>>>> Received error - `, err);
+        should.exist(err);
+        should.equal((err as MessagingError).code, "ArgumentOutOfRangeError");
+      }
+    });
+
+    it("EventHubConsumerClient bubbles up error from service for invalid partitionId", async function(): Promise<
+      void
+    > {
+      try {
+        await consumerClient.getPartitionProperties("boo");
+        throw new Error("Test failure");
+      } catch (err) {
+        debug(`>>>> Received error - `, err);
+        should.exist(err);
+        should.equal((err as MessagingError).code, "ArgumentOutOfRangeError");
+      }
+    });
+
+    it("EventHubProducerClient can cancel a request for getPartitionInformation", async function(): Promise<
+      void
+    > {
       try {
         const controller = new AbortController();
         setTimeout(() => controller.abort(), 1);
-        await client.getPartitionProperties("0", {
+        await producerClient.getPartitionProperties("0", {
           abortSignal: controller.signal
         });
         throw new Error(`Test failure`);
@@ -263,12 +417,67 @@ describe("RuntimeInformation", function(): void {
       }
     });
 
-    it("can be manually traced", async function(): Promise<void> {
+    it("EventHubConsumerClient can cancel a request for getPartitionInformation", async function(): Promise<
+      void
+    > {
+      try {
+        const controller = new AbortController();
+        setTimeout(() => controller.abort(), 1);
+        await consumerClient.getPartitionProperties("0", {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.match(/The [\w]+ operation has been cancelled by the user.$/gi);
+      }
+    });
+
+    it("EventHubProducerClient can be manually traced", async function(): Promise<void> {
       const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
-      client = new EventHubClient(service.connectionString, service.path);
-      const partitionRuntimeInfo = await client.getPartitionProperties("0", {
+      const partitionRuntimeInfo = await producerClient.getPartitionProperties("0", {
+        tracingOptions: {
+          spanOptions: {
+            parent: rootSpan.context()
+          }
+        }
+      });
+      partitionRuntimeInfo.partitionId.should.equal("0");
+      partitionRuntimeInfo.eventHubName.should.equal(service.path);
+      partitionRuntimeInfo.lastEnqueuedOnUtc.should.be.instanceof(Date);
+      should.exist(partitionRuntimeInfo.lastEnqueuedSequenceNumber);
+      should.exist(partitionRuntimeInfo.lastEnqueuedOffset);
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      rootSpans.length.should.equal(1, "Should only have one root span.");
+      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.EventHubs.getPartitionProperties",
+                children: []
+              }
+            ]
+          }
+        ]
+      };
+
+      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+      resetTracer();
+    });
+
+    it("EventHubConsumerClient can be manually traced", async function(): Promise<void> {
+      const { tracer, resetTracer } = setTracerForTest();
+
+      const rootSpan = tracer.startSpan("root");
+      const partitionRuntimeInfo = await consumerClient.getPartitionProperties("0", {
         tracingOptions: {
           spanOptions: {
             parent: rootSpan.context()

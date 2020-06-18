@@ -19,6 +19,7 @@ dependencies:
   '@rush-temp/eventhubs-checkpointstore-blob': 'file:projects/eventhubs-checkpointstore-blob.tgz'
   '@rush-temp/identity': 'file:projects/identity.tgz'
   '@rush-temp/keyvault-certificates': 'file:projects/keyvault-certificates.tgz'
+  '@rush-temp/keyvault-common': 'file:projects/keyvault-common.tgz'
   '@rush-temp/keyvault-keys': 'file:projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:projects/logger.tgz'
@@ -8424,6 +8425,16 @@ packages:
       integrity: sha512-Z1PeLBZEpC6G6hzlKont/PQ8OKj0dzr31deJdnOXSN1mebC6JtMo7Pl79Qzl6F+FjAcxSBUAWbHaxW7WTQJN7A==
       tarball: 'file:projects/keyvault-certificates.tgz'
     version: 0.0.0
+  'file:projects/keyvault-common.tgz':
+    dependencies:
+      tslib: 2.0.0
+      typescript: 3.9.5
+    dev: false
+    name: '@rush-temp/keyvault-common'
+    resolution:
+      integrity: sha512-0FhcouFj7LZXJzuUWtSIbX4sfRzNgUOFZBWzlTHpOrexSj13GUPi1AvuQ9sQkuzXwXIwosVFO8rVjfOgh2QtWQ==
+      tarball: 'file:projects/keyvault-common.tgz'
+    version: 0.0.0
   'file:projects/keyvault-keys.tgz':
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.8
@@ -9295,6 +9306,7 @@ specifiers:
   '@rush-temp/eventhubs-checkpointstore-blob': 'file:./projects/eventhubs-checkpointstore-blob.tgz'
   '@rush-temp/identity': 'file:./projects/identity.tgz'
   '@rush-temp/keyvault-certificates': 'file:./projects/keyvault-certificates.tgz'
+  '@rush-temp/keyvault-common': 'file:./projects/keyvault-common.tgz'
   '@rush-temp/keyvault-keys': 'file:./projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:./projects/logger.tgz'
