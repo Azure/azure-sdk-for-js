@@ -401,7 +401,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Queue along with its properties.
    * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeInfo` API instead.
-   * @param listRequestOptions
+   * @param options
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -412,13 +412,13 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueues(listRequestOptions?: ListRequestOptions): Promise<QueuesResponse> {
+  async getQueues(options?: ListRequestOptions): Promise<QueuesResponse> {
     log.httpAtomXml(
-      `Performing management operation - listQueues() with options: ${listRequestOptions}`
+      `Performing management operation - listQueues() with options: ${options}`
     );
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
-      listRequestOptions,
+      options,
       this.queueResourceSerializer
     );
 
@@ -427,7 +427,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   /**
    * Returns a list of objects, each representing a Queue's runtime info like message count details.
-   * @param listRequestOptions
+   * @param options
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -439,14 +439,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueuesRuntimeInfo(
-    listRequestOptions?: ListRequestOptions
+    options?: ListRequestOptions
   ): Promise<QueuesRuntimeInfoResponse> {
     log.httpAtomXml(
-      `Performing management operation - listQueues() with options: ${listRequestOptions}`
+      `Performing management operation - listQueues() with options: ${options}`
     );
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
-      listRequestOptions,
+      options,
       this.queueResourceSerializer
     );
 
@@ -643,7 +643,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Topic along with its properties.
    * If you want to get the runtime info of the topics like subscription count, use `getTopicsRuntimeInfo` API instead.
-   * @param listRequestOptions
+   * @param options
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -654,13 +654,13 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopics(listRequestOptions?: ListRequestOptions): Promise<TopicsResponse> {
+  async getTopics(options?: ListRequestOptions): Promise<TopicsResponse> {
     log.httpAtomXml(
-      `Performing management operation - listTopics() with options: ${listRequestOptions}`
+      `Performing management operation - listTopics() with options: ${options}`
     );
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
-      listRequestOptions,
+      options,
       this.topicResourceSerializer
     );
 
@@ -669,7 +669,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   /**
    * Returns a list of objects, each representing a Topic's runtime info like subscription count.
-   * @param listRequestOptions
+   * @param options
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -681,14 +681,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopicsRuntimeInfo(
-    listRequestOptions?: ListRequestOptions
+    options?: ListRequestOptions
   ): Promise<TopicsRuntimeInfoResponse> {
     log.httpAtomXml(
-      `Performing management operation - listTopics() with options: ${listRequestOptions}`
+      `Performing management operation - listTopics() with options: ${options}`
     );
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
-      listRequestOptions,
+      options,
       this.topicResourceSerializer
     );
 
@@ -918,7 +918,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Returns a list of objects, each representing a Subscription along with its properties.
    * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeInfo` API instead.
    * @param topicName
-   * @param listRequestOptions
+   * @param options
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -931,14 +931,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getSubscriptions(
     topicName: string,
-    listRequestOptions?: ListRequestOptions
+    options?: ListRequestOptions
   ): Promise<SubscriptionsResponse> {
     log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
+      `Performing management operation - listSubscriptions() with options: ${options}`
     );
     const response: HttpOperationResponse = await this.listResources(
       topicName + "/Subscriptions/",
-      listRequestOptions,
+      options,
       this.subscriptionResourceSerializer
     );
 
@@ -948,7 +948,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Subscription's runtime info like message count details.
    * @param topicName
-   * @param listRequestOptions
+   * @param options
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -961,14 +961,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getSubscriptionsRuntimeInfo(
     topicName: string,
-    listRequestOptions?: ListRequestOptions
+    options?: ListRequestOptions
   ): Promise<SubscriptionsRuntimeInfoResponse> {
     log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${listRequestOptions}`
+      `Performing management operation - listSubscriptions() with options: ${options}`
     );
     const response: HttpOperationResponse = await this.listResources(
       topicName + "/Subscriptions/",
-      listRequestOptions,
+      options,
       this.subscriptionResourceSerializer
     );
 
@@ -1151,7 +1151,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Lists existing rules.
    * @param topicName
    * @param subscriptionName
-   * @param listRequestOptions
+   * @param options
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1165,15 +1165,15 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getRules(
     topicName: string,
     subscriptionName: string,
-    listRequestOptions?: ListRequestOptions
+    options?: ListRequestOptions
   ): Promise<RulesResponse> {
     log.httpAtomXml(
-      `Performing management operation - listRules() with options: ${listRequestOptions}`
+      `Performing management operation - listRules() with options: ${options}`
     );
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
     const response: HttpOperationResponse = await this.listResources(
       fullPath,
-      listRequestOptions,
+      options,
       this.ruleResourceSerializer
     );
 
