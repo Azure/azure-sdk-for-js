@@ -78,6 +78,7 @@
     "@typescript-eslint/parser": "^2.0.0",
     "assert": "^1.4.1",
     "cross-env": "^7.0.2",
+    "debug": "^4.1.1",
     "delay": "^4.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",

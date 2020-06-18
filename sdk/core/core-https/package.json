@@ -98,6 +98,7 @@
     "@typescript-eslint/parser": "^2.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
+    "debug": "^4.1.1",
     "downlevel-dts": "~0.4.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.1.0",

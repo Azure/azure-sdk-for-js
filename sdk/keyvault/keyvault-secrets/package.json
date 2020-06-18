@@ -118,6 +118,7 @@
     "assert": "^1.4.1",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
+    "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
