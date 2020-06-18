@@ -30,6 +30,10 @@ class StorageManagementClient extends StorageManagementClientContext {
   blobContainers: operations.BlobContainers;
   fileServices: operations.FileServices;
   fileShares: operations.FileShares;
+  queueServices: operations.QueueServices;
+  queue: operations.Queue;
+  tableServices: operations.TableServices;
+  table: operations.TableOperations;
 
   /**
    * Initializes a new instance of the StorageManagementClient class.
@@ -52,6 +56,10 @@ class StorageManagementClient extends StorageManagementClientContext {
     this.blobContainers = new operations.BlobContainers(this);
     this.fileServices = new operations.FileServices(this);
     this.fileShares = new operations.FileShares(this);
+    this.queueServices = new operations.QueueServices(this);
+    this.queue = new operations.Queue(this);
+    this.tableServices = new operations.TableServices(this);
+    this.table = new operations.TableOperations(this);
   }
 }
 
