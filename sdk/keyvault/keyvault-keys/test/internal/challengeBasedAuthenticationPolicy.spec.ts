@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { CertificateClient } from "../src";
+import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
   parseWWWAuthenticate
-} from "../../keyvault-common/src";
-import { createSandbox } from "sinon";
-import { testPollerProperties } from "./utils/recorderUtils";
+} from "../../../keyvault-common/src";
+import { KeyClient } from "../../src";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -20,20 +20,15 @@ import { testPollerProperties } from "./utils/recorderUtils";
 // we will be able to unit test the insides in detail.
 
 describe("Challenge based authentication tests", () => {
-  const certificatePrefix = `challengeAuth${env.KEY_NAME || "CertificateName"}`;
-  let certificateSuffix: string;
-  let client: CertificateClient;
+  const keyPrefix = `challengeAuth${env.KEY_NAME || "KeyName"}`;
+  let keySuffix: string;
+  let client: KeyClient;
   let testClient: TestClient;
   let recorder: Recorder;
 
-  const basicCertificatePolicy = {
-    issuerName: "Self",
-    subject: "cn=MyCert"
-  };
-
   beforeEach(async function() {
     const authentication = await authenticate(this);
-    certificateSuffix = authentication.suffix;
+    keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
@@ -55,21 +50,14 @@ describe("Challenge based authentication tests", () => {
 
     // Now we run what would be a normal use of the client.
     // Here we will create two keys, then flush them.
-    // testClient.flushCertificate deletes, then purges the keys.
-    const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
-    );
-    const certificateNames = [`${certificateName}-0`, `${certificateName}-1`];
-    for (const name of certificateNames) {
-      const poller = await client.beginCreateCertificate(
-        name,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
-      await poller.pollUntilDone();
+    // testClient.flushKey deletes, then purges the keys.
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyNames = [`${keyName}-0`, `${keyName}-1`];
+    for (const name of keyNames) {
+      await client.createKey(name, "RSA");
     }
-    for (const name of certificateNames) {
-      await testClient.flushCertificate(name);
+    for (const name of keyNames) {
+      await testClient.flushKey(name);
     }
 
     // The challenge should have been written to the cache exactly ONCE.
@@ -82,28 +70,21 @@ describe("Challenge based authentication tests", () => {
   });
 
   it("Authentication should work for parallel requests", async function() {
-    const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
-    );
-    const certificateNames = [`${certificateName}-0`, `${certificateName}-1`];
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
     const sandbox = createSandbox();
     const spy = sandbox.spy(AuthenticationChallengeCache.prototype, "setCachedChallenge");
     const spyEqualTo = sandbox.spy(AuthenticationChallenge.prototype, "equalTo");
 
-    const promises = certificateNames.map((name) => {
-      const promise = client.beginCreateCertificate(
-        name,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
+    const promises = keyNames.map((name) => {
+      const promise = client.createKey(name, "RSA");
       return { promise, name };
     });
 
     for (const promise of promises) {
-      const poller = await promise.promise;
-      await poller.pollUntilDone();
-      await testClient.flushCertificate(promise.name);
+      await promise.promise;
+      await testClient.flushKey(promise.name);
     }
 
     // Even though we had parallel requests, only one authentication should have happened.

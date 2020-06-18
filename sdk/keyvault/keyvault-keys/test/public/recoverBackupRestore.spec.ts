@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { KeyClient } from "../src";
 import { isNode } from "@azure/core-http";
-import { testPollerProperties } from "./utils/recorderUtils";
 import { env, Recorder, delay, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
-import { assertThrowsAbortError } from "./utils/utils.common";
+
+import { KeyClient } from "../../src";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 
 describe("Keys client - restore keys and recover backups", () => {
   const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;

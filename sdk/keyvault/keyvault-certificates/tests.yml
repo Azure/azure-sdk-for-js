@@ -5,6 +5,7 @@ extends:
   parameters:
     PackageName: "@azure/keyvault-certificates"
     ResourceServiceDirectory: keyvault
+    TestMinMax: true
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

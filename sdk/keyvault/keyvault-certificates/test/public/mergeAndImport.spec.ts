@@ -3,15 +3,16 @@
 
 import fs from "fs";
 import childProcess from "child_process";
-import { CertificateClient } from "../src";
-import { testPollerProperties } from "./utils/recorderUtils";
+import { isNode } from "@azure/core-http";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
 import { SecretClient } from "@azure/keyvault-secrets";
 import { ClientSecretCredential } from "@azure/identity";
-import { base64ToUint8Array, stringToUint8Array } from "../src/utils";
-import { isNode } from "@azure/core-http";
+
+import { CertificateClient } from "../../src";
+import { base64ToUint8Array, stringToUint8Array } from "../../src/utils";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 
 describe("Certificates client - merge and import certificates", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "CertificateName"}`;

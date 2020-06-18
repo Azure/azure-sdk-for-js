@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
 import chai from "chai";
-import { CertificateClient } from "../src";
+import * as assert from "assert";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure/test-utils-recorder";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
 import { isNode } from "@azure/core-http";
-import { assertThrowsAbortError } from "./utils/utils.common";
+
+import { CertificateClient } from "../../src";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
+
 const { expect } = chai;
 
 describe("Certificates client - list certificates in various ways", () => {

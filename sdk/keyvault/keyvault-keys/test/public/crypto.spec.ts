@@ -4,14 +4,15 @@
 import * as assert from "assert";
 import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
-import { ClientSecretCredential } from "@azure/identity";
-import { CryptographyClient, KeyVaultKey, KeyClient } from "../src";
-import { convertJWKtoPEM } from "../src/cryptographyClient";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
-import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
+import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
+
+import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
+import { convertJWKtoPEM } from "../../src/cryptographyClient";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
+import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   let client: KeyClient;

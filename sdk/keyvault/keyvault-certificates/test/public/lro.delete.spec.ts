@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { CertificateClient, KeyVaultCertificate, DefaultCertificatePolicy } from "../src";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { env, Recorder } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
 import { PollerStoppedError } from "@azure/core-lro";
+import { env, Recorder } from "@azure/test-utils-recorder";
 
-describe("Certificates client - LRO - create", () => {
+import { CertificateClient, DeletedCertificate, DefaultCertificatePolicy } from "../../src";
+import { testPollerProperties } from "../utils/recorderUtils";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
+
+describe("Certificates client - lro - delete", () => {
   const certificatePrefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;
@@ -30,39 +31,45 @@ describe("Certificates client - LRO - create", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is created", async function() {
+  it("can wait until a certificate is deleted", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
-    const poller = await client.beginCreateCertificate(
+    await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
       testPollerProperties
     );
+    const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
-    // The pending certificate can be obtained this way:
+    // The pending deleted certificate can be obtained this way:
     assert.equal(poller.getOperationState().result!.name, certificateName);
 
-    const createdCertificate: KeyVaultCertificate = await poller.pollUntilDone();
-    assert.equal(createdCertificate.name, certificateName);
+    let deletedCertificate: DeletedCertificate = await poller.pollUntilDone();
+    assert.equal(deletedCertificate.name, certificateName);
     assert.ok(poller.getOperationState().isCompleted);
 
-    // The final certificate can also be obtained this way:
+    // Retrieving it without the poller
+    deletedCertificate = await client.getDeletedCertificate(certificateName);
+    assert.equal(deletedCertificate.name, certificateName);
+
+    // The final deleted certificate can also be obtained this way:
     assert.equal(poller.getOperationState().result!.name, certificateName);
 
-    await testClient.flushCertificate(certificateName);
+    await testClient.purgeCertificate(certificateName);
   });
 
   it("can resume from a stopped poller", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
-    const poller = await client.beginCreateCertificate(
+    await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
       testPollerProperties
     );
+    const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
     poller.pollUntilDone().catch((e) => {
@@ -77,20 +84,20 @@ describe("Certificates client - LRO - create", () => {
 
     const serialized = poller.toString();
 
-    const resumePoller = await client.beginCreateCertificate(
-      certificateName,
-      DefaultCertificatePolicy,
-      {
-        resumeFrom: serialized,
-        ...testPollerProperties
-      }
-    );
+    const resumePoller = await client.beginDeleteCertificate(certificateName, {
+      resumeFrom: serialized,
+      ...testPollerProperties
+    });
 
     assert.ok(resumePoller.getOperationState().isStarted);
-    const createdCertificate: KeyVaultCertificate = await resumePoller.pollUntilDone();
-    assert.equal(createdCertificate.name, certificateName);
-    assert.ok(resumePoller.getOperationState().isCompleted);
 
-    await testClient.flushCertificate(certificateName);
+    let deletedCertificate: DeletedCertificate = await resumePoller.pollUntilDone();
+    assert.equal(deletedCertificate.name, certificateName);
+
+    // Retrieving it without the poller
+    deletedCertificate = await client.getDeletedCertificate(certificateName);
+    assert.equal(deletedCertificate.name, certificateName);
+
+    await testClient.purgeCertificate(certificateName);
   });
 });

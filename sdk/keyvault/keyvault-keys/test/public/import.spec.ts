@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { KeyClient, JsonWebKey } from "../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
 import { isNode } from "@azure/core-http";
+
+import { KeyClient, JsonWebKey } from "../../src";
+import { authenticate } from "../utils/testAuthentication";
+import TestClient from "../utils/testClient";
 
 describe("Keys client - import keys", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "KeyName"}`;
