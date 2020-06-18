@@ -13,8 +13,11 @@ import { Pipeline } from "../src/Pipeline";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
+import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 
 dotenv.config();
+import { setLogLevel } from "@azure/logger";
+setLogLevel("info");
 
 describe("FileClient", () => {
   let shareName: string;
@@ -145,6 +148,15 @@ describe("FileClient", () => {
     assert.ok(properties.fileChangeOn!);
     assert.ok(properties.fileId!);
     assert.ok(properties.fileParentId!);
+  });
+
+  it.only("create largest file", async () => {
+    const cResp = await fileClient.create(FILE_MAX_SIZE_BYTES);
+    assert.equal(cResp.errorCode, undefined);
+
+    await fileClient.resize(FILE_MAX_SIZE_BYTES);
+    const updatedProperties = await fileClient.getProperties();
+    assert.deepStrictEqual(updatedProperties.contentLength, FILE_MAX_SIZE_BYTES);
   });
 
   it("setProperties with default parameters", async () => {
