@@ -27,7 +27,6 @@ describe("EventHubConsumerClient subscribe()", function(): void {
   };
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
-  let partitionIds: string[];
 
   before("validate environment", async function(): Promise<void> {
     should.exist(
@@ -47,7 +46,6 @@ describe("EventHubConsumerClient subscribe()", function(): void {
       service.connectionString,
       service.path
     );
-    partitionIds = await consumerClient.getPartitionIds({});
   });
 
   afterEach("Closing the clients", async () => {
@@ -86,6 +84,7 @@ describe("EventHubConsumerClient subscribe()", function(): void {
     let eventsSentAfterSubscribe: EventData[];
 
     beforeEach(async () => {
+      const partitionIds = await producerClient.getPartitionIds();
       partitionId = partitionIds[0];
 
       eventSentBeforeSubscribe = {
@@ -441,6 +440,7 @@ describe("EventHubConsumerClient subscribe()", function(): void {
 
   describe("with trackLastEnqueuedEventProperties", function(): void {
     it("should have lastEnqueuedEventProperties populated", async function(): Promise<void> {
+      const partitionIds = await producerClient.getPartitionIds();
       const partitionId = partitionIds[0];
 
       const eventData = { body: "Hello awesome world " + Math.random() };
