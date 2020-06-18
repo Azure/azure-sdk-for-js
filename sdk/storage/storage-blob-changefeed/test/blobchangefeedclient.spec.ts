@@ -1,24 +1,31 @@
 import * as assert from "assert";
-import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { record } from "@azure/test-utils-recorder";
+import { BlobServiceClient } from "@azure/storage-blob";
+import { getBSU, recorderEnvSetup } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
 describe("BlobChangeFeedClient", async () => {
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
-  );
-  const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
+  let recorder: any;
+  let changeFeedClient: BlobChangeFeedClient;
+  let blobServiceClient: BlobServiceClient;
 
-  before(async function () {
+  before(async function() {
     if (process.env.CHANGE_FEED_ENABLED !== "1") {
       this.skip();
     }
+  });
+
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
+    changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
+  });
+
+  afterEach(async function() {
+    recorder.stop();
   });
 
   it("next(): fetch all events", async () => {
@@ -105,19 +112,24 @@ describe("BlobChangeFeedClient", async () => {
 });
 
 describe("BlobChangeFeedClient: Change Feed not configured", async () => {
-  const account = process.env.ACCOUNT_NAME || "";
-  const accountKey = process.env.ACCOUNT_KEY || "";
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
-  );
-  const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
+  let recorder: any;
+  let changeFeedClient: BlobChangeFeedClient;
+  let blobServiceClient: BlobServiceClient;
 
-  before(async function () {
+  before(async function() {
     if (process.env.CHANGE_FEED_ENABLED === "1") {
       this.skip();
     }
+  });
+
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    blobServiceClient = getBSU();
+    changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
+  });
+
+  afterEach(async function() {
+    recorder.stop();
   });
 
   it("should throw when fetching changes", async () => {

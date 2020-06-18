@@ -1016,7 +1016,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("GenerateUserDelegationSAS should work for blob version delete", async function() {
+  it.skip("GenerateUserDelegationSAS should work for blob version delete", async function() {
     if (isBlobVersioningDisabled()) {
       this.skip();
     }
