@@ -60,8 +60,8 @@ export class SupportTickets {
    * Lists all the support tickets for an Azure subscription. You can also filter the support tickets
    * by _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with
    * _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support
-   * ticket data is available for 12 months after ticket creation. If a ticket was created more than
-   * 12 months ago, a request for data might cause an error.
+   * ticket data is available for 18 months after ticket creation. If a ticket was created more than
+   * 18 months ago, a request for data might cause an error.
    * @param [options] The optional parameters
    * @returns Promise<Models.SupportTicketsListResponse>
    */
@@ -85,8 +85,8 @@ export class SupportTickets {
   }
 
   /**
-   * Get ticket details for an Azure subscription. Support ticket data is available for 12 months
-   * after ticket creation. If a ticket was created more than 12 months ago, a request for data might
+   * Get ticket details for an Azure subscription. Support ticket data is available for 18 months
+   * after ticket creation. If a ticket was created more than 18 months ago, a request for data might
    * cause an error.
    * @param supportTicketName Support ticket name.
    * @param [options] The optional parameters
@@ -220,8 +220,8 @@ export class SupportTickets {
    * Lists all the support tickets for an Azure subscription. You can also filter the support tickets
    * by _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with
    * _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support
-   * ticket data is available for 12 months after ticket creation. If a ticket was created more than
-   * 12 months ago, a request for data might cause an error.
+   * ticket data is available for 18 months after ticket creation. If a ticket was created more than
+   * 18 months ago, a request for data might cause an error.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SupportTicketsListNextResponse>
