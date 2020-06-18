@@ -13,16 +13,10 @@ import {
 } from "@azure/core-amqp";
 
 import { ConnectionContext } from "../connectionContext";
-import { EventHubProperties, PartitionProperties } from "../managementClient";
 import { EventPosition } from "../eventPosition";
 import { EventHubConsumer } from "../receiver";
 import { throwErrorIfConnectionClosed } from "../util/error";
-import {
-  EventHubClientOptions,
-  GetEventHubPropertiesOptions,
-  GetPartitionIdsOptions,
-  GetPartitionPropertiesOptions
-} from "../models/public";
+import { EventHubClientOptions } from "../models/public";
 
 /**
  * The set of options to configure the behavior of an `EventHubConsumer`.
@@ -101,32 +95,6 @@ export class EventHubClient {
    */
   private _clientOptions: EventHubClientOptions;
 
-  /**
-   * The Service Bus endpoint.
-   * @internal
-   * @ignore
-   */
-  public readonly endpoint: string;
-
-  /**
-   * @property
-   * @readonly
-   * The name of the Event Hub instance for which this client is created.
-   */
-  get eventHubName(): string {
-    return this._context.config.entityPath;
-  }
-
-  /**
-   * @property
-   * @readonly
-   * The fully qualified Event Hubs namespace for which this client is created. This is likely to be similar to
-   * <yournamespace>.servicebus.windows.net.
-   */
-  get fullyQualifiedNamespace(): string {
-    return this._context.config.host;
-  }
-
   constructor(connectionString: string, options?: EventHubClientOptions);
   constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
   constructor(
@@ -147,7 +115,6 @@ export class EventHubClient {
       credentialOrOptions,
       options
     );
-    this.endpoint = this._context.config.endpoint;
     if (typeof eventHubNameOrOptions !== "string") {
       this._clientOptions = eventHubNameOrOptions || {};
     } else if (!isTokenCredential(credentialOrOptions)) {
@@ -205,50 +172,6 @@ export class EventHubClient {
     throwErrorIfConnectionClosed(this._context);
     partitionId = String(partitionId);
     return new EventHubConsumer(this._context, consumerGroup, partitionId, eventPosition, options);
-  }
-
-  /**
-   * Provides the Event Hub runtime information.
-   * @param [options] The set of options to apply to the operation call.
-   * @returns A promise that resolves with EventHubProperties.
-   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
-   * @throws AbortError if the operation is cancelled via the abortSignal3.
-   */
-  async getProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
-    return this._context.managementSession!.getEventHubProperties({
-      retryOptions: this._clientOptions.retryOptions,
-      ...options
-    });
-  }
-
-  /**
-   * Provides an array of partitionIds.
-   * @param [options] The set of options to apply to the operation call.
-   * @returns A promise that resolves with an Array of strings.
-   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
-   * @throws AbortError if the operation is cancelled via the abortSignal.
-   */
-  async getPartitionIds(options: GetPartitionIdsOptions): Promise<Array<string>> {
-    const properties = await this.getProperties(options);
-    return properties.partitionIds;
-  }
-
-  /**
-   * Provides information about the specified partition.
-   * @param partitionId Partition ID for which partition information is required.
-   * @param [options] The set of options to apply to the operation call.
-   * @returns A promise that resoloves with PartitionProperties.
-   * @throws Error if the underlying connection has been closed, create a new EventHubClient.
-   * @throws AbortError if the operation is cancelled via the abortSignal.
-   */
-  async getPartitionProperties(
-    partitionId: string,
-    options: GetPartitionPropertiesOptions = {}
-  ): Promise<PartitionProperties> {
-    return this._context.managementSession!.getPartitionProperties(partitionId, {
-      retryOptions: this._clientOptions.retryOptions,
-      ...options
-    });
   }
 }
 

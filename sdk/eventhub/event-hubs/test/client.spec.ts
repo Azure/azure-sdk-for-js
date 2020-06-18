@@ -457,7 +457,7 @@ describe("EventHubConsumerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       env[EnvVarKeys.EVENTHUB_NAME]
     );
-    testUserAgentString(consumerClient["_eventHubClient"]["_context"]);
+    testUserAgentString(consumerClient["_context"]);
     await consumerClient.close();
   });
 
@@ -469,7 +469,7 @@ describe("EventHubConsumerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_NAME],
       { userAgent: customUserAgent }
     );
-    testUserAgentString(consumerClient["_eventHubClient"]["_context"], customUserAgent);
+    testUserAgentString(consumerClient["_context"], customUserAgent);
     await consumerClient.close();
   });
 });

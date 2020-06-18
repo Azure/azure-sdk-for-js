@@ -73,4 +73,8 @@ export interface CommonEventProcessorOptions  // make the 'maxBatchSize', 'maxWa
    * Setting this value to 0 will cause the default value to be used.
    */
   inactiveTimeLimitInMs?: number;
+  /**
+   * Retry Options to be used when receiving events
+   */
+  retryOptions?: RetryOptions;
 }
