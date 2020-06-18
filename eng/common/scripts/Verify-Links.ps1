@@ -1,5 +1,9 @@
 param (
+<<<<<<< HEAD
   # url list to verify links. Can either be a http address or a local file request. Local file paths support md and html files.
+=======
+  # url to verify links. Can either be a http address or a local file request. Local file paths support md and html files.
+>>>>>>> cca821f0e... modify the urls
   [string[]] $urls,
   # file that contains a set of links to ignore when verifying
   [string] $ignoreLinksFile = "$PSScriptRoot/ignore-links.txt",
@@ -26,6 +30,7 @@ function NormalizeUrl([string]$url){
 
   $uri = [System.Uri]$url;
 
+<<<<<<< HEAD
   if ($script:baseUrl -eq "") {
     # for base url default to containing directory
     $script:baseUrl = (new-object System.Uri($uri, ".")).ToString();
@@ -39,6 +44,21 @@ function NormalizeUrl([string]$url){
     else {
       # for http links default to the root path
       $script:rootUrl = new-object System.Uri($uri, "/");
+=======
+  if ($baseUrl -eq "") {
+    # for base url default to containing directory
+    $baseUrl = (new-object System.Uri($uri, ".")).ToString();
+  }
+
+  if ($rootUrl -eq "") {
+    if ($uri.IsFile) { 
+      # for files default to the containing directory
+      $rootUrl = $baseUrl;
+    }
+    else {
+      # for http links default to the root path
+      $rootUrl = new-object System.Uri($uri, "/");
+>>>>>>> cca821f0e... modify the urls
     }
   }
   return $uri
