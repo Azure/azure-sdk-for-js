@@ -2,8 +2,10 @@
  "recordings": [],
  "uniqueTestInfo": {
   "uniqueName": {
-   "browserfile": "browserfile157370497436302015"
+   "browserfile": "browserfile159247522909007723",
+   "browserfile2": "browserfile2159247523422700178"
   },
   "newDate": {}
- }
+ },
+ "hash": "fdfc820cfd6c0ef696e7cf3a49267b12"
 }

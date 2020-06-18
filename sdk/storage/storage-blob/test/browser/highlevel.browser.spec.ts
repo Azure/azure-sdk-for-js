@@ -50,7 +50,7 @@ describe("Highlevel", () => {
   before(async function() {
     recorder = record(this, recorderEnvSetup);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
-    tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile2Length);
+    tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile2"), tempFile2Length);
     recorder.stop();
   });
 
