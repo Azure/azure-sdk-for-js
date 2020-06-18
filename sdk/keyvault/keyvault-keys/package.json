@@ -41,7 +41,7 @@
     "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
     "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
-    "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/samples/typescript/src/",
+    "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/keyvault-keys/samples/typescript/src/",
     "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
