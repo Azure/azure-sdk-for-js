@@ -14,8 +14,8 @@ export class ShardFactory {
     containerClient: ContainerClient,
     shardPath: string,
     shardCursor?: ShardCursor
-  ) {
-    let chunks: string[] = [];
+  ): Promise<Shard> {
+    const chunks: string[] = [];
     const chunkIndex: number = shardCursor?.chunkIndex || 0;
     const blockOffset: number = shardCursor?.blockOffset || 0;
     const eventIndex: number = shardCursor?.eventIndex || 0;

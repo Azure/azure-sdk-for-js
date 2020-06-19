@@ -40,13 +40,13 @@ export function hashString(str: string): number {
 }
 
 export async function getYearsPaths(containerClient: ContainerClient): Promise<number[]> {
-  let years: number[] = [];
+  const years: number[] = [];
   for await (const item of containerClient.listBlobsByHierarchy("/", {
     prefix: CHANGE_FEED_SEGMENT_PREFIX
   })) {
     // TODO: add String.prototype.includes polyfill for IE11
     if (item.kind === "prefix" && !item.name.includes(CHANGE_FEED_INITIALIZATION_SEGMENT)) {
-      let yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
+      const yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
       years.push(parseInt(yearStr));
     }
   }
@@ -59,7 +59,7 @@ export async function getSegmentsInYear(
   startTime?: Date,
   endTime?: Date
 ): Promise<string[]> {
-  let segments: string[] = [];
+  const segments: string[] = [];
   const yearBeginTime = new Date(Date.UTC(year, 0));
   if (endTime && yearBeginTime >= endTime) {
     return segments;
@@ -82,7 +82,7 @@ export function parseDateFromSegmentPath(segmentPath: string): Date {
     throw new Error(`${segmentPath} is not a valid segment path.`);
   }
 
-  let segmentTime = new Date(0);
+  const segmentTime = new Date(0);
   segmentTime.setUTCFullYear(parseInt(splitPath[2]));
 
   if (splitPath.length >= 4) {

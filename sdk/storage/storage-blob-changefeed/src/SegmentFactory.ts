@@ -28,7 +28,7 @@ export class SegmentFactory {
     manifestPath: string,
     cursor?: SegmentCursor
   ): Promise<Segment> {
-    let shards: Shard[] = [];
+    const shards: Shard[] = [];
     const dateTime: Date = parseDateFromSegmentPath(manifestPath);
     const shardIndex = cursor?.shardIndex || 0;
 

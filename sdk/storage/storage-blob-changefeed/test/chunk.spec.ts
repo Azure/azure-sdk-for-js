@@ -12,7 +12,7 @@ class FakeAvroReader {
     public blockSize?: number
   ) {}
 
-  public async *parseObjects(): AsyncIterableIterator<Object | null> {
+  public async *parseObjects(): AsyncIterableIterator<Record<string, any> | null> {
     while (this.hasNext) {
       this.blockOffset += this.blockSize || 1000;
       this.objectIndex++;

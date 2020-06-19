@@ -64,7 +64,7 @@ export class Segment {
   }
 
   public getCursor(): SegmentCursor {
-    let shardCursors: ShardCursor[] = [];
+    const shardCursors: ShardCursor[] = [];
     for (const shard of this._shards) {
       shardCursors.push(shard.getCursor());
     }

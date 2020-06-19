@@ -66,6 +66,44 @@ export class ChangeFeed {
     }
   }
 
+  private async advanceSegmentIfNecessary(): Promise<void> {
+    if (!this._currentSegment) {
+      throw new Error("Empty Change Feed shouldn't call this function.");
+    }
+
+    // If the current segment has more Events, we don't need to do anything.
+    if (this._currentSegment.hasNext()) {
+      return;
+    }
+
+    // If the current segment is completed, remove it
+    if (this._segments.length > 0) {
+      this._currentSegment = await this._segmentFactory!.create(
+        this._containerClient!,
+        this._segments.shift()!
+      );
+    }
+    // If _segments is empty, refill it
+    else if (this._segments.length === 0 && this._years.length > 0) {
+      const year = this._years.shift();
+      this._segments = await getSegmentsInYear(
+        this._containerClient!,
+        year!,
+        this._startTime,
+        this._end
+      );
+
+      if (this._segments.length > 0) {
+        this._currentSegment = await this._segmentFactory!.create(
+          this._containerClient!,
+          this._segments.shift()!
+        );
+      } else {
+        this._currentSegment = undefined;
+      }
+    }
+  }
+
   public hasNext(): boolean {
     // Empty ChangeFeed, using _currentSegment as the indicator.
     if (!this._currentSegment) {
@@ -103,43 +141,5 @@ export class ChangeFeed {
       endTime: this._endTime?.toJSON(),
       currentSegmentCursor: this._currentSegment!.getCursor()
     };
-  }
-
-  private async advanceSegmentIfNecessary(): Promise<void> {
-    if (!this._currentSegment) {
-      throw new Error("Empty Change Feed shouldn't call this function.");
-    }
-
-    // If the current segment has more Events, we don't need to do anything.
-    if (this._currentSegment.hasNext()) {
-      return;
-    }
-
-    // If the current segment is completed, remove it
-    if (this._segments.length > 0) {
-      this._currentSegment = await this._segmentFactory!.create(
-        this._containerClient!,
-        this._segments.shift()!
-      );
-    }
-    // If _segments is empty, refill it
-    else if (this._segments.length === 0 && this._years.length > 0) {
-      const year = this._years.shift();
-      this._segments = await getSegmentsInYear(
-        this._containerClient!,
-        year!,
-        this._startTime,
-        this._end
-      );
-
-      if (this._segments.length > 0) {
-        this._currentSegment = await this._segmentFactory!.create(
-          this._containerClient!,
-          this._segments.shift()!
-        );
-      } else {
-        this._currentSegment = undefined;
-      }
-    }
   }
 }

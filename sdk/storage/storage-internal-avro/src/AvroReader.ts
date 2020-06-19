@@ -103,7 +103,7 @@ export class AvroReader {
     return !this._initialized || this._itemsRemainingInBlock! > 0;
   }
 
-  public async *parseObjects(): AsyncIterableIterator<Object | null> {
+  public async *parseObjects(): AsyncIterableIterator<Record<string, any> | null> {
     if (!this._initialized) {
       await this.initialize();
     }

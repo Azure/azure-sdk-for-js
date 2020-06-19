@@ -38,6 +38,12 @@ export class ChangeFeedFactory {
     }
   }
 
+  private static validateCursor(containerClient: ContainerClient, cursor: ChangeFeedCursor): void {
+    if (hashString(getURI(containerClient.url)) !== cursor.urlHash) {
+      throw new Error("Cursor URL does not match container URL.");
+    }
+  }
+
   public async create(
     blobServiceClient: BlobServiceClient,
     continuationToken?: string,
@@ -63,7 +69,7 @@ export class ChangeFeedFactory {
     }
 
     // Check if Change Feed has been enabled for this account.
-    let changeFeedContainerExists = await containerClient.exists();
+    const changeFeedContainerExists = await containerClient.exists();
     if (!changeFeedContainerExists) {
       throw new Error(
         "Change Feed hasn't been enabled on this account, or is currently being enabled."
@@ -86,7 +92,7 @@ export class ChangeFeedFactory {
 
     // Dequeue any years that occur before start time.
     if (startTime) {
-      let startYear = startTime.getUTCFullYear();
+      const startYear = startTime.getUTCFullYear();
       while (years.length > 0 && years[0] < startYear) {
         years.shift();
       }
@@ -123,11 +129,5 @@ export class ChangeFeedFactory {
       startTime,
       endTime
     );
-  }
-
-  private static validateCursor(containerClient: ContainerClient, cursor: ChangeFeedCursor): void {
-    if (hashString(getURI(containerClient.url)) !== cursor.urlHash) {
-      throw new Error("Cursor URL does not match container URL.");
-    }
   }
 }

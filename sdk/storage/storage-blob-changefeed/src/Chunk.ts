@@ -3,7 +3,7 @@ import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 
 export class Chunk {
   private readonly _avroReader: AvroReader;
-  private readonly _iter: AsyncIterableIterator<Object | null>;
+  private readonly _iter: AsyncIterableIterator<Record<string, any> | null>;
 
   private _blockOffset: number;
   public get blockOffset(): number {
@@ -38,7 +38,11 @@ export class Chunk {
     if (next.done) {
       return undefined;
     } else {
-      let eventRaw = next.value as any;
+      const eventRaw = next.value;
+      if (eventRaw === null) {
+        return undefined;
+      }
+
       if (eventRaw.eventTime) {
         eventRaw.eventTime = new Date(eventRaw.eventTime);
       }
@@ -46,7 +50,7 @@ export class Chunk {
         eventRaw.etag = eventRaw.eTag;
         delete eventRaw.eTag;
       }
-      return eventRaw;
+      return eventRaw as BlobChangeFeedEvent;
     }
   }
 }

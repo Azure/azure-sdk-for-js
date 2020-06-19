@@ -16,8 +16,7 @@ export async function bodyToString(
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {
-      let chunk;
-      chunk = response.readableStreamBody!.read(length);
+      const chunk = response.readableStreamBody!.read(length);
       if (chunk) {
         resolve(chunk.toString());
       }

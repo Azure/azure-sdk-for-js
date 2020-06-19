@@ -13,12 +13,8 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
 
-  let accountName: string | undefined;
-  let accountKey: string | undefined;
-
-  accountName = process.env[accountNameEnvVar];
-  accountKey = process.env[accountKeyEnvVar];
-
+  const accountName = process.env[accountNameEnvVar];
+  const accountKey = process.env[accountKeyEnvVar];
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
       `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
@@ -47,10 +43,7 @@ export function getGenericBSU(
 
 export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `ACCOUNT_TOKEN`;
-  let accountToken: string | undefined;
-
-  accountToken = process.env[accountTokenEnvVar];
-
+  const accountToken = process.env[accountTokenEnvVar];
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
   }
@@ -61,10 +54,7 @@ export function getTokenCredential(): TokenCredential {
 export function getTokenBSU(): BlobServiceClient {
   const accountNameEnvVar = `ACCOUNT_NAME`;
 
-  let accountName: string | undefined;
-
-  accountName = process.env[accountNameEnvVar];
-
+  const accountName = process.env[accountNameEnvVar];
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
   }

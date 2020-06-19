@@ -203,7 +203,7 @@ describe("Change Feed", async () => {
     const event2 = await changeFeed2.getChange();
     assert.equal(event2, undefined);
 
-    //end later than lastConsumable
+    // end later than lastConsumable
     const changeFeed3 = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
@@ -232,10 +232,7 @@ describe("Change Feed", async () => {
       segmentTime: new Date(Date.UTC(2020, 2, 2, 20)).toJSON()
     });
     const continuation = JSON.stringify(changeFeed.getCursor());
-    const changeFeed2 = await changeFeedFactory.create(
-      serviceClientStub as any,
-      continuation
-    );
+    const changeFeed2 = await changeFeedFactory.create(serviceClientStub as any, continuation);
     assert.ok(changeFeed2.hasNext());
     const event = await changeFeed.getChange();
     assert.equal(event, 3);
@@ -244,10 +241,7 @@ describe("Change Feed", async () => {
     sinon.stub(segmentStubs[4], "finalized").value(true);
     segmentStubs[3].hasNext.returns(false);
     segmentStubs[3].getChange.resolves(undefined);
-    const changeFeed3 = await changeFeedFactory.create(
-      serviceClientStub as any,
-      continuation
-    );
+    const changeFeed3 = await changeFeedFactory.create(serviceClientStub as any, continuation);
     assert.ok(changeFeed3.hasNext());
     const event2 = await changeFeed.getChange();
     assert.equal(event2, 4);

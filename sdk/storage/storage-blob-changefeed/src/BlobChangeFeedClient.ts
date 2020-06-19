@@ -36,32 +36,6 @@ export class BlobChangeFeedClient {
     this._changeFeedFactory = new ChangeFeedFactory();
   }
 
-  public listChanges(
-    options: BlobChangeFeedListChangesOptions = {}
-  ): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage> {
-    const iter = this.getChange(options);
-    return {
-      /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
-       */
-      async next() {
-        return iter.next();
-      },
-      /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
-       */
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
-       */
-      byPage: (settings: PageSettings = {}) => {
-        return this.getPage(settings.continuationToken, settings.maxPageSize, options);
-      }
-    };
-  }
-
   private async *getChange(
     options: BlobChangeFeedListChangesOptions = {}
   ): AsyncIterableIterator<BlobChangeFeedEvent> {
@@ -99,7 +73,7 @@ export class BlobChangeFeedClient {
       maxPageSize = CHANGE_FEED_MAX_PAGE_SIZE;
     }
     while (changeFeed.hasNext()) {
-      let eventPage = new BlobChangeFeedEventPage();
+      const eventPage = new BlobChangeFeedEventPage();
       while (changeFeed.hasNext() && eventPage.events.length < maxPageSize) {
         const event = await changeFeed.getChange();
         if (event) {
@@ -115,5 +89,31 @@ export class BlobChangeFeedClient {
         return;
       }
     }
+  }
+
+  public listChanges(
+    options: BlobChangeFeedListChangesOptions = {}
+  ): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage> {
+    const iter = this.getChange(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.getPage(settings.continuationToken, settings.maxPageSize, options);
+      }
+    };
   }
 }
