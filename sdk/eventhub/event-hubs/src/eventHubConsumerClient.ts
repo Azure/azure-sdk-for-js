@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createConnectionContext } from "./impl/eventHubClient";
+import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
@@ -24,7 +24,6 @@ import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
 import { v4 as uuid } from "uuid";
 import { validateEventPositions } from "./eventPosition";
-import { ConnectionContext } from "./connectionContext";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,

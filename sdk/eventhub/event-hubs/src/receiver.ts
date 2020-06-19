@@ -3,7 +3,7 @@
 
 import { logErrorStackTrace, logger } from "./log";
 import { ConnectionContext } from "./connectionContext";
-import { EventHubConsumerOptions } from "./impl/eventHubClient";
+import { EventHubConsumerOptions } from "./models/private";
 import { EventHubReceiver, LastEnqueuedEventProperties } from "./eventHubReceiver";
 import { ReceivedEventData } from "./eventData";
 import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
