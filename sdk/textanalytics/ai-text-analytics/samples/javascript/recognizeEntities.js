@@ -18,7 +18,7 @@ const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "I had a wonderful trip to Seattle last week.",
-  "I visited the Space Needle 2 times.",
+  "I visited the Space Needle 2 times."
 ];
 
 async function main() {

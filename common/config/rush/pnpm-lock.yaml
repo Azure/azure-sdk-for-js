@@ -672,6 +672,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-l+zSbvT8TPRaCxL1l9cwHCb0tSqGAGcjPJFItGGYat5oCTiq1uQQKYg5m7AF1mgnEBzFXGLJ2LRmNjtreRX76Q==
+  /@types/prettier/2.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-boy4xPNEtiw6N3abRhBi/e7hNvy3Tt8E9ZRAQrwAGzoCGZS/1wjo9KY7JHhnfnEsG5wSjDbymCozUM9a3ea7OQ==
   /@types/priorityqueuejs/1.0.1:
     dev: false
     resolution:
@@ -8030,6 +8034,7 @@ packages:
       '@types/minimist': 1.2.0
       '@types/mocha': 7.0.2
       '@types/node': 8.10.61
+      '@types/prettier': 2.0.1
       '@typescript-eslint/eslint-plugin': 2.34.0_2ce5ff4d4c428c35a55f8b98c167bebb
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.5
       chai: 4.2.0
@@ -8046,7 +8051,7 @@ packages:
     dev: false
     name: '@rush-temp/dev-tool'
     resolution:
-      integrity: sha512-ZVHMFOYyqmqMwDlbVE98ovEwtq2jnNTo6ny8xL5ol5qwunVMERwOoMAo23grVB72NG2jorFiACDlvcP639LlWg==
+      integrity: sha512-5TXnGsXxkseKtD1Uu/f8Ua++Np5VFavRs7Hl4IfMbFGBrbWPxXGJJLs/CJLljI71Q9Dqc5YmxoFbtY3agUTrNQ==
       tarball: 'file:projects/dev-tool.tgz'
     version: 0.0.0
   'file:projects/eslint-plugin-azure-sdk.tgz':

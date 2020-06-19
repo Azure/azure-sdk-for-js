@@ -14,7 +14,9 @@
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
