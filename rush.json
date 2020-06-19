@@ -363,6 +363,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-autorest",
+      "projectFolder": "sdk/core/core-autorest",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-auth",
       "projectFolder": "sdk/core/core-auth",
       "versionPolicyName": "core"

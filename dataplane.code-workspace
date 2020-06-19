@@ -21,6 +21,10 @@
       "path": "sdk\\core\\core-asynciterator-polyfill"
     },
     {
+      "name": "core-autorest",
+      "path": "sdk\\core\\core-autorest"
+    },
+    {
       "name": "core-auth",
       "path": "sdk\\core\\core-auth"
     },
