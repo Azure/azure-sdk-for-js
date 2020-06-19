@@ -4,6 +4,10 @@ import { AvroReader, AvroReadableFromStream } from "../src";
 import { arraysEqual } from "../src/utils/utils.common";
 
 describe("AvroReader", () => {
+  if (typeof TextEncoder === "undefined" && typeof require !== "undefined") {
+    (global as any).TextEncoder = require("util").TextEncoder;
+  }
+
   it("test with local avro files", async () => {
     const testCases: TestCase[] = [
       new TestCase("test_null_0.avro", (o) => assert.strictEqual(null, o)), // null
