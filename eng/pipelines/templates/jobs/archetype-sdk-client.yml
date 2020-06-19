@@ -135,7 +135,7 @@ jobs:
 
       - template: ../../../common/pipelines/templates/steps/verify-links.yml
         parameters:
-          ServiceDirectory: ${{parameters.ServiceDirectory}}
+          Directory: sdk/${{ parameters.ServiceDirectory }}
 
       - script: |
           npm ci

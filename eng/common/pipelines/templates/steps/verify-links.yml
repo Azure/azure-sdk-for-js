@@ -1,5 +1,4 @@
 parameters:
-<<<<<<< HEAD
   Directory: 'not-specified'
 
 steps:
@@ -11,15 +10,3 @@ steps:
       filePath: eng/common/scripts/Verify-Links.ps1 
       arguments: >
         -urls $(dir -r -i *.md) -rootUrl "file://$(Build.SourcesDirectory)/${{ parameters.Directory }}"
-=======
-  ServiceDirectory: 'not-specified'
-
-steps:
-- pwsh: |
-    $directory = Join-Path $(Build.SourcesDirectory) "sdk/${{ parameters.ServiceDirectory }}"
-    Write-Host "directory = $directory"
-
-    $(Build.SourcesDirectory)/eng/common/scripts/Verify-Links.ps1 -urls $(dir $directory -r -i *.md)
-
-  displayName: 'Link verification check'
->>>>>>> 76a02e7ad... verification of links pipelines
