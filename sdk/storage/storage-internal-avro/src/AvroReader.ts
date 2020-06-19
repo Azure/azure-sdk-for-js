@@ -1,7 +1,13 @@
 import { AvroReadable } from "./AvroReadable";
-import { AVRO_SYNC_MARKER_SIZE, AVRO_INIT_BYTES, AVRO_CODEC_KEY, AVRO_SCHEMA_KEY } from "./AvroConstants";
+import {
+  AVRO_SYNC_MARKER_SIZE,
+  AVRO_INIT_BYTES,
+  AVRO_CODEC_KEY,
+  AVRO_SCHEMA_KEY
+} from "./AvroConstants";
 import { arraysEqual } from "./utils/utils.common";
 import { AvroType, AvroParser } from "./AvroParser";
+import "@azure/core-paging";
 
 export class AvroReader {
   private readonly _dataStream: AvroReadable;
@@ -54,10 +60,7 @@ export class AvroReader {
 
   // FUTURE: cancellation / aborter?
   private async initialize() {
-    const header = await AvroParser.readFixedBytes(
-      this._headerStream,
-      AVRO_INIT_BYTES.length
-    );
+    const header = await AvroParser.readFixedBytes(this._headerStream, AVRO_INIT_BYTES.length);
     if (!arraysEqual(header, AVRO_INIT_BYTES)) {
       throw new Error("Stream is not an Avro file.");
     }
@@ -73,10 +76,7 @@ export class AvroReader {
     }
 
     // The 16-byte, randomly-generated sync marker for this file.
-    this._syncMarker = await AvroParser.readFixedBytes(
-      this._headerStream,
-      AVRO_SYNC_MARKER_SIZE
-    );
+    this._syncMarker = await AvroParser.readFixedBytes(this._headerStream, AVRO_SYNC_MARKER_SIZE);
 
     // Parse the schema
     const schema = JSON.parse(this._metadata![AVRO_SCHEMA_KEY]);

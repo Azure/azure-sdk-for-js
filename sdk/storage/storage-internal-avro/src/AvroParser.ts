@@ -106,6 +106,12 @@ export class AvroParser {
   public static async readString(stream: AvroReadable): Promise<string> {
     const u8arr = await AvroParser.readBytes(stream);
 
+    // polyfill TextDecoder to be backward compatible with older
+    // nodejs that doesn't expose TextDecoder as a global variable
+    if (typeof TextDecoder === "undefined" && typeof require !== "undefined") {
+      (global as any).TextDecoder = require("util").TextDecoder;
+    }
+
     // FIXME: need TextDecoder polyfill for IE
     let utf8decoder = new TextDecoder();
     return utf8decoder.decode(u8arr);
@@ -168,12 +174,12 @@ interface RecordField {
 }
 
 enum AvroComplex {
-  RECORD = 'record',
-  ENUM = 'enum',
-  ARRAY = 'array',
-  MAP = 'map',
-  UNION = 'union',
-  FIXED = 'fixed',
+  RECORD = "record",
+  ENUM = "enum",
+  ARRAY = "array",
+  MAP = "map",
+  UNION = "union",
+  FIXED = "fixed"
 }
 
 interface ObjectSchema {
@@ -233,7 +239,7 @@ export abstract class AvroType {
     // Primitives can be defined as strings or objects
     try {
       return AvroType.fromStringSchema(type);
-    } catch (err) { }
+    } catch (err) {}
 
     switch (type) {
       case AvroComplex.RECORD:
@@ -275,13 +281,13 @@ export abstract class AvroType {
 
 enum AvroPrimitive {
   NULL = "null",
-  BOOLEAN = 'boolean',
-  INT = 'int',
-  LONG = 'long',
-  FLOAT = 'float',
-  DOUBLE = 'double',
-  BYTES = 'bytes',
-  STRING = 'string'
+  BOOLEAN = "boolean",
+  INT = "int",
+  LONG = "long",
+  FLOAT = "float",
+  DOUBLE = "double",
+  BYTES = "bytes",
+  STRING = "string"
 }
 
 class AvroPrimitiveType extends AvroType {
