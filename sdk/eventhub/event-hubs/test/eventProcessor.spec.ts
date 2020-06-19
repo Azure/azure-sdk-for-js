@@ -617,7 +617,7 @@ describe("Event Processor", function(): void {
     const {
       subscriptionEventHandler,
       startPosition
-    } = await SubscriptionHandlerForTests.startingFromHere(client);
+    } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
 
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
@@ -682,7 +682,7 @@ describe("Event Processor", function(): void {
     const {
       subscriptionEventHandler,
       startPosition
-    } = await SubscriptionHandlerForTests.startingFromHere(client);
+    } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
     const partitionLoadBalancer = new GreedyPartitionLoadBalancer();
 
     const processor = new EventProcessor(
@@ -736,7 +736,7 @@ describe("Event Processor", function(): void {
       const {
         subscriptionEventHandler,
         startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(client);
+      } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
 
       const processor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
@@ -1443,7 +1443,7 @@ describe("Event Processor", function(): void {
     it("should have lastEnqueuedEventProperties populated when trackLastEnqueuedEventProperties is set to true", async function(): Promise<
       void
     > {
-      const { startPosition } = await SubscriptionHandlerForTests.startingFromHere(client);
+      const { startPosition } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
       const partitionIds = await client.getPartitionIds({});
       for (const partitionId of partitionIds) {
         await producerClient.sendBatch([{ body: `Hello world - ${partitionId}` }], { partitionId });

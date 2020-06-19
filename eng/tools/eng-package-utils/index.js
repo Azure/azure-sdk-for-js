@@ -60,7 +60,10 @@ async function getRushSpec(repoRoot) {
   return await readFileJson(rushPath);
 }
 
-
+async function getRushCommonVersions(repoRoot) {
+  const commonVersionsPath = path.resolve(path.join(repoRoot, "/common/config/rush/common-versions.json"));
+  return await readFileJson(commonVersionsPath);
+}
 
 // This regex is taken from # https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
 // and adapted to exclude beginning of line (^) and end of line ($) anchors.
@@ -72,3 +75,4 @@ module.exports.writeFile = writeFile;
 module.exports.writePackageJson = writePackageJson;
 module.exports.getRushSpec = getRushSpec;
 module.exports.getRushPackageJsons = getRushPackageJsons;
+module.exports.getRushCommonVersions = getRushCommonVersions;

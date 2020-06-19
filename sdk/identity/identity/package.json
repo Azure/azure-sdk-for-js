@@ -85,12 +85,11 @@
     "keytar": "^5.4.0",
     "msal": "^1.0.2",
     "qs": "^6.7.0",
-    "tslib": "^1.10.0",
+    "tslib": "^2.0.0",
     "uuid": "^8.1.0"
   },
   "devDependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
@@ -122,12 +121,12 @@
     "mocha-junit-reporter": "^1.18.0",
     "open": "^7.0.0",
     "prettier": "^1.16.4",
-    "puppeteer": "^2.0.0",
+    "puppeteer": "^3.3.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^3.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "~3.9.3",
     "util": "^0.12.1"
   }

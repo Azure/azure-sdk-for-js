@@ -31,8 +31,7 @@ dotenv.config();
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
-  process.env.SERVICE_BUS_ENDPOINT ||
-  "<your-servicebus-namespace>.servicebus.windows.net";
+  process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
 const clientId = process.env.AZURE_TENANT_ID || "<azure tenant id>";
@@ -50,6 +49,6 @@ export async function main() {
   await sbClient.close();
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.log("Error occurred: ", err);
 });

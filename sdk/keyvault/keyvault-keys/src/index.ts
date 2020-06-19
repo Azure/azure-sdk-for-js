@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint @typescript-eslint/member-ordering: 0 */
+/// <reference lib="esnext.asynciterable" />
 
 import {
   PipelineOptions,
@@ -38,7 +39,7 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { SDK_VERSION } from "./core/utils/constants";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";

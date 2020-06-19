@@ -17,7 +17,7 @@ import { logger } from "./log";
 import { parseKeyvaultIdentifier } from "./core/utils";
 import { SDK_VERSION } from "./core/utils/constants";
 import { KeyVaultClient } from "./core/keyVaultClient";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import { LocalCryptographyUnsupportedError, EncryptResult } from "./localCryptography/models";
 import {

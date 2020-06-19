@@ -675,34 +675,6 @@ describe("invalid parameters", () => {
       return serviceBusClient.test.afterEach();
     });
 
-    it("Send: Missing message in Sender", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await sender.send(undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `Missing parameter "message, messages or messageBatch"`
-      );
-    });
-
-    it("Sendbatch: Missing messageBatch in Sender", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await sender.send(undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `Missing parameter "message, messages or messageBatch"`
-      );
-    });
-
     it("ScheduledMessage: Missing date in Sender", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {

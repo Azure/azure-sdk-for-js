@@ -64,7 +64,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/abort-controller",
   "sideEffects": false,
   "dependencies": {
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",
