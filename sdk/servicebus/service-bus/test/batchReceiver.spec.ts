@@ -1208,7 +1208,7 @@ describe.only("Batching - disconnects", function(): void {
       await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
       throw new Error(testFailureMessage);
     } catch (err) {
-      err.message.should.not.equal(testFailureMessage);
+      err.message && err.message.should.not.equal(testFailureMessage);
     }
 
     didRequestDrain.should.equal(true, "Drain was not requested.");
@@ -1292,7 +1292,7 @@ describe.only("Batching - disconnects", function(): void {
       console.log(msgs.length);
       throw new Error(testFailureMessage);
     } catch (err) {
-      err.message.should.not.equal(testFailureMessage);
+      err.message && err.message.should.not.equal(testFailureMessage);
     }
 
     // Make sure that a 2nd receiveMessages call still works
