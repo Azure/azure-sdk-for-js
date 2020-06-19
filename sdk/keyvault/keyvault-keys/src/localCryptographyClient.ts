@@ -3,7 +3,7 @@
 
 import { isNode } from "@azure/core-http";
 
-import { LocalCryptographyUnsupportedError, EncryptResult } from "./localCryptography/models";
+import { LocalCryptographyUnsupportedError } from "./localCryptography/models";
 import { LocalSupportedAlgorithmName } from "./localCryptography/algorithms";
 
 import { JsonWebKey } from "./keysModels";
@@ -13,9 +13,11 @@ import {
   VerifyResult,
   KeyWrapAlgorithm,
   SignatureAlgorithm,
-  SignResult
+  SignResult,
+  EncryptResult
 } from "./cryptographyClientModels";
 import { runOperation } from "./localCryptography/runOperation";
+import { EncryptionAlgorithm } from '.';
 
 /**
  * A client used to perform local cryptographic operations with JSON Web Keys.
@@ -46,7 +48,7 @@ export class LocalCryptographyClient {
       Buffer.from(plaintext)
     )) as Buffer;
     const keyID = this.key.kid;
-    return { result, algorithm, keyID };
+    return { result, algorithm: algorithm as EncryptionAlgorithm, keyID };
   }
 
   /**
@@ -71,7 +73,7 @@ export class LocalCryptographyClient {
       Buffer.from(plaintext)
     )) as Buffer;
     const keyID = this.key.kid;
-    return { result, algorithm, keyID };
+    return { result, algorithm: algorithm as EncryptionAlgorithm, keyID };
   }
 
   /**

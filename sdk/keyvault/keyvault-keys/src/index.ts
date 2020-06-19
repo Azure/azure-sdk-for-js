@@ -91,8 +91,7 @@ import {
   LocalCryptographyClient,
 } from "./localCryptographyClient";
 
-import { EncryptResult } from "./localCryptography/models";
-import { DecryptResult, KeyCurveName, EncryptionAlgorithm, SignatureAlgorithm, KeyWrapAlgorithm, SignResult, UnwrapResult, VerifyResult, WrapResult } from './cryptographyClientModels';
+import { DecryptResult, KeyCurveName, EncryptionAlgorithm, SignatureAlgorithm, KeyWrapAlgorithm, SignResult, UnwrapResult, VerifyResult, WrapResult, EncryptResult } from './cryptographyClientModels';
 
 export {
   CryptographyClientOptions,

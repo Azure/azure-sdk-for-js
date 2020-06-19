@@ -54,6 +54,7 @@ export class CryptographyClient {
     credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
+    localCryptographyClient?: LocalCryptographyClient;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
     unwrapKey(algorithm: KeyWrapAlgorithm, encryptedKey: Uint8Array, options?: UnwrapKeyOptions): Promise<UnwrapResult>;
@@ -235,6 +236,20 @@ export interface ListPropertiesOfKeysOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export class LocalCryptographyClient {
+    constructor(key: JsonWebKey);
+    decrypt(algorithm: LocalSupportedAlgorithmName, plaintext: Uint8Array): Promise<EncryptResult>;
+    // Warning: (ae-forgotten-export) The symbol "LocalSupportedAlgorithmName" needs to be exported by the entry point index.d.ts
+    encrypt(algorithm: LocalSupportedAlgorithmName, plaintext: Uint8Array): Promise<EncryptResult>;
+    // (undocumented)
+    key: JsonWebKey;
+    signData(algorithm: LocalSupportedAlgorithmName, data: Uint8Array): Promise<SignResult>;
+    unwrapKey(algorithm: LocalSupportedAlgorithmName, encryptedKey: Uint8Array): Promise<UnwrapResult>;
+    verifyData(algorithm: LocalSupportedAlgorithmName, data: Uint8Array, signature: Uint8Array): Promise<VerifyResult>;
+    wrapKey(algorithm: LocalSupportedAlgorithmName, key: Uint8Array): Promise<WrapResult>;
 }
 
 // @public

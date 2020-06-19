@@ -40,6 +40,24 @@ export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 /**
+ * Result of the {@link encrypt} operation.
+ */
+export interface EncryptResult {
+  /**
+   * Result of the {@link encrypt} operation in bytes.
+   */
+  result: Uint8Array;
+  /**
+   * The {@link EncryptionAlgorithm} used to encrypt the data.
+   */
+  algorithm: EncryptionAlgorithm;
+  /**
+   * The ID of the KeyVault Key used to encrypt the data.
+   */
+  keyID?: string;
+}
+
+/**
  * Result of the {@link wrap} operation.
  */
 export interface WrapResult {

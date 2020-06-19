@@ -19,10 +19,11 @@ import { SDK_VERSION } from "./core/utils/constants";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
-import { LocalCryptographyUnsupportedError, EncryptResult } from "./localCryptography/models";
+import { LocalCryptographyUnsupportedError } from "./localCryptography/models";
 import {
   LocalSupportedAlgorithmName,
-  localSupportedAlgorithms
+  localSupportedAlgorithms,
+  LocalCryptographyOperationFunction
 } from "./localCryptography/algorithms";
 
 import { LocalCryptographyClient } from "./localCryptographyClient";
@@ -44,7 +45,8 @@ import {
   DecryptResult,
   SignatureAlgorithm,
   SignResult,
-  VerifyResult
+  VerifyResult,
+  EncryptResult
 } from "./cryptographyClientModels";
 
 /**
@@ -406,10 +408,10 @@ export class CryptographyClient {
 
     let digest: Buffer;
     try {
-      digest = (await localSupportedAlgorithms[localAlgorithm]?.operations.createHash!(
-        "",
-        Buffer.from(data)
-      )) as Buffer;
+      const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[
+        localAlgorithm
+      ]?.operations.createHash as LocalCryptographyOperationFunction;
+      digest = await createHash("", Buffer.from(data));
     } catch {
       throw new LocalCryptographyUnsupportedError(`Unsupported algorithm ${algorithm}`);
     }
@@ -470,10 +472,10 @@ export class CryptographyClient {
 
     let digest: Buffer;
     try {
-      digest = (await localSupportedAlgorithms[localAlgorithm]?.operations.createHash!(
-        "",
-        Buffer.from(data)
-      )) as Buffer;
+      const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[
+        localAlgorithm
+      ]?.operations.createHash as LocalCryptographyOperationFunction;
+      digest = await createHash("", Buffer.from(data));
     } catch {
       throw new LocalCryptographyUnsupportedError(`Unsupported algorithm ${algorithm}`);
     }
