@@ -85,7 +85,7 @@ export enum CloseReason {
   /**
    * The EventProcessor was shutdown.
    */
-  Shutdown = "Shutdown"
+  Shutdown = "Shutdown",
 }
 
 /**
@@ -126,6 +126,57 @@ export interface EventHubClientOptions {
    * Value that is appended to the built in user agent string that is passed to the Event Hubs service.
    */
   userAgent?: string;
+}
+
+/**
+ * Describes the options that can be provided while creating the EventHubConsumerClient.
+ */
+export interface EventHubConsumerClientOptions extends EventHubClientOptions {
+  /**
+   * An options bag to configure load balancing settings.
+   * - `loadBalancingOptions`: Options to tune how the EventHubConsumerClient claims partitions.
+   * - `userAgent`        : A string to append to the built in user agent string that is passed as a connection property
+   * to the service.
+   * - `webSocketOptions` : Options to configure the channelling of the AMQP connection over Web Sockets.
+   *    - `websocket`     : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+   * over a WebSocket.
+   *    - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+   * over a WebSocket.
+   * - `retryOptions`     : The retry options for all the operations on the EventHubConsumerClient.
+   * A simple usage can be `{ "maxRetries": 4 }`.
+   *
+   * Example usage:
+   * ```js
+   * {
+   *     retryOptions: {
+   *         maxRetries: 4
+   *     }
+   * }
+   * ```
+   */
+  loadBalancingOptions?: LoadBalancingOptions;
+}
+
+/**
+ * An options bag to configure load balancing settings.
+ */
+export interface LoadBalancingOptions {
+  /**
+   * Whether to apply a greedy or a more balanced approach when
+   * claiming partitions.
+   * Default: balanced
+   */
+  strategy?: "balanced" | "greedy";
+  /**
+   * The length of time between attempts to claim partitions.
+   * Default: 10000
+   */
+  updateIntervalInMs?: number;
+  /**
+   * The length of time a partition claim is valid.
+   * Default: 60000
+   */
+  partitionOwnershipExpirationIntervalInMs?: number;
 }
 
 /**
