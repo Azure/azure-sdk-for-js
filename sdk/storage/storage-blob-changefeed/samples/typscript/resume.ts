@@ -24,13 +24,18 @@ export async function main() {
 
   const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
   let changeFeedEvents: BlobChangeFeedEvent[] = [];
-  const firstPage = await changeFeedClient.getChanges().byPage({ maxPageSize: 10 }).next();
+  const firstPage = await changeFeedClient
+    .listChanges()
+    .byPage({ maxPageSize: 10 })
+    .next();
   for (const event of firstPage) {
     changeFeedEvents.push(event);
   }
 
   // Resume iterating from the pervious position with the continuationToken.
-  for await (const eventPage of changeFeedClient.getChanges().byPage({ continuationToken: firstPage.continuationToken })) {
+  for await (const eventPage of changeFeedClient
+    .listChanges()
+    .byPage({ continuationToken: firstPage.continuationToken })) {
     for (const event of eventPage) {
       changeFeedEvents.push(event);
     }

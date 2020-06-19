@@ -578,6 +578,12 @@ export interface BlobFlatListSegment {
 }
 
 // @public
+export interface BlobFlatListSegmentModel {
+    // (undocumented)
+    blobItems: BlobItemInternal[];
+}
+
+// @public
 export interface BlobGetPropertiesHeaders {
     acceptRanges?: string;
     accessTier?: string;
@@ -682,6 +688,14 @@ export interface BlobHierarchyListSegment {
 }
 
 // @public
+export interface BlobHierarchyListSegmentModel {
+    // (undocumented)
+    blobItems: BlobItemInternal[];
+    // (undocumented)
+    blobPrefixes?: BlobPrefix[];
+}
+
+// @public
 export interface BlobHTTPHeaders {
     blobCacheControl?: string;
     blobContentDisposition?: string;
@@ -713,6 +727,32 @@ export interface BlobItem {
     snapshot: string;
     // (undocumented)
     tags?: Tags;
+    // (undocumented)
+    versionId?: string;
+}
+
+// @public
+export interface BlobItemInternal {
+    // (undocumented)
+    blobTags?: BlobTags;
+    // (undocumented)
+    deleted: boolean;
+    // (undocumented)
+    isCurrentVersion?: boolean;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    objectReplicationMetadata?: {
+        [propertyName: string]: string;
+    };
+    // (undocumented)
+    properties: BlobProperties;
+    // (undocumented)
+    snapshot: string;
     // (undocumented)
     versionId?: string;
 }
@@ -818,12 +858,52 @@ export interface BlobQueryError {
 }
 
 // @public
+export interface BlobQueryHeaders {
+    acceptRanges?: string;
+    blobCommittedBlockCount?: number;
+    blobContentMD5?: Uint8Array;
+    blobSequenceNumber?: number;
+    blobType?: BlobType;
+    cacheControl?: string;
+    clientRequestId?: string;
+    contentCrc64?: Uint8Array;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: Uint8Array;
+    contentRange?: string;
+    contentType?: string;
+    copyCompletionTime?: Date;
+    copyId?: string;
+    copyProgress?: string;
+    copySource?: string;
+    copyStatus?: CopyStatusType;
+    copyStatusDescription?: string;
+    date?: Date;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    // (undocumented)
+    errorCode?: string;
+    etag?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
+    // (undocumented)
+    metadata?: {
+        [propertyName: string]: string;
+    };
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
     kind: "json";
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobQueryHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type BlobQueryResponseModel = BlobQueryHeaders & {
     blobBody?: Promise<Blob>;
@@ -1898,10 +1978,8 @@ export interface ListBlobsFlatSegmentResponseModel {
     maxPageSize?: number;
     // (undocumented)
     prefix?: string;
-    // Warning: (ae-forgotten-export) The symbol "BlobFlatListSegment" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    segment: BlobFlatListSegment_2;
+    segment: BlobFlatListSegmentModel;
     // (undocumented)
     serviceEndpoint: string;
 }
@@ -1940,10 +2018,8 @@ export interface ListBlobsHierarchySegmentResponseModel {
     maxPageSize?: number;
     // (undocumented)
     prefix?: string;
-    // Warning: (ae-forgotten-export) The symbol "BlobHierarchyListSegment" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    segment: BlobHierarchyListSegment_2;
+    segment: BlobHierarchyListSegmentModel;
     // (undocumented)
     serviceEndpoint: string;
 }

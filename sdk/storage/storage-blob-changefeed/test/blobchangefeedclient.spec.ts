@@ -30,7 +30,7 @@ describe("BlobChangeFeedClient", async () => {
 
   it("next(): fetch all events", async () => {
     let i = 0;
-    for await (const event of changeFeedClient.getChanges()) {
+    for await (const event of changeFeedClient.listChanges()) {
       if (i++ === 0) {
         assert.ok(event.eventType);
         assert.ok(event.data.blobType);
@@ -45,7 +45,7 @@ describe("BlobChangeFeedClient", async () => {
     const startRounded = new Date(Date.UTC(2020, 1, 21, 22, 0, 0));
     const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded up to 22:00
     const endRounded = new Date(Date.UTC(2020, 4, 8, 22, 0, 0));
-    for await (const event of changeFeedClient.getChanges({ start, end })) {
+    for await (const event of changeFeedClient.listChanges({ start, end })) {
       if (i++ === 0) {
         assert.ok(event.eventType);
         assert.ok(event.data.blobType);
@@ -61,7 +61,7 @@ describe("BlobChangeFeedClient", async () => {
 
   it("byPage()", async () => {
     const maxPageSize = 2;
-    const iter = changeFeedClient.getChanges().byPage({ maxPageSize });
+    const iter = changeFeedClient.listChanges().byPage({ maxPageSize });
     const nextPage = await iter.next();
     if (nextPage.done) {
       return;
@@ -73,7 +73,7 @@ describe("BlobChangeFeedClient", async () => {
 
     // continuationToken
     const iter1 = changeFeedClient
-      .getChanges()
+      .listChanges()
       .byPage({ continuationToken: nextPage.value.continuationToken, maxPageSize });
     const nextPage1 = await iter1.next();
     if (nextPage1.done) {
@@ -90,7 +90,7 @@ describe("BlobChangeFeedClient", async () => {
     const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded to 22:00
     const endRounded = new Date(Date.UTC(2020, 4, 8, 22, 0, 0));
     const iter2 = changeFeedClient
-      .getChanges({ start, end })
+      .listChanges({ start, end })
       .byPage({ continuationToken: nextPage1.value.continuationToken });
     let i = 0;
     let lastEventPage: BlobChangeFeedEventPage | undefined;
@@ -135,7 +135,7 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   it("should throw when fetching changes", async () => {
     let exceptionCaught = false;
     try {
-      await changeFeedClient.getChanges().next();
+      await changeFeedClient.listChanges().next();
     } catch (err) {
       exceptionCaught = true;
     }

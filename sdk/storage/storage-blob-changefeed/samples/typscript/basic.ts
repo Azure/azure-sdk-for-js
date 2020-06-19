@@ -28,7 +28,7 @@ export async function main() {
   const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded up to 22:00
   let changeFeedEvents: BlobChangeFeedEvent[] = [];
   // You can also provide just a start or end time.
-  for await (const event of changeFeedClient.getChanges({ start, end })) {
+  for await (const event of changeFeedClient.listChanges({ start, end })) {
     changeFeedEvents.push(event);
   }
 }

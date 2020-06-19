@@ -5,7 +5,7 @@ import { ChangeFeedFactory } from "./ChangeFeedFactory";
 import { ChangeFeed } from "./ChangeFeed";
 import { CHANGE_FEED_MAX_PAGE_SIZE } from "./utils/constants";
 
-export interface BlobChangeFeedGetChangesOptions {
+export interface BlobChangeFeedListChangesOptions {
   start?: Date;
   end?: Date;
 }
@@ -36,8 +36,8 @@ export class BlobChangeFeedClient {
     this._changeFeedFactory = new ChangeFeedFactory();
   }
 
-  public getChanges(
-    options: BlobChangeFeedGetChangesOptions = {}
+  public listChanges(
+    options: BlobChangeFeedListChangesOptions = {}
   ): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage> {
     const iter = this.getChange(options);
     return {
@@ -63,7 +63,7 @@ export class BlobChangeFeedClient {
   }
 
   private async *getChange(
-    options: BlobChangeFeedGetChangesOptions = {}
+    options: BlobChangeFeedListChangesOptions = {}
   ): AsyncIterableIterator<BlobChangeFeedEvent> {
     const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
       this._blobServiceClient,
@@ -82,11 +82,11 @@ export class BlobChangeFeedClient {
     }
   }
 
-  // start in ChangeFeedGetChangesOptions will be ignored when continuationToken is specified.
+  // start in ChangeFeedListChangesOptions will be ignored when continuationToken is specified.
   private async *getPage(
     continuationToken?: string,
     maxPageSize?: number,
-    options: BlobChangeFeedGetChangesOptions = {}
+    options: BlobChangeFeedListChangesOptions = {}
   ): AsyncIterableIterator<BlobChangeFeedEventPage> {
     const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
       this._blobServiceClient,

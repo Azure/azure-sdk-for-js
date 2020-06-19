@@ -69,13 +69,13 @@ The `BlobChangeFeedClient` requires a `BlobServiceClient` to initialize. Refer t
 
 ### Reading all events in the Change Feed
 
-Use `BlobChangeFeedClient.getChanges()` to get iterators to iterate through the change events.
+Use `BlobChangeFeedClient.listChanges()` to get iterators to iterate through the change events.
 
 ```javascript
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 
 let changeFeedEvents : BlobChangeFeedEvent[] = [];
-for await (const event of changeFeedClient.getChanges()) {
+for await (const event of changeFeedClient.listChanges()) {
     changeFeedEvents.push(event);
 }
 ```
@@ -86,7 +86,7 @@ By page.
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 
 let changeFeedEvents : BlobChangeFeedEvent[] = [];
-for await (const eventPage of changeFeedClient.getChanges().byPage()) {
+for await (const eventPage of changeFeedClient.listChanges().byPage()) {
     for (const event of eventPage) {
         changeFeedEvents.push(event);
     }
@@ -99,13 +99,13 @@ for await (const eventPage of changeFeedClient.getChanges().byPage()) {
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 
 let changeFeedEvents : BlobChangeFeedEvent[] = [];
-const firstPage = await changeFeedClient.getChanges().byPage({maxPageSize: 10}).next();
+const firstPage = await changeFeedClient.listChanges().byPage({maxPageSize: 10}).next();
 for (const event of firstPage) {
     changeFeedEvents.push(event);
 }
 
 // Resume iterating from the previous position with the continuationToken.
-for await (const eventPage of changeFeedClient.getChanges().byPage({continuationToken: firstPage.continuationToken})) {
+for await (const eventPage of changeFeedClient.listChanges().byPage({continuationToken: firstPage.continuationToken})) {
     for (const event of eventPage) {
         changeFeedEvents.push(event);
     }
@@ -114,7 +114,7 @@ for await (const eventPage of changeFeedClient.getChanges().byPage({continuation
 
 ### Reading events within a time range
 
-Pass start time and end time to `BlobChangeFeedClient.getChanges()` to fetch events within a time range.
+Pass start time and end time to `BlobChangeFeedClient.listChanges()` to fetch events within a time range.
 
 Note that for this preview release, the change feed client will round start time down to the nearest hour, and round end time up to the next hour.
 
@@ -126,7 +126,7 @@ const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded up to 
 
 let changeFeedEvents : BlobChangeFeedEvent[] = [];
 // You can also provide just a start or end time.
-for await (const event of changeFeedClient.getChanges({ start, end })) {
+for await (const event of changeFeedClient.listChanges({ start, end })) {
     changeFeedEvents.push(event);
 }
 ```

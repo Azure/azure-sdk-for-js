@@ -13,6 +13,8 @@ export {
   AppendBlobCreateHeaders,
   ArchiveStatus,
   ListBlobsFlatSegmentResponse as ListBlobsFlatSegmentResponseModel,
+  BlobItemInternal,
+  BlobFlatListSegment as BlobFlatListSegmentModel,
   BlobAbortCopyFromURLHeaders,
   BlobCopyFromURLHeaders,
   BlobCreateSnapshotHeaders,
@@ -39,7 +41,6 @@ export {
   BlobSetTagsHeaders,
   BlobPrefix,
   BlobDownloadHeaders,
-  BlobQueryResponse as BlobQueryResponseModel,
   BlobDownloadResponse as BlobDownloadResponseModel,
   BlobType,
   BlobTags,
@@ -88,6 +89,7 @@ export {
   LeaseStateType,
   LeaseStatusType,
   ListBlobsHierarchySegmentResponse as ListBlobsHierarchySegmentResponseModel,
+  BlobHierarchyListSegment as BlobHierarchyListSegmentModel,
   ListBlobsIncludeItem,
   ListContainersIncludeType,
   ListContainersSegmentResponse,
@@ -142,5 +144,7 @@ export {
   UserDelegationKey as UserDelegationKeyModel,
   ContainerEncryptionScope,
   ServiceFilterBlobsResponse as ServiceFindBlobsByTagsSegmentResponse,
-  FilterBlobItem
+  FilterBlobItem,
+  BlobQueryHeaders,
+  BlobQueryResponse as BlobQueryResponseModel
 } from "./generated/src/models";
