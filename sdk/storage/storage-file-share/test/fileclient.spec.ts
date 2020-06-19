@@ -150,6 +150,7 @@ describe("FileClient", () => {
     assert.ok(properties.fileParentId!);
   });
 
+  // need to skip this test in live as it requires Premium_LRS SKU for 2019-12-12.
   it.only("create largest file", async () => {
     const cResp = await fileClient.create(FILE_MAX_SIZE_BYTES);
     assert.equal(cResp.errorCode, undefined);
