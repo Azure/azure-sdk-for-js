@@ -20,6 +20,7 @@
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
     "clean": "rimraf dist dist-esm dist-test typings temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
+    "unit-test:browser": "echo 'browser not supported yet.'",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\""
   },
