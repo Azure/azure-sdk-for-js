@@ -59,7 +59,7 @@ describe("EventHub Receiver", function(): void {
       service.connectionString,
       service.path
     );
-    partitionIds = await consumerClient.getPartitionIds({});
+    partitionIds = await producerClient.getPartitionIds({});
   });
 
   afterEach("Closing the clients", async () => {
