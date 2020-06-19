@@ -31,6 +31,7 @@ function NormalizeUrl([string]$url){
   $uri = [System.Uri]$url;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   if ($script:baseUrl -eq "") {
     # for base url default to containing directory
     $script:baseUrl = (new-object System.Uri($uri, ".")).ToString();
@@ -46,19 +47,26 @@ function NormalizeUrl([string]$url){
       $script:rootUrl = new-object System.Uri($uri, "/");
 =======
   if ($baseUrl -eq "") {
+=======
+  if ($script:baseUrl -eq "") {
+>>>>>>> 1271588bc... adding  to the rootUrl and baseUrl
     # for base url default to containing directory
-    $baseUrl = (new-object System.Uri($uri, ".")).ToString();
+    $script:baseUrl = (new-object System.Uri($uri, ".")).ToString();
   }
 
-  if ($rootUrl -eq "") {
+  if ($script:rootUrl -eq "") {
     if ($uri.IsFile) { 
       # for files default to the containing directory
-      $rootUrl = $baseUrl;
+      $script:rootUrl = $script:baseUrl;
     }
     else {
       # for http links default to the root path
+<<<<<<< HEAD
       $rootUrl = new-object System.Uri($uri, "/");
 >>>>>>> cca821f0e... modify the urls
+=======
+      $script:rootUrl = new-object System.Uri($uri, "/");
+>>>>>>> 1271588bc... adding  to the rootUrl and baseUrl
     }
   }
   return $uri
