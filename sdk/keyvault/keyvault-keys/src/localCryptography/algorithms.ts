@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { publicDecrypt, publicEncrypt, createVerify, createSign } from "crypto";
+import { publicEncrypt, createVerify } from "crypto";
 import * as constants from "constants";
 import { isNode } from "@azure/core-http";
 import { JsonWebKey, KeyOperation } from "../keysModels";
@@ -43,12 +43,9 @@ export type RequireAtLeastOne<T> = {
 
 export type LocalCryptographyOperationName =
   | "encrypt"
-  | "decrypt"
   | "wrapKey"
-  | "unwrapKey"
   | "createHash"
-  | "signData"
-  | "verifyData";
+  | "verify";
 
 export type LocalCryptographyOperationFunction = (keyPEM: string, data: Buffer) => Promise<Buffer>;
 
@@ -65,19 +62,17 @@ export type LocalCryptographyOperations = Record<
 
 export interface LocalSupportedAlgorithm {
   validate: LocalValidator;
+  signAlgorithm?: string,
   operations: RequireAtLeastOne<LocalCryptographyOperations>;
 }
 
 export type LocalSupportedAlgorithmName =
   | "RSA1_5"
   | "RSA-OAEP"
-  | "ES256"
   | "PS256"
   | "RS256"
-  | "ES384"
   | "PS384"
   | "RS384"
-  | "ES512"
   | "PS512"
   | "RS512";
 
@@ -87,14 +82,8 @@ const RSA1_5: LocalSupportedAlgorithm = {
     async encrypt(keyPEM: string, data: Buffer): Promise<Buffer> {
       return publicEncrypt({ key: keyPEM, padding: constants.RSA_PKCS1_PADDING }, data);
     },
-    async decrypt(keyPEM: string, data: Buffer): Promise<Buffer> {
-      return publicDecrypt({ key: keyPEM, padding: constants.RSA_PKCS1_PADDING }, data);
-    },
     async wrapKey(keyPEM: string, data: Buffer): Promise<Buffer> {
       return publicEncrypt({ key: keyPEM, padding: constants.RSA_PKCS1_PADDING }, data);
-    },
-    async unwrapKey(keyPEM: string, data: Buffer): Promise<Buffer> {
-      return publicDecrypt({ key: keyPEM, padding: constants.RSA_PKCS1_PADDING }, data);
     }
   }
 };
@@ -105,35 +94,23 @@ const RSA_OAEP: LocalSupportedAlgorithm = {
     async encrypt(keyPEM: string, data: Buffer): Promise<Buffer> {
       return publicEncrypt(keyPEM, data);
     },
-    async decrypt(keyPEM: string, data: Buffer): Promise<Buffer> {
-      return publicDecrypt(keyPEM, data);
-    },
     async wrapKey(keyPEM: string, data: Buffer): Promise<Buffer> {
       return publicEncrypt(keyPEM, data);
-    },
-    async unwrapKey(keyPEM: string, data: Buffer): Promise<Buffer> {
-      return publicDecrypt(keyPEM, data);
     }
   }
 };
 
-export type SignAlgorithmType = "SHA256" | "SHA384" | "SHA512";
+export type SignAlgorithmName = "SHA256" | "SHA384" | "SHA512";
 
-const makeSigner = (signAlgorithm: SignAlgorithmType): LocalSupportedAlgorithm => {
+const makeSigner = (signAlgorithm: SignAlgorithmName): LocalSupportedAlgorithm => {
   return {
     validate: pipeValidators(validators.keyOps, validators.nodeOnly),
+    signAlgorithm,
     operations: {
       async createHash(_keyPEM: string, data: Buffer): Promise<Buffer> {
         return createHash(signAlgorithm, data);
       },
-      async signData(keyPEM: string, data: Buffer): Promise<Buffer> {
-        const digest = await createHash(signAlgorithm, data);
-        const sign = createSign(signAlgorithm);
-        sign.write(digest);
-        sign.end();
-        return sign.sign(keyPEM);
-      },
-      async verifyData(keyPEM: string, data: Buffer, signature: Buffer): Promise<boolean> {
+      async verify(keyPEM: string, data: Buffer, signature: Buffer): Promise<boolean> {
         const verifier = createVerify(signAlgorithm);
         verifier.update(data);
         verifier.end();
@@ -150,13 +127,10 @@ export type LocalSupportedAlgorithmsRecord = Record<
 export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
   RSA1_5,
   "RSA-OAEP": RSA_OAEP,
-  ES256: makeSigner("SHA256"),
   PS256: makeSigner("SHA256"),
   RS256: makeSigner("SHA256"),
-  ES384: makeSigner("SHA384"),
   PS384: makeSigner("SHA384"),
   RS384: makeSigner("SHA384"),
-  ES512: makeSigner("SHA512"),
   PS512: makeSigner("SHA512"),
   RS512: makeSigner("SHA512")
 };

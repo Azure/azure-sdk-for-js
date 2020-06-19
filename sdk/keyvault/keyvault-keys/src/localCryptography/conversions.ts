@@ -53,6 +53,43 @@ function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
   return outputBuffer;
 }
 
+function makeSequence(encodedParts: Uint8Array[]): string {
+  const totalLength = encodedParts.reduce((sum, part) => sum + part.length, 0);
+  const sequence = new Uint8Array(totalLength);
+
+  for (let i = 0; i < encodedParts.length; i++) {
+    let previousLength = i > 0 ? encodedParts[i - 1].length : 0;
+    if (previousLength === 131) previousLength = 132;
+    sequence.set(encodedParts[i], previousLength);
+  }
+
+  const full_encoded = encodeBuffer(sequence, 0x30); // SEQUENCE
+  return Buffer.from(full_encoded).toString("base64");
+}
+
+/**
+ * Fill in the PEM with 64 character lines as per RFC:
+ *
+ * "To represent the encapsulated text of a PEM message, the encoding
+ * function's output is delimited into text lines (using local
+ * conventions), with each line except the last containing exactly 64
+ * printable characters and the final line containing 64 or fewer
+ * printable characters."
+ */
+function formatBase64Sequence(base64Sequence: string): string {
+  const lines = base64Sequence.match(/.{1,64}/g);
+  let result = "";
+  if (lines) {
+    for (const line of lines) {
+      result += line;
+      result += "\n";
+    }
+  } else {
+    throw new Error("Could not create correct PEM");
+  }
+  return result;
+}
+
 /**
  * @internal
  * @ignore
@@ -60,44 +97,20 @@ function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
  * that is then encoded as a PEM.
  */
 export function convertJWKtoPEM(key: JsonWebKey): string {
-  if (!key.n || !key.e) {
+  let result = "";
+
+  if (key.n && key.e) {
+    const parts = [key.n, key.e];
+    const encodedParts = parts.map((part) => encodeBuffer(part, 0x2)); // INTEGER
+    const base64Sequence = makeSequence(encodedParts);
+    result += "-----BEGIN RSA PUBLIC KEY-----\n";
+    result += formatBase64Sequence(base64Sequence);
+    result += "-----END RSA PUBLIC KEY-----\n";
+  }
+
+  if (!result.length) {
     throw new Error("Unsupported key format for local operations");
   }
-  const encoded_n = encodeBuffer(key.n, 0x2); // INTEGER
-  const encoded_e = encodeBuffer(key.e, 0x2); // INTEGER
 
-  const encoded_ne = new Uint8Array(encoded_n.length + encoded_e.length);
-  encoded_ne.set(encoded_n, 0);
-  encoded_ne.set(encoded_e, encoded_n.length);
-
-  const full_encoded = encodeBuffer(encoded_ne, 0x30); // SEQUENCE
-
-  const buffer = Buffer.from(full_encoded).toString("base64");
-
-  const beginBanner = "-----BEGIN RSA PUBLIC KEY-----\n";
-  const endBanner = "-----END RSA PUBLIC KEY-----";
-
-  /*
-   Fill in the PEM with 64 character lines as per RFC:
-
-   "To represent the encapsulated text of a PEM message, the encoding
-   function's output is delimited into text lines (using local
-   conventions), with each line except the last containing exactly 64
-   printable characters and the final line containing 64 or fewer
-   printable characters."
-  */
-  let outputString = beginBanner;
-  const lines = buffer.match(/.{1,64}/g);
-
-  if (lines) {
-    for (const line of lines) {
-      outputString += line;
-      outputString += "\n";
-    }
-  } else {
-    throw new Error("Could not create correct PEM");
-  }
-  outputString += endBanner;
-
-  return outputString;
+  return result.slice(0, -1); // Removing the last new line
 }

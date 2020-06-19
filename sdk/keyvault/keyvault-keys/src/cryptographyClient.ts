@@ -154,23 +154,8 @@ export class CryptographyClient {
     ciphertext: Uint8Array,
     options: DecryptOptions = {}
   ): Promise<DecryptResult> {
-    const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);
-
-    if (localCryptographyClient) {
-      try {
-        return localCryptographyClient.decrypt(
-          algorithm as LocalSupportedAlgorithmName,
-          ciphertext
-        );
-      } catch (e) {
-        if (!(e instanceof LocalCryptographyUnsupportedError)) {
-          span.end();
-          throw e;
-        }
-      }
-    }
 
     // Default to the service
 
@@ -259,23 +244,8 @@ export class CryptographyClient {
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("unwrapKey", requestOptions);
-
-    if (localCryptographyClient) {
-      try {
-        return localCryptographyClient.unwrapKey(
-          algorithm as LocalSupportedAlgorithmName,
-          encryptedKey
-        );
-      } catch (e) {
-        if (!(e instanceof LocalCryptographyUnsupportedError)) {
-          span.end();
-          throw e;
-        }
-      }
-    }
 
     // Default to the service
 
@@ -390,21 +360,11 @@ export class CryptographyClient {
     data: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("unwrapKey", requestOptions);
     const localAlgorithm = algorithm as LocalSupportedAlgorithmName;
 
-    if (localCryptographyClient) {
-      try {
-        return localCryptographyClient.signData(localAlgorithm, data);
-      } catch (e) {
-        if (!(e instanceof LocalCryptographyUnsupportedError)) {
-          span.end();
-          throw e;
-        }
-      }
-    }
+    // Not supported locally yet
 
     let digest: Buffer;
     try {
@@ -522,11 +482,6 @@ export class CryptographyClient {
   public readonly vaultUrl: string;
 
   /**
-   * Instance of the Local Cryptography Client
-   */
-  public localCryptographyClient?: LocalCryptographyClient;
-
-  /**
    * @internal
    * @ignore
    * A reference to the auto-generated KeyVault HTTP client.
@@ -554,13 +509,9 @@ export class CryptographyClient {
    */
   private _localCryptographyClientPromise?: Promise<LocalCryptographyClient>;
 
-  private getLocalCryptographyClient(): Promise<LocalCryptographyClient> | undefined {
+  public getLocalCryptographyClient(): Promise<LocalCryptographyClient> | undefined {
     if (!this._localCryptographyClientPromise) {
-      try {
-        this._localCryptographyClientPromise = this.configureLocalCryptographyClient();
-      } catch {
-        // Nothing to do here.
-      }
+      this._localCryptographyClientPromise = this.configureLocalCryptographyClient();
     }
     return this._localCryptographyClientPromise;
   }
