@@ -17,7 +17,7 @@ import {
   EncryptResult
 } from "./cryptographyClientModels";
 import { runOperation } from "./localCryptography/runOperation";
-import { EncryptionAlgorithm } from '.';
+import { EncryptionAlgorithm } from ".";
 
 /**
  * A client used to perform local cryptographic operations with JSON Web Keys.

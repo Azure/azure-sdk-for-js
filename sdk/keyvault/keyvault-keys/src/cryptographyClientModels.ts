@@ -7,16 +7,16 @@
  * @enum {string}
  */
 export type SignatureAlgorithm =
-| "PS256"
-| "PS384"
-| "PS512"
-| "RS256"
-| "RS384"
-| "RS512"
-| "ES256"
-| "ES384"
-| "ES512"
-| "ES256K";
+  | "PS256"
+  | "PS384"
+  | "PS512"
+  | "RS256"
+  | "RS384"
+  | "RS512"
+  | "ES256"
+  | "ES384"
+  | "ES512"
+  | "ES256K";
 
 /**
  * Defines values for EncryptionAlgorithm.

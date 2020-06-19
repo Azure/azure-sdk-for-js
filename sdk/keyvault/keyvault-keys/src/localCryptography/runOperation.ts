@@ -9,7 +9,7 @@ import {
   LocalCryptographyOperationName
 } from "./algorithms";
 import { JsonWebKey } from "../keysModels";
-import { convertJWKtoPEM } from './conversions';
+import { convertJWKtoPEM } from "./conversions";
 
 export async function runOperation(
   key: JsonWebKey,
@@ -22,11 +22,13 @@ export async function runOperation(
   if (!algorithm) {
     throw new LocalCryptographyUnsupportedError(`Unsupported algorithm ${algorithm}`);
   }
-  algorithm.validate(key, operationName)
+  algorithm.validate(key, operationName);
 
   const operation = algorithm.operations[operationName];
   if (!operation) {
-    throw new LocalCryptographyUnsupportedError(`Operation ${operationName} is not supported for algorithm ${algorithm}`);
+    throw new LocalCryptographyUnsupportedError(
+      `Operation ${operationName} is not supported for algorithm ${algorithm}`
+    );
   }
 
   const keyPEM = convertJWKtoPEM(key);

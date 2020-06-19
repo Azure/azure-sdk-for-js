@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { createHash as cryptoCreateHash } from "crypto";
-import { isNode } from '@azure/core-http';
+import { isNode } from "@azure/core-http";
 
 /**
  * @internal
@@ -14,12 +14,12 @@ export async function createHash(algorithm: string, data: Uint8Array): Promise<B
     const hash = cryptoCreateHash(algorithm);
     hash.update(Buffer.from(data));
     const digest = hash.digest();
-    return digest;  
+    return digest;
   } else {
     if (window && window.crypto && window.crypto.subtle) {
       return Buffer.from(await window.crypto.subtle.digest(algorithm, Buffer.from(data)));
     } else {
       throw new Error("Browser does not support cryptography functions");
-    }  
+    }
   }
 }

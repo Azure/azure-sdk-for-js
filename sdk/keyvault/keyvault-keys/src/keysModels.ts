@@ -3,7 +3,7 @@
 
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./core/models";
-import { KeyCurveName } from './cryptographyClientModels';
+import { KeyCurveName } from "./cryptographyClientModels";
 
 /**
  * Defines values for KeyOperation.

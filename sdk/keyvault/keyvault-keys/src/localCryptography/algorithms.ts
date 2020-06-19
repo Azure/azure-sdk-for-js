@@ -50,10 +50,7 @@ export type LocalCryptographyOperationName =
   | "signData"
   | "verifyData";
 
-export type LocalCryptographyOperationFunction = (
-  keyPEM: string,
-  data: Buffer
-) => Promise<Buffer>;
+export type LocalCryptographyOperationFunction = (keyPEM: string, data: Buffer) => Promise<Buffer>;
 
 export type LocalCryptographyOperationFunctionWithSignature = (
   keyPEM: string,
@@ -127,7 +124,7 @@ const makeSigner = (signAlgorithm: SignAlgorithmType): LocalSupportedAlgorithm =
     validate: pipeValidators(validators.keyOps, validators.nodeOnly),
     operations: {
       async createHash(_keyPEM: string, data: Buffer): Promise<Buffer> {
-        return createHash(signAlgorithm, data)
+        return createHash(signAlgorithm, data);
       },
       async signData(keyPEM: string, data: Buffer): Promise<Buffer> {
         const digest = await createHash(signAlgorithm, data);
@@ -147,8 +144,8 @@ const makeSigner = (signAlgorithm: SignAlgorithmType): LocalSupportedAlgorithm =
 };
 
 export type LocalSupportedAlgorithmsRecord = Record<
-LocalSupportedAlgorithmName,
-LocalSupportedAlgorithm
+  LocalSupportedAlgorithmName,
+  LocalSupportedAlgorithm
 >;
 export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
   RSA1_5,
@@ -161,5 +158,5 @@ export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
   RS384: makeSigner("SHA384"),
   ES512: makeSigner("SHA512"),
   PS512: makeSigner("SHA512"),
-  RS512: makeSigner("SHA512")  
+  RS512: makeSigner("SHA512")
 };

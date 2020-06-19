@@ -25,7 +25,16 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "files": ["types/keyvault-keys.d.ts", "types/", "dist/", "dist-browser/", "dist-esm/keyvault-keys/src", "dist-esm/keyvault-common/src", "README.md", "LICENSE"],
+  "files": [
+    "types/keyvault-keys.d.ts",
+    "types/",
+    "dist/",
+    "dist-browser/",
+    "dist-esm/keyvault-keys/src",
+    "dist-esm/keyvault-common/src",
+    "README.md",
+    "LICENSE"
+  ],
   "browser": {
     "os": false,
     "process": false

@@ -84,14 +84,23 @@ import {
   SignOptions,
   UnwrapKeyOptions,
   VerifyOptions,
-  WrapKeyOptions,
+  WrapKeyOptions
 } from "./cryptographyClient";
 
-import {
-  LocalCryptographyClient,
-} from "./localCryptographyClient";
+import { LocalCryptographyClient } from "./localCryptographyClient";
 
-import { DecryptResult, KeyCurveName, EncryptionAlgorithm, SignatureAlgorithm, KeyWrapAlgorithm, SignResult, UnwrapResult, VerifyResult, WrapResult, EncryptResult } from './cryptographyClientModels';
+import {
+  DecryptResult,
+  KeyCurveName,
+  EncryptionAlgorithm,
+  SignatureAlgorithm,
+  KeyWrapAlgorithm,
+  SignResult,
+  UnwrapResult,
+  VerifyResult,
+  WrapResult,
+  EncryptResult
+} from "./cryptographyClientModels";
 
 export {
   CryptographyClientOptions,
