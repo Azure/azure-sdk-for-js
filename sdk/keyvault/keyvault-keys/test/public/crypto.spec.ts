@@ -9,7 +9,7 @@ import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
-import { convertJWKtoPEM } from "../../src/cryptographyClient";
+import { convertJWKtoPEM } from "../../src/localCryptography/conversions";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";

@@ -9,19 +9,18 @@ import { LocalCryptographyUnsupportedError } from "./models";
 import { createHash } from "./hash";
 
 export type LocalValidator = (
-  key: JsonWebKey,
-  operationName: LocalCryptographyOperationName,
-  algorithmName: LocalSupportedAlgorithmName
+  key?: JsonWebKey,
+  operationName?: LocalCryptographyOperationName
 ) => void;
 
-const validators: Record<"keyOps" | "rsa" | "nodeOnly", LocalValidator> = {
-  keyOps(key: JsonWebKey, operationName: LocalCryptographyOperationName): void {
-    if (key.keyOps && !key.keyOps.includes(operationName as KeyOperation)) {
+export const validators: Record<"keyOps" | "rsa" | "nodeOnly", LocalValidator> = {
+  keyOps(key?: JsonWebKey, operationName?: LocalCryptographyOperationName): void {
+    if (key && key.keyOps && !key.keyOps.includes(operationName as KeyOperation)) {
       throw new Error(`Key does not support the ${operationName} operation`);
     }
   },
-  rsa(key: JsonWebKey): void {
-    if (key.kty! !== "RSA") {
+  rsa(key?: JsonWebKey): void {
+    if (key && key.kty! !== "RSA") {
       throw new Error("Key type does not match the algorithm RSA");
     }
   },
@@ -52,13 +51,19 @@ export type LocalCryptographyOperationName =
   | "verifyData";
 
 export type LocalCryptographyOperationFunction = (
-  keyPem: string,
-  ...params: Buffer[]
-) => Promise<Buffer | boolean>;
+  keyPEM: string,
+  data: Buffer
+) => Promise<Buffer>;
+
+export type LocalCryptographyOperationFunctionWithSignature = (
+  keyPEM: string,
+  data: Buffer,
+  signature: Buffer
+) => Promise<boolean>;
 
 export type LocalCryptographyOperations = Record<
   LocalCryptographyOperationName,
-  LocalCryptographyOperationFunction
+  LocalCryptographyOperationFunction | LocalCryptographyOperationFunctionWithSignature
 >;
 
 export interface LocalSupportedAlgorithm {
@@ -115,7 +120,9 @@ const RSA_OAEP: LocalSupportedAlgorithm = {
   }
 };
 
-const makeSigner: (signAlgorithm: string) => LocalSupportedAlgorithm = (signAlgorithm: string) => {
+export type SignAlgorithmType = "SHA256" | "SHA384" | "SHA512";
+
+const makeSigner = (signAlgorithm: SignAlgorithmType): LocalSupportedAlgorithm => {
   return {
     validate: pipeValidators(validators.keyOps, validators.nodeOnly),
     operations: {
@@ -139,10 +146,11 @@ const makeSigner: (signAlgorithm: string) => LocalSupportedAlgorithm = (signAlgo
   };
 };
 
-export const localSupportedAlgorithms: Record<
-  LocalSupportedAlgorithmName,
-  LocalSupportedAlgorithm
-> = {
+export type LocalSupportedAlgorithmsRecord = Record<
+LocalSupportedAlgorithmName,
+LocalSupportedAlgorithm
+>;
+export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
   RSA1_5,
   "RSA-OAEP": RSA_OAEP,
   ES256: makeSigner("SHA256"),
@@ -153,5 +161,5 @@ export const localSupportedAlgorithms: Record<
   RS384: makeSigner("SHA384"),
   ES512: makeSigner("SHA512"),
   PS512: makeSigner("SHA512"),
-  RS512: makeSigner("SHA512")
+  RS512: makeSigner("SHA512")  
 };

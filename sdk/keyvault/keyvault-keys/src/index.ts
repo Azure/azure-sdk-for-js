@@ -52,13 +52,11 @@ import {
   CryptographyOptions,
   DeletedKey,
   DeleteKeyOptions,
-  EncryptionAlgorithm,
   GetDeletedKeyOptions,
   GetKeyOptions,
   ImportKeyOptions,
   JsonWebKey,
   KeyClientInterface,
-  KeyCurveName,
   KeyOperation,
   KeyPollerOptions,
   KeyType,
@@ -82,20 +80,19 @@ import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core
 import {
   CryptographyClient,
   DecryptOptions,
-  DecryptResult,
   EncryptOptions,
-  SignatureAlgorithm,
-  KeyWrapAlgorithm,
   SignOptions,
-  SignResult,
   UnwrapKeyOptions,
-  UnwrapResult,
   VerifyOptions,
-  VerifyResult,
   WrapKeyOptions,
-  WrapResult
 } from "./cryptographyClient";
+
+import {
+  LocalCryptographyClient,
+} from "./localCryptographyClient";
+
 import { EncryptResult } from "./localCryptography/models";
+import { DecryptResult, KeyCurveName, EncryptionAlgorithm, SignatureAlgorithm, KeyWrapAlgorithm, SignResult, UnwrapResult, VerifyResult, WrapResult } from './cryptographyClientModels';
 
 export {
   CryptographyClientOptions,
@@ -130,6 +127,7 @@ export {
   ListPropertiesOfKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
   ListDeletedKeysOptions,
+  LocalCryptographyClient,
   PageSettings,
   PagedAsyncIterableIterator,
   PipelineOptions,

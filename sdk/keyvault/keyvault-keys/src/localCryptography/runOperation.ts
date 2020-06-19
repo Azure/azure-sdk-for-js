@@ -15,13 +15,14 @@ export async function runOperation(
   key: JsonWebKey,
   operationName: LocalCryptographyOperationName,
   algorithmName: LocalSupportedAlgorithmName,
-  ...params: Buffer[]
+  data: Buffer,
+  signature?: Buffer
 ): Promise<Buffer | boolean> {
   const algorithm: LocalSupportedAlgorithm = localSupportedAlgorithms[algorithmName];
   if (!algorithm) {
     throw new LocalCryptographyUnsupportedError(`Unsupported algorithm ${algorithm}`);
   }
-  algorithm.validate(key, operationName, algorithmName)
+  algorithm.validate(key, operationName)
 
   const operation = algorithm.operations[operationName];
   if (!operation) {
@@ -29,5 +30,5 @@ export async function runOperation(
   }
 
   const keyPEM = convertJWKtoPEM(key);
-  return operation(keyPEM, ...params);
+  return operation(keyPEM, data, signature!);
 }
