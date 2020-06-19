@@ -16,8 +16,6 @@ import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 
 dotenv.config();
-import { setLogLevel } from "@azure/logger";
-setLogLevel("info");
 
 describe("FileClient", () => {
   let shareName: string;
