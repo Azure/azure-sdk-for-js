@@ -4,7 +4,6 @@
       "method": "PUT",
       "url": "https://fakestorageaccount.blob.core.windows.net/container159215214532602071",
       "query": {
-        "sip": "0.0.0.0-255.255.255.255",
         "restype": "container"
       },
       "requestBody": null,
@@ -24,9 +23,7 @@
     {
       "method": "PUT",
       "url": "https://fakestorageaccount.blob.core.windows.net/container159215214532602071/blob159215214534908371",
-      "query": {
-        "sip": "0.0.0.0-255.255.255.255"
-      },
+      "query": {},
       "requestBody": "Hello World",
       "status": 201,
       "response": "",
@@ -48,9 +45,7 @@
     {
       "method": "DELETE",
       "url": "https://fakestorageaccount.blob.core.windows.net/container159215214532602071/blob159215214534908371",
-      "query": {
-        "sip": "0.0.0.0-255.255.255.255"
-      },
+      "query": {},
       "requestBody": null,
       "status": 202,
       "response": "",
@@ -67,9 +62,7 @@
     {
       "method": "PUT",
       "url": "https://fakestorageaccount.blob.core.windows.net/container159215214532602071/blob159215214534908371",
-      "query": {
-        "sip": "0.0.0.0-255.255.255.255"
-      },
+      "query": {},
       "requestBody": "hello",
       "status": 201,
       "response": "",
@@ -92,7 +85,6 @@
       "method": "GET",
       "url": "https://fakestorageaccount.blob.core.windows.net/container159215214532602071/blob159215214534908371",
       "query": {
-        "sip": "0.0.0.0-255.255.255.255",
         "comp": "tags"
       },
       "requestBody": null,
@@ -112,7 +104,6 @@
       "method": "DELETE",
       "url": "https://fakestorageaccount.blob.core.windows.net/container159215214532602071",
       "query": {
-        "sip": "0.0.0.0-255.255.255.255",
         "restype": "container"
       },
       "requestBody": null,
