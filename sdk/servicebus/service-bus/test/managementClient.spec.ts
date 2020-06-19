@@ -9,7 +9,7 @@ import { ServiceBusClientForTests, createServiceBusClientForTests } from "./util
 chai.should();
 chai.use(chaiAsPromised);
 
-describe.only("ManagementClient - disconnects", function(): void {
+describe("ManagementClient - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;

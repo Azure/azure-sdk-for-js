@@ -1307,7 +1307,7 @@ describe("Streaming - onDetached", function(): void {
   });
 });
 
-describe.only("Streaming - disconnects", function(): void {
+describe("Streaming - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
