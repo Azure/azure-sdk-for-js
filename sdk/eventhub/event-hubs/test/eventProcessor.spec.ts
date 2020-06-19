@@ -51,8 +51,6 @@ describe("Event Processor", function(): void {
   };
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
-  let eventHubName: string;
-  let fullyQualifiedNamespace: string;
 
   before("validate environment", async function(): Promise<void> {
     should.exist(
@@ -72,8 +70,6 @@ describe("Event Processor", function(): void {
       service.connectionString,
       service.path
     );
-    eventHubName = consumerClient.eventHubName;
-    fullyQualifiedNamespace = consumerClient.fullyQualifiedNamespace;
   });
 
   afterEach("close the connection", async function(): Promise<void> {
@@ -166,8 +162,6 @@ describe("Event Processor", function(): void {
       ) {
         return new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
-          fullyQualifiedNamespace,
-          eventHubName,
           consumerClient["_context"],
           {
             processEvents: async () => {},
@@ -226,8 +220,6 @@ describe("Event Processor", function(): void {
         // it's only here so we can call a few private methods on it.
         eventProcessor = new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
-          fullyQualifiedNamespace,
-          eventHubName,
           consumerClient["_context"],
           {
             processEvents: async () => {},
@@ -307,8 +299,6 @@ describe("Event Processor", function(): void {
 
       const eventProcessor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace,
-        eventHubName,
         consumerClient["_context"],
         {
           processEvents: async () => {},
@@ -369,13 +359,15 @@ describe("Event Processor", function(): void {
               partitionIds
             };
           }
+        },
+        config: {
+          entityPath: commonFields.eventHubName,
+          host: commonFields.fullyQualifiedNamespace
         }
       };
 
       const ep = new EventProcessor(
         commonFields.consumerGroup,
-        commonFields.fullyQualifiedNamespace,
-        commonFields.eventHubName,
         fakeConnectionContext as any,
         handlers,
         checkpointStore,
@@ -500,8 +492,6 @@ describe("Event Processor", function(): void {
 
     const eventProcessor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      fullyQualifiedNamespace,
-      eventHubName,
       consumerClient["_context"],
       {
         processEvents: async () => {},
@@ -546,8 +536,6 @@ describe("Event Processor", function(): void {
 
     const eventProcessor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      fullyQualifiedNamespace,
-      eventHubName,
       consumerClient["_context"],
       {
         processClose: async () => {
@@ -600,8 +588,6 @@ describe("Event Processor", function(): void {
   it("should expose an id", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      fullyQualifiedNamespace,
-      eventHubName,
       consumerClient["_context"],
       {
         processEvents: async () => {},
@@ -621,8 +607,6 @@ describe("Event Processor", function(): void {
   it("id can be forced to be a specific value", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      fullyQualifiedNamespace,
-      eventHubName,
       consumerClient["_context"],
       {
         processEvents: async () => {},
@@ -648,8 +632,6 @@ describe("Event Processor", function(): void {
 
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      fullyQualifiedNamespace,
-      eventHubName,
       consumerClient["_context"],
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
@@ -681,8 +663,6 @@ describe("Event Processor", function(): void {
 
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      fullyQualifiedNamespace,
-      eventHubName,
       consumerClient["_context"],
       {
         processInitialize: async () => {
@@ -718,8 +698,6 @@ describe("Event Processor", function(): void {
 
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      fullyQualifiedNamespace,
-      eventHubName,
       consumerClient["_context"],
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
@@ -773,8 +751,6 @@ describe("Event Processor", function(): void {
 
       const processor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace,
-        eventHubName,
         consumerClient["_context"],
         subscriptionEventHandler,
         new InMemoryCheckpointStore(),
@@ -899,8 +875,6 @@ describe("Event Processor", function(): void {
       const inMemoryCheckpointStore = new InMemoryCheckpointStore();
       const processor1 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace,
-        eventHubName,
         consumerClient["_context"],
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
@@ -947,8 +921,6 @@ describe("Event Processor", function(): void {
 
       const processor2 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace,
-        eventHubName,
         consumerClient["_context"],
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
@@ -956,8 +928,8 @@ describe("Event Processor", function(): void {
       );
 
       const checkpoints = await inMemoryCheckpointStore.listCheckpoints(
-        fullyQualifiedNamespace,
-        eventHubName,
+        consumerClient.fullyQualifiedNamespace,
+        consumerClient.eventHubName,
         EventHubConsumerClient.defaultConsumerGroupName
       );
 
@@ -1149,8 +1121,6 @@ describe("Event Processor", function(): void {
 
       processorByName[`processor-1`] = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace,
-        eventHubName,
         consumerClient["_context"],
         new FooPartitionProcessor(),
         checkpointStore,
@@ -1173,8 +1143,6 @@ describe("Event Processor", function(): void {
 
       processorByName[`processor-2`] = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace,
-        eventHubName,
         consumerClient["_context"],
         new FooPartitionProcessor(),
         checkpointStore,
@@ -1202,8 +1170,8 @@ describe("Event Processor", function(): void {
           }
 
           const partitionOwnership = await checkpointStore.listOwnership(
-            fullyQualifiedNamespace,
-            eventHubName,
+            consumerClient.fullyQualifiedNamespace,
+            consumerClient.eventHubName,
             EventHubConsumerClient.defaultConsumerGroupName
           );
 
@@ -1279,8 +1247,6 @@ describe("Event Processor", function(): void {
           processorName
         ] = new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
-          fullyQualifiedNamespace,
-          eventHubName,
           consumerClient["_context"],
           new FooPartitionProcessor(),
           checkpointStore,
@@ -1301,8 +1267,8 @@ describe("Event Processor", function(): void {
       const partitionOwnershipMap: Map<string, string[]> = new Map();
 
       const partitionOwnership = await checkpointStore.listOwnership(
-        fullyQualifiedNamespace,
-        eventHubName,
+        consumerClient.fullyQualifiedNamespace,
+        consumerClient.eventHubName,
         EventHubConsumerClient.defaultConsumerGroupName
       );
 
@@ -1388,8 +1354,6 @@ describe("Event Processor", function(): void {
 
       const processor1 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace,
-        eventHubName,
         consumerClient["_context"],
         handlers,
         checkpointStore,
@@ -1398,8 +1362,6 @@ describe("Event Processor", function(): void {
 
       const processor2 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        fullyQualifiedNamespace,
-        eventHubName,
         consumerClient["_context"],
         handlers,
         checkpointStore,

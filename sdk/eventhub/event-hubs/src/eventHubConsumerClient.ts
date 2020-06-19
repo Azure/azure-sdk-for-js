@@ -545,8 +545,6 @@ export class EventHubConsumerClient {
   ) {
     return new EventProcessor(
       this._consumerGroup,
-      this.fullyQualifiedNamespace,
-      this.eventHubName,
       connectionContext,
       subscriptionEventHandlers,
       checkpointStore,
