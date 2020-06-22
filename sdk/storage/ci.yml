@@ -35,3 +35,5 @@ extends:
         safeName: azurestoragefiledatalake
       - name: azure-storage-queue
         safeName: azurestoragequeue
+      - name: azure-storage-blob-changefeed
+        safeName: azurestorageblobchangefeed

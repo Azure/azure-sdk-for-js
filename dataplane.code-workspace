@@ -101,6 +101,10 @@
       "path": "sdk\\storage\\storage-blob"
     },
     {
+      "name": "storage-blob-changefeed",
+      "path": "sdk\\storage\\storage-blob-changefeed"
+    },
+    {
       "name": "storage-file-datalake",
       "path": "sdk\\storage\\storage-file-datalake"
     },
@@ -157,8 +161,7 @@
       "**/*.d.ts": true,
       "**/test-browser/*": true
     },
-    "typescript.tsdk": "core-http\\node_modules\\typescript\\lib",
-    
+    "typescript.tsdk": "core-http\\node_modules\\typescript\\lib"
   },
   "extensions": {
     "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
