@@ -57,7 +57,7 @@ function makeSequence(encodedParts: Uint8Array[]): string {
   const sequence = new Uint8Array(totalLength);
 
   for (let i = 0; i < encodedParts.length; i++) {
-    let previousLength = i > 0 ? encodedParts[i - 1].length : 0;
+    const previousLength = i > 0 ? encodedParts[i - 1].length : 0;
     sequence.set(encodedParts[i], previousLength);
   }
 

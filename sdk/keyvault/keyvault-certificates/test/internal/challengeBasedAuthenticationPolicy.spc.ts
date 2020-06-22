@@ -11,7 +11,7 @@ import {
   parseWWWAuthenticate
 } from "../../../keyvault-common/src";
 import { CertificateClient } from "../../src";
-import { testPollerProperties } from '../utils/recorderUtils';
+import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
