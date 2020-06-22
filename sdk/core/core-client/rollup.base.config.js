@@ -61,9 +61,9 @@ export function browserConfig(test = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "dist-browser/azure-core-autorest.js",
+      file: "dist-browser/azure-core-client.js",
       format: "umd",
-      name: "Azure.Core.AutoRest",
+      name: "Azure.Core.Client",
       sourcemap: true
     },
     preserveSymlinks: false,

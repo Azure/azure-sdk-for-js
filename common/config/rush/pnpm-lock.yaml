@@ -7,7 +7,7 @@ dependencies:
   '@rush-temp/core-arm': 'file:projects/core-arm.tgz'
   '@rush-temp/core-asynciterator-polyfill': 'file:projects/core-asynciterator-polyfill.tgz'
   '@rush-temp/core-auth': 'file:projects/core-auth.tgz'
-  '@rush-temp/core-autorest': 'file:projects/core-autorest.tgz'
+  '@rush-temp/core-client': 'file:projects/core-client.tgz'
   '@rush-temp/core-http': 'file:projects/core-http.tgz'
   '@rush-temp/core-https': 'file:projects/core-https.tgz'
   '@rush-temp/core-lro': 'file:projects/core-lro.tgz'
@@ -7671,7 +7671,7 @@ packages:
       integrity: sha512-i2QFSjrS1hTQZZZNL5JoYk3cfdydWOs6eZNq6bzRBuhICjXfOHx5TARU8q0VsN4KCfvueMQzuocD6SE5ugVAEA==
       tarball: 'file:projects/core-auth.tgz'
     version: 0.0.0
-  'file:projects/core-autorest.tgz':
+  'file:projects/core-client.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.6.1
@@ -7717,10 +7717,10 @@ packages:
       typescript: 3.9.5
       util: 0.12.3
     dev: false
-    name: '@rush-temp/core-autorest'
+    name: '@rush-temp/core-client'
     resolution:
-      integrity: sha512-ezsIcFoqe1Vi049aSfkf0dKGYh0nCZyMkH0kw2wDC/ks8f70LZ/3M2m/b8xcYh2sF1ISjvXsiD1xVYuMjU9vPA==
-      tarball: 'file:projects/core-autorest.tgz'
+      integrity: sha512-YxuXJ37MWTcVyeknL1LwiaHLjoC0PFP2V/CTggVUT6b1LDpJlKnN6Owbw3f1FvBfbrZcniWWneli75KQjfh70w==
+      tarball: 'file:projects/core-client.tgz'
     version: 0.0.0
   'file:projects/core-http.tgz':
     dependencies:
@@ -9123,7 +9123,7 @@ specifiers:
   '@rush-temp/core-arm': 'file:./projects/core-arm.tgz'
   '@rush-temp/core-asynciterator-polyfill': 'file:./projects/core-asynciterator-polyfill.tgz'
   '@rush-temp/core-auth': 'file:./projects/core-auth.tgz'
-  '@rush-temp/core-autorest': 'file:./projects/core-autorest.tgz'
+  '@rush-temp/core-client': 'file:./projects/core-client.tgz'
   '@rush-temp/core-http': 'file:./projects/core-http.tgz'
   '@rush-temp/core-https': 'file:./projects/core-https.tgz'
   '@rush-temp/core-lro': 'file:./projects/core-lro.tgz'
