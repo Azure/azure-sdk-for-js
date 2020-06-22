@@ -33,7 +33,7 @@ function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
   let result = new Uint8Array(buffer);
 
   // If the high bit is set, prepend a 0
-  if ((result[0] & 0x80) === 0x80) {
+  if (result[0] & 0x80) {
     const array = new Uint8Array(result.length + 1);
     array[0] = 0;
     array.set(result, 1);
@@ -42,7 +42,6 @@ function encodeBuffer(buffer: Uint8Array, bufferId: number): Uint8Array {
 
   // Prepend the DER header for this buffer
   const encodedLength = encodeLength(result.length);
-
   const totalLength = 1 + encodedLength.length + result.length;
 
   const outputBuffer = new Uint8Array(totalLength);
@@ -59,7 +58,6 @@ function makeSequence(encodedParts: Uint8Array[]): string {
 
   for (let i = 0; i < encodedParts.length; i++) {
     let previousLength = i > 0 ? encodedParts[i - 1].length : 0;
-    if (previousLength === 131) previousLength = 132;
     sequence.set(encodedParts[i], previousLength);
   }
 
