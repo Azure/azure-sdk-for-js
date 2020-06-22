@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { XML_ATTRKEY, XML_CHARKEY } from "@azure/core-http";
+
 /**
  * @internal
  * @ignore
@@ -345,7 +347,7 @@ export const ODATA_ERROR_MESSAGE_VALUE = "value";
  * @internal
  * @ignore
  */
-export const XML_METADATA_MARKER = "$";
+export const XML_METADATA_MARKER = XML_ATTRKEY;
 
 /**
  * Marker for atom value.
@@ -353,7 +355,7 @@ export const XML_METADATA_MARKER = "$";
  * @internal
  * @ignore
  */
-export const XML_VALUE_MARKER = "_";
+export const XML_VALUE_MARKER = XML_CHARKEY;
 
 /**
  * Constant representing the property where the atom default elements are stored.
@@ -361,7 +363,7 @@ export const XML_VALUE_MARKER = "_";
  * @internal
  * @ignore
  */
-export const ATOM_METADATA_MARKER = "_";
+export const ATOM_METADATA_MARKER = XML_CHARKEY;
 
 /**
  * Known HTTP status codes as documented and referenced in ATOM based management API feature

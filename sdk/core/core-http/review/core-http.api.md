@@ -953,6 +953,12 @@ export interface WebResourceLike {
     withCredentials: boolean;
 }
 
+// @public
+export const XML_ATTRKEY = "$";
+
+// @public
+export const XML_CHARKEY = "#";
+
 
 // (No @packageDocumentation comment for this package)
 
