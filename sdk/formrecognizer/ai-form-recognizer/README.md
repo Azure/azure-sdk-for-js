@@ -154,8 +154,7 @@ async function main() {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
 
-  await poller.pollUntilDone();
-  const receipts = poller.getResult();
+  const receipts = await poller.pollUntilDone();
 
   if (!receipts || receipts.length <= 0) {
     throw new Error("Expecting at lease one receipt in analysis result");
@@ -215,8 +214,7 @@ async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeContent(readStream);
-  await poller.pollUntilDone();
-  const pages = poller.getResult();
+  const pages = await poller.pollUntilDone();
 
   if (!pages || pages.length === 0) {
     throw new Error("Expecting non-empty list of pages!");
@@ -259,8 +257,7 @@ async function main() {
     onProgress: (state) => { console.log(`training status: ${state.status}`); }
   });
 
-  await poller.pollUntilDone();
-  const response = poller.getResult();
+  const response = await poller.pollUntilDone();
 
   if (!response) {
     throw new Error("Expecting valid response!");
@@ -314,8 +311,7 @@ async function main() {
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
-  await poller.pollUntilDone();
-  const forms = poller.getResult();
+  const forms = await poller.pollUntilDone();
 
   console.log("Forms:");
   for (const form of forms || []) {

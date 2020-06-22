@@ -24,8 +24,7 @@ async function main() {
       console.log(`training status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const model = poller.getResult();
+  const model = await poller.pollUntilDone();
   console.dir(model, { depth: 4 });
 }
 

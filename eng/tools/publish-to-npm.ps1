@@ -97,7 +97,7 @@ try {
     }
 
     if(!$basicDeployment) {
-       if(!$devopsFeed){
+       if($registry -eq 'https://registry.npmjs.org/'){
         Write-Host "Choosing AuthToken Deployment"
         $env:NPM_TOKEN=$npmToken
         npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
