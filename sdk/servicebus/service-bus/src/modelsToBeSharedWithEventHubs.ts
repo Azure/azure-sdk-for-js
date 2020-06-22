@@ -3,25 +3,15 @@
 
 // TODO: this code is a straight-copy from EventHubs. Need to merge.
 
-import { AbortSignalLike } from "@azure/abort-controller";
 import { Span, SpanContext } from "@opentelemetry/api";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import { OperationOptions as OperationOptionsForHTTP } from "@azure/core-http";
 
 /**
  * Options for configuring tracing and the abortSignal.
  */
 // NOTE: This class is intended to mirror the relevant fields and structure from
 // @azure/core-http OperationOptions
-export interface OperationOptions {
-  /**
-   * The signal which can be used to abort requests.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * Options for configuring tracing.
-   */
-  tracingOptions?: OperationTracingOptions;
-}
+export type OperationOptions = Exclude<OperationOptionsForHTTP, "requestOptions">;
 
 /**
  * @internal
