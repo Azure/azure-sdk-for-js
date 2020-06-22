@@ -180,7 +180,7 @@ export interface DataSource extends ProxyResource {
   /**
    * The ETag of the data source.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * Possible values include: 'WindowsEvent', 'WindowsPerformanceCounter', 'IISLogs',
    * 'LinuxSyslog', 'LinuxSyslogCollection', 'LinuxPerformanceObject',
@@ -793,7 +793,7 @@ export interface SavedSearch extends ProxyResource {
   /**
    * The ETag of the saved search.
    */
-  eTag?: string;
+  etag?: string;
   /**
    * The category of the saved search. This helps the user to find a saved search faster.
    */
@@ -1461,26 +1461,6 @@ export type DataExportsCreateOrUpdateResponse = DataExport & {
  * Contains response data for the get operation.
  */
 export type DataExportsGetResponse = DataExport & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataExport;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type DataExportsBeginCreateOrUpdateResponse = DataExport & {
   /**
    * The underlying HTTP response.
    */

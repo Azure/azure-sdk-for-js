@@ -140,7 +140,8 @@ const purgeOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.WorkspacePurgePurgeHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.WorkspacePurgePurgeHeaders
     }
   },
   serializer
