@@ -32,7 +32,7 @@ import {
 } from "../serviceBusMessage";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
+import { getUniqueName, waitForTimeoutOrAbortOrResolve, StandardAbortMessage } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateBatchOptions } from "../models";
@@ -266,7 +266,6 @@ export class MessageSender extends LinkEntity {
           try {
             await waitForTimeoutOrAbortOrResolve({
               actionFn: () => this.open(undefined, options?.abortSignal),
-              abortMessage: "The send operation has been cancelled by the user.",
               abortSignal: options?.abortSignal,
               timeoutMs: timeoutInMs,
               timeoutMessage:
@@ -382,7 +381,7 @@ export class MessageSender extends LinkEntity {
   ): Promise<void> {
     const checkAborted = (): void => {
       if (abortSignal?.aborted) {
-        throw new AbortError("Sender creation was cancelled by the user.");
+        throw new AbortError(StandardAbortMessage);
       }
     };
 

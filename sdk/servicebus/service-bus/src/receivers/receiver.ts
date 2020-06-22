@@ -4,7 +4,6 @@
 import {
   PeekMessagesOptions,
   GetMessageIteratorOptions,
-  MessageHandlerOptions,
   MessageHandlers,
   ReceiveBatchOptions,
   SubscribeOptions
@@ -208,7 +207,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
-    options?: MessageHandlerOptions
+    options?: SubscribeOptions
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
@@ -222,7 +221,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    StreamingReceiver.create(this._context, {
+    this._createStreamingReceiver(this._context, {
       ...options,
       receiveMode: convertToInternalReceiveMode(this.receiveMode),
       retryOptions: this._retryOptions
@@ -241,6 +240,19 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       .catch((err) => {
         onError(err);
       });
+  }
+
+  private _createStreamingReceiver(
+    context: ClientEntityContext,
+    options?: ReceiveOptions &
+      Pick<OperationOptions, "abortSignal"> & {
+        createStreamingReceiver?: (
+          context: ClientEntityContext,
+          options?: ReceiveOptions
+        ) => StreamingReceiver;
+      }
+  ): Promise<StreamingReceiver> {
+    return StreamingReceiver.create(context, options);
   }
 
   /**
@@ -271,11 +283,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
           maxConcurrentCalls: 0,
           receiveMode: convertToInternalReceiveMode(this.receiveMode)
         };
-        this._context.batchingReceiver = BatchingReceiver.create(this._context, options);
+        this._context.batchingReceiver = this._createBatchingReceiver(this._context, options);
       }
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
-        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs
+        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
+        options?.abortSignal
       );
       return (receivedMessages as unknown) as ReceivedMessageT[];
     };
@@ -510,5 +523,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       return true;
     }
     return false;
+  }
+
+  private _createBatchingReceiver(
+    context: ClientEntityContext,
+    options?: ReceiveOptions
+  ): BatchingReceiver {
+    return BatchingReceiver.create(context, options);
   }
 }

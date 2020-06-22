@@ -23,7 +23,6 @@ import {
   retry
 } from "@azure/core-amqp";
 import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
-import { AbortError } from "@azure/abort-controller";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -259,15 +258,7 @@ export class SenderImpl implements Sender {
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
-    try {
-      return await this._sender.createBatch(options);
-    } catch (err) {
-      if (err.name === "AbortError") {
-        throw new AbortError("The createBatch operation has been cancelled by the user.");
-      }
-
-      throw err;
-    }
+    return this._sender.createBatch(options);
   }
 
   /**

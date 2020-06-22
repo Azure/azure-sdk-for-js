@@ -1,31 +1,29 @@
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: $(NodeTestVersion)
-    displayName: "Use NodeJS $(NodeTestVersion)"
+parameters:
+  NodeTestVersion: $(NodeTestVersion)
 
-  - script: |
-      node --version && npm --version
-    displayName: Node versions
+steps:
+  - template: use-node-version.yml
+    parameters:
+      NodeVersion: $(NodeTestVersion)
 
   # Packages with native dependencies must be reinstalled after changing Node versions
   - pwsh: |
       $KeytarSymlinkPath = "common/temp/node_modules/.pnpm/node_modules/keytar"
 
       # Map from the symlink path to the target path (npm has issues installing into symlink dirs)
-      # Example: common/temp/node_modules/.pnpm/registry.npmjs.org/keytar/5.4.0/node_modules/keytar
+      # Example: common/temp/node_modules/.pnpm/keytar@5.6.0/node_modules/keytar
       $KeytarTargetPath = (Get-Item $KeytarSymlinkPath).Target
 
       # Need to run "npm install" at path containing "node_modules" folder
-      # Example: common/temp/node_modules/.pnpm/registry.npmjs.org/keytar/5.4.0
+      # Example: common/temp/node_modules/.pnpm/keytar@5.6.0
       $KeytarInstallPath = Join-Path $KeytarTargetPath "../.."
 
-      # The version is the leaf node of the path
-      # Example: 5.4.0
-      $KeytarVersion = Split-Path -Leaf $KeytarInstallPath
+      # <pkg>@<version> is the leaf node of the path
+      # Example: keytar@5.6.0
+      $KeytarPackageAtVersion = Split-Path -Leaf $KeytarInstallPath
 
       Set-Location $KeytarInstallPath
 
       # Install matching version of package
-      npm install --no-package-lock keytar@$KeytarVersion
+      npm install --no-package-lock $KeytarPackageAtVersion
     displayName: Reinstall native dependencies

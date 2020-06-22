@@ -56,6 +56,13 @@ export class EventHubConsumerClient {
   private _id = uuid();
 
   /**
+   * The Subscriptions that were spawned by calling `subscribe()`.
+   * Subscriptions that have been stopped by the user will not
+   * be present in this set.
+   */
+  private _subscriptions = new Set<Subscription>();
+
+  /**
    * @property
    * The name of the default consumer group in the Event Hubs service.
    */
@@ -309,7 +316,15 @@ export class EventHubConsumerClient {
    * @returns Promise<void>
    * @throws Error if the underlying connection encounters an error while closing.
    */
-  close(): Promise<void> {
+  async close(): Promise<void> {
+    // Stop all the actively running subscriptions.
+    const activeSubscriptions = Array.from(this._subscriptions);
+    await Promise.all(
+      activeSubscriptions.map((subscription) => {
+        return subscription.close();
+      })
+    );
+    // Close the connection via the client.
     return this._eventHubClient.close();
   }
 
@@ -407,7 +422,6 @@ export class EventHubConsumerClient {
         options
       ));
     } else if (
-      typeof handlersOrPartitionId1 === "string" &&
       isSubscriptionEventHandlers(optionsOrHandlers2)
     ) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
@@ -416,7 +430,9 @@ export class EventHubConsumerClient {
         validateEventPositions(options.startPosition);
       }
       ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForSinglePartition(
-        handlersOrPartitionId1,
+        // cast to string as downstream code expects partitionId to be string, but JS users could have given us anything.
+        // we don't validate the user input and instead rely on service throwing errors if any
+        String(handlersOrPartitionId1),
         optionsOrHandlers2,
         possibleOptions3
       ));
@@ -426,15 +442,18 @@ export class EventHubConsumerClient {
 
     eventProcessor.start();
 
-    return {
+    const subscription = {
       get isRunning() {
         return eventProcessor.isRunning();
       },
       close: () => {
         this._partitionGate.remove(targetedPartitionId);
+        this._subscriptions.delete(subscription);
         return eventProcessor.stop();
       }
     };
+    this._subscriptions.add(subscription);
+    return subscription;
   }
 
   private createEventProcessorForAllPartitions(

@@ -2,6 +2,9 @@
 
 ## 7.0.0-preview.4 (Unreleased)
 
+- Adds abortSignal support throughout Sender and non-session Receivers.
+  [PR 9233](https://github.com/Azure/azure-sdk-for-js/pull/9233)
+  [PR 9284](https://github.com/Azure/azure-sdk-for-js/pull/9284)
 
 ## 7.0.0-preview.3 (2020-06-08)
 

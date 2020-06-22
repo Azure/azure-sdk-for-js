@@ -124,7 +124,7 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
   /**
    * Specifies whether to include text lines and element references in the result
    */
-  includeTextDetails?: boolean;
+  includeTextContent?: boolean;
 };
 
 /**
@@ -165,7 +165,7 @@ export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
   /**
    * Specifies whether to include text lines and element references in the result
    */
-  includeTextDetails?: boolean;
+  includeTextContent?: boolean;
 };
 
 /**
@@ -641,7 +641,7 @@ ng", and "image/tiff";
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const poller = await client.beginRecognizeReceiptsFromUrl(
    *   url, {
-   *     includeTextDetails: true,
+   *     includeTextContent: true,
    *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
    * });
    * const receipts = await poller.pollUntilDone();
@@ -783,7 +783,10 @@ async function recognizeCustomFormInternal(
   options: RecognizeFormsOptions = {},
   modelId?: string
 ): Promise<AnalyzeWithCustomModelResponseModel> {
-  const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", options);
+  const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", {
+    ...options,
+    includeTextDetails: options.includeTextContent
+  });
   const requestBody = await toRequestBody(body);
   const requestContentType = contentType ? contentType : await getContentType(requestBody);
 
@@ -821,8 +824,11 @@ async function recognizeReceiptInternal(
   options?: RecognizeReceiptsOptions,
   _modelId?: string
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
-  const realOptions = options || { includeTextDetails: false };
-  const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", realOptions);
+  const realOptions = options || { includeTextContent: false };
+  const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", {
+    ...realOptions,
+    includeTextDetails: realOptions.includeTextContent
+  });
   const requestBody = await toRequestBody(body);
   const requestContentType =
     contentType !== undefined ? contentType : await getContentType(requestBody);
