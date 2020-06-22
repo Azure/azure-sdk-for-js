@@ -298,8 +298,7 @@ export class FormRecognizerClient {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    *
-   * await poller.pollUntilDone();
-   * const pages = poller.getResult();
+   * const pages = await poller.pollUntilDone();
    * ```
    * @summary Recognizes content/layout information from a given document
    * @param {FormRecognizerRequestBody} form Input document
@@ -344,8 +343,7 @@ export class FormRecognizerClient {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    *
-   * await poller.pollUntilDone();
-   * const pages = poller.getResult();
+   * const pages = await poller.pollUntilDone();
    * ```
    * @summary Recognizes content/layout information from a url to a form document
    * @param {string} formUrl Url to an accessible form document
@@ -417,8 +415,7 @@ ng", and "image/tiff";
    * const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
-   * await poller.pollUntilDone();
-   * const forms = poller.getResult();
+   * const forms = await poller.pollUntilDone();
    * ```
    * @summary Recognizes form information from a given document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
@@ -473,8 +470,7 @@ ng", and "image/tiff";
    * const poller = await client.beginRecognizeCustomFormsFromUrl(modelId, url, {
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
-   * await poller.pollUntilDone();
-   * const forms = poller.getResult();
+   * const forms = await poller.pollUntilDone();
    * ```
    * @summary Recognizes form information from a url to a form document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
@@ -567,8 +563,7 @@ ng", and "image/tiff";
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    *
-   * await poller.pollUntilDone();
-   * const receipts = poller.getResult();
+   * const receipts = await poller.pollUntilDone();
    *  if (!receipts || receipts.length <= 0) {
    *    throw new Error("Expecting at lease one receipt in analysis result");
    *  }
@@ -649,8 +644,7 @@ ng", and "image/tiff";
    *     includeTextContent: true,
    *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
    * });
-   * await poller.pollUntilDone();
-   * const receipts = poller.getResult();
+   * const receipts = await poller.pollUntilDone();
    *  if (!receipts || receipts.length <= 0) {
    *    throw new Error("Expecting at lease one receipt in analysis result");
    *  }
