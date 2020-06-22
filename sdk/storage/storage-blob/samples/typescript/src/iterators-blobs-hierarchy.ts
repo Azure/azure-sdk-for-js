@@ -70,7 +70,7 @@ export async function main() {
 
   // 1. List blobs by hierarchy
   console.log("Listing blobs by hierarchy");
-  let iter = await containerClient.listBlobsByHierarchy("/");
+  let iter = containerClient.listBlobsByHierarchy("/");
   for await (const item of iter) {
     if (item.kind === "prefix") {
       console.log(`\tBlobPrefix: ${item.name}`);
@@ -83,7 +83,7 @@ export async function main() {
 
   // 2. Generator syntax .next() and passing a prefix
   console.log("Listing blobs by hierarchy, specifying a prefix");
-  iter = await containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
+  iter = containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
   let entity = await iter.next();
   while (!entity.done) {
     let item = entity.value;
