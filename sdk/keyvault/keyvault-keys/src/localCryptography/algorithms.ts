@@ -8,22 +8,61 @@ import { JsonWebKey, KeyOperation } from "../keysModels";
 import { LocalCryptographyUnsupportedError } from "./models";
 import { createHash } from "./hash";
 
+/**
+ * This file contains the implementation of local supported algorithms, which
+ * consist of wrappers around methods already available as part of NodeJS.
+ *
+ * The goal of this file is to abstract away how we implement these algorithms,
+ * since we might be using environment-specific code or dependencies.
+ *
+ * Some algorithms can't be implemented neither in the Browser or in Node
+ * without third party dependencies or considerable development.
+ *
+ * We currently don't support any operation that requires the private data of a
+ * key. Once we implement support for the private part of JWK keys and PEM keys,
+ * we will be able to increase the support of our existing algorithms.
+ */
+
+/**
+ * @internal
+ * @ignore
+ * Abstract representation of a validator.
+ * Validators verify that the requirements to execute a local cryptography operation are met.
+ * @param key The JSON Web Key that will be used during the local operation.
+ * @param operationName The name of the operation, as in "encrypt", "decrypt", "sign", etc.
+ */
 export type LocalValidator = (
   key?: JsonWebKey,
   operationName?: LocalCryptographyOperationName
 ) => void;
 
+/**
+ * @internal
+ * @ignore
+ * The list of known validators so far.
+ * Validators verify that the requirements to execute a local cryptography operation are met.
+ */
 export const validators: Record<"keyOps" | "rsa" | "nodeOnly", LocalValidator> = {
+  /**
+   * Validates that the target local cryptography operation is allowed by the key's "keyOps" property.
+   */
   keyOps(key?: JsonWebKey, operationName?: LocalCryptographyOperationName): void {
     if (key && key.keyOps && !key.keyOps.includes(operationName as KeyOperation)) {
       throw new Error(`Key does not support the ${operationName} operation`);
     }
   },
+  /**
+   * Validates that the key type is "RSA". For operations on RSA keys.
+   */
   rsa(key?: JsonWebKey): void {
     if (key && key.kty! !== "RSA") {
       throw new Error("Key type does not match the algorithm RSA");
     }
   },
+  /**
+   * Passes only when the operation is being executed in NodeJS.
+   * For operations that can only run in NodeJS.
+   */
   nodeOnly(): void {
     if (!isNode) {
       throw new LocalCryptographyUnsupportedError("This operation is only available in NodeJS");
@@ -31,41 +70,77 @@ export const validators: Record<"keyOps" | "rsa" | "nodeOnly", LocalValidator> =
   }
 };
 
+/**
+ * pipeValidators allows us to execute a sequence of validators.
+ * @param validators One or more LocalValidators
+ */
 const pipeValidators = (...validators: LocalValidator[]): LocalValidator => (...params): void => {
   for (const validator of validators) {
     validator(...params);
   }
 };
 
+/**
+ * TypeScript fancy for making plain objects require at least one key-value pair of another set of key-values.
+ */
 export type RequireAtLeastOne<T> = {
   [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
 }[keyof T];
 
-export type LocalCryptographyOperationName =
-  | "encrypt"
-  | "wrapKey"
-  | "createHash"
-  | "verify";
+/**
+ * Union type representing the names of the supported local cryptography operations.
+ */
+export type LocalCryptographyOperationName = "encrypt" | "wrapKey" | "createHash" | "verify";
 
+/**
+ * Abstract representation of a Local Cryptography Operation function.
+ * @param keyPEM The string representation of a PEM key.
+ * @param data The data used on the cryptography operation, in Buffer type.
+ */
 export type LocalCryptographyOperationFunction = (keyPEM: string, data: Buffer) => Promise<Buffer>;
 
+/**
+ * Abstract representation of a Local Cryptography Operation function, this time with an additional signature buffer.
+ * @param keyPEM The string representation of a PEM key.
+ * @param data The data used on the cryptography operation, in Buffer type.
+ * @param signature The signature used on the cryptography operation, in Buffer type.
+ */
 export type LocalCryptographyOperationFunctionWithSignature = (
   keyPEM: string,
   data: Buffer,
   signature: Buffer
 ) => Promise<boolean>;
 
+/**
+ * Key-value map of local cryptography operations.
+ */
 export type LocalCryptographyOperations = Record<
   LocalCryptographyOperationName,
   LocalCryptographyOperationFunction | LocalCryptographyOperationFunctionWithSignature
 >;
 
+/**
+ * Abstract representation of a locally supported cryptography algorithm, with its validators,
+ * and its operations.
+ */
 export interface LocalSupportedAlgorithm {
+  /**
+   * List of validators that need to pass in order to execute this cryptography operation.
+   */
   validate: LocalValidator;
-  signAlgorithm?: string,
+  /**
+   * Optional algorithm used to sign or validate data.
+   */
+  signAlgorithm?: string;
+  /**
+   * List of local cryptography operations supported by an algorithm.
+   */
   operations: RequireAtLeastOne<LocalCryptographyOperations>;
 }
 
+/**
+ * A union type representing the names of all of the locally supported algorithms.
+ */
 export type LocalSupportedAlgorithmName =
   | "RSA1_5"
   | "RSA-OAEP"
@@ -76,6 +151,10 @@ export type LocalSupportedAlgorithmName =
   | "PS512"
   | "RS512";
 
+/**
+ * Local support of the RSA1_5 algorithm.
+ * We currently only support encrypting and wrapping keys with it.
+ */
 const RSA1_5: LocalSupportedAlgorithm = {
   validate: pipeValidators(validators.keyOps, validators.rsa, validators.nodeOnly),
   operations: {
@@ -88,6 +167,10 @@ const RSA1_5: LocalSupportedAlgorithm = {
   }
 };
 
+/**
+ * Local support of the RSA-OAEP algorithm.
+ * We currently only support encrypting and wrapping keys with it.
+ */
 const RSA_OAEP: LocalSupportedAlgorithm = {
   validate: pipeValidators(validators.keyOps, validators.rsa, validators.nodeOnly),
   operations: {
@@ -100,8 +183,17 @@ const RSA_OAEP: LocalSupportedAlgorithm = {
   }
 };
 
+/**
+ * A union type representing the names of all of the locally supported sign algorithms.
+ */
 export type SignAlgorithmName = "SHA256" | "SHA384" | "SHA512";
 
+/**
+ * Since sign algorithms behave almost the same, we're making a generator to save up code.
+ * We receive the sign algorithm, from the list of names in `SignAlgorithmName`,
+ * then we generate a `LocalSupportedAlgorithm` that only create hashes and verifies signatures.
+ * @param signAlgorithm
+ */
 const makeSigner = (signAlgorithm: SignAlgorithmName): LocalSupportedAlgorithm => {
   return {
     validate: pipeValidators(validators.keyOps, validators.nodeOnly),
@@ -120,10 +212,17 @@ const makeSigner = (signAlgorithm: SignAlgorithmName): LocalSupportedAlgorithm =
   };
 };
 
+/**
+ * A Record containing all of the locally supported algorithms.
+ */
 export type LocalSupportedAlgorithmsRecord = Record<
   LocalSupportedAlgorithmName,
   LocalSupportedAlgorithm
 >;
+
+/**
+ * A plain object containing all of the locally supported algorithms.
+ */
 export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
   RSA1_5,
   "RSA-OAEP": RSA_OAEP,

@@ -509,6 +509,9 @@ export class CryptographyClient {
    */
   private _localCryptographyClientPromise?: Promise<LocalCryptographyClient>;
 
+  /**
+   * Returns a promise that resolves once the Local Cryptography Client is available.
+   */
   public getLocalCryptographyClient(): Promise<LocalCryptographyClient> | undefined {
     if (!this._localCryptographyClientPromise) {
       this._localCryptographyClientPromise = this.configureLocalCryptographyClient();

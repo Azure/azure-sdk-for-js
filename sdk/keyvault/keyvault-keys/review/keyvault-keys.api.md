@@ -54,7 +54,6 @@ export class CryptographyClient {
     credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
-    // (undocumented)
     getLocalCryptographyClient(): Promise<LocalCryptographyClient> | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
     signData(algorithm: SignatureAlgorithm, data: Uint8Array, options?: SignOptions): Promise<SignResult>;
@@ -242,15 +241,14 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 // @public
 export class LocalCryptographyClient {
     constructor(key: JsonWebKey);
-    decrypt(algorithm: LocalSupportedAlgorithmName, plaintext: Uint8Array): Promise<EncryptResult>;
-    // Warning: (ae-forgotten-export) The symbol "LocalSupportedAlgorithmName" needs to be exported by the entry point index.d.ts
     encrypt(algorithm: LocalSupportedAlgorithmName, plaintext: Uint8Array): Promise<EncryptResult>;
-    // (undocumented)
     key: JsonWebKey;
-    unwrapKey(algorithm: LocalSupportedAlgorithmName, encryptedKey: Uint8Array): Promise<UnwrapResult>;
     verifyData(algorithm: LocalSupportedAlgorithmName, data: Uint8Array, signature: Uint8Array): Promise<VerifyResult>;
     wrapKey(algorithm: LocalSupportedAlgorithmName, key: Uint8Array): Promise<WrapResult>;
 }
+
+// @public
+export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;

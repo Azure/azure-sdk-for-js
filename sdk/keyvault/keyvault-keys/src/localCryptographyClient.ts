@@ -99,7 +99,12 @@ export class LocalCryptographyClient {
   }
 
   /**
-   * Constructs a new instance of the Local Cryptography client for the given key
+   * A JSON Web Key, used for the local cryptography operations.
+   */
+  public key: JsonWebKey;
+
+  /**
+   * Constructs a new instance of the Local Cryptography client for the given key.
    *
    * Example usage:
    * ```ts
@@ -113,5 +118,7 @@ export class LocalCryptographyClient {
    * @param key The JsonWebKey to use during cryptography operations.
    * @memberof CryptographyClient
    */
-  constructor(public key: JsonWebKey) {}
+  constructor(key: JsonWebKey) {
+    this.key = key;
+  }
 }

@@ -101,6 +101,7 @@ import {
   WrapResult,
   EncryptResult
 } from "./cryptographyClientModels";
+import { LocalSupportedAlgorithmName } from "./localCryptography/algorithms";
 
 export {
   CryptographyClientOptions,
@@ -136,6 +137,7 @@ export {
   ListPropertiesOfKeyVersionsOptions,
   ListDeletedKeysOptions,
   LocalCryptographyClient,
+  LocalSupportedAlgorithmName,
   PageSettings,
   PagedAsyncIterableIterator,
   PipelineOptions,
