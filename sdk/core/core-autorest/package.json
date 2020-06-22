@@ -9,8 +9,8 @@
   "types": "types/latest/core-autorest.d.ts",
   "typesVersions": {
     "<3.6": {
-      "types/latest/src/*": [
-        "types/3.1/src/*"
+      "types/latest/*": [
+        "types/3.1/*"
       ]
     }
   },
@@ -50,7 +50,8 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/",
+    "types/latest/core-autorest.d.ts",
+    "types/3.1/core-autorest.d.ts",
     "README.md",
     "LICENSE"
   ],
