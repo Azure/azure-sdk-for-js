@@ -3,6 +3,7 @@
 ## 4.1.0-preview.2 (Unreleased)
 
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
+- Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
 
 ## 4.0.3 (2020-05-13)
 
@@ -73,4 +74,4 @@
 ## 4.0.0-preview.1 (2019-06-28)
 
 For release notes and more information please visit
-https://aka.ms/azure-sdk-preview1-js
+https://aka.ms/azsdk/releases/july2019preview

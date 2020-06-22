@@ -57,7 +57,6 @@ export const endpoint: coreHttp.OperationURLParameter = {
 export const ifMatch: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "accessCondition",
     "ifMatch"
   ],
   mapper: {
@@ -70,7 +69,6 @@ export const ifMatch: coreHttp.OperationParameter = {
 export const ifNoneMatch: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
-    "accessCondition",
     "ifNoneMatch"
   ],
   mapper: {

@@ -6,7 +6,7 @@ const should = chai.should();
 
 import { createServiceBusClientForTests } from "./utils/testutils2";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { Receiver, ReceivedMessage, ReceivedMessageWithLock } from "../src";
+import { ReceivedMessage, ReceivedMessageWithLock, Receiver } from "../src";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -31,7 +31,7 @@ describe("dead lettering", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue)
+      serviceBusClient.createSender(entityNames.queue)
     );
 
     await sender.send({
@@ -181,7 +181,7 @@ describe("abandoning", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue)
+      serviceBusClient.createSender(entityNames.queue)
     );
 
     await sender.send({
@@ -302,7 +302,7 @@ describe("deferring", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue)
+      serviceBusClient.createSender(entityNames.queue)
     );
 
     await sender.send({

@@ -3,10 +3,11 @@
 
 import Long from "long";
 import * as log from "../log";
-import { generate_uuid } from "rhea-promise";
+import { OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -244,6 +245,16 @@ export function getIntegerOrUndefined(value: any): number | undefined {
 /**
  * @internal
  * @ignore
+ * Helper utility to convert ISO-8601 time into Date type.
+ * @param value
+ */
+export function getDate(value: string, nameOfProperty: string): Date {
+  return new Date(getString(value, nameOfProperty));
+}
+
+/**
+ * @internal
+ * @ignore
  * Helper utility to retrieve `boolean` value from given string,
  * or throws error if undefined.
  * @param value
@@ -308,8 +319,6 @@ export function getCountDetailsOrUndefined(value: any): MessageCountDetails | un
 }
 
 /**
- * @internal
- * @ignore
  * Represents type of message count details in ATOM based management operations.
  */
 export type MessageCountDetails = {
@@ -321,8 +330,6 @@ export type MessageCountDetails = {
 };
 
 /**
- * @internal
- * @ignore
  * Represents type of `AuthorizationRule` in ATOM based management operations.
  */
 export type AuthorizationRule = {
@@ -471,8 +478,6 @@ export function isAbsoluteUrl(url: string) {
 }
 
 /**
- * @internal
- * @ignore
  * Possible values for `status` of the Service Bus messaging entities.
  */
 export type EntityStatus =
@@ -485,3 +490,98 @@ export type EntityStatus =
   | "Renaming"
   | "Restoring"
   | "Unknown";
+
+/**
+ * @internal
+ * @ignore
+ */
+export const StandardAbortMessage = "The operation was aborted.";
+
+/**
+ * An executor for a function that returns a Promise that obeys both a timeout and an
+ * optional AbortSignal.
+ * @param timeoutMs - The number of milliseconds to allow before throwing an OperationTimeoutError.
+ * @param timeoutMessage - The message to place in the .description field for the thrown exception for Timeout.
+ * @param abortSignal - The abortSignal associated with containing operation.
+ * @param abortErrorMsg - The abort error message associated with containing operation.
+ * @param value - The value to be resolved with after a timeout of t milliseconds.
+ * @returns {Promise<T>} - Resolved promise
+ *
+ * @internal
+ * @ignore
+ */
+export async function waitForTimeoutOrAbortOrResolve<T>(args: {
+  actionFn: () => Promise<T>;
+  timeoutMs: number;
+  timeoutMessage: string;
+  abortSignal?: AbortSignalLike;
+  // these are optional and only here for testing.
+  timeoutFunctions?: {
+    setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+    clearTimeoutFn: (timeoutId: any) => void;
+  };
+}): Promise<T> {
+  if (args.abortSignal && args.abortSignal.aborted) {
+    throw new AbortError(StandardAbortMessage);
+  }
+
+  let timer: any | undefined = undefined;
+  let clearAbortSignal: (() => void) | undefined = undefined;
+
+  const clearAbortSignalAndTimer = (): void => {
+    (args.timeoutFunctions?.clearTimeoutFn ?? clearTimeout)(timer);
+
+    if (clearAbortSignal) {
+      clearAbortSignal();
+    }
+  };
+
+  // eslint-disable-next-line promise/param-names
+  const abortOrTimeoutPromise = new Promise<T>((_resolve, reject) => {
+    clearAbortSignal = checkAndRegisterWithAbortSignal(reject, args.abortSignal);
+
+    timer = (args.timeoutFunctions?.setTimeoutFn ?? setTimeout)(() => {
+      reject(new OperationTimeoutError(args.timeoutMessage));
+    }, args.timeoutMs);
+  });
+
+  try {
+    return await Promise.race([abortOrTimeoutPromise, args.actionFn()]);
+  } finally {
+    clearAbortSignalAndTimer();
+  }
+}
+
+/**
+ * Registers listener to the abort event on the abortSignal to call your abortFn and
+ * returns a function that will clear the same listener.
+ *
+ * If abort signal is already aborted, then throws an AbortError and returns a function that does nothing
+ *
+ * @returns A function that removes any of our attached event listeners on the abort signal or an empty function if
+ * the abortSignal was not defined.
+ *
+ * @internal
+ * @ignore
+ */
+export function checkAndRegisterWithAbortSignal(
+  onAbortFn: (abortError: AbortError) => void,
+  abortSignal?: AbortSignalLike
+): () => void {
+  if (abortSignal == null) {
+    return () => {};
+  }
+
+  if (abortSignal.aborted) {
+    throw new AbortError(StandardAbortMessage);
+  }
+
+  const onAbort = (): void => {
+    abortSignal.removeEventListener("abort", onAbort);
+    onAbortFn(new AbortError(StandardAbortMessage));
+  };
+
+  abortSignal.addEventListener("abort", onAbort);
+
+  return () => abortSignal.removeEventListener("abort", onAbort);
+}

@@ -7,7 +7,7 @@ import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
 import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
-import { logger, logErrorStackTrace } from "./log";
+import { logErrorStackTrace, logger } from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
@@ -138,8 +138,10 @@ export class PumpManagerImpl implements PumpManager {
     );
 
     try {
-      await pump.start();
+      // Set the pump before starting it in case the user
+      // closes the subscription while `start()` is in progress.
       this._partitionIdToPumps[partitionId] = pump;
+      await pump.start();
     } catch (err) {
       logger.verbose(
         `[${this._eventProcessorName}] [${partitionId}] An error occured while adding/updating a pump: ${err}`

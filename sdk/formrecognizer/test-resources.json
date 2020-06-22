@@ -9,6 +9,13 @@
         "description": "The base resource name."
       }
     },
+    "location": {
+      "type": "string",
+      "defaultValue": "westcentralus",
+      "metadata": {
+        "description": "The location of the resource. By default, this is the same as the resource group."
+      }
+    },
     "testApplicationOid": {
       "type": "string",
       "metadata": {
@@ -94,6 +101,14 @@
     "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL": {
       "type": "string",
       "value": "[concat(reference(parameters('blobResourceId'), '2019-06-01').primaryEndpoints.blob, parameters('testingDataContainer'), '?', listServiceSas(parameters('blobResourceId'), '2019-06-01', parameters('testingDataSasProperties')).serviceSasToken)]"
+    },
+    "FORM_RECOGNIZER_TARGET_RESOURCE_REGION": {
+      "type": "string",
+      "value": "[parameters('location')]"
+    },
+    "FORM_RECOGNIZER_TARGET_RESOURCE_ID": {
+      "type": "string",
+      "value": "[resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName'))]"
     }
   }
 }

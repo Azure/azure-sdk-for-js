@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import Long from "long";
-import { Delivery, uuid_to_string, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
-import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/core-amqp";
+import { Delivery, DeliveryAnnotations, MessageAnnotations, uuid_to_string } from "rhea-promise";
+import { AmqpMessage, Constants, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken } from "./util/utils";
@@ -666,6 +666,14 @@ export function fromAmqpMessage(
 
   log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isServiceBusMessage(possible: any): possible is ServiceBusMessage {
+  return possible != null && typeof possible === "object" && "body" in possible;
 }
 
 /**

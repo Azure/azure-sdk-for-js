@@ -28,20 +28,20 @@ export class PrivateLinkResources {
 
   /**
    * Gets the private link resources that need to be created for a Cosmos DB account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListByDatabaseAccountResponse>
    */
   listByDatabaseAccount(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListByDatabaseAccountResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listByDatabaseAccount(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -60,7 +60,7 @@ export class PrivateLinkResources {
 
   /**
    * Gets the private link resources that need to be created for a Cosmos DB account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param groupName The name of the private link resource.
    * @param [options] The optional parameters
@@ -68,14 +68,14 @@ export class PrivateLinkResources {
    */
   get(resourceGroupName: string, accountName: string, groupName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesGetResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param groupName The name of the private link resource.
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, groupName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param groupName The name of the private link resource.
    * @param options The optional parameters
@@ -101,12 +101,12 @@ const listByDatabaseAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -126,13 +126,13 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateLinkResources/{groupName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.groupName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

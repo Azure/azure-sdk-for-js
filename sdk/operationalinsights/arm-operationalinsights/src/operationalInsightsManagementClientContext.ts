@@ -13,18 +13,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-operationalinsights";
-const packageVersion = "0.1.0";
+const packageVersion = "2.0.0";
 
 export class OperationalInsightsManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  subscriptionId: string;
   apiVersion?: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the OperationalInsightsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
-   * subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.OperationalInsightsManagementClientOptions) {
@@ -38,14 +37,14 @@ export class OperationalInsightsManagementClientContext extends msRestAzure.Azur
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '2015-11-01-preview';
+    this.apiVersion = '2020-03-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
@@ -53,10 +52,10 @@ export class OperationalInsightsManagementClientContext extends msRestAzure.Azur
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

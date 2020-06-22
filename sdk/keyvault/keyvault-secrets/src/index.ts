@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint @typescript-eslint/member-ordering: 0 */
+/// <reference lib="esnext.asynciterable" />
 
 import {
   TokenCredential,
@@ -34,7 +35,7 @@ import {
 } from "./core/models";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { SDK_VERSION } from "./core/utils/constants";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -954,7 +955,6 @@ export class SecretClient {
       value: secretBundle.value,
       name: parsedId.name,
       properties: {
-        vaultUrl: parsedId.vaultUrl,
         expiresOn: (attributes as any).expires,
         createdOn: (attributes as any).created,
         updatedOn: (attributes as any).updated,

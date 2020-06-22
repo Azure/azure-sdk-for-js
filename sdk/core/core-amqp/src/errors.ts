@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
 
-import { AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError, AmqpError } from "rhea-promise";
-import { isNode, isString, isNumber } from "../src/util/utils";
+import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
+import { isNode, isNumber, isString } from "../src/util/utils";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.

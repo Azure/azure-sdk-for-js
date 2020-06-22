@@ -3,26 +3,29 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, ReceivedMessage } from "../src";
+import { ReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
-import { checkWithTimeout, TestClientType, TestMessage } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import {
   DispositionType,
-  ServiceBusMessageImpl,
+  ReceiveMode,
   ReceivedMessageWithLock,
-  ReceiveMode
+  ServiceBusMessageImpl
 } from "../src/serviceBusMessage";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
+  EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
+  drainReceiveAndDeleteReceiver,
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
-import { translate, MessagingError, isNode } from "@azure/core-amqp";
+import { MessagingError, isNode, translate } from "@azure/core-amqp";
+import { verifyMessageCount } from "./utils/managementUtils";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -42,6 +45,7 @@ describe("Streaming", () => {
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
   let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
+  let entityNames: EntityName;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -55,7 +59,7 @@ describe("Streaming", () => {
     testClientType: TestClientType,
     receiveMode?: "peekLock" | "receiveAndDelete"
   ): Promise<void> {
-    const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
+    entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (receiveMode === "receiveAndDelete") {
       receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
@@ -63,7 +67,7 @@ describe("Streaming", () => {
       receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     }
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
@@ -151,8 +155,8 @@ describe("Streaming", () => {
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
-      const browsedMsgs = await receiver.browseMessages();
-      should.equal(browsedMsgs.length, 0, "Unexpected number of msgs found when peeking");
+      const peekedMsgs = await receiver.peekMessages();
+      should.equal(peekedMsgs.length, 0, "Unexpected number of msgs found when peeking");
     }
 
     it("Partitioned Queue: AutoComplete removes the message", async function(): Promise<void> {
@@ -1093,7 +1097,10 @@ describe("Streaming", () => {
         0,
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
+      receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
       await testPeekMsgsLength(receiver, totalNumOfMessages);
+      await drainReceiveAndDeleteReceiver(receiver);
+      await verifyMessageCount(0, entityNames.queue);
     }
 
     it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
@@ -1137,7 +1144,7 @@ describe("Streaming - onDetached", function(): void {
       receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     }
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
     errorWasThrown = false;
@@ -1317,7 +1324,7 @@ describe("Streaming - disconnects", function(): void {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
 

@@ -7,7 +7,7 @@ import {
 } from "./testHelpers";
 import { AppConfigurationClient } from "../src";
 import * as assert from "assert";
-import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   let client: AppConfigurationClient;
@@ -64,7 +64,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   });
 
   it("accepts operation options", async function() {
-    let storedSetting = await client.getConfigurationSetting({
+    await client.getConfigurationSetting({
       key: testConfigSetting.key,
       label: testConfigSetting.label
     });

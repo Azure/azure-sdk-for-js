@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { delay, Sender, Receiver, ReceivedMessageWithLock } from "../src";
+import { ReceivedMessageWithLock, Receiver, Sender, delay } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { isNode } from "@azure/core-amqp";
@@ -17,7 +20,7 @@ describe("ManagementClient - disconnects", function(): void {
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
   }
   before(() => {
@@ -52,7 +55,7 @@ describe("ManagementClient - disconnects", function(): void {
     await sender.send(TestMessage.getSample());
 
     let peekedMessageCount = 0;
-    let messages = await receiver.browseMessages({ maxMessageCount: 1 });
+    let messages = await receiver.peekMessages({ maxMessageCount: 1 });
     peekedMessageCount += messages.length;
 
     peekedMessageCount.should.equal(1, "Unexpected number of peeked messages.");
@@ -73,7 +76,7 @@ describe("ManagementClient - disconnects", function(): void {
     await delay(2000);
 
     // peek additional messages
-    messages = await receiver.browseMessages({ maxMessageCount: 1 });
+    messages = await receiver.peekMessages({ maxMessageCount: 1 });
     peekedMessageCount += messages.length;
     peekedMessageCount.should.equal(2, "Unexpected number of peeked messages.");
 

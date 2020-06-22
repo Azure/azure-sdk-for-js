@@ -13,7 +13,7 @@ import {
 } from "./testHelpers";
 import { AppConfigurationClient, ConfigurationSetting } from "../src";
 import { delay } from "@azure/core-http";
-import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
@@ -210,7 +210,7 @@ describe("AppConfigurationClient", () => {
       );
 
       // delete configuration
-      const deletedSetting = await client.deleteConfigurationSetting(
+      await client.deleteConfigurationSetting(
         {
           key,
           label
@@ -401,7 +401,7 @@ describe("AppConfigurationClient", () => {
         car: "caz"
       };
       const contentType = "application/json";
-      const result = await client.addConfigurationSetting({ key, label, value, contentType, tags });
+      await client.addConfigurationSetting({ key, label, value, contentType, tags });
       await assertThrowsAbortError(async () => {
         await client.getConfigurationSetting({ key, label }, { requestOptions: { timeout: 1 } });
       });
@@ -1054,8 +1054,8 @@ describe("AppConfigurationClient", () => {
       const label = "test";
       const value = "foo";
       await assertThrowsAbortError(async () => {
-        const result = await client.setConfigurationSetting(
-          { key, label, value: "foo" },
+        await client.setConfigurationSetting(
+          { key, label, value: value },
           {
             requestOptions: {
               timeout: 1

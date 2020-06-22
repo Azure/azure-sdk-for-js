@@ -24,6 +24,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 |[iteratorModels.js][iteratorModels]|List custom models using different ways|
 |[getBoundingBoxes.js][getBoundingBoxes]|Get information to to visualize outlines of form content and field.|
 |[differentiateLabeledUnlabeled.js][differentiateLabeledUnlabeled]|See the differences in output when using a custom model trained with labeled data and one trained with unlabeled data|
+|[copyModel.js][copyModel]|Copy a custom model from one Form Recognizer resource to another|
 
 ## Prerequisites
 
@@ -66,6 +67,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [iteratorModels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/iteratorModels.js
 [getBoundingBoxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/getBoundingBoxes.js
 [differentiateLabeledUnlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/differentiateLabeledUnlabeled.js
+[copyModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/copyModel.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/

@@ -106,7 +106,7 @@
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
     "events": "^3.0.0",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/identity": "^1.1.0-preview",
@@ -119,7 +119,7 @@
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "assert": "^1.4.1",
-    "cross-env": "^6.0.3",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
     "es6-promise": "^4.2.5",
@@ -147,18 +147,18 @@
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
-    "puppeteer": "^2.0.0",
+    "puppeteer": "^3.3.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "@rollup/plugin-commonjs": "11.0.2",
-    "@rollup/plugin-node-resolve": "^7.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^3.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
-    "typescript": "~3.8.3",
+    "typescript": "~3.9.3",
     "util": "^0.12.1"
   }
 }

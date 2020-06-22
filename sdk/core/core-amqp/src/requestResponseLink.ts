@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import {
-  Session,
-  Connection,
-  Sender,
-  Receiver,
-  Message as AmqpMessage,
-  EventContext,
   AmqpError,
-  SenderOptions,
-  ReceiverOptions,
+  Message as AmqpMessage,
+  Connection,
+  EventContext,
+  Receiver,
   ReceiverEvents,
-  ReqResLink
+  ReceiverOptions,
+  ReqResLink,
+  Sender,
+  SenderOptions,
+  Session
 } from "rhea-promise";
-import { translate, ConditionStatusMapper } from "./errors";
-import { logger, logErrorStackTrace } from "./log";
+import { ConditionStatusMapper, translate } from "./errors";
+import { logErrorStackTrace, logger } from "./log";
 
 /**
  * Describes the options that can be specified while sending a request.
@@ -171,10 +171,10 @@ export class RequestResponseLink implements ReqResLink {
 
         // remove the event listeners as they will be registered next time when someone makes a request.
         this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+        if (!timeOver) {
+          clearTimeout(waitTimer);
+        }
         if (info.statusCode > 199 && info.statusCode < 300) {
-          if (!timeOver) {
-            clearTimeout(waitTimer);
-          }
           logger.verbose(
             "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
             this.connection.id,

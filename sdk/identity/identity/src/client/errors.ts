@@ -64,6 +64,13 @@ function isErrorResponse(errorResponse: any): errorResponse is OAuthErrorRespons
 }
 
 /**
+ * This signifies that the credential that was tried in a chained credential
+ * was not available to be used as the credential. Rather than treating this as
+ * an error that should halt the chain, it's caught and the chain continues
+ */
+export class CredentialUnavailable extends Error {}
+
+/**
  * The Error.name value of an AuthenticationError
  */
 export const AuthenticationErrorName = "AuthenticationError";
@@ -119,11 +126,7 @@ export class AuthenticationError extends Error {
     }
 
     super(
-      `An error was returned while authenticating to Azure Active Directory (status code ${statusCode}).\n\nMore details:\n\n${JSON.stringify(
-        errorResponse,
-        null,
-        "  "
-      )}`
+      `${errorResponse.error}(status code ${statusCode}).\nMore details:\n${errorResponse.errorDescription}`
     );
     this.statusCode = statusCode;
     this.errorResponse = errorResponse;
@@ -149,10 +152,11 @@ export class AggregateAuthenticationError extends Error {
    */
   public errors: any[];
 
-  constructor(errors: any[]) {
-    super(
-      `Authentication failed to complete due to the following errors:\n\n${errors.join("\n\n")}`
-    );
+  constructor(errors: any[], errMsg?: string) {
+    let errorDetail =
+      errors
+        .join("\n");
+    super(`${errMsg}\n\n${errorDetail}`);
     this.errors = errors;
 
     // Ensure that this type reports the correct name

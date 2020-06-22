@@ -4,7 +4,7 @@
 import chai from "chai";
 chai.should();
 
-import { fromAmqpMessage, toAmqpMessage, EventData } from "../src/eventData";
+import { EventData, fromAmqpMessage, toAmqpMessage } from "../src/eventData";
 import { Message } from "rhea-promise";
 
 const testAnnotations = {

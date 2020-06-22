@@ -4,7 +4,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpHeaders, WebResource, ServiceClientCredentials } from "@azure/core-http";
+import { AccessToken, SharedKeyCredential } from "@azure/core-amqp";
+import { HttpHeaders, ServiceClientCredentials, WebResource } from "@azure/core-http";
 import { generateKey } from "./crypto";
 
 /**
@@ -16,7 +17,7 @@ import { generateKey } from "./crypto";
 export class SasServiceClientCredentials implements ServiceClientCredentials {
   keyName: string;
   keyValue: string;
-
+  private sharedKeyCredential: SharedKeyCredential;
   /**
    * Creates a new sasServiceClientCredentials object.
    *
@@ -27,6 +28,7 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
   constructor(sharedAccessKeyName: string, sharedAccessKey: string) {
     this.keyName = sharedAccessKeyName;
     this.keyValue = sharedAccessKey;
+    this.sharedKeyCredential = new SharedKeyCredential(this.keyName, this.keyValue);
   }
 
   private async _generateSignature(targetUri: string, expirationDate: number): Promise<string> {
@@ -56,5 +58,9 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
     );
     webResource.withCredentials = true;
     return webResource;
+  }
+
+  getToken(audience: string): AccessToken {
+    return this.sharedKeyCredential.getToken(audience);
   }
 }

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
@@ -5,13 +8,12 @@ import chai from "chai";
 const assert = chai.assert;
 import chaiAsPromised from "chai-as-promised";
 import { delay } from "../src";
-import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
+import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { defaultLock } from "@azure/core-amqp";
 import { TestClientType } from "./utils/testUtils";
 import { SenderImpl } from "../src/sender";
 import { AbortController } from "@azure/abort-controller";
 
-const should = chai.should();
 chai.use(chaiAsPromised);
 
 describe("controlled connection initialization", () => {
@@ -34,7 +36,7 @@ describe("controlled connection initialization", () => {
 
     // casting because I need access to 'open' and the return type of createSender() is an
     // interface.
-    sender = (await serviceBusClient.createSender(queue!)) as SenderImpl;
+    sender = serviceBusClient.createSender(queue!) as SenderImpl;
     senderEntityPath = queue!;
   });
 
@@ -44,12 +46,9 @@ describe("controlled connection initialization", () => {
     await serviceBusClient.test.after();
   });
 
-  it("createSender() is no longer lazy", async () => {
-    assert.isTrue(sender["_context"].sender?.isOpen());
-    await checkThatInitializationDoesntReoccur(sender);
-  });
-
   it("open() early exits if the connection is already open (avoid taking unnecessary lock)", async () => {
+    await sender.open();
+
     // open uses a lock (at the sender level) that helps us not to have overlapping open() calls.
     await defaultLock.acquire(sender["_context"]!.sender!["openLock"], async () => {
       // the connection is _already_ open so it doesn't attempt to take a lock
@@ -122,42 +121,4 @@ describe("controlled connection initialization", () => {
 function delayThatReturns999(): Promise<void> | Promise<number> {
   const ac = new AbortController();
   return delay(1000, ac.signal, "ignored", 999);
-}
-
-/**
- * Checks that calling open() on the sender at this point doesn't reopen it
- * NOTE: this does change the underlying sender so you won't be able to use it
- * again afterwards.
- */
-async function checkThatInitializationDoesntReoccur(sender: SenderImpl) {
-  // make sure the private details haven't shifted out from underneath me.
-  should.exist(sender["_context"].sender!["_negotiateClaim"]);
-  assert.isTrue(sender["_context"].sender!["isOpen"](), "The connection is actually open()");
-
-  // stub out the `MessageSender` methods that handle initializing the
-  // connection - now that everything is up we should always see that it
-  // takes the "early exit" path when it sees that the connection is open
-  let negotiateClaimWasCalled = false;
-
-  // now we'll just fake the rest
-  let isOpenWasCalled = false;
-
-  sender["_context"].sender!["isOpen"] = () => {
-    isOpenWasCalled = true;
-    return true;
-  };
-
-  sender["_context"].sender!["_negotiateClaim"] = async () => {
-    negotiateClaimWasCalled = true;
-  };
-
-  await sender.send({
-    body: "sending another message just to prove the connection checks work"
-  });
-
-  assert.isTrue(isOpenWasCalled, "we should have checked that the connection was open");
-  assert.isFalse(
-    negotiateClaimWasCalled,
-    "we should NOT have tried to _negotiateClaim since the connection was open"
-  );
 }
