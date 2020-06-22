@@ -12,7 +12,7 @@ urlFragment: keyvault-keys-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                                | **Description**                                                    |
+| **File Name**                                 | **Description**                                                     |
 | -------------------------------               | ----------------------------------------------------------------    |
 | [cryptography.ts][cryptography]               | uses a key ID to sign/verify, encrypt/decrypt, and wrap/unwrap data |
 | [cryptographyFromKey.ts][cryptographyFromKey] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data    |
