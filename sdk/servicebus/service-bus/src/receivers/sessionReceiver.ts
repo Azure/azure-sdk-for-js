@@ -31,7 +31,14 @@ import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
+import {
+  Constants,
+  RetryConfig,
+  RetryOperationType,
+  RetryOptions,
+  retry,
+  MessagingError
+} from "@azure/core-amqp";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 
@@ -254,7 +261,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   async renewSessionLock(options?: OperationOptions): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     if (!this._messageSession) {
-      throw new Error("Cannot renew the session lock on a non-existing message session.");
+      const error = new MessagingError(
+        `The session lock has expired on the session with id ${this.sessionId}.`
+      );
+      error.code = "SessionLockLostError";
+      error.retryable = false;
+      throw error;
     }
     const renewSessionLockOperationPromise = async () => {
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
