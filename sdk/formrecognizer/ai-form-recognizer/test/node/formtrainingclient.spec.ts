@@ -45,8 +45,7 @@ describe("FormTrainingClient NodeJS only", () => {
     const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
     const poller = await trainingClient.beginTraining(containerSasUrl, false);
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
@@ -68,8 +67,7 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, true);
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
@@ -97,8 +95,7 @@ describe("FormTrainingClient NodeJS only", () => {
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
       includeSubFolders: true
     });
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
@@ -119,8 +116,7 @@ describe("FormTrainingClient NodeJS only", () => {
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
       prefix: "Form_"
     });
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
@@ -208,8 +204,7 @@ describe("FormTrainingClient NodeJS only", () => {
 
     assert.ok(labeledModelId, "Expecting valide model id in source");
     const poller = await trainingClient.beginCopyModel(labeledModelId!, targetAuth);
-    await poller.pollUntilDone();
-    const result = poller.getResult();
+    const result = await poller.pollUntilDone();
 
     assert.ok(result, "Expecting valid copy result");
     assert.equal(result?.modelId, targetAuth.modelId, "Expecting matching model ids");
@@ -243,8 +238,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       stream,
       "image/jpeg"
     );
-    await poller.pollUntilDone();
-    const forms = poller.getResult();
+    const forms = await poller.pollUntilDone();
 
     assert.ok(
       forms && forms.length > 0,
@@ -269,8 +263,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
-    await poller.pollUntilDone();
-    const forms = poller.getResult();
+    const forms = await poller.pollUntilDone();
 
     assert.ok(
       forms && forms.length > 0,
@@ -298,8 +291,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       stream,
       "image/jpeg"
     );
-    await poller.pollUntilDone();
-    const forms = poller.getResult();
+    const forms = await poller.pollUntilDone();
 
     assert.ok(
       forms && forms.length > 0,
@@ -326,8 +318,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
 
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
-    await poller.pollUntilDone();
-    const forms = poller.getResult();
+    const forms = await poller.pollUntilDone();
 
     assert.ok(
       forms && forms.length > 0,
@@ -354,8 +345,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
 
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
-    await poller.pollUntilDone();
-    const forms = poller.getResult();
+    const forms = await poller.pollUntilDone();
 
     assert.ok(
       forms && forms.length > 0,

@@ -50,16 +50,6 @@ export const domainTopicName: msRest.OperationURLParameter = {
     }
   }
 };
-export const eventChannelName: msRest.OperationURLParameter = {
-  parameterPath: "eventChannelName",
-  mapper: {
-    required: true,
-    serializedName: "eventChannelName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const eventSubscriptionName: msRest.OperationURLParameter = {
   parameterPath: "eventSubscriptionName",
   mapper: {
@@ -118,36 +108,6 @@ export const parentType: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "parentType",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const partnerNamespaceName: msRest.OperationURLParameter = {
-  parameterPath: "partnerNamespaceName",
-  mapper: {
-    required: true,
-    serializedName: "partnerNamespaceName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const partnerRegistrationName: msRest.OperationURLParameter = {
-  parameterPath: "partnerRegistrationName",
-  mapper: {
-    required: true,
-    serializedName: "partnerRegistrationName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const partnerTopicName: msRest.OperationURLParameter = {
-  parameterPath: "partnerTopicName",
-  mapper: {
-    required: true,
-    serializedName: "partnerTopicName",
     type: {
       name: "String"
     }
@@ -213,7 +173,7 @@ export const resourceTypeName: msRest.OperationURLParameter = {
     }
   }
 };
-export const scope0: msRest.OperationURLParameter = {
+export const scope: msRest.OperationURLParameter = {
   parameterPath: "scope",
   mapper: {
     required: true,
@@ -224,31 +184,11 @@ export const scope0: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const scope1: msRest.OperationURLParameter = {
-  parameterPath: "scope",
-  mapper: {
-    required: true,
-    serializedName: "scope",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
     serializedName: "subscriptionId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const systemTopicName: msRest.OperationURLParameter = {
-  parameterPath: "systemTopicName",
-  mapper: {
-    required: true,
-    serializedName: "systemTopicName",
     type: {
       name: "String"
     }

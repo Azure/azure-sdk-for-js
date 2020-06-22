@@ -5,7 +5,7 @@ import {
   TextDocumentBatchStatistics,
   DocumentError,
   DocumentEntities,
-  MultiLanguageInput
+  TextDocumentInput
 } from "./generated/models";
 import {
   RecognizeCategorizedEntitiesResult,
@@ -34,7 +34,7 @@ export interface RecognizeCategorizedEntitiesResultArray
 }
 
 export function makeRecognizeCategorizedEntitiesResultArray(
-  input: MultiLanguageInput[],
+  input: TextDocumentInput[],
   documents: DocumentEntities[],
   errors: DocumentError[],
   modelVersion: string,

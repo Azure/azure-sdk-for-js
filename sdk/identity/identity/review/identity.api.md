@@ -13,7 +13,7 @@ export { AccessToken }
 
 // @public
 export class AggregateAuthenticationError extends Error {
-    constructor(errors: any[]);
+    constructor(errors: any[], errMsg?: string);
     errors: any[];
 }
 
@@ -51,7 +51,8 @@ export type BrowserLoginStyle = "redirect" | "popup";
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-    }
+    protected UnavailableMessage: string;
+}
 
 // @public
 export class ClientCertificateCredential implements TokenCredential {
@@ -64,6 +65,10 @@ export class ClientSecretCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, clientSecret: string, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export class CredentialUnavailable extends Error {
+}
 
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {

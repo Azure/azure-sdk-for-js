@@ -53,29 +53,6 @@ export class XhrHttpsClient implements HttpsClient {
     addProgressListener(xhr.upload, request.onUploadProgress);
     addProgressListener(xhr, request.onDownloadProgress);
 
-    if (request.formData) {
-      const formData = request.formData;
-      const requestForm = new FormData();
-      for (const formKey of Object.keys(formData)) {
-        const formValue = formData[formKey];
-        if (Array.isArray(formValue)) {
-          for (const subValue of formValue) {
-            requestForm.append(formKey, subValue);
-          }
-        } else {
-          requestForm.append(formKey, formValue);
-        }
-      }
-
-      request.body = requestForm;
-      request.formData = undefined;
-      const contentType = request.headers.get("Content-Type");
-      if (contentType && contentType.indexOf("multipart/form-data") !== -1) {
-        // browser will automatically apply a suitable content-type header
-        request.headers.delete("Content-Type");
-      }
-    }
-
     xhr.open(request.method, request.url);
     xhr.timeout = request.timeout;
     xhr.withCredentials = request.withCredentials;

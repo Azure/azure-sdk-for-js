@@ -19,7 +19,8 @@ import {
   getRawAuthorizationRules,
   getString,
   getStringOrUndefined,
-  MessageCountDetails
+  MessageCountDetails,
+  getDate
 } from "../util/utils";
 
 /**
@@ -118,9 +119,9 @@ export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
-    createdOn: rawQueue[Constants.CREATED_AT],
-    updatedOn: rawQueue[Constants.UPDATED_AT],
-    accessedOn: rawQueue[Constants.ACCESSED_AT]
+    createdOn: getDate(rawQueue[Constants.CREATED_AT], "createdOn"),
+    updatedOn: getDate(rawQueue[Constants.UPDATED_AT], "updatedOn"),
+    accessedOn: getDate(rawQueue[Constants.ACCESSED_AT], "accessedOn")
   };
 }
 
@@ -378,17 +379,17 @@ export interface QueueRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdOn?: string;
+  createdOn: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedOn?: string;
+  updatedOn: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedOn?: string;
+  accessedOn: Date;
 
   /**
    * The entity's message count.

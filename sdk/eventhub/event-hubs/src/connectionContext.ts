@@ -4,7 +4,7 @@
 /* eslint-disable @azure/azure-sdk/ts-no-namespaces */
 /* eslint-disable no-inner-declarations */
 
-import { logger } from "./log";
+import { logger, logErrorStackTrace } from "./log";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { packageJsonInfo } from "./util/constants";
 import { EventHubReceiver } from "./eventHubReceiver";
@@ -61,6 +61,10 @@ export interface ConnectionContext extends ConnectionContextBase {
    * is in the process of closing or disconnecting.
    */
   readyToOpenLink(): Promise<void>;
+  /**
+   * Closes all AMQP links, sessions and connection.
+   */
+  close(): Promise<void>;
 }
 
 /**
@@ -214,6 +218,34 @@ export namespace ConnectionContext {
           return waitForDisconnectPromise;
         }
         return Promise.resolve();
+      },
+      async close() {
+        try {
+          if (this.connection.isOpen()) {
+            // Close all the senders.
+            for (const senderName of Object.keys(this.senders)) {
+              await this.senders[senderName].close();
+            }
+            // Close all the receivers.
+            for (const receiverName of Object.keys(this.receivers)) {
+              await this.receivers[receiverName].close();
+            }
+            // Close the cbs session;
+            await this.cbsSession.close();
+            // Close the management session
+            await this.managementSession!.close();
+            await this.connection.close();
+            this.wasConnectionCloseCalled = true;
+            logger.info("Closed the amqp connection '%s' on the client.", this.connectionId);
+          }
+        } catch (err) {
+          err = err instanceof Error ? err : JSON.stringify(err);
+          logger.warning(
+            `An error occurred while closing the connection "${this.connectionId}":\n${err}`
+          );
+          logErrorStackTrace(err);
+          throw err;
+        }
       }
     });
 

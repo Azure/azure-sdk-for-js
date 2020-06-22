@@ -1,7 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest, PipelineResponse, HttpsClient, SendRequest } from "./interfaces";
+import {
+  PipelineRequest,
+  PipelineResponse,
+  HttpsClient,
+  SendRequest,
+  ProxySettings
+} from "./interfaces";
+import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
+import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
+import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
+import { KeepAlivePolicyOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
+import {
+  ExponentialRetryPolicyOptions,
+  exponentialRetryPolicy
+} from "./policies/exponentialRetryPolicy";
+import { tracingPolicy } from "./policies/tracingPolicy";
+import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
+import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
+import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+import { proxyPolicy } from "./policies/proxyPolicy";
+import { isNode } from "./util/helpers";
+import { formDataPolicy } from "./policies/formDataPolicy";
 
 /**
  * Policies are executed in phases.
@@ -342,4 +364,101 @@ class HttpsPipeline implements Pipeline {
  */
 export function createEmptyPipeline(): Pipeline {
   return HttpsPipeline.create();
+}
+
+/**
+ * Options that allow configuring redirect behavior.
+ */
+export interface PipelineRedirectOptions extends RedirectPolicyOptions {
+  /**
+   * If true, disables automatic following of redirects.
+   */
+  disable?: boolean;
+}
+
+/**
+ * Defines options that are used to configure the HTTP pipeline for
+ * an SDK client.
+ */
+export interface PipelineOptions {
+  /**
+   * The HttpsClient implementation to use for outgoing HTTP requests.
+   * Defaults to DefaultHttpsClient.
+   */
+  httpsClient?: HttpsClient;
+
+  /**
+   * Options that control how to retry failed requests.
+   */
+  retryOptions?: ExponentialRetryPolicyOptions;
+
+  /**
+   * Options to configure a proxy for outgoing requests.
+   */
+  proxyOptions?: ProxySettings;
+
+  /**
+   * Options for how HTTP connections should be maintained for future
+   * requests.
+   */
+  keepAliveOptions?: KeepAlivePolicyOptions;
+
+  /**
+   * Options for how redirect responses are handled.
+   */
+  redirectOptions?: PipelineRedirectOptions;
+
+  /**
+   * Options for adding user agent details to outgoing requests.
+   */
+  userAgentOptions?: UserAgentPolicyOptions;
+}
+
+/**
+ * Defines options that are used to configure internal options of
+ * the HTTP pipeline for an SDK client.
+ */
+export interface InternalPipelineOptions extends PipelineOptions {
+  /**
+   * Options to configure request/response logging.
+   */
+  loggingOptions?: LogPolicyOptions;
+
+  /**
+   * Configure whether to decompress response according to Accept-Encoding header (node-fetch only)
+   */
+  decompressResponse?: boolean;
+}
+
+/**
+ * Create a new pipeline with a default set of customizable policies.
+ * @param options Options to configure a custom pipeline.
+ */
+export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
+  const pipeline = HttpsPipeline.create();
+
+  if (isNode) {
+    pipeline.addPolicy(proxyPolicy(options.proxyOptions));
+
+    if (options.decompressResponse === false) {
+      pipeline.addPolicy(disableResponseDecompressionPolicy());
+    }
+  }
+
+  pipeline.addPolicy(formDataPolicy());
+  pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
+  pipeline.addPolicy(keepAlivePolicy(options.keepAliveOptions));
+  pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
+  pipeline.addPolicy(setClientRequestIdPolicy());
+  pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
+  pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
+  pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
+
+  if (!options.redirectOptions?.disable) {
+    pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
+  }
+
+  pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
+
+  return pipeline;
 }

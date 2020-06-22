@@ -227,6 +227,16 @@ export const privateEndpointConnectionName: msRest.OperationURLParameter = {
     }
   }
 };
+export const privateLinkHubName: msRest.OperationURLParameter = {
+  parameterPath: "privateLinkHubName",
+  mapper: {
+    required: true,
+    serializedName: "privateLinkHubName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const privateLinkResourceName: msRest.OperationURLParameter = {
   parameterPath: "privateLinkResourceName",
   mapper: {

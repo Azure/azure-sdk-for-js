@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { SecretClient, DeletedSecret } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
 import { env, Recorder } from "@azure/test-utils-recorder";
+import { PollerStoppedError } from "@azure/core-lro";
+
+import { SecretClient, DeletedSecret } from "../../src";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { PollerStoppedError } from "@azure/core-lro";
-import { assertThrowsAbortError } from "../utils/utils.common";
 
 describe("Secrets client - Long Running Operations - delete", () => {
   const secretPrefix = `recover${env.CERTIFICATE_NAME || "SecretName"}`;

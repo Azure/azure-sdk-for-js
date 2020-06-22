@@ -32,8 +32,7 @@ async function main() {
       console.log(`status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const forms = poller.getResult();
+  const forms = await poller.pollUntilDone();
 
   console.log("Forms:");
   let i = 0;

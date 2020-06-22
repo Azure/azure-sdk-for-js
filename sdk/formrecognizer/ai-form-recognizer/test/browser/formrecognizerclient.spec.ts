@@ -27,8 +27,7 @@ describe("FormRecognizerClient browser only", () => {
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
     const poller = await client.beginRecognizeContentFromUrl(url);
-    await poller.pollUntilDone();
-    const pages = poller.getResult();
+    const pages = await poller.pollUntilDone();
 
     assert.ok(
       pages && pages.length > 0,
@@ -42,15 +41,14 @@ describe("FormRecognizerClient browser only", () => {
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
     const poller = await client.beginRecognizeReceiptsFromUrl(url);
-    await poller.pollUntilDone();
-    const receipts = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
     assert.ok(
       receipts && receipts.length > 0,
       `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = receipts![0];
-    assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
+    const receipt = receipts![0];
+    assert.equal(receipt.recognizedForm.formType, "prebuilt:receipt");
   });
 
   it("recognizes receipt from a Blob", async () => {
@@ -69,14 +67,13 @@ describe("FormRecognizerClient browser only", () => {
 
     assert.ok(data, "Expect valid Blob data to use as input");
     const poller = await client.beginRecognizeReceipts(data!);
-    await poller.pollUntilDone();
-    const receipts = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
     assert.ok(
       receipts && receipts.length > 0,
       `Expect no-empty pages but got ${receipts}`
     );
-    const usReceipt = receipts![0];
-    assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
+    const receipt = receipts![0];
+    assert.equal(receipt.recognizedForm.formType, "prebuilt:receipt");
   });
 }).timeout(60000);

@@ -171,10 +171,10 @@ export class RequestResponseLink implements ReqResLink {
 
         // remove the event listeners as they will be registered next time when someone makes a request.
         this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+        if (!timeOver) {
+          clearTimeout(waitTimer);
+        }
         if (info.statusCode > 199 && info.statusCode < 300) {
-          if (!timeOver) {
-            clearTimeout(waitTimer);
-          }
           logger.verbose(
             "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
             this.connection.id,

@@ -152,7 +152,7 @@ export interface FormTableCell {
    */
   confidence: number;
   /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting this table cell.
+   * When includeTextContent is set to true, a list of references to the text elements constituting this table cell.
    */
   textContent?: FormContent[];
   /**
@@ -208,7 +208,7 @@ export interface FieldText {
    */
   boundingBox?: Point2D[];
   /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting this name or value.
+   * When includeTextContent is set to true, a list of references to the text elements constituting this name or value.
    */
   textContent?: FormContent[];
   /**
@@ -221,7 +221,7 @@ export interface FieldText {
  * Represents recognized text elements in label-value pairs.
  * For example, "Address": "One Microsoft Way, Redmond, WA"
  */
-export interface FormField {
+export type FormField = {
   /**
    * Confidence value.
    */
@@ -238,15 +238,16 @@ export interface FormField {
    * Text of the recognized value of the field.
    */
   valueText?: FieldText;
-  /**
-   * Value of the field.
-   */
-  value?: FieldValueTypes;
-  /**
-   * Data type of the value property
-   */
-  valueType?: ValueTypes;
-}
+} & (
+  | { value?: string, valueType?: "string" }
+  | { value?: number, valueType?: "number" }
+  | { value?: Date, valueType?: "date" }
+  | { value?: string, valueType?: "time" }
+  | { value?: string, valueType?: "phoneNumber" }
+  | { value?: number, valueType?: "integer" }
+  | { value?: FormField[], valueType?: "array" }
+  | { value?: { [propertyName: string]: FormField }, valueType?: "object" }
+)
 
 /**
  * Represents a Form page range
@@ -293,7 +294,7 @@ export interface FormPage {
    */
   // language?: Language;
   /**
-   * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of
+   * When includeTextContent is set to true, a list of recognized text lines. The maximum number of
    * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
    * certain cases proximity is treated with higher priority. As the sorting order depends on the
    * detected text, it may change across images and OCR version updates. Thus, business logic
@@ -355,7 +356,7 @@ export interface CommonFieldValue {
    */
   confidence?: number;
   /**
-   * When includeTextDetails is set to true, a list of references to the text elements constituting
+   * When includeTextContent is set to true, a list of references to the text elements constituting
    * this field.
    */
   textContent?: FormContent[];
@@ -366,226 +367,14 @@ export interface CommonFieldValue {
 }
 
 /**
- * Possible JavaScript types for a field value.
- */
-export type FieldValueTypes =
-  | string
-  | Date
-  | number
-  | FieldValue[]
-  | { [propertyName: string]: FieldValue };
-
-/**
- * Types of a form field.
- */
-export type ValueTypes =
-  | "string"
-  | "date"
-  | "time"
-  | "phoneNumber"
-  | "number"
-  | "integer"
-  | "array"
-  | "object";
-
-/**
- * Represents a field of string value.
- */
-export type StringFieldValue = {
-  type: "string";
-  value?: string;
-} & CommonFieldValue;
-
-/**
- * Represents a date field
- */
-export type DateFieldValue = {
-  type: "date";
-  value?: Date;
-} & CommonFieldValue;
-
-/**
- * Represent a time field
- */
-export type TimeFieldValue = {
-  type: "time";
-  value?: string;
-} & CommonFieldValue;
-
-/**
- * Represents a phone number field
- */
-export type PhoneNumberFieldValue = {
-  type: "phoneNumber";
-  value?: string;
-} & CommonFieldValue;
-
-/**
- * Represents a number field
- */
-export type NumberFieldValue = {
-  type: "number";
-  value?: number;
-} & CommonFieldValue;
-
-/**
- * Represents an integer field
- */
-export type IntegerFieldValue = {
-  type: "integer";
-  value?: number;
-} & CommonFieldValue;
-
-/**
- * Represents a special field that contains an array of fields
- */
-export interface ArrayFieldValue {
-  type: "array";
-  value?: FieldValue[];
-}
-
-/**
- * Represents a special field that contains other fields as its properties
- */
-export interface ObjectFieldValue {
-  type: "object";
-  value?: { [propertyName: string]: FieldValue };
-}
-
-/**
- * Union type of all field types
- */
-export type FieldValue =
-  | StringFieldValue
-  | DateFieldValue
-  | TimeFieldValue
-  | PhoneNumberFieldValue
-  | NumberFieldValue
-  | IntegerFieldValue
-  | ArrayFieldValue
-  | ObjectFieldValue;
-
-/**
- * Represents an recognized item field in a receipt.
- */
-export type ReceiptItemField = {
-  type: "object";
-  value: {
-    Name?: StringFieldValue;
-    Quantity?: NumberFieldValue;
-    Price?: NumberFieldValue;
-    TotalPrice?: NumberFieldValue;
-  };
-} & CommonFieldValue;
-
-/**
- * Represents a list of recognized receipt items in a receipt.
- */
-export interface ReceiptItemArrayField {
-  type: "array";
-  value: ReceiptItemField[];
-}
-
-/**
- * Represents a line item in a receipt.
- */
-export interface USReceiptItem {
-  /**
-   * Name of the receipt item
-   */
-  name?: FormField;
-  /**
-   * Price of the receipt item
-   */
-  price?: FormField;
-  /**
-   * Quantity of the receipt item
-   */
-  quantity?: FormField;
-  /**
-   * Total price of the receipt item
-   */
-  totalPrice?: FormField;
-}
-
-/**
- * Different types of US receipts.
- */
-export type USReceiptType = {
-  type: "Unrecognized" | "Itemized" | "CreditCard" | "Gas" | "Parking";
-  /**
-   * Confidence value.
-   */
-  confidence?: number;
-};
-
-/**
- * United States receipt
- */
-export interface USReceipt {
-  /**
-   * Receipt type field
-   */
-  receiptType: USReceiptType;
-  /**
-   * Merchant name field
-   */
-  merchantName: FormField;
-  /**
-   * Merchant phone number field
-   */
-  merchantPhoneNumber: FormField;
-  /**
-   * Merchant address field
-   */
-  merchantAddress: FormField;
-  /**
-   * Receipt item list field
-   */
-  items: USReceiptItem[];
-  /**
-   * Subtotal field
-   */
-  subtotal: FormField;
-  /**
-   * Tax field
-   */
-  tax: FormField;
-  /**
-   * Tip field
-   */
-  tip: FormField;
-  /**
-   * Total field
-   */
-  total: FormField;
-  /**
-   * Transaction date field
-   */
-  transactionDate: FormField;
-  /**
-   * Transaction time field
-   */
-  transactionTime: FormField;
-}
-
-/**
  * Recognized Receipt
  */
 export type RecognizedReceipt = {
   /**
-   * Locale of the receipt
-   */
-  locale: string;
-  /**
    * Recognized form
    */
   recognizedForm: RecognizedForm;
-} & (
-  | { locale: "US" } & USReceipt
-//  | { locale: "UK" } & UKReceipt
-// ...
-)
+}
 
 /*
  * Array of {@link RecognizedReceipt}
