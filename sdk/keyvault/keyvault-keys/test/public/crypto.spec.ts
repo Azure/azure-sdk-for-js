@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
-import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
+import { isRecordMode, Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
@@ -15,6 +15,7 @@ import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
+  const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
   let client: KeyClient;
   let testClient: TestClient;
   let cryptoClient: CryptographyClient;
@@ -80,6 +81,18 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
       const encrypted = publicEncrypt(keyPEM, Buffer.from(text));
       const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encrypted);
+      const decryptedText = uint8ArrayToString(decryptResult.result);
+      assert.equal(text, decryptedText);
+    });
+
+    it("the CryptographyClient can be created from a full KeyVaultKey object", async function() {
+      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      const keyVaultKey = await client.createKey(keyName, "RSA");
+      const cryptoClient = new CryptographyClient(keyVaultKey, credential);
+  
+      const text = this.test!.title;      
+      const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
+      const decryptResult = await cryptoClient.decrypt("RSA1_5", encryptResult.result);
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
     });

@@ -12,11 +12,12 @@ urlFragment: keyvault-keys-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                   | **Description**                                                  |
-| ------------------------------- | ---------------------------------------------------------------- |
-| [cryptography.ts][cryptography] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data |
-| [helloWorld.ts][helloworld]     | creates, reads, lists, and deletes keys                          |
-| [purgeAllKeys.ts][purgeAllKeys] | purges all the keys of a Key Vault (useful for repeated tests)    |
+| **File Name**                                | **Description**                                                    |
+| -------------------------------               | ----------------------------------------------------------------    |
+| [cryptography.ts][cryptography]               | uses a key ID to sign/verify, encrypt/decrypt, and wrap/unwrap data |
+| [cryptographyFromKey.ts][cryptographyFromKey] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data    |
+| [helloWorld.ts][helloworld]                   | creates, reads, lists, and deletes keys                             |
+| [purgeAllKeys.ts][purgeAllKeys]               | purges all the keys of a Key Vault (useful for repeated tests)      |
 
 ## Prerequisites
 
@@ -73,6 +74,7 @@ npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>"
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [cryptography]: ./src/cryptography.ts
+[cryptographyFromKey]: ./src/cryptographyFromKey.ts
 [helloworld]: ./src/helloWorld.ts
 [purgeAllKeys]: ./src/purgeAllKeys.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys

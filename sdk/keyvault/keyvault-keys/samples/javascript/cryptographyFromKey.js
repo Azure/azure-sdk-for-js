@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHash } from "crypto";
+const crypto = require("crypto");
 
-import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
-import { DefaultAzureCredential } from "@azure/identity";
+const { KeyClient, CryptographyClient } = require("@azure/keyvault-keys");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main(): Promise<void> {
+export async function main() {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
@@ -29,8 +28,8 @@ export async function main(): Promise<void> {
   // Connection to Azure Key Vault Cryptography functionality
   const myWorkKey = await client.createKey(keyName, "RSA");
 
-  // Creating a CryptographyClient from the identifier (or URL) of a KeyVaultKey
-  const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
+  // Creating a CryptographyClient from a full KeyVaultKey
+  const cryptoClient = new CryptographyClient(myWorkKey, credential);
 
   // Sign and Verify
   const signatureValue = "MySignature";
