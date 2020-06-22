@@ -5,14 +5,6 @@
 ```ts
 
 // @public (undocumented)
-export interface Foo {
-    // (undocumented)
-    bar: number;
-    // (undocumented)
-    test: string;
-}
-
-// @public (undocumented)
 export function helloWorld(): string;
 
 

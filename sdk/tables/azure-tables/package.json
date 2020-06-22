@@ -5,10 +5,6 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {
-    "stream": "./node_modules/stream-browserify/index.js",
-    "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
-  },
   "types": "types/tables.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -63,7 +59,6 @@
   "dependencies": {
     "@azure/core-http": "^1.1.1",
     "@opentelemetry/api": "^0.6.1",
-    "events": "^3.0.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
@@ -73,12 +68,13 @@
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-replace": "^2.2.0",
+    "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "assert": "^1.4.1",
+    "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
@@ -106,8 +102,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "~3.9.3",
-    "util": "^0.12.1",
-    "chai": "^4.2.0",
-    "@types/chai": "^4.1.6"
+    "util": "^0.12.1"   
   }
 }
