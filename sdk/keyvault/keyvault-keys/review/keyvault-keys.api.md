@@ -223,6 +223,16 @@ export interface KeyVaultKey {
 }
 
 // @public
+export class KeyVaultKeysIdentifier implements ParsedKeyVaultKeysIdentifier {
+    constructor(url: string);
+    collection: "keys";
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
@@ -243,6 +253,15 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export interface ParsedKeyVaultKeysIdentifier {
+    collection: "keys";
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
 
 export { PipelineOptions }
 

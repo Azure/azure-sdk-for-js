@@ -328,6 +328,16 @@ export interface KeyVaultCertificate {
 }
 
 // @public
+export class KeyVaultCertificatesIdentifier implements ParsedKeyVaultCertificatesIdentifier {
+    constructor(url: string);
+    collection: "certificates";
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
     readonly policy?: CertificatePolicy;
 }
@@ -363,6 +373,15 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
+
+// @public
+export interface ParsedKeyVaultCertificatesIdentifier {
+    collection: "certificates";
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
 
 export { PipelineOptions }
 

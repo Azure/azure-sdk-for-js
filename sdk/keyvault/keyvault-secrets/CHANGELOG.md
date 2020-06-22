@@ -4,6 +4,7 @@
 
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
+- Added `KeyVaultSecretsIdentifier` and `ParsedKeyVaultSecretsIdentifier` to help with parsing the unique identifiers of KeyVault Secrets.
 
 ## 4.0.3 (2020-05-13)
 

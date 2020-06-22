@@ -8,6 +8,7 @@
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
 - Fixed [bug 9020](https://github.com/Azure/azure-sdk-for-js/issues/9020), which caused updateCertificateProperties to not properly send the certificate attributes to the service.
+- Added `KeyVaultCertificatesIdentifier` and `ParsedKeyVaultCertificatesIdentifier` to help with parsing the unique identifiers of KeyVault Certificates.
 
 ## 4.0.1 (2020-05-13)
 

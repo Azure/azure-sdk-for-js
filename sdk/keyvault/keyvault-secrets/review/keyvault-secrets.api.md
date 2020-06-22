@@ -55,6 +55,16 @@ export interface KeyVaultSecret {
 }
 
 // @public
+export class KeyVaultSecretsIdentifier implements ParsedKeyVaultSecretsIdentifier {
+    constructor(url: string);
+    collection: "secrets";
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
 }
 
@@ -72,6 +82,15 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export interface ParsedKeyVaultSecretsIdentifier {
+    collection: "secrets";
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
 
 export { PipelineOptions }
 
