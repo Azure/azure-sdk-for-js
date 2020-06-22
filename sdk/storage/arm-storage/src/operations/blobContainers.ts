@@ -826,7 +826,8 @@ const listOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxpagesize,
-    Parameters.filter
+    Parameters.filter,
+    Parameters.include
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1068,7 +1069,8 @@ const createOrUpdateImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlobContainersCreateOrUpdateImmutabilityPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.BlobContainersCreateOrUpdateImmutabilityPolicyHeaders
     }
   },
   serializer
@@ -1097,7 +1099,8 @@ const getImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlobContainersGetImmutabilityPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.BlobContainersGetImmutabilityPolicyHeaders
     }
   },
   serializer
@@ -1126,7 +1129,8 @@ const deleteImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlobContainersDeleteImmutabilityPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.BlobContainersDeleteImmutabilityPolicyHeaders
     }
   },
   serializer
@@ -1154,7 +1158,8 @@ const lockImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlobContainersLockImmutabilityPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.BlobContainersLockImmutabilityPolicyHeaders
     }
   },
   serializer
@@ -1195,7 +1200,8 @@ const extendImmutabilityPolicyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.BlobContainersExtendImmutabilityPolicyHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.BlobContainersExtendImmutabilityPolicyHeaders
     }
   },
   serializer

@@ -75,7 +75,7 @@ export class PrivateEndpointConnections {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * the Azure resource
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsGetResponse>
    */
@@ -87,7 +87,7 @@ export class PrivateEndpointConnections {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * the Azure resource
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
@@ -98,7 +98,7 @@ export class PrivateEndpointConnections {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * the Azure resource
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -123,7 +123,7 @@ export class PrivateEndpointConnections {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * the Azure resource
    * @param properties The private endpoint connection properties.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsPutResponse>
@@ -136,7 +136,7 @@ export class PrivateEndpointConnections {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * the Azure resource
    * @param properties The private endpoint connection properties.
    * @param callback The callback
    */
@@ -148,7 +148,7 @@ export class PrivateEndpointConnections {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * the Azure resource
    * @param properties The private endpoint connection properties.
    * @param options The optional parameters
    * @param callback The callback
@@ -175,7 +175,7 @@ export class PrivateEndpointConnections {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * the Azure resource
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -187,7 +187,7 @@ export class PrivateEndpointConnections {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * the Azure resource
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<void>): void;
@@ -198,7 +198,7 @@ export class PrivateEndpointConnections {
    * account names must be between 3 and 24 characters in length and use numbers and lower-case
    * letters only.
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with
-   * the Storage Account
+   * the Azure resource
    * @param options The optional parameters
    * @param callback The callback
    */
