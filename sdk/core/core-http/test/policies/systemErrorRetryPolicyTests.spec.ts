@@ -31,7 +31,7 @@ describe("SystemErrorRetryPolicy", () => {
           code: this.errorCode,
           name: "RetryError",
           message: `Error message for ${this.errorCode}`
-        }
+        };
         return Promise.reject(error);
       }
 
@@ -88,7 +88,7 @@ describe("SystemErrorRetryPolicy", () => {
       assert.deepEqual(response.request, request);
     });
 
-    [ "ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ECONNRESET", "ENOENT" ].forEach((code) => {
+    ["ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ECONNRESET", "ENOENT"].forEach((code) => {
       it(`should retry if the error code is ${code}`, async () => {
         const request = new WebResource();
         const mockResponse = {
@@ -104,7 +104,8 @@ describe("SystemErrorRetryPolicy", () => {
           3,
           10,
           10,
-          20);
+          20
+        );
 
         const response = await policy.sendRequest(request);
         delete request.requestId;
@@ -122,30 +123,30 @@ describe("SystemErrorRetryPolicy", () => {
         3,
         10,
         10,
-        20);
+        20
+      );
 
       try {
         await policy.sendRequest(request);
         assert.fail("Expecting that an error has been thrown");
-      }
-      catch(err) {
+      } catch (err) {
         assert.equal((err as Error).message, "Error message for NonRetriableError");
       }
     });
 
-    [ "ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ECONNRESET", "ENOENT" ].forEach((code) => {
+    ["ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ECONNRESET", "ENOENT"].forEach((code) => {
       it(`should fail after max retry count for error code ${code}`, async () => {
         class FailEveryRequestPolicy {
           count = 0;
           constructor(private errorCode: string) {}
           public sendRequest(_request: WebResource): Promise<HttpOperationResponse> {
-              const error: RetryError = {
-                code: this.errorCode,
-                name: "RetryError",
-                message: `Error message for ${this.errorCode}`
-              }
-              return Promise.reject(error);
-            }
+            const error: RetryError = {
+              code: this.errorCode,
+              name: "RetryError",
+              message: `Error message for ${this.errorCode}`
+            };
+            return Promise.reject(error);
+          }
         }
         const request = new WebResource();
         const faultyPolicy = new FailEveryRequestPolicy(code);
@@ -155,13 +156,13 @@ describe("SystemErrorRetryPolicy", () => {
           3,
           10,
           10,
-          20);
+          20
+        );
 
         try {
           await policy.sendRequest(request);
           assert.fail("Expecting that an error has been thrown");
-        }
-        catch(err) {
+        } catch (err) {
           assert.equal((err as Error).message, `Error message for ${code}`);
         }
       });

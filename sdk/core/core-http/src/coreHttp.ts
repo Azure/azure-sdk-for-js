@@ -66,7 +66,8 @@ export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
 export { keepAlivePolicy, KeepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
 export {
   DisableResponseDecompressionPolicy,
-  disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+  disableResponseDecompressionPolicy
+} from "./policies/disableResponseDecompressionPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export {
   userAgentPolicy,
@@ -74,7 +75,12 @@ export {
   UserAgentOptions,
   TelemetryInfo
 } from "./policies/userAgentPolicy";
-export { deserializationPolicy, DeserializationOptions, deserializeResponseBody, DeserializationContentTypes } from "./policies/deserializationPolicy";
+export {
+  deserializationPolicy,
+  DeserializationOptions,
+  deserializeResponseBody,
+  DeserializationContentTypes
+} from "./policies/deserializationPolicy";
 export { tracingPolicy, TracingPolicyOptions } from "./policies/tracingPolicy";
 export {
   MapperType,
