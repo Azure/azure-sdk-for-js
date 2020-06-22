@@ -63,6 +63,7 @@
     "nise": "^4.0.3",
     "nock": "^12.0.3",
     "tslib": "^2.0.0",
+    "match-all":"^1.2.5",
     "md5": "^2.2.1"
   },
   "devDependencies": {

@@ -1,15 +1,15 @@
 import {
   generateTestRecordingFilePath,
-  nodeRequireRecordingIfExists,
   isBrowser,
   findRecordingsFolderPath,
-  testHasChanged
+  testHasChanged,
+  getNodeRecordingPath
 } from "../../src/utils";
 import chai from "chai";
 const { expect } = chai;
 
 describe("NodeJS utils", () => {
-  describe("nodeRequireRecordingIfExists", () => {
+  describe("getNodeRecordingPath & require recording", () => {
     it("should be able to load the contents of a recording file if the file exists", function() {
       const mockFs = require("mock-fs");
       const mockRequire = require("mock-require");
@@ -36,7 +36,7 @@ describe("NodeJS utils", () => {
         property: "value"
       });
 
-      expect(nodeRequireRecordingIfExists("recording.json", testAbsolutePath).property).to.equal(
+      expect(require(getNodeRecordingPath("recording.json", testAbsolutePath)).property).to.equal(
         "value"
       );
 
@@ -68,7 +68,7 @@ describe("NodeJS utils", () => {
       let error: Error | undefined;
 
       try {
-        nodeRequireRecordingIfExists("recording.json", testAbsolutePath);
+        require(getNodeRecordingPath("recording.json", testAbsolutePath));
       } catch (e) {
         error = e;
       }

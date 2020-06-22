@@ -14,10 +14,11 @@ import {
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath,
-  nodeRequireRecordingIfExists,
-  windowLens
+  windowLens,
+  getNodeRecordingPath
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
+import { fakeOutDelaysForNewRequests } from "./utils.node";
 
 let nock: any;
 
@@ -133,10 +134,10 @@ export class NockRecorder extends BaseRecorder {
      *
      * [A different strategy is in place to import recordings for browser tests by leveraging `karma` plugins.]
      */
-    this.uniqueTestInfo = nodeRequireRecordingIfExists(
-      this.relativeTestRecordingFilePath,
-      testFilePath
-    ).testInfo;
+    const recordingPath = getNodeRecordingPath(this.relativeTestRecordingFilePath, testFilePath);
+    this.uniqueTestInfo = require(recordingPath).testInfo;
+    // Delay and reply with errors for the new requests with the existing base urls from the current recording
+    fakeOutDelaysForNewRequests(nock, recordingPath);
   }
 
   public stop(): void {

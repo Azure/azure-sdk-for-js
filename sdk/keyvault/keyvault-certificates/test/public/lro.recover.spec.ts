@@ -109,9 +109,9 @@ describe("Certificates client - LRO - recoverDelete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  // On playback mode, the tests happen too fast for the timeout to work
+  // On playback mode, the tests happen too fast for the timeout to work - in browsers only
   it("can recover a deleted certificate with requestOptions timeout", async function() {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );

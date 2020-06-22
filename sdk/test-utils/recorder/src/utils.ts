@@ -412,20 +412,30 @@ export function generateTestRecordingFilePath(
 }
 
 /**
- * Requires a file if it exists. Only works on NodeJS.
+ * Returns the recording path if it exists in the provided path. Only works on NodeJS.
+ *
+ * @export
+ * @param {string} relativePathOfRecording
+ * @param {string} testAbsolutePath
+ * @returns {string}
  */
-export function nodeRequireRecordingIfExists(recordingPath: string, testAbsolutePath: string): any {
-  if (isBrowser()) throw new Error("nodeRequireRecordingIfExists only works on NodeJS");
+export function getNodeRecordingPath(
+  relativePathOfRecording: string,
+  testAbsolutePath: string
+): string {
+  if (isBrowser()) throw new Error("Only works in NodeJS");
   const path = require("path");
 
   // Get the full path of the `recordings` folder by navigating through the hierarchy of the test file path.
   const recordingsFolderPath = findRecordingsFolderPath(testAbsolutePath);
-  const absoluteRecordingPath = path.resolve(recordingsFolderPath, recordingPath);
+  const absoluteRecordingPath = path.resolve(recordingsFolderPath, relativePathOfRecording);
 
   if (fs.existsSync(absoluteRecordingPath)) {
-    return require(absoluteRecordingPath);
+    return absoluteRecordingPath;
   } else {
-    throw new Error(`The recording ${recordingPath} was not found in ${recordingsFolderPath}`);
+    throw new Error(
+      `The recording ${relativePathOfRecording} was not found in ${recordingsFolderPath}`
+    );
   }
 }
 
@@ -443,16 +453,20 @@ export function testHasChanged(
   currentHash: string
 ): boolean {
   const platform = isBrowser() ? "browsers" : "node";
-  const recordingPath: string = generateTestRecordingFilePath(platform, testSuiteTitle, testTitle);
+  const relativePathOfRecording: string = generateTestRecordingFilePath(
+    platform,
+    testSuiteTitle,
+    testTitle
+  );
 
   let previousHash: string = "";
 
   if (platform === "node") {
     try {
-      previousHash = nodeRequireRecordingIfExists(recordingPath, testAbsolutePath).hash;
+      previousHash = require(getNodeRecordingPath(relativePathOfRecording, testAbsolutePath)).hash;
     } catch (e) {}
-  } else if (windowLens.get(["__json__", "recordings/" + recordingPath])) {
-    previousHash = windowLens.get(["__json__", "recordings/" + recordingPath, "hash"]);
+  } else if (windowLens.get(["__json__", "recordings/" + relativePathOfRecording])) {
+    previousHash = windowLens.get(["__json__", "recordings/" + relativePathOfRecording, "hash"]);
   }
 
   if (!previousHash) {
