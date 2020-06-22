@@ -27,11 +27,10 @@ class SearchServiceClient extends SearchServiceClientContext {
    * Initializes a new instance of the SearchServiceClient class.
    * @param apiVersion Client Api Version.
    * @param endpoint The endpoint URL of the search service.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, endpoint: string, options?: coreHttp.ServiceClientOptions) {
-    super(credentials, apiVersion, endpoint, options);
+  constructor(apiVersion: string, endpoint: string, options?: coreHttp.ServiceClientOptions) {
+    super(apiVersion, endpoint, options);
     this.dataSources = new operations.DataSources(this);
     this.indexers = new operations.Indexers(this);
     this.skillsets = new operations.Skillsets(this);

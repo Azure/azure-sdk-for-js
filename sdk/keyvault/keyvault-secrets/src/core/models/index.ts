@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+
 import * as coreHttp from "@azure/core-http";
 
 /**
@@ -377,14 +378,7 @@ export interface KeyVaultClientGetDeletedSecretsOptionalParams extends coreHttp.
  * @readonly
  * @enum {string}
  */
-export type DeletionRecoveryLevel =
-  | "Purgeable"
-  | "Recoverable+Purgeable"
-  | "Recoverable"
-  | "Recoverable+ProtectedSubscription"
-  | "CustomizedRecoverable+Purgeable"
-  | "CustomizedRecoverable"
-  | "CustomizedRecoverable+ProtectedSubscription";
+export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 /**
  * Contains response data for the setSecret operation.
@@ -394,16 +388,16 @@ export type SetSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SecretBundle;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretBundle;
+    };
 };
 
 /**
@@ -414,16 +408,16 @@ export type DeleteSecretResponse = DeletedSecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedSecretBundle;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeletedSecretBundle;
+    };
 };
 
 /**
@@ -434,16 +428,16 @@ export type UpdateSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SecretBundle;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretBundle;
+    };
 };
 
 /**
@@ -454,16 +448,16 @@ export type GetSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SecretBundle;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretBundle;
+    };
 };
 
 /**
@@ -474,16 +468,16 @@ export type GetSecretsResponse = SecretListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SecretListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretListResult;
+    };
 };
 
 /**
@@ -494,16 +488,16 @@ export type GetSecretVersionsResponse = SecretListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SecretListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretListResult;
+    };
 };
 
 /**
@@ -514,16 +508,16 @@ export type GetDeletedSecretsResponse = DeletedSecretListResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedSecretListResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeletedSecretListResult;
+    };
 };
 
 /**
@@ -534,16 +528,16 @@ export type GetDeletedSecretResponse = DeletedSecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: DeletedSecretBundle;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeletedSecretBundle;
+    };
 };
 
 /**
@@ -554,16 +548,16 @@ export type RecoverDeletedSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SecretBundle;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretBundle;
+    };
 };
 
 /**
@@ -574,16 +568,16 @@ export type BackupSecretResponse = BackupSecretResult & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BackupSecretResult;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupSecretResult;
+    };
 };
 
 /**
@@ -594,14 +588,14 @@ export type RestoreSecretResponse = SecretBundle & {
    * The underlying HTTP response.
    */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SecretBundle;
-  };
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecretBundle;
+    };
 };

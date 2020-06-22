@@ -8,8 +8,7 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  OperationOptions,
-  ServiceClientCredentials
+  OperationOptions
 } from "@azure/core-http";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
@@ -177,18 +176,7 @@ export class TextAnalyticsClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    // The contract with the generated client requires a credential, even though it is never used
-    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
-    // throw an error if the client ever attempts to use it.
-    const dummyCredential: ServiceClientCredentials = {
-      signRequest() {
-        throw new Error(
-          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
-        );
-      }
-    };
-
-    this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
+    this.client = new GeneratedClient(this.endpointUrl, pipeline);
   }
 
   /**

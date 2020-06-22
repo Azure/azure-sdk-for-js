@@ -78,21 +78,21 @@ export const ifNoneMatch: coreHttp.OperationParameter = {
     }
   }
 };
-export const indexerName: coreHttp.OperationURLParameter = {
-  parameterPath: "indexerName",
-  mapper: {
-    required: true,
-    serializedName: "indexerName",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const indexName: coreHttp.OperationURLParameter = {
   parameterPath: "indexName",
   mapper: {
     required: true,
     serializedName: "indexName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const indexerName: coreHttp.OperationURLParameter = {
+  parameterPath: "indexerName",
+  mapper: {
+    required: true,
+    serializedName: "indexerName",
     type: {
       name: "String"
     }

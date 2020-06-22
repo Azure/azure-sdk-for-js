@@ -8,8 +8,7 @@ import {
   createPipelineFromOptions,
   InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  PipelineOptions,
-  ServiceClientCredentials
+  PipelineOptions
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SDK_VERSION } from "./constants";
@@ -129,17 +128,6 @@ export class SearchIndexClient {
       }
     };
 
-    // The contract with the generated client requires a credential, even though it is never used
-    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
-    // throw an error if the client ever attempts to use it.
-    const dummyCredential: ServiceClientCredentials = {
-      signRequest() {
-        throw new Error(
-          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
-        );
-      }
-    };
-
     const pipeline = createPipelineFromOptions(
       internalPipelineOptions,
       createSearchApiKeyCredentialPolicy(credential)
@@ -149,7 +137,7 @@ export class SearchIndexClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(dummyCredential, this.apiVersion, this.endpoint, pipeline);
+    this.client = new GeneratedClient(this.apiVersion, this.endpoint, pipeline);
   }
 
   private async *listIndexesPage(
