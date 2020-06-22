@@ -473,8 +473,7 @@ export class FormTrainingClient {
    * const poller = await trainingClient.beginTraining(trainingFilesUrl, false, {
    *   onProgress: (state) => { console.log("training status: "); console.log(state); }
    * });
-   * await poller.pollUntilDone();
-   * const response = poller.getResult();
+   * const model = await poller.pollUntilDone();
    * ```
    * @summary Creates and trains a model
    * @param {string} trainingFilesUrl Accessible url to an Azure Storage Blob container storing the training documents
@@ -565,8 +564,7 @@ export class FormTrainingClient {
    *     console.log(`Copy model status: ${state.status}`);
    *   }
    * });
-   * await poller.pollUntilDone();
-   * const result = poller.getResult();
+   * const result = await poller.pollUntilDone();
    * ```
    * @summary Copies custom model to target resource
    * @param {string} modelId Id of the custom model in this resource to be copied to the target Form Recognizer resource

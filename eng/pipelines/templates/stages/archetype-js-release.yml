@@ -197,20 +197,16 @@ stages:
             - pwsh: |
                 $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*-dev*.tgz
                 echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
-                $devopsPublish=$false
                 if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
                   $npmToken="$(azure-sdk-npm-token)"
-                  $registry="${{parameters.Registry}}" 
-                  $devopsPublish=$false      
+                  $registry="${{parameters.Registry}}"
                 }         
                 else {
                   $npmToken="$(azure-sdk-devops-npm-token)"
                   $registry="${{parameters.PrivateRegistry}}"
-                  $devopsPublish=$true
                 }
                 echo "##vso[task.setvariable variable=NpmToken]$npmToken"
                 echo "##vso[task.setvariable variable=Registry]$registry"
-                echo "##vso[task.setvariable variable=DevopsPublish]$devopsPublish"
               displayName: Detecting package archive_${{artifact.safeName}}
 
             - task: PowerShell@2
@@ -218,4 +214,4 @@ stages:
               inputs:
                 targetType: filePath
                 filePath: "eng/tools/publish-to-npm.ps1"
-                arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)" -devopsFeed $(DevopsPublish)'
+                arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"

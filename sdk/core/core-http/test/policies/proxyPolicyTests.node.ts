@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import "chai/register-should";
 import { should } from "chai";
@@ -91,12 +91,42 @@ describe("getDefaultProxySettings", () => {
     });
 
     [
-      { proxyUrl: "prot://user:pass@proxy.microsoft.com", proxyUrlWithoutAuth: "prot://proxy.microsoft.com", username: "user", password: "pass" },
-      { proxyUrl: "prot://user@proxy.microsoft.com", proxyUrlWithoutAuth: "prot://proxy.microsoft.com", username: "user", password: undefined },
-      { proxyUrl: "prot://:pass@proxy.microsoft.com", proxyUrlWithoutAuth: "prot://proxy.microsoft.com", username: undefined, password: "pass" },
-      { proxyUrl: "prot://proxy.microsoft.com", proxyUrlWithoutAuth: "prot://proxy.microsoft.com", username: undefined, password: undefined },
-      { proxyUrl: "user:pass@proxy.microsoft.com", proxyUrlWithoutAuth: "proxy.microsoft.com", username: "user", password: "pass" },
-      { proxyUrl: "proxy.microsoft.com", proxyUrlWithoutAuth: "proxy.microsoft.com", username: undefined, password: undefined }
+      {
+        proxyUrl: "prot://user:pass@proxy.microsoft.com",
+        proxyUrlWithoutAuth: "prot://proxy.microsoft.com",
+        username: "user",
+        password: "pass"
+      },
+      {
+        proxyUrl: "prot://user@proxy.microsoft.com",
+        proxyUrlWithoutAuth: "prot://proxy.microsoft.com",
+        username: "user",
+        password: undefined
+      },
+      {
+        proxyUrl: "prot://:pass@proxy.microsoft.com",
+        proxyUrlWithoutAuth: "prot://proxy.microsoft.com",
+        username: undefined,
+        password: "pass"
+      },
+      {
+        proxyUrl: "prot://proxy.microsoft.com",
+        proxyUrlWithoutAuth: "prot://proxy.microsoft.com",
+        username: undefined,
+        password: undefined
+      },
+      {
+        proxyUrl: "user:pass@proxy.microsoft.com",
+        proxyUrlWithoutAuth: "proxy.microsoft.com",
+        username: "user",
+        password: "pass"
+      },
+      {
+        proxyUrl: "proxy.microsoft.com",
+        proxyUrlWithoutAuth: "proxy.microsoft.com",
+        username: undefined,
+        password: undefined
+      }
     ].forEach((testCase) => {
       it(`should return settings with passed proxyUrl : ${testCase.proxyUrl}`, () => {
         const proxySettings: ProxySettings = getDefaultProxySettings(testCase.proxyUrl)!;
@@ -107,7 +137,7 @@ describe("getDefaultProxySettings", () => {
         if (testCase.password) {
           proxySettings.password!.should.equal(testCase.password);
         }
-      })
+      });
     });
 
     describe("with loadEnvironmentProxyValue", () => {
