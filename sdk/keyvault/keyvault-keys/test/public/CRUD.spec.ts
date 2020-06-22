@@ -13,7 +13,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
 describe("Keys client - create, read, update and delete operations", () => {
-  const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
+  const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
   let client: KeyClient;
   let testClient: TestClient;
