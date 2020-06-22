@@ -35,7 +35,7 @@
 /sdk/textanalytics/ @xirzec @willmtemple
 /sdk/formrecognizer/ @jeremymeng @willmtemple
 
-/sdk/search/ @xirzec
+/sdk/search/ @xirzec @sarangan12
 
 # Smoke Tests
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
