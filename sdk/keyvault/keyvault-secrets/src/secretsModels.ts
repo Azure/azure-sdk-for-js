@@ -113,7 +113,7 @@ export interface SecretProperties {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly keyId?: URL;
+  readonly keyId?: string;
   /**
    * True if the secret's lifetime is managed by
    * key vault. If this is a secret backing a certificate, then managed will be

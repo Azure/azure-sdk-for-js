@@ -3,7 +3,7 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "lib": ["dom"],
+    "lib": [],
     "resolveJsonModule": true
   },
   "exclude": ["node_modules", "../keyvault-common/node_modules", "./samples/**/*.ts"],

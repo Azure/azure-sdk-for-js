@@ -123,7 +123,7 @@ export interface SecretProperties {
     enabled?: boolean;
     readonly expiresOn?: Date;
     id?: string;
-    readonly keyId?: URL;
+    readonly keyId?: string;
     readonly managed?: boolean;
     name: string;
     readonly notBefore?: Date;

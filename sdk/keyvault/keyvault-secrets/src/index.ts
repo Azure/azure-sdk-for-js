@@ -958,6 +958,7 @@ export class SecretClient {
         expiresOn: (attributes as any).expires,
         createdOn: (attributes as any).created,
         updatedOn: (attributes as any).updated,
+        keyId: secretBundle.kid,
         ...secretBundle,
         ...parsedId,
         ...attributes
