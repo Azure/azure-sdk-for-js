@@ -11,7 +11,7 @@ import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
-import { OperationTracingOptions } from '@azure/core-tracing';
+import { OperationOptions as OperationOptionsForHTTP } from '@azure/core-http';
 import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
@@ -116,10 +116,9 @@ export interface NamespacePropertiesResponse extends NamespaceProperties, Respon
 }
 
 // @public
-export interface OperationOptions {
-    abortSignal?: AbortSignalLike;
-    tracingOptions?: OperationTracingOptions;
-}
+export type OperationOptions = Exclude<OperationOptionsForHTTP, "requestOptions">;
+
+export { OperationOptionsForHTTP }
 
 // @public
 export interface PeekMessagesOptions extends OperationOptions {
