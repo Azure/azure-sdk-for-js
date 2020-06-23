@@ -284,8 +284,8 @@ export const DataSource: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      eTag: {
-        serializedName: "eTag",
+      etag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -1271,8 +1271,8 @@ export const SavedSearch: msRest.CompositeMapper = {
     className: "SavedSearch",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      eTag: {
-        serializedName: "eTag",
+      etag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
