@@ -473,7 +473,7 @@ export class ShareServiceClient extends StorageClient {
    *
    * ```js
    * let i = 1;
-   * let iter = await serviceClient.listShares();
+   * let iter = serviceClient.listShares();
    * let shareItem = await iter.next();
    * while (!shareItem.done) {
    *   console.log(`Share ${i++}: ${shareItem.value.name}`);

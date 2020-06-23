@@ -28,7 +28,7 @@ async function main() {
   // 1. List Containers
   console.log("Listing all containers using iter");
   let i = 1;
-  let iter = await blobServiceClient.listContainers();
+  let iter = blobServiceClient.listContainers();
   for await (const container of iter) {
     console.log(`Container ${i++}: ${container.name}`);
   }

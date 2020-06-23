@@ -12,7 +12,7 @@ import {
 } from "rhea-promise";
 import { Constants, MessagingError, delay, translate } from "@azure/core-amqp";
 import { EventDataInternal, ReceivedEventData, fromAmqpMessage } from "./eventData";
-import { EventHubConsumerOptions } from "./impl/eventHubClient";
+import { EventHubConsumerOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";

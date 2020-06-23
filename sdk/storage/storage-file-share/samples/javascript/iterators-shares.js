@@ -41,7 +41,7 @@ async function main() {
 
   // 3. Generator syntax .next()
   i = 1;
-  iter = await serviceClient.listShares();
+  iter = serviceClient.listShares();
   let shareItem = await iter.next();
   while (!shareItem.done) {
     console.log(`Share ${i++}: ${shareItem.value.name}`);

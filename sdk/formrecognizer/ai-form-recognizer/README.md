@@ -357,7 +357,8 @@ async function main() {
   const apiKey = "<api key>";
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const result = await client.listCustomModels();
+  // returns an async iteratable iterator that supports paging
+  const result = client.listCustomModels();
   let i = 0;
   for await (const modelInfo of result) {
     console.log(`model ${i++}:`);

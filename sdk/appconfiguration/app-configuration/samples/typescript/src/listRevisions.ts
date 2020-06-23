@@ -51,7 +51,7 @@ export async function main() {
 }
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
-  const settingsIterator = await client.listConfigurationSettings({
+  const settingsIterator = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
 

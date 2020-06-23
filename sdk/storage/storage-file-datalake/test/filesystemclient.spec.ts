@@ -271,7 +271,7 @@ describe("DataLakeFileSystemClient", () => {
       fileClients.push(fileClient);
     }
 
-    const iterator = await fileSystemClient.listPaths({
+    const iterator = fileSystemClient.listPaths({
       userPrincipalName: true,
       recursive: true,
       path: ""

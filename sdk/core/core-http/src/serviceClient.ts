@@ -135,7 +135,7 @@ export interface ServiceClientOptions {
   deserializationContentTypes?: DeserializationContentTypes;
   /**
    * The header name to use for the telemetry header while sending the request. If this is not
-   * specified, then "User-Agent" will be used when running on Node.js and "x-ms-command-name" will
+   * specified, then "User-Agent" will be used when running on Node.js and "x-ms-useragent" will
    * be used when running in a browser.
    */
   userAgentHeaderName?: string | ((defaultUserAgentHeaderName: string) => string);

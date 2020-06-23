@@ -4,13 +4,12 @@
 import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import { getTracer } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
-import { ConnectionContext } from "./connectionContext";
+import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { EventData } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubSender } from './eventHubSender';
-import { createConnectionContext } from "./impl/eventHubClient";
 import { logErrorStackTrace, logger } from './log';
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {

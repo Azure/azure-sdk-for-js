@@ -136,6 +136,48 @@ describe("RequestResponseLink", function() {
     assert.equal(responses[1].correlation_id, reqs[1].message_id);
   });
 
+  it("request without `message_id` gets a new `message_id`", async function() {
+    const connectionStub = stub(new Connection());
+    const rcvr = new EventEmitter();
+    const reqs: AmqpMessage[] = [];
+    connectionStub.createSession.resolves({
+      connection: {
+        id: "connection-1"
+      },
+      createSender: () => {
+        return Promise.resolve({
+          send: (request: AmqpMessage) => {
+            reqs.push(request);
+          }
+        });
+      },
+      createReceiver: () => {
+        return Promise.resolve(rcvr);
+      }
+    } as any);
+    const sessionStub = await connectionStub.createSession();
+    const senderStub = await sessionStub.createSender();
+    const receiverStub = await sessionStub.createReceiver();
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const request1: AmqpMessage = {
+      body: "Hello World!!"
+    };
+    let errorWasThrown = false;
+    try {
+      await link.sendRequest(request1, {
+        timeoutInMs: 2000
+      });
+    } catch (error) {
+      assert.equal(
+        request1.message_id == undefined,
+        false,
+        "`message_id` on the request is undefined."
+      );
+      errorWasThrown = true;
+    }
+    assert.equal(errorWasThrown, true, "Error was not thrown");
+  });
+
   it("should send parallel requests and receive responses correctly (one failure)", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();

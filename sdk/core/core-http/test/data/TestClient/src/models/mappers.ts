@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
 const internalMappers: any = {};
 
 internalMappers.SimpleProduct = {

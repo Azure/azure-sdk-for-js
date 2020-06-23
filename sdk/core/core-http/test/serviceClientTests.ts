@@ -389,7 +389,7 @@ describe("ServiceClient", function() {
 
     assert.strictEqual(response._response.status, 200);
     assert.strictEqual(
-      response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name"),
+      response._response.request.headers.get(isNode ? "user-agent" : "x-ms-useragent"),
       "blah blah"
     );
   });
@@ -418,7 +418,7 @@ describe("ServiceClient", function() {
 
     assert.strictEqual(response._response.status, 200);
     const userAgentHeaderValue: string | undefined = response._response.request.headers.get(
-      isNode ? "user-agent" : "x-ms-command-name"
+      isNode ? "user-agent" : "x-ms-useragent"
     );
     assert(userAgentHeaderValue);
     assert(userAgentHeaderValue!.startsWith("core-http/"));
@@ -449,7 +449,7 @@ describe("ServiceClient", function() {
 
     assert.strictEqual(response._response.status, 200);
     assert.strictEqual(
-      response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name"),
+      response._response.request.headers.get(isNode ? "user-agent" : "x-ms-useragent"),
       "blah blah 2"
     );
   });
