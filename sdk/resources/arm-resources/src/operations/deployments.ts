@@ -2605,7 +2605,8 @@ const beginWhatIfAtSubscriptionScopeOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DeploymentsWhatIfAtSubscriptionScopeHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.DeploymentsWhatIfAtSubscriptionScopeHeaders
     }
   },
   serializer
@@ -2736,7 +2737,8 @@ const beginWhatIfOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.DeploymentsWhatIfHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.DeploymentsWhatIfHeaders
     }
   },
   serializer
