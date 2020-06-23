@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { SystemErrorRetryPolicy, RetryError } from "../../src/policies/systemErrorRetryPolicy";
+import { SystemErrorRetryPolicy } from "../../src/policies/systemErrorRetryPolicy";
+import { RetryError } from "../../src/util/exponentialBackOffRetry";
 import { WebResource } from "../../src/webResource";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
