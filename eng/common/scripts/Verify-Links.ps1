@@ -1,9 +1,13 @@
 param (
 <<<<<<< HEAD
+<<<<<<< HEAD
   # url list to verify links. Can either be a http address or a local file request. Local file paths support md and html files.
 =======
   # url to verify links. Can either be a http address or a local file request. Local file paths support md and html files.
 >>>>>>> cca821f0e... modify the urls
+=======
+  # url list to verify links. Can either be a http address or a local file request. Local file paths support md and html files.
+>>>>>>> f5ceff2ba... add resolve relative links flag
   [string[]] $urls,
   # file that contains a set of links to ignore when verifying
   [string] $ignoreLinksFile = "$PSScriptRoot/ignore-links.txt",
@@ -16,7 +20,11 @@ param (
   # path to the root of the site for resolving rooted relative links, defaults to host root for http and file directory for local files
   [string] $rootUrl = "",
   # list of http status codes count as broken links. Defaults to 404. 
+<<<<<<< HEAD
   [array] $errorStatusCodes = @(404),
+=======
+  [array] $errorStatusCodes = @(404)
+>>>>>>> f5ceff2ba... add resolve relative links flag
   # flag to allow resolving relative paths or not
   [bool] $resolveRelativeLinks = $true
 )
@@ -86,12 +94,15 @@ function LogWarning
 
 function ResolveUri ([System.Uri]$referralUri, [string]$link)
 {
+<<<<<<< HEAD
   # If the link is mailto, skip it.
   if ($link.StartsWith("mailto:")) {
     Write-Verbose "Skipping $link because it is a mailto link."
     return $null
   }
 
+=======
+>>>>>>> f5ceff2ba... add resolve relative links flag
   $linkUri = [System.Uri]$link;
   if($resolveRelativeLinks){
     if (!$linkUri.IsAbsoluteUri) {
