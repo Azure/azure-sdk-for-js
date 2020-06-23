@@ -76,7 +76,7 @@ describe("Misc tests", function(): void {
     const msgBody = Buffer.from(msgString);
     const obj: EventData = { body: msgBody };
     debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
-   debug("Sending one message with %d bytes.", bodysize);
+    debug("Sending one message with %d bytes.", bodysize);
     await producerClient.sendBatch([obj], { partitionId });
     debug("Successfully sent the large message.");
 
