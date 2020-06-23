@@ -48,6 +48,32 @@ export interface ComputeOperationValue {
 }
 
 /**
+ * Specifies the disallowed configuration for a virtual machine image.
+ */
+export interface DisallowedConfiguration {
+  /**
+   * VM disk types which are disallowed. Possible values include: 'None', 'Unmanaged'
+   */
+  vmDiskType?: VmDiskTypes;
+}
+
+/**
+ * The SAS URIs of the console screenshot and serial log blobs.
+ */
+export interface RetrieveBootDiagnosticsDataResult {
+  /**
+   * The console screenshot blob URI
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly consoleScreenshotBlobUri?: string;
+  /**
+   * The serial console log blob URI.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serialConsoleLogBlobUri?: string;
+}
+
+/**
  * Instance view status.
  */
 export interface InstanceViewStatus {
@@ -84,7 +110,9 @@ export interface SubResource extends BaseResource {
 }
 
 /**
- * Describes a virtual machine scale set sku.
+ * Describes a virtual machine scale set sku. NOTE: If the new VM SKU is not supported on the
+ * hardware the scale set is currently on, you need to deallocate the VMs in the scale set before
+ * you modify the SKU name.
  */
 export interface Sku {
   /**
@@ -177,7 +205,7 @@ export interface AvailabilitySet extends Resource {
 /**
  * The Update Resource model definition.
  */
-export interface UpdateResource extends BaseResource {
+export interface UpdateResource {
   /**
    * Resource tags
    */
@@ -265,6 +293,47 @@ export interface ProximityPlacementGroupUpdate extends UpdateResource {
 }
 
 /**
+ * The instance view of a dedicated host.
+ */
+export interface DedicatedHostInstanceView {
+  /**
+   * Specifies the unique id of the dedicated physical machine on which the dedicated host resides.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly assetId?: string;
+  /**
+   * Unutilized capacity of the dedicated host.
+   */
+  availableCapacity?: DedicatedHostAvailableCapacity;
+  /**
+   * The resource status information.
+   */
+  statuses?: InstanceViewStatus[];
+}
+
+/**
+ * The instance view of a dedicated host that includes the name of the dedicated host. It is used
+ * for the response to the instance view of a dedicated host group.
+ */
+export interface DedicatedHostInstanceViewWithName extends DedicatedHostInstanceView {
+  /**
+   * The name of the dedicated host.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+}
+
+/**
+ * An interface representing DedicatedHostGroupInstanceView.
+ */
+export interface DedicatedHostGroupInstanceView {
+  /**
+   * List of instance view of the dedicated hosts under the dedicated host group.
+   */
+  hosts?: DedicatedHostInstanceViewWithName[];
+}
+
+/**
  * An interface representing SubResourceReadOnly.
  */
 export interface SubResourceReadOnly extends BaseResource {
@@ -291,6 +360,19 @@ export interface DedicatedHostGroup extends Resource {
    */
   readonly hosts?: SubResourceReadOnly[];
   /**
+   * The dedicated host group instance view, which has the list of instance view of the dedicated
+   * hosts under the dedicated host group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceView?: DedicatedHostGroupInstanceView;
+  /**
+   * Specifies whether virtual machines or virtual machine scale sets can be placed automatically
+   * on the dedicated host group. Automatic placement means resources are allocated on dedicated
+   * hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to
+   * 'true' when not provided. <br><br>Minimum api-version: 2020-06-01.
+   */
+  supportAutomaticPlacement?: boolean;
+  /**
    * Availability Zone to use for this host group. Only single zone is supported. The zone can be
    * assigned only during creation. If not provided, the group supports all zones in the region. If
    * provided, enforces each host in the group to be in the same zone.
@@ -312,6 +394,19 @@ export interface DedicatedHostGroupUpdate extends UpdateResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly hosts?: SubResourceReadOnly[];
+  /**
+   * The dedicated host group instance view, which has the list of instance view of the dedicated
+   * hosts under the dedicated host group.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceView?: DedicatedHostGroupInstanceView;
+  /**
+   * Specifies whether virtual machines or virtual machine scale sets can be placed automatically
+   * on the dedicated host group. Automatic placement means resources are allocated on dedicated
+   * hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to
+   * 'true' when not provided. <br><br>Minimum api-version: 2020-06-01.
+   */
+  supportAutomaticPlacement?: boolean;
   /**
    * Availability Zone to use for this host group. Only single zone is supported. The zone can be
    * assigned only during creation. If not provided, the group supports all zones in the region. If
@@ -343,25 +438,6 @@ export interface DedicatedHostAvailableCapacity {
    * allowed to be deployed to the dedicated host.
    */
   allocatableVMs?: DedicatedHostAllocatableVM[];
-}
-
-/**
- * The instance view of a dedicated host.
- */
-export interface DedicatedHostInstanceView {
-  /**
-   * Specifies the unique id of the dedicated physical machine on which the dedicated host resides.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly assetId?: string;
-  /**
-   * Unutilized capacity of the dedicated host.
-   */
-  availableCapacity?: DedicatedHostAvailableCapacity;
-  /**
-   * The resource status information.
-   */
-  statuses?: InstanceViewStatus[];
 }
 
 /**
@@ -464,6 +540,53 @@ export interface DedicatedHostUpdate extends UpdateResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly instanceView?: DedicatedHostInstanceView;
+}
+
+/**
+ * Response from generation of an SSH key pair.
+ */
+export interface SshPublicKeyGenerateKeyPairResult {
+  /**
+   * Private key portion of the key pair used to authenticate to a virtual machine through ssh. The
+   * private key is returned in RFC3447 format and should be treated as a secret.
+   */
+  privateKey: string;
+  /**
+   * Public key portion of the key pair used to authenticate to a virtual machine through ssh. The
+   * public key is in ssh-rsa format.
+   */
+  publicKey: string;
+  /**
+   * The ARM resource id in the form of
+   * /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{SshPublicKeyName}
+   */
+  id: string;
+}
+
+/**
+ * Specifies information about the SSH public key.
+ */
+export interface SshPublicKeyResource extends Resource {
+  /**
+   * SSH public key used to authenticate to a virtual machine through ssh. If this property is not
+   * initially provided when the resource is created, the publicKey property will be populated when
+   * generateKeyPair is called. If the public key is provided upon resource creation, the provided
+   * public key needs to be at least 2048-bit and in ssh-rsa format.
+   */
+  publicKey?: string;
+}
+
+/**
+ * Specifies information about the SSH public key.
+ */
+export interface SshPublicKeyUpdateResource extends UpdateResource {
+  /**
+   * SSH public key used to authenticate to a virtual machine through ssh. If this property is not
+   * initially provided when the resource is created, the publicKey property will be populated when
+   * generateKeyPair is called. If the public key is provided upon resource creation, the provided
+   * public key needs to be at least 2048-bit and in ssh-rsa format.
+   */
+  publicKey?: string;
 }
 
 /**
@@ -667,6 +790,176 @@ export interface VirtualMachineExtensionsListResult {
 }
 
 /**
+ * Describes the properties of a Virtual Machine software patch.
+ */
+export interface VirtualMachineSoftwarePatchProperties {
+  /**
+   * A unique identifier for the patch.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly patchId?: string;
+  /**
+   * The friendly name of the patch.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The version number of the patch. This property applies only to Linux patches.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * The KBID of the patch. Only applies to Windows patches.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kbid?: string;
+  /**
+   * The classification(s) of the patch as provided by the patch publisher.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly classifications?: string[];
+  /**
+   * Describes the reboot requirements of the patch. Possible values include: 'NeverReboots',
+   * 'AlwaysRequiresReboot', 'CanRequestReboot'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly rebootBehavior?: SoftwareUpdateRebootBehavior;
+  /**
+   * The activity ID of the operation that produced this result. It is used to correlate across CRP
+   * and extension logs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly activityId?: string;
+  /**
+   * The UTC timestamp when the repository published this patch.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly publishedDate?: Date;
+  /**
+   * The UTC timestamp of the last update to this patch record.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastModifiedDateTime?: Date;
+  /**
+   * Describes the outcome of an install operation for a given patch. Possible values include:
+   * 'Installed', 'Failed', 'Excluded', 'NotSelected', 'Pending', 'Available'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly assessmentState?: PatchAssessmentState;
+}
+
+/**
+ * Api error base.
+ */
+export interface ApiErrorBase {
+  /**
+   * The error code.
+   */
+  code?: string;
+  /**
+   * The target of the particular error.
+   */
+  target?: string;
+  /**
+   * The error message.
+   */
+  message?: string;
+}
+
+/**
+ * Inner error details.
+ */
+export interface InnerError {
+  /**
+   * The exception type.
+   */
+  exceptiontype?: string;
+  /**
+   * The internal error message or exception dump.
+   */
+  errordetail?: string;
+}
+
+/**
+ * Api error.
+ */
+export interface ApiError {
+  /**
+   * The Api error details
+   */
+  details?: ApiErrorBase[];
+  /**
+   * The Api inner error
+   */
+  innererror?: InnerError;
+  /**
+   * The error code.
+   */
+  code?: string;
+  /**
+   * The target of the particular error.
+   */
+  target?: string;
+  /**
+   * The error message.
+   */
+  message?: string;
+}
+
+/**
+ * Describes the properties of an AssessPatches result.
+ */
+export interface VirtualMachineAssessPatchesResult {
+  /**
+   * The overall success or failure status of the operation. It remains "InProgress" until the
+   * operation completes. At that point it will become "Failed", "Succeeded", or
+   * "CompletedWithWarnings.". Possible values include: 'InProgress', 'Failed', 'Succeeded',
+   * 'CompletedWithWarnings'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: PatchOperationStatus;
+  /**
+   * The activity ID of the operation that produced this result. It is used to correlate across CRP
+   * and extension logs.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly assessmentActivityId?: string;
+  /**
+   * The overall reboot status of the VM. It will be true when partially installed patches require
+   * a reboot to complete installation but the reboot has not yet occurred.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly rebootPending?: boolean;
+  /**
+   * The number of critical or security patches that have been detected as available and not yet
+   * installed.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly criticalAndSecurityPatchCount?: number;
+  /**
+   * The number of all available patches excluding critical and security.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly otherPatchCount?: number;
+  /**
+   * The UTC timestamp when the operation began.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startDateTime?: Date;
+  /**
+   * The list of patches that have been detected as available for installation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly patches?: VirtualMachineSoftwarePatchProperties[];
+  /**
+   * The errors that were encountered during execution of the operation. The details array contains
+   * the list of them.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: ApiError;
+}
+
+/**
  * Used for establishing the purchase context of any 3rd Party artifact through MarketPlace.
  */
 export interface PurchasePlan {
@@ -729,6 +1022,10 @@ export interface VirtualMachineImage extends VirtualMachineImageResource {
    * Possible values include: 'V1', 'V2'
    */
   hyperVGeneration?: HyperVGenerationTypes;
+  /**
+   * Specifies disallowed configuration for the VirtualMachine created from the image
+   */
+  disallowed?: DisallowedConfiguration;
 }
 
 /**
@@ -903,7 +1200,8 @@ export interface HardwareProfile {
  * Specifies information about the image to use. You can specify information about platform images,
  * marketplace images, or virtual machine images. This element is required when you want to use a
  * platform image, marketplace image, or virtual machine image, but is not used in other creation
- * operations.
+ * operations. NOTE: Image reference publisher and offer can only be set when you create the scale
+ * set.
  */
 export interface ImageReference extends SubResource {
   /**
@@ -1010,6 +1308,16 @@ export interface DiffDiskSettings {
    * 'Local'
    */
   option?: DiffDiskOptions;
+  /**
+   * Specifies the ephemeral disk placement for operating system disk.<br><br> Possible values are:
+   * <br><br> **CacheDisk** <br><br> **ResourceDisk** <br><br> Default: **CacheDisk** if one is
+   * configured for the VM size otherwise **ResourceDisk** is used.<br><br> Refer to VM size
+   * documentation for Windows VM at
+   * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/sizes and Linux VM at
+   * https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes to check which VM sizes
+   * exposes a cache disk. Possible values include: 'CacheDisk', 'ResourceDisk'
+   */
+  placement?: DiffDiskPlacement;
 }
 
 /**
@@ -1060,8 +1368,8 @@ export interface OSDisk {
   image?: VirtualHardDisk;
   /**
    * Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br>
-   * **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly
-   * for Premium storage**. Possible values include: 'None', 'ReadOnly', 'ReadWrite'
+   * **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None** for Standard storage.
+   * **ReadOnly** for Premium storage. Possible values include: 'None', 'ReadOnly', 'ReadWrite'
    */
   caching?: CachingTypes;
   /**
@@ -1193,6 +1501,19 @@ export interface StorageProfile {
 }
 
 /**
+ * Specifies the Security profile settings for the virtual machine or virtual machine scale set.
+ */
+export interface SecurityProfile {
+  /**
+   * This property can be used by user in the request to enable or disable the Host Encryption for
+   * the virtual machine or virtual machine scale set. This will enable the encryption for all the
+   * disks including Resource/Temp disk at host itself. <br><br> Default: The Encryption at host
+   * will be disabled unless this property is set to true for the resource.
+   */
+  encryptionAtHost?: boolean;
+}
+
+/**
  * Enables or disables a capability on the virtual machine or virtual machine scale set.
  */
 export interface AdditionalCapabilities {
@@ -1265,6 +1586,24 @@ export interface WinRMConfiguration {
 }
 
 /**
+ * An interface representing PatchSettings.
+ */
+export interface PatchSettings {
+  /**
+   * Specifies the mode of in-guest patching to IaaS virtual machine.<br /><br /> Possible values
+   * are:<br /><br /> **Manual** - You  control the application of patches to a virtual machine.
+   * You do this by applying patches manually inside the VM. In this mode, automatic updates are
+   * disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br />
+   * **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property
+   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **
+   * AutomaticByPlatform** - the virtual machine will automatically updated by the OS. The
+   * properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true.
+   * Possible values include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
+   */
+  patchMode?: InGuestPatchMode;
+}
+
+/**
  * Specifies Windows operating system settings on the virtual machine.
  */
 export interface WindowsConfiguration {
@@ -1294,6 +1633,10 @@ export interface WindowsConfiguration {
    * Unattend.xml file, which is used by Windows Setup.
    */
   additionalUnattendContent?: AdditionalUnattendContent[];
+  /**
+   * Specifies settings related to in-guest patching (KBs).
+   */
+  patchSettings?: PatchSettings;
   /**
    * Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
    */
@@ -1491,7 +1834,8 @@ export interface AutomaticRepairsPolicy {
    * The amount of time for which automatic repairs are suspended due to a state change on VM. The
    * grace time starts after the state change has completed. This helps avoid premature or
    * accidental repairs. The time duration should be specified in ISO 8601 format. The minimum
-   * allowed grace period is 30 minutes (PT30M), which is also the default value.
+   * allowed grace period is 30 minutes (PT30M), which is also the default value. The maximum
+   * allowed grace period is 90 minutes (PT90M).
    */
   gracePeriod?: string;
 }
@@ -1529,7 +1873,8 @@ export interface BootDiagnostics {
    */
   enabled?: boolean;
   /**
-   * Uri of the storage account to use for placing the console output and screenshot.
+   * Uri of the storage account to use for placing the console output and screenshot. <br><br>If
+   * storageUri is not specified while enabling boot diagnostics, managed storage will be used.
    */
   storageUri?: string;
 }
@@ -1625,12 +1970,14 @@ export interface DiskInstanceView {
  */
 export interface BootDiagnosticsInstanceView {
   /**
-   * The console screenshot blob URI.
+   * The console screenshot blob URI. <br><br>NOTE: This will **not** be set if boot diagnostics is
+   * currently enabled with managed storage.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly consoleScreenshotBlobUri?: string;
   /**
-   * The Linux serial console log blob Uri.
+   * The serial console log blob Uri. <br><br>NOTE: This will **not** be set if boot diagnostics is
+   * currently enabled with managed storage.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly serialConsoleLogBlobUri?: string;
@@ -1780,6 +2127,13 @@ export interface VirtualMachineInstanceView {
    */
   bootDiagnostics?: BootDiagnosticsInstanceView;
   /**
+   * Resource id of the dedicated host, on which the virtual machine is allocated through automatic
+   * placement, when the virtual machine is associated with a dedicated host group that has
+   * automatic placement enabled. <br><br>Minimum api-version: 2020-06-01.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly assignedHost?: string;
+  /**
    * The resource status information.
    */
   statuses?: InstanceViewStatus[];
@@ -1818,6 +2172,10 @@ export interface VirtualMachine extends Resource {
    * Specifies the network interfaces of the virtual machine.
    */
   networkProfile?: NetworkProfile;
+  /**
+   * Specifies the Security related profile settings for the virtual machine.
+   */
+  securityProfile?: SecurityProfile;
   /**
    * Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.
    */
@@ -1858,7 +2216,7 @@ export interface VirtualMachine extends Resource {
   priority?: VirtualMachinePriorityTypes;
   /**
    * Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
-   * <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the
+   * <br><br>For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the
    * minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and
    * 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values
    * include: 'Deallocate', 'Delete'
@@ -1874,6 +2232,12 @@ export interface VirtualMachine extends Resource {
    * <br><br>Minimum api-version: 2018-10-01.
    */
   host?: SubResource;
+  /**
+   * Specifies information about the dedicated host group that the virtual machine resides in.
+   * <br><br>Minimum api-version: 2020-06-01. <br><br>NOTE: User cannot specify both host and
+   * hostGroup properties.
+   */
+  hostGroup?: SubResource;
   /**
    * The provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1900,6 +2264,12 @@ export interface VirtualMachine extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly vmId?: string;
+  /**
+   * Specifies the time alloted for all extensions to start. The time duration should be between 15
+   * minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default
+   * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
+   */
+  extensionsTimeBudget?: string;
   /**
    * The virtual machine child extension resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1949,6 +2319,10 @@ export interface VirtualMachineUpdate extends UpdateResource {
    */
   networkProfile?: NetworkProfile;
   /**
+   * Specifies the Security related profile settings for the virtual machine.
+   */
+  securityProfile?: SecurityProfile;
+  /**
    * Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.
    */
   diagnosticsProfile?: DiagnosticsProfile;
@@ -1988,7 +2362,7 @@ export interface VirtualMachineUpdate extends UpdateResource {
   priority?: VirtualMachinePriorityTypes;
   /**
    * Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
-   * <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the
+   * <br><br>For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the
    * minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and
    * 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values
    * include: 'Deallocate', 'Delete'
@@ -2004,6 +2378,12 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * <br><br>Minimum api-version: 2018-10-01.
    */
   host?: SubResource;
+  /**
+   * Specifies information about the dedicated host group that the virtual machine resides in.
+   * <br><br>Minimum api-version: 2020-06-01. <br><br>NOTE: User cannot specify both host and
+   * hostGroup properties.
+   */
+  hostGroup?: SubResource;
   /**
    * The provisioning state, which only appears in the response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2030,6 +2410,12 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly vmId?: string;
+  /**
+   * Specifies the time alloted for all extensions to start. The time duration should be between 15
+   * minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default
+   * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
+   */
+  extensionsTimeBudget?: string;
   /**
    * The identity of the virtual machine, if configured.
    */
@@ -2740,19 +3126,21 @@ export interface VirtualMachineScaleSetIPConfiguration extends SubResource {
   /**
    * Specifies an array of references to backend address pools of load balancers. A scale set can
    * reference backend address pools of one public and one internal load balancer. Multiple scale
-   * sets cannot use the same load balancer.
+   * sets cannot use the same basic sku load balancer.
    */
   loadBalancerBackendAddressPools?: SubResource[];
   /**
    * Specifies an array of references to inbound Nat pools of the load balancers. A scale set can
    * reference inbound nat pools of one public and one internal load balancer. Multiple scale sets
-   * cannot use the same load balancer
+   * cannot use the same basic sku load balancer.
    */
   loadBalancerInboundNatPools?: SubResource[];
 }
 
 /**
- * Describes a virtual machine scale set network profile's IP configuration.
+ * Describes a virtual machine scale set network profile's IP configuration. NOTE: The subnet of a
+ * scale set may be modified as long as the original subnet and the new subnet are in the same
+ * virtual network
  */
 export interface VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
   /**
@@ -3028,6 +3416,12 @@ export interface VirtualMachineScaleSetExtensionProfile {
    * The virtual machine scale set child extension resources.
    */
   extensions?: VirtualMachineScaleSetExtension[];
+  /**
+   * Specifies the time alloted for all extensions to start. The time duration should be between 15
+   * minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default
+   * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
+   */
+  extensionsTimeBudget?: string;
 }
 
 /**
@@ -3073,6 +3467,10 @@ export interface VirtualMachineScaleSetVMProfile {
    */
   networkProfile?: VirtualMachineScaleSetNetworkProfile;
   /**
+   * Specifies the Security related profile settings for the virtual machines in the scale set.
+   */
+  securityProfile?: SecurityProfile;
+  /**
    * Specifies the boot diagnostic settings state. <br><br>Minimum api-version: 2015-06-15.
    */
   diagnosticsProfile?: DiagnosticsProfile;
@@ -3098,7 +3496,7 @@ export interface VirtualMachineScaleSetVMProfile {
   priority?: VirtualMachinePriorityTypes;
   /**
    * Specifies the eviction policy for the Azure Spot virtual machine and Azure Spot scale set.
-   * <br><br>For Azure Spot virtual machines, the only supported value is 'Deallocate' and the
+   * <br><br>For Azure Spot virtual machines, both 'Deallocate' and 'Delete' are supported and the
    * minimum api-version is 2019-03-01. <br><br>For Azure Spot scale sets, both 'Deallocate' and
    * 'Delete' are supported and the minimum api-version is 2017-10-30-preview. Possible values
    * include: 'Deallocate', 'Delete'
@@ -3131,6 +3529,10 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
    * The virtual machine scale set network profile.
    */
   networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
+  /**
+   * The virtual machine scale set Security profile
+   */
+  securityProfile?: SecurityProfile;
   /**
    * The virtual machine scale set diagnostics profile.
    */
@@ -3204,7 +3606,8 @@ export interface VirtualMachineScaleSet extends Resource {
   readonly uniqueId?: string;
   /**
    * When true this limits the scale set to a single placement group, of max size 100 virtual
-   * machines.
+   * machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if
+   * singlePlacementGroup is false, it may not be modified to true.
    */
   singlePlacementGroup?: boolean;
   /**
@@ -3222,6 +3625,11 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   proximityPlacementGroup?: SubResource;
   /**
+   * Specifies information about the dedicated host group that the virtual machine scale set
+   * resides in. <br><br>Minimum api-version: 2020-06-01.
+   */
+  hostGroup?: SubResource;
+  /**
    * Specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual
    * Machine Scale Set. For instance: whether the Virtual Machines have the capability to support
    * attaching managed data disks with UltraSSD_LRS storage account type.
@@ -3237,7 +3645,8 @@ export interface VirtualMachineScaleSet extends Resource {
    */
   identity?: VirtualMachineScaleSetIdentity;
   /**
-   * The virtual machine scale set zones.
+   * The virtual machine scale set zones. NOTE: Availability zones can only be set when you create
+   * the scale set
    */
   zones?: string[];
 }
@@ -3296,7 +3705,8 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
   doNotRunExtensionsOnOverprovisionedVMs?: boolean;
   /**
    * When true this limits the scale set to a single placement group, of max size 100 virtual
-   * machines.
+   * machines. NOTE: If singlePlacementGroup is true, it may be modified to false. However, if
+   * singlePlacementGroup is false, it may not be modified to true.
    */
   singlePlacementGroup?: boolean;
   /**
@@ -3387,6 +3797,24 @@ export interface VirtualMachineScaleSetVMExtensionsSummary {
 }
 
 /**
+ * Summary for an orchestration service of a virtual machine scale set.
+ */
+export interface OrchestrationServiceSummary {
+  /**
+   * The name of the service. Possible values include: 'AutomaticRepairs',
+   
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceName?: OrchestrationServiceNames;
+  /**
+   * The current state of the service. Possible values include: 'NotRunning', 'Running',
+   * 'Suspended'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceState?: OrchestrationServiceState;
+}
+
+/**
  * The instance view of a virtual machine scale set.
  */
 export interface VirtualMachineScaleSetInstanceView {
@@ -3404,6 +3832,11 @@ export interface VirtualMachineScaleSetInstanceView {
    * The resource status information.
    */
   statuses?: InstanceViewStatus[];
+  /**
+   * The orchestration services information.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly orchestrationServices?: OrchestrationServiceSummary[];
 }
 
 /**
@@ -3451,64 +3884,6 @@ export interface VirtualMachineScaleSetSku {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly capacity?: VirtualMachineScaleSetSkuCapacity;
-}
-
-/**
- * Api error base.
- */
-export interface ApiErrorBase {
-  /**
-   * The error code.
-   */
-  code?: string;
-  /**
-   * The target of the particular error.
-   */
-  target?: string;
-  /**
-   * The error message.
-   */
-  message?: string;
-}
-
-/**
- * Inner error details.
- */
-export interface InnerError {
-  /**
-   * The exception type.
-   */
-  exceptiontype?: string;
-  /**
-   * The internal error message or exception dump.
-   */
-  errordetail?: string;
-}
-
-/**
- * Api error.
- */
-export interface ApiError {
-  /**
-   * The Api error details
-   */
-  details?: ApiErrorBase[];
-  /**
-   * The Api inner error
-   */
-  innererror?: InnerError;
-  /**
-   * The error code.
-   */
-  code?: string;
-  /**
-   * The target of the particular error.
-   */
-  target?: string;
-  /**
-   * The error message.
-   */
-  message?: string;
 }
 
 /**
@@ -3696,6 +4071,13 @@ export interface VirtualMachineScaleSetVMInstanceView {
    */
   statuses?: InstanceViewStatus[];
   /**
+   * Resource id of the dedicated host, on which the virtual machine is allocated through automatic
+   * placement, when the virtual machine is associated with a dedicated host group that has
+   * automatic placement enabled. <br><br>Minimum api-version: 2020-06-01.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly assignedHost?: string;
+  /**
    * The placement group in which the VM is running. If the VM is deallocated it will not have a
    * placementGroupId.
    */
@@ -3775,6 +4157,10 @@ export interface VirtualMachineScaleSetVM extends Resource {
    * Specifies the operating system settings for the virtual machine.
    */
   osProfile?: OSProfile;
+  /**
+   * Specifies the Security related profile settings for the virtual machine.
+   */
+  securityProfile?: SecurityProfile;
   /**
    * Specifies the network interfaces of the virtual machine.
    */
@@ -3994,6 +4380,21 @@ export interface VMScaleSetConvertToSinglePlacementGroupInput {
    * the platform will choose one with maximum number of virtual machine instances.
    */
   activePlacementGroupId?: string;
+}
+
+/**
+ * The input for OrchestrationServiceState
+ */
+export interface OrchestrationServiceStateInput {
+  /**
+   * The name of the service. Possible values include: 'AutomaticRepairs',
+   
+   */
+  serviceName: OrchestrationServiceNames;
+  /**
+   * The action to be performed. Possible values include: 'Resume', 'Suspend'
+   */
+  action: OrchestrationServiceStateAction;
 }
 
 /**
@@ -4479,8 +4880,8 @@ export interface Encryption {
    */
   diskEncryptionSetId?: string;
   /**
-   * The type of key used to encrypt the data of the disk. Possible values include:
-   * 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey'
+   * Possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey',
+   * 'EncryptionAtRestWithPlatformAndCustomerKeys'
    */
   type?: EncryptionType;
 }
@@ -4605,6 +5006,14 @@ export interface Disk extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly shareInfo?: ShareInfoElement[];
+  /**
+   * Possible values include: 'AllowAll', 'AllowPrivate', 'DenyAll'
+   */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /**
+   * ARM id of the DiskAccess resource for using private endpoints on disks.
+   */
+  diskAccessId?: string;
 }
 
 /**
@@ -4658,6 +5067,14 @@ export interface DiskUpdate {
    * managed keys.
    */
   encryption?: Encryption;
+  /**
+   * Possible values include: 'AllowAll', 'AllowPrivate', 'DenyAll'
+   */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /**
+   * ARM id of the DiskAccess resource for using private endpoints on disks.
+   */
+  diskAccessId?: string;
   /**
    * Resource tags
    */
@@ -4716,7 +5133,7 @@ export interface Snapshot extends Resource {
   readonly managedBy?: string;
   sku?: SnapshotSku;
   /**
-   * The time when the disk was created.
+   * The time when the snapshot was created.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly timeCreated?: Date;
@@ -4771,6 +5188,14 @@ export interface Snapshot extends Resource {
    * managed keys.
    */
   encryption?: Encryption;
+  /**
+   * Possible values include: 'AllowAll', 'AllowPrivate', 'DenyAll'
+   */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /**
+   * ARM id of the DiskAccess resource for using private endpoints on disks.
+   */
+  diskAccessId?: string;
 }
 
 /**
@@ -4798,6 +5223,14 @@ export interface SnapshotUpdate {
    * managed keys.
    */
   encryption?: Encryption;
+  /**
+   * Possible values include: 'AllowAll', 'AllowPrivate', 'DenyAll'
+   */
+  networkAccessPolicy?: NetworkAccessPolicy;
+  /**
+   * ARM id of the DiskAccess resource for using private endpoints on disks.
+   */
+  diskAccessId?: string;
   /**
    * Resource tags
    */
@@ -4837,6 +5270,11 @@ export interface EncryptionSetIdentity {
 export interface DiskEncryptionSet extends Resource {
   identity?: EncryptionSetIdentity;
   /**
+   * Possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey',
+   * 'EncryptionAtRestWithPlatformAndCustomerKeys'
+   */
+  encryptionType?: EncryptionType;
+  /**
    * The key vault key which is currently used by this disk encryption set.
    */
   activeKey?: KeyVaultAndKeyReference;
@@ -4862,6 +5300,149 @@ export interface DiskEncryptionSetUpdate {
    * Resource tags
    */
   tags?: { [propertyName: string]: string };
+}
+
+/**
+ * The Private Endpoint resource.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * A collection of information about the state of the connection between service consumer and
+ * provider.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
+   * service. Possible values include: 'Pending', 'Approved', 'Rejected'
+   */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /**
+   * The reason for approval/rejection of the connection.
+   */
+  description?: string;
+  /**
+   * A message indicating if changes on the service provider require any updates on the consumer.
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * The Private Endpoint Connection resource.
+ */
+export interface PrivateEndpointConnection {
+  /**
+   * The resource of private end point.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between DiskAccess and Virtual
+   * Network.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource. Possible values include:
+   * 'Succeeded', 'Creating', 'Deleting', 'Failed'
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  /**
+   * private endpoint connection Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * private endpoint connection name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * private endpoint connection type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * disk access resource.
+ */
+export interface DiskAccess extends Resource {
+  /**
+   * A readonly collection of private endpoint connections created on the disk. Currently only one
+   * endpoint connection is supported.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * The disk access resource provisioning state.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The time when the disk access was created.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly timeCreated?: Date;
+}
+
+/**
+ * Used for updating a disk access resource.
+ */
+export interface DiskAccessUpdate {
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource DNS zone name.
+   */
+  requiredZoneNames?: string[];
+  /**
+   * private link resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * private link resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * private link resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
 }
 
 /**
@@ -5048,7 +5629,7 @@ export interface GalleryArtifactPublishingProfileBase {
   endOfLifeDate?: Date;
   /**
    * Specifies the storage account type to be used to store the image. This property is not
-   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'
    */
   storageAccountType?: StorageAccountType;
 }
@@ -5340,7 +5921,7 @@ export interface GalleryArtifactVersionSource {
    * The id of the gallery artifact version source. Can specify a disk uri, snapshot uri, or user
    * image.
    */
-  id: string;
+  id?: string;
 }
 
 /**
@@ -5483,7 +6064,7 @@ export interface TargetRegion {
   regionalReplicaCount?: number;
   /**
    * Specifies the storage account type to be used to store the image. This property is not
-   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'
+   * updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'
    */
   storageAccountType?: StorageAccountType;
   encryption?: EncryptionImages;
@@ -5721,7 +6302,7 @@ export interface ContainerService extends Resource {
  */
 export interface AvailabilitySetsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The expand expression to apply to the operation.
+   * The expand expression to apply to the operation. Allowed values are 'instanceView'.
    */
   expand?: string;
 }
@@ -5735,6 +6316,17 @@ export interface ProximityPlacementGroupsGetOptionalParams extends msRest.Reques
    * the proximity placement group.
    */
   includeColocationStatus?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface DedicatedHostGroupsGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply on the operation. The response shows the list of instance view
+   * of the dedicated hosts under the dedicated host group. Possible values include: 'instanceView'
+   */
+  expand?: InstanceViewTypes;
 }
 
 /**
@@ -5831,6 +6423,18 @@ export interface VirtualMachinesReimageOptionalParams extends msRest.RequestOpti
    * Parameters supplied to the Reimage Virtual Machine operation.
    */
   parameters?: VirtualMachineReimageParameters;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes.
+   * <br><br>NOTE: If not specified, SAS URIs will be generated with a default expiration duration
+   * of 120 minutes.
+   */
+  sasUriExpirationTimeInMinutes?: number;
 }
 
 /**
@@ -6092,15 +6696,17 @@ export interface VirtualMachineScaleSetVMsGetOptionalParams extends msRest.Reque
  */
 export interface VirtualMachineScaleSetVMsListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The filter to apply to the operation.
+   * The filter to apply to the operation. Allowed values are
+   * 'startswith(instanceView/statuses/code, 'PowerState') eq true', 'properties/latestModelApplied
+   * eq true', 'properties/latestModelApplied eq false'.
    */
   filter?: string;
   /**
-   * The list parameters.
+   * The list parameters. Allowed values are 'instanceView', 'instanceView/statuses'.
    */
   select?: string;
   /**
-   * The expand expression to apply to the operation.
+   * The expand expression to apply to the operation. Allowed values are 'instanceView'.
    */
   expand?: string;
 }
@@ -6115,6 +6721,18 @@ export interface VirtualMachineScaleSetVMsPowerOffOptionalParams extends msRest.
    * if not specified. Default value: false.
    */
   skipShutdown?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Expiration duration in minutes for the SAS URIs with a value between 1 to 1440 minutes.
+   * <br><br>NOTE: If not specified, SAS URIs will be generated with a default expiration duration
+   * of 120 minutes.
+   */
+  sasUriExpirationTimeInMinutes?: number;
 }
 
 /**
@@ -6144,7 +6762,7 @@ export interface VirtualMachineScaleSetVMsBeginPowerOffOptionalParams extends ms
  */
 export interface ResourceSkusListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The filter to apply on the operation.
+   * The filter to apply on the operation. Only **location** filter is supported currently.
    */
   filter?: string;
 }
@@ -6239,6 +6857,19 @@ export interface DedicatedHostListResult extends Array<DedicatedHost> {
   /**
    * The URI to fetch the next page of dedicated hosts. Call ListNext() with this URI to fetch the
    * next page of dedicated hosts.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The list SSH public keys operation response.
+ * @extends Array<SshPublicKeyResource>
+ */
+export interface SshPublicKeysGroupListResult extends Array<SshPublicKeyResource> {
+  /**
+   * The URI to fetch the next page of SSH public keys. Call ListNext() with this URI to fetch the
+   * next page of SSH public keys.
    */
   nextLink?: string;
 }
@@ -6427,6 +7058,19 @@ export interface DiskEncryptionSetList extends Array<DiskEncryptionSet> {
 
 /**
  * @interface
+ * The List disk access operation response.
+ * @extends Array<DiskAccess>
+ */
+export interface DiskAccessList extends Array<DiskAccess> {
+  /**
+   * The uri to fetch the next page of disk access resources. Call ListNext() with this to fetch
+   * the next page of disk access resources.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
  * The List Galleries operation response.
  * @extends Array<Gallery>
  */
@@ -6503,6 +7147,14 @@ export interface ContainerServiceListResult extends Array<ContainerService> {
 }
 
 /**
+ * Defines values for VmDiskTypes.
+ * Possible values include: 'None', 'Unmanaged'
+ * @readonly
+ * @enum {string}
+ */
+export type VmDiskTypes = 'None' | 'Unmanaged';
+
+/**
  * Defines values for HyperVGenerationTypes.
  * Possible values include: 'V1', 'V2'
  * @readonly
@@ -6541,6 +7193,31 @@ export type ProximityPlacementGroupType = 'Standard' | 'Ultra';
  * @enum {string}
  */
 export type DedicatedHostLicenseTypes = 'None' | 'Windows_Server_Hybrid' | 'Windows_Server_Perpetual';
+
+/**
+ * Defines values for SoftwareUpdateRebootBehavior.
+ * Possible values include: 'NeverReboots', 'AlwaysRequiresReboot', 'CanRequestReboot'
+ * @readonly
+ * @enum {string}
+ */
+export type SoftwareUpdateRebootBehavior = 'NeverReboots' | 'AlwaysRequiresReboot' | 'CanRequestReboot';
+
+/**
+ * Defines values for PatchAssessmentState.
+ * Possible values include: 'Installed', 'Failed', 'Excluded', 'NotSelected', 'Pending',
+ * 'Available'
+ * @readonly
+ * @enum {string}
+ */
+export type PatchAssessmentState = 'Installed' | 'Failed' | 'Excluded' | 'NotSelected' | 'Pending' | 'Available';
+
+/**
+ * Defines values for PatchOperationStatus.
+ * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'CompletedWithWarnings'
+ * @readonly
+ * @enum {string}
+ */
+export type PatchOperationStatus = 'InProgress' | 'Failed' | 'Succeeded' | 'CompletedWithWarnings';
 
 /**
  * Defines values for OperatingSystemTypes.
@@ -6624,6 +7301,14 @@ export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_
 export type DiffDiskOptions = 'Local';
 
 /**
+ * Defines values for DiffDiskPlacement.
+ * Possible values include: 'CacheDisk', 'ResourceDisk'
+ * @readonly
+ * @enum {string}
+ */
+export type DiffDiskPlacement = 'CacheDisk' | 'ResourceDisk';
+
+/**
  * Defines values for PassNames.
  * Possible values include: 'OobeSystem'
  * @readonly
@@ -6654,6 +7339,14 @@ export type SettingNames = 'AutoLogon' | 'FirstLogonCommands';
  * @enum {string}
  */
 export type ProtocolTypes = 'Http' | 'Https';
+
+/**
+ * Defines values for InGuestPatchMode.
+ * Possible values include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
+ * @readonly
+ * @enum {string}
+ */
+export type InGuestPatchMode = 'Manual' | 'AutomaticByOS' | 'AutomaticByPlatform';
 
 /**
  * Defines values for VirtualMachinePriorityTypes.
@@ -6729,6 +7422,22 @@ export type OperatingSystemStateTypes = 'Generalized' | 'Specialized';
 export type IPVersion = 'IPv4' | 'IPv6';
 
 /**
+ * Defines values for OrchestrationServiceNames.
+ * Possible values include: 'AutomaticRepairs'
+ * @readonly
+ * @enum {string}
+ */
+export type OrchestrationServiceNames = 'AutomaticRepairs' ;
+
+/**
+ * Defines values for OrchestrationServiceState.
+ * Possible values include: 'NotRunning', 'Running', 'Suspended'
+ * @readonly
+ * @enum {string}
+ */
+export type OrchestrationServiceState = 'NotRunning' | 'Running' | 'Suspended';
+
+/**
  * Defines values for VirtualMachineScaleSetSkuScaleType.
  * Possible values include: 'Automatic', 'None'
  * @readonly
@@ -6775,6 +7484,14 @@ export type RollingUpgradeActionType = 'Start' | 'Cancel';
  * @enum {string}
  */
 export type IntervalInMins = 'ThreeMins' | 'FiveMins' | 'ThirtyMins' | 'SixtyMins';
+
+/**
+ * Defines values for OrchestrationServiceStateAction.
+ * Possible values include: 'Resume', 'Suspend'
+ * @readonly
+ * @enum {string}
+ */
+export type OrchestrationServiceStateAction = 'Resume' | 'Suspend';
 
 /**
  * Defines values for ResourceSkuCapacityScaleType.
@@ -6835,11 +7552,20 @@ export type DiskState = 'Unattached' | 'Attached' | 'Reserved' | 'ActiveSAS' | '
 
 /**
  * Defines values for EncryptionType.
- * Possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey'
+ * Possible values include: 'EncryptionAtRestWithPlatformKey', 'EncryptionAtRestWithCustomerKey',
+ * 'EncryptionAtRestWithPlatformAndCustomerKeys'
  * @readonly
  * @enum {string}
  */
-export type EncryptionType = 'EncryptionAtRestWithPlatformKey' | 'EncryptionAtRestWithCustomerKey';
+export type EncryptionType = 'EncryptionAtRestWithPlatformKey' | 'EncryptionAtRestWithCustomerKey' | 'EncryptionAtRestWithPlatformAndCustomerKeys';
+
+/**
+ * Defines values for NetworkAccessPolicy.
+ * Possible values include: 'AllowAll', 'AllowPrivate', 'DenyAll'
+ * @readonly
+ * @enum {string}
+ */
+export type NetworkAccessPolicy = 'AllowAll' | 'AllowPrivate' | 'DenyAll';
 
 /**
  * Defines values for SnapshotStorageAccountTypes.
@@ -6866,6 +7592,22 @@ export type AccessLevel = 'None' | 'Read' | 'Write';
 export type DiskEncryptionSetIdentityType = 'SystemAssigned';
 
 /**
+ * Defines values for PrivateEndpointServiceConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState.
+ * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
+
+/**
  * Defines values for AggregatedReplicationState.
  * Possible values include: 'Unknown', 'InProgress', 'Completed', 'Failed'
  * @readonly
@@ -6883,11 +7625,11 @@ export type ReplicationState = 'Unknown' | 'Replicating' | 'Completed' | 'Failed
 
 /**
  * Defines values for StorageAccountType.
- * Possible values include: 'Standard_LRS', 'Standard_ZRS'
+ * Possible values include: 'Standard_LRS', 'Standard_ZRS', 'Premium_LRS'
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS';
+export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS' | 'Premium_LRS';
 
 /**
  * Defines values for HostCaching.
@@ -7570,6 +8312,166 @@ export type DedicatedHostsListByHostGroupNextResponse = DedicatedHostListResult 
 };
 
 /**
+ * Contains response data for the listBySubscription operation.
+ */
+export type SshPublicKeysListBySubscriptionResponse = SshPublicKeysGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SshPublicKeysGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type SshPublicKeysListByResourceGroupResponse = SshPublicKeysGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SshPublicKeysGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type SshPublicKeysCreateResponse = SshPublicKeyResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SshPublicKeyResource;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type SshPublicKeysUpdateResponse = SshPublicKeyResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SshPublicKeyResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SshPublicKeysGetResponse = SshPublicKeyResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SshPublicKeyResource;
+    };
+};
+
+/**
+ * Contains response data for the generateKeyPair operation.
+ */
+export type SshPublicKeysGenerateKeyPairResponse = SshPublicKeyGenerateKeyPairResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SshPublicKeyGenerateKeyPairResult;
+    };
+};
+
+/**
+ * Contains response data for the listBySubscriptionNext operation.
+ */
+export type SshPublicKeysListBySubscriptionNextResponse = SshPublicKeysGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SshPublicKeysGroupListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type SshPublicKeysListByResourceGroupNextResponse = SshPublicKeysGroupListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SshPublicKeysGroupListResult;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type VirtualMachineExtensionImagesGetResponse = VirtualMachineExtensionImage & {
@@ -8070,6 +8972,46 @@ export type VirtualMachinesListAvailableSizesResponse = VirtualMachineSizeListRe
 };
 
 /**
+ * Contains response data for the retrieveBootDiagnosticsData operation.
+ */
+export type VirtualMachinesRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RetrieveBootDiagnosticsDataResult;
+    };
+};
+
+/**
+ * Contains response data for the assessPatches operation.
+ */
+export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineAssessPatchesResult;
+    };
+};
+
+/**
  * Contains response data for the runCommand operation.
  */
 export type VirtualMachinesRunCommandResponse = RunCommandResult & {
@@ -8146,6 +9088,26 @@ export type VirtualMachinesBeginUpdateResponse = VirtualMachine & {
        * The response body as parsed JSON or XML
        */
       parsedBody: VirtualMachine;
+    };
+};
+
+/**
+ * Contains response data for the beginAssessPatches operation.
+ */
+export type VirtualMachinesBeginAssessPatchesResponse = VirtualMachineAssessPatchesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VirtualMachineAssessPatchesResult;
     };
 };
 
@@ -9090,6 +10052,26 @@ export type VirtualMachineScaleSetVMsListResponse = VirtualMachineScaleSetVMList
 };
 
 /**
+ * Contains response data for the retrieveBootDiagnosticsData operation.
+ */
+export type VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse = RetrieveBootDiagnosticsDataResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RetrieveBootDiagnosticsDataResult;
+    };
+};
+
+/**
  * Contains response data for the runCommand operation.
  */
 export type VirtualMachineScaleSetVMsRunCommandResponse = RunCommandResult & {
@@ -9966,6 +10948,206 @@ export type DiskEncryptionSetsListNextResponse = DiskEncryptionSetList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DiskEncryptionSetList;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type DiskAccessesCreateOrUpdateResponse = DiskAccess & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskAccess;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type DiskAccessesUpdateResponse = DiskAccess & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskAccess;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type DiskAccessesGetResponse = DiskAccess & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskAccess;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type DiskAccessesListByResourceGroupResponse = DiskAccessList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskAccessList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type DiskAccessesListResponse = DiskAccessList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskAccessList;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateLinkResources operation.
+ */
+export type DiskAccessesGetPrivateLinkResourcesResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type DiskAccessesBeginCreateOrUpdateResponse = DiskAccess & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskAccess;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type DiskAccessesBeginUpdateResponse = DiskAccess & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskAccess;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type DiskAccessesListByResourceGroupNextResponse = DiskAccessList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskAccessList;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type DiskAccessesListNextResponse = DiskAccessList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DiskAccessList;
     };
 };
 
