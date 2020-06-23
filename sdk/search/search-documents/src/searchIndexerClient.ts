@@ -516,6 +516,8 @@ export class SearchIndexerClient {
           ...dataSourceConnection,
           credentials: {
             connectionString: dataSourceConnection.connectionString
+              ? dataSourceConnection.connectionString
+              : "<unchanged>"
           }
         },
         {
