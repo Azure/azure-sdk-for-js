@@ -56,12 +56,13 @@ export async function executeAtomXmlOperation(
   log.httpAtomXml(`Executing ATOM based HTTP request: ${webResource.body}`);
 
   const reqPrepareOptions: RequestPrepareOptions = {
-    method: webResource.method,
+    ...webResource,
     headers: operationOptions.requestOptions?.customHeaders,
     onUploadProgress: operationOptions.requestOptions?.onUploadProgress,
     onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
     abortSignal: operationOptions.abortSignal,
-    spanOptions: operationOptions.tracingOptions?.spanOptions
+    spanOptions: operationOptions.tracingOptions?.spanOptions,
+    disableJsonStringifyOnBody: true
   };
   webResource = webResource.prepare(reqPrepareOptions);
   webResource.timeout = operationOptions.requestOptions?.timeout || 0;
