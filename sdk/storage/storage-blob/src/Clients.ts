@@ -6685,7 +6685,7 @@ export class ContainerClient extends StorageClient {
    * Example using `iter.next()`:
    *
    * ```js
-   * let iter = await containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
+   * let iter = containerClient.listBlobsByHierarchy("/", { prefix: "prefix1/" });
    * let entity = await iter.next();
    * while (!entity.done) {
    *   let item = entity.value;

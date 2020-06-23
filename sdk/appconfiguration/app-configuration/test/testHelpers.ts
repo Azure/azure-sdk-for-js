@@ -88,7 +88,7 @@ export function createAppConfigurationClientForTests(
 }
 
 export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {
-  const settingsIterator = await client.listConfigurationSettings({
+  const settingsIterator = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
 
