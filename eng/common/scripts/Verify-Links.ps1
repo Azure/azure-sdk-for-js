@@ -1,13 +1,5 @@
 param (
-<<<<<<< HEAD
-<<<<<<< HEAD
   # url list to verify links. Can either be a http address or a local file request. Local file paths support md and html files.
-=======
-  # url to verify links. Can either be a http address or a local file request. Local file paths support md and html files.
->>>>>>> cca821f0e... modify the urls
-=======
-  # url list to verify links. Can either be a http address or a local file request. Local file paths support md and html files.
->>>>>>> f5ceff2ba... add resolve relative links flag
   [string[]] $urls,
   # file that contains a set of links to ignore when verifying
   [string] $ignoreLinksFile = "$PSScriptRoot/ignore-links.txt",
@@ -20,11 +12,7 @@ param (
   # path to the root of the site for resolving rooted relative links, defaults to host root for http and file directory for local files
   [string] $rootUrl = "",
   # list of http status codes count as broken links. Defaults to 404. 
-<<<<<<< HEAD
   [array] $errorStatusCodes = @(404),
-=======
-  [array] $errorStatusCodes = @(404)
->>>>>>> f5ceff2ba... add resolve relative links flag
   # flag to allow resolving relative paths or not
   [bool] $resolveRelativeLinks = $true
 )
@@ -38,8 +26,6 @@ function NormalizeUrl([string]$url){
 
   $uri = [System.Uri]$url;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
   if ($script:baseUrl -eq "") {
     # for base url default to containing directory
     $script:baseUrl = (new-object System.Uri($uri, ".")).ToString();
@@ -53,28 +39,6 @@ function NormalizeUrl([string]$url){
     else {
       # for http links default to the root path
       $script:rootUrl = new-object System.Uri($uri, "/");
-=======
-  if ($baseUrl -eq "") {
-=======
-  if ($script:baseUrl -eq "") {
->>>>>>> 1271588bc... adding  to the rootUrl and baseUrl
-    # for base url default to containing directory
-    $script:baseUrl = (new-object System.Uri($uri, ".")).ToString();
-  }
-
-  if ($script:rootUrl -eq "") {
-    if ($uri.IsFile) { 
-      # for files default to the containing directory
-      $script:rootUrl = $script:baseUrl;
-    }
-    else {
-      # for http links default to the root path
-<<<<<<< HEAD
-      $rootUrl = new-object System.Uri($uri, "/");
->>>>>>> cca821f0e... modify the urls
-=======
-      $script:rootUrl = new-object System.Uri($uri, "/");
->>>>>>> 1271588bc... adding  to the rootUrl and baseUrl
     }
   }
   return $uri
@@ -94,21 +58,12 @@ function LogWarning
 
 function ResolveUri ([System.Uri]$referralUri, [string]$link)
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 62e2184e6... skip mailto links
   # If the link is mailto, skip it.
   if ($link.StartsWith("mailto:")) {
     Write-Verbose "Skipping $link because it is a mailto link."
     return $null
   }
 
-<<<<<<< HEAD
-=======
->>>>>>> f5ceff2ba... add resolve relative links flag
-=======
->>>>>>> 62e2184e6... skip mailto links
   $linkUri = [System.Uri]$link;
   if($resolveRelativeLinks){
     if (!$linkUri.IsAbsoluteUri) {
@@ -221,8 +176,16 @@ function GetLinks([System.Uri]$pageUri)
         $content = Get-Content ($file + "index.html")
       }
       else {
-        # Fallback to just reading the content directly
-        $content = Get-Content $file
+        if((Get-Item $file) -is [System.IO.DirectoryInfo]){
+          Write-Host "Recursing through directory- $file"
+          foreach($childItem in Get-ChildItem $file){
+            GetLinks($childItem)
+          }         
+        }
+        else{
+          # Fallback to just reading the content directly
+          $content = Get-Content $file
+        }
       }
     }
   }
