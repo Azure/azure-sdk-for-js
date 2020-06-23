@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 /* eslint @typescript-eslint/member-ordering: 0 */
 
+/// <reference path="../dom-shim.d.ts" />
+
 import {
   TokenCredential,
   isTokenCredential,
