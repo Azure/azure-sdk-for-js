@@ -299,7 +299,7 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
   return {
     formType: `form-${original.clusterId}`,
     pageRange: { firstPageNumber: original.pageNumber, lastPageNumber: original.pageNumber },
-    pages,
+    pages: pages.filter((p) => p.pageNumber === original.pageNumber),
     fields: original.keyValuePairs
       ? toFieldsFromKeyValuePairs(original.pageNumber, original.keyValuePairs, pages)
       : {}
@@ -311,7 +311,9 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
     formType: original.docType,
     pageRange: { firstPageNumber: original.pageRange[0], lastPageNumber: original.pageRange[1] },
     fields: toFieldsFromFieldValue(original.fields, pages),
-    pages
+    pages: pages.filter(
+      (p) => original.pageRange[0] <= p.pageNumber && p.pageNumber <= original.pageRange[1]
+    )
   };
 }
 
