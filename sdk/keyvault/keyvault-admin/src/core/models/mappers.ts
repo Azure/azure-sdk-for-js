@@ -380,3 +380,290 @@ export const KeyVaultError: coreHttp.CompositeMapper = {
     }
   }
 };
+
+export const SASTokenParameter: coreHttp.CompositeMapper = {
+  serializedName: "SASTokenParameter",
+  type: {
+    name: "Composite",
+    className: "SASTokenParameter",
+    modelProperties: {
+      storageResourceUri: {
+        required: true,
+        serializedName: "storageResourceUri",
+        type: {
+          name: "String"
+        }
+      },
+      token: {
+        required: true,
+        serializedName: "token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RestoreOperationParameters: coreHttp.CompositeMapper = {
+  serializedName: "RestoreOperationParameters",
+  type: {
+    name: "Composite",
+    className: "RestoreOperationParameters",
+    modelProperties: {
+      sasTokenParameters: {
+        required: true,
+        serializedName: "sasTokenParameters",
+        type: {
+          name: "Composite",
+          className: "SASTokenParameter"
+        }
+      },
+      folderToRestore: {
+        required: true,
+        serializedName: "folderToRestore",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SelectiveKeyRestoreOperationParameters: coreHttp.CompositeMapper = {
+  serializedName: "SelectiveKeyRestoreOperationParameters",
+  type: {
+    name: "Composite",
+    className: "SelectiveKeyRestoreOperationParameters",
+    modelProperties: {
+      sasTokenParameters: {
+        required: true,
+        serializedName: "sasTokenParameters",
+        type: {
+          name: "Composite",
+          className: "SASTokenParameter"
+        }
+      },
+      folder: {
+        required: true,
+        serializedName: "folder",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SelectiveKeyRestoreOperation: coreHttp.CompositeMapper = {
+  serializedName: "SelectiveKeyRestoreOperation",
+  type: {
+    name: "Composite",
+    className: "SelectiveKeyRestoreOperation",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      statusDetails: {
+        serializedName: "statusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "UnixTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "UnixTime"
+        }
+      }
+    }
+  }
+};
+
+export const FullBackupOperation: coreHttp.CompositeMapper = {
+  serializedName: "FullBackupOperation",
+  type: {
+    name: "Composite",
+    className: "FullBackupOperation",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      statusDetails: {
+        serializedName: "statusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "UnixTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "UnixTime"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        type: {
+          name: "String"
+        }
+      },
+      azureStorageBlobContainerUri: {
+        serializedName: "azureStorageBlobContainerUri",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FullRestoreOperation: coreHttp.CompositeMapper = {
+  serializedName: "FullRestoreOperation",
+  type: {
+    name: "Composite",
+    className: "FullRestoreOperation",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      statusDetails: {
+        serializedName: "statusDetails",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorModel"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "UnixTime"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "UnixTime"
+        }
+      }
+    }
+  }
+};
+
+export const FullBackupHeaders: coreHttp.CompositeMapper = {
+  serializedName: "fullbackup-headers",
+  type: {
+    name: "Composite",
+    className: "FullBackupHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FullRestoreOperationHeaders: coreHttp.CompositeMapper = {
+  serializedName: "fullrestoreoperation-headers",
+  type: {
+    name: "Composite",
+    className: "FullRestoreOperationHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SelectiveKeyRestoreOperationHeaders: coreHttp.CompositeMapper = {
+  serializedName: "selectivekeyrestoreoperation-headers",
+  type: {
+    name: "Composite",
+    className: "SelectiveKeyRestoreOperationHeaders",
+    modelProperties: {
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};

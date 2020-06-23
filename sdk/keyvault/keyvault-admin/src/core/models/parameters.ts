@@ -32,6 +32,26 @@ export const filter: coreHttp.OperationQueryParameter = {
     }
   }
 };
+export const jobId: coreHttp.OperationURLParameter = {
+  parameterPath: "jobId",
+  mapper: {
+    required: true,
+    serializedName: "jobId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const keyName: coreHttp.OperationURLParameter = {
+  parameterPath: "keyName",
+  mapper: {
+    required: true,
+    serializedName: "keyName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const roleAssignmentName: coreHttp.OperationURLParameter = {
   parameterPath: "roleAssignmentName",
   mapper: {

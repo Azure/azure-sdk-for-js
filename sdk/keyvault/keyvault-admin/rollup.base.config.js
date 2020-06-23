@@ -30,10 +30,10 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
-  const additionalExternals = ["keytar"];
+  const externalNodeBuiltins = [];
+  const additionalExternals = [];
   const baseConfig = {
-    input: "dist-esm/keyvault-admin/src/index.js",
+    input: "dist-esm/index.js",
     external: depNames.concat(externalNodeBuiltins, additionalExternals),
     output: {
       file: "dist/index.js",
@@ -83,7 +83,7 @@ export function nodeConfig(test = false) {
 
 export function browserConfig(test = false) {
   const baseConfig = {
-    input: "dist-esm/keyvault-admin/src/index.js",
+    input: "dist-esm/index.js",
     output: {
       file: "dist-browser/azure-keyvault-admin.js",
       banner: banner,
@@ -119,8 +119,7 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          assert: ["ok", "equal", "strictEqual", "deepEqual"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          assert: ["ok", "equal", "strictEqual", "deepEqual"]
         }
       })
     ]
@@ -134,7 +133,7 @@ export function browserConfig(test = false) {
     );
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external
-    baseConfig.external = ["fs-extra", "path"];
+    baseConfig.external = [];
     baseConfig.context = "null";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting

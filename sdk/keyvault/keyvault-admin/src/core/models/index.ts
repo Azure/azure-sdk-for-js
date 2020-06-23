@@ -219,6 +219,136 @@ export interface KeyVaultError {
 }
 
 /**
+ * An interface representing SASTokenParameter.
+ */
+export interface SASTokenParameter {
+  /**
+   * Azure Blob storage container Uri
+   */
+  storageResourceUri: string;
+  /**
+   * The SAS token pointing to an Azure Blob storage container
+   */
+  token: string;
+}
+
+/**
+ * An interface representing RestoreOperationParameters.
+ */
+export interface RestoreOperationParameters {
+  sasTokenParameters: SASTokenParameter;
+  /**
+   * The Folder name of the blob where the previous successful full backup was stored
+   */
+  folderToRestore: string;
+}
+
+/**
+ * An interface representing SelectiveKeyRestoreOperationParameters.
+ */
+export interface SelectiveKeyRestoreOperationParameters {
+  sasTokenParameters: SASTokenParameter;
+  /**
+   * The Folder name of the blob where the previous successful full backup was stored
+   */
+  folder: string;
+}
+
+/**
+ * Selective Key Restore operation
+ */
+export interface SelectiveKeyRestoreOperation {
+  /**
+   * Status of the restore operation.
+   */
+  status?: string;
+  /**
+   * The status details of restore operation.
+   */
+  statusDetails?: string;
+  /**
+   * Error encountered, if any, during the selective key restore operation.
+   */
+  error?: ErrorModel;
+  /**
+   * Identifier for the selective key restore operation.
+   */
+  jobId?: string;
+  /**
+   * The start time of the restore operation
+   */
+  startTime?: Date;
+  /**
+   * The end time of the restore operation
+   */
+  endTime?: Date;
+}
+
+/**
+ * Full backup operation
+ */
+export interface FullBackupOperation {
+  /**
+   * Status of the backup operation.
+   */
+  status?: string;
+  /**
+   * The status details of backup operation.
+   */
+  statusDetails?: string;
+  /**
+   * Error encountered, if any, during the full backup operation.
+   */
+  error?: ErrorModel;
+  /**
+   * The start time of the backup operation in UTC
+   */
+  startTime?: Date;
+  /**
+   * The end time of the backup operation in UTC
+   */
+  endTime?: Date;
+  /**
+   * Identifier for the full backup operation.
+   */
+  jobId?: string;
+  /**
+   * The Azure blob storage container Uri which contains the full backup
+   */
+  azureStorageBlobContainerUri?: string;
+}
+
+/**
+ * Full restore operation
+ */
+export interface FullRestoreOperation {
+  /**
+   * Status of the restore operation.
+   */
+  status?: string;
+  /**
+   * The status details of restore operation.
+   */
+  statusDetails?: string;
+  /**
+   * Error encountered, if any, during the full restore operation.
+   */
+  error?: ErrorModel;
+  /**
+   * Identifier for the full restore operation.
+   */
+  jobId?: string;
+  /**
+   * The start time of the restore operation
+   */
+  startTime?: Date;
+  /**
+   * The end time of the restore operation
+   */
+  endTime?: Date;
+}
+
+/**
  * Optional Parameters.
  */
 export interface RoleDefinitionsListOptionalParams extends coreHttp.RequestOptionsBase {
@@ -239,6 +369,85 @@ export interface RoleAssignmentsListForScopeOptionalParams extends coreHttp.Requ
    * or below the scope for the specified principal.
    */
   filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KeyVaultClientFullBackupOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Azure blob shared access signature token pointing to a valid Azure blob container where full
+   * backup needs to be stored. This token needs to be valid for at least next 24 hours from the
+   * time of making this call
+   */
+  azureStorageBlobContainerUri?: SASTokenParameter;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KeyVaultClientFullRestoreOperationMethodOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The Azure blob SAS token pointing to a folder where the previous successful full backup was
+   * stored
+   */
+  restoreBlobDetails?: RestoreOperationParameters;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KeyVaultClientSelectiveKeyRestoreOperationMethodOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * The Azure blob SAS token pointing to a folder where the previous successful full backup was
+   * stored
+   */
+  restoreBlobDetails?: SelectiveKeyRestoreOperationParameters;
+}
+
+/**
+ * Defines headers for FullBackup operation.
+ */
+export interface FullBackupHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in
+   * Azure-AsyncOperation.
+   */
+  retryAfter: number;
+  /**
+   * The URI to poll for completion status.
+   */
+  azureAsyncOperation: string;
+}
+
+/**
+ * Defines headers for FullRestoreOperation operation.
+ */
+export interface FullRestoreOperationHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in
+   * Azure-AsyncOperation.
+   */
+  retryAfter: number;
+  /**
+   * The URI to poll for completion status.
+   */
+  azureAsyncOperation: string;
+}
+
+/**
+ * Defines headers for SelectiveKeyRestoreOperation operation.
+ */
+export interface SelectiveKeyRestoreOperationHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in
+   * Azure-AsyncOperation.
+   */
+  retryAfter: number;
+  /**
+   * The URI to poll for completion status.
+   */
+  azureAsyncOperation: string;
 }
 
 /**
@@ -338,5 +547,120 @@ export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: RoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the fullBackup operation.
+ */
+export type FullBackupResponse = FullBackupOperation & FullBackupHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FullBackupHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FullBackupOperation;
+    };
+};
+
+/**
+ * Contains response data for the fullBackupStatus operation.
+ */
+export type FullBackupStatusResponse = FullBackupOperation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FullBackupOperation;
+    };
+};
+
+/**
+ * Contains response data for the fullRestoreOperationMethod operation.
+ */
+export type FullRestoreOperationResponse = FullRestoreOperation & FullRestoreOperationHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: FullRestoreOperationHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FullRestoreOperation;
+    };
+};
+
+/**
+ * Contains response data for the fullRestoreStatus operation.
+ */
+export type FullRestoreStatusResponse = FullRestoreOperation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FullRestoreOperation;
+    };
+};
+
+/**
+ * Contains response data for the selectiveKeyRestoreOperationMethod operation.
+ */
+export type SelectiveKeyRestoreOperationResponse = SelectiveKeyRestoreOperation & SelectiveKeyRestoreOperationHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: SelectiveKeyRestoreOperationHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SelectiveKeyRestoreOperation;
     };
 };
