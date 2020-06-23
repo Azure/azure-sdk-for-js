@@ -138,7 +138,7 @@ export function toFormTable(original: DataTableModel, readResults?: FormPage[]):
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
-      confidence: cell.confidence,
+      confidence: cell.confidence || 1,
       textContent: cell.elements?.map((element) => toFormContent(element, readResults!)),
       isFooter: cell.isFooter || false,
       isHeader: cell.isHeader || false,
@@ -245,7 +245,7 @@ export function toFormFieldFromFieldValueModel(
       break;
   }
   return {
-    confidence: original.confidence,
+    confidence: original.confidence || 1,
     name: key,
     valueText: {
       pageNumber: original.pageNumber || 0,
