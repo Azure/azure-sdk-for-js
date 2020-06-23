@@ -9,7 +9,8 @@ import {
   parseXML,
   stringifyXML,
   stripRequest,
-  stripResponse
+  stripResponse,
+  RequestPrepareOptions
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
@@ -17,6 +18,7 @@ import * as log from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
+import { OperationOptionsForHTTP } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -39,7 +41,8 @@ export interface AtomXmlSerializer {
 export async function executeAtomXmlOperation(
   serviceBusAtomManagementClient: ServiceClient,
   webResource: WebResource,
-  serializer: AtomXmlSerializer
+  serializer: AtomXmlSerializer,
+  operationOptions: OperationOptionsForHTTP
 ): Promise<HttpOperationResponse> {
   if (webResource.body) {
     const content: object = serializer.serialize(webResource.body);
@@ -52,6 +55,16 @@ export async function executeAtomXmlOperation(
 
   log.httpAtomXml(`Executing ATOM based HTTP request: ${webResource.body}`);
 
+  const reqPrepareOptions: RequestPrepareOptions = {
+    method: webResource.method,
+    headers: operationOptions.requestOptions?.customHeaders,
+    onUploadProgress: operationOptions.requestOptions?.onUploadProgress,
+    onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
+    abortSignal: operationOptions.abortSignal,
+    spanOptions: operationOptions.tracingOptions?.spanOptions
+  };
+  webResource = webResource.prepare(reqPrepareOptions);
+  webResource.timeout = operationOptions.requestOptions?.timeout || 0;
   const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
     webResource
   );
