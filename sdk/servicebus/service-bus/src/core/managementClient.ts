@@ -350,6 +350,7 @@ export class ManagementClient extends LinkEntity {
     sendRequestOptions.timeoutInMs = retryTimeoutInMs - timeTakenByInit;
 
     try {
+      if (!request.message_id) request.message_id = generate_uuid();
       return await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
     } catch (err) {
       err = translate(err);
@@ -505,7 +506,6 @@ export class ManagementClient extends LinkEntity {
       }
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.peekMessage
@@ -740,7 +740,6 @@ export class ManagementClient extends LinkEntity {
       );
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.cancelScheduledMessage
@@ -819,7 +818,6 @@ export class ManagementClient extends LinkEntity {
       }
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.receiveBySequenceNumber
@@ -913,7 +911,6 @@ export class ManagementClient extends LinkEntity {
       }
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.updateDisposition
