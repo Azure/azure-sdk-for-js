@@ -371,22 +371,17 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
 }
 
 export function generatedSearchResultToPublicSearchResult<T>(results: GeneratedSearchResult[]) {
-  const returnValues: SearchResult<T>[] = [];
-  results.forEach((result) => {
+  const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
     const { _score, _highlights, ...restProps } = result;
-    const obj = {
-      score: _score,
-      highlights: _highlights,
-      document: {}
-    };
-
     const doc: { [key: string]: any } = {
       ...restProps
     };
-
-    obj.document = doc;
-
-    returnValues.push(obj as SearchResult<T>);
+    const obj = {
+      score: _score,
+      highlights: _highlights,
+      document: doc
+    };
+    return obj as SearchResult<T>;
   });
   return returnValues;
 }
@@ -394,26 +389,25 @@ export function generatedSearchResultToPublicSearchResult<T>(results: GeneratedS
 export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
   searchDocumentsResult: GeneratedSuggestDocumentsResult
 ): SuggestDocumentsResult<T> {
-  const result: SuggestDocumentsResult<T> = {
-    results: [],
-    coverage: searchDocumentsResult.coverage
-  };
-
-  searchDocumentsResult.results.forEach((element) => {
+  const results = searchDocumentsResult.results.map<SuggestResult<T>>((element) => {
     const { _text, ...restProps } = element;
-
-    const obj = {
-      text: _text,
-      document: {}
-    };
 
     const doc: { [key: string]: any } = {
       ...restProps
     };
 
-    obj.document = doc;
-    result.results.push(obj as SuggestResult<T>);
+    const obj = {
+      text: _text,
+      document: doc
+    };
+
+    return obj as SuggestResult<T>;
   });
+
+  const result: SuggestDocumentsResult<T> = {
+    results: results,
+    coverage: searchDocumentsResult.coverage
+  };
 
   return result;
 }
