@@ -42,6 +42,13 @@ export interface PumpManager {
   isReceivingFromPartition(partitionId: string): boolean;
 
   /**
+   * Returns a list of partition ids that the pump manager is actively receiving events from.
+   * @ignore
+   * @internal
+   */
+  receivingFromPartitions(): string[];
+
+  /**
    * Stops all PartitionPumps and removes them from the internal map.
    * @param reason The reason for removing the pump.
    * @ignore
