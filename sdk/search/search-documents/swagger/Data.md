@@ -58,3 +58,25 @@ directive:
       $.properties['@search.action']['x-ms-client-name'] = '__actionType';
       $.required = ['@search.action'];
 ```
+
+
+### Change text to _text in SuggestResult
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SuggestResult.properties['@search.text']
+    transform: >
+      $['x-ms-client-name'] = '_text'
+```
+
+### Change score to _score & highlights to _highlights in SuggestResult
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchResult
+    transform: >
+      $.properties['@search.score']['x-ms-client-name'] = '_score';
+      $.properties['@search.highlights']['x-ms-client-name'] = '_highlights';
+```

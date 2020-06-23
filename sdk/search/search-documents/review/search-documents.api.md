@@ -984,7 +984,7 @@ export interface ScoringProfile {
 export class SearchClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
-    autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
+    autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
@@ -995,7 +995,7 @@ export class SearchClient<T> {
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
-    suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -1255,7 +1255,8 @@ export type SearchResult<T> = {
     readonly highlights?: {
         [propertyName: string]: string[];
     };
-} & T;
+    document: T;
+};
 
 // @public
 export interface SearchServiceStatistics {
@@ -1443,7 +1444,8 @@ export interface SuggestRequest<Fields> {
 // @public
 export type SuggestResult<T> = {
     readonly text: string;
-} & T;
+    document: T;
+};
 
 // @public
 export interface SynonymMap {
