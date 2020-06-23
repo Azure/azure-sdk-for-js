@@ -12,6 +12,7 @@ import { OperationOptions as OperationOptionsForHTTP } from "@azure/core-http";
 // NOTE: This class is intended to mirror the relevant fields and structure from
 // @azure/core-http OperationOptions
 export type OperationOptions = Exclude<OperationOptionsForHTTP, "requestOptions">;
+export { OperationOptionsForHTTP };
 
 /**
  * @internal
