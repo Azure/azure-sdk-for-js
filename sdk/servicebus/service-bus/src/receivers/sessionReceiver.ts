@@ -37,10 +37,12 @@ import {
   RetryOperationType,
   RetryOptions,
   retry,
-  MessagingError
+  ErrorNameConditionMapper,
+  translate
 } from "@azure/core-amqp";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
+import { AmqpError } from "rhea-promise";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -261,12 +263,11 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   async renewSessionLock(options?: OperationOptions): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     if (!this._messageSession) {
-      const error = new MessagingError(
-        `The session lock has expired on the session with id ${this.sessionId}.`
-      );
-      error.code = "SessionLockLostError";
-      error.retryable = false;
-      throw error;
+      const amqpError: AmqpError = {
+        condition: ErrorNameConditionMapper.SessionLockLostError,
+        description: `The session lock has expired on the session with id ${this.sessionId}`
+      };
+      throw translate(amqpError);
     }
     const renewSessionLockOperationPromise = async () => {
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
