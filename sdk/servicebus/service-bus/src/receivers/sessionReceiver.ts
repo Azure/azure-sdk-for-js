@@ -17,12 +17,12 @@ import {
 import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
-  getOpenSessionReceiverErrorMsg,
   getReceiverClosedErrorMsg,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterNotLongArray
+  throwTypeErrorIfParameterNotLongArray,
+  getOpenSessionReceiverErrorMsg
 } from "../util/errors";
 import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
@@ -110,7 +110,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   private _context: ClientEntityContext;
   private _retryOptions: RetryOptions;
-  private _messageSession: MessageSession | undefined;
+  private _messageSession: MessageSession;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
@@ -122,6 +122,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if an open receiver is already existing for given sessionId.
    */
   private constructor(
+    messageSession: MessageSession,
     context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
     private _sessionOptions: CreateSessionReceiverOptions,
@@ -129,31 +130,19 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ) {
     throwErrorIfConnectionClosed(context.namespace);
     this._context = context;
+    this._sessionOptions;
     this.entityPath = this._context.entityPath;
     this._retryOptions = retryOptions;
-
-    if (this._sessionOptions.sessionId) {
-      this._sessionOptions.sessionId = String(this._sessionOptions.sessionId);
-
-      // Check if receiver for given session already exists
-      if (
-        this._context.messageSessions[this._sessionOptions.sessionId] &&
-        this._context.messageSessions[this._sessionOptions.sessionId].isOpen()
-      ) {
-        const errorMessage = getOpenSessionReceiverErrorMsg(
-          this._context.entityPath,
-          this._sessionOptions.sessionId
-        );
-        const error = new Error(errorMessage);
-        log.error(`[${this._context.namespace.connectionId}] %O`, error);
-        throw error;
-      }
+    this._messageSession = messageSession;
+    // By this point, we should have a valid sessionId on the messageSession
+    // If not, the receiver cannot be used, so throw error.
+    if (messageSession.sessionId == undefined) {
+      const error = new Error("Something went wrong. Cannot lock a session.");
+      log.error(`[${context.namespace.connectionId}] %O`, error);
+      throw error;
     }
-
-    // `createInitializedSessionReceiver` will set this value by calling init()
-    // so we just temporarily set it to "" so we can get away with it never being
-    // `undefined`.
-    this.sessionId = "";
+    this.sessionId = messageSession.sessionId;
+    delete this._context.expiredMessageSessions[messageSession.sessionId];
   }
 
   static async createInitializedSessionReceiver<
@@ -164,14 +153,37 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     sessionOptions: CreateSessionReceiverOptions,
     retryOptions: RetryOptions = {}
   ): Promise<SessionReceiver<ReceivedMessageT>> {
+    context.isSessionEnabled = true;
+    if (sessionOptions.sessionId) {
+      sessionOptions.sessionId = String(sessionOptions.sessionId);
+
+      // Check if receiver for given session already exists
+      if (
+        context.messageSessions[sessionOptions.sessionId] &&
+        context.messageSessions[sessionOptions.sessionId].isOpen()
+      ) {
+        const errorMessage = getOpenSessionReceiverErrorMsg(
+          context.entityPath,
+          sessionOptions.sessionId
+        );
+        const error = new Error(errorMessage);
+        log.error(`[${context.namespace.connectionId}] %O`, error);
+        throw error;
+      }
+    }
+
+    const messageSession = await MessageSession.create(context, {
+      sessionId: sessionOptions.sessionId,
+      autoRenewLockDurationInMs: sessionOptions.autoRenewLockDurationInMs,
+      receiveMode: convertToInternalReceiveMode(receiveMode)
+    });
     const sessionReceiver = new SessionReceiverImpl<ReceivedMessageT>(
+      messageSession,
       context,
       receiveMode,
       sessionOptions,
       retryOptions
     );
-
-    await sessionReceiver._createMessageSessionIfDoesntExist();
     return sessionReceiver;
   }
 
@@ -188,28 +200,14 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw error;
     }
   }
-
-  private async _createMessageSessionIfDoesntExist(): Promise<void> {
-    // TODO - pass timeout for MessageSession creation
-    if (this._messageSession) {
-      return;
+  private _throwIfSessionLockExpired(): void {
+    if (!this._messageSession) {
+      const amqpError: AmqpError = {
+        condition: ErrorNameConditionMapper.SessionLockLostError,
+        description: `The session lock has expired on the session with id ${this.sessionId}`
+      };
+      throw translate(amqpError);
     }
-    this._context.isSessionEnabled = true;
-    this._messageSession = await MessageSession.create(this._context, {
-      sessionId: this._sessionOptions.sessionId,
-      autoRenewLockDurationInMs: this._sessionOptions.autoRenewLockDurationInMs,
-      receiveMode: convertToInternalReceiveMode(this.receiveMode)
-    });
-    // By this point, we should have a valid sessionId on the messageSession
-    // If not, the receiver cannot be used, so throw error.
-    if (this._messageSession.sessionId == null) {
-      const error = new Error("Something went wrong. Cannot lock a session.");
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
-    }
-    this.sessionId = this._messageSession.sessionId;
-    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
-    return;
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -262,13 +260,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async renewSessionLock(options?: OperationOptions): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    if (!this._messageSession) {
-      const amqpError: AmqpError = {
-        condition: ErrorNameConditionMapper.SessionLockLostError,
-        description: `The session lock has expired on the session with id ${this.sessionId}`
-      };
-      throw translate(amqpError);
-    }
+    this._throwIfSessionLockExpired();
     const renewSessionLockOperationPromise = async () => {
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
         this.sessionId,
@@ -300,9 +292,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async setState(state: any, options: OperationOptions = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
+    this._throwIfSessionLockExpired();
 
     const setSessionStateOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
       await this._context.managementClient!.setSessionState(this.sessionId!, state, {
         ...options,
         requestName: "setState",
@@ -330,9 +322,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async getState(options: OperationOptions = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
+    this._throwIfSessionLockExpired();
 
     const getSessionStateOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
       return this._context.managementClient!.getSessionState(this.sessionId, {
         ...options,
         requestName: "getState",
@@ -399,6 +391,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     options: OperationOptions = {}
   ): Promise<ReceivedMessageT | undefined> {
     this._throwIfReceiverOrConnectionClosed();
+    this._throwIfSessionLockExpired();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "sequenceNumber",
@@ -411,7 +404,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     );
 
     const receiveDeferredMessageOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
       const messages = await this._context.managementClient!.receiveDeferredMessages(
         [sequenceNumber],
         convertToInternalReceiveMode(this.receiveMode),
@@ -449,6 +441,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     options: OperationOptions = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
+    this._throwIfSessionLockExpired();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "sequenceNumbers",
@@ -464,7 +457,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     );
 
     const receiveDeferredMessagesOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
       const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
         sequenceNumbers,
         convertToInternalReceiveMode(this.receiveMode),
@@ -508,10 +500,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    this._throwIfSessionLockExpired();
 
     const receiveBatchOperationPromise = async () => {
-      await this._createMessageSessionIfDoesntExist();
-
       const receivedMessages = await this._messageSession!.receiveMessages(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs
@@ -574,6 +565,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+    this._throwIfSessionLockExpired();
     const connId = this._context.namespace.connectionId;
     throwTypeErrorIfParameterMissing(connId, "onMessage", onMessage);
     throwTypeErrorIfParameterMissing(connId, "onError", onError);
@@ -584,21 +576,21 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    this._createMessageSessionIfDoesntExist()
-      .then(async () => {
-        if (!this._messageSession) {
-          return;
-        }
-        if (!this._isClosed) {
-          this._messageSession.receive(onMessage, onError, options);
-        } else {
-          await this._messageSession.close();
-        }
+    try {
+      if (!this._messageSession) {
         return;
-      })
-      .catch((err) => {
-        onError(err);
-      });
+      }
+      if (!this._isClosed) {
+        this._messageSession.receive(onMessage, onError, options);
+      } else {
+        this._messageSession.close().catch((err) => {
+          throw err;
+        });
+      }
+      return;
+    } catch (err) {
+      onError(err);
+    }
   }
 
   /**
@@ -630,7 +622,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     try {
       if (this._messageSession) {
         await this._messageSession.close();
-        this._messageSession = undefined;
       }
     } catch (err) {
       log.error(
