@@ -81,7 +81,7 @@ export interface ListRequestOptions {
   /**
    * Count of entities to fetch.
    */
-  top?: number;
+  maxCount?: number;
 
   /**
    * Count of entities to skip from being fetched.
@@ -413,9 +413,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueues(options?: ListRequestOptions): Promise<QueuesResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listQueues() with options: ${options}`
-    );
+    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
       options,
@@ -438,12 +436,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueuesRuntimeInfo(
-    options?: ListRequestOptions
-  ): Promise<QueuesRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listQueues() with options: ${options}`
-    );
+  async getQueuesRuntimeInfo(options?: ListRequestOptions): Promise<QueuesRuntimeInfoResponse> {
+    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
       options,
@@ -655,9 +649,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopics(options?: ListRequestOptions): Promise<TopicsResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listTopics() with options: ${options}`
-    );
+    log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
       options,
@@ -680,12 +672,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopicsRuntimeInfo(
-    options?: ListRequestOptions
-  ): Promise<TopicsRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listTopics() with options: ${options}`
-    );
+  async getTopicsRuntimeInfo(options?: ListRequestOptions): Promise<TopicsRuntimeInfoResponse> {
+    log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
       options,
@@ -1167,9 +1155,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     options?: ListRequestOptions
   ): Promise<RulesResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listRules() with options: ${options}`
-    );
+    log.httpAtomXml(`Performing management operation - listRules() with options: ${options}`);
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
     const response: HttpOperationResponse = await this.listResources(
       fullPath,
@@ -1361,8 +1347,8 @@ export class ServiceBusManagementClient extends ServiceClient {
       if (listRequestOptions.skip) {
         queryParams["$skip"] = listRequestOptions.skip.toString();
       }
-      if (listRequestOptions.top) {
-        queryParams["$top"] = listRequestOptions.top.toString();
+      if (listRequestOptions.maxCount) {
+        queryParams["$top"] = listRequestOptions.maxCount.toString();
       }
     }
 
