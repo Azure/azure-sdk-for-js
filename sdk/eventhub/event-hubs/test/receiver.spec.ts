@@ -19,7 +19,7 @@ import {
 } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
-import { EventHubConsumer } from "../src/receiver";
+import { EventHubReceiver } from "../src/eventHubReceiver";
 const env = getEnvVars();
 
 describe("EventHubConsumerClient", function(): void {
@@ -450,7 +450,7 @@ describe("EventHubConsumerClient", function(): void {
         partitionId
       });
 
-      const receiver = new EventHubConsumer(
+      const receiver = new EventHubReceiver(
         consumerClient["_context"],
         EventHubConsumerClient.defaultConsumerGroupName,
         partitionId,
@@ -483,7 +483,7 @@ describe("EventHubConsumerClient", function(): void {
         partitionId
       });
 
-      const receiver = new EventHubConsumer(
+      const receiver = new EventHubReceiver(
         consumerClient["_context"],
         EventHubConsumerClient.defaultConsumerGroupName,
         partitionId,
@@ -517,7 +517,7 @@ describe("EventHubConsumerClient", function(): void {
         partitionId
       });
 
-      const receiver = new EventHubConsumer(
+      const receiver = new EventHubReceiver(
         consumerClient["_context"],
         EventHubConsumerClient.defaultConsumerGroupName,
         partitionId,
@@ -536,47 +536,6 @@ describe("EventHubConsumerClient", function(): void {
       } catch (err) {
         err.name.should.equal("AbortError");
         err.message.should.equal("The receive operation has been cancelled by the user.");
-      }
-
-      await receiver.close();
-    });
-
-    it("should not support calling receiveBatch after a cancellation", async function(): Promise<
-      void
-    > {
-      const partitionId = partitionIds[0];
-      const time = Date.now();
-
-      // send a message that can be received
-      await producerClient.sendBatch([{ body: "batchReceiver post-cancellation - timeout 0" }], {
-        partitionId
-      });
-
-      const receiver = new EventHubConsumer(
-        consumerClient["_context"],
-        EventHubConsumerClient.defaultConsumerGroupName,
-        partitionId,
-        {
-          enqueuedOn: time
-        }
-      );
-
-      try {
-        // abortSignal event listeners will be triggered after synchronous paths are executed
-        const abortSignal = AbortController.timeout(0);
-        await receiver.receiveBatch(1, 60, abortSignal);
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.name.should.equal("AbortError");
-        err.message.should.equal("The receive operation has been cancelled by the user.");
-        try {
-          await receiver.receiveBatch(1, 60);
-          throw new Error(`Test failure`);
-        } catch (err) {
-          err.message.should.match(
-            /The EventHubConsumer for ".+" has been closed and can no longer be used.*/gi
-          );
-        }
       }
 
       await receiver.close();
