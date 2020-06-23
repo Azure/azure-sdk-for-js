@@ -204,16 +204,16 @@ function GetLinks([System.Uri]$pageUri)
         $content = Get-Content ($file + "index.html")
       }
       else {
-        if((Get-Item $file) -is [System.IO.DirectoryInfo]){
-          Write-Host "Recursing through directory- $file"
-          foreach($childItem in Get-ChildItem $file){
-            GetLinks($childItem)
-          }         
-        }
-        else{
+        # if((Get-Item $file) -is [System.IO.DirectoryInfo]){
+        #   Write-Host "Recursing through directory- $file"
+        #   foreach($childItem in Get-ChildItem $file){
+        #     GetLinks($childItem)
+        #   }         
+        # }
+        # else{
           # Fallback to just reading the content directly
           $content = Get-Content $file
-        }
+        #}
       }
     }
   }
