@@ -12,7 +12,7 @@ jobs:
 
   - template: ../common/pipelines/templates/steps/verify-links.yml
     parameters:
-      Directory: $(Build.SourcesDirectory)
+      Directory: ""
 
   - script: 'npm ci'
     workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
