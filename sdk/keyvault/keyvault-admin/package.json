@@ -32,8 +32,7 @@
     "types/",
     "dist/",
     "dist-browser/",
-    "dist-esm/keyvault-admin/src",
-    "dist-esm/keyvault-common/src",
+    "dist-esm/src",
     "README.md",
     "LICENSE"
   ],
