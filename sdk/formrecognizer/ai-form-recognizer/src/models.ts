@@ -239,14 +239,36 @@ export type FormField = {
    */
   valueText?: FieldText;
 } & (
-  | { value?: string, valueType?: "string" }
-  | { value?: number, valueType?: "number" }
-  | { value?: Date, valueType?: "date" }
-  | { value?: string, valueType?: "time" }
-  | { value?: string, valueType?: "phoneNumber" }
-  | { value?: number, valueType?: "integer" }
-  | { value?: FormField[], valueType?: "array" }
-  | { value?: { [propertyName: string]: FormField }, valueType?: "object" }
+  | {
+    /**
+     * value of the recognized field.
+     */
+    value?: string;
+    /**
+     * Type of the 'value' field
+     */
+    valueType?: "string" }
+  | {
+    value?: number;
+    valueType?: "number" }
+  | {
+    value?: Date;
+    valueType?: "date" }
+  | {
+    value?: string;
+    valueType?: "time" }
+  | {
+    value?: string;
+    valueType?: "phoneNumber" }
+  | {
+    value?: number;
+    valueType?: "integer" }
+  | {
+    value?: FormField[];
+    valueType?: "array" }
+  | {
+    value?: { [propertyName: string]: FormField };
+    valueType?: "object" }
 )
 
 /**
