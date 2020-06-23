@@ -262,7 +262,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._throwIfReceiverOrConnectionClosed();
     if (!this._messageSession) {
       const error = new MessagingError(
-        `The session lock has expired on the session with id ${this.sessionId}.`
+        `The lock has expired on the session with id ${this.sessionId}.`
       );
       error.code = "SessionLockLostError";
       error.retryable = false;
