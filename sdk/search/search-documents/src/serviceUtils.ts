@@ -48,6 +48,11 @@ import {
   SimilarityAlgorithm,
   SearchResourceEncryptionKey
 } from "./serviceModels";
+import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
+import {
+  SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
+  SearchResult as GeneratedSearchResult
+} from "./generated/data/models";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
@@ -363,6 +368,54 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity)
   };
+}
+
+export function generatedSearchResultToPublicSearchResult<T>(results: GeneratedSearchResult[]) {
+  const returnValues: SearchResult<T>[] = [];
+  results.forEach((result) => {
+    const { _score, _highlights, ...restProps } = result;
+    const obj = {
+      score: _score,
+      highlights: _highlights,
+      document: {}
+    };
+
+    const doc: { [key: string]: any } = {
+      ...restProps
+    };
+
+    obj.document = doc;
+
+    returnValues.push(obj as SearchResult<T>);
+  });
+  return returnValues;
+}
+
+export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
+  searchDocumentsResult: GeneratedSuggestDocumentsResult
+): SuggestDocumentsResult<T> {
+  const result: SuggestDocumentsResult<T> = {
+    results: [],
+    coverage: searchDocumentsResult.coverage
+  };
+
+  searchDocumentsResult.results.forEach((element) => {
+    const { _text, ...restProps } = element;
+
+    const obj = {
+      text: _text,
+      document: {}
+    };
+
+    const doc: { [key: string]: any } = {
+      ...restProps
+    };
+
+    obj.document = doc;
+    result.results.push(obj as SuggestResult<T>);
+  });
+
+  return result;
 }
 
 export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {

@@ -7,8 +7,7 @@ import {
   SearchMode,
   FacetResult,
   AutocompleteMode,
-  IndexActionType,
-  SearchDocumentsResult as GeneratedSearchResult
+  IndexActionType
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -92,20 +91,6 @@ export type SearchIterator<Fields> = PagedAsyncIterableIterator<
   SearchDocumentsPageResult<Fields>,
   ListSearchResultsPageSettings
 >;
-
-/**
- * An intermediate type for encoding the continuation token.
- */
-export type ContinuableSearchResult = Omit<
-  GeneratedSearchResult,
-  "nextPageParameters" | "nextLink"
-> & {
-  /**
-   * A token used for retrieving the next page of results when the server
-   * enforces pagination.
-   */
-  continuationToken?: string;
-};
 
 // BEGIN manually modified generated interfaces
 //
@@ -326,7 +311,9 @@ export type SearchResult<T> = {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly highlights?: { [propertyName: string]: string[] };
-} & T;
+
+  document: T;
+};
 
 /**
  * Response containing search results from an index.
@@ -449,7 +436,8 @@ export type SuggestResult<T> = {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly text: string;
-} & T;
+  document: T;
+};
 
 /**
  * Response containing suggestion query results from an index.
