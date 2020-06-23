@@ -2539,13 +2539,13 @@ async function listEntities(
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.getQueues({
         skip: skip,
-        top: top
+        maxCount: top
       });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.getTopics({
         skip: skip,
-        top: top
+        maxCount: top
       });
       return topicResponse;
     case EntityType.SUBSCRIPTION:
@@ -2556,7 +2556,7 @@ async function listEntities(
       }
       const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptions(
         topicPath,
-        { skip: skip, top: top }
+        { skip: skip, maxCount: top }
       );
       return subscriptionResponse;
     case EntityType.RULE:
@@ -2568,7 +2568,7 @@ async function listEntities(
       const ruleResponse = await serviceBusAtomManagementClient.getRules(
         topicPath,
         subscriptionPath,
-        { skip: skip, top: top }
+        { skip: skip, maxCount: top }
       );
       return ruleResponse;
   }
