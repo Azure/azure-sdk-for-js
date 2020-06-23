@@ -5,13 +5,14 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "types/tables.d.ts",
+  "types": "types/latest/tables.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "cd samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:types": "downlevel-dts types/latest types/3.1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
@@ -36,6 +37,8 @@
     "dist/",
     "dist-esm/src/",
     "types/tables.d.ts",
+    "types/latest/",
+    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
@@ -52,6 +55,13 @@
   },
   "engines": {
     "node": ">=8.0.0"
+  },
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
+    }
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/azure-tables/",
   "sideEffects": false,
@@ -76,6 +86,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
+    "downlevel-dts": "~0.4.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-no-null": "^1.0.2",

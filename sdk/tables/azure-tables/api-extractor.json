@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/tables.d.ts"
+    "publicTrimmedFilePath": "./types/latest/tables.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
