@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { PartitionOwnership } from "../eventProcessor";
-import { LoadBalancerStrategy, identifyClaimablePartitions } from "./loadBalancerStrategy";
+import { LoadBalancingStrategy, identifyClaimablePartitions } from "./loadBalancingStrategy";
 
 /**
  * @internal
  * @ignore
  */
-export class GreedyLoadBalancerStrategy implements LoadBalancerStrategy {
+export class GreedyLoadBalancingStrategy implements LoadBalancingStrategy {
   /**
-   * Creates an instance of BalancedLoadBalancerStrategy.
+   * Creates an instance of GreedyLoadBalancingStrategy.
    *
    * @param _partitionOwnershipExpirationIntervalInMs The length of time a partition claim is valid.
    */

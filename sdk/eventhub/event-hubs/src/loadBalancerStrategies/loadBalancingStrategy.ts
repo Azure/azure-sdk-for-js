@@ -4,7 +4,7 @@
 import { PartitionOwnership } from "../eventProcessor";
 import { logger } from "../log";
 
-export interface LoadBalancerStrategy {
+export interface LoadBalancingStrategy {
   /**
    * Implements load balancing by taking into account current ownership and
    * the new set of partitions to add.
