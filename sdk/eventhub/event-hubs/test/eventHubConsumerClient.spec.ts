@@ -10,7 +10,6 @@ import {
   logger,
   CloseReason
 } from "../src";
-import { EventHubClient } from "../src/impl/eventHubClient";
 import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars, loopUntil, getStartingPositionsForTests } from "./utils/testUtils";
 import chai from "chai";
@@ -19,6 +18,7 @@ import { LogTester } from "./utils/logHelpers";
 import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
 import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
 import { SinonStubbedInstance, createStubInstance } from "sinon";
+import { ConnectionContext } from "../src/connectionContext";
 
 const should = chai.should();
 const env = getEnvVars();
@@ -83,15 +83,13 @@ describe("EventHubConsumerClient", () => {
         };
 
         const fakeEventProcessorConstructor = (
-          consumerGroup: string,
-          eventHubClient: EventHubClient,
+          connectionContext: ConnectionContext,
           subscriptionEventHandlers: SubscriptionEventHandlers,
           checkpointStore: CheckpointStore,
           options: FullEventProcessorOptions
         ) => {
-          consumerGroup.should.equal(EventHubConsumerClient.defaultConsumerGroupName);
           subscriptionEventHandlers.should.equal(subscriptionHandlers);
-          (typeof eventHubClient.createConsumer).should.equal("function");
+          should.exist(connectionContext.managementSession);
           isCheckpointStore(checkpointStore).should.be.ok;
 
           validateOptions(options);
