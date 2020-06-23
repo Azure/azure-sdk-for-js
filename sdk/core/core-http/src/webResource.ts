@@ -438,7 +438,7 @@ export class WebResource implements WebResourceLike {
       this.headers.set("Content-Type", "application/json; charset=utf-8");
     }
 
-    // set the request body. request.js automatically sets the Content-Length request header, so we need not set it explicilty
+    // set the request body. request.js automatically sets the Content-Length request header, so we need not set it explicitly
     this.body = options.body;
     if (options.body != undefined) {
       // body as a stream special case. set the body as-is and check for some special request headers specific to sending a stream.
