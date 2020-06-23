@@ -428,6 +428,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/keyvault-admin",
+      "projectFolder": "sdk/keyvault/keyvault-admin",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/keyvault-certificates",
       "projectFolder": "sdk/keyvault/keyvault-certificates",
       "versionPolicyName": "client"
