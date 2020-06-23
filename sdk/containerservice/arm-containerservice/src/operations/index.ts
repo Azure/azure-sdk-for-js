@@ -13,3 +13,4 @@ export * from "./containerServices";
 export * from "./operations";
 export * from "./managedClusters";
 export * from "./agentPools";
+export * from "./privateEndpointConnections";
