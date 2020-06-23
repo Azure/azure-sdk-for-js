@@ -59,7 +59,7 @@ export class EventHubConsumerClient {
   /**
    * The options passed by the user when creating the EventHubClient instance.
    */
-  private _clientOptions: EventHubClientOptions;
+  private _clientOptions: EventHubConsumerClientOptions;
   private _partitionGate = new PartitionGate();
   private _id = uuid();
 
@@ -255,7 +255,6 @@ export class EventHubConsumerClient {
     checkpointStoreOrOptions5?: CheckpointStore | EventHubConsumerClientOptions,
     options6?: EventHubConsumerClientOptions
   ) {
-    let eventHubConsumerClientOptions: EventHubConsumerClientOptions | undefined;
     if (isTokenCredential(checkpointStoreOrCredentialOrOptions4)) {
       // #3 or 3.1
       logger.info("Creating EventHubConsumerClient with TokenCredential.");
@@ -285,7 +284,7 @@ export class EventHubConsumerClient {
         // 2.1
         this._checkpointStore = checkpointStoreOrCredentialOrOptions4;
         this._userChoseCheckpointStore = true;
-        this._clientOptions = (checkpointStoreOrOptions5 as EventHubClientOptions) || {};
+        this._clientOptions = (checkpointStoreOrOptions5 as EventHubConsumerClientOptions) || {};
       } else {
         // 2
         this._checkpointStore = new InMemoryCheckpointStore();
@@ -307,13 +306,13 @@ export class EventHubConsumerClient {
         this._checkpointStore = checkpointStoreOrEventHubNameOrOptions3;
         this._userChoseCheckpointStore = true;
         this._clientOptions =
-          (checkpointStoreOrCredentialOrOptions4 as EventHubClientOptions) || {};
+          (checkpointStoreOrCredentialOrOptions4 as EventHubConsumerClientOptions) || {};
       } else {
         // 1
         this._checkpointStore = new InMemoryCheckpointStore();
         this._userChoseCheckpointStore = false;
         this._clientOptions =
-          (checkpointStoreOrEventHubNameOrOptions3 as EventHubClientOptions) || {};
+          (checkpointStoreOrEventHubNameOrOptions3 as EventHubConsumerClientOptions) || {};
       }
 
       this._context = createConnectionContext(
