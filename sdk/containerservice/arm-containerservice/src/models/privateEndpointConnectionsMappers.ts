@@ -52,16 +52,15 @@ export {
   OpenShiftManagedClusterAuthProfile,
   OpenShiftManagedClusterBaseIdentityProvider,
   OpenShiftManagedClusterIdentityProvider,
-  OpenShiftManagedClusterListResult,
   OpenShiftManagedClusterMasterPoolProfile,
   OpenShiftRouterProfile,
   PrivateEndpoint,
   PrivateEndpointConnection,
+  PrivateEndpointConnectionListResult,
   PrivateLinkServiceConnectionState,
   PurchasePlan,
   Resource,
   ResourceReference,
   SubResource,
-  TagsObject,
   UserAssignedIdentity
 } from "../models/mappers";
