@@ -12,11 +12,12 @@ urlFragment: keyvault-keys-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                   | **Description**                                                  |
-| ------------------------------- | ---------------------------------------------------------------- |
-| [cryptography.ts][cryptography] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data |
-| [helloWorld.ts][helloworld]     | creates, reads, lists, and deletes keys                          |
-| [purgeAllKeys.ts][purgeAllKeys] | purges all the keys of a Key Vault (useful for repeated tests)    |
+| **File Name**                                             | **Description**                                                   |
+| -------------------------------                           | ----------------------------------------------------------------  |
+| [cryptography.ts][cryptography]                           | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data  |
+| [helloWorld.ts][helloworld]                               | creates, reads, lists, and deletes keys                           |
+| [purgeAllKeys.ts][purgeAllKeys]                           | purges all the keys of a Key Vault (useful for repeated tests)    |
+| [specificServiceAPIVersion.ts][specificServiceAPIVersion] | shows how to specify a different service API version              |
 
 ## Prerequisites
 
@@ -75,6 +76,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [cryptography]: ./src/cryptography.ts
 [helloworld]: ./src/helloWorld.ts
 [purgeAllKeys]: ./src/purgeAllKeys.ts
+[specificServiceAPIVersion]: ./src/specificServiceAPIVersion.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli

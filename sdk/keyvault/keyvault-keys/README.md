@@ -148,6 +148,29 @@ const url = `https://${vaultName}.vault.azure.net`;
 const client = new KeyClient(url, credential);
 ```
 
+## Specifying the Azure Key Vault service API version
+
+Our Key Vault Keys client currently only supports the Azure Key Vault service versions `7.0` and `7.1-preview`, which we specify as part of the options that can be passed through the constructor. The latest supported API version is `7.1-preview`, which is available as the `LATEST_API_VERSION` export. A use case example follows:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyClient, LATEST_API_VERSION } = require("@azure/keyvault-keys");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+// Users can specify an Azure Key Vault service API version.
+// Here we're setting it to undefined so that we can show how we're using the LATEST_API_VERSION export
+const apiVersion: string | undefined = undefined;
+
+const client = new KeyClient(url, credential, {
+  // Internally we default to the LATEST_API_VERSION export, just like how we're doing here:
+  apiVersion: apiVersion || LATEST_API_VERSION
+});
+```
+
 ## Examples
 
 The following sections provide code snippets that cover some of the common
