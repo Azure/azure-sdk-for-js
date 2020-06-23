@@ -95,14 +95,20 @@ function LogWarning
 function ResolveUri ([System.Uri]$referralUri, [string]$link)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 62e2184e6... skip mailto links
   # If the link is mailto, skip it.
   if ($link.StartsWith("mailto:")) {
     Write-Verbose "Skipping $link because it is a mailto link."
     return $null
   }
 
+<<<<<<< HEAD
 =======
 >>>>>>> f5ceff2ba... add resolve relative links flag
+=======
+>>>>>>> 62e2184e6... skip mailto links
   $linkUri = [System.Uri]$link;
   if($resolveRelativeLinks){
     if (!$linkUri.IsAbsoluteUri) {
