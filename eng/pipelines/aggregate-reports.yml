@@ -10,7 +10,7 @@ jobs:
     inputs:
       versionSpec: 10.x
 
-  - template: ../../../common/pipelines/templates/steps/verify-links.yml
+  - template: ../common/pipelines/templates/steps/verify-links.yml
     parameters:
       Directory: $(Build.SourcesDirectory)
 
