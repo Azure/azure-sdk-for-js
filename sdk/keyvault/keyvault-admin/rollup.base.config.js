@@ -33,7 +33,7 @@ export function nodeConfig(test = false) {
   const externalNodeBuiltins = [];
   const additionalExternals = [];
   const baseConfig = {
-    input: "dist-esm/index.js",
+    input: "dist-esm/src/index.js",
     external: depNames.concat(externalNodeBuiltins, additionalExternals),
     output: {
       file: "dist/index.js",
@@ -83,7 +83,7 @@ export function nodeConfig(test = false) {
 
 export function browserConfig(test = false) {
   const baseConfig = {
-    input: "dist-esm/index.js",
+    input: "dist-esm/src/index.js",
     output: {
       file: "dist-browser/azure-keyvault-admin.js",
       banner: banner,
