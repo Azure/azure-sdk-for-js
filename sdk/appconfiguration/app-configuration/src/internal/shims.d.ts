@@ -76,36 +76,6 @@ declare var Crypto: {
   new (): Crypto;
 };
 
-interface StringConstructor {
-  new (value?: any): String;
-  fromCharCode(...codes: number[]): string;
-}
-
-/**
- * Allows manipulation and formatting of text strings and determination and location of substrings within strings.
- */
-declare var String: StringConstructor;
-
-interface Uint8Array {
-  [Symbol.iterator](): IterableIterator<number>;
-}
-
-interface Uint8ArrayConstructor {
-  new (elements: Iterable<number>): Uint8Array;
-
-  /**
-   * Creates an array from an array-like or iterable object.
-   * @param arrayLike An array-like or iterable object to convert to an array.
-   * @param mapfn A mapping function to call on every element of the array.
-   * @param thisArg Value of 'this' used to invoke the mapfn.
-   */
-  from(
-    arrayLike: Iterable<number>,
-    mapfn?: (v: number, k: number) => number,
-    thisArg?: any
-  ): Uint8Array;
-}
-
 declare function atob(data: string): string;
 declare function btoa(data: string): string;
 
