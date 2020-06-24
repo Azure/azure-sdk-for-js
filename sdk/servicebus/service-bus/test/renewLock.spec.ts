@@ -271,9 +271,9 @@ describe("renew lock", () => {
     receiver: Receiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
 
-    const msgs = await receiver.receiveBatch(1);
+    const msgs = await receiver.receiveMessages(1);
 
     // Compute expected initial lock expiry time
     const expectedLockExpiryTimeUtc = new Date();
@@ -319,9 +319,9 @@ describe("renew lock", () => {
     receiver: Receiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
 
-    const msgs = await receiver.receiveBatch(1);
+    const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Expected message length does not match");
@@ -340,7 +340,7 @@ describe("renew lock", () => {
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
     // Clean up any left over messages
-    const unprocessedMsgsBatch = await receiver.receiveBatch(1);
+    const unprocessedMsgsBatch = await receiver.receiveMessages(1);
     await unprocessedMsgsBatch[0].complete();
   }
 
@@ -353,7 +353,7 @@ describe("renew lock", () => {
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
 
     async function processMessage(brokeredMessage: ReceivedMessageWithLock): Promise<void> {
       if (numOfMessagesReceived < 1) {
@@ -431,7 +431,7 @@ describe("renew lock", () => {
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = TestMessage.getSample();
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
 
     async function processMessage(brokeredMessage: ReceivedMessageWithLock): Promise<void> {
       if (numOfMessagesReceived < 1) {
@@ -484,7 +484,7 @@ describe("renew lock", () => {
         await serviceBusClient.test.createTestEntities(entityType)
       );
 
-      const unprocessedMsgsBatch = await receiver.receiveBatch(1);
+      const unprocessedMsgsBatch = await receiver.receiveMessages(1);
       if (unprocessedMsgsBatch.length) {
         await unprocessedMsgsBatch[0].complete();
       }

@@ -6,7 +6,7 @@ import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
 import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
-import { EventHubConsumer } from "./receiver";
+import { EventHubReceiver } from "./eventHubReceiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
 import { OperationOptions, getParentSpan } from "./util/operationOptions";
@@ -23,7 +23,7 @@ import { ConnectionContext } from "./connectionContext";
 export class PartitionPump {
   private _partitionProcessor: PartitionProcessor;
   private _processorOptions: CommonEventProcessorOptions;
-  private _receiver: EventHubConsumer | undefined;
+  private _receiver: EventHubReceiver | undefined;
   private _isReceiving: boolean = false;
   private _isStopped: boolean = false;
   private _abortController: AbortController;
@@ -60,7 +60,7 @@ export class PartitionPump {
   }
 
   private async _receiveEvents(partitionId: string): Promise<void> {
-    this._receiver = new EventHubConsumer(
+    this._receiver = new EventHubReceiver(
       this._context,
       this._partitionProcessor.consumerGroup,
       partitionId,

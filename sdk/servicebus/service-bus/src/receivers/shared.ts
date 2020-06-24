@@ -29,7 +29,7 @@ export async function* getMessageIterator<ReceivedMessageT>(
   options?: GetMessageIteratorOptions
 ): AsyncIterableIterator<ReceivedMessageT> {
   while (true) {
-    const messages = await receiver.receiveBatch(1, options);
+    const messages = await receiver.receiveMessages(1, options);
 
     // In EventHubs we've had a concept of "punctuation" (thanks @jsquire) that
     // allows the user, when working in a model like this, to get a periodic "no message
