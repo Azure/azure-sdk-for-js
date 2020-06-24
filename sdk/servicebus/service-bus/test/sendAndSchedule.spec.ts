@@ -543,12 +543,13 @@ describe("send scheduled messages", () => {
         { body: "Hello, again!" },
         { body: "Hello, again and again!!" }
       ];
-      let sequenceNumbers = await Promise.all([
+      let [result1, result2, result3] = await Promise.all([
         // Schedule messages in parallel
-        sender.scheduleMessage(date, messages[0]),
-        sender.scheduleMessage(date, messages[1]),
-        sender.scheduleMessage(date, messages[2])
+        sender.scheduleMessages(date, messages[0]),
+        sender.scheduleMessages(date, messages[1]),
+        sender.scheduleMessages(date, messages[2])
       ]);
+      const sequenceNumbers = [result1[0], result2[0], result3[0]]
       compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[1]);
       compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[2]);
       compareSequenceNumbers(sequenceNumbers[1], sequenceNumbers[2]);
@@ -561,7 +562,7 @@ describe("send scheduled messages", () => {
         );
       }
 
-      const receivedMsgs = await receiver.receiveBatch(3);
+      const receivedMsgs = await receiver.receiveMessages(3);
       should.equal(receivedMsgs.length, 3, "Unexpected number of messages");
       for (const seqNum of sequenceNumbers) {
         const msgWithSeqNum = receivedMsgs.find(
