@@ -30,7 +30,9 @@ export async function main(): Promise<void> {
   const myWorkKey = await client.createKey(keyName, "RSA");
 
   // Creating a CryptographyClient from the identifier (or URL) of a KeyVaultKey
-  const cryptoClient = new CryptographyClient(myWorkKey.id!, credential);
+  const cryptoClient = new CryptographyClient(
+    myWorkKey.id! // or just `myWorkKey`. You can use either the key or the key Id to create a CryptographyClient.
+  , credential);
 
   // Sign and Verify
   const signatureValue = "MySignature";
