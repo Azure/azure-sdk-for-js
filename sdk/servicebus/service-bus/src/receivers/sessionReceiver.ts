@@ -569,9 +569,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     }
 
     try {
-      if (!this._messageSession) {
-        return;
-      }
       if (!this._isClosed) {
         this._messageSession.receive(onMessage, onError, options);
       } else {
