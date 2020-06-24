@@ -26,7 +26,7 @@
     "node": ">=8.0.0"
   },
   "files": [
-    "types/",
+    "types/keyvault-certificates.d.ts",
     "dist/",
     "dist-browser/",
     "dist-esm/keyvault-certificates/src",
