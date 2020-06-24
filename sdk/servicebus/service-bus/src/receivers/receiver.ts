@@ -5,7 +5,7 @@ import {
   PeekMessagesOptions,
   GetMessageIteratorOptions,
   MessageHandlers,
-  ReceiveBatchOptions,
+  ReceiveMessagesOptions,
   SubscribeOptions
 } from "../models";
 import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
@@ -51,7 +51,7 @@ export interface Receiver<ReceivedMessageT> {
    * @param maxMessages The maximum number of messages to accept.
    * @param options Options for receiveMessages
    */
-  receiveMessages(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
+  receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
@@ -256,7 +256,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    */
   async receiveMessages(
     maxMessageCount: number,
-    options?: ReceiveBatchOptions
+    options?: ReceiveMessagesOptions
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();

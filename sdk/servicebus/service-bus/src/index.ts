@@ -22,7 +22,7 @@ export {
   MessageHandlerOptions,
   MessageHandlers,
   PeekMessagesOptions,
-  ReceiveBatchOptions,
+  ReceiveMessagesOptions,
   SenderOpenOptions,
   SubscribeOptions,
   WaitTimeOptions

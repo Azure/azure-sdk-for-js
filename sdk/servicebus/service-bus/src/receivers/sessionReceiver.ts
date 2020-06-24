@@ -4,7 +4,7 @@
 import { ClientEntityContext } from "../clientEntityContext";
 import {
   MessageHandlers,
-  ReceiveBatchOptions,
+  ReceiveMessagesOptions,
   ReceivedMessage,
   SessionMessageHandlerOptions,
   SubscribeOptions
@@ -439,7 +439,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async receiveMessages(
     maxMessageCount: number,
-    options?: ReceiveBatchOptions
+    options?: ReceiveMessagesOptions
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();

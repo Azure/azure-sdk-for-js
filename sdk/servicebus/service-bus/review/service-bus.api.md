@@ -176,10 +176,6 @@ export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Resp
 }
 
 // @public
-export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
-}
-
-// @public
 export interface ReceivedMessage extends ServiceBusMessage {
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterSource?: string;
@@ -208,6 +204,10 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 }
 
 // @public
+export interface ReceiveMessagesOptions extends OperationOptions, WaitTimeOptions {
+}
+
+// @public
 export interface Receiver<ReceivedMessageT> {
     close(): Promise<void>;
     entityPath: string;
@@ -216,7 +216,7 @@ export interface Receiver<ReceivedMessageT> {
     isReceivingMessages(): boolean;
     peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
-    receiveMessages(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
+    receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
