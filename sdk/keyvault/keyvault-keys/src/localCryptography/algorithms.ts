@@ -233,3 +233,11 @@ export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
   PS512: makeSigner("SHA512"),
   RS512: makeSigner("SHA512")
 };
+
+/**
+ * Checks whether a given algorithm name is supported or not.
+ * @param algorithm string name of the algorithm
+ */
+export function isLocallySupported(algorithm: string): boolean {
+  return !!localSupportedAlgorithms[algorithm as LocalSupportedAlgorithmName];
+}

@@ -23,7 +23,8 @@ import { LocalCryptographyUnsupportedError } from "./localCryptography/models";
 import {
   LocalSupportedAlgorithmName,
   localSupportedAlgorithms,
-  LocalCryptographyOperationFunction
+  LocalCryptographyOperationFunction,
+  isLocallySupported
 } from "./localCryptography/algorithms";
 
 import { LocalCryptographyClient } from "./localCryptographyClient";
@@ -106,7 +107,7 @@ export class CryptographyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("encrypt", requestOptions);
 
-    if (localCryptographyClient) {
+    if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
         return localCryptographyClient.encrypt(algorithm as LocalSupportedAlgorithmName, plaintext);
       } catch (e) {
@@ -197,7 +198,7 @@ export class CryptographyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);
 
-    if (localCryptographyClient) {
+    if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
         return localCryptographyClient.wrapKey(algorithm as LocalSupportedAlgorithmName, key);
       } catch (e) {
@@ -362,19 +363,17 @@ export class CryptographyClient {
   ): Promise<SignResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("unwrapKey", requestOptions);
+
+    if (!isLocallySupported(algorithm)) {
+      throw new Error(`Unsupported algorithm ${algorithm}`);
+    }
     const localAlgorithm = algorithm as LocalSupportedAlgorithmName;
 
     // Not supported locally yet
 
-    let digest: Buffer;
-    try {
-      const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[
-        localAlgorithm
-      ]?.operations.createHash as LocalCryptographyOperationFunction;
-      digest = await createHash("", Buffer.from(data));
-    } catch {
-      throw new LocalCryptographyUnsupportedError(`Unsupported algorithm ${algorithm}`);
-    }
+    const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[localAlgorithm]
+      ?.operations.createHash as LocalCryptographyOperationFunction;
+    const digest = await createHash("", Buffer.from(data));
 
     // Default to the service
 
@@ -417,6 +416,10 @@ export class CryptographyClient {
     const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);
+
+    if (!isLocallySupported(algorithm)) {
+      throw new Error(`Unsupported algorithm ${algorithm}`);
+    }
     const localAlgorithm = algorithm as LocalSupportedAlgorithmName;
 
     if (localCryptographyClient) {
@@ -430,15 +433,9 @@ export class CryptographyClient {
       }
     }
 
-    let digest: Buffer;
-    try {
-      const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[
-        localAlgorithm
-      ]?.operations.createHash as LocalCryptographyOperationFunction;
-      digest = await createHash("", Buffer.from(data));
-    } catch {
-      throw new LocalCryptographyUnsupportedError(`Unsupported algorithm ${algorithm}`);
-    }
+    const createHash: LocalCryptographyOperationFunction = localSupportedAlgorithms[localAlgorithm]
+      ?.operations.createHash as LocalCryptographyOperationFunction;
+    const digest = await createHash("", Buffer.from(data));
 
     // Default to the service
 
