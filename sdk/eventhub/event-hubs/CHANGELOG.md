@@ -411,7 +411,7 @@ const client = await EventHubClient.createFromIotHubConnectionString(
 - Created an options object in the `client.createFromConnectionString()` and the `EventHubClient` constructor. This is a breaking change. However moving to an options object design reduces the chances of breaking changes in the future.
   This options object will:
 - have the existing optional `tokenProvider` property
-- and a new an optional property named `dataTransformer`. You can provide your own transformer. If not provided then we will use the [DefaultDataTransformer](./client/lib/dataTransformer.ts). This should be applicable for majority of the scenarios and will ensure that messages are interoperable between different Azure services. It fixes issue #60.
+- and a new an optional property named `dataTransformer`. You can provide your own transformer. If not provided then we will use the [DefaultDataTransformer](https://github.com/Azure/azure-event-hubs-node/blob/v0.2.0-EH-May2018/client/lib/dataTransformer.ts). This should be applicable for majority of the scenarios and will ensure that messages are interoperable between different Azure services. It fixes issue #60.
 
 ## 0.1.2 (2018-04-26)
 
@@ -424,7 +424,7 @@ const client = await EventHubClient.createFromIotHubConnectionString(
 ## 0.1.0 (2018-04-23)
 
 - Previously we were depending on [amqp10](https://npmjs.com/package/amqp10) package for the amqp protocol. Moving forward we will be depending on [rhea](https://npmjs.com/package/rhea).
-- The public facing API of this library has major breaking changes from the previous version 0.0.8. Please take a look at the [Readme](./README.md) and the [samples](./samples) directory for detailed samples.
+- The public facing API of this library has major breaking changes from the previous version 0.0.8. Please take a look at the [Readme](https://github.com/Azure/azure-event-hubs-node/blob/v0.1.0-April2018/README.md) and the [examples](https://github.com/Azure/azure-event-hubs-node/tree/v0.1.0-April2018/examples) directory for detailed samples.
 - Removed the need to say `client.open.then()`. First call to create a sender, receiver or get metadata about the hub or partition will establish the AMQP connection.
 - Added support to authenticate via Service Principal credentials, MSITokenCredentials, DeviceTokenCredentials.
   - This should make it easy for customers to login once using the above mentioned credentials,
