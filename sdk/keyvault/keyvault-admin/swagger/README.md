@@ -15,5 +15,5 @@ input-file:
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.2-preview/rbac.json
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/keyvault/data-plane/Microsoft.KeyVault/preview/7.2-preview/backuprestore.json
 output-folder: ../
-source-code-folder-path: ./src/core
+source-code-folder-path: ./src/generated
 ```
