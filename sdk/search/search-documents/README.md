@@ -270,7 +270,7 @@ const client = new SearchClient(
 );
 
 async function main() {
-  const searchResults = await client.search({ searchText: "wifi -luxury" });
+  const searchResults = await client.search("wifi -luxury");
   for await (const result of searchResults.results) {
     console.log(result);
   }
@@ -291,8 +291,7 @@ const client = new SearchClient(
 );
 
 async function main() {
-  const searchResults = await client.search({
-    searchText: 'Category:budget AND "recently renovated"^3',
+  const searchResults = await client.search('Category:budget AND "recently renovated"^3', {
     queryType: "full",
     searchMode: "all",
   });
@@ -328,8 +327,7 @@ const client = new SearchClient<Hotel>(
 );
 
 async function main() {
-  const searchResults = await client.search({
-    searchText: "wifi -luxury",
+  const searchResults = await client.search("wifi -luxury", {
     // Only fields in Hotel can be added to this array.
     // TS will complain if one is misspelled.
     select: ["HotelId", "HotelName", "Rating"],
@@ -361,8 +359,7 @@ const client = new SearchClient(
 async function main() {
   const baseRateMax = 200;
   const ratingMin = 4;
-  const searchResults = await client.search({
-    searchText: "WiFi",
+  const searchResults = await client.search("WiFi", {
     filter: odata`Rooms/any(room: room/BaseRate lt ${baseRateMax}) and Rating ge ${ratingMin}`,
     orderBy: ["Rating desc"],
     select: ["HotelId", "HotelName", "Rating"],
@@ -391,8 +388,7 @@ const client = new SearchClient(
 );
 
 async function main() {
-  const searchResults = await client.search({
-    searchText: "WiFi",
+  const searchResults = await client.search("WiFi", {
     facets: ["Category,count:3,sort:count", "Rooms/BaseRate,interval:100"],
   });
   console.log(searchResults.facets);
