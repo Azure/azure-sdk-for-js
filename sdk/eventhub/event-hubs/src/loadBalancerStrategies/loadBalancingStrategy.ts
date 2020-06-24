@@ -4,11 +4,16 @@
 import { PartitionOwnership } from "../eventProcessor";
 import { logger } from "../log";
 
+/**
+ * Determines which partitions to claim as part of load balancing.
+ * @internal
+ * @ignore
+ */
 export interface LoadBalancingStrategy {
   /**
    * Implements load balancing by taking into account current ownership and
-   * the new set of partitions to add.
-   * @param ownerId The id we should assume is _our_ id when checking for ownership.
+   * the full set of partitions in the Event Hub.
+   * @param ourOwnerId The id we should assume is _our_ id when checking for ownership.
    * @param claimedPartitionOwnershipMap The current claimed ownerships for partitions.
    * @param partitionIds Partitions to assign owners to.
    * @returns Partition ids to claim.
@@ -58,7 +63,7 @@ interface EventProcessorCounts {
  * @ignore
  * @internal
  */
-export function getActivePartitionOwnerships(
+function getActivePartitionOwnerships(
   partitionOwnershipMap: Map<string, PartitionOwnership>,
   expirationIntervalInMs: number
 ): Map<string, PartitionOwnership> {
@@ -78,20 +83,27 @@ export function getActivePartitionOwnerships(
   return activePartitionOwnershipMap;
 }
 
-export function calculateBalancedLoadCounts(
-  ownerToPartitionOwnershipMap: Map<string, PartitionOwnership[]>,
+/**
+ * Calculates the minimum number of partitions each EventProcessor should own,
+ * and the number of EventProcessors that should have an extra partition assigned.
+ * @param ownerToOwnershipMap The current ownerships for partitions.
+ * @param partitionIds The full list of the Event Hub's partition ids.
+ * @ignore
+ * @internal
+ */
+function calculateBalancedLoadCounts(
+  ownerToOwnershipMap: Map<string, PartitionOwnership[]>,
   partitionIds: string[]
 ): { minPartitionsPerOwner: number; requiredNumberOfOwnersWithExtraPartition: number } {
   // Calculate the minimum number of partitions every EventProcessor should own when the load
   // is evenly distributed.
-  const minPartitionsPerOwner = Math.floor(partitionIds.length / ownerToPartitionOwnershipMap.size);
+  const minPartitionsPerOwner = Math.floor(partitionIds.length / ownerToOwnershipMap.size);
 
   // If the number of partitions in the Event Hub is not evenly divisible by the number of active
   // EventProcesrrors, some EventProcessors may own 1 partition in addition to the minimum when the
   // load is balanced.
   // Calculate the number of EventProcessors that can own an additional partition.
-  const requiredNumberOfOwnersWithExtraPartition =
-    partitionIds.length % ownerToPartitionOwnershipMap.size;
+  const requiredNumberOfOwnersWithExtraPartition = partitionIds.length % ownerToOwnershipMap.size;
 
   return {
     minPartitionsPerOwner,
@@ -118,7 +130,7 @@ export function calculateBalancedLoadCounts(
  * @internal
  * @ignore
  */
-export function getEventProcessorCounts(
+function getEventProcessorCounts(
   minPartitionsPerOwner: number,
   ownerToOwnershipMap: Map<string, PartitionOwnership[]>
 ): EventProcessorCounts {
@@ -166,7 +178,7 @@ export function getEventProcessorCounts(
  * @ignore
  * @internal
  */
-export function isLoadBalanced(
+function isLoadBalanced(
   requiredNumberOfOwnersWithExtraPartition: number,
   totalExpectedEventProcessors: number,
   { haveAdditionalPartition, haveRequiredPartitions }: EventProcessorCounts
@@ -187,7 +199,7 @@ export function isLoadBalanced(
  * @ignore
  * @internal
  */
-export function getNumberOfPartitionsToClaim(
+function getNumberOfPartitionsToClaim(
   minRequiredPartitionCount: number,
   requiredNumberOfOwnersWithExtraPartition: number,
   numPartitionsOwnedByUs: number,
@@ -206,10 +218,21 @@ export function getNumberOfPartitionsToClaim(
     // so we should attempt to.
     actualRequiredPartitionCount = minRequiredPartitionCount + 1;
   }
-  return numPartitionsOwnedByUs - actualRequiredPartitionCount;
+  return actualRequiredPartitionCount - numPartitionsOwnedByUs;
 }
 
-export function findPartitionsToSteal(
+/**
+ * Determines which partitions can be stolen from other owners while maintaining
+ * a balanced state.
+ * @param numberOfPartitionsToClaim The number of partitions the owner needs to claim to reach a balanced state.
+ * @param minPartitionsPerOwner The minimum number of partitions each owner needs for the partition load to be balanced.
+ * @param requiredNumberOfOwnersWithExtraPartition The number of owners that should have 1 extra partition.
+ * @param ourOwnerId The id of _our_ owner.
+ * @param ownerToOwnershipMap The current ownerships for partitions.
+ * @internal
+ * @ignore
+ */
+function findPartitionsToSteal(
   numberOfPartitionsToClaim: number,
   minPartitionsPerOwner: number,
   requiredNumberOfOwnersWithExtraPartition: number,
@@ -248,7 +271,7 @@ export function findPartitionsToSteal(
     // Claim as many random partitions as possible.
     while (Math.min(numberOfPartitionsToClaim, numberAvailableToSteal)) {
       const indexToClaim = Math.floor(Math.random() * currentPartitionOwnershipList.length);
-      currentPartitionOwnershipList.push(currentPartitionOwnershipList.splice(indexToClaim, 1)[0]);
+      partitionsToSteal.push(currentPartitionOwnershipList.splice(indexToClaim, 1)[0].partitionId);
       numberOfPartitionsToClaim--;
       numberAvailableToSteal--;
     }
@@ -260,6 +283,17 @@ export function findPartitionsToSteal(
   return partitionsToSteal;
 }
 
+/**
+ * Identifies all of the partitions that can be claimed by the specified owner for
+ * that owner to reach a balanced state.
+ * @param OwnerId The id we should assume is _our_ id when checking for ownership.
+ * @param claimedPartitionOwnershipMap The current claimed ownerships for partitions.
+ * @param partitionIds Partitions to assign owners to.
+ * @param expirationIntervalInMs The length of time a partition claim is valid.
+ * @returns Partition ids that may be claimed.
+ * @internal
+ * @ignore
+ */
 export function identifyClaimablePartitions(
   ownerId: string,
   claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,

@@ -130,7 +130,9 @@ describe("EventHubConsumerClient", () => {
 
           // and if you don't specify a CheckpointStore we also assume you just want to read all partitions
           // immediately so we bypass the FairPartitionLoadBalancer entirely
-          options.processingTarget!.constructor.name.should.equal("GreedyPartitionLoadBalancer");
+          options.loadBalancingStrategy.constructor.name.should.equal(
+            "UnbalancedLoadBalancingStrategy"
+          );
         };
 
         const subscription = client.subscribe(subscriptionHandlers);
@@ -152,6 +154,9 @@ describe("EventHubConsumerClient", () => {
           // We're falling back to the actual production load balancer
           // (which means we just don't override the partition load balancer field)
           should.not.exist(options.processingTarget);
+          options.loadBalancingStrategy.constructor.name.should.equal(
+            "BalancedLoadBalancingStrategy"
+          );
         };
 
         clientWithCheckpointStore.subscribe(subscriptionHandlers);
@@ -160,7 +165,9 @@ describe("EventHubConsumerClient", () => {
       it("subscribe to all partitions, no checkpoint store", () => {
         validateOptions = (options) => {
           should.not.exist(options.ownerLevel);
-          options.processingTarget!.constructor.name.should.equal("GreedyPartitionLoadBalancer");
+          options.loadBalancingStrategy.constructor.name.should.equal(
+            "UnbalancedLoadBalancingStrategy"
+          );
         };
 
         client.subscribe(subscriptionHandlers);
@@ -575,10 +582,7 @@ describe("EventHubConsumerClient", () => {
 
     it("Receive from all partitions, no coordination", async function(): Promise<void> {
       const logTester = new LogTester(
-        [
-          "EventHubConsumerClient subscribing to all partitions, no checkpoint store.",
-          "GreedyPartitionLoadBalancer created. Watching all."
-        ],
+        ["EventHubConsumerClient subscribing to all partitions, no checkpoint store."],
         [
           logger.verbose as debug.Debugger,
           logger.verbose as debug.Debugger,
@@ -665,6 +669,8 @@ describe("EventHubConsumerClient", () => {
         ]
       );
 
+      const checkpointStore = new InMemoryCheckpointStore();
+
       clients.push(
         new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
@@ -672,7 +678,7 @@ describe("EventHubConsumerClient", () => {
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
           // also uses the FairPartitionLoadBalancer
-          new InMemoryCheckpointStore()
+          checkpointStore
         )
       );
 
@@ -690,7 +696,7 @@ describe("EventHubConsumerClient", () => {
           service.path,
           // specifying your own checkpoint store activates the "production ready" code path that
           // also uses the FairPartitionLoadBalancer
-          new InMemoryCheckpointStore()
+          checkpointStore
         )
       );
 

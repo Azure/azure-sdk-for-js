@@ -11,7 +11,6 @@ import {
 } from "./models/public";
 import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
 import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
-import { GreedyPartitionLoadBalancer } from "./partitionLoadBalancer";
 import { Constants, TokenCredential } from "@azure/core-amqp";
 import { logger } from "./log";
 
@@ -25,6 +24,10 @@ import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
 import { v4 as uuid } from "uuid";
 import { validateEventPositions } from "./eventPosition";
+import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
+import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
+import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
+import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -484,6 +487,27 @@ export class EventHubConsumerClient {
     return subscription;
   }
 
+  /**
+   * Gets the LoadBalancing strategy that should be used based on what the user provided.
+   */
+  private _getLoadBalancingStrategy(): LoadBalancingStrategy {
+    if (!this._userChoseCheckpointStore) {
+      // The default behavior when a checkpointstore isn't provided
+      // is to always grab all the partitions.
+      return new UnbalancedLoadBalancingStrategy();
+    }
+
+    const partitionOwnershipExpirationIntervalInMs =
+      this._loadBalancingOptions.partitionOwnershipExpirationIntervalInMs || 60000;
+    if (this._loadBalancingOptions?.strategy === "greedy") {
+      return new GreedyLoadBalancingStrategy(partitionOwnershipExpirationIntervalInMs);
+    }
+
+    // The default behavior when a checkpointstore is provided is
+    // to grab one partition at a time.
+    return new BalancedLoadBalancingStrategy(partitionOwnershipExpirationIntervalInMs);
+  }
+
   private createEventProcessorForAllPartitions(
     subscriptionEventHandlers: SubscriptionEventHandlers,
     options?: SubscribeOptions
@@ -498,6 +522,7 @@ export class EventHubConsumerClient {
       logger.verbose("EventHubConsumerClient subscribing to all partitions, no checkpoint store.");
     }
 
+    const loadBalancingStrategy = this._getLoadBalancingStrategy();
     const eventProcessor = this._createEventProcessor(
       this._context,
       subscriptionEventHandlers,
@@ -506,13 +531,12 @@ export class EventHubConsumerClient {
         ...defaultConsumerClientOptions,
         ...(options as SubscribeOptions),
         ownerLevel: getOwnerLevel(options, this._userChoseCheckpointStore),
-        processingTarget: this._userChoseCheckpointStore
-          ? undefined
-          : new GreedyPartitionLoadBalancer(),
         // make it so all the event processors process work with the same overarching owner ID
         // this allows the EventHubConsumer to unify all the work for any processors that it spawns
         ownerId: this._id,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
+        loadBalancingStrategy,
+        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs ?? 10000
       }
     );
 
@@ -547,7 +571,9 @@ export class EventHubConsumerClient {
         ...options,
         processingTarget: partitionId,
         ownerLevel: getOwnerLevel(subscribeOptions, this._userChoseCheckpointStore),
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
+        loadBalancingStrategy: new UnbalancedLoadBalancingStrategy(),
+        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs ?? 10000
       }
     );
 

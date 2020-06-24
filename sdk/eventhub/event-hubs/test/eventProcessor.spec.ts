@@ -31,18 +31,21 @@ import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition
 } from "./utils/subscriptionHandlerForTests";
-import { GreedyPartitionLoadBalancer, PartitionLoadBalancer } from "../src/partitionLoadBalancer";
 import { AbortError, AbortSignal } from "@azure/abort-controller";
 import { FakeSubscriptionEventHandlers } from "./utils/fakeSubscriptionEventHandlers";
 import { isLatestPosition } from "../src/eventPosition";
 import { AbortController } from "@azure/abort-controller";
+import { UnbalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/unbalancedStrategy";
+import { BalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/balancedStrategy";
 const env = getEnvVars();
 
 describe("Event Processor", function(): void {
   const defaultOptions: FullEventProcessorOptions = {
     maxBatchSize: 1,
     maxWaitTimeInSeconds: 60,
-    ownerLevel: 0
+    ownerLevel: 0,
+    loopIntervalInMs: 10000,
+    loadBalancingStrategy: new UnbalancedLoadBalancingStrategy()
   };
 
   const service = {
@@ -74,6 +77,7 @@ describe("Event Processor", function(): void {
 
   afterEach("close the connection", async function(): Promise<void> {
     await producerClient.close();
+    await consumerClient.close();
   });
 
   describe("unit tests", () => {
@@ -171,7 +175,9 @@ describe("Event Processor", function(): void {
           {
             startPosition,
             maxBatchSize: 1,
-            maxWaitTimeInSeconds: 1
+            maxWaitTimeInSeconds: 1,
+            loadBalancingStrategy: defaultOptions.loadBalancingStrategy,
+            loopIntervalInMs: defaultOptions.loopIntervalInMs
           }
         );
       }
@@ -294,6 +300,10 @@ describe("Event Processor", function(): void {
 
         isReceivingFromPartition() {
           return false;
+        },
+
+        receivingFromPartitions() {
+          return [];
         }
       };
 
@@ -380,8 +390,12 @@ describe("Event Processor", function(): void {
             async removeAllPumps(): Promise<void> {},
             isReceivingFromPartition() {
               return false;
+            },
+            receivingFromPartitions() {
+              return [];
             }
-          }
+          },
+          loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000)
         }
       );
 
@@ -392,9 +406,9 @@ describe("Event Processor", function(): void {
       // pick up an extra surprise partition
       //
       // This particular behavior is really specific to the FairPartitionLoadBalancer but that's okay for now.
-      const numTimesAbortedIsCheckedInLoop = 4;
+      const numTimesAbortedIsCheckedInLoop = 5;
       await ep["_runLoopWithLoadBalancing"](
-        ep["_processingTarget"] as PartitionLoadBalancer,
+        ep["_loadBalancingStrategy"],
         triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
       );
 
@@ -480,6 +494,7 @@ describe("Event Processor", function(): void {
 
   it("claimOwnership throws and is reported to the user", async () => {
     const errors = [];
+    const partitionIds = await consumerClient.getPartitionIds();
 
     const faultyCheckpointStore: CheckpointStore = {
       listOwnership: async () => [],
@@ -501,8 +516,7 @@ describe("Event Processor", function(): void {
       },
       faultyCheckpointStore,
       {
-        ...defaultOptions,
-        processingTarget: new GreedyPartitionLoadBalancer(["0"])
+        ...defaultOptions
       }
     );
 
@@ -518,7 +532,7 @@ describe("Event Processor", function(): void {
         until: async () => errors.length !== 0
       });
 
-      errors.length.should.equal(1);
+      errors.length.should.equal(partitionIds.length);
     } finally {
       // this will also fail - we "abandon" all claimed partitions at
       // when a processor is stopped (which requires us to claim them
@@ -533,19 +547,33 @@ describe("Event Processor", function(): void {
 
   it("errors thrown from the user's handlers are reported to processError()", async () => {
     const errors = new Set<Error>();
+    const partitionIds = await consumerClient.getPartitionIds();
+
+    const processCloseErrorMessage = "processClose() error";
+    const processEventsErrorMessage = "processEvents() error";
+    const processInitializeErrorMessage = "processInitialize() error";
+    const expectedErrorMessages: string[] = [];
+    for (let i = 0; i < partitionIds.length; i++) {
+      expectedErrorMessages.push(
+        processCloseErrorMessage,
+        processEventsErrorMessage,
+        processInitializeErrorMessage
+      );
+    }
+    expectedErrorMessages.sort();
 
     const eventProcessor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
       consumerClient["_context"],
       {
         processClose: async () => {
-          throw new Error("processClose() error");
+          throw new Error(processCloseErrorMessage);
         },
         processEvents: async () => {
-          throw new Error("processEvents() error");
+          throw new Error(processEventsErrorMessage);
         },
         processInitialize: async () => {
-          throw new Error("processInitialize() error");
+          throw new Error(processInitializeErrorMessage);
         },
         processError: async (err, _) => {
           errors.add(err);
@@ -555,7 +583,6 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        processingTarget: new GreedyPartitionLoadBalancer(["0"]),
         startPosition: earliestEventPosition
       }
     );
@@ -569,17 +596,13 @@ describe("Event Processor", function(): void {
         name: "waiting for errors thrown from user's handlers",
         timeBetweenRunsMs: 1000,
         maxTimes: 30,
-        until: async () => errors.size >= 3
+        until: async () => errors.size >= partitionIds.length * 3
       });
 
       const messages = [...errors].map((e) => e.message);
       messages.sort();
 
-      messages.should.deep.equal([
-        "processClose() error",
-        "processEvents() error",
-        "processInitialize() error"
-      ]);
+      messages.should.deep.equal(expectedErrorMessages);
     } finally {
       await eventProcessor.stop();
     }
@@ -637,7 +660,6 @@ describe("Event Processor", function(): void {
       new InMemoryCheckpointStore(),
       {
         ...defaultOptions,
-        processingTarget: new GreedyPartitionLoadBalancer(),
         startPosition: startPosition
       }
     );
@@ -694,7 +716,6 @@ describe("Event Processor", function(): void {
       subscriptionEventHandler,
       startPosition
     } = await SubscriptionHandlerForTests.startingFromHere(producerClient);
-    const partitionLoadBalancer = new GreedyPartitionLoadBalancer();
 
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
@@ -702,7 +723,6 @@ describe("Event Processor", function(): void {
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
       {
-        processingTarget: partitionLoadBalancer,
         ...defaultOptions,
         startPosition: startPosition
       }
@@ -756,7 +776,6 @@ describe("Event Processor", function(): void {
         new InMemoryCheckpointStore(),
         {
           ...defaultOptions,
-          processingTarget: new GreedyPartitionLoadBalancer(),
           startPosition: startPosition
         }
       );
@@ -1127,7 +1146,8 @@ describe("Event Processor", function(): void {
         {
           ...defaultOptions,
           startPosition: earliestEventPosition,
-          ...processor1LoadBalancingInterval
+          ...processor1LoadBalancingInterval,
+          loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000)
         }
       );
 
@@ -1149,7 +1169,8 @@ describe("Event Processor", function(): void {
         {
           ...defaultOptions,
           startPosition: earliestEventPosition,
-          ...processor2LoadBalancingInterval
+          ...processor2LoadBalancingInterval,
+          loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000)
         }
       );
 
@@ -1243,14 +1264,16 @@ describe("Event Processor", function(): void {
 
       for (let i = 0; i < 2; i++) {
         const processorName = `processor-${i}`;
-        processorByName[
-          processorName
-        ] = new EventProcessor(
+        processorByName[processorName] = new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
           consumerClient["_context"],
           new FooPartitionProcessor(),
           checkpointStore,
-          { ...defaultOptions, startPosition: earliestEventPosition }
+          {
+            ...defaultOptions,
+            startPosition: earliestEventPosition,
+            loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000)
+          }
         );
         processorByName[processorName].start();
         await delay(12000);
@@ -1349,7 +1372,8 @@ describe("Event Processor", function(): void {
         inactiveTimeLimitInMs: 3000,
         ownerLevel: 0,
         // For this test we don't want to actually checkpoint, just test ownership.
-        startPosition: latestEventPosition
+        startPosition: latestEventPosition,
+        loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000)
       };
 
       const processor1 = new EventProcessor(
