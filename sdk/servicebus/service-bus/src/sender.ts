@@ -32,7 +32,7 @@ import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 export interface Sender {
   /**
    * Sends the given messages after creating an AMQP Sender link if it doesn't already exist.
-   * Consider awaiting on open() beforehand to front load the work of link creation.
+   * Consider awaiting on open() beforehand to front load the work of link creation if needed.
    *
    * - To send messages to a `session` and/or `partition` enabled Queue/Topic, set the `sessionId`
    * and/or `partitionKey` properties respectively on the messages.

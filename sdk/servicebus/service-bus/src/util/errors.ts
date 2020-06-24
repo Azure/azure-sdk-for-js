@@ -160,7 +160,7 @@ export function throwTypeErrorIfParameterTypeMismatch(
 
 /**
  * @internal
- * Logs and Throws TypeError if given parameter is not of type `Long`
+ * Logs and Throws TypeError if given parameter is not of type `Long` or an array of type `Long`
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
  * @param parameterValue Value of the parameter to type check

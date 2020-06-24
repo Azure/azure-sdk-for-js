@@ -49,7 +49,7 @@ export interface Receiver<ReceivedMessageT> {
   /**
    * Receives, at most, `maxMessages` worth of messages.
    * @param maxMessages The maximum number of messages to accept.
-   * @param options Options for receiveBatch.
+   * @param options Options for receiveMessages
    */
   receiveMessages(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
 
