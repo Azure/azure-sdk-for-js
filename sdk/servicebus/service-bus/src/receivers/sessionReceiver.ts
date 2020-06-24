@@ -122,18 +122,14 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if an open receiver is already existing for given sessionId.
    */
   private constructor(
-    messageSession: MessageSession,
-    context: ClientEntityContext,
+    private _messageSession: MessageSession,
+    private _context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
     private _sessionOptions: CreateSessionReceiverOptions,
-    retryOptions: RetryOptions = {}
+    private _retryOptions: RetryOptions = {}
   ) {
-    throwErrorIfConnectionClosed(context.namespace);
-    this._context = context;
-    this._sessionOptions;
+    throwErrorIfConnectionClosed(this._context.namespace);
     this.entityPath = this._context.entityPath;
-    this._retryOptions = retryOptions;
-    this._messageSession = messageSession;
     // By this point, we should have a valid sessionId on the messageSession
     // If not, the receiver cannot be used, so throw error.
     if (messageSession.sessionId == undefined) {
