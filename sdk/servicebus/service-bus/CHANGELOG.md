@@ -6,6 +6,12 @@
   [PR 9233](https://github.com/Azure/azure-sdk-for-js/pull/9233)
   [PR 9284](https://github.com/Azure/azure-sdk-for-js/pull/9284)
 
+### Breaking Changes
+
+- `top` attribute of `ListRequestOptions` interface has been renamed to `maxCount`.
+  `options` argument of type `ListRequestOptions` is expected to be passed for the methods that deal with retrieving information of multiple entities, example - `getQueues`, `getQueuesRuntimeInfo`.
+  [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
+
 ## 7.0.0-preview.3 (2020-06-08)
 
 - Improves the performance of the `ServiceBusMessageBatch.tryAdd` method.
