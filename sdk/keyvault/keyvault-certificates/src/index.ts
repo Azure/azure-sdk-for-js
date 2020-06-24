@@ -1438,10 +1438,15 @@ export class CertificateClient {
     let result: UpdateCertificateResponse;
 
     try {
-      result = await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
-        ...this.setParentSpan(span, requestOptions),
-        certificateAttributes: toCoreAttributes(options)
-      });
+      result = await this.client.updateCertificate(
+        this.vaultUrl,
+        certificateName,
+        version,
+        {
+          ...this.setParentSpan(span, requestOptions),
+          certificateAttributes: toCoreAttributes(options)
+        }
+      );
     } finally {
       span.end();
     }
