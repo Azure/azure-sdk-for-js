@@ -3,10 +3,9 @@
 > see https://aka.ms/autorest
 
 ``` yaml
-typescript:
-  package-name: "@azure/keyvault-admin"
+package-name: "@azure/keyvault-admin"
 use-extension:
-  "@microsoft.azure/autorest.typescript": "~5.0.1"
+  "@autorest/typescript": "6.0.0-dev.20200623.2"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
