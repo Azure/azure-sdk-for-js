@@ -105,13 +105,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   public sessionId: string;
 
   /**
-   * @property {ClientEntityContext} _context Describes the amqp connection context for the QueueClient.
-   */
-
-  private _context: ClientEntityContext;
-  private _retryOptions: RetryOptions;
-  private _messageSession: MessageSession;
-  /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
@@ -125,20 +118,23 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     private _messageSession: MessageSession,
     private _context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    private _sessionOptions: CreateSessionReceiverOptions,
     private _retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(this._context.namespace);
     this.entityPath = this._context.entityPath;
     // By this point, we should have a valid sessionId on the messageSession
     // If not, the receiver cannot be used, so throw error.
-    if (messageSession.sessionId == undefined) {
+    if (_messageSession.sessionId == undefined) {
       const error = new Error("Something went wrong. Cannot lock a session.");
-      log.error(`[${context.namespace.connectionId}] %O`, error);
-      throw error;
+      log.error(`[${_context.namespace.connectionId}] %O`, error);
+      const amqpError: AmqpError = {
+        condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
+        description: `Received sessionId is undefined, the session cannot be locked`
+      };
+      throw translate(amqpError);
     }
-    this.sessionId = messageSession.sessionId;
-    delete this._context.expiredMessageSessions[messageSession.sessionId];
+    this.sessionId = _messageSession.sessionId;
+    delete this._context.expiredMessageSessions[_messageSession.sessionId];
   }
 
   static async createInitializedSessionReceiver<
@@ -177,7 +173,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       messageSession,
       context,
       receiveMode,
-      sessionOptions,
       retryOptions
     );
     return sessionReceiver;
