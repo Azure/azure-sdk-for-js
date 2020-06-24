@@ -1548,31 +1548,32 @@ export class DataLakeFileClient extends DataLakePathClient {
       if (!options.expiresOn && mode !== "NeverExpire") {
         throw new Error(`Must specify options.expiresOn when using modes other than ${mode}`);
       }
+
+      let expiresOn: string | undefined = undefined;
       if (mode === "RelativeToNow" || mode === "RelativeToCreation") {
-        const regexp = /^\d+$/;
-        if (typeof options.expiresOn !== "string" || !regexp.test(options.expiresOn!)) {
+        if (typeof options.expiresOn !== "number" || options.expiresOn < 0) {
           throw new Error(
-            `options.expiresOn should be the number of milliseconds elapsed from the relative time in decimal string when using mode ${mode}, but is ${options.expiresOn}`
+            `options.expiresOn should be the number of milliseconds elapsed from the relative time when using mode ${mode}, but is ${options.expiresOn}`
           );
         }
         // MINOR: need check against <= 2**64, but JS number has the precision problem.
-      }
-      if (mode === "Absolute") {
-        if (typeof options.expiresOn === "string") {
+        expiresOn = Math.round(options.expiresOn).toString();
+      } else if (mode === "Absolute") {
+        if (typeof options.expiresOn === "number") {
           throw new Error(
             `options.expiresOn should be a valid time when using mode ${mode}, but is ${options.expiresOn}`
           );
         }
         const now = new Date();
-        if (options.expiresOn!.getTime() <= now.getTime()) {
+        if (!(options.expiresOn!.getTime() > now.getTime())) {
           throw new Error(
             `options.expiresOn should be later than now: ${now.toUTCString()} when using mode ${mode}, but is ${options.expiresOn?.toUTCString()}`
           );
         }
-        options.expiresOn = options.expiresOn?.toUTCString();
+        expiresOn = options.expiresOn!.toUTCString();
       }
 
-      const adaptedOptions = { ...options, expiresOn: options.expiresOn as string };
+      const adaptedOptions = { ...options, expiresOn };
       return await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
         ...adaptedOptions,
         tracingOptions: { ...options.tracingOptions, spanOptions }

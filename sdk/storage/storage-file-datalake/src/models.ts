@@ -884,17 +884,14 @@ export interface FileSetExpiryOptions extends CommonOptions {
 
   /**
    * The time to set the file to expiry, used in combination with {@link FileExpiryMode}.
-   * When using 'RelativeToCreation' or 'RelativeToNow' mode, should be the number of milliseconds elapsed from the relative time, in decimal string.
-   * when using 'Absolute', should be a valid time. And milliseconds will be dropped.
+   * When using 'RelativeToCreation' or 'RelativeToNow' mode, should be the number of milliseconds elapsed from the relative time.
+   * when using 'Absolute', should be a valid time. A time in the past is not allowed and milliseconds will be dropped.
    * When using 'NeverExpire', it shouldn't be provided.
    *
-   * When specifying the number, it should be no greater than the maximum value of UINT64.
-   * When specifying time, an expiry time in the past is not allowed.
-   *
-   * @type {string | Date}
+   * @type {number | Date}
    * @memberof FileSetExpiryOptions
    */
-  expiresOn?: string | Date;
+  expiresOn?: number | Date;
 }
 
 /***********************************************************/
