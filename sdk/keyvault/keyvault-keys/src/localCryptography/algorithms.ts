@@ -26,12 +26,12 @@ import { createHash } from "./hash";
 /**
  * @internal
  * @ignore
- * Abstract representation of a validator.
- * Validators verify that the requirements to execute a local cryptography operation are met.
+ * Abstract representation of a assertion.
+ * Assertions verify that the requirements to execute a local cryptography operation are met.
  * @param key The JSON Web Key that will be used during the local operation.
  * @param operationName The name of the operation, as in "encrypt", "decrypt", "sign", etc.
  */
-export type LocalValidator = (
+export type LocalAssertion = (
   key?: JsonWebKey,
   operationName?: LocalCryptographyOperationName
 ) => void;
@@ -39,10 +39,10 @@ export type LocalValidator = (
 /**
  * @internal
  * @ignore
- * The list of known validators so far.
- * Validators verify that the requirements to execute a local cryptography operation are met.
+ * The list of known assertions so far.
+ * Assertions verify that the requirements to execute a local cryptography operation are met.
  */
-export const validators: Record<"keyOps" | "rsa" | "nodeOnly", LocalValidator> = {
+export const assertions: Record<"keyOps" | "rsa" | "nodeOnly", LocalAssertion> = {
   /**
    * Validates that the target local cryptography operation is allowed by the key's "keyOps" property.
    */
@@ -71,12 +71,12 @@ export const validators: Record<"keyOps" | "rsa" | "nodeOnly", LocalValidator> =
 };
 
 /**
- * pipeValidators allows us to execute a sequence of validators.
- * @param validators One or more LocalValidators
+ * pipeAssertions allows us to execute a sequence of assertions.
+ * @param assertions One or more LocalAssertions
  */
-const pipeValidators = (...validators: LocalValidator[]): LocalValidator => (...params): void => {
-  for (const validator of validators) {
-    validator(...params);
+const pipeAssertions = (...assertions: LocalAssertion[]): LocalAssertion => (...params): void => {
+  for (const assertion of assertions) {
+    assertion(...params);
   }
 };
 
@@ -120,14 +120,14 @@ export type LocalCryptographyOperations = Record<
 >;
 
 /**
- * Abstract representation of a locally supported cryptography algorithm, with its validators,
+ * Abstract representation of a locally supported cryptography algorithm, with its assertions,
  * and its operations.
  */
 export interface LocalSupportedAlgorithm {
   /**
-   * List of validators that need to pass in order to execute this cryptography operation.
+   * List of assertions that need to pass in order to execute this cryptography operation.
    */
-  validate: LocalValidator;
+  validate: LocalAssertion;
   /**
    * Optional algorithm used to sign or validate data.
    */
@@ -156,7 +156,7 @@ export type LocalSupportedAlgorithmName =
  * We currently only support encrypting and wrapping keys with it.
  */
 const RSA1_5: LocalSupportedAlgorithm = {
-  validate: pipeValidators(validators.keyOps, validators.rsa, validators.nodeOnly),
+  validate: pipeAssertions(assertions.keyOps, assertions.rsa, assertions.nodeOnly),
   operations: {
     async encrypt(keyPEM: string, data: Buffer): Promise<Buffer> {
       return publicEncrypt({ key: keyPEM, padding: constants.RSA_PKCS1_PADDING }, data);
@@ -172,7 +172,7 @@ const RSA1_5: LocalSupportedAlgorithm = {
  * We currently only support encrypting and wrapping keys with it.
  */
 const RSA_OAEP: LocalSupportedAlgorithm = {
-  validate: pipeValidators(validators.keyOps, validators.rsa, validators.nodeOnly),
+  validate: pipeAssertions(assertions.keyOps, assertions.rsa, assertions.nodeOnly),
   operations: {
     async encrypt(keyPEM: string, data: Buffer): Promise<Buffer> {
       return publicEncrypt(keyPEM, data);
@@ -196,7 +196,7 @@ export type SignAlgorithmName = "SHA256" | "SHA384" | "SHA512";
  */
 const makeSigner = (signAlgorithm: SignAlgorithmName): LocalSupportedAlgorithm => {
   return {
-    validate: pipeValidators(validators.keyOps, validators.nodeOnly),
+    validate: pipeAssertions(assertions.keyOps, assertions.nodeOnly),
     signAlgorithm,
     operations: {
       async createHash(_keyPEM: string, data: Buffer): Promise<Buffer> {

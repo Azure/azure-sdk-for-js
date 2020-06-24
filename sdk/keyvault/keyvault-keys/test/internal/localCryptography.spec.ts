@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  validators,
+  assertions,
   localSupportedAlgorithms,
   LocalSupportedAlgorithmName
 } from "../../src/localCryptography/algorithms";
@@ -37,14 +37,14 @@ describe("Local cryptography tests", () => {
     recorder.stop();
   });
 
-  describe("validators", () => {
+  describe("assertions", () => {
     describe("keyOps", () => {
-      it("can validate if a key has a specific operation", async function() {
+      it("can assert if a key has a specific operation", async function() {
         const supportedOperation = "encrypt";
         const jsonWebKey: JsonWebKey = {
           keyOps: [supportedOperation]
         };
-        assert.doesNotThrow(() => validators.keyOps(jsonWebKey, supportedOperation));
+        assert.doesNotThrow(() => assertions.keyOps(jsonWebKey, supportedOperation));
       });
       it("throws if a key doesn't have a specific operation", async function() {
         const supportedOperation = "encrypt";
@@ -53,20 +53,20 @@ describe("Local cryptography tests", () => {
             /* No supported operation */
           ]
         };
-        assert.throws(() => validators.keyOps(jsonWebKey, supportedOperation));
+        assert.throws(() => assertions.keyOps(jsonWebKey, supportedOperation));
       });
     });
 
     describe("rsa", () => {
-      it("can validate if a key type is RSA", async function() {
+      it("can assert if a key type is RSA", async function() {
         const jsonWebKey: JsonWebKey = {
           kty: "RSA"
         };
-        assert.doesNotThrow(() => validators.rsa(jsonWebKey));
+        assert.doesNotThrow(() => assertions.rsa(jsonWebKey));
       });
       it("throws if a key type is not RSA", async function() {
         const jsonWebKey: JsonWebKey = {};
-        assert.throws(() => validators.rsa(jsonWebKey));
+        assert.throws(() => assertions.rsa(jsonWebKey));
       });
     });
 
@@ -76,14 +76,14 @@ describe("Local cryptography tests", () => {
           this.skip();
           return;
         }
-        assert.doesNotThrow(() => validators.nodeOnly());
+        assert.doesNotThrow(() => assertions.nodeOnly());
       });
       it("throws if we're not in node", async function() {
         if (isNode) {
           this.skip();
           return;
         }
-        assert.throws(() => validators.nodeOnly());
+        assert.throws(() => assertions.nodeOnly());
       });
     });
   });
