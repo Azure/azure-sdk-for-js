@@ -16,7 +16,6 @@ import {
 } from "./utils/testutils2";
 import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-amqp";
 import { ReceiverEvents } from "rhea-promise";
 
 const should = chai.should();
@@ -1037,14 +1036,6 @@ describe("Batching - disconnects", function(): void {
     );
   }
 
-  beforeEach(function() {
-    if (!isNode) {
-      // Skipping the "disconnect" tests in the browser since they fail.
-      // More info - https://github.com/Azure/azure-sdk-for-js/pull/8664#issuecomment-622651713
-      this.skip();
-    }
-  });
-
   afterEach(async () => {
     if (serviceBusClient) {
       await serviceBusClient.test.afterEach();
@@ -1080,7 +1071,9 @@ describe("Batching - disconnects", function(): void {
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    (receiver as any)["_context"].namespace.connection["_connection"].idle();
+    (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"].namespace.connection[
+      "_connection"
+    ].idle();
 
     // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
@@ -1215,7 +1208,7 @@ describe("Batching - disconnects", function(): void {
       await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
       throw new Error(testFailureMessage);
     } catch (err) {
-      err.message.should.not.equal(testFailureMessage);
+      err.message && err.message.should.not.equal(testFailureMessage);
     }
 
     didRequestDrain.should.equal(true, "Drain was not requested.");
@@ -1299,7 +1292,7 @@ describe("Batching - disconnects", function(): void {
       console.log(msgs.length);
       throw new Error(testFailureMessage);
     } catch (err) {
-      err.message.should.not.equal(testFailureMessage);
+      err.message && err.message.should.not.equal(testFailureMessage);
     }
 
     // Make sure that a 2nd receiveMessages call still works
