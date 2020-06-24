@@ -31,7 +31,7 @@ export async function main(): Promise<void> {
 
   // Creating a CryptographyClient from the identifier (or URL) of a KeyVaultKey
   const cryptoClient = new CryptographyClient(
-    myWorkKey.id! // or just `myWorkKey`. You can use either the key or the key Id to create a CryptographyClient.
+    myWorkKey.id! // Or just `myWorkKey`. You can use either the key or the key Id to create a CryptographyClient.
   , credential);
 
   // Sign and Verify
