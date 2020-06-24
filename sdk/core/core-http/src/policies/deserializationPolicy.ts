@@ -134,7 +134,7 @@ function shouldDeserializeResponse(parsedResponse: HttpOperationResponse): boole
   return result;
 }
 
-export async function deserializeResponseBody(
+export function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   response: HttpOperationResponse
