@@ -109,11 +109,6 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
    * NOTE: this is an internal option, not for general client usage.
    */
   syncTokens?: SyncTokens;
-  /**
-   * Whether we want to run as if we're in node or in the browser.
-   * (currently only affects which name we use for the user agent header)
-   */
-  isNodeOverride?: boolean;
 }
 
 /**
@@ -543,7 +538,7 @@ export function getGeneratedClientOptions(
       ...defaults
     ],
     generateClientRequestIdHeader: true,
-    userAgentHeaderName: getUserAgentHeaderName(internalAppConfigOptions.isNodeOverride),
+    userAgentHeaderName: getUserAgentHeaderName(),
     userAgent
   };
 }
@@ -566,10 +561,8 @@ export function getUserAgentPrefix(userSuppliedUserAgent: string | undefined): s
  * @ignore
  * @internal
  */
-function getUserAgentHeaderName(isNodeOverride: boolean | undefined): string {
-  const definitelyIsNode = isNodeOverride != null ? isNodeOverride : coreHttpIsNode;
-
-  if (definitelyIsNode) {
+function getUserAgentHeaderName(): string {
+  if (coreHttpIsNode) {
     return "User-Agent";
   } else {
     // we only need to override this when we're in the browser

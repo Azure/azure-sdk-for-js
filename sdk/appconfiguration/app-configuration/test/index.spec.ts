@@ -659,7 +659,7 @@ describe("AppConfigurationClient", () => {
       // this number is arbitrarily chosen to match the size of a page + 1
       const expectedNumberOfLabels = 200;
 
-      const addSettingPromises = [];
+      let addSettingPromises = [];
 
       for (let i = 0; i < expectedNumberOfLabels; i++) {
         addSettingPromises.push(
@@ -669,6 +669,11 @@ describe("AppConfigurationClient", () => {
             label: i.toString()
           })
         );
+
+        if (i !== 0 && i % 10 === 0) {
+          await Promise.all(addSettingPromises);
+          addSettingPromises = [];
+        }
       }
 
       await Promise.all(addSettingPromises);

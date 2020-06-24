@@ -13,6 +13,7 @@ import {
 } from "../testHelpers";
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
+import { isNode } from "@azure/core-http";
 
 describe("http request related tests", function() {
   describe("unit tests", () => {
@@ -35,27 +36,17 @@ describe("http request related tests", function() {
     });
 
     it("useragentheadername", () => {
-      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
-        isNodeOverride: false
-      });
+      let expectedUserHeaderName;
 
-      assert.equal(
-        options.userAgentHeaderName,
-        "x-ms-useragent",
-        "Pretending we're running in a browser."
-      );
+      if (isNode) {
+        expectedUserHeaderName = "User-Agent";
+      } else {
+        expectedUserHeaderName = "x-ms-useragent";
+      }
 
-      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
-        isNodeOverride: true
-      });
+      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
 
-      assert.equal(options.userAgentHeaderName, "User-Agent", "Pretending we're running in node.");
-
-      // since we're only running these tests in node this will be the same as the
-      // case above (undefined, thus using the normal User-Agent header)
-      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
-
-      assert.equal(options.userAgentHeaderName, "User-Agent", "We know that we're running node.");
+      assert.equal(options.userAgentHeaderName, expectedUserHeaderName);
     });
 
     it("useragent", () => {
@@ -161,6 +152,11 @@ describe("http request related tests", function() {
     let scope: nock.Scope;
 
     beforeEach(function() {
+      if (nock == null || nock.recorder == null) {
+        this.skip();
+        return;
+      }
+
       syncTokens = new SyncTokens();
 
       client =
@@ -178,6 +174,10 @@ describe("http request related tests", function() {
     });
 
     afterEach(function() {
+      if (nock == null || nock.recorder == null) {
+        return;
+      }
+
       if (!this.currentTest?.isPending()) {
         assert.ok(scope.isDone());
       }
