@@ -5,7 +5,7 @@
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
-  This sample demonstrates how the send() function can be used to send messages to Service Bus
+  This sample demonstrates how the sendMessages() method can be used to send messages to Service Bus
   Queue/Topic.
 
   See https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
@@ -48,7 +48,7 @@ async function main() {
       };
 
       console.log(`Sending message: ${message.body} - ${message.label}`);
-      await sender.send(message);
+      await sender.sendMessages(message);
     }
 
     await sender.close();

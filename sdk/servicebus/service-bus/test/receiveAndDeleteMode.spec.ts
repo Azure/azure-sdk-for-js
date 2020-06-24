@@ -64,8 +64,8 @@ describe("receive and delete", () => {
     });
 
     async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
-      await sender.send(testMessages);
-      const msgs = await receiver.receiveBatch(1);
+      await sender.sendMessages(testMessages);
+      const msgs = await receiver.receiveMessages(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -153,7 +153,7 @@ describe("receive and delete", () => {
       testMessages: ServiceBusMessage,
       autoCompleteFlag: boolean
     ): Promise<void> {
-      await sender.send(testMessages);
+      await sender.sendMessages(testMessages);
 
       const errors: string[] = [];
       const receivedMsgs: ReceivedMessage[] = [];
@@ -323,8 +323,8 @@ describe("receive and delete", () => {
     });
 
     async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<ReceivedMessage> {
-      await sender.send(testMessages);
-      const msgs = await receiver.receiveBatch(1);
+      await sender.sendMessages(testMessages);
+      const msgs = await receiver.receiveMessages(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -694,8 +694,8 @@ describe("receive and delete", () => {
     });
     async function deferMessage(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await sender.send(testMessages);
-      const batch = await receiver.receiveBatch(1);
+      await sender.sendMessages(testMessages);
+      const batch = await receiver.receiveMessages(1);
       const msgs = batch;
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
@@ -713,12 +713,12 @@ describe("receive and delete", () => {
     }
 
     async function receiveDeferredMessage(): Promise<void> {
-      const deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
-      if (!deferredMsgs) {
+      const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
+      if (!deferredMsg) {
         throw `No message received for sequence number ${sequenceNumber}`;
       }
 
-      should.equal(deferredMsgs!.deliveryCount, 1, "DeliveryCount is different than expected");
+      should.equal(deferredMsg!.deliveryCount, 1, "DeliveryCount is different than expected");
       await testPeekMsgsLength(receiver, 0);
     }
 

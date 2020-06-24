@@ -316,7 +316,7 @@ describe("invalid parameters", () => {
         sessionId: TestMessage.sessionId
       });
 
-      await sender.send(TestMessage.getSessionSample());
+      await sender.sendMessages(TestMessage.getSessionSample());
     });
 
     after(() => {
@@ -455,36 +455,36 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
     });
 
-    it("ReceiveDeferredMessage: Wrong type sequenceNumber in SessionReceiver", async function(): Promise<
+    it("ReceiveDeferredMessages: Wrong type sequenceNumber in SessionReceiver", async function(): Promise<
       void
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.receiveDeferredMessage("somestring" as any);
+        await receiver.receiveDeferredMessages("somestring" as any);
       } catch (error) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "sequenceNumber" should be of type "Long"`
+        `The parameter "sequenceNumbers" should be of type "Long"`
       );
     });
 
-    it("ReceiveDeferredMessage: Missing sequenceNumber in SessionReceiver", async function(): Promise<
+    it("ReceiveDeferredMessages: Missing sequenceNumber in SessionReceiver", async function(): Promise<
       void
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.receiveDeferredMessage(undefined as any);
+        await receiver.receiveDeferredMessages(undefined as any);
       } catch (error) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumber"`);
+      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
     });
 
-    it("ReceiveDeferredMessages: Wrong type sequenceNumbers in SessionReceiver", async function(): Promise<
+    it("ReceiveDeferredMessages: Wrong type sequenceNumber array in SessionReceiver", async function(): Promise<
       void
     > {
       let caughtError: Error | undefined;
@@ -498,19 +498,6 @@ describe("invalid parameters", () => {
         caughtError && caughtError.message,
         `The parameter "sequenceNumbers" should be an array of type "Long"`
       );
-    });
-
-    it("ReceiveDeferredMessages: Missing sequenceNumbers in SessionReceiver", async function(): Promise<
-      void
-    > {
-      let caughtError: Error | undefined;
-      try {
-        await receiver.receiveDeferredMessages(undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
     });
   });
 
@@ -531,7 +518,7 @@ describe("invalid parameters", () => {
 
       receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-      await sender.send(TestMessage.getSessionSample());
+      await sender.sendMessages(TestMessage.getSessionSample());
     });
 
     after(async () => {
@@ -598,36 +585,36 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.message, `Invalid "MessageHandlers" provided.`);
     });
 
-    it("ReceiveDeferredMessage: Wrong type sequenceNumber in Receiver", async function(): Promise<
+    it("ReceiveDeferredMessages: Wrong type sequenceNumber in Receiver", async function(): Promise<
       void
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.receiveDeferredMessage("somestring" as any);
+        await receiver.receiveDeferredMessages("somestring" as any);
       } catch (error) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "sequenceNumber" should be of type "Long"`
+        `The parameter "sequenceNumbers" should be of type "Long"`
       );
     });
 
-    it("ReceiveDeferredMessage: Missing sequenceNumber in Receiver", async function(): Promise<
+    it("ReceiveDeferredMessages: Missing sequenceNumber in Receiver", async function(): Promise<
       void
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.receiveDeferredMessage(undefined as any);
+        await receiver.receiveDeferredMessages(undefined as any);
       } catch (error) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumber"`);
+      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
     });
 
-    it("ReceiveDeferredMessages: Wrong type sequenceNumbers in Receiver", async function(): Promise<
+    it("ReceiveDeferredMessages: Wrong type sequenceNumber array in Receiver", async function(): Promise<
       void
     > {
       let caughtError: Error | undefined;
@@ -641,19 +628,6 @@ describe("invalid parameters", () => {
         caughtError && caughtError.message,
         `The parameter "sequenceNumbers" should be an array of type "Long"`
       );
-    });
-
-    it("ReceiveDeferredMessages: Missing sequenceNumbers in Receiver", async function(): Promise<
-      void
-    > {
-      let caughtError: Error | undefined;
-      try {
-        await receiver.receiveDeferredMessages(undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
     });
   });
 
@@ -673,31 +647,6 @@ describe("invalid parameters", () => {
 
     after(() => {
       return serviceBusClient.test.afterEach();
-    });
-
-    it("ScheduledMessage: Missing date in Sender", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await sender.scheduleMessage(undefined as any, undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `Missing parameter "scheduledEnqueueTimeUtc"`
-      );
-    });
-
-    it("ScheduledMessage: Missing message in Sender", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await sender.scheduleMessage(new Date(), undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "message"`);
     });
 
     it("ScheduledMessages: Missing date in Sender", async function(): Promise<void> {
@@ -725,46 +674,19 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.message, `Missing parameter "messages"`);
     });
 
-    it("CancelScheduledMessage: Wrong type sequenceNumber in Sender", async function(): Promise<
+    it("CancelScheduledMessages: Wrong type sequenceNumber in Sender", async function(): Promise<
       void
     > {
       let caughtError: Error | undefined;
       try {
-        await sender.cancelScheduledMessage("somestring" as any);
+        await sender.cancelScheduledMessages("somestring" as any);
       } catch (error) {
         caughtError = error;
       }
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "sequenceNumber" should be of type "Long"`
-      );
-    });
-
-    it("CancelScheduledMessage: Missing sequenceNumber in Sender", async function(): Promise<void> {
-      let caughtError: Error | undefined;
-      try {
-        await sender.cancelScheduledMessage(undefined as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumber"`);
-    });
-
-    it("CancelScheduledMessages: Wrong type sequenceNumbers in Sender", async function(): Promise<
-      void
-    > {
-      let caughtError: Error | undefined;
-      try {
-        await sender.cancelScheduledMessages(["somestring"] as any);
-      } catch (error) {
-        caughtError = error;
-      }
-      should.equal(caughtError && caughtError.name, "TypeError");
-      should.equal(
-        caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be an array of type "Long"`
+        `The parameter "sequenceNumbers" should be of type "Long"`
       );
     });
 
@@ -779,6 +701,22 @@ describe("invalid parameters", () => {
       }
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(caughtError && caughtError.message, `Missing parameter "sequenceNumbers"`);
+    });
+
+    it("CancelScheduledMessages: Wrong type sequenceNumbers array in Sender", async function(): Promise<
+      void
+    > {
+      let caughtError: Error | undefined;
+      try {
+        await sender.cancelScheduledMessages(["somestring"] as any);
+      } catch (error) {
+        caughtError = error;
+      }
+      should.equal(caughtError && caughtError.name, "TypeError");
+      should.equal(
+        caughtError && caughtError.message,
+        `The parameter "sequenceNumbers" should be an array of type "Long"`
+      );
     });
   });
 });

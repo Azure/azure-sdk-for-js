@@ -56,7 +56,7 @@ export interface CreateBatchOptions extends OperationOptions {
 /**
  * Options when receiving a batch of messages from Service Bus.
  */
-export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {}
+export interface ReceiveMessagesOptions extends OperationOptions, WaitTimeOptions {}
 
 /**
  * Options when getting an iterable iterator from Service Bus.
