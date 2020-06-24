@@ -332,7 +332,8 @@ const takeOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SnapshotTakeHeaders
     },
     default: {
-      bodyMapper: Mappers.APIError
+      bodyMapper: Mappers.APIError,
+      headersMapper: Mappers.SnapshotTakeHeaders
     }
   },
   serializer
@@ -461,7 +462,8 @@ const applyOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SnapshotApplyHeaders
     },
     default: {
-      bodyMapper: Mappers.APIError
+      bodyMapper: Mappers.APIError,
+      headersMapper: Mappers.SnapshotApplyHeaders
     }
   },
   serializer
