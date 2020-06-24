@@ -191,8 +191,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw error;
     }
   }
+
   private _throwIfMessageSessionDoesntExist(): void {
-    if (!this._messageSession) {
+    if (!this._context.messageSessions[this.sessionId] || !this._messageSession.isOpen()) {
       const amqpError: AmqpError = {
         condition: ErrorNameConditionMapper.SessionLockLostError,
         description: `The session lock has expired on the session with id ${this.sessionId}`
