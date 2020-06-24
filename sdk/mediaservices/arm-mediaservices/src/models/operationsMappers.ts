@@ -9,12 +9,13 @@
 export {
   discriminators,
   ApiError,
-  Metric,
+  LogSpecification,
   MetricDimension,
-  MetricProperties,
+  MetricSpecification,
   ODataError,
   Operation,
   OperationCollection,
   OperationDisplay,
+  Properties,
   ServiceSpecification
 } from "../models/mappers";

@@ -82,28 +82,31 @@ export interface FilterTrackSelection {
 }
 
 /**
- * The core properties of ARM resources.
+ * An interface representing Resource.
  */
 export interface Resource extends BaseResource {
   /**
-   * Fully qualified resource ID for the resource.
+   * Fully qualified resource Id for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * The name of the resource.
+   * The name of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * The type of the resource.
+   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
+   * Microsoft.Storage/storageAccounts.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
 }
 
 /**
- * The resource model definition for a ARM proxy resource.
+ * The resource model definition for a ARM proxy resource. It will have everything other than
+ * required location and tags
  */
 export interface ProxyResource extends Resource {
 }
@@ -153,13 +156,13 @@ export interface ODataError {
  */
 export interface ApiError {
   /**
-   * ApiError. The error properties.
+   * The error properties.
    */
   error?: ODataError;
 }
 
 /**
- * The resource model definition for a ARM tracked resource.
+ * The resource model definition for a ARM tracked top level resource
  */
 export interface TrackedResource extends Resource {
   /**
@@ -167,9 +170,20 @@ export interface TrackedResource extends Resource {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * The Azure Region of the resource.
+   * The geo-location where the resource lives
    */
-  location?: string;
+  location: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager resource with an etag.
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
 }
 
 /**
@@ -228,7 +242,7 @@ export interface MetricDimension {
 /**
  * A metric emitted by service.
  */
-export interface Metric {
+export interface MetricSpecification {
   /**
    * The metric name.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -255,6 +269,10 @@ export interface Metric {
    */
   readonly aggregationType?: MetricAggregationType;
   /**
+   * Supported aggregation types.
+   */
+  supportedAggregationTypes?: string[];
+  /**
    * The metric dimensions.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -262,20 +280,46 @@ export interface Metric {
 }
 
 /**
+ * A diagnostic log emitted by service.
+ */
+export interface LogSpecification {
+  /**
+   * The diagnostic log category name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The diagnostic log category display name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * The time range for requests in each blob.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly blobDuration?: string;
+}
+
+/**
  * The service metric specifications.
  */
 export interface ServiceSpecification {
   /**
+   * List of log specifications.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly logSpecifications?: LogSpecification[];
+  /**
    * List of metric specifications.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly metricSpecifications?: Metric[];
+  readonly metricSpecifications?: MetricSpecification[];
 }
 
 /**
- * Metric properties.
+ * The service specification property.
  */
-export interface MetricProperties {
+export interface Properties {
   /**
    * The service specifications.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -302,7 +346,7 @@ export interface Operation {
   /**
    * Operation properties format.
    */
-  properties?: MetricProperties;
+  properties?: Properties;
 }
 
 /**
@@ -358,6 +402,58 @@ export interface SyncStorageKeysInput {
 }
 
 /**
+ * An interface representing KeyVaultProperties.
+ */
+export interface KeyVaultProperties {
+  /**
+   * The URL of the Key Vault key used to encrypt the account. The key may either be versioned (for
+   * example https://vault/keys/mykey/version1) or reference a key without a version (for example
+   * https://vault/keys/mykey).
+   */
+  keyIdentifier?: string;
+  /**
+   * The current key used to encrypt the Media Services account, including the key version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentKeyIdentifier?: string;
+}
+
+/**
+ * An interface representing AccountEncryption.
+ */
+export interface AccountEncryption {
+  /**
+   * The type of key used to encrypt the Account Key. Possible values include: 'SystemKey',
+   * 'CustomerKey'
+   */
+  type: AccountEncryptionKeyType;
+  /**
+   * The properties of the key used to encrypt the account.
+   */
+  keyVaultProperties?: KeyVaultProperties;
+}
+
+/**
+ * An interface representing MediaServiceIdentity.
+ */
+export interface MediaServiceIdentity {
+  /**
+   * The identity type. Possible values include: 'SystemAssigned', 'None'
+   */
+  type: ManagedIdentityType;
+  /**
+   * The Principal ID of the identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The Tenant ID of the identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+}
+
+/**
  * A Media Services account.
  */
 export interface MediaService extends TrackedResource {
@@ -370,6 +466,18 @@ export interface MediaService extends TrackedResource {
    * The storage accounts for this resource.
    */
   storageAccounts?: StorageAccount[];
+  /**
+   * Possible values include: 'System', 'ManagedIdentity'
+   */
+  storageAuthentication?: StorageAuthentication;
+  /**
+   * The account encryption properties.
+   */
+  encryption?: AccountEncryption;
+  /**
+   * The Managed Identity for the Media Services account.
+   */
+  identity?: MediaServiceIdentity;
 }
 
 /**
@@ -431,21 +539,6 @@ export interface EdgePolicies {
 }
 
 /**
- * A Media Services account.
- */
-export interface SubscriptionMediaService extends TrackedResource {
-  /**
-   * The Media Services account ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly mediaServiceId?: string;
-  /**
-   * The storage accounts for this resource.
-   */
-  storageAccounts?: StorageAccount[];
-}
-
-/**
  * The input to the check name availability request.
  */
 export interface CheckNameAvailabilityInput {
@@ -457,6 +550,97 @@ export interface CheckNameAvailabilityInput {
    * The account type. For a Media Services account, this should be 'MediaServices'.
    */
   type?: string;
+}
+
+/**
+ * A collection of information about the state of the connection between service consumer and
+ * provider.
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
+   * service. Possible values include: 'Pending', 'Approved', 'Rejected'
+   */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /**
+   * The reason for approval/rejection of the connection.
+   */
+  description?: string;
+  /**
+   * A message indicating if changes on the service provider require any updates on the consumer.
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * The Private Endpoint resource.
+ */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * The Private Endpoint Connection resource.
+ */
+export interface PrivateEndpointConnection extends Resource {
+  /**
+   * The resource of private end point.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * A collection of information about the state of the connection between service consumer and
+   * provider.
+   */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource. Possible values include:
+   * 'Succeeded', 'Creating', 'Deleting', 'Failed'
+   */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+/**
+ * List of private endpoint connection associated with the specified storage account
+ */
+export interface PrivateEndpointConnectionListResult {
+  /**
+   * Array of private endpoint connections
+   */
+  value?: PrivateEndpointConnection[];
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * The private link resource group id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * The private link resource Private link DNS zone name.
+   */
+  requiredZoneNames?: string[];
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Array of private link resources
+   */
+  value?: PrivateLinkResource[];
 }
 
 /**
@@ -1438,9 +1622,10 @@ export interface Video {
    */
   label?: string;
   /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
    */
   keyFrameInterval?: string;
   /**
@@ -1448,6 +1633,10 @@ export interface Video {
    * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
    */
   stretchMode?: StretchMode;
+  /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
 }
 
 /**
@@ -1468,9 +1657,10 @@ export interface Image {
    */
   label?: string;
   /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
    */
   keyFrameInterval?: string;
   /**
@@ -1478,6 +1668,10 @@ export interface Image {
    * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
    */
   stretchMode?: StretchMode;
+  /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
   /**
    * The position in the input video from where to start generating thumbnails. The value can be in
    * absolute timestamp (ISO 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th
@@ -1867,9 +2061,10 @@ export interface H264Video {
    */
   label?: string;
   /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
    */
   keyFrameInterval?: string;
   /**
@@ -1877,6 +2072,10 @@ export interface H264Video {
    * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
    */
   stretchMode?: StretchMode;
+  /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
   /**
    * Whether or not the encoder should insert key frames at scene changes. If not specified, the
    * default is false. This flag should be set to true only when the encoder is being configured to
@@ -1938,9 +2137,10 @@ export interface JpgImage {
    */
   label?: string;
   /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
    */
   keyFrameInterval?: string;
   /**
@@ -1948,6 +2148,10 @@ export interface JpgImage {
    * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
    */
   stretchMode?: StretchMode;
+  /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
   /**
    * The position in the input video from where to start generating thumbnails. The value can be in
    * absolute timestamp (ISO 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th
@@ -2082,9 +2286,10 @@ export interface PngImage {
    */
   label?: string;
   /**
-   * The distance between two key frames, thereby defining a group of pictures (GOP). The value
-   * should be a non-zero integer in the range [1, 30] seconds, specified in ISO 8601 format. The
-   * default is 2 seconds (PT2S).
+   * The distance between two key frames. The value should be non-zero in the range [0.5, 20]
+   * seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting
+   * is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow
+   * the input source setting.
    */
   keyFrameInterval?: string;
   /**
@@ -2092,6 +2297,10 @@ export interface PngImage {
    * resolution(s). Default is AutoSize. Possible values include: 'None', 'AutoSize', 'AutoFit'
    */
   stretchMode?: StretchMode;
+  /**
+   * The Video Sync Mode. Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+   */
+  syncMode?: VideoSyncMode;
   /**
    * The position in the input video from where to start generating thumbnails. The value can be in
    * absolute timestamp (ISO 8601, e.g: PT05S), or a frame count (For example, 10 for the 10th
@@ -3279,8 +3488,8 @@ export interface LiveEventInput {
    */
   keyFrameIntervalDuration?: string;
   /**
-   * A unique identifier for a stream.  This can be specified at creation time but cannot be
-   * updated.  If omitted, the service will generate a unique value.
+   * A UUID in string form to uniquely identify the stream. This can be specified at creation time
+   * but cannot be updated.  If omitted, the service will generate a unique value.
    */
   accessToken?: string;
   /**
@@ -3337,12 +3546,20 @@ export interface LiveEventPreview {
  */
 export interface LiveEventEncoding {
   /**
-   * The encoding type for Live Event.  This value is specified at creation time and cannot be
-   * updated. Possible values include: 'None', 'Basic', 'Standard', 'Premium1080p'
+   * The encoding type for Live Event. This value is specified at creation time and cannot be
+   * updated. When encodingType is set to None, the service simply passes through the incoming
+   * video and audio layer(s) to the output. When encodingType is set to Standard or Premium1080p,
+   * a live encoder transcodes the incoming stream into multiple bit rates or layers. See
+   * https://go.microsoft.com/fwlink/?linkid=2095101 for more information. The encodingType of
+   * Basic is obsolete – if specified, the service will treat this as a Standard Live Event.
+   * Possible values include: 'None', 'Basic', 'Standard', 'Premium1080p'
    */
   encodingType?: LiveEventEncodingType;
   /**
-   * The encoding preset name.  This value is specified at creation time and cannot be updated.
+   * The optional encoding preset name, used when encodingType is not None. This value is specified
+   * at creation time and cannot be updated. If the encodingType is set to Standard, then the
+   * default preset name is ‘Default720p’. Else if the encodingType is set to Premium1080p, the
+   * default preset is ‘Default1080p’.
    */
   presetName?: string;
 }
@@ -3410,10 +3627,10 @@ export interface LiveEvent extends TrackedResource {
    * Specifies whether to use a vanity url with the Live Event.  This value is specified at
    * creation time and cannot be updated.
    */
-  vanityUrl?: boolean;
+  useStaticHostname?: boolean;
   /**
    * The options to use for the LiveEvent.  This value is specified at creation time and cannot be
-   * updated.
+   * updated. The valid values for the array entry values are 'Default' and 'LowLatency'.
    */
   streamOptions?: StreamOptionsFlag[];
   /**
@@ -3754,19 +3971,6 @@ export interface MediaServiceCollection extends Array<MediaService> {
 
 /**
  * @interface
- * A collection of SubscriptionMediaService items.
- * @extends Array<SubscriptionMediaService>
- */
-export interface SubscriptionMediaServiceCollection extends Array<SubscriptionMediaService> {
-  /**
-   * A link to the next page of the collection (when the collection contains too many results to
-   * return in one response).
-   */
-  odatanextLink?: string;
-}
-
-/**
- * @interface
  * A collection of Asset items.
  * @extends Array<Asset>
  */
@@ -3951,6 +4155,46 @@ export type MetricAggregationType = 'Average' | 'Count' | 'Total';
 export type StorageAccountType = 'Primary' | 'Secondary';
 
 /**
+ * Defines values for StorageAuthentication.
+ * Possible values include: 'System', 'ManagedIdentity'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAuthentication = 'System' | 'ManagedIdentity';
+
+/**
+ * Defines values for AccountEncryptionKeyType.
+ * Possible values include: 'SystemKey', 'CustomerKey'
+ * @readonly
+ * @enum {string}
+ */
+export type AccountEncryptionKeyType = 'SystemKey' | 'CustomerKey';
+
+/**
+ * Defines values for ManagedIdentityType.
+ * Possible values include: 'SystemAssigned', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagedIdentityType = 'SystemAssigned' | 'None';
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState.
+ * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus.
+ * Possible values include: 'Pending', 'Approved', 'Rejected'
+ * @readonly
+ * @enum {string}
+ */
+export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected';
+
+/**
  * Defines values for AssetStorageEncryptionFormat.
  * Possible values include: 'None', 'MediaStorageClientEncryption'
  * @readonly
@@ -4030,6 +4274,14 @@ export type AnalysisResolution = 'SourceResolution' | 'StandardDefinition';
  * @enum {string}
  */
 export type StretchMode = 'None' | 'AutoSize' | 'AutoFit';
+
+/**
+ * Defines values for VideoSyncMode.
+ * Possible values include: 'Auto', 'Passthrough', 'Cfr', 'Vfr'
+ * @readonly
+ * @enum {string}
+ */
+export type VideoSyncMode = 'Auto' | 'Passthrough' | 'Cfr' | 'Vfr';
 
 /**
  * Defines values for DeinterlaceParity.
@@ -4481,7 +4733,7 @@ export type MediaservicesListEdgePoliciesResponse = EdgePolicies & {
 /**
  * Contains response data for the listBySubscription operation.
  */
-export type MediaservicesListBySubscriptionResponse = SubscriptionMediaServiceCollection & {
+export type MediaservicesListBySubscriptionResponse = MediaServiceCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -4494,14 +4746,14 @@ export type MediaservicesListBySubscriptionResponse = SubscriptionMediaServiceCo
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SubscriptionMediaServiceCollection;
+      parsedBody: MediaServiceCollection;
     };
 };
 
 /**
  * Contains response data for the getBySubscription operation.
  */
-export type MediaservicesGetBySubscriptionResponse = SubscriptionMediaService & {
+export type MediaservicesGetBySubscriptionResponse = MediaService & {
   /**
    * The underlying HTTP response.
    */
@@ -4514,7 +4766,7 @@ export type MediaservicesGetBySubscriptionResponse = SubscriptionMediaService & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SubscriptionMediaService;
+      parsedBody: MediaService;
     };
 };
 
@@ -4541,7 +4793,7 @@ export type MediaservicesListNextResponse = MediaServiceCollection & {
 /**
  * Contains response data for the listBySubscriptionNext operation.
  */
-export type MediaservicesListBySubscriptionNextResponse = SubscriptionMediaServiceCollection & {
+export type MediaservicesListBySubscriptionNextResponse = MediaServiceCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -4554,7 +4806,107 @@ export type MediaservicesListBySubscriptionNextResponse = SubscriptionMediaServi
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: SubscriptionMediaServiceCollection;
+      parsedBody: MediaServiceCollection;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
     };
 };
 
