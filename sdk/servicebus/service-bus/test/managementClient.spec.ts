@@ -51,8 +51,8 @@ describe("ManagementClient - disconnects", function(): void {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we have something to peek.
 
-    await sender.send(TestMessage.getSample());
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     let peekedMessageCount = 0;
     let messages = await receiver.peekMessages({ maxMessageCount: 1 });
@@ -90,12 +90,10 @@ describe("ManagementClient - disconnects", function(): void {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we have something to peek.
 
-    const deliveryIds = [];
-    let deliveryId = await sender.scheduleMessage(
+    const deliveryIds = await sender.scheduleMessages(
       new Date("2020-04-25T12:00:00Z"),
       TestMessage.getSample()
     );
-    deliveryIds.push(deliveryId);
 
     deliveryIds.length.should.equal(1, "Unexpected number of scheduled messages.");
 
@@ -115,7 +113,7 @@ describe("ManagementClient - disconnects", function(): void {
     await delay(2000);
 
     // peek additional messages
-    deliveryId = await sender.scheduleMessage(
+    const [deliveryId] = await sender.scheduleMessages(
       new Date("2020-04-25T12:00:00Z"),
       TestMessage.getSample()
     );

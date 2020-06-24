@@ -109,7 +109,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) 
       body: shoppingEvents[index],
       label: "Shopping Step"
     };
-    await sender.send(message);
+    await sender.sendMessages(message);
   }
   await sender.close();
 }
@@ -120,7 +120,7 @@ async function processMessageFromSession(sessionId: string) {
     sessionId
   });
 
-  const messages = await sessionReceiver.receiveBatch(1, {
+  const messages = await sessionReceiver.receiveMessages(1, {
     maxWaitTimeInMs: 10000
   });
 

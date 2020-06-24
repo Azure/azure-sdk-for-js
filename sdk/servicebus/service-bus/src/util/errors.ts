@@ -170,6 +170,9 @@ export function throwTypeErrorIfParameterNotLong(
   parameterName: string,
   parameterValue: any
 ): TypeError | undefined {
+  if (Array.isArray(parameterValue)) {
+    return throwTypeErrorIfParameterNotLongArray(connectionId, parameterName, parameterValue);
+  }
   if (Long.isLong(parameterValue)) {
     return;
   }

@@ -45,15 +45,15 @@ describe("deferred messages", () => {
   /**
    * Sends, defers, receives and then returns a test message
    * @param testMessage Test message to send, defer, receive and then return
-   * @param useReceiveDeferredMessages Boolean to indicate whether to use `receiveDeferredMessage` or
-   * `receiveDeferredMessages` to ensure both get code coverage
+   * @param passSequenceNumberInArray Boolean to indicate whether to pass the sequence number
+   * as is or in an array to ensure both get code coverage
    */
   async function deferMessage(
     testMessage: ServiceBusMessage,
-    useReceiveDeferredMessages: boolean
+    passSequenceNumberInArray: boolean
   ): Promise<ReceivedMessageWithLock> {
-    await sender.send(testMessage);
-    const receivedMsgs = await receiver.receiveBatch(1);
+    await sender.sendMessages(testMessage);
+    const receivedMsgs = await receiver.receiveMessages(1);
 
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     should.equal(receivedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -70,16 +70,9 @@ describe("deferred messages", () => {
     const sequenceNumber = receivedMsgs[0].sequenceNumber;
     await receivedMsgs[0].defer();
 
-    let deferredMsg: ReceivedMessageWithLock | undefined;
-
-    // Randomly choose receiveDeferredMessage/receiveDeferredMessages as the latter is expected to
-    // convert single input to array and then use it
-    if (useReceiveDeferredMessages) {
-      [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber as any);
-    } else {
-      deferredMsg = await receiver.receiveDeferredMessage(sequenceNumber);
-    }
-
+    const [deferredMsg] = await receiver.receiveDeferredMessages(
+      passSequenceNumberInArray ? [sequenceNumber] : sequenceNumber
+    );
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
@@ -101,7 +94,7 @@ describe("deferred messages", () => {
   ): Promise<void> {
     await testPeekMsgsLength(receiver, 1);
 
-    const deferredMsg = await receiver.receiveDeferredMessage(sequenceNumber);
+    const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
@@ -270,7 +263,7 @@ describe("deferred messages", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
 
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(

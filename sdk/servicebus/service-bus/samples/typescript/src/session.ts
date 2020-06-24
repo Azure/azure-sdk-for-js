@@ -73,7 +73,7 @@ async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId
   };
 
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
-  await sender.send(message);
+  await sender.sendMessages(message);
 
   await sender.close();
 }

@@ -83,7 +83,7 @@ describe("Streaming", () => {
 
     async function testAutoComplete(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
@@ -121,7 +121,7 @@ describe("Streaming", () => {
     }
     async function testAutoCompleteWithSenderAndReceiver(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
@@ -185,7 +185,7 @@ describe("Streaming", () => {
 
     async function testManualComplete(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
@@ -295,7 +295,7 @@ describe("Streaming", () => {
 
     async function testComplete(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
@@ -378,7 +378,7 @@ describe("Streaming", () => {
 
     async function testMultipleAbandons(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       let checkDeliveryCount = 0;
 
@@ -407,7 +407,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiver, 0); // No messages in the queue
 
-      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -462,7 +462,7 @@ describe("Streaming", () => {
 
     async function testDefer(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
       let sequenceNum: any = 0;
 
       receiver.subscribe(
@@ -568,7 +568,7 @@ describe("Streaming", () => {
 
     async function testDeadletter(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
 
@@ -590,7 +590,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -695,7 +695,7 @@ describe("Streaming", () => {
 
       errorMessage = "";
       try {
-        await receiver.receiveBatch(1);
+        await receiver.receiveMessages(1);
       } catch (err) {
         errorMessage = err && err.message;
       }
@@ -730,7 +730,7 @@ describe("Streaming", () => {
 
     async function testSettlement(operation: DispositionType): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe({
         async processMessage(msg: ReceivedMessageWithLock) {
@@ -828,7 +828,7 @@ describe("Streaming", () => {
     });
 
     async function testUserError(): Promise<void> {
-      await sender.send(TestMessage.getSample());
+      await sender.sendMessages(TestMessage.getSample());
       const errorMessage = "Will we see this error message?";
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
@@ -954,7 +954,7 @@ describe("Streaming", () => {
       testMessages.forEach((message) => {
         batchMessageToSend.tryAdd(message);
       });
-      await sender.send(batchMessageToSend);
+      await sender.sendMessages(batchMessageToSend);
 
       const settledMsgs: ReceivedMessage[] = [];
       const receivedMsgs: ReceivedMessage[] = [];
@@ -1073,7 +1073,7 @@ describe("Streaming", () => {
         messages.push(message);
         batch.tryAdd(message);
       }
-      await sender.send(batch);
+      await sender.sendMessages(batch);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
 
@@ -1164,7 +1164,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1199,7 +1199,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1234,7 +1234,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1272,7 +1272,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1349,7 +1349,7 @@ describe("Streaming - disconnects", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
     let settledMessageCount = 0;
 
@@ -1407,7 +1407,7 @@ describe("Streaming - disconnects", function(): void {
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
     await delay(2000);
     // send a second message to trigger the message handler again.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
     await receiverSecondMessage;

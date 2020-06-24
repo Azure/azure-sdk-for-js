@@ -122,7 +122,7 @@ async function createTestEntities(
 
 export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   while (true) {
-    const messages = await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+    const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
 
     if (messages.length === 0) {
       break;
@@ -170,7 +170,7 @@ export class ServiceBusTestHelpers {
         subscription: entityNames.subscription,
         usesSessions: false
       });
-      receivedMsgs = await receiver.receiveBatch(sentMessages.length, {
+      receivedMsgs = await receiver.receiveMessages(sentMessages.length, {
         // maxWaitTime is set same as numberOfMessages being received
         maxWaitTimeInMs: sentMessages.length * 1000
       });
@@ -195,7 +195,7 @@ export class ServiceBusTestHelpers {
           usesSessions: true,
           sessionId: id
         });
-        const msgs = await receiver.receiveBatch(numOfMsgsWithSessionId[id], {
+        const msgs = await receiver.receiveMessages(numOfMsgsWithSessionId[id], {
           // Since we know the exact number of messages to be received per session-id,
           //   a higher `maxWaitTimeInMs` is not a problem
           maxWaitTimeInMs: 5000 * numOfMsgsWithSessionId[id]
@@ -443,7 +443,7 @@ export function createServiceBusClientForTests(
 export async function drainReceiveAndDeleteReceiver(receiver: Receiver<{}>): Promise<void> {
   try {
     while (true) {
-      const messages = await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+      const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
 
       if (messages.length === 0) {
         break;

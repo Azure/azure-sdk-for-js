@@ -16,8 +16,7 @@ import {
   getReceiverClosedErrorMsg,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
-  throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterNotLongArray
+  throwTypeErrorIfParameterNotLong
 } from "../util/errors";
 import * as log from "../log";
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
@@ -52,26 +51,11 @@ export interface Receiver<ReceivedMessageT> {
    * @param maxMessages The maximum number of messages to accept.
    * @param options Options for receiveBatch.
    */
-  receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
-
-  /**
-   * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
-   * @param {Long} sequenceNumber The sequence number of the message that needs to be received.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns {(Promise<ServiceBusMessage | undefined>)}
-   * - Returns `Message` identified by sequence number.
-   * - Returns `undefined` if no such message is found.
-   * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while receiving deferred message.
-   */
-  receiveDeferredMessage(
-    sequenceNumber: Long,
-    options?: OperationOptions
-  ): Promise<ReceivedMessageT | undefined>;
+  receiveMessages(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
-   * @param {Long[]} sequenceNumbers An array of sequence numbers for the messages that need to be received.
+   * @param sequenceNumbers The sequence number or an array of sequence numbers for the messages that need to be received.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<ServiceBusMessage[]>}
    * - Returns a list of messages identified by the given sequenceNumbers.
@@ -80,7 +64,7 @@ export interface Receiver<ReceivedMessageT> {
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
   receiveDeferredMessages(
-    sequenceNumbers: Long[],
+    sequenceNumbers: Long | Long[],
     options?: OperationOptions
   ): Promise<ReceivedMessageT[]>;
   /**
@@ -270,7 +254,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
    */
-  async receiveBatch(
+  async receiveMessages(
     maxMessageCount: number,
     options?: ReceiveBatchOptions
   ): Promise<ReceivedMessageT[]> {
@@ -321,57 +305,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   }
 
   /**
-   * Returns a promise that resolves to a deferred message identified by the given `sequenceNumber`.
-   * @param sequenceNumber The sequence number of the message that needs to be received.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<ServiceBusMessage | undefined>
-   * - Returns `Message` identified by sequence number.
-   * - Returns `undefined` if no such message is found.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while receiving deferred message.
-   */
-  async receiveDeferredMessage(
-    sequenceNumber: Long,
-    options: OperationOptions = {}
-  ): Promise<ReceivedMessageT | undefined> {
-    this._throwIfReceiverOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
-      "sequenceNumber",
-      sequenceNumber
-    );
-    throwTypeErrorIfParameterNotLong(
-      this._context.namespace.connectionId,
-      "sequenceNumber",
-      sequenceNumber
-    );
-
-    const receiveDeferredMessageOperationPromise = async () => {
-      const messages = await this._context.managementClient!.receiveDeferredMessages(
-        [sequenceNumber],
-        convertToInternalReceiveMode(this.receiveMode),
-        undefined,
-        {
-          ...options,
-          requestName: "receiveDeferredMessage",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
-      return (messages[0] as unknown) as ReceivedMessageT;
-    };
-    const config: RetryConfig<ReceivedMessageT | undefined> = {
-      operation: receiveDeferredMessageOperationPromise,
-      connectionId: this._context.namespace.connectionId,
-      operationType: RetryOperationType.management,
-      retryOptions: this._retryOptions,
-      abortSignal: options?.abortSignal
-    };
-    return retry<ReceivedMessageT | undefined>(config);
-  }
-
-  /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
-   * @param sequenceNumbers An array of sequence numbers for the messages that need to be received.
+   * @param sequenceNumbers The sequence number or an array of sequence numbers for the messages that need to be received.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<ServiceBusMessage[]>
    * - Returns a list of messages identified by the given sequenceNumbers.
@@ -380,7 +315,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @throws MessagingError if the service returns an error while receiving deferred messages.
    */
   async receiveDeferredMessages(
-    sequenceNumbers: Long[],
+    sequenceNumbers: Long | Long[],
     options: OperationOptions = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
@@ -389,18 +324,18 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       "sequenceNumbers",
       sequenceNumbers
     );
-    if (!Array.isArray(sequenceNumbers)) {
-      sequenceNumbers = [sequenceNumbers];
-    }
-    throwTypeErrorIfParameterNotLongArray(
+    throwTypeErrorIfParameterNotLong(
       this._context.namespace.connectionId,
       "sequenceNumbers",
       sequenceNumbers
     );
 
+    const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
+      ? sequenceNumbers
+      : [sequenceNumbers];
     const receiveDeferredMessagesOperationPromise = async () => {
       const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
-        sequenceNumbers,
+        deferredSequenceNumbers,
         convertToInternalReceiveMode(this.receiveMode),
         undefined,
         {

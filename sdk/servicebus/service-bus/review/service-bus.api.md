@@ -215,9 +215,8 @@ export interface Receiver<ReceivedMessageT> {
     isClosed: boolean;
     isReceivingMessages(): boolean;
     peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
-    receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
-    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    receiveMessages(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
@@ -246,18 +245,14 @@ export interface RulesResponse extends Array<RuleDescription>, Response {
 
 // @public
 export interface Sender {
-    cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
-    cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptions): Promise<void>;
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
     open(options?: SenderOpenOptions): Promise<void>;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
-    send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
-    send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
-    send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
+    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 }
 
 // @public
