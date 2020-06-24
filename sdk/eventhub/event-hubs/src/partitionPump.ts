@@ -4,7 +4,6 @@
 import { logErrorStackTrace, logger } from "./log";
 import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
-import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubConsumer } from "./receiver";
@@ -15,27 +14,25 @@ import { getTracer } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
+import { ConnectionContext } from "./connectionContext";
 
 /**
  * @ignore
  * @internal
  */
 export class PartitionPump {
-  private _eventHubClient: EventHubClient;
   private _partitionProcessor: PartitionProcessor;
   private _processorOptions: CommonEventProcessorOptions;
   private _receiver: EventHubConsumer | undefined;
   private _isReceiving: boolean = false;
   private _isStopped: boolean = false;
   private _abortController: AbortController;
-
   constructor(
-    eventHubClient: EventHubClient,
+    private _context: ConnectionContext,
     partitionProcessor: PartitionProcessor,
     private readonly _startPosition: EventPosition,
     options: CommonEventProcessorOptions
   ) {
-    this._eventHubClient = eventHubClient;
     this._partitionProcessor = partitionProcessor;
     this._processorOptions = options;
     this._abortController = new AbortController();
@@ -63,13 +60,15 @@ export class PartitionPump {
   }
 
   private async _receiveEvents(partitionId: string): Promise<void> {
-    this._receiver = this._eventHubClient.createConsumer(
+    this._receiver = new EventHubConsumer(
+      this._context,
       this._partitionProcessor.consumerGroup,
       partitionId,
       this._startPosition,
       {
         ownerLevel: this._processorOptions.ownerLevel,
-        trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties
+        trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
+        retryOptions: this._processorOptions.retryOptions
       }
     );
 
@@ -94,7 +93,10 @@ export class PartitionPump {
 
         const span = createProcessingSpan(
           receivedEvents,
-          this._eventHubClient,
+          {
+            eventHubName: this._context.config.entityPath,
+            endpoint: this._context.config.endpoint
+          },
           this._processorOptions
         );
 

@@ -14,7 +14,8 @@ import {
   ReqResLink,
   Sender,
   SenderOptions,
-  Session
+  Session,
+  generate_uuid
 } from "rhea-promise";
 import { ConditionStatusMapper, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
@@ -84,6 +85,12 @@ export class RequestResponseLink implements ReqResLink {
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 
+    // If message_id is not already set on the request, set it to a unique value 
+    // This helps in determining the right response for current request among multiple incoming messages
+    if (!request.message_id) {
+      request.message_id = generate_uuid();
+    }
+
     return new Promise<AmqpMessage>((resolve: any, reject: any) => {
       let waitTimer: any = null;
       let timeOver: boolean = false;
@@ -152,10 +159,7 @@ export class RequestResponseLink implements ReqResLink {
           request.to || "$management",
           context.message
         );
-        if (
-          request.message_id !== responseCorrelationId &&
-          request.correlation_id !== responseCorrelationId
-        ) {
+        if (request.message_id !== responseCorrelationId) {
           // do not remove message listener.
           // parallel requests listen on the same receiver, so continue waiting until response that matches
           // request via correlationId is found.

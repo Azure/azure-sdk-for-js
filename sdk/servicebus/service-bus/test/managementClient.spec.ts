@@ -6,7 +6,6 @@ import chaiAsPromised from "chai-as-promised";
 import { ReceivedMessageWithLock, Receiver, Sender, delay } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { isNode } from "@azure/core-amqp";
 chai.should();
 chai.use(chaiAsPromised);
 
@@ -29,14 +28,6 @@ describe("ManagementClient - disconnects", function(): void {
 
   after(() => {
     return serviceBusClient.test.after();
-  });
-
-  beforeEach(function() {
-    if (!isNode) {
-      // Skipping the "disconnect" tests in the browser since they fail.
-      // More info - https://github.com/Azure/azure-sdk-for-js/pull/8664#issuecomment-622651713
-      this.skip();
-    }
   });
 
   function afterEachTest(): Promise<void> {

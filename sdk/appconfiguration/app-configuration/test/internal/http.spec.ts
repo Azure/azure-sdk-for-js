@@ -134,7 +134,7 @@ describe("http request related tests", function() {
     });
 
     it("custom client request ID", async () => {
-      const iterator = await client.listConfigurationSettings({
+      const iterator = client.listConfigurationSettings({
         requestOptions: {
           customHeaders: {
             "x-ms-client-request-id": "this is my custom client request id"
@@ -146,7 +146,7 @@ describe("http request related tests", function() {
     });
 
     it("default client request ID", async () => {
-      const iterator = await client.listConfigurationSettings();
+      const iterator = client.listConfigurationSettings();
       await iterator.next();
     });
   });

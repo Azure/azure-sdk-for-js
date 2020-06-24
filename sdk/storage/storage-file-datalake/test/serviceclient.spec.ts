@@ -166,7 +166,7 @@ describe("DataLakeServiceClient", () => {
     await fileSystemClient1.create({ metadata: { key: "val" } });
     await fileSystemClient2.create({ metadata: { key: "val" } });
 
-    const iterator = await serviceClient.listFileSystems({
+    const iterator = serviceClient.listFileSystems({
       includeMetadata: true,
       prefix: fileSystemNamePrefix
     });

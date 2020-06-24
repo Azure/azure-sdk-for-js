@@ -491,7 +491,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("undefined doesn't throw and will just return everything", async () => {
-      const settingsIterator = await client.listConfigurationSettings();
+      const settingsIterator = client.listConfigurationSettings();
       await settingsIterator.next();
     });
 
@@ -673,7 +673,7 @@ describe("AppConfigurationClient", () => {
 
       await Promise.all(addSettingPromises);
 
-      let listResult = await client.listConfigurationSettings({
+      let listResult = client.listConfigurationSettings({
         keyFilter: key
       });
 
@@ -728,7 +728,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on label", async () => {
-      const revisionsWithLabelIterator = await client.listRevisions({ labelFilter: labelA });
+      const revisionsWithLabelIterator = client.listRevisions({ labelFilter: labelA });
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
       assertEqualSettings(
@@ -741,7 +741,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("label wildcards", async () => {
-      const revisionsWithLabelIterator = await client.listRevisions({
+      const revisionsWithLabelIterator = client.listRevisions({
         labelFilter: labelA.substring(0, labelA.length - 1) + "*"
       });
       const revisions = await toSortedArray(revisionsWithLabelIterator);
@@ -756,7 +756,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on key", async () => {
-      const revisionsWithKeyIterator = await client.listRevisions({ keyFilter: key });
+      const revisionsWithKeyIterator = client.listRevisions({ keyFilter: key });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
 
       assertEqualSettings(
@@ -771,7 +771,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("key wildcards", async () => {
-      const revisionsWithKeyIterator = await client.listRevisions({
+      const revisionsWithKeyIterator = client.listRevisions({
         keyFilter: key.substring(0, key.length - 1) + "*"
       });
       const revisions = await toSortedArray(revisionsWithKeyIterator);

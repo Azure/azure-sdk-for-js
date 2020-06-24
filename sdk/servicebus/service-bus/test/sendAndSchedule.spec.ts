@@ -531,6 +531,60 @@ describe("send scheduled messages", () => {
     });
   });
 
+  describe("Miscellaneous", function(): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
+    it("Schedule messages in parallel", async () => {
+      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      const date = new Date();
+      const messages = [
+        { body: "Hello!" },
+        { body: "Hello, again!" },
+        { body: "Hello, again and again!!" }
+      ];
+      let sequenceNumbers = await Promise.all([
+        // Schedule messages in parallel
+        sender.scheduleMessage(date, messages[0]),
+        sender.scheduleMessage(date, messages[1]),
+        sender.scheduleMessage(date, messages[2])
+      ]);
+      compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[1]);
+      compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[2]);
+      compareSequenceNumbers(sequenceNumbers[1], sequenceNumbers[2]);
+
+      function compareSequenceNumbers(sequenceNumber1: Long.Long, sequenceNumber2: Long.Long) {
+        should.equal(
+          sequenceNumber1.compare(sequenceNumber2) != 0,
+          true,
+          "Returned sequence numbers for parallel requests are the same"
+        );
+      }
+
+      const receivedMsgs = await receiver.receiveBatch(3);
+      should.equal(receivedMsgs.length, 3, "Unexpected number of messages");
+      for (const seqNum of sequenceNumbers) {
+        const msgWithSeqNum = receivedMsgs.find(
+          ({ sequenceNumber }) => sequenceNumber?.comp(seqNum) === 0
+        );
+        should.equal(
+          msgWithSeqNum == undefined,
+          false,
+          `Sequence number ${seqNum} is not found in the received messages!`
+        );
+        should.equal(
+          msgWithSeqNum?.body,
+          messages[sequenceNumbers.indexOf(seqNum)].body,
+          "Message body did not match though the sequence numbers matched!"
+        );
+        await msgWithSeqNum?.complete();
+      }
+
+      await testPeekMsgsLength(receiver, 0);
+    });
+  });
+
   describe("ServiceBusMessage validations", function(): void {
     const longString =
       "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";

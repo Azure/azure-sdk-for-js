@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import xhrMock, { proxy } from "xhr-mock";
 import { isNode, HttpMethods } from "../src/coreHttp";

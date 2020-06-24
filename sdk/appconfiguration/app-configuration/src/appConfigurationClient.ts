@@ -283,7 +283,7 @@ export class AppConfigurationClient {
    *
    * Example code:
    * ```ts
-   * const allSettingsWithLabel = await client.listConfigurationSettings({ labels: [ "MyLabel" ] });
+   * const allSettingsWithLabel = client.listConfigurationSettings({ labels: [ "MyLabel" ] });
    * ```
    * @param options Optional parameters for the request.
    */
@@ -374,7 +374,7 @@ export class AppConfigurationClient {
    *
    * Example code:
    * ```ts
-   * const revisionsIterator = await client.listRevisions({ keys: ["MyKey"] });
+   * const revisionsIterator = client.listRevisions({ keys: ["MyKey"] });
    * ```
    * @param options Optional parameters for the request.
    */

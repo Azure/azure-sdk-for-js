@@ -368,6 +368,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-client",
+      "projectFolder": "sdk/core/core-client",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
       "versionPolicyName": "core"

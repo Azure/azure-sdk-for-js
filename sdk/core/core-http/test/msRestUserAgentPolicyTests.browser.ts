@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import "chai/register-should";
 
@@ -10,7 +10,7 @@ import { userAgentPolicy } from "../src/policies/userAgentPolicy";
 
 describe("MsRestUserAgentPolicy (browser)", () => {
   describe("for browser", function() {
-    const userAgentHeaderKey = "x-ms-command-name";
+    const userAgentHeaderKey = "x-ms-useragent";
 
     const emptyRequestPolicy: RequestPolicy = {
       sendRequest(request: WebResource): Promise<HttpOperationResponse> {
