@@ -65,7 +65,7 @@ function ResolveUri ([System.Uri]$referralUri, [string]$link)
   }
 
   $linkUri = [System.Uri]$link;
-  if($resolveRelativeLinks){
+  #if($resolveRelativeLinks){
     if (!$linkUri.IsAbsoluteUri) {
     # For rooted paths resolve from the baseUrl
       if ($link.StartsWith("/")) {
@@ -75,7 +75,7 @@ function ResolveUri ([System.Uri]$referralUri, [string]$link)
         $linkUri = new-object System.Uri($referralUri, $link);
       }
     }
-  }
+  #}
 
   $linkUri = [System.Uri]$linkUri.GetComponents([System.UriComponents]::HttpRequestUrl, [System.UriFormat]::SafeUnescaped)
   Write-Verbose "ResolvedUri $link to $linkUri"
