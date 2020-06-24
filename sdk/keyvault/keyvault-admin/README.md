@@ -16,7 +16,7 @@ If you are using this package in a Node.js application, then use Node.js 8.x or 
 
 ### Install the package
 
-Install the Azure Key Vault Secret client library using npm:
+Install the Azure Key Vault Admin client library using npm:
 
 `npm install @azure/keyvault-admin`
 
