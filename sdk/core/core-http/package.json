@@ -1,11 +1,7 @@
 {
   "name": "@azure/core-http",
   "sdk-type": "client",
-  "author": {
-    "name": "Microsoft Corporation",
-    "email": "azsdkteam@microsoft.com",
-    "url": "https://github.com/Azure/azure-sdk-for-js"
-  },
+  "author": "Microsoft Corporation",
   "version": "1.1.4",
   "description": "Isomorphic client Runtime for Typescript/node.js/browser javascript client libraries generated using AutoRest",
   "tags": [
