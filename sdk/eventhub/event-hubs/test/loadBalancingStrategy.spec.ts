@@ -7,6 +7,26 @@ import { GreedyLoadBalancingStrategy } from "../src/loadBalancerStrategies/greed
 import { UnbalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/unbalancedStrategy";
 
 describe("LoadBalancingStrategy", () => {
+  function createOwnershipMap(
+    partitionToOwner: Record<string, string>
+  ): Map<string, PartitionOwnership> {
+    const ownershipMap = new Map<string, PartitionOwnership>();
+
+    for (const partitionId in partitionToOwner) {
+      ownershipMap.set(partitionId, {
+        consumerGroup: "$Default",
+        eventHubName: "eventhubname1",
+        fullyQualifiedNamespace: "fqdn",
+        ownerId: partitionToOwner[partitionId],
+        partitionId: partitionId,
+        etag: "etag",
+        lastModifiedTimeInMs: Date.now()
+      });
+    }
+
+    return ownershipMap;
+  }
+
   describe("UnbalancedLoadBalancingStrategy", () => {
     it("all", () => {
       const m = new Map<string, PartitionOwnership>();
@@ -283,25 +303,26 @@ describe("LoadBalancingStrategy", () => {
       partitionsToOwn.should.be.deep.equal([], "balanced: b should not grab anymore partitions");
     });
 
-    function createOwnershipMap(
-      partitionToOwner: Record<string, string>
-    ): Map<string, PartitionOwnership> {
-      const ownershipMap = new Map<string, PartitionOwnership>();
+    it("honors the partitionOwnershipExpirationIntervalInMs", () => {
+      const intervalInMs = 1000;
+      const lb = new BalancedLoadBalancingStrategy(intervalInMs);
+      const allPartitions = ["0", "1"];
+      const ownershipMap = createOwnershipMap({
+        "0": "b",
+        "1": "a"
+      });
 
-      for (const partitionId in partitionToOwner) {
-        ownershipMap.set(partitionId, {
-          consumerGroup: "$Default",
-          eventHubName: "eventhubname1",
-          fullyQualifiedNamespace: "fqdn",
-          ownerId: partitionToOwner[partitionId],
-          partitionId: partitionId,
-          etag: "etag",
-          lastModifiedTimeInMs: Date.now()
-        });
-      }
+      // At this point, 'a' has its fair share of partitions, and none should be returned.
+      let partitionsToOwn = lb.identifyPartitionsToClaim("a", ownershipMap, allPartitions);
+      partitionsToOwn.length.should.equal(0, "Expected to not claim any new partitions.");
 
-      return ownershipMap;
-    }
+      // Change the ownership of partition "0" so it is older than the interval.
+      const ownership = ownershipMap.get("0")!;
+      ownership.lastModifiedTimeInMs = Date.now() - (intervalInMs + 1); // Add 1 to the interval to ensure it has just expired.
+
+      partitionsToOwn = lb.identifyPartitionsToClaim("a", ownershipMap, allPartitions);
+      partitionsToOwn.should.deep.equal(["0"]);
+    });
   });
 
   describe("GreedyLoadBalancingStrategy", () => {
@@ -570,24 +591,29 @@ describe("LoadBalancingStrategy", () => {
       partitionsToOwn.should.be.deep.equal([], "balanced: b should not grab anymore partitions");
     });
 
-    function createOwnershipMap(
-      partitionToOwner: Record<string, string>
-    ): Map<string, PartitionOwnership> {
-      const ownershipMap = new Map<string, PartitionOwnership>();
+    it("honors the partitionOwnershipExpirationIntervalInMs", () => {
+      const intervalInMs = 1000;
+      const lb = new GreedyLoadBalancingStrategy(intervalInMs);
+      const allPartitions = ["0", "1", "2", "3"];
+      const ownershipMap = createOwnershipMap({
+        "0": "b",
+        "1": "a"
+      });
 
-      for (const partitionId in partitionToOwner) {
-        ownershipMap.set(partitionId, {
-          consumerGroup: "$Default",
-          eventHubName: "eventhubname1",
-          fullyQualifiedNamespace: "fqdn",
-          ownerId: partitionToOwner[partitionId],
-          partitionId: partitionId,
-          etag: "etag",
-          lastModifiedTimeInMs: Date.now()
-        });
-      }
+      // At this point, "a" should only grab 1 partition since both "a" and "b" should end up with 2 partitions each.
+      let partitionsToOwn = lb.identifyPartitionsToClaim("a", ownershipMap, allPartitions);
+      partitionsToOwn.length.should.equal(1, "Expected to claim 1 new partitions.");
 
-      return ownershipMap;
-    }
+      // Change the ownership of partition "0" so it is older than the interval.
+      const ownership = ownershipMap.get("0")!;
+      ownership.lastModifiedTimeInMs = Date.now() - (intervalInMs + 1); // Add 1 to the interval to ensure it has just expired.
+
+      // At this point, "a" should grab partitions 0, 2, and 3.
+      // This is because "b" only owned 1 partition and that claim is expired,
+      // so "a" as treated as if it is the only owner.
+      partitionsToOwn = lb.identifyPartitionsToClaim("a", ownershipMap, allPartitions);
+      partitionsToOwn.sort();
+      partitionsToOwn.should.deep.equal(["0", "2", "3"]);
+    });
   });
 });
