@@ -263,7 +263,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ## 2.1.0 (2019-06-10)
 
 - Added support for WebSockets. WebSockets enable Event Hubs to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked.
-  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/websockets.ts) sample to see how to use WebSockets.
+  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/@azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples/websockets.ts) sample to see how to use WebSockets.
 - `@types/async-lock` has been moved to being a dependency from a dev-dependency. This fixes the [bug 3240](https://github.com/Azure/azure-sdk-for-js/issues/3240)
 
 ## 2.0.0 (2019-03-26)
@@ -359,7 +359,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 - Using `is_closed()` method of sender, receiver and session in rhea to determine whether the sdk initiated the close.
 - MessagingError is retryable by default.
 - Added support to translate node.js [`SystemError`](https://nodejs.org/api/errors.html#errors_class_systemerror) into AmqpError.
-- Added a new static method `createFromTokenProvider()` on the EventHubClient where customers can provide their own [TokenProvider](https://github.com/Azure/azure-event-hubs-node/blob/master/client/lib/amqp-common/auth/token.ts#L42).
+- Added a new static method `createFromTokenProvider()` on the EventHubClient where customers can provide their own [TokenProvider](https://github.com/Azure/azure-event-hubs-node/blob/v0.2.6-EH-August2018/client/lib/amqp-common/auth/token.ts#L42).
 
 ## 0.2.5 (2018-07-17)
 
