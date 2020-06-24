@@ -8,7 +8,7 @@ The Azure Cognitive Search service is well suited for the following application 
 - Attach skillsets to an indexer to create searchable content from images and large text documents. A skillset leverages AI from Cognitive Services for built-in OCR, entity recognition, key phrase extraction, language detection, text translation, and sentiment analysis. You can also add custom skills to integrate external processing of your content during data ingestion.
 - In a search client application, implement query logic and user experiences similar to commercial web search engines.
 
-Use the search-documents client library to:
+Use the @azure/search-documents client library to:
 
 - Submit queries for simple and advanced query forms that include fuzzy search, wildcard search, regular expressions.
 - Implement filtered queries for faceted navigation, geospatial search, or to narrow results based on filter criteria.
@@ -46,7 +46,7 @@ See [choosing a pricing tier](https://docs.microsoft.com/azure/search/search-sku
 
 ### Authenticate the client
 
-All requests to a search service need an api-key that was generated specifically for your service. [The api-key is the sole mechanism for authenticating access to your search service endpoint.](https://docs.microsoft.com/azure/search/search-security-api-keys)
+All requests to a search service need an API key that was generated specifically for your service. [The API key is the sole mechanism for authenticating access to your search service endpoint.](https://docs.microsoft.com/azure/search/search-security-api-keys)
 
 You can obtain your api-key from the [Azure portal](https://portal.azure.com/) or via the Azure CLI:
 
@@ -116,7 +116,7 @@ main();
 ```
 
 ## Key concepts
-An Azure Cognitive Search service contains one or more indexes that provide persistent storage of searchable data in the form of JSON documents.  _(If you're brand new to search, you can make a very rough analogy between indexes and database tables.)_  The search-documents client library
+An Azure Cognitive Search service contains one or more indexes that provide persistent storage of searchable data in the form of JSON documents.  _(If you're brand new to search, you can make a very rough analogy between indexes and database tables.)_  The @azure/search-documents client library
 exposes operations on these resources through three main client types.
 
 * `SearchClient` helps with:
