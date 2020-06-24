@@ -125,12 +125,11 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     // By this point, we should have a valid sessionId on the messageSession
     // If not, the receiver cannot be used, so throw error.
     if (_messageSession.sessionId == undefined) {
-      const error = new Error("Something went wrong. Cannot lock a session.");
-      log.error(`[${_context.namespace.connectionId}] %O`, error);
       const amqpError: AmqpError = {
         condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
         description: `Received sessionId is undefined, the session cannot be locked`
       };
+      log.error(`[${_context.namespace.connectionId}] %O`, amqpError);
       throw translate(amqpError);
     }
     this.sessionId = _messageSession.sessionId;

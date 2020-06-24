@@ -433,7 +433,7 @@ export class MessageSession extends LinkEntity {
       this.isConnecting = false;
       const errObj = translate(err);
       log.error(
-        "[%s] An error occured while creating the receiver '%s': %O",
+        "[%s] An error occurred while creating the receiver '%s': %O",
         this._context.namespace.connectionId,
         this.name,
         errObj
