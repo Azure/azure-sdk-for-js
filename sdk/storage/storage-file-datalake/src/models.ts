@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
+
+
 import {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
@@ -10,11 +12,11 @@ import {
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
 import {
-  PathCreateResponse,
-  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   FileSystemListPathsHeaders,
+  PathCreateResponse,
+  PathDeleteResponse,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   PathList as PathListModel,
-  PathDeleteResponse
 } from "./generated/src/models";
 import { CommonOptions } from "./StorageClient";
 
@@ -47,7 +49,8 @@ export {
   PathFlushDataResponse as FileFlushResponse,
   PathFlushDataResponse as FileUploadResponse,
   PathGetPropertiesAction,
-  PathRenameMode
+  PathRenameMode,
+  PathSetAccessControlRecursiveMode
 } from "./generated/src/models";
 
 export { PathCreateResponse };
@@ -406,10 +409,13 @@ export interface PathPermissions {
 
 export type AccessControlType = "user" | "group" | "mask" | "other";
 
-export interface PathAccessControlItem {
+export interface RemovePathAccessControlItem {
   defaultScope: boolean;
   accessControlType: AccessControlType;
   entityId: string;
+}
+
+export interface PathAccessControlItem extends RemovePathAccessControlItem {
   permissions: RolePermissions;
 }
 
@@ -478,6 +484,173 @@ export interface PathSetAccessControlOptions extends CommonOptions {
   conditions?: DataLakeRequestConditions;
   owner?: string;
   group?: string;
+}
+
+/**
+ * Options type for `setAccessControlRecursive`, `updateAccessControlRecursive` and `removeAccessControlRecursive`.
+ *
+ * @export
+ * @interface PathChangeAccessControlRecursiveOptions
+ * @extends {CommonOptions}
+ */
+export interface PathChangeAccessControlRecursiveOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. If data set size exceeds batch size then operation will be split into multiple requests so that progress can be tracked.
+   * Batch size should be between 1 and 2000. The default when unspecified is 2000.
+   *
+   * @type {number}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  batchSize?: number;
+  /**
+   * Optional. Defines maximum number of batches that single change Access Control operation can execute.
+   * If maximum is reached before all subpaths are processed then continuation token can be used to resume operation.
+   * Empty value indicates that maximum number of batches in unbound and operation continues till end.
+   *
+   * @type {number}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  maxBatches?: number;
+  /**
+   * Continuation token to continue next batch of operations.
+   *
+   * @type {string}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  continuation?: string;
+  /**
+   * Callback where caller can track progress of the operation
+   * as well as collect paths that failed to change Access Control.
+   *
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  onProgress?: (progress: AccessControlChanges) => void;
+}
+
+/**
+ * Represents an entry that failed to update Access Control List during `setAccessControlRecursive`, `updateAccessControlRecursive` and `removeAccessControlRecursive`.
+ *
+ * @export
+ * @interface AccessControlChangeFailure
+ */
+export interface AccessControlChangeFailure {
+  /**
+   * Returns name of an entry.
+   *
+   * @type {string}
+   * @memberof AccessControlChangeFailure
+   */
+  name: string;
+  /**
+   * Returns whether entry is a directory.
+   *
+   * @type {boolean}
+   * @memberof AccessControlChangeFailure
+   */
+  isDirectory: boolean;
+  /**
+   * Returns error message that is the reason why entry failed to update.
+   *
+   * @type {string}
+   * @memberof AccessControlChangeFailure
+   */
+  errorMessage: string;
+}
+
+/**
+ * AccessControlChanges contains batch and cumulative counts of operations that change Access Control Lists recursively.
+ * Additionally it exposes path entries that failed to update while these operations progress.
+ *
+ * @export
+ * @interface AccessControlChanges
+ */
+export interface AccessControlChanges {
+  /**
+   * Path entries that failed to update Access Control List within single batch.
+   *
+   * @type {AccessControlChangeFailure[]}
+   * @memberof AccessControlChanges
+   */
+  batchFailures: AccessControlChangeFailure[];
+  /**
+   * Counts of paths changed within single batch.
+   *
+   * @type {AccessControlChangeCounters}
+   * @memberof AccessControlChanges
+   */
+  batchCounters: AccessControlChangeCounters;
+  /**
+   * Counts of paths changed from start of the operation.
+   *
+   * @type {AccessControlChangeCounters}
+   * @memberof AccessControlChanges
+   */
+  aggregateCounters: AccessControlChangeCounters;
+  /**
+   * Optional. Value is present when operation is split into multiple batches and can be used to resume progress.
+   *
+   * @type {string}
+   * @memberof AccessControlChanges
+   */
+  continuation?: string;
+}
+
+/**
+ * AccessControlChangeCounters contains counts of operations that change Access Control Lists recursively.
+ *
+ * @export
+ * @interface AccessControlChangeCounters
+ */
+export interface AccessControlChangeCounters {
+  /**
+   * Returns number of directories where Access Control List has been updated successfully.
+   *
+   * @type {number}
+   * @memberof AccessControlChangeCounters
+   */
+  changedDirectoriesCount: number;
+  /**
+   * Returns number of files where Access Control List has been updated successfully.
+   *
+   * @type {number}
+   * @memberof AccessControlChangeCounters
+   */
+  changedFilesCount: number;
+  /**
+   * Returns number of paths where Access Control List update has failed.
+   *
+   * @type {number}
+   * @memberof AccessControlChangeCounters
+   */
+  failedChangesCount: number;
+}
+
+/**
+ * Response type for `setAccessControlRecursive`, `updateAccessControlRecursive` and `removeAccessControlRecursive`.
+ *
+ * @export
+ * @interface PathChangeAccessControlRecursiveResponse
+ */
+export interface PathChangeAccessControlRecursiveResponse {
+  /**
+   * Contains counts of paths changed from start of the operation.
+   */
+  counters: AccessControlChangeCounters;
+  /**
+   * Optional. Value is present when operation is split into multiple batches and can be used to resume progress.
+   *
+   * @type {string}
+   * @memberof PathChangeAccessControlRecursiveResponse
+   */
+  continuation?: string;
 }
 
 export interface PathSetPermissionsOptions extends CommonOptions {
