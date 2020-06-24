@@ -42,7 +42,6 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
     "build:samples": "echo skipped",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
@@ -103,7 +102,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.9.3",
-    "uglify-js": "^3.4.9"
+    "typescript": "~3.9.3"
   }
 }
