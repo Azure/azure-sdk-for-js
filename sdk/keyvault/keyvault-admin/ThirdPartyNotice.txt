@@ -1,4 +1,4 @@
-Third Party Notices for keyvault-secrets
+Third Party Notices for keyvault-admin
 
 This project incorporates material from the project(s) listed below
 (collectively, Third Party Code).
