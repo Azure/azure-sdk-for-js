@@ -13,10 +13,10 @@ urlFragment: keyvault-keys-typescript
 These sample programs show how to use the TypeScript client libraries for Azure Key Vault Keys in some common scenarios.
 
 | **File Name**                   | **Description**                                                  |
-| ------------------------------- | -------------------------------------------------------------    |
+| ------------------------------- | ---------------------------------------------------------------- |
 | [cryptography.ts][cryptography] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data |
 | [helloWorld.ts][helloworld]     | creates, reads, lists, and deletes keys                          |
-| [purgeAllKeys.ts][purgeAllKeys] | purges all the keys of a Key Vault (useful for repeated tests)   |
+| [purgeAllKeys.ts][purgeAllKeys] | purges all the keys of a Key Vault (useful for repeated tests)    |
 
 ## Prerequisites
 
