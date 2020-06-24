@@ -6,6 +6,8 @@
   where operations that used the `RequestResponseLink` and encountered an error
   would fail to cleanup their internal timer.
   This caused exiting the process to be delayed until the timer reached its timeout.
+- Ensures `message_id` is added to the request to be sent, this helps in determining the right response for a request when multiple requests are made in parallel.
+  [PR 9503](https://github.com/Azure/azure-sdk-for-js/pull/9503)
 
 ## 1.1.3 (2020-06-02)
 
