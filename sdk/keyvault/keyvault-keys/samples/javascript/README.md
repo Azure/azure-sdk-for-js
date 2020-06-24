@@ -12,7 +12,7 @@ urlFragment: keyvault-keys-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **FileName**                    | **Description**                                                  |
+| **File Name**                    | **Description**                                                  |
 | ------------------------------- | ---------------------------------------------------------------- |
 | [cryptography.js][cryptography] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data |
 | [helloWorld.js][helloworld]     | creates, reads, lists, and deletes keys                          |
