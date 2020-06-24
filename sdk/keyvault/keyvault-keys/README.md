@@ -154,20 +154,16 @@ By default, this package uses the latest Azure Key Vault service version which i
 
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
-const { KeyClient, LATEST_API_VERSION } = require("@azure/keyvault-keys");
+const { KeyClient } = require("@azure/keyvault-keys");
 
 const credential = new DefaultAzureCredential();
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-// Users can specify an Azure Key Vault service API version.
-// Here we're setting it to undefined so that we can show how we're using the LATEST_API_VERSION export
-const apiVersion: string | undefined = undefined;
-
+// Change the Azure Key Vault service API version being used via the `apiVersion` option
 const client = new KeyClient(url, credential, {
-  // Internally we default to the LATEST_API_VERSION export, just like how we're doing here:
-  apiVersion: apiVersion || LATEST_API_VERSION
+  apiVersion: "7.0"
 });
 ```
 
