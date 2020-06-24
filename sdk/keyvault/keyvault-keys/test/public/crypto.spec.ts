@@ -89,8 +89,8 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const keyVaultKey = await client.createKey(keyName, "RSA");
       const cryptoClientFromKey = new CryptographyClient(keyVaultKey, credential);
-  
-      const text = this.test!.title;      
+
+      const text = this.test!.title;
       const encryptResult = await cryptoClientFromKey.encrypt("RSA1_5", stringToUint8Array(text));
       const decryptResult = await cryptoClientFromKey.decrypt("RSA1_5", encryptResult.result);
       const decryptedText = uint8ArrayToString(decryptResult.result);
