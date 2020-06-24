@@ -8,7 +8,7 @@ The Azure Cognitive Search service is well suited for the following application 
 - Attach skillsets to an indexer to create searchable content from images and large text documents. A skillset leverages AI from Cognitive Services for built-in OCR, entity recognition, key phrase extraction, language detection, text translation, and sentiment analysis. You can also add custom skills to integrate external processing of your content during data ingestion.
 - In a search client application, implement query logic and user experiences similar to commercial web search engines.
 
-Use the Azure.Search.Documents client library to:
+Use the search-documents client library to:
 
 - Submit queries for simple and advanced query forms that include fuzzy search, wildcard search, regular expressions.
 - Implement filtered queries for faceted navigation, geospatial search, or to narrow results based on filter criteria.
