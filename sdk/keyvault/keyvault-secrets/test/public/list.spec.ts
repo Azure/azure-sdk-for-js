@@ -15,7 +15,7 @@ const { expect } = chai;
 
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
-  const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
+  const secretPrefix = `list${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;
