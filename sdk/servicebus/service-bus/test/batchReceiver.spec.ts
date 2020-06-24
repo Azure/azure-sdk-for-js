@@ -983,20 +983,6 @@ describe("batchReceiver", () => {
   });
 
   describe("Cancel operations on the receiver", function(): void {
-    it("Abort receiveDeferredMessage request on the receiver", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      const controller = new AbortController();
-      setTimeout(() => controller.abort(), 1);
-      try {
-        await receiver.receiveDeferredMessages(Long.ZERO, { abortSignal: controller.signal });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal(
-          "The receiveDeferredMessage operation has been cancelled by the user."
-        );
-      }
-    });
-
     it("Abort receiveDeferredMessages request on the receiver", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       const controller = new AbortController();
