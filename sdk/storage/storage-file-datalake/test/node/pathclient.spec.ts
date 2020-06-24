@@ -337,7 +337,7 @@ describe("DataLakePathClient Node.js only", () => {
   });
 });
 
-describe.only("DataLakePathClient setAccessControlRecursive Node.js only", () => {
+describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
   let fileSystemName: string;
   let fileSystemClient: DataLakeFileSystemClient;
   let fileName: string;
