@@ -46,6 +46,6 @@ export class AppConfigCredential implements ServiceClientCredentials {
       `HMAC-SHA256 Credential=${this.credential}, SignedHeaders=${signedHeaders}, Signature=${signature}`
     );
 
-    return Promise.resolve(webResource);
+    return webResource;
   }
 }
