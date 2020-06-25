@@ -19,11 +19,10 @@ class GeneratedClient extends GeneratedClientContext {
    * Initializes a new instance of the GeneratedClient class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    * https://westus.api.cognitive.microsoft.com).
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: coreHttp.ServiceClientOptions) {
-    super(credentials, endpoint, options);
+  constructor(endpoint: string, options?: coreHttp.ServiceClientOptions) {
+    super(endpoint, options);
   }
 
   /**
