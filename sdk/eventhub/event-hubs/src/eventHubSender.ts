@@ -306,7 +306,9 @@ export class EventHubSender extends LinkEntity {
       let encodedBatchMessage: Buffer | undefined;
       if (isEventDataBatch(events)) {
         if (events.count === 0) {
-          logger.info(`[${this._context.connectionId}] Empty batch was passsed. No events to send.`);
+          logger.info(
+            `[${this._context.connectionId}] Empty batch was passsed. No events to send.`
+          );
           return;
         }
         encodedBatchMessage = events._generateMessage();

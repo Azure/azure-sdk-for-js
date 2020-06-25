@@ -76,7 +76,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
@@ -161,7 +161,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
@@ -237,7 +237,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
@@ -316,7 +316,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
@@ -414,7 +414,7 @@ describe("Send Batch", () => {
           sentMessages.push(messageToSend);
         }
       }
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(
         entityNames,
@@ -523,7 +523,7 @@ describe("Send Batch", () => {
         false,
         "tryAdd should have failed for the fourth message"
       );
-      await sender.send(batchMessage);
+      await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
       await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, useSessions, [
         messagesToSend[0]
@@ -642,7 +642,7 @@ describe("Send Batch", () => {
   > {
     await beforeEachTest(TestClientType.PartitionedQueue);
     try {
-      await sender.send(
+      await sender.sendMessages(
         [{ body: "ignored since anything will be bigger than the batch size I passed" }],
         {
           // this isn't a documented option for send(batch) but we do pass it through to the underlying
@@ -672,7 +672,7 @@ describe("Send Batch", () => {
       }
     }
 
-    await sender.send(batch);
+    await sender.sendMessages(batch);
     await serviceBusClient.test.verifyAndDeleteAllSentMessages(entityNames, false, messagesToSend);
   });
 });
