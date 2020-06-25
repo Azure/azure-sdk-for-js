@@ -14,7 +14,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/FormRecognizer/preview/v2.0/FormRecognizer.json
-add-credentials: true
+add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200505.1"

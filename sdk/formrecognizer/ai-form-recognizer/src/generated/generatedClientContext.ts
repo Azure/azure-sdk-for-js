@@ -17,19 +17,14 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    *                 https://westus2.api.cognitive.microsoft.com).
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     endpoint: string,
     options?: Models.GeneratedClientOptionalParams
   ) {
-    if (credentials === undefined) {
-      throw new Error("'credentials' cannot be null");
-    }
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -44,7 +39,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(credentials, options);
+    super(undefined, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 
