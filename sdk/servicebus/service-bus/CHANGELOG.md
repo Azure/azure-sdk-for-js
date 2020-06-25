@@ -8,9 +8,7 @@
 
 ### Breaking Changes
 
-- `top` attribute of `ListRequestOptions` interface has been renamed to `maxCount`.
-  `options` argument of type `ListRequestOptions` is expected to be passed for the methods that deal with retrieving information of multiple entities, example - `getQueues`, `getQueuesRuntimeInfo`.
-  [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
+- The property `top` in the options passed to any of the methods that get information for multiple entities like `getQueues` or `getQueuesRuntimeInfo` is renamed to `maxCount` [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
 
 ## 7.0.0-preview.3 (2020-06-08)
 
