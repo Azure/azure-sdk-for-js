@@ -135,7 +135,7 @@ export interface SubscriptionDescription {
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
-   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   lockDuration?: string;
 
@@ -153,7 +153,7 @@ export interface SubscriptionDescription {
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
-   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   defaultMessageTtl?: string;
 
@@ -221,7 +221,7 @@ export interface SubscriptionDescription {
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
-   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   autoDeleteOnIdle?: string;
 }
@@ -238,7 +238,7 @@ export interface InternalSubscriptionOptions {
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
-   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   LockDuration?: string;
 
@@ -256,7 +256,7 @@ export interface InternalSubscriptionOptions {
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
-   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   DefaultMessageTimeToLive?: string;
 
@@ -324,7 +324,7 @@ export interface InternalSubscriptionOptions {
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
-   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   AutoDeleteOnIdle?: string;
 }
