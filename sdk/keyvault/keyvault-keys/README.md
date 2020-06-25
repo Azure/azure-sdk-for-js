@@ -6,7 +6,7 @@ If you would like to know more about Azure Key Vault, you may want to review: [W
 Azure Key Vault Key management allows you to create and control 
 encryption keys that encrypt your data.
 
-Use the client library for Azure Key Vault Keys in your Node.js application to
+Use the client library for Azure Key Vault Keys in your Node.js application to:
 
 - Create keys using elliptic curve or RSA encryption, optionally backed by Hardware Security Modules (HSM).
 - Import, Delete, and Update keys.
@@ -14,7 +14,7 @@ Use the client library for Azure Key Vault Keys in your Node.js application to
 - Recover a deleted key and restore a backed up key.
 - Get the versions of a key.
 
-Using the cryptography client available in this library you also have access to
+Using the cryptography client available in this library you also have access to:
 
 - Encrypting
 - Decrypting
@@ -26,6 +26,8 @@ Using the cryptography client available in this library you also have access to
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
 ## Getting started
+
+**Important note about browser support**: Evenm though we're designing the `azure-sdk-for-js` to be isomorphic as a whole, meaning that it should work both in NodeJS and in web browsers, due to service limitations we're unable to provide browser support for the Key Vault libraries.
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
