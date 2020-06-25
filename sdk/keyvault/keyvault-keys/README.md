@@ -27,7 +27,7 @@ Using the cryptography client available in this library you also have access to:
 
 ## Getting started
 
-**Important note about browser support**: Evenm though we're designing the `azure-sdk-for-js` to be isomorphic as a whole, meaning that it should work both in NodeJS and in web browsers, due to service limitations we're unable to provide browser support for the Key Vault libraries.
+**Important note about browser support**: Even though we're designing the `azure-sdk-for-js` to be isomorphic as a whole, meaning that it should work both in NodeJS and in web browsers, due to service limitations we're unable to provide browser support for the Key Vault libraries.
 
 **Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a
 [Key Vault resource](https://docs.microsoft.com/en-us/azure/key-vault/quick-create-portal) to use this package.
