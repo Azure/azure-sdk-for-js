@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.1.0 (Unreleased)
 
 - Adding browser support for the latest versions of Chrome, Edge and Firefox.
 
