@@ -25,6 +25,25 @@ const banner = [
   " */"
 ].join("\n");
 
+const ignoreKnownWarnings = (warning) => {
+  if (warning.code === "THIS_IS_UNDEFINED") {
+    // This error happens frequently due to TypeScript emitting `this` at the
+    // top-level of a module. In this case its fine if it gets rewritten to
+    // undefined, so ignore this error.
+    return;
+  }
+
+  if (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+  ) {
+    // Chai contains circular references, but they are not fatal and can be ignored.
+    return;
+  }
+
+  console.error(`(!) ${warning.message}`);
+};
+
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["events", "crypto", "path"];
   const baseConfig = {
@@ -83,9 +102,7 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "Azure.AppConfiguration",
       globals: {
-        "@azure/core-http": "Azure.Core.HTTP",
-        nock: "nock",
-        fs: "fs-extra"
+        "@azure/core-http": "Azure.Core.HTTP"
       },
       sourcemap: true
     },
@@ -95,10 +112,6 @@ export function browserConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""]
-      }),
-
-      shim({
-        dotenv: `export function config() { }`
       }),
 
       nodeResolve({
@@ -125,9 +138,27 @@ export function browserConfig(test = false) {
     ]
   };
 
+  baseConfig.onwarn = ignoreKnownWarnings;
+
   if (test) {
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
+
+    baseConfig.external.unshift(...["process"]);
+
+    baseConfig.output.globals = {
+      ...baseConfig.output.globals,
+      nock: "nock",
+      fs: "fs-extra",
+      "fs-extra": "fs",
+      process: "process",
+      path: "path"
+    };
+
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
+    baseConfig.plugins.unshift(
+      ...[shim({ path: `export function join() {}`, dotenv: `export function config() { }` })]
+    );
+
     baseConfig.output.file = "test-browser/index.js";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
