@@ -420,10 +420,6 @@ export class EventProcessor {
         const { partitionIds } = await this._context.managementSession!.getEventHubProperties({
           abortSignal: abortSignal
         });
-
-        // Renew the EventProcessor's partition ownerships that are still active.
-        // await this._renewPartitionOwnership(abortSignal);
-
         await this._performLoadBalancing(loadBalancingStrategy, partitionIds, abortSignal);
       } catch (err) {
         logger.warning(
@@ -467,7 +463,7 @@ export class EventProcessor {
     if (abortSignal.aborted) return;
 
     const partitionOwnershipMap = new Map<string, PartitionOwnership>();
-    const abandonedPartitionOwnershipMap = new Map<string, PartitionOwnership>();
+    const nonAbandonedPartitionOwnershipMap = new Map<string, PartitionOwnership>();
     const partitionsToRenew: string[] = [];
 
     // Separate abandoned ownerships from claimed ownerships.
@@ -475,10 +471,9 @@ export class EventProcessor {
     // load balancer, but we need to hold onto the abandoned
     // partition ownerships because we need the etag to claim them.
     for (const ownership of partitionOwnership) {
-      if (isAbandoned(ownership)) {
-        abandonedPartitionOwnershipMap.set(ownership.partitionId, ownership);
-      } else {
-        partitionOwnershipMap.set(ownership.partitionId, ownership);
+      partitionOwnershipMap.set(ownership.partitionId, ownership);
+      if (!isAbandoned(ownership)) {
+        nonAbandonedPartitionOwnershipMap.set(ownership.partitionId, ownership);
       }
       if (
         ownership.ownerId === this._id &&
@@ -493,7 +488,7 @@ export class EventProcessor {
     // We exclude the abandoned partition ownerships to simplify the load balancing logic.
     const partitionsToClaim = loadBalancingStrategy.identifyPartitionsToClaim(
       this._id,
-      partitionOwnershipMap,
+      nonAbandonedPartitionOwnershipMap,
       partitionIds
     );
     partitionsToClaim.push(...partitionsToRenew);
@@ -502,17 +497,10 @@ export class EventProcessor {
     for (const partitionToClaim of uniquePartitionsToClaim) {
       let partitionOwnershipRequest: PartitionOwnership;
 
-      if (abandonedPartitionOwnershipMap.has(partitionToClaim)) {
-        partitionOwnershipRequest = this._createPartitionOwnershipRequest(
-          abandonedPartitionOwnershipMap,
-          partitionToClaim
-        );
-      } else {
-        partitionOwnershipRequest = this._createPartitionOwnershipRequest(
-          partitionOwnershipMap,
-          partitionToClaim
-        );
-      }
+      partitionOwnershipRequest = this._createPartitionOwnershipRequest(
+        partitionOwnershipMap,
+        partitionToClaim
+      );
 
       await this._claimOwnership(partitionOwnershipRequest, abortSignal);
     }

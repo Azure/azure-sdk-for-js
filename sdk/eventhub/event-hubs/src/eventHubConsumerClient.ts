@@ -85,7 +85,7 @@ export class EventHubConsumerClient {
   /**
    * Options for configuring load balancing.
    */
-  private readonly _loadBalancingOptions: LoadBalancingOptions;
+  private readonly _loadBalancingOptions: Required<LoadBalancingOptions>;
 
   /**
    * @property
@@ -323,10 +323,13 @@ export class EventHubConsumerClient {
         this._clientOptions
       );
     }
-    this._loadBalancingOptions = this._clientOptions?.loadBalancingOptions ?? {
+    this._loadBalancingOptions = {
+      // default options
       strategy: "balanced",
       updateIntervalInMs: 10000,
-      partitionOwnershipExpirationIntervalInMs: 60000
+      partitionOwnershipExpirationIntervalInMs: 60000,
+      // options supplied by user
+      ...this._clientOptions?.loadBalancingOptions
     };
   }
 
@@ -497,8 +500,8 @@ export class EventHubConsumerClient {
       return new UnbalancedLoadBalancingStrategy();
     }
 
-    const partitionOwnershipExpirationIntervalInMs =
-      this._loadBalancingOptions.partitionOwnershipExpirationIntervalInMs || 60000;
+    const partitionOwnershipExpirationIntervalInMs = this._loadBalancingOptions
+      .partitionOwnershipExpirationIntervalInMs;
     if (this._loadBalancingOptions?.strategy === "greedy") {
       return new GreedyLoadBalancingStrategy(partitionOwnershipExpirationIntervalInMs);
     }
@@ -536,7 +539,7 @@ export class EventHubConsumerClient {
         ownerId: this._id,
         retryOptions: this._clientOptions.retryOptions,
         loadBalancingStrategy,
-        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs ?? 10000
+        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs
       }
     );
 
