@@ -25,25 +25,6 @@ const banner = [
   " */"
 ].join("\n");
 
-const ignoreKnownWarnings = (warning) => {
-  if (warning.code === "THIS_IS_UNDEFINED") {
-    // This error happens frequently due to TypeScript emitting `this` at the
-    // top-level of a module. In this case its fine if it gets rewritten to
-    // undefined, so ignore this error.
-    return;
-  }
-
-  if (
-    warning.code === "CIRCULAR_DEPENDENCY" &&
-    warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
-  ) {
-    // Chai contains circular references, but they are not fatal and can be ignored.
-    return;
-  }
-
-  console.error(`(!) ${warning.message}`);
-};
-
 export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["events", "crypto", "path"];
   const baseConfig = {
@@ -151,8 +132,6 @@ export function browserConfig(test = false) {
       json()
     ]
   };
-
-  baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
     baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
