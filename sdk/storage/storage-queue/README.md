@@ -263,7 +263,7 @@ async function main() {
 main();
 ```
 
-For a complete sample on iterating queues please see [samples/typescript/iterators.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/iterators.ts).
+For a complete sample on iterating queues please see [samples/typescript/iterators.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/src/iterators.ts).
 
 ### Create a new queue
 
@@ -421,7 +421,7 @@ async function main() {
 main();
 ```
 
-A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/basic.ts).
+A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-queue/samples/typescript/src/basic.ts).
 
 ## Troubleshooting
 
