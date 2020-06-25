@@ -9,7 +9,7 @@ import { isServiceBusMessageBatch, SenderImpl } from "../../src/sender";
 import { DefaultDataTransformer } from "@azure/core-amqp";
 const assert = chai.assert;
 
-describe.only("sender unit tests", () => {
+describe("sender unit tests", () => {
   it("isServiceBusMessageBatch", () => {
     assert.isTrue(
       isServiceBusMessageBatch(new ServiceBusMessageBatchImpl({} as ClientEntityContext, 100))
@@ -23,7 +23,8 @@ describe.only("sender unit tests", () => {
   ["hello", {}, 123, null, undefined, ["hello"]].forEach((invalidValue) => {
     it(`don't allow Sender.sendMessages(${invalidValue})`, async () => {
       const sender = new SenderImpl(createClientEntityContextForTests());
-      let expectedErrorMsg = "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
+      let expectedErrorMsg =
+        "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "messages"`;
       }
@@ -34,10 +35,7 @@ describe.only("sender unit tests", () => {
         );
       } catch (err) {
         assert.equal(err.name, "TypeError");
-        assert.equal(
-          err.message,
-          expectedErrorMsg
-        );
+        assert.equal(err.message, expectedErrorMsg);
       }
     });
   });
@@ -57,10 +55,7 @@ describe.only("sender unit tests", () => {
         );
       } catch (err) {
         assert.equal(err.name, "TypeError");
-        assert.equal(
-          err.message,
-          expectedErrorMsg
-        );
+        assert.equal(err.message, expectedErrorMsg);
       }
     });
   });
@@ -68,7 +63,8 @@ describe.only("sender unit tests", () => {
   ["hello", {}, null, undefined, ["hello"]].forEach((invalidValue) => {
     it(`don't allow Sender.scheduleMessages(${invalidValue})`, async () => {
       const sender = new SenderImpl(createClientEntityContextForTests());
-      let expectedErrorMsg = "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage.";
+      let expectedErrorMsg =
+        "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
         expectedErrorMsg = `Missing parameter "messages"`;
       }
@@ -81,10 +77,7 @@ describe.only("sender unit tests", () => {
         );
       } catch (err) {
         assert.equal(err.name, "TypeError");
-        assert.equal(
-          err.message,
-          expectedErrorMsg
-        );
+        assert.equal(err.message, expectedErrorMsg);
       }
     });
   });
@@ -98,7 +91,7 @@ function createClientEntityContextForTests(): ClientEntityContext & { initWasCal
     sender: {
       credit: 999,
       createBatch: () => {
-        return new ServiceBusMessageBatchImpl(fakeClientEntityContext as any, 100)
+        return new ServiceBusMessageBatchImpl(fakeClientEntityContext as any, 100);
       }
     },
     namespace: {
