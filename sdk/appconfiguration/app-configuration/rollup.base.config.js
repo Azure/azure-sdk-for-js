@@ -123,7 +123,6 @@ export function browserConfig(test = false) {
 
       inject({
         modules: {
-          // Buffer: ["buffer", "Buffer"],
           process: "process"
         },
         exclude: ["./**/package.json"]
