@@ -19,11 +19,16 @@ Use the @azure/search-documents client library to:
 - Create and manage analyzers for advanced text analysis or multi-lingual content.
 - Optimize results through scoring profiles to factor in business logic or freshness.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search/) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search-documents/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents) |
 [API reference documentation](https://aka.ms/azsdk/js/search/docs) |
+<<<<<<< HEAD
 [REST API documentation](https://docs.microsoft.com/rest/api/searchservice/) |
 [Product documentation](https://docs.microsoft.com/azure/search/)
+=======
+[Product documentation](https://docs.microsoft.com/azure/search/) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples)
+>>>>>>> 1488623e0... fix link in search-documents
 
 ## Getting started
 
@@ -437,7 +442,7 @@ export AZURE_LOG_LEVEL=verbose*
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 ## Next steps
-* [Go further with search-documents and our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
+* [Go further with search-documents and our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples)
 * [Watch a demo or deep dive video](https://azure.microsoft.com/resources/videos/index/?services=search)
 * [Read more about the Azure Cognitive Search service](https://docs.microsoft.com/azure/search/search-what-is-azure-search)
 
