@@ -98,14 +98,7 @@ export function browserConfig(test = false) {
       }),
 
       shim({
-        constants: `export default {}`,
-        fs: `export default {}`,
-        os: `export default {}`,
-        dotenv: `export function config() { }`,
-        path: `export function join() {}`,
-        timers: `export default {}`,
-        stream: `export default {}`,
-        process: `export default {}`
+        dotenv: `export function config() { }`
       }),
 
       nodeResolve({
