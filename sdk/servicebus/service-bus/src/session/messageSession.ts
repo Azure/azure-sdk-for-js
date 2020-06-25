@@ -416,8 +416,8 @@ export class MessageSession extends LinkEntity {
           this._context.messageSessions[this.sessionId!] = this;
         }
         this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-        await this._ensureTokenRenewal();
-        await this._ensureSessionLockRenewal();
+        this._ensureTokenRenewal();
+        this._ensureSessionLockRenewal();
       } else {
         log.error(
           "[%s] The receiver '%s' for sessionId '%s' is open -> %s and is connecting " +
