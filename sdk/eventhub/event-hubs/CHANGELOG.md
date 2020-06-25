@@ -1,5 +1,11 @@
 # Release History
 
+## 5.3.0-preview.1 (Unreleased)
+
+- Adds `loadBalancingOptions` to the `EventHubConsumerClient` to add control around
+  how aggressively the client claims partitions while load balancing.
+  ([PR 9706](https://github.com/Azure/azure-sdk-for-js/pull/9706))
+
 ## 5.2.2 (Unreleased)
 
 - Fixes issue [#9289](https://github.com/Azure/azure-sdk-for-js/issues/9289)
