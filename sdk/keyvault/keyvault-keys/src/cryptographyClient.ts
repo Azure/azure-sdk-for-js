@@ -111,7 +111,7 @@ export class CryptographyClient {
       try {
         return localCryptographyClient.encrypt(algorithm as LocalSupportedAlgorithmName, plaintext);
       } catch (e) {
-        if (!(e instanceof LocalCryptographyUnsupportedError)) {
+        if (e.name !== "LocalCryptographyUnsupportedError") {
           span.end();
           throw e;
         }
@@ -202,7 +202,7 @@ export class CryptographyClient {
       try {
         return localCryptographyClient.wrapKey(algorithm as LocalSupportedAlgorithmName, key);
       } catch (e) {
-        if (!(e instanceof LocalCryptographyUnsupportedError)) {
+        if (e.name !== "LocalCryptographyUnsupportedError") {
           span.end();
           throw e;
         }
@@ -426,7 +426,7 @@ export class CryptographyClient {
       try {
         return localCryptographyClient.verifyData(localAlgorithm, data, signature);
       } catch (e) {
-        if (!(e instanceof LocalCryptographyUnsupportedError)) {
+        if (e.name !== "LocalCryptographyUnsupportedError") {
           span.end();
           throw e;
         }

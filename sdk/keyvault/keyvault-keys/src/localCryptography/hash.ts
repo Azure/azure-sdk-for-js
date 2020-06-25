@@ -3,6 +3,7 @@
 
 import { createHash as cryptoCreateHash } from "crypto";
 import { isNode } from "@azure/core-http";
+import { LocalCryptographyUnsupportedError } from "./models";
 
 /**
  * @internal
@@ -16,10 +17,8 @@ export async function createHash(algorithm: string, data: Uint8Array): Promise<B
     const digest = hash.digest();
     return digest;
   } else {
-    if (window && window.crypto && window.crypto.subtle) {
-      return Buffer.from(await window.crypto.subtle.digest(algorithm, Buffer.from(data)));
-    } else {
-      throw new Error("Browser does not support cryptography functions");
-    }
+    throw new LocalCryptographyUnsupportedError(
+      "Our libraries don't currently support browser hashing"
+    );
   }
 }
