@@ -16,6 +16,9 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 - Get all certificates.
 - Get all deleted certificates.
 
+> Important note about browser support:  
+> Even though we're designing the `azure-sdk-for-js` to be isomorphic as a whole, meaning that it should work both in NodeJS and in web browsers, due to service limitations we're unable to provide browser support for the Key Vault libraries.
+
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
 ## Getting started
