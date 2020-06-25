@@ -8,7 +8,7 @@
  * @ignore
  */
 export async function sha256Digest(body: string | undefined): Promise<string> {
-  const digest = await window.crypto.subtle.digest("SHA-256", new TextEncoder().encode(body || ""));
+  const digest = await self.crypto.subtle.digest("SHA-256", new TextEncoder().encode(body || ""));
 
   // The conversions here are a bit odd but necessary (see "Unicode strings" in the link below)
   // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa
@@ -20,7 +20,7 @@ export async function sha256Digest(body: string | undefined): Promise<string> {
  * @ignore
  */
 export async function sha256Hmac(secret: string, stringToSign: string): Promise<string> {
-  const key = await window.crypto.subtle.importKey(
+  const key = await self.crypto.subtle.importKey(
     "raw",
     Uint8Array.from(atob(secret), (c) => c.charCodeAt(0)),
     {
@@ -31,7 +31,7 @@ export async function sha256Hmac(secret: string, stringToSign: string): Promise<
     ["sign"]
   );
 
-  const sigArray = await window.crypto.subtle.sign(
+  const sigArray = await self.crypto.subtle.sign(
     "HMAC",
     key,
     new TextEncoder().encode(stringToSign)
