@@ -7,7 +7,7 @@ Azure Key Vault Secrets management allows you to securely store and
 tightly control access to tokens, passwords, certificates, API keys,
 and other secrets.
 
-Use the client library for Azure Key Vault Secrets in your Node.js application to
+Use the client library for Azure Key Vault Secrets in your Node.js application to:
 
 - Get, set and delete secrets.
 - Update a secret and it's attributes.
