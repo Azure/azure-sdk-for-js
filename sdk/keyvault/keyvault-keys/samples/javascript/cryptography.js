@@ -29,7 +29,7 @@ async function main() {
   let myWorkKey = await client.createKey(keyName, "RSA");
 
   const cryptoClient = new CryptographyClient(
-    myWorkKey // You can also pass the identifier of the key i.e it's url here
+    myWorkKey // Or just `myWorkKey`. You can use either the key or the key Id to create a CryptographyClient.
   , credential);
 
   // Sign and Verify
