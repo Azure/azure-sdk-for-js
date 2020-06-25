@@ -85,7 +85,7 @@ export enum CloseReason {
   /**
    * The EventProcessor was shutdown.
    */
-  Shutdown = "Shutdown",
+  Shutdown = "Shutdown"
 }
 
 /**
@@ -164,6 +164,10 @@ export interface LoadBalancingOptions {
   /**
    * Whether to apply a greedy or a more balanced approach when
    * claiming partitions.
+   *
+   * This option is ignored when either:
+   *   - `CheckpointStore` is __not__ provided to the `EventHubConsumerClient`.
+   *   - `subscribe()` is called for a single partition.
    * Default: balanced
    */
   strategy?: "balanced" | "greedy";
