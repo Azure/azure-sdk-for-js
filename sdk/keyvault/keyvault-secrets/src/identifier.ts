@@ -4,14 +4,18 @@
 import { parseKeyvaultIdentifier } from "./core/utils";
 
 /**
+ * Valid collection names for Key Vault Secret identifiers.
+ */
+export type KeyVaultSecretsIdentifierCollectionName = "secrets" | "deletedsecrets";
+
+/**
  * Represents a Key Vault Secrets identifier and its parsed contents.
  */
 export interface ParsedKeyVaultSecretsIdentifier {
   /**
    * The type of resource under Key Vault that this identifier is referring to.
-   * In this case, only "secrets" is valid.
    */
-  collection: "secrets";
+  collection: KeyVaultSecretsIdentifierCollectionName;
 
   /**
    * The originally received identifier.
@@ -40,9 +44,8 @@ export interface ParsedKeyVaultSecretsIdentifier {
 export class KeyVaultSecretsIdentifier implements ParsedKeyVaultSecretsIdentifier {
   /**
    * The type of resource under Key Vault that this identifier is referring to.
-   * In this case, only "secrets" is valid.
    */
-  collection: "secrets";
+  collection: KeyVaultSecretsIdentifierCollectionName;
 
   /**
    * The originally received identifier.
@@ -64,14 +67,22 @@ export class KeyVaultSecretsIdentifier implements ParsedKeyVaultSecretsIdentifie
    */
   public name: string;
 
+  /**
+   * Parses a Key Vault identifier.
+   * @param url Key Vault identifier
+   */
   constructor(url: string) {
-    const collection = "secrets";
-    const coreParsedIdentifier = parseKeyvaultIdentifier(collection, url);
+    const collections: KeyVaultSecretsIdentifierCollectionName[] = ["secrets", "deletedsecrets"];
+    const collection = collections.filter((x) => url.split("/").includes(x))[0];
 
     this.collection = collection;
     this.id = url;
-    this.vaultUrl = coreParsedIdentifier.vaultUrl;
-    this.version = coreParsedIdentifier.version;
-    this.name = coreParsedIdentifier.name;
+
+    const { vaultUrl, name, version } = parseKeyvaultIdentifier(collection, url);
+    this.vaultUrl = vaultUrl;
+    this.name = name;
+    if (version) {
+      this.version = version;
+    }
   }
 }

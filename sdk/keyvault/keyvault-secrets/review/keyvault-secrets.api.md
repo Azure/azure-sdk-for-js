@@ -57,12 +57,15 @@ export interface KeyVaultSecret {
 // @public
 export class KeyVaultSecretsIdentifier implements ParsedKeyVaultSecretsIdentifier {
     constructor(url: string);
-    collection: "secrets";
+    collection: KeyVaultSecretsIdentifierCollectionName;
     id: string;
     name: string;
     vaultUrl: string;
     version?: string;
 }
+
+// @public
+export type KeyVaultSecretsIdentifierCollectionName = "secrets" | "deletedsecrets";
 
 // @public
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
@@ -85,7 +88,7 @@ export { PageSettings }
 
 // @public
 export interface ParsedKeyVaultSecretsIdentifier {
-    collection: "secrets";
+    collection: KeyVaultSecretsIdentifierCollectionName;
     id: string;
     name: string;
     vaultUrl: string;

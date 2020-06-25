@@ -44,4 +44,16 @@ describe("KeyVault Certificates Identifier", () => {
       version: "certificate-issuer-name"
     });
   });
+
+  it("It should work with a deleted certificate recovery ID", async function() {
+    const uri = "https://keyvault-name.vault.azure.net/deletedcertificates/deleted-certificate";
+    const identifier = new KeyVaultCertificatesIdentifier(uri);
+
+    assert.deepEqual(identifier, {
+      id: "https://keyvault-name.vault.azure.net/deletedcertificates/deleted-certificate",
+      vaultUrl: "https://keyvault-name.vault.azure.net",
+      collection: "deletedcertificates",
+      name: "deleted-certificate"
+    });
+  });
 });

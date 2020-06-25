@@ -225,12 +225,15 @@ export interface KeyVaultKey {
 // @public
 export class KeyVaultKeysIdentifier implements ParsedKeyVaultKeysIdentifier {
     constructor(url: string);
-    collection: "keys";
+    collection: KeyVaultKeysIdentifierCollectionName;
     id: string;
     name: string;
     vaultUrl: string;
     version?: string;
 }
+
+// @public
+export type KeyVaultKeysIdentifierCollectionName = "keys" | "deletedkeys";
 
 // @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
@@ -256,7 +259,7 @@ export { PageSettings }
 
 // @public
 export interface ParsedKeyVaultKeysIdentifier {
-    collection: "keys";
+    collection: KeyVaultKeysIdentifierCollectionName;
     id: string;
     name: string;
     vaultUrl: string;

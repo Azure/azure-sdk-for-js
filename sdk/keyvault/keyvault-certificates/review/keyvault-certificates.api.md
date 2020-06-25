@@ -330,12 +330,15 @@ export interface KeyVaultCertificate {
 // @public
 export class KeyVaultCertificatesIdentifier implements ParsedKeyVaultCertificatesIdentifier {
     constructor(url: string);
-    collection: "certificates";
+    collection: KeyVaultCertificatesIdentifierCollectionName;
     id: string;
     name: string;
     vaultUrl: string;
     version?: string;
 }
+
+// @public
+export type KeyVaultCertificatesIdentifierCollectionName = "certificates" | "deletedcertificates";
 
 // @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
@@ -376,7 +379,7 @@ export type MergeCertificateOptions = coreHttp.OperationOptions;
 
 // @public
 export interface ParsedKeyVaultCertificatesIdentifier {
-    collection: "certificates";
+    collection: KeyVaultCertificatesIdentifierCollectionName;
     id: string;
     name: string;
     vaultUrl: string;

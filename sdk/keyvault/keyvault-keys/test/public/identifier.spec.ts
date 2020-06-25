@@ -30,4 +30,16 @@ describe("KeyVault Keys Identifier", () => {
       name: "key-name"
     });
   });
+
+  it("It should work with a deleted key recovery ID", async function() {
+    const uri = "https://keyvault-name.vault.azure.net/deletedkeys/deleted-key";
+    const identifier = new KeyVaultKeysIdentifier(uri);
+
+    assert.deepEqual(identifier, {
+      id: "https://keyvault-name.vault.azure.net/deletedkeys/deleted-key",
+      vaultUrl: "https://keyvault-name.vault.azure.net",
+      collection: "deletedkeys",
+      name: "deleted-key"
+    });
+  });
 });

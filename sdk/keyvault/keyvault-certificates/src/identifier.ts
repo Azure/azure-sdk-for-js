@@ -4,14 +4,18 @@
 import { parseKeyvaultIdentifier } from "./core/utils";
 
 /**
+ * Valid collection names for Key Vault Certificate identifiers.
+ */
+export type KeyVaultCertificatesIdentifierCollectionName = "certificates" | "deletedcertificates";
+
+/**
  * Represents a Key Vault identifier and its parsed contents.
  */
 export interface ParsedKeyVaultCertificatesIdentifier {
   /**
    * The type of resource under Key Vault that this identifier is referring to.
-   * In this case, only "certificates" is valid.
    */
-  collection: "certificates";
+  collection: KeyVaultCertificatesIdentifierCollectionName;
 
   /**
    * The originally received identifier.
@@ -40,9 +44,8 @@ export interface ParsedKeyVaultCertificatesIdentifier {
 export class KeyVaultCertificatesIdentifier implements ParsedKeyVaultCertificatesIdentifier {
   /**
    * The type of resource under Key Vault that this identifier is referring to.
-   * In this case, only "certificates" is valid.
    */
-  collection: "certificates";
+  collection: KeyVaultCertificatesIdentifierCollectionName;
 
   /**
    * The originally received identifier.
@@ -64,14 +67,25 @@ export class KeyVaultCertificatesIdentifier implements ParsedKeyVaultCertificate
    */
   public name: string;
 
+  /**
+   * Parses a Key Vault identifier.
+   * @param url Key Vault identifier
+   */
   constructor(url: string) {
-    const collection = "certificates";
-    const coreParsedIdentifier = parseKeyvaultIdentifier(collection, url);
+    const collections: KeyVaultCertificatesIdentifierCollectionName[] = [
+      "certificates",
+      "deletedcertificates"
+    ];
+    const collection = collections.filter((x) => url.split("/").includes(x))[0];
 
     this.collection = collection;
     this.id = url;
-    this.vaultUrl = coreParsedIdentifier.vaultUrl;
-    this.version = coreParsedIdentifier.version;
-    this.name = coreParsedIdentifier.name;
+
+    const { vaultUrl, name, version } = parseKeyvaultIdentifier(collection, url);
+    this.vaultUrl = vaultUrl;
+    this.name = name;
+    if (version) {
+      this.version = version;
+    }
   }
 }

@@ -151,7 +151,11 @@ import { DeleteCertificateState } from "./lro/delete/operation";
 import { CreateCertificateState } from "./lro/create/operation";
 import { RecoverDeletedCertificateState } from "./lro/recover/operation";
 import { parseCertificateBytes } from "./utils";
-import { KeyVaultCertificatesIdentifier, ParsedKeyVaultCertificatesIdentifier } from "./identifier";
+import {
+  KeyVaultCertificatesIdentifier,
+  ParsedKeyVaultCertificatesIdentifier,
+  KeyVaultCertificatesIdentifierCollectionName
+} from "./identifier";
 
 export {
   CertificateClientOptions,
@@ -165,6 +169,7 @@ export {
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
   KeyVaultCertificatesIdentifier,
+  KeyVaultCertificatesIdentifierCollectionName,
   BackupCertificateOptions,
   CertificateContentType,
   CertificateProperties,

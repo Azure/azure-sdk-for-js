@@ -63,7 +63,11 @@ import {
   SecretClientOptions,
   LATEST_API_VERSION
 } from "./secretsModels";
-import { KeyVaultSecretsIdentifier, ParsedKeyVaultSecretsIdentifier } from "./identifier";
+import {
+  KeyVaultSecretsIdentifier,
+  ParsedKeyVaultSecretsIdentifier,
+  KeyVaultSecretsIdentifierCollectionName
+} from "./identifier";
 
 export {
   SecretClientOptions,
@@ -81,6 +85,7 @@ export {
   PagedAsyncIterableIterator,
   PageSettings,
   ParsedKeyVaultSecretsIdentifier,
+  KeyVaultSecretsIdentifierCollectionName,
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
