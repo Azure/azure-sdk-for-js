@@ -140,6 +140,8 @@ export interface QueueDescription {
    * for consumption by the next receiver. Settable only at queue creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   lockDuration?: string;
 
@@ -172,6 +174,8 @@ export interface QueueDescription {
    * This value is immutable after the Queue has been created.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   defaultMessageTtl?: string;
 
@@ -187,6 +191,8 @@ export interface QueueDescription {
    * Specifies the time span during which the Service Bus detects message duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   duplicateDetectionHistoryTimeWindow?: string;
 
@@ -230,6 +236,8 @@ export interface QueueDescription {
    * Max idle time before entity is deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   autoDeleteOnIdle?: string;
 
@@ -260,6 +268,8 @@ export interface InternalQueueOptions {
    * Settable only at queue creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   LockDuration?: string;
 
@@ -291,6 +301,8 @@ export interface InternalQueueOptions {
    * This value is immutable after the Queue has been created.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   DefaultMessageTimeToLive?: string;
 
@@ -306,6 +318,8 @@ export interface InternalQueueOptions {
    * Specifies the time span during which the Service Bus detects message duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   DuplicateDetectionHistoryTimeWindow?: string;
 
@@ -350,6 +364,8 @@ export interface InternalQueueOptions {
    * Max idle time before entity is deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   AutoDeleteOnIdle?: string;
 
