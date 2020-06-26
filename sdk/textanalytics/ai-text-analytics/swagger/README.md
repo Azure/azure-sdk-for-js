@@ -13,7 +13,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/stable/v3.0/TextAnalytics.json
-add-credentials: true
+add-credentials: false
 use-extension:
   "@microsoft.azure/autorest.typescript": "5.0.1"
 ```

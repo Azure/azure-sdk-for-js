@@ -31,6 +31,8 @@
 /sdk/keyvault/ @jonathandturner @sadasant
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
+/sdk/tables/ @mahdiva @joheredi
+
 /sdk/test-utils/ @HarshaNalluru @sadasant
 /sdk/textanalytics/ @xirzec @willmtemple
 /sdk/formrecognizer/ @jeremymeng @willmtemple
