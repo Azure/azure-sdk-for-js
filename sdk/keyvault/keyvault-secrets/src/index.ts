@@ -187,7 +187,7 @@ export class SecretClient {
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     const optionalParams: KeyVaultClientOptionalParams = {
       ...pipeline,
-      apiVersion: pipelineOptions.apiVersion || LATEST_API_VERSION,
+      apiVersion: pipelineOptions.apiVersion || LATEST_API_VERSION
     };
     this.client = new KeyVaultClient(optionalParams);
   }
@@ -329,9 +329,9 @@ export class SecretClient {
           enabled,
           notBefore,
           expires
-        },
+        }
       };
-  
+
       let response: KeyVaultClientUpdateSecretResponse;
       try {
         response = await this.client.updateSecret(
