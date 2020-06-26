@@ -30,7 +30,7 @@ export async function main(): Promise<void> {
   const myWorkKey = await client.createKey(keyName, "RSA");
 
   const cryptoClient = new CryptographyClient(
-    myWorkKey.id! // Or just `myWorkKey`. You can use either the key or the key Id to create a CryptographyClient.
+    myWorkKey.id! // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
   , credential);
 
   // Sign and Verify
