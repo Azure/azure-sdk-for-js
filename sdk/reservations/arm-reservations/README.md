@@ -15,7 +15,7 @@ npm install @azure/arm-reservations
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list reservation as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get quota as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
@@ -35,8 +35,11 @@ const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new AzureReservationAPI(creds, subscriptionId);
-  const reservationOrderId = "testreservationOrderId";
-  client.reservation.list(reservationOrderId).then((result) => {
+  const subscriptionId = "testsubscriptionId";
+  const providerId = "testproviderId";
+  const location = "westus";
+  const resourceName = "testresourceName";
+  client.quota.get(subscriptionId, providerId, location, resourceName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +48,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and list reservation as an example written in JavaScript.
+#### browser - Authentication, client creation and get quota as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -79,8 +82,11 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           authManager.login();
         }
         const client = new Azure.ArmReservations.AzureReservationAPI(res.creds, subscriptionId);
-        const reservationOrderId = "testreservationOrderId";
-        client.reservation.list(reservationOrderId).then((result) => {
+        const subscriptionId = "testsubscriptionId";
+        const providerId = "testproviderId";
+        const location = "westus";
+        const resourceName = "testresourceName";
+        client.quota.get(subscriptionId, providerId, location, resourceName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -98,4 +104,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Freservations%2Farm-reservations%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/reservations/arm-reservations/README.png)
