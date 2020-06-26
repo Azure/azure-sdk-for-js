@@ -23,12 +23,18 @@ import {
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
-import { parseKeyvaultIdentifier } from "./core/utils";
-import { SDK_VERSION } from "./core/utils/constants";
-import { KeyVaultClient } from "./core/keyVaultClient";
+import { parseKeyvaultIdentifier } from "./generated/utils";
+import { SDK_VERSION } from "./generated/utils/constants";
+import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
 import * as constants from "constants";
+import {
+  KeyOperationsParameters,
+  KeySignParameters,
+  KeyVerifyParameters,
+  KeyVaultClientOptionalParams
+} from "./generated/models";
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
@@ -128,6 +134,11 @@ export class CryptographyClient {
       }
     }
 
+    const keyOperationParameters: KeyOperationsParameters = {
+      algorithm,
+      value: plaintext
+    };
+
     // Default to the service
     let result;
     try {
@@ -135,8 +146,7 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        plaintext,
+        keyOperationParameters,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -167,14 +177,18 @@ export class CryptographyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);
 
+    const keyOperationParameters: KeyOperationsParameters = {
+      algorithm,
+      value: ciphertext
+    };
+
     let result;
     try {
       result = await this.client.decrypt(
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        ciphertext,
+        keyOperationParameters,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -246,6 +260,11 @@ export class CryptographyClient {
       }
     }
 
+    const keyOperationParameters: KeyOperationsParameters = {
+      algorithm,
+      value: key
+    };
+
     // Default to the service
     let result;
     try {
@@ -253,8 +272,7 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        key,
+        keyOperationParameters,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -284,14 +302,18 @@ export class CryptographyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("unwrapKey", requestOptions);
 
+    const keyOperationParameters: KeyOperationsParameters = {
+      algorithm,
+      value: encryptedKey
+    };
+
     let result;
     try {
       result = await this.client.unwrapKey(
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        encryptedKey,
+        keyOperationParameters,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -321,14 +343,18 @@ export class CryptographyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("sign", requestOptions);
 
+    const keySignParameters: KeySignParameters = {
+      algorithm,
+      value: digest
+    };
+
     let result;
     try {
       result = await this.client.sign(
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        digest,
+        keySignParameters,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -360,15 +386,19 @@ export class CryptographyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("verify", requestOptions);
 
+    const keyVerifyParameters: KeyVerifyParameters = {
+      algorithm,
+      digest,
+      signature
+    };
+
     let response;
     try {
       response = await this.client.verify(
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        digest,
-        signature,
+        keyVerifyParameters,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -427,14 +457,18 @@ export class CryptographyClient {
       }
     }
 
+    const keySignParameters: KeySignParameters = {
+      algorithm,
+      value: digest
+    };
+
     let result;
     try {
       result = await this.client.sign(
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        digest,
+        keySignParameters,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -564,15 +598,19 @@ export class CryptographyClient {
       }
     }
 
+    const keyVerifyParameters: KeyVerifyParameters = {
+      algorithm,
+      digest,
+      signature
+    };
+
     let result;
     try {
       result = await this.client.verify(
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        digest,
-        signature,
+        keyVerifyParameters,
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -708,11 +746,11 @@ export class CryptographyClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    const optionalParams: KeyVaultClientOptionalParams = {
+      ...createPipelineFromOptions(internalPipelineOptions, authPolicy),
+      apiVersion: pipelineOptions.apiVersion || LATEST_API_VERSION
+    };
+    this.client = new KeyVaultClient(optionalParams);
 
     let parsed;
     if (typeof key === "string") {

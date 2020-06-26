@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /// <reference lib="es2015" />
 /// <reference lib="esnext.asynciterable"/>
 

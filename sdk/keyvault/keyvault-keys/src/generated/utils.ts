@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ParsedKeyVaultEntityIdentifier } from "./keyVaultBase";
 import * as url from "url";
 

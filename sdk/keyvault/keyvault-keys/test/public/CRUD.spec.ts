@@ -6,7 +6,12 @@ import { RestError } from "@azure/core-http";
 import { AbortController } from "@azure/abort-controller";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
-import { KeyClient, CreateEcKeyOptions, UpdateKeyPropertiesOptions, GetKeyOptions } from "../../src";
+import {
+  KeyClient,
+  CreateEcKeyOptions,
+  UpdateKeyPropertiesOptions,
+  GetKeyOptions
+} from "../../src";
 import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
