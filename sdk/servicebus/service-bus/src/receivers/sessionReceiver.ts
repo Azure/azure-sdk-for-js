@@ -32,7 +32,7 @@ import { Receiver } from "./receiver";
 import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
-import { OperationOptionsForAMQP } from "../modelsToBeSharedWithEventHubs";
+import { AMQPOperationOptions } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 
 /**
@@ -60,7 +60,7 @@ export interface SessionReceiver<
   /**
    * Renews the lock on the session.
    */
-  renewSessionLock(options?: OperationOptionsForAMQP): Promise<Date>;
+  renewSessionLock(options?: AMQPOperationOptions): Promise<Date>;
 
   /**
    * Gets the state of the Session. For more on session states, see
@@ -70,7 +70,7 @@ export interface SessionReceiver<
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  getState(options?: OperationOptionsForAMQP): Promise<any>;
+  getState(options?: AMQPOperationOptions): Promise<any>;
 
   /**
    * Sets the state on the Session. For more on session states, see
@@ -83,7 +83,7 @@ export interface SessionReceiver<
    * @param {*} state
    * @returns {Promise<void>}
    */
-  setState(state: any, options?: OperationOptionsForAMQP): Promise<void>;
+  setState(state: any, options?: AMQPOperationOptions): Promise<void>;
 }
 
 /**
@@ -251,7 +251,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing session lock.
    */
-  async renewSessionLock(options?: OperationOptionsForAMQP): Promise<Date> {
+  async renewSessionLock(options?: AMQPOperationOptions): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
 
     const renewSessionLockOperationPromise = async () => {
@@ -284,7 +284,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while setting the session state.
    */
-  async setState(state: any, options: OperationOptionsForAMQP = {}): Promise<void> {
+  async setState(state: any, options: AMQPOperationOptions = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
     const setSessionStateOperationPromise = async () => {
@@ -314,7 +314,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  async getState(options: OperationOptionsForAMQP = {}): Promise<any> {
+  async getState(options: AMQPOperationOptions = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
 
     const getSessionStateOperationPromise = async () => {
@@ -382,7 +382,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async receiveDeferredMessage(
     sequenceNumber: Long,
-    options: OperationOptionsForAMQP = {}
+    options: AMQPOperationOptions = {}
   ): Promise<ReceivedMessageT | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -432,7 +432,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async receiveDeferredMessages(
     sequenceNumbers: Long[],
-    options: OperationOptionsForAMQP = {}
+    options: AMQPOperationOptions = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptionsForAMQP } from "./modelsToBeSharedWithEventHubs";
+import { AMQPOperationOptions } from "./modelsToBeSharedWithEventHubs";
 import { SessionReceiverOptions } from "./session/messageSession";
 import Long from "long";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -45,7 +45,7 @@ export interface WaitTimeOptions {
  * }
  * ```
  */
-export interface CreateBatchOptions extends OperationOptionsForAMQP {
+export interface CreateBatchOptions extends AMQPOperationOptions {
   /**
    * @property
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
@@ -56,17 +56,17 @@ export interface CreateBatchOptions extends OperationOptionsForAMQP {
 /**
  * Options when receiving a batch of messages from Service Bus.
  */
-export interface ReceiveBatchOptions extends OperationOptionsForAMQP, WaitTimeOptions {}
+export interface ReceiveBatchOptions extends AMQPOperationOptions, WaitTimeOptions {}
 
 /**
  * Options when getting an iterable iterator from Service Bus.
  */
-export interface GetMessageIteratorOptions extends OperationOptionsForAMQP, WaitTimeOptions {}
+export interface GetMessageIteratorOptions extends AMQPOperationOptions, WaitTimeOptions {}
 
 /**
  * Options used when subscribing to a Service Bus queue or subscription.
  */
-export interface SubscribeOptions extends OperationOptionsForAMQP, MessageHandlerOptions {}
+export interface SubscribeOptions extends AMQPOperationOptions, MessageHandlerOptions {}
 
 /**
  * Describes the options passed to `registerMessageHandler` method when receiving messages from a
@@ -104,7 +104,7 @@ export interface MessageHandlerOptions {
  */
 export interface CreateSessionReceiverOptions
   extends SessionReceiverOptions,
-    OperationOptionsForAMQP {}
+    AMQPOperationOptions {}
 
 /**
  * Describes the options passed to the `open` method on a `Sender`.
@@ -119,7 +119,7 @@ export interface SenderOpenOptions {
 /**
  * Describes the options passed to the `peekMessages` method on a receiver.
  */
-export interface PeekMessagesOptions extends OperationOptionsForAMQP {
+export interface PeekMessagesOptions extends AMQPOperationOptions {
   /**
    * @property The maximum number of messages to peek.
    * Default value is 1

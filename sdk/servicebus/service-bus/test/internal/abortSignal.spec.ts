@@ -7,7 +7,7 @@ chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 import { MessageSender } from "../../src/core/messageSender";
-import { OperationOptionsForAMQP } from "../../src/modelsToBeSharedWithEventHubs";
+import { AMQPOperationOptions } from "../../src/modelsToBeSharedWithEventHubs";
 import { AwaitableSender, delay } from "rhea-promise";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
 import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
@@ -33,7 +33,7 @@ describe("AbortSignal", () => {
     it("AbortSignal is plumbed through all send operations", async () => {
       const sender = new MessageSender(clientEntityContext, {});
 
-      let passedInOptions: OperationOptionsForAMQP | undefined;
+      let passedInOptions: AMQPOperationOptions | undefined;
 
       sender["_trySend"] = async (_buffer, _sendBatch, options) => {
         passedInOptions = options;

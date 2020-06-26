@@ -8,7 +8,7 @@ import {
   ReceiveBatchOptions,
   SubscribeOptions
 } from "../models";
-import { OperationOptionsForAMQP } from "../modelsToBeSharedWithEventHubs";
+import { AMQPOperationOptions } from "../modelsToBeSharedWithEventHubs";
 import { ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
@@ -66,7 +66,7 @@ export interface Receiver<ReceivedMessageT> {
    */
   receiveDeferredMessage(
     sequenceNumber: Long,
-    options?: OperationOptionsForAMQP
+    options?: AMQPOperationOptions
   ): Promise<ReceivedMessageT | undefined>;
 
   /**
@@ -81,7 +81,7 @@ export interface Receiver<ReceivedMessageT> {
    */
   receiveDeferredMessages(
     sequenceNumbers: Long[],
-    options?: OperationOptionsForAMQP
+    options?: AMQPOperationOptions
   ): Promise<ReceivedMessageT[]>;
   /**
    * Indicates whether the receiver is currently receiving messages or not.
@@ -245,7 +245,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _createStreamingReceiver(
     context: ClientEntityContext,
     options?: ReceiveOptions &
-      Pick<OperationOptionsForAMQP, "abortSignal"> & {
+      Pick<AMQPOperationOptions, "abortSignal"> & {
         createStreamingReceiver?: (
           context: ClientEntityContext,
           options?: ReceiveOptions
@@ -332,7 +332,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    */
   async receiveDeferredMessage(
     sequenceNumber: Long,
-    options: OperationOptionsForAMQP = {}
+    options: AMQPOperationOptions = {}
   ): Promise<ReceivedMessageT | undefined> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -381,7 +381,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    */
   async receiveDeferredMessages(
     sequenceNumbers: Long[],
-    options: OperationOptionsForAMQP = {}
+    options: AMQPOperationOptions = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(

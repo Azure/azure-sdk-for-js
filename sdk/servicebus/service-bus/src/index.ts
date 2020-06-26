@@ -27,7 +27,7 @@ export {
   SubscribeOptions,
   WaitTimeOptions
 } from "./models";
-export { OperationOptions, OperationOptionsForAMQP } from "./modelsToBeSharedWithEventHubs";
+export { OperationOptions, AMQPOperationOptions } from "./modelsToBeSharedWithEventHubs";
 export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
