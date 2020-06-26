@@ -16,6 +16,8 @@
       [PR 9434](https://github.com/Azure/azure-sdk-for-js/pull/9434)
   - The property `top` in the options passed to any of the methods that get information for multiple entities like `getQueues` or `getQueuesRuntimeInfo` is renamed to `maxCount`.
     [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
+  - `OperationOptions` has been added for all the methods under `ServiceBusManagementClient`, this adds support for abortSignal, requestOptions when creating and sending HTTP requests.
+    [PR 9654](https://github.com/Azure/azure-sdk-for-js/pull/9654)
 
 ## 7.0.0-preview.3 (2020-06-08)
 
