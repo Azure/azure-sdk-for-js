@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import * as log from "../log";
-import { Constants, translate, MessagingError } from "@azure/amqp-common";
+import { Constants, MessagingError } from "@azure/amqp-common";
+import { translateErrorForServiceBus } from "../util/errorTranslation";
 import { ReceiverEvents, EventContext, OnAmqpEvent, SessionEvents, AmqpError } from "rhea-promise";
 import { ServiceBusMessage, ReceiveMode } from "../serviceBusMessage";
 import {
@@ -130,7 +131,7 @@ export class BatchingReceiver extends MessageReceiver {
         const sessionError = context.session && context.session.error;
         let error = new MessagingError("An error occurred while receiving messages.");
         if (sessionError) {
-          error = translate(sessionError);
+          error = translateErrorForServiceBus(sessionError);
           log.error(
             "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
             this._context.namespace.connectionId,
@@ -174,7 +175,7 @@ export class BatchingReceiver extends MessageReceiver {
           return resolve(brokeredMessages);
         }
 
-        reject(translate(error));
+        reject(translateErrorForServiceBus(error));
       };
 
       // Final action to be performed after
@@ -268,7 +269,7 @@ export class BatchingReceiver extends MessageReceiver {
             "[%s] Receiver '%s' error in onSessionClose handler:\n%O",
             this._context.namespace.connectionId,
             this.name,
-            translate(err)
+            translateErrorForServiceBus(err)
           );
         }
       };
@@ -305,7 +306,7 @@ export class BatchingReceiver extends MessageReceiver {
             "[%s] Receiver '%s' error in onClose handler:\n%O",
             this._context.namespace.connectionId,
             this.name,
-            translate(err)
+            translateErrorForServiceBus(err)
           );
         }
       };
@@ -321,7 +322,7 @@ export class BatchingReceiver extends MessageReceiver {
         const receiverError = context.receiver && context.receiver.error;
         let error = new MessagingError("An error occurred while receiving messages.");
         if (receiverError) {
-          error = translate(receiverError);
+          error = translateErrorForServiceBus(receiverError);
           log.error(
             "[%s] Receiver '%s' received an error:\n%O",
             this._context.namespace.connectionId,
@@ -402,7 +403,7 @@ export class BatchingReceiver extends MessageReceiver {
               deleteResult
             );
             if (state && state.error && (state.error.condition || state.error.description)) {
-              const error = translate(state.error);
+              const error = translateErrorForServiceBus(state.error);
               return promise.reject(error);
             }
 

@@ -25,7 +25,8 @@ import {
   TestMessage,
   getServiceBusClient
 } from "./utils/testUtils";
-import { SasTokenProvider, TokenInfo, parseConnectionString, translate } from "@azure/amqp-common";
+import { SasTokenProvider, TokenInfo, parseConnectionString } from "@azure/amqp-common";
+import { translateErrorForServiceBus } from "../src/util/errorTranslation";
 import { getEnvVars, EnvVarNames } from "./utils/envVarUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
@@ -1174,7 +1175,7 @@ describe("Streaming - onDetached", function(): void {
     await receiverIsActive;
 
     // Simulate onDetached being called with a non-retryable error.
-    const nonRetryableError = translate(new Error(`I break systems.`));
+    const nonRetryableError = translateErrorForServiceBus(new Error(`I break systems.`));
     nonRetryableError.retryable = false;
     await receiver["_context"].streamingReceiver!.onDetached(nonRetryableError);
 
@@ -1213,7 +1214,7 @@ describe("Streaming - onDetached", function(): void {
     await receiverIsActive;
 
     // Simulate onDetached being called with a non-retryable error.
-    const nonRetryableError = translate(new Error(`I break systems.`));
+    const nonRetryableError = translateErrorForServiceBus(new Error(`I break systems.`));
     nonRetryableError.retryable = false;
     await receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true);
 
@@ -1252,7 +1253,7 @@ describe("Streaming - onDetached", function(): void {
     await receiverIsActive;
 
     // Simulate onDetached being called multiple times with non-retryable errors.
-    const nonRetryableError = translate(new Error(`I break systems.`));
+    const nonRetryableError = translateErrorForServiceBus(new Error(`I break systems.`));
     nonRetryableError.retryable = false;
     await Promise.all([
       receiver["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
@@ -1294,7 +1295,7 @@ describe("Streaming - onDetached", function(): void {
     await receiverIsActive;
 
     // Simulate onDetached being called multiple times with non-retryable and then retryable errors.
-    const nonRetryableError = translate(new Error(`I break systems.`));
+    const nonRetryableError = translateErrorForServiceBus(new Error(`I break systems.`));
     nonRetryableError.retryable = false;
     const retryableError = new Error("I temporarily break systems.");
     (retryableError as any).retryable = true;

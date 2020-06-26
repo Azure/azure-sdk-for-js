@@ -3,7 +3,8 @@
 
 import Long from "long";
 import { Delivery, uuid_to_string, MessageAnnotations, DeliveryAnnotations } from "rhea-promise";
-import { Constants, AmqpMessage, translate, ErrorNameConditionMapper } from "@azure/amqp-common";
+import { Constants, AmqpMessage, ErrorNameConditionMapper } from "@azure/amqp-common";
+import { translateErrorForServiceBus } from "./util/errorTranslation";
 import * as log from "./log";
 import { ClientEntityContext } from "./clientEntityContext";
 import { reorderLockToken, getDispositionType } from "../src/util/utils";
@@ -1032,7 +1033,7 @@ export class ServiceBusMessage implements ReceivedMessage {
     } else if (this.delivery.remote_settled) {
       error = new Error(`Failed to ${operation} the message as this message is already settled.`);
     } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
-      error = translate({
+      error = translateErrorForServiceBus({
         description:
           `Failed to ${operation} the message as the AMQP link with which the message was ` +
           `received is no longer alive.`,
