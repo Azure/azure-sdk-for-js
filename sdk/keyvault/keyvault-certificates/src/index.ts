@@ -474,7 +474,7 @@ export class CertificateClient {
     const optionalParams: KeyVaultClientOptionalParams = {
       ...pipeline,
       apiVersion: pipelineOptions.apiVersion || LATEST_API_VERSION
-    }
+    };
     this.client = new KeyVaultClient(optionalParams);
   }
 
@@ -1436,15 +1436,10 @@ export class CertificateClient {
     let result: KeyVaultClientUpdateCertificateResponse;
 
     try {
-      result = await this.client.updateCertificate(
-        this.vaultUrl,
-        certificateName,
-        version,
-        {
-          ...this.setParentSpan(span, requestOptions),
-          certificateAttributes: toCoreAttributes(options)
-        }
-      );
+      result = await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
+        ...this.setParentSpan(span, requestOptions),
+        certificateAttributes: toCoreAttributes(options)
+      });
     } finally {
       span.end();
     }
