@@ -56,6 +56,90 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
+  '17',
+  'apim-request-id',
+  'b06eec3e-69f4-4da3-847c-2e2be31ef887',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Fri, 26 Jun 2020 21:24:17 GMT',
+  'Connection',
+  'close'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.0-preview/custom/models/8868c5b9-2248-4650-b906-a30bd14196bb/copyResults/eefd4da6-4503-4542-99bb-eee373b53f7e')
+  .reply(200, {"status":"notStarted","createdDateTime":"2020-06-26T21:24:12Z","lastUpdatedDateTime":"2020-06-26T21:24:12Z","copyResult":{"modelId":"be7f15e3-1b1e-43da-a133-d2869763f3c2"}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '19',
+  'apim-request-id',
+  'df40c290-1d3a-4d13-9dc0-0638d5f48a8a',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Fri, 26 Jun 2020 21:24:17 GMT',
+  'Connection',
+  'close'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.0-preview/custom/models/8868c5b9-2248-4650-b906-a30bd14196bb/copyResults/eefd4da6-4503-4542-99bb-eee373b53f7e')
+  .reply(200, {"status":"notStarted","createdDateTime":"2020-06-26T21:24:12Z","lastUpdatedDateTime":"2020-06-26T21:24:12Z","copyResult":{"modelId":"be7f15e3-1b1e-43da-a133-d2869763f3c2"}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '18',
+  'apim-request-id',
+  '74138daa-151e-4ff9-8395-a43258b7ba26',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Fri, 26 Jun 2020 21:24:23 GMT',
+  'Connection',
+  'close'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.0-preview/custom/models/8868c5b9-2248-4650-b906-a30bd14196bb/copyResults/eefd4da6-4503-4542-99bb-eee373b53f7e')
+  .reply(200, {"status":"notStarted","createdDateTime":"2020-06-26T21:24:12Z","lastUpdatedDateTime":"2020-06-26T21:24:12Z","copyResult":{"modelId":"be7f15e3-1b1e-43da-a133-d2869763f3c2"}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '92',
+  'apim-request-id',
+  '75db5e0d-8c39-4596-9df5-5cd556270f04',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Fri, 26 Jun 2020 21:24:27 GMT',
+  'Connection',
+  'close'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.0-preview/custom/models/8868c5b9-2248-4650-b906-a30bd14196bb/copyResults/eefd4da6-4503-4542-99bb-eee373b53f7e')
+  .reply(200, {"status":"notStarted","createdDateTime":"2020-06-26T21:24:12Z","lastUpdatedDateTime":"2020-06-26T21:24:12Z","copyResult":{"modelId":"be7f15e3-1b1e-43da-a133-d2869763f3c2"}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
   '15',
   'apim-request-id',
   '9ae58ed9-e980-43a5-8153-aa1fd0b41794',

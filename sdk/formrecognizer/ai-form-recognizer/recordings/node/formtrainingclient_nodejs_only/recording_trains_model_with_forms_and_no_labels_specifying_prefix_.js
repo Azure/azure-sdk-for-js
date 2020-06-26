@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "4064d861ee46e22e616bc19919f56523";
+module.exports.hash = "059836df5122d8879ba53355614de9b6";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -10,83 +10,95 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/formrecognizer/v2.0-preview/custom/models/11748e70-c006-45f8-8681-772c1cecbafb',
+  'https://endpoint/formrecognizer/v2.0-preview/custom/models/5b08cfcc-850f-42c0-97e5-a297ea26a5b3',
   'x-envoy-upstream-service-time',
-  '605',
+  '44',
   'apim-request-id',
-  '91821134-2d57-4206-ad08-ee11688f56c4',
+  'f6a8585b-87e8-4f0b-94ce-1f1cfe919465',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 26 Jun 2020 21:23:48 GMT',
-  'Connection',
-  'close'
+  'Sat, 02 May 2020 20:00:25 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0-preview/custom/models/11748e70-c006-45f8-8681-772c1cecbafb')
+  .get('/formrecognizer/v2.0-preview/custom/models/5b08cfcc-850f-42c0-97e5-a297ea26a5b3')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"11748e70-c006-45f8-8681-772c1cecbafb","status":"creating","createdDateTime":"2020-06-26T21:23:49Z","lastUpdatedDateTime":"2020-06-26T21:23:49Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"5b08cfcc-850f-42c0-97e5-a297ea26a5b3","status":"creating","createdDateTime":"2020-05-02T20:00:25Z","lastUpdatedDateTime":"2020-05-02T20:00:25Z"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '27',
+  '29',
   'apim-request-id',
-  'f4ddc3ee-535b-4c4f-9b53-89ccae917582',
+  'bc4870f5-9479-46e5-9400-9a1c43d5cb77',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 26 Jun 2020 21:23:49 GMT',
-  'Connection',
-  'close'
+  'Sat, 02 May 2020 20:00:25 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0-preview/custom/models/11748e70-c006-45f8-8681-772c1cecbafb')
+  .get('/formrecognizer/v2.0-preview/custom/models/5b08cfcc-850f-42c0-97e5-a297ea26a5b3')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"11748e70-c006-45f8-8681-772c1cecbafb","status":"creating","createdDateTime":"2020-06-26T21:23:49Z","lastUpdatedDateTime":"2020-06-26T21:23:49Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"5b08cfcc-850f-42c0-97e5-a297ea26a5b3","status":"creating","createdDateTime":"2020-05-02T20:00:25Z","lastUpdatedDateTime":"2020-05-02T20:00:25Z"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '19',
+  '31',
   'apim-request-id',
-  '685da4df-08d7-48e0-bbe3-b60b5f67e040',
+  '22ae0a99-ef96-4b17-86e7-b78c05969cdf',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 26 Jun 2020 21:23:59 GMT',
-  'Connection',
-  'close'
+  'Sat, 02 May 2020 20:00:25 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0-preview/custom/models/11748e70-c006-45f8-8681-772c1cecbafb')
+  .get('/formrecognizer/v2.0-preview/custom/models/5b08cfcc-850f-42c0-97e5-a297ea26a5b3')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"11748e70-c006-45f8-8681-772c1cecbafb","status":"ready","createdDateTime":"2020-06-26T21:23:49Z","lastUpdatedDateTime":"2020-06-26T21:24:00Z"},"keys":{"clusters":{"0":["Additional Notes:","Address:","Company Name:","Company Phone:","Dated As:","Details","Email:","Hero Limited","Name:","Phone:","Purchase Order","Purchase Order #:","Quantity","SUBTOTAL","Seattle, WA 93849 Phone:","Shipped From","Shipped To","TAX","TOTAL","Total","Unit Price","Vendor Name:","Website:"]}},"trainResult":{"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"errors":[],"status":"succeeded"}],"errors":[]}}, [
+  .reply(200, {"modelInfo":{"modelId":"5b08cfcc-850f-42c0-97e5-a297ea26a5b3","status":"creating","createdDateTime":"2020-05-02T20:00:25Z","lastUpdatedDateTime":"2020-05-02T20:00:25Z"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '5055',
+  '24',
   'apim-request-id',
-  '76214559-088b-43b1-a015-5a71f97212d4',
+  '30b136d2-7480-47c8-bde6-8ea1212b9357',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 26 Jun 2020 21:24:10 GMT',
-  'Connection',
-  'close'
+  'Sat, 02 May 2020 20:00:30 GMT'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.0-preview/custom/models/5b08cfcc-850f-42c0-97e5-a297ea26a5b3')
+  .query(true)
+  .reply(200, {"modelInfo":{"modelId":"5b08cfcc-850f-42c0-97e5-a297ea26a5b3","status":"ready","createdDateTime":"2020-05-02T20:00:25Z","lastUpdatedDateTime":"2020-05-02T20:00:32Z"},"keys":{"clusters":{"0":["Additional Notes:","Address:","Address:","Company Name:","Company Phone:","Dated As:","Email:","Hero Limited","Name:","Phone:","Phone:","Purchase Order","Purchase Order","Purchase Order #:","SUBTOTAL","Seattle, WA 93849 Phone:","Shipped From","Shipped To","TAX","TOTAL","Vendor Name:","Website:"]}},"trainResult":{"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"errors":[],"status":"succeeded"}],"errors":[]}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '40',
+  'apim-request-id',
+  'f51d423c-e98a-47e0-bc58-a91fd022bd79',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Sat, 02 May 2020 20:00:35 GMT'
 ]);
