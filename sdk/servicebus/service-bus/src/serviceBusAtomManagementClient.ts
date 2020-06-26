@@ -464,7 +464,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * If a property is not set, the service default value is used.
    * The suggested flow is:
    *  - Use `await getQueue(<queue-name>)` and obtain the getResponse.
-   *  - Update the required elements from the list of update properties in the `getResponse`.
+   *  - Update the required elements from the list of updatable properties in the `getResponse`.
    *  - Pass the updated description into this method.
    *
    * Following are errors that can be expected from this operation
@@ -708,7 +708,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * If a property is not set, the service default value is used.
    * The suggested flow is:
    *  - Use `await getTopic(<topic-name>)` and obtain the getResponse.
-   *  - Update the required elements from the list of update properties in the `getResponse`.
+   *  - Update the required elements from the list of updatable properties in the `getResponse`.
    *  - Pass the updated description into this method.
    *
    * Following are errors that can be expected from this operation
@@ -996,7 +996,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * If a property is not set, the service default value is used.
    * The suggested flow is:
    *  - Use `await getSubscription(<topic-name>, <subscription-name>)` and obtain the getResponse.
-   *  - Update the required elements from the list of update properties in the `getResponse`.
+   *  - Update the required elements from the list of updatable properties in the `getResponse`.
    *  - Pass the updated description into this method.
    *
    * Following are errors that can be expected from this operation
