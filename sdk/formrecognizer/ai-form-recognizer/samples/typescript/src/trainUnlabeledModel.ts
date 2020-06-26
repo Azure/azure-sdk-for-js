@@ -34,8 +34,8 @@ export async function main() {
 
   console.log(`Model ID: ${model.modelId}`);
   console.log(`Status: ${model.status}`);
-  console.log(`Requested on: ${model.trainingStartedOn}`);
-  console.log(`Completed on: ${model.trainingCompletedOn}`);
+  console.log(`Training started on: ${model.trainingStartedOn}`);
+  console.log(`Training completed on: ${model.trainingCompletedOn}`);
 
   if (model.submodels) {
     for (const submodel of model.submodels) {
