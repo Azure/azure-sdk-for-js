@@ -10,9 +10,10 @@ dotenv.config();
 
 import {
   createRecordedTrainingClient,
-  createRecordedRecognizerClient
+  createRecordedRecognizerClient,
+  testEnv
 } from "../util/recordedClients";
-import { FormRecognizerClient, TrainingDocumentInfo, FormTrainingClient } from "../../src";
+import { FormRecognizerClient, TrainingDocumentInfo, FormTrainingClient, AzureKeyCredential } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
@@ -23,9 +24,10 @@ let modelIdToDelete: string | undefined;
 describe("FormTrainingClient NodeJS only", () => {
   let trainingClient: FormTrainingClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
+    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this, apiKey));
   });
 
   afterEach(function() {
@@ -217,9 +219,10 @@ describe("FormTrainingClient NodeJS only", () => {
 describe("FormRecognizerClient form recognition NodeJS", () => {
   let recognizerClient: FormRecognizerClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this));
+    ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
   afterEach(function() {

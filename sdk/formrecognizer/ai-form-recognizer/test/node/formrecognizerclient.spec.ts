@@ -5,17 +5,18 @@ import { assert } from "chai";
 import fs from "fs-extra";
 import path from "path";
 
-import { FormRecognizerClient } from "../../src";
-import { createRecordedRecognizerClient } from "../util/recordedClients";
+import { FormRecognizerClient, AzureKeyCredential } from "../../src";
+import { createRecordedRecognizerClient, testEnv } from "../util/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 describe("FormRecognizerClient NodeJS only", () => {
   const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
   let client: FormRecognizerClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client } = createRecordedRecognizerClient(this));
+    ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
   afterEach(function() {
