@@ -18,7 +18,7 @@ import * as log from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
-import { OperationOptionsForHTTP } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -42,7 +42,7 @@ export async function executeAtomXmlOperation(
   serviceBusAtomManagementClient: ServiceClient,
   webResource: WebResource,
   serializer: AtomXmlSerializer,
-  operationOptions: OperationOptionsForHTTP
+  operationOptions: OperationOptions
 ): Promise<HttpOperationResponse> {
   if (webResource.body) {
     const content: object = serializer.serialize(webResource.body);

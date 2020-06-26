@@ -64,7 +64,7 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-import { OperationOptionsForHTTP } from "./modelsToBeSharedWithEventHubs";
+import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -289,7 +289,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *
    */
   async getNamespaceProperties(
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<NamespacePropertiesResponse> {
     log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
     const response: HttpOperationResponse = await this.getResource(
@@ -316,10 +316,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createQueue(
-    queueName: string,
-    operationOptions?: OperationOptionsForHTTP
-  ): Promise<QueueResponse>;
+  async createQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
   /**
    * Creates a queue configured using the given options
    * @param queue Options to configure the Queue being created.
@@ -338,11 +335,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async createQueue(
     queue: QueueDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<QueueResponse>;
   async createQueue(
     queueNameOrOptions: string | QueueDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     let queue: QueueDescription;
     if (typeof queueNameOrOptions === "string") {
@@ -379,10 +376,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueue(
-    queueName: string,
-    operationOptions?: OperationOptionsForHTTP
-  ): Promise<QueueResponse> {
+  async getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
       queueName,
@@ -409,7 +403,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getQueueRuntimeInfo(
     queueName: string,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<QueueRuntimeInfoResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
@@ -435,7 +429,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueues(options?: ListRequestOptions & OperationOptionsForHTTP): Promise<QueuesResponse> {
+  async getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
@@ -460,7 +454,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueuesRuntimeInfo(
-    options?: ListRequestOptions & OperationOptionsForHTTP
+    options?: ListRequestOptions & OperationOptions
   ): Promise<QueuesRuntimeInfoResponse> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
@@ -489,7 +483,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async updateQueue(
     queue: QueueDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     log.httpAtomXml(
       `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
@@ -534,10 +528,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async deleteQueue(
-    queueName: string,
-    operationOptions?: OperationOptionsForHTTP
-  ): Promise<Response> {
+  async deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
     log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.deleteResource(
       queueName,
@@ -552,10 +543,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Checks whether a given queue exists or not.
    * @param queueName
    */
-  async queueExists(
-    queueName: string,
-    operationOptions?: OperationOptionsForHTTP
-  ): Promise<boolean> {
+  async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
     log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
     try {
       await this.getQueue(queueName, operationOptions);
@@ -583,10 +571,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createTopic(
-    topicName: string,
-    operationOptions?: OperationOptionsForHTTP
-  ): Promise<TopicResponse>;
+  async createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
   /**
    * Creates a topic with given name, configured using the given options
    * @param topic Options to configure the Topic being created.
@@ -605,11 +590,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async createTopic(
     topic: TopicDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<TopicResponse>;
   async createTopic(
     topicNameOrOptions: string | TopicDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
     let topic: TopicDescription;
     if (typeof topicNameOrOptions === "string") {
@@ -646,10 +631,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopic(
-    topicName: string,
-    operationOptions?: OperationOptionsForHTTP
-  ): Promise<TopicResponse> {
+  async getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse> {
     log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
     const response: HttpOperationResponse = await this.getResource(
       topicName,
@@ -676,7 +658,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getTopicRuntimeInfo(
     topicName: string,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<TopicRuntimeInfoResponse> {
     log.httpAtomXml(`Performing management operation - getTopicRuntimeInfo() for "${topicName}"`);
     const response: HttpOperationResponse = await this.getResource(
@@ -702,7 +684,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopics(options?: ListRequestOptions & OperationOptionsForHTTP): Promise<TopicsResponse> {
+  async getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse> {
     log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
@@ -727,7 +709,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopicsRuntimeInfo(
-    options?: ListRequestOptions & OperationOptionsForHTTP
+    options?: ListRequestOptions & OperationOptions
   ): Promise<TopicsRuntimeInfoResponse> {
     log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
@@ -756,7 +738,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async updateTopic(
     topic: TopicDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
     log.httpAtomXml(
       `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
@@ -801,10 +783,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async deleteTopic(
-    topicName: string,
-    operationOptions?: OperationOptionsForHTTP
-  ): Promise<Response> {
+  async deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response> {
     log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
     const response: HttpOperationResponse = await this.deleteResource(
       topicName,
@@ -819,10 +798,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Checks whether a given topic exists or not.
    * @param topicName
    */
-  async topicExists(
-    topicName: string,
-    operationOptions?: OperationOptionsForHTTP
-  ): Promise<boolean> {
+  async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
     log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
     try {
       await this.getTopic(topicName, operationOptions);
@@ -854,7 +830,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createSubscription(
     topicName: string,
     subscriptionName: string,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse>;
 
   /**
@@ -875,15 +851,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async createSubscription(
     subscription: SubscriptionDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse>;
   async createSubscription(
     topicNameOrSubscriptionOptions: string | SubscriptionDescription,
-    subscriptionNameOrOperationOptions?: string | OperationOptionsForHTTP,
-    operationOptions?: OperationOptionsForHTTP
+    subscriptionNameOrOperationOptions?: string | OperationOptions,
+    operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
     let subscription: SubscriptionDescription;
-    let operOptions: OperationOptionsForHTTP | undefined;
+    let operOptions: OperationOptions | undefined;
     if (typeof topicNameOrSubscriptionOptions === "string") {
       if (subscriptionNameOrOperationOptions !== "string") {
         throw new Error("Subscription name provided is invalid");
@@ -934,7 +910,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getSubscription(
     topicName: string,
     subscriptionName: string,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
     log.httpAtomXml(
       `Performing management operation - getSubscription() for "${subscriptionName}"`
@@ -967,7 +943,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getSubscriptionRuntimeInfo(
     topicName: string,
     subscriptionName: string,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<SubscriptionRuntimeInfoResponse> {
     log.httpAtomXml(
       `Performing management operation - getSubscription() for "${subscriptionName}"`
@@ -999,7 +975,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getSubscriptions(
     topicName: string,
-    options?: ListRequestOptions & OperationOptionsForHTTP
+    options?: ListRequestOptions & OperationOptions
   ): Promise<SubscriptionsResponse> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptions() with options: ${options}`
@@ -1029,7 +1005,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getSubscriptionsRuntimeInfo(
     topicName: string,
-    options?: ListRequestOptions & OperationOptionsForHTTP
+    options?: ListRequestOptions & OperationOptions
   ): Promise<SubscriptionsRuntimeInfoResponse> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptions() with options: ${options}`
@@ -1060,7 +1036,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async updateSubscription(
     subscription: SubscriptionDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
     log.httpAtomXml(
       `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
@@ -1123,7 +1099,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async deleteSubscription(
     topicName: string,
     subscriptionName: string,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<Response> {
     log.httpAtomXml(
       `Performing management operation - deleteSubscription() for "${subscriptionName}"`
@@ -1147,7 +1123,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async subscriptionExists(
     topicName: string,
     subscriptionName: string,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<boolean> {
     log.httpAtomXml(
       `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
@@ -1184,7 +1160,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     rule: RuleDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     log.httpAtomXml(
       `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
@@ -1220,7 +1196,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptioName: string,
     ruleName: string,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
     const fullPath = this.getRulePath(topicName, subscriptioName, ruleName);
@@ -1251,7 +1227,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getRules(
     topicName: string,
     subscriptionName: string,
-    options?: ListRequestOptions & OperationOptionsForHTTP
+    options?: ListRequestOptions & OperationOptions
   ): Promise<RulesResponse> {
     log.httpAtomXml(`Performing management operation - listRules() with options: ${options}`);
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
@@ -1286,7 +1262,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     rule: RuleDescription,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     log.httpAtomXml(
       `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
@@ -1334,7 +1310,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
-    operationOptions?: OperationOptionsForHTTP
+    operationOptions?: OperationOptions
   ): Promise<Response> {
     log.httpAtomXml(`Performing management operation - deleteRule() for "${ruleName}"`);
     const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
@@ -1363,7 +1339,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       | RuleDescription,
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false,
-    operationOptions: OperationOptionsForHTTP = {}
+    operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
     webResource.body = entityFields;
@@ -1414,7 +1390,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async getResource(
     name: string,
     serializer: AtomXmlSerializer,
-    operationOptions: OperationOptionsForHTTP = {}
+    operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
@@ -1443,7 +1419,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   private async listResources(
     name: string,
-    listRequestOptions: ListRequestOptions & OperationOptionsForHTTP = {},
+    listRequestOptions: ListRequestOptions & OperationOptions = {},
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
     const queryParams: { [key: string]: string } = {};
@@ -1468,7 +1444,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async deleteResource(
     name: string,
     serializer: AtomXmlSerializer,
-    operationOptions: OperationOptionsForHTTP = {}
+    operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
     const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
 
