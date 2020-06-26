@@ -209,8 +209,8 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(result, "Expecting valid copy result");
     assert.equal(result?.modelId, targetAuth.modelId, "Expecting matching model ids");
     assert.equal(result!.status, "ready");
-    assert.ok(result!.requestedOn, "Expecting valid 'createOn' property");
-    assert.ok(result!.completedOn, "Expecting valid 'lastModified' property");
+    assert.ok(result!.trainingStartedOn, "Expecting valid 'trainingStartedOn' property");
+    assert.ok(result!.trainingCompletedOn, "Expecting valid 'trainingCompletedOn' property");
   });
 }).timeout(60000);
 

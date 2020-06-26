@@ -29,13 +29,13 @@ export async function main() {
   const model = await poller.pollUntilDone();
 
   if (!model) {
-    throw new Error("Expecting valid response!");
+    throw new Error("Expecting valid training result!");
   }
 
   console.log(`Model ID: ${model.modelId}`);
   console.log(`Status: ${model.status}`);
-  console.log(`Requested on: ${model.requestedOn}`);
-  console.log(`Completed on: ${model.completedOn}`);
+  console.log(`Requested on: ${model.trainingStartedOn}`);
+  console.log(`Completed on: ${model.trainingCompletedOn}`);
 
   if (model.submodels) {
     for (const submodel of model.submodels) {
