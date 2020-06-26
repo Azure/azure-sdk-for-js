@@ -1,6 +1,6 @@
 # Release History
 
-## 5.2.2 (Unreleased)
+## 5.2.2 (2020-06-30)
 
 - Fixes issue [#9289](https://github.com/Azure/azure-sdk-for-js/issues/9289)
   where calling `await subscription.close()` inside of a subscription's `processError`
