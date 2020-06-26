@@ -25,13 +25,15 @@ import {
   DeletedSecretBundle,
   DeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams,
-  SetSecretResponse,
-  DeleteSecretResponse,
-  UpdateSecretResponse,
-  GetSecretResponse,
-  GetDeletedSecretResponse,
-  BackupSecretResponse,
-  RestoreSecretResponse
+  KeyVaultClientSetSecretResponse,
+  KeyVaultClientDeleteSecretResponse,
+  KeyVaultClientUpdateSecretResponse,
+  KeyVaultClientGetSecretResponse,
+  KeyVaultClientGetDeletedSecretResponse,
+  KeyVaultClientBackupSecretResponse,
+  KeyVaultClientRestoreSecretResponse,
+  KeyVaultClientOptionalParams,
+  SecretUpdateParameters
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./generated/utils/constants";
@@ -183,10 +185,11 @@ export class SecretClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    const optionalParams: KeyVaultClientOptionalParams = {
+      ...pipeline,
+      apiVersion: pipelineOptions.apiVersion || LATEST_API_VERSION,
+    };
+    this.client = new KeyVaultClient(optionalParams);
   }
 
   /**
@@ -224,12 +227,12 @@ export class SecretClient {
 
       const span = this.createSpan("setSecret", unflattenedOptions);
 
-      let response: SetSecretResponse;
+      let response: KeyVaultClientSetSecretResponse;
       try {
         response = await this.client.setSecret(
           this.vaultUrl,
           secretName,
-          value,
+          { value },
           this.setParentSpan(span, unflattenedOptions)
         );
       } finally {
@@ -241,7 +244,7 @@ export class SecretClient {
       const response = await this.client.setSecret(
         this.vaultUrl,
         secretName,
-        value,
+        { value },
         requestOptions
       );
       return this.getSecretFromSecretBundle(response);
@@ -316,26 +319,27 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
 
     if (requestOptions) {
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
-      const unflattenedOptions = {
-        ...remainingOptions,
+      const { enabled, notBefore, expiresOn: expires } = requestOptions;
+
+      const span = this.createSpan("updateSecretProperties", requestOptions);
+      const optionalParams: SecretUpdateParameters = {
+        contentType: options.contentType,
+        tags: options.tags,
         secretAttributes: {
           enabled,
           notBefore,
           expires
-        }
+        },
       };
-
-      const span = this.createSpan("updateSecretProperties", unflattenedOptions);
-
-      let response: UpdateSecretResponse;
-
+  
+      let response: KeyVaultClientUpdateSecretResponse;
       try {
         response = await this.client.updateSecret(
           this.vaultUrl,
           secretName,
           secretVersion,
-          this.setParentSpan(span, unflattenedOptions)
+          optionalParams,
+          this.setParentSpan(span, requestOptions)
         );
       } finally {
         span.end();
@@ -373,7 +377,7 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getSecret", requestOptions);
 
-    let response: GetSecretResponse;
+    let response: KeyVaultClientGetSecretResponse;
     try {
       response = await this.client.getSecret(
         this.vaultUrl,
@@ -408,7 +412,7 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getDeletedSecret", requestOptions);
 
-    let response: GetDeletedSecretResponse;
+    let response: KeyVaultClientGetDeletedSecretResponse;
 
     try {
       response = await this.client.getDeletedSecret(
@@ -525,7 +529,7 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("backupSecret", requestOptions);
 
-    let response: BackupSecretResponse;
+    let response: KeyVaultClientBackupSecretResponse;
 
     try {
       response = await this.client.backupSecret(
@@ -552,7 +556,7 @@ export class SecretClient {
    * ```
    * @summary Restores a backed up secret to a vault.
    * @param {Uint8Array} secretBundleBackup The backup blob associated with a secret bundle.
-   * @param {RestoreSecretResponse} [options] The optional parameters.
+   * @param {KeyVaultClientRestoreSecretResponse} [options] The optional parameters.
    */
   public async restoreSecretBackup(
     secretBundleBackup: Uint8Array,
@@ -561,12 +565,12 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("restoreSecretBackup", requestOptions);
 
-    let response: RestoreSecretResponse;
+    let response: KeyVaultClientRestoreSecretResponse;
 
     try {
       response = await this.client.restoreSecret(
         this.vaultUrl,
-        secretBundleBackup,
+        { secretBundleBackup },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -591,7 +595,7 @@ export class SecretClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("deleteSecret", requestOptions);
 
-    let response: DeleteSecretResponse;
+    let response: KeyVaultClientDeleteSecretResponse;
     try {
       response = await this.client.deleteSecret(
         this.vaultUrl,
