@@ -8,8 +8,8 @@ import {
   Constants,
   WebResource,
   ServiceClientCredentials,
-  HttpHeaders,
-  HttpMethods
+  HttpHeadersLike,
+  HttpMethods,
 } from "@azure/ms-rest-js";
 import { HmacSha256Sign } from "./hmacSha256";
 import url from "url-parse";
@@ -55,7 +55,7 @@ export class BatchSharedKeyCredentials implements ServiceClientCredentials {
    */
   signRequest(webResource: WebResource): Promise<WebResource> {
     // Help function to get header value, if header without value, append a newline
-    function getvalueToAppend(value: HttpHeaders, headerName: string): string {
+    function getvalueToAppend(value: HttpHeadersLike, headerName: string): string {
       if (!value || !value.get(headerName)) {
         return "\n";
       } else {
@@ -64,7 +64,11 @@ export class BatchSharedKeyCredentials implements ServiceClientCredentials {
     }
 
     // Help function to get content length
-    function getContentLengthToAppend(value: HttpHeaders, method: HttpMethods, body: any): string {
+    function getContentLengthToAppend(
+      value: HttpHeadersLike,
+      method: HttpMethods,
+      body: any
+    ): string {
       if (!value || !value.get("Content-Length")) {
         // Get content length from body if available
         if (body) {
