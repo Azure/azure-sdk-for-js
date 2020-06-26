@@ -3,7 +3,7 @@ import { MessagingError, translate as amqpCommonTranslate } from "@azure/amqp-co
 
 /**
  * Translates the AQMP error received at the protocol layer or a generic Error into a MessagingError
- * with Sevice Bus specific rules.
+ * with Service Bus specific rules.
  *
  * @param {AmqpError} err The amqp error that was received.
  * @returns {MessagingError} MessagingError object.
