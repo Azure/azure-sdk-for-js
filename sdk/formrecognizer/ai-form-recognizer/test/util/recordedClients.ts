@@ -32,8 +32,9 @@ const replaceableVariables: { [k: string]: string } = {
   FORM_RECOGNIZER_ENDPOINT: "https://endpoint/",
   FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata?sastoken",
   FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken",
-  FORM_RECOGNIZER_TARGET_RESOURCE_REGION: "resource_region",
-  FORM_RECOGNIZER_TARGET_RESOURCE_ID: "resource_id"
+  FORM_RECOGNIZER_TARGET_RESOURCE_REGION: "westus2",
+  // fake resource id
+  FORM_RECOGNIZER_TARGET_RESOURCE_ID: "/subscriptions/e1367d46-77d4-4f57-8cfe-348edbdc84a3/resourceGroups/jstests/providers/Microsoft.CognitiveServices/accounts/jstests-fr"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {
@@ -46,8 +47,10 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string =>
-      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`),
-    // If we put ENDPOINT in replaceableVariables above, it will not capture
+      recording.replace(/"access_token"\s?:\s?"[^"]*"/g, `"access_token":"access_token"`)
+        .replace(/"accessToken"\s?:\s?"[^"]*"/g, `"accessToken":"accessToken"`)
+        .replace(/"targetResourceId"\s?:\s?"[^"]*"/g, `"targetResourceId":"${replaceableVariables["FORM_RECOGNIZER_TARGET_RESOURCE_ID"]}"`),
+      // If we put ENDPOINT in replaceableVariables above, it will not capture
     // the endpoint string used with nock, which will be expanded to
     // https://<endpoint>:443/ and therefore will not match, so we have to do
     // this instead.

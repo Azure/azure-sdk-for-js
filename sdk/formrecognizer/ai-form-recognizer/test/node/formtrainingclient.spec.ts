@@ -195,8 +195,7 @@ describe("FormTrainingClient NodeJS only", () => {
     }
   });
 
-  // TODO: re-enabling is tracked by https://github.com/azure/azure-sdk-for-js/issues/9072
-  it.skip("copies model", async function() {
+  it("copies model", async function() {
     // for testing purpose, copy into the same resource
     const resourceId = env.FORM_RECOGNIZER_TARGET_RESOURCE_ID;
     const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
