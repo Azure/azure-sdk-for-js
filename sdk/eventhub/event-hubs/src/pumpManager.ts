@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventHubClient } from "./impl/eventHubClient";
 import { EventPosition } from "./eventPosition";
 import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
@@ -9,6 +8,7 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
 import { logErrorStackTrace, logger } from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { ConnectionContext } from "./connectionContext";
 
 /**
  * The PumpManager handles the creation and removal of PartitionPumps.
@@ -28,7 +28,7 @@ export interface PumpManager {
    */
   createPump(
     startPosition: EventPosition,
-    eventHubClient: EventHubClient,
+    connectionContext: ConnectionContext,
     partitionProcessor: PartitionProcessor,
     abortSignal: AbortSignalLike
   ): Promise<void>;
@@ -96,13 +96,13 @@ export class PumpManagerImpl implements PumpManager {
   /**
    * Creates and starts a PartitionPump.
    * @param startPosition The position in the partition to start reading from.
-   * @param eventHubClient The EventHubClient to forward to the PartitionPump.
+   * @param connectionContext The ConnectionContext to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
    * @ignore
    */
   public async createPump(
     startPosition: EventPosition,
-    eventHubClient: EventHubClient,
+    connectionContext: ConnectionContext,
     partitionProcessor: PartitionProcessor,
     abortSignal: AbortSignalLike
   ): Promise<void> {
@@ -131,15 +131,17 @@ export class PumpManagerImpl implements PumpManager {
     logger.verbose(`[${this._eventProcessorName}] [${partitionId}] Creating a new pump.`);
 
     const pump = new PartitionPump(
-      eventHubClient,
+      connectionContext,
       partitionProcessor,
       startPosition,
       this._options
     );
 
     try {
-      await pump.start();
+      // Set the pump before starting it in case the user
+      // closes the subscription while `start()` is in progress.
       this._partitionIdToPumps[partitionId] = pump;
+      await pump.start();
     } catch (err) {
       logger.verbose(
         `[${this._eventProcessorName}] [${partitionId}] An error occured while adding/updating a pump: ${err}`

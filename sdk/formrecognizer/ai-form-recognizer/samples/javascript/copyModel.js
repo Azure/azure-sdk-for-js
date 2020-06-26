@@ -11,7 +11,7 @@ const { FormTrainingClient, AzureKeyCredential } = require("@azure/ai-form-recog
 // Load the .env file if it exists
 require("dotenv").config();
 
-export async function main() {
+async function main() {
   // You will need to set these environment variables or edit the following values
   // information about the source Form Recognizer resource
   const endpoint = process.env["FORM_RECOGNIZER_SOURCE_ENDPOINT"] || "<source cognitive services endpoint>";
@@ -32,8 +32,7 @@ export async function main() {
       console.log(`Copy model status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const result = poller.getResult();
+  const result = await poller.pollUntilDone();
 
   if (!result) {
       throw new Error("Expecting valid result from copy model operation");

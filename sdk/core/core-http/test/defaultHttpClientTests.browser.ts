@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import "chai/register-should";
 
@@ -27,7 +27,7 @@ describe("defaultHttpClient (browser)", function() {
     };
 
     it("for blob bodies", async function() {
-      let payload = new Blob([new Uint8Array(1024 * 1024)]);
+      const payload = new Blob([new Uint8Array(1024 * 1024)]);
       const size = undefined;
 
       httpMock.post("/bigfileupload", async (_url, _method, _body) => {

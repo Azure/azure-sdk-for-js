@@ -286,8 +286,8 @@ const datalakeServiceClient = new DataLakeServiceClient(
 
 async function main() {
   let i = 1;
-  let iter = await datalakeServiceClient.listFileSystems();
-  for await (const fileSystem of iter) {
+  let fileSystems = datalakeServiceClient.listFileSystems();
+  for await (const fileSystem of fileSystems) {
     console.log(`File system ${i++}: ${fileSystem.name}`);
   }
 }
@@ -429,8 +429,8 @@ async function main() {
   const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
   
   let i = 1;
-  let iter = await fileSystemClient.listPaths();
-  for await (const path of iter) {
+  let paths = fileSystemClient.listPaths();
+  for await (const path of paths) {
     console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
   }
 }

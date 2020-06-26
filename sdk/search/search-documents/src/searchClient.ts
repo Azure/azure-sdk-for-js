@@ -8,8 +8,7 @@ import {
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
-  operationOptionsToRequestOptionsBase,
-  ServiceClientCredentials
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
 import { KeyCredential } from "@azure/core-auth";
@@ -19,7 +18,6 @@ import { logger } from "./logger";
 import {
   AutocompleteResult,
   AutocompleteRequest,
-  SearchRequest,
   SuggestRequest,
   IndexDocumentsResult
 } from "./generated/data/models";
@@ -43,11 +41,12 @@ import {
   DeleteDocumentsOptions,
   SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  ContinuableSearchResult
+  SearchRequest
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { encode, decode } from "./base64";
+import * as utils from "./serviceUtils";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -66,7 +65,7 @@ export class SearchClient<T> {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2019-05-06-Preview";
+  public readonly apiVersion: string = "2020-06-30";
 
   /**
    * The endpoint of the search service
@@ -147,19 +146,7 @@ export class SearchClient<T> {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
     }
 
-    // The contract with the generated client requires a credential, even though it is never used
-    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
-    // throw an error if the client ever attempts to use it.
-    const dummyCredential: ServiceClientCredentials = {
-      signRequest() {
-        throw new Error(
-          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
-        );
-      }
-    };
-
     this.client = new GeneratedClient(
-      dummyCredential,
       this.apiVersion,
       this.endpoint,
       this.indexName,
@@ -199,7 +186,7 @@ export class SearchClient<T> {
   public async autocomplete<Fields extends keyof T>(
     searchText: string,
     suggesterName: string,
-    options: AutocompleteOptions<Fields>
+    options: AutocompleteOptions<Fields> = {}
   ): Promise<AutocompleteResult> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { searchFields, ...nonFieldOptions } = restOptions;
@@ -258,14 +245,18 @@ export class SearchClient<T> {
       const result = await this.client.documents.searchPost(
         {
           ...fullOptions,
+          includeTotalResultCount: fullOptions.includeTotalCount,
           searchText: searchText
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
 
       const { results, count, coverage, facets, nextLink, nextPageParameters } = result;
-      const converted: ContinuableSearchResult = {
-        results,
+
+      let modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
+
+      const converted: SearchDocumentsPageResult<T> = {
+        results: modifiedResults,
         count,
         coverage,
         facets,
@@ -362,6 +353,7 @@ export class SearchClient<T> {
       const pageResult = await this.searchDocuments(searchText, options);
 
       const { count, coverage, facets } = pageResult;
+
       return {
         count,
         coverage,
@@ -389,7 +381,7 @@ export class SearchClient<T> {
   public async suggest<Fields extends keyof T = never>(
     searchText: string,
     suggesterName: string,
-    options: SuggestOptions<Fields>
+    options: SuggestOptions<Fields> = {}
   ): Promise<SuggestDocumentsResult<Pick<T, Fields>>> {
     const { operationOptions, restOptions } = this.extractOperationOptions({ ...options });
     const { select, searchFields, orderBy, ...nonFieldOptions } = restOptions;
@@ -417,7 +409,12 @@ export class SearchClient<T> {
         fullOptions,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return deserialize<SuggestDocumentsResult<Pick<T, Fields>>>(result);
+
+      const modifiedResult = utils.generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
+        result
+      );
+
+      return deserialize<SuggestDocumentsResult<Pick<T, Fields>>>(modifiedResult);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

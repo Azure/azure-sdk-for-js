@@ -13,6 +13,7 @@ import {
 } from "../testHelpers";
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
+import { isNode } from "@azure/core-http";
 
 describe("http request related tests", function() {
   describe("unit tests", () => {
@@ -113,7 +114,7 @@ describe("http request related tests", function() {
     });
 
     it("custom client request ID", async () => {
-      const iterator = await client.listConfigurationSettings({
+      const iterator = client.listConfigurationSettings({
         requestOptions: {
           customHeaders: {
             "x-ms-client-request-id": "this is my custom client request id"
@@ -125,7 +126,7 @@ describe("http request related tests", function() {
     });
 
     it("default client request ID", async () => {
-      const iterator = await client.listConfigurationSettings();
+      const iterator = client.listConfigurationSettings();
       await iterator.next();
     });
   });
@@ -140,6 +141,11 @@ describe("http request related tests", function() {
     let scope: nock.Scope;
 
     beforeEach(function() {
+      if (nock == null || nock.recorder == null) {
+        this.skip();
+        return;
+      }
+
       syncTokens = new SyncTokens();
 
       client =
@@ -157,6 +163,10 @@ describe("http request related tests", function() {
     });
 
     afterEach(function() {
+      if (nock == null || nock.recorder == null) {
+        return;
+      }
+
       if (!this.currentTest?.isPending()) {
         assert.ok(scope.isDone());
       }

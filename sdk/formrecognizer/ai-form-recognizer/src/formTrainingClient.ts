@@ -9,8 +9,7 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  RestResponse,
-  ServiceClientCredentials
+  RestResponse 
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
@@ -201,18 +200,7 @@ export class FormTrainingClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    // The contract with the generated client requires a credential, even though it is never used
-    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
-    // throw an error if the client ever attempts to use it.
-    const dummyCredential: ServiceClientCredentials = {
-      signRequest() {
-        throw new Error(
-          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
-        );
-      }
-    };
-
-    this.client = new GeneratedClient(dummyCredential, this.endpointUrl, pipeline);
+    this.client = new GeneratedClient(this.endpointUrl, pipeline);
   }
 
   /**
@@ -473,8 +461,7 @@ export class FormTrainingClient {
    * const poller = await trainingClient.beginTraining(trainingFilesUrl, false, {
    *   onProgress: (state) => { console.log("training status: "); console.log(state); }
    * });
-   * await poller.pollUntilDone();
-   * const response = poller.getResult();
+   * const model = await poller.pollUntilDone();
    * ```
    * @summary Creates and trains a model
    * @param {string} trainingFilesUrl Accessible url to an Azure Storage Blob container storing the training documents
@@ -565,8 +552,7 @@ export class FormTrainingClient {
    *     console.log(`Copy model status: ${state.status}`);
    *   }
    * });
-   * await poller.pollUntilDone();
-   * const result = poller.getResult();
+   * const result = await poller.pollUntilDone();
    * ```
    * @summary Copies custom model to target resource
    * @param {string} modelId Id of the custom model in this resource to be copied to the target Form Recognizer resource

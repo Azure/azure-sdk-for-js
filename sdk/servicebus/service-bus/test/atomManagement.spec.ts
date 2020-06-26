@@ -2533,19 +2533,19 @@ async function listEntities(
   topicPath?: string,
   subscriptionPath?: string,
   skip?: number,
-  top?: number
+  maxCount?: number
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.getQueues({
-        skip: skip,
-        top: top
+        skip,
+        maxCount
       });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.getTopics({
-        skip: skip,
-        top: top
+        skip,
+        maxCount
       });
       return topicResponse;
     case EntityType.SUBSCRIPTION:
@@ -2556,7 +2556,7 @@ async function listEntities(
       }
       const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptions(
         topicPath,
-        { skip: skip, top: top }
+        { skip, maxCount }
       );
       return subscriptionResponse;
     case EntityType.RULE:
@@ -2568,7 +2568,7 @@ async function listEntities(
       const ruleResponse = await serviceBusAtomManagementClient.getRules(
         topicPath,
         subscriptionPath,
-        { skip: skip, top: top }
+        { skip, maxCount }
       );
       return ruleResponse;
   }

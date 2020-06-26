@@ -10,7 +10,12 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { TokenCredential, EventHubProducerClient, EventHubConsumerClient, Subscription } from "../src";
+import {
+  TokenCredential,
+  EventHubProducerClient,
+  EventHubConsumerClient,
+  Subscription
+} from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
 import { MessagingError } from "@azure/core-amqp";
@@ -457,7 +462,7 @@ describe("EventHubConsumerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       env[EnvVarKeys.EVENTHUB_NAME]
     );
-    testUserAgentString(consumerClient["_eventHubClient"]["_context"]);
+    testUserAgentString(consumerClient["_context"]);
     await consumerClient.close();
   });
 
@@ -469,7 +474,7 @@ describe("EventHubConsumerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_NAME],
       { userAgent: customUserAgent }
     );
-    testUserAgentString(consumerClient["_eventHubClient"]["_context"], customUserAgent);
+    testUserAgentString(consumerClient["_context"], customUserAgent);
     await consumerClient.close();
   });
 });
@@ -492,7 +497,7 @@ describe("EventHubProducerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       env[EnvVarKeys.EVENTHUB_NAME]
     );
-    testUserAgentString(producerClient["_client"]["_context"]);
+    testUserAgentString(producerClient["_context"]);
     await producerClient.close();
   });
 
@@ -503,7 +508,7 @@ describe("EventHubProducerClient User Agent String", function(): void {
       env[EnvVarKeys.EVENTHUB_NAME],
       { userAgent: customUserAgent }
     );
-    testUserAgentString(producerClient["_client"]["_context"], customUserAgent);
+    testUserAgentString(producerClient["_context"], customUserAgent);
     await producerClient.close();
   });
 });

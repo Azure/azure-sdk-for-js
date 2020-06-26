@@ -116,13 +116,8 @@ describe("RuntimeInformation", function(): void {
             name: rootSpan.name,
             children: [
               {
-                name: "Azure.EventHubs.getPartitionIds",
-                children: [
-                  {
-                    name: "Azure.EventHubs.getEventHubProperties",
-                    children: []
-                  }
-                ]
+                name: "Azure.EventHubs.getEventHubProperties",
+                children: []
               }
             ]
           }
@@ -158,13 +153,8 @@ describe("RuntimeInformation", function(): void {
             name: rootSpan.name,
             children: [
               {
-                name: "Azure.EventHubs.getPartitionIds",
-                children: [
-                  {
-                    name: "Azure.EventHubs.getEventHubProperties",
-                    children: []
-                  }
-                ]
+                name: "Azure.EventHubs.getEventHubProperties",
+                children: []
               }
             ]
           }

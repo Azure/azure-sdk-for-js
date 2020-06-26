@@ -25,8 +25,7 @@ async function main() {
       console.log(`training status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const response = poller.getResult();
+  const response = await poller.pollUntilDone();
 
   if (!response) {
     throw new Error("Expecting valid response!");

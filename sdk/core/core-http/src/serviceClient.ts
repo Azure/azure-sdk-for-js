@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { DefaultHttpClient } from "./defaultHttpClient";
@@ -135,7 +135,7 @@ export interface ServiceClientOptions {
   deserializationContentTypes?: DeserializationContentTypes;
   /**
    * The header name to use for the telemetry header while sending the request. If this is not
-   * specified, then "User-Agent" will be used when running on Node.js and "x-ms-command-name" will
+   * specified, then "User-Agent" will be used when running on Node.js and "x-ms-useragent" will
    * be used when running in a browser.
    */
   userAgentHeaderName?: string | ((defaultUserAgentHeaderName: string) => string);
@@ -212,7 +212,7 @@ export class ServiceClient {
         // build the correct scope name.
         const wrappedPolicyFactory: () => RequestPolicyFactory = () => {
           let bearerTokenPolicyFactory: RequestPolicyFactory | undefined = undefined;
-          let serviceClient = this;
+          const serviceClient = this;
           return {
             create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): RequestPolicy {
               if (bearerTokenPolicyFactory === undefined) {
@@ -668,7 +668,7 @@ export function createPipelineFromOptions(
   pipelineOptions: InternalPipelineOptions,
   authPolicyFactory?: RequestPolicyFactory
 ): ServiceClientOptions {
-  let requestPolicyFactories: RequestPolicyFactory[] = [];
+  const requestPolicyFactories: RequestPolicyFactory[] = [];
 
   let userAgentValue = undefined;
   if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {

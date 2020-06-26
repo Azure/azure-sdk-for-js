@@ -192,10 +192,6 @@ export const BigDataPoolResourceInfo: msRest.CompositeMapper = {
       },
       nodeCount: {
         serializedName: "properties.nodeCount",
-        constraints: {
-          InclusiveMaximum: 200,
-          InclusiveMinimum: 3
-        },
         type: {
           name: "Number"
         }
@@ -4702,6 +4698,45 @@ export const PrivateLinkResource: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateLinkHub: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkHub",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkHub",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkHubPatchInfo: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkHubPatchInfo",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkHubPatchInfo",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const BigDataPoolResourceInfoListResult: msRest.CompositeMapper = {
   serializedName: "BigDataPoolResourceInfoListResult",
   type: {
@@ -5196,6 +5231,34 @@ export const PrivateEndpointConnectionList: msRest.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkHubInfoListResult: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkHubInfoListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkHubInfoListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkHub"
+            }
+          }
         }
       }
     }

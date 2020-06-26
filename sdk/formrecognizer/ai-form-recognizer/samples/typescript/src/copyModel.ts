@@ -6,7 +6,7 @@
  * to a target Form Recognizer resource.
  */
 
-import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormTrainingClient, AzureKeyCredential, BeginCopyModelPollState } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -28,12 +28,11 @@ export async function main() {
 
   const sourceClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await sourceClient.beginCopyModel(sourceModelId, authorization, {
-    onProgress: (state) => {
+    onProgress: (state: BeginCopyModelPollState) => {
       console.log(`Copy model status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const result = poller.getResult();
+  const result = await poller.pollUntilDone();
 
   if (!result) {
       throw new Error("Expecting valid result from copy model operation");

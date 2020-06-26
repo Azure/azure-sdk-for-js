@@ -7,6 +7,8 @@
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
 /* eslint-disable @typescript-eslint/member-ordering */
 
+/// <reference lib="esnext.asynciterable" />
+
 import {
   TokenCredential,
   isTokenCredential,
@@ -140,8 +142,7 @@ import { SDK_VERSION } from "./core/utils/constants";
 import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
-
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
@@ -471,7 +472,6 @@ export class CertificateClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
-      credential,
       pipelineOptions.apiVersion || LATEST_API_VERSION,
       pipeline
     );

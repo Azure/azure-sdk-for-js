@@ -10,7 +10,7 @@
 
 # Core
 /sdk/core/abort-controller/ @chradek @xirzec @bterlson
-/sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft
+/sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 /sdk/core/core-auth/ @daviwil @xirzec @bterlson
 /sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
 /sdk/core/core-lro/ @sadasant @xirzec @bterlson
@@ -24,24 +24,26 @@
 /sdk/batch/ @xingwu1 @matthchr @bgklein
 /sdk/cosmosdb/ @southpolesteve @zfoster
 
-/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft
+/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 /sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
-/sdk/identity/ @schaabs @daviwil @jonathandturner
+/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
 /sdk/keyvault/ @jonathandturner @sadasant
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
+
+/sdk/tables/ @mahdiva @joheredi
 
 /sdk/test-utils/ @HarshaNalluru @sadasant
 /sdk/textanalytics/ @xirzec @willmtemple
 /sdk/formrecognizer/ @jeremymeng @willmtemple
 
-/sdk/search/ @xirzec
+/sdk/search/ @xirzec @sarangan12
 
 # Smoke Tests
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
-/sdk/**/review/*api.md @bterlson
+/sdk/**/review/*api.md @bterlson @xirzec
 
 # Management Plane
 /**/*Management*.ts @qiaozha
