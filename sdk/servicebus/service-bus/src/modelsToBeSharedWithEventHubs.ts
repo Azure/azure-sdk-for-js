@@ -11,7 +11,7 @@ import { OperationOptions } from "@azure/core-http";
  */
 // NOTE: This class is intended to mirror the relevant fields and structure from
 // @azure/core-http OperationOptions
-export type AMQPOperationOptions = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
+export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
 export { OperationOptions };
 
 /**
@@ -19,7 +19,7 @@ export { OperationOptions };
  * @ignore
  */
 export function getParentSpan(
-  options: Pick<AMQPOperationOptions, "tracingOptions">
+  options: Pick<OperationOptionsBase, "tracingOptions">
 ): Span | SpanContext | null | undefined {
   return options.tracingOptions?.spanOptions?.parent;
 }

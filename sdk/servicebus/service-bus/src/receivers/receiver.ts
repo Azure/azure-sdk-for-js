@@ -8,7 +8,7 @@ import {
   ReceiveMessagesOptions,
   SubscribeOptions
 } from "../models";
-import { AMQPOperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
@@ -68,7 +68,7 @@ export interface Receiver<ReceivedMessageT> {
    */
   receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options?: AMQPOperationOptions
+    options?: OperationOptionsBase
   ): Promise<ReceivedMessageT[]>;
   /**
    * Indicates whether the receiver is currently receiving messages or not.
@@ -232,7 +232,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _createStreamingReceiver(
     context: ClientEntityContext,
     options?: ReceiveOptions &
-      Pick<AMQPOperationOptions, "abortSignal"> & {
+      Pick<OperationOptionsBase, "abortSignal"> & {
         createStreamingReceiver?: (
           context: ClientEntityContext,
           options?: ReceiveOptions
@@ -319,7 +319,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    */
   async receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options: AMQPOperationOptions = {}
+    options: OperationOptionsBase = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
