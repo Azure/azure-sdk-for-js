@@ -8,6 +8,7 @@
 - Bug - Messages scheduled in parallel with the `scheduleMessage` method have the same sequence number in response.
   Fixed in [PR 9503](https://github.com/Azure/azure-sdk-for-js/pull/9503)
 - Management api updates (Includes breaking changes)
+
   - Following return types are changed to improve the API surface.
     - [Create,Get,Update]QueueResponse as QueueResponse, DeleteQueueResponse as Response, GetQueueRuntimeInfoResponse as QueueRuntimeInfoResponse.
       Similarly for topics, subscriptions and rules.
@@ -16,6 +17,13 @@
       [PR 9434](https://github.com/Azure/azure-sdk-for-js/pull/9434)
   - The property `top` in the options passed to any of the methods that get information for multiple entities like `getQueues` or `getQueuesRuntimeInfo` is renamed to `maxCount`.
     [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
+  - The behaviour for the update methods (`updateQueue`, `updateTopic` and `updateSubscription`) has been changed. Users are now expected to do the following in order to use the update methods.
+
+    - Use `await getQueue(<queue-name>)`(or `getTopic`, `getSubscription`) and obtain the getResponse.
+    - Update the required elements from the list of updatable properties in the `getResponse`.
+    - Pass the updated description to the update method.
+
+    This information has also been added to the doc strings of the respective methods. [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
 ## 7.0.0-preview.3 (2020-06-08)
 
