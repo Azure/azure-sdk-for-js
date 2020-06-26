@@ -73,8 +73,8 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 
 // @public
 export interface ListRequestOptions {
+    maxCount?: number;
     skip?: number;
-    top?: number;
 }
 
 // @public
