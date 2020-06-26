@@ -1179,7 +1179,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns an object representing the Rule with the given name along with all its properties.
    * @param topicName
-   * @param subscriptioName
+   * @param subscriptionName
    * @param ruleName
    *
    * Following are errors that can be expected from this operation
@@ -1194,12 +1194,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getRule(
     topicName: string,
-    subscriptioName: string,
+    subscriptionName: string,
     ruleName: string,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
-    const fullPath = this.getRulePath(topicName, subscriptioName, ruleName);
+    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
     const response: HttpOperationResponse = await this.getResource(
       fullPath,
       this.ruleResourceSerializer,

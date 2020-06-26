@@ -500,7 +500,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @returns void
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if the receiver is already in state of receiving messages.
-   * @throws MessagingErrormif the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
+   * @throws MessagingError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
    */
   private _registerMessageHandler(
     onMessage: OnMessage,
