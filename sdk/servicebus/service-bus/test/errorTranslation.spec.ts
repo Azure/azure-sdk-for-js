@@ -7,7 +7,7 @@ import { translate as translateFromAmqpCommon } from "@azure/amqp-common";
 import chai from "chai";
 const assert = chai.assert;
 
-describe.only("errorTranslation", () => {
+describe("errorTranslation", () => {
   it("quotaexceedederror's are treated as retryable for ServiceBus", async () => {
     const amqpError = {
       condition: "amqp:resource-limit-exceeded",
