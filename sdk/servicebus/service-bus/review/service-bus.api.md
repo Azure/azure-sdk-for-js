@@ -11,7 +11,7 @@ import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
-import { OperationOptions as OperationOptionsForHTTP } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
 import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
@@ -46,12 +46,12 @@ export interface CorrelationRuleFilter {
 }
 
 // @public
-export interface CreateBatchOptions extends OperationOptions {
+export interface CreateBatchOptions extends OperationOptionsForAMQP {
     maxSizeInBytes?: number;
 }
 
 // @public
-export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
+export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptionsForAMQP {
 }
 
 // @public
@@ -68,7 +68,7 @@ export { Delivery }
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
 // @public
-export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
+export interface GetMessageIteratorOptions extends OperationOptionsForAMQP, WaitTimeOptions {
 }
 
 // @public
@@ -115,13 +115,13 @@ export interface NamespaceProperties {
 export interface NamespacePropertiesResponse extends NamespaceProperties, Response {
 }
 
-// @public
-export type OperationOptions = Exclude<OperationOptionsForHTTP, "requestOptions">;
-
-export { OperationOptionsForHTTP }
+export { OperationOptions }
 
 // @public
-export interface PeekMessagesOptions extends OperationOptions {
+export type OperationOptionsForAMQP = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
+
+// @public
+export interface PeekMessagesOptions extends OperationOptionsForAMQP {
     fromSequenceNumber?: Long;
     maxMessageCount?: number;
 }
@@ -175,7 +175,7 @@ export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Resp
 }
 
 // @public
-export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
+export interface ReceiveBatchOptions extends OperationOptionsForAMQP, WaitTimeOptions {
 }
 
 // @public
@@ -215,8 +215,8 @@ export interface Receiver<ReceivedMessageT> {
     isReceivingMessages(): boolean;
     peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
     receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
-    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptionsForAMQP): Promise<ReceivedMessageT | undefined>;
+    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptionsForAMQP): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
@@ -295,39 +295,39 @@ export interface ServiceBusClientOptions {
 export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
-    createQueue(queueName: string, operationOptions?: OperationOptionsForHTTP): Promise<QueueResponse>;
-    createQueue(queue: QueueDescription, operationOptions?: OperationOptionsForHTTP): Promise<QueueResponse>;
-    createRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptionsForHTTP): Promise<RuleResponse>;
-    createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptionsForHTTP): Promise<SubscriptionResponse>;
-    createSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptionsForHTTP): Promise<SubscriptionResponse>;
-    createTopic(topicName: string, operationOptions?: OperationOptionsForHTTP): Promise<TopicResponse>;
-    createTopic(topic: TopicDescription, operationOptions?: OperationOptionsForHTTP): Promise<TopicResponse>;
-    deleteQueue(queueName: string, operationOptions?: OperationOptionsForHTTP): Promise<Response>;
-    deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptionsForHTTP): Promise<Response>;
-    deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptionsForHTTP): Promise<Response>;
-    deleteTopic(topicName: string, operationOptions?: OperationOptionsForHTTP): Promise<Response>;
-    getNamespaceProperties(operationOptions?: OperationOptionsForHTTP): Promise<NamespacePropertiesResponse>;
-    getQueue(queueName: string, operationOptions?: OperationOptionsForHTTP): Promise<QueueResponse>;
-    getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptionsForHTTP): Promise<QueueRuntimeInfoResponse>;
-    getQueues(options?: ListRequestOptions & OperationOptionsForHTTP): Promise<QueuesResponse>;
-    getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptionsForHTTP): Promise<QueuesRuntimeInfoResponse>;
-    getRule(topicName: string, subscriptioName: string, ruleName: string, operationOptions?: OperationOptionsForHTTP): Promise<RuleResponse>;
-    getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptionsForHTTP): Promise<RulesResponse>;
-    getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptionsForHTTP): Promise<SubscriptionResponse>;
-    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string, operationOptions?: OperationOptionsForHTTP): Promise<SubscriptionRuntimeInfoResponse>;
-    getSubscriptions(topicName: string, options?: ListRequestOptions & OperationOptionsForHTTP): Promise<SubscriptionsResponse>;
-    getSubscriptionsRuntimeInfo(topicName: string, options?: ListRequestOptions & OperationOptionsForHTTP): Promise<SubscriptionsRuntimeInfoResponse>;
-    getTopic(topicName: string, operationOptions?: OperationOptionsForHTTP): Promise<TopicResponse>;
-    getTopicRuntimeInfo(topicName: string, operationOptions?: OperationOptionsForHTTP): Promise<TopicRuntimeInfoResponse>;
-    getTopics(options?: ListRequestOptions & OperationOptionsForHTTP): Promise<TopicsResponse>;
-    getTopicsRuntimeInfo(options?: ListRequestOptions & OperationOptionsForHTTP): Promise<TopicsRuntimeInfoResponse>;
-    queueExists(queueName: string, operationOptions?: OperationOptionsForHTTP): Promise<boolean>;
-    subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptionsForHTTP): Promise<boolean>;
-    topicExists(topicName: string, operationOptions?: OperationOptionsForHTTP): Promise<boolean>;
-    updateQueue(queue: QueueDescription, operationOptions?: OperationOptionsForHTTP): Promise<QueueResponse>;
-    updateRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptionsForHTTP): Promise<RuleResponse>;
-    updateSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptionsForHTTP): Promise<SubscriptionResponse>;
-    updateTopic(topic: TopicDescription, operationOptions?: OperationOptionsForHTTP): Promise<TopicResponse>;
+    createQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    createQueue(queue: QueueDescription, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    createRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    createSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    createTopic(topic: TopicDescription, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
+    deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
+    deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
+    deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
+    getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
+    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
+    getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse>;
+    getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimeInfoResponse>;
+    getRule(topicName: string, subscriptioName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptions): Promise<RulesResponse>;
+    getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimeInfoResponse>;
+    getSubscriptions(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsResponse>;
+    getSubscriptionsRuntimeInfo(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsRuntimeInfoResponse>;
+    getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    getTopicRuntimeInfo(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimeInfoResponse>;
+    getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse>;
+    getTopicsRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<TopicsRuntimeInfoResponse>;
+    queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
+    subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
+    topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
+    updateQueue(queue: QueueDescription, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    updateRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    updateSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    updateTopic(topic: TopicDescription, operationOptions?: OperationOptions): Promise<TopicResponse>;
 }
 
 // @public
@@ -373,11 +373,11 @@ export interface SessionMessageHandlerOptions {
 
 // @public
 export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
-    getState(options?: OperationOptions): Promise<any>;
-    renewSessionLock(options?: OperationOptions): Promise<Date>;
+    getState(options?: OperationOptionsForAMQP): Promise<any>;
+    renewSessionLock(options?: OperationOptionsForAMQP): Promise<Date>;
     readonly sessionId: string;
     sessionLockedUntilUtc: Date | undefined;
-    setState(state: any, options?: OperationOptions): Promise<void>;
+    setState(state: any, options?: OperationOptionsForAMQP): Promise<void>;
 }
 
 // @public
@@ -405,7 +405,7 @@ export interface SqlRuleFilter {
 }
 
 // @public
-export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {
+export interface SubscribeOptions extends OperationOptionsForAMQP, MessageHandlerOptions {
 }
 
 // @public
