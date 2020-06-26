@@ -203,7 +203,7 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 }
 
 // @public
-export interface ReceiveMessagesOptions extends OperationOptions, WaitTimeOptions {
+export interface ReceiveMessagesOptions extends AMQPOperationOptions, WaitTimeOptions {
 }
 
 // @public
@@ -214,7 +214,7 @@ export interface Receiver<ReceivedMessageT> {
     isClosed: boolean;
     isReceivingMessages(): boolean;
     peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
-    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: AMQPOperationOptions): Promise<ReceivedMessageT[]>;
     receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
@@ -306,7 +306,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
     getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse>;
     getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimeInfoResponse>;
-    getRule(topicName: string, subscriptioName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
     getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptions): Promise<RulesResponse>;
     getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimeInfoResponse>;
