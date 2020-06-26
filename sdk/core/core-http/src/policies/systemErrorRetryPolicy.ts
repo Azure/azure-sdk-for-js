@@ -20,7 +20,7 @@ import {
   DEFAULT_CLIENT_RETRY_INTERVAL,
   DEFAULT_CLIENT_MIN_RETRY_INTERVAL,
   isNumber
-} from "../util/exponentialBackOffRetry";
+} from "../util/exponentialBackoffStrategy";
 
 export function systemErrorRetryPolicy(
   retryCount?: number,
@@ -93,7 +93,7 @@ async function retry(
 ): Promise<HttpOperationResponse> {
   retryData = updateRetryData(policy, retryData, err);
 
-  function initialCheck(_response?: HttpOperationResponse, error?: RetryError) {
+  function shouldPolicyRetry(_response?: HttpOperationResponse, error?: RetryError) {
     if (
       error &&
       error.code &&
@@ -108,7 +108,7 @@ async function retry(
     return false;
   }
 
-  if (shouldRetry(policy.retryCount, initialCheck, retryData, operationResponse, err)) {
+  if (shouldRetry(policy.retryCount, shouldPolicyRetry, retryData, operationResponse, err)) {
     // If previous operation ended with an error and the policy allows a retry, do that
     try {
       await utils.delay(retryData.retryInterval);

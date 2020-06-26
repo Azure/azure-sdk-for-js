@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { SystemErrorRetryPolicy } from "../../src/policies/systemErrorRetryPolicy";
-import { RetryError } from "../../src/util/exponentialBackOffRetry";
+import { RetryError } from "../../src/util/exponentialBackoffStrategy";
 import { WebResource } from "../../src/webResource";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";

@@ -44,13 +44,7 @@ export function shouldRetry(
     return false;
   }
 
-  let currentCount: number;
-  if (!retryData) {
-    throw new Error("retryData for cannot be null.");
-  } else {
-    currentCount = retryData && retryData.retryCount;
-  }
-  return currentCount < retryLimit;
+  return retryData.retryCount < retryLimit;
 }
 
 /**
@@ -58,21 +52,14 @@ export function shouldRetry(
  * Updates the retry data for the next attempt.
  *
  * @param {RetryPolicyOptions} retryOptions specifies retry interval, and its lower bound and upper bound.
- * @param {RetryData} retryData  The retry data.
+ * @param {RetryData} [retryData]  The retry data.
  * @param {RetryError} [err] The operation"s error, if any.
  */
 export function updateRetryData(
   retryOptions: { retryInterval: number; minRetryInterval: number; maxRetryInterval: number },
-  retryData?: RetryData,
+  retryData: RetryData = { retryCount: 0, retryInterval: 0 },
   err?: RetryError
 ): RetryData {
-  if (!retryData) {
-    retryData = {
-      retryCount: 0,
-      retryInterval: 0
-    };
-  }
-
   if (err) {
     if (retryData.error) {
       err.innerError = retryData.error;

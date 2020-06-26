@@ -19,7 +19,7 @@ import {
   DEFAULT_CLIENT_RETRY_COUNT,
   DEFAULT_CLIENT_RETRY_INTERVAL,
   isNumber
-} from "../util/exponentialBackOffRetry";
+} from "../util/exponentialBackoffStrategy";
 import { RestError } from "../restError";
 import { logger } from "../log";
 
@@ -140,20 +140,11 @@ async function retry(
   retryData?: RetryData,
   requestError?: RetryError
 ): Promise<HttpOperationResponse> {
-  retryData = updateRetryData(
-    {
-      retryInterval: policy.retryInterval,
-      minRetryInterval: 0,
-      maxRetryInterval: policy.maxRetryInterval
-    },
-    retryData,
-    requestError
-  );
-  function initialCheck(response?: HttpOperationResponse, _error?: RetryError) {
+  function shouldPolicyRetry(response?: HttpOperationResponse) {
     if (response) {
       const statusCode = response.status;
       if (
-        statusCode == undefined ||
+        statusCode === undefined ||
         (statusCode < 500 && statusCode !== 408) ||
         statusCode === 501 ||
         statusCode === 505
@@ -164,8 +155,18 @@ async function retry(
     return true;
   }
 
+  retryData = updateRetryData(
+    {
+      retryInterval: policy.retryInterval,
+      minRetryInterval: 0,
+      maxRetryInterval: policy.maxRetryInterval
+    },
+    retryData,
+    requestError
+  );
+
   const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
-  if (!isAborted && shouldRetry(policy.retryCount, initialCheck, retryData, response)) {
+  if (!isAborted && shouldRetry(policy.retryCount, shouldPolicyRetry, retryData, response)) {
     logger.info(`Retrying request in ${retryData.retryInterval}`);
     await utils.delay(retryData.retryInterval);
     const res = await policy._nextPolicy.sendRequest(request.clone());
@@ -185,7 +186,7 @@ async function retry(
         response && response.request,
         response
       );
-    return Promise.reject(err);
+    throw err;
   } else {
     return response;
   }
