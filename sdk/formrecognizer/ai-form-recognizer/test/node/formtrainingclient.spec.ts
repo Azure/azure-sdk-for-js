@@ -390,3 +390,27 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     );
   });
 }).timeout(60000);
+
+describe("[AAD] FormTrainingClient NodeJS only", () => {
+  let trainingClient: FormTrainingClient;
+  let recorder: Recorder;
+
+  beforeEach(function() {
+    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
+  });
+
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
+    }
+  });
+
+  it("getAccountProperties() gets model count and limit for this account", async () => {
+    const properties = await trainingClient.getAccountProperties();
+
+    assert.ok(
+      properties.customModelLimit > 0,
+      `Expecting maximum number of models in account but got ${properties.customModelLimit}`
+    );
+  });
+}).timeout(60000);
