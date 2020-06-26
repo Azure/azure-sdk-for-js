@@ -51,7 +51,10 @@ export interface Receiver<ReceivedMessageT> {
    * @param maxMessages The maximum number of messages to accept.
    * @param options Options for receiveMessages
    */
-  receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
+  receiveMessages(
+    maxMessages: number,
+    options?: ReceiveMessagesOptions
+  ): Promise<ReceivedMessageT[]>;
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
@@ -65,7 +68,7 @@ export interface Receiver<ReceivedMessageT> {
    */
   receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options?: OperationOptions
+    options?: AMQPOperationOptions
   ): Promise<ReceivedMessageT[]>;
   /**
    * Indicates whether the receiver is currently receiving messages or not.
@@ -316,7 +319,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    */
   async receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options: OperationOptions = {}
+    options: AMQPOperationOptions = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(

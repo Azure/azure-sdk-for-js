@@ -381,7 +381,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options: OperationOptions = {}
+    options: AMQPOperationOptions = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
