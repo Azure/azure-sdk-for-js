@@ -450,7 +450,22 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Updates properties on the Queue by the given name based on the given options
    * @param queue Options to configure the Queue being updated.
-   * For example, you can configure a queue to support partitions or sessions.
+   *
+   * Update request allows only a subset of properties from QueueDescription to be changed
+   *  https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue
+   *  Updatable properties:
+   *   - defaultMessageTimeToLive
+   *   - lockDuration
+   *   - deadLetteringOnMessageExpiration
+   *   - duplicateDetectionHistoryTimeWindow
+   *   - maxDeliveryCount
+   *
+   * The `queue` param must be fully populated as all of the properties are replaced with the update API.
+   * If a property is not set, the service default value is used.
+   * The suggested flow is:
+   *  - Use `await getQueue(<queue-name>)` and obtain the getResponse.
+   *  - Update the required elements from the list of update properties in the `getResponse`.
+   *  - Pass the updated description into this method.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -477,13 +492,9 @@ export class ServiceBusManagementClient extends ServiceClient {
       throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
     }
 
-    const finalQueueOptions: QueueDescription = { name: queue.name };
-    const getQueueResult = await this.getQueue(queue.name);
-    Object.assign(finalQueueOptions, getQueueResult, queue);
-
     const response: HttpOperationResponse = await this.putResource(
       queue.name,
-      buildQueueOptions(finalQueueOptions),
+      buildQueueOptions(queue),
       this.queueResourceSerializer,
       true
     );
@@ -686,7 +697,19 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Updates properties on the Topic by the given name based on the given options
    * @param topic Options to configure the Topic being updated.
-   * For example, you can configure a topic to support partitions or sessions.
+   *
+   * Update request allows only a subset of properties from TopicDescription to be changed
+   *  https://docs.microsoft.com/en-us/rest/api/servicebus/update-topic
+   *  Updatable properties:
+   *   - defaultMessageTimeToLive
+   *   - duplicateDetectionHistoryTimeWindow
+   *
+   * The `topic` param must be fully populated as all of the properties are replaced with the update API.
+   * If a property is not set, the service default value is used.
+   * The suggested flow is:
+   *  - Use `await getTopic(<topic-name>)` and obtain the getResponse.
+   *  - Update the required elements from the list of update properties in the `getResponse`.
+   *  - Pass the updated description into this method.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -713,13 +736,9 @@ export class ServiceBusManagementClient extends ServiceClient {
       throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
     }
 
-    const finalTopicOptions: TopicDescription = { name: topic.name };
-    const getTopicResult = await this.getTopic(topic.name);
-    Object.assign(finalTopicOptions, getTopicResult, topic);
-
     const response: HttpOperationResponse = await this.putResource(
       topic.name,
-      buildTopicOptions(finalTopicOptions),
+      buildTopicOptions(topic),
       this.topicResourceSerializer,
       true
     );
@@ -966,7 +985,19 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Updates properties on the Subscription by the given name based on the given options
    * @param subscription Options to configure the Subscription being updated.
-   * For example, you can configure a Subscription to support partitions or sessions.
+   *
+   * Update request allows only a subset of properties from SubscriptionDescription to be changed
+   *  Updatable properties:
+   *   - lockDuration
+   *   - deadLetteringOnMessageExpiration
+   *   - maxDeliveryCount
+   *
+   * The `subscription` param must be fully populated as all of the properties are replaced with the update API.
+   * If a property is not set, the service default value is used.
+   * The suggested flow is:
+   *  - Use `await getSubscription(<topic-name>, <subscription-name>)` and obtain the getResponse.
+   *  - Update the required elements from the list of update properties in the `getResponse`.
+   *  - Pass the updated description into this method.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1000,19 +1031,9 @@ export class ServiceBusManagementClient extends ServiceClient {
       subscription.subscriptionName
     );
 
-    const finalSubscriptionOptions: SubscriptionDescription = {
-      topicName: subscription.topicName,
-      subscriptionName: subscription.subscriptionName
-    };
-    const getSubscriptionResult = await this.getSubscription(
-      subscription.topicName,
-      subscription.subscriptionName
-    );
-    Object.assign(finalSubscriptionOptions, getSubscriptionResult, subscription);
-
     const response: HttpOperationResponse = await this.putResource(
       fullPath,
-      buildSubscriptionOptions(finalSubscriptionOptions),
+      buildSubscriptionOptions(subscription),
       this.subscriptionResourceSerializer,
       true
     );
