@@ -1,7 +1,7 @@
 {
   "plugins": ["@azure/azure-sdk"],
   "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
-  "ignorePatterns": ["src/core"],
+  "ignorePatterns": ["src/generated"],
   "rules": {
     "@typescript-eslint/no-this-alias": "off",
     "no-invalid-this": "off",
