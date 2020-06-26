@@ -21,9 +21,6 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
-export type AMQPOperationOptions = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
-
-// @public
 export type AuthorizationRule = {
     claimType: string;
     claimValue: string;
@@ -49,12 +46,12 @@ export interface CorrelationRuleFilter {
 }
 
 // @public
-export interface CreateBatchOptions extends AMQPOperationOptions {
+export interface CreateBatchOptions extends OperationOptionsBase {
     maxSizeInBytes?: number;
 }
 
 // @public
-export interface CreateSessionReceiverOptions extends SessionReceiverOptions, AMQPOperationOptions {
+export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptionsBase {
 }
 
 // @public
@@ -71,7 +68,7 @@ export { Delivery }
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
 // @public
-export interface GetMessageIteratorOptions extends AMQPOperationOptions, WaitTimeOptions {
+export interface GetMessageIteratorOptions extends OperationOptionsBase, WaitTimeOptions {
 }
 
 // @public
@@ -121,7 +118,10 @@ export interface NamespacePropertiesResponse extends NamespaceProperties, Respon
 export { OperationOptions }
 
 // @public
-export interface PeekMessagesOptions extends AMQPOperationOptions {
+export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
+
+// @public
+export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long;
     maxMessageCount?: number;
 }
@@ -203,7 +203,7 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 }
 
 // @public
-export interface ReceiveMessagesOptions extends AMQPOperationOptions, WaitTimeOptions {
+export interface ReceiveMessagesOptions extends OperationOptionsBase, WaitTimeOptions {
 }
 
 // @public
@@ -214,7 +214,7 @@ export interface Receiver<ReceivedMessageT> {
     isClosed: boolean;
     isReceivingMessages(): boolean;
     peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
-    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: AMQPOperationOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ReceivedMessageT[]>;
     receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
@@ -368,11 +368,11 @@ export interface SessionMessageHandlerOptions {
 
 // @public
 export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
-    getState(options?: AMQPOperationOptions): Promise<any>;
-    renewSessionLock(options?: AMQPOperationOptions): Promise<Date>;
+    getState(options?: OperationOptionsBase): Promise<any>;
+    renewSessionLock(options?: OperationOptionsBase): Promise<Date>;
     readonly sessionId: string;
     sessionLockedUntilUtc: Date | undefined;
-    setState(state: any, options?: AMQPOperationOptions): Promise<void>;
+    setState(state: any, options?: OperationOptionsBase): Promise<void>;
 }
 
 // @public
@@ -400,7 +400,7 @@ export interface SqlRuleFilter {
 }
 
 // @public
-export interface SubscribeOptions extends AMQPOperationOptions, MessageHandlerOptions {
+export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOptions {
 }
 
 // @public
