@@ -13,7 +13,6 @@ import {
 } from "../testHelpers";
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-http";
 
 describe("http request related tests", function() {
   describe("unit tests", () => {
