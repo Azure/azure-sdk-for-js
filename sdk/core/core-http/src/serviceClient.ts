@@ -254,9 +254,7 @@ export class ServiceClient {
   /**
    * Send the provided httpRequest.
    */
-  async sendRequest(
-    options: RequestPrepareOptions | WebResourceLike
-  ): Promise<HttpOperationResponse> {
+  sendRequest(options: RequestPrepareOptions | WebResourceLike): Promise<HttpOperationResponse> {
     if (options === null || options === undefined || typeof options !== "object") {
       throw new Error("options cannot be null or undefined and it must be of type object.");
     }
@@ -283,10 +281,7 @@ export class ServiceClient {
         );
       }
     }
-    console.log(httpRequest.headers);
-    const resp = await httpPipeline.sendRequest(httpRequest);
-    console.log(resp.headers);
-    return resp;
+    return httpPipeline.sendRequest(httpRequest);
   }
 
   /**
