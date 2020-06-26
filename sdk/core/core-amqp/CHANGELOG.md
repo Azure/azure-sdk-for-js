@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.1.4 (2020-06-30)
 
 - Fixes issue [9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
   where operations that used the `RequestResponseLink` and encountered an error
