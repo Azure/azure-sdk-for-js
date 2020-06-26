@@ -83,7 +83,7 @@ export interface ListRequestOptions {
   /**
    * Count of entities to fetch.
    */
-  top?: number;
+  maxCount?: number;
 
   /**
    * Count of entities to skip from being fetched.
@@ -1427,8 +1427,8 @@ export class ServiceBusManagementClient extends ServiceClient {
       if (listRequestOptions.skip) {
         queryParams["$skip"] = listRequestOptions.skip.toString();
       }
-      if (listRequestOptions.top) {
-        queryParams["$top"] = listRequestOptions.top.toString();
+      if (listRequestOptions.maxCount) {
+        queryParams["$top"] = listRequestOptions.maxCount.toString();
       }
     }
 

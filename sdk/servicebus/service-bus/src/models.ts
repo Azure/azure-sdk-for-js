@@ -56,7 +56,7 @@ export interface CreateBatchOptions extends AMQPOperationOptions {
 /**
  * Options when receiving a batch of messages from Service Bus.
  */
-export interface ReceiveBatchOptions extends AMQPOperationOptions, WaitTimeOptions {}
+export interface ReceiveMessagesOptions extends AMQPOperationOptions, WaitTimeOptions {}
 
 /**
  * Options when getting an iterable iterator from Service Bus.

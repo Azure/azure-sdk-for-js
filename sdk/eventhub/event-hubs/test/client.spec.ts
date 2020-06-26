@@ -10,7 +10,12 @@ import chaiString from "chai-string";
 chai.use(chaiString);
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:client-spec");
-import { TokenCredential, EventHubProducerClient, EventHubConsumerClient, Subscription } from "../src";
+import {
+  TokenCredential,
+  EventHubProducerClient,
+  EventHubConsumerClient,
+  Subscription
+} from "../src";
 import { packageJsonInfo } from "../src/util/constants";
 import { EnvVarKeys, getEnvVars, isNode } from "./utils/testUtils";
 import { MessagingError } from "@azure/core-amqp";
