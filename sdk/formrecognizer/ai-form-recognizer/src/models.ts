@@ -416,7 +416,7 @@ export interface CustomFormModelInfo {
    */
   status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the custom model training request was received.
+   * Date and time (UTC) when the custom model training started.
    */
   trainingStartedOn: Date;
   /**
@@ -471,7 +471,7 @@ export interface CustomFormModel {
    */
   status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the custom model training request was received.
+   * Date and time (UTC) when the custom model training started.
    */
   trainingStartedOn: Date;
   /**
