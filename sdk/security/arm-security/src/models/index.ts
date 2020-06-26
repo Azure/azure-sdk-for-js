@@ -1400,7 +1400,7 @@ export interface IoTSecuritySolutionModel {
   /**
    * Workspace resource ID
    */
-  workspace: string;
+  workspace?: string;
   /**
    * Resource display name.
    */
@@ -2166,25 +2166,6 @@ export interface RegulatoryComplianceAssessment extends Resource {
 }
 
 /**
- * Describes the server vulnerability assessment details on a resource
- */
-export interface ServerVulnerabilityAssessment extends Resource {
-  /**
-   * The provisioningState of the vulnerability assessment capability on the VM. Possible values
-   * include: 'Succeeded', 'Failed', 'Canceled', 'Provisioning', 'Deprovisioning'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/**
- * List of server vulnerability assessments
- */
-export interface ServerVulnerabilityAssessmentsList {
-  value?: ServerVulnerabilityAssessment[];
-}
-
-/**
  * Status of the sub-assessment
  */
 export interface SubAssessmentStatus {
@@ -2729,6 +2710,25 @@ export interface AlertsSuppressionRule extends Resource {
    * The suppression conditions
    */
   suppressionAlertsScope?: SuppressionAlertsScope;
+}
+
+/**
+ * Describes the server vulnerability assessment details on a resource
+ */
+export interface ServerVulnerabilityAssessment extends Resource {
+  /**
+   * The provisioningState of the vulnerability assessment capability on the VM. Possible values
+   * include: 'Succeeded', 'Failed', 'Canceled', 'Provisioning', 'Deprovisioning'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
+/**
+ * List of server vulnerability assessments
+ */
+export interface ServerVulnerabilityAssessmentsList {
+  value?: ServerVulnerabilityAssessment[];
 }
 
 /**
@@ -3807,17 +3807,17 @@ export interface AadConnectivityState1 {
  */
 export interface SecureScoreItem extends Resource {
   /**
-   * User friendly display name of the secure score item
+   * The initiative’s name
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly displayName?: string;
   /**
-   * Maximum score applicable
+   * Maximum score available
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly max?: number;
   /**
-   * Actual score
+   * Current score
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly current?: number;
@@ -3841,13 +3841,12 @@ export interface SecureScoreControlScore {
 }
 
 /**
- * representing the source of the control
+ * The type of the security control (For example, BuiltIn)
  */
 export interface SecureScoreControlDefinitionSource {
   /**
-   * BuiltIn if the control is built-in from Azure Security Center managed assessments, Custom
-   * (Future) if the assessment based on custom Azure Policy definition, CustomerManaged (future)
-   * for customers who build their own controls. Possible values include: 'BuiltIn', 'Custom'
+   * The type of security control (for example, BuiltIn). Possible values include: 'BuiltIn',
+   * 'Custom'
    */
   sourceType?: ControlType;
 }
@@ -3864,7 +3863,7 @@ export interface AzureResourceLink {
 }
 
 /**
- * Secure Score Control's Definition information
+ * Information about the security control.
  */
 export interface SecureScoreControlDefinitionItem extends Resource {
   /**
@@ -3888,14 +3887,14 @@ export interface SecureScoreControlDefinitionItem extends Resource {
    */
   readonly source?: SecureScoreControlDefinitionSource;
   /**
-   * array of assessments metadata IDs that are included in this control
+   * Array of assessments metadata IDs that are included in this security control
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly assessmentDefinitions?: AzureResourceLink[];
 }
 
 /**
- * Secure score control (calculated) object
+ * Details of the security control, its score, and the health status of the relevant resources.
  */
 export interface SecureScoreControlDetails extends Resource {
   /**
@@ -3904,12 +3903,12 @@ export interface SecureScoreControlDetails extends Resource {
    */
   readonly displayName?: string;
   /**
-   * Maximum score applicable
+   * Maximum score available
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly max?: number;
   /**
-   * Actual score
+   * Current score
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly current?: number;
@@ -3929,6 +3928,252 @@ export interface SecureScoreControlDetails extends Resource {
    */
   readonly notApplicableResourceCount?: number;
   definition?: SecureScoreControlDefinitionItem;
+}
+
+/**
+ * For a non-Azure machine that is not connected directly to the internet, specify a proxy server
+ * that the non-Azure machine can use.
+ */
+export interface ProxyServerProperties {
+  /**
+   * Proxy server IP
+   */
+  ip?: string;
+  /**
+   * Proxy server port
+   */
+  port?: string;
+}
+
+/**
+ * Details of the service principal.
+ */
+export interface ServicePrincipalProperties {
+  /**
+   * Application id of service principal.
+   */
+  applicationId?: string;
+  /**
+   * A secret string that the application uses to prove its identity, also can be referred to as
+   * application password (write only).
+   */
+  secret?: string;
+}
+
+/**
+ * Settings for hybrid compute management
+ */
+export interface HybridComputeSettingsProperties {
+  /**
+   * State of the service principal and its secret. Possible values include: 'Valid', 'Invalid',
+   * 'Expired'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hybridComputeProvisioningState?: HybridComputeProvisioningState;
+  /**
+   * Whether or not to automatically install Azure Arc (hybrid compute) agents on machines.
+   * Possible values include: 'On', 'Off'
+   */
+  autoProvision: AutoProvision;
+  /**
+   * The name of the resource group where Arc (Hybrid Compute) connectors are connected.
+   */
+  resourceGroupName?: string;
+  /**
+   * The location where the meta data of machines will be stored
+   */
+  region?: string;
+  /**
+   * For a non-Azure machine that is not connected directly to the internet, specify a proxy server
+   * that the non-Azure machine can use.
+   */
+  proxyServer?: ProxyServerProperties;
+  /**
+   * An object to access resources that are secured by an Azure AD tenant.
+   */
+  servicePrincipal?: ServicePrincipalProperties;
+}
+
+/**
+ * Contains the possible cases for AuthenticationDetailsProperties.
+ */
+export type AuthenticationDetailsPropertiesUnion = AuthenticationDetailsProperties | AwsCredsAuthenticationDetailsProperties | AwAssumeRoleAuthenticationDetailsProperties | GcpCredentialsDetailsProperties;
+
+/**
+ * Settings for cloud authentication management
+ */
+export interface AuthenticationDetailsProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  authenticationType: "AuthenticationDetailsProperties";
+  /**
+   * State of the multi-cloud connector. Possible values include: 'Valid', 'Invalid', 'Expired',
+   * 'IncorrectPolicy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly authenticationProvisioningState?: AuthenticationProvisioningState;
+  /**
+   * The permissions detected in the cloud account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly grantedPermissions?: PermissionProperty[];
+}
+
+/**
+ * The connector setting
+ */
+export interface ConnectorSetting extends Resource {
+  /**
+   * Settings for hybrid compute management, these settings are relevant only Arc autoProvision
+   * (Hybrid Compute).
+   */
+  hybridComputeSettings?: HybridComputeSettingsProperties;
+  /**
+   * Settings for authentication management, these settings are relevant only for the cloud
+   * connector.
+   */
+  authenticationDetails?: AuthenticationDetailsPropertiesUnion;
+}
+
+/**
+ * AWS cloud account connector based credentials, the credentials is composed of access key id and
+ * secret key, for more details, refer to <a
+ * href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html">Creating an IAM
+ * User in Your AWS Account (write only)</a>
+ */
+export interface AwsCredsAuthenticationDetailsProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  authenticationType: "awsCreds";
+  /**
+   * State of the multi-cloud connector. Possible values include: 'Valid', 'Invalid', 'Expired',
+   * 'IncorrectPolicy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly authenticationProvisioningState?: AuthenticationProvisioningState;
+  /**
+   * The permissions detected in the cloud account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly grantedPermissions?: PermissionProperty[];
+  /**
+   * The ID of the cloud account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accountId?: string;
+  /**
+   * Public key element of the AWS credential object (write only)
+   */
+  awsAccessKeyId: string;
+  /**
+   * Secret key element of the AWS credential object (write only)
+   */
+  awsSecretAccessKey: string;
+}
+
+/**
+ * AWS cloud account connector based assume role, the role enables delegating access to your AWS
+ * resources. The role is composed of role arn and external id, for more details, refer to <a
+ * href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html">Creating a
+ * Role to Delegate Permissions to an IAM User (write only)</a>
+ */
+export interface AwAssumeRoleAuthenticationDetailsProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  authenticationType: "awsAssumeRole";
+  /**
+   * State of the multi-cloud connector. Possible values include: 'Valid', 'Invalid', 'Expired',
+   * 'IncorrectPolicy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly authenticationProvisioningState?: AuthenticationProvisioningState;
+  /**
+   * The permissions detected in the cloud account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly grantedPermissions?: PermissionProperty[];
+  /**
+   * The ID of the cloud account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accountId?: string;
+  /**
+   * Assumed role ID is an identifier that you can use to create temporary security credentials.
+   */
+  awsAssumeRoleArn: string;
+  /**
+   * A unique identifier that is required when you assume a role in another account.
+   */
+  awsExternalId: string;
+}
+
+/**
+ * GCP cloud account connector based service to service credentials, the credentials is composed of
+ * organization id and json api key (write only)</a>
+ */
+export interface GcpCredentialsDetailsProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  authenticationType: "gcpCredentials";
+  /**
+   * State of the multi-cloud connector. Possible values include: 'Valid', 'Invalid', 'Expired',
+   * 'IncorrectPolicy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly authenticationProvisioningState?: AuthenticationProvisioningState;
+  /**
+   * The permissions detected in the cloud account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly grantedPermissions?: PermissionProperty[];
+  /**
+   * The Organization ID of the GCP cloud account
+   */
+  organizationId: string;
+  /**
+   * Type field of the API key (write only)
+   */
+  type: string;
+  /**
+   * Project Id field of the API key (write only)
+   */
+  projectId: string;
+  /**
+   * Private key Id field of the API key (write only)
+   */
+  privateKeyId: string;
+  /**
+   * Private key field of the API key (write only)
+   */
+  privateKey: string;
+  /**
+   * Client email field of the API key (write only)
+   */
+  clientEmail: string;
+  /**
+   * Client Id field of the API key (write only)
+   */
+  clientId: string;
+  /**
+   * Auth Uri field of the API key (write only)
+   */
+  authUri: string;
+  /**
+   * Token Uri field of the API key (write only)
+   */
+  tokenUri: string;
+  /**
+   * Auth provider x509 certificate url field of the API key (write only)
+   */
+  authProviderX509CertUrl: string;
+  /**
+   * Client x509 certificate url field of the API key (write only)
+   */
+  clientX509CertUrl: string;
 }
 
 /**
@@ -4566,7 +4811,7 @@ export interface ExternalSecuritySolutionList extends Array<ExternalSecuritySolu
 
 /**
  * @interface
- * Page of a secure scores list
+ * List of secure scores
  * @extends Array<SecureScoreItem>
  */
 export interface SecureScoresList extends Array<SecureScoreItem> {
@@ -4579,7 +4824,7 @@ export interface SecureScoresList extends Array<SecureScoreItem> {
 
 /**
  * @interface
- * Page of a secure score controls list
+ * List of security controls
  * @extends Array<SecureScoreControlDetails>
  */
 export interface SecureScoreControlList extends Array<SecureScoreControlDetails> {
@@ -4592,10 +4837,23 @@ export interface SecureScoreControlList extends Array<SecureScoreControlDetails>
 
 /**
  * @interface
- * Page of a secure score controls definition list
+ * List of security controls definition
  * @extends Array<SecureScoreControlDefinitionItem>
  */
 export interface SecureScoreControlDefinitionList extends Array<SecureScoreControlDefinitionItem> {
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * For a subscription, list of all cloud account connectors and their settings
+ * @extends Array<ConnectorSetting>
+ */
+export interface ConnectorSettingList extends Array<ConnectorSetting> {
   /**
    * The URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -4898,6 +5156,31 @@ export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
  * @enum {string}
  */
 export type ControlType = 'BuiltIn' | 'Custom';
+
+/**
+ * Defines values for HybridComputeProvisioningState.
+ * Possible values include: 'Valid', 'Invalid', 'Expired'
+ * @readonly
+ * @enum {string}
+ */
+export type HybridComputeProvisioningState = 'Valid' | 'Invalid' | 'Expired';
+
+/**
+ * Defines values for AuthenticationProvisioningState.
+ * Possible values include: 'Valid', 'Invalid', 'Expired', 'IncorrectPolicy'
+ * @readonly
+ * @enum {string}
+ */
+export type AuthenticationProvisioningState = 'Valid' | 'Invalid' | 'Expired' | 'IncorrectPolicy';
+
+/**
+ * Defines values for PermissionProperty.
+ * Possible values include: 'AWS::AWSSecurityHubReadOnlyAccess', 'AWS::SecurityAudit',
+ * 'AWS::AmazonSSMAutomationRole', 'GCP::Security Center Admin Viewer'
+ * @readonly
+ * @enum {string}
+ */
+export type PermissionProperty = 'AWS::AWSSecurityHubReadOnlyAccess' | 'AWS::SecurityAudit' | 'AWS::AmazonSSMAutomationRole' | 'GCP::Security Center Admin Viewer';
 
 /**
  * Defines values for ExpandEnum.
@@ -6800,66 +7083,6 @@ export type RegulatoryComplianceAssessmentsListNextResponse = RegulatoryComplian
 };
 
 /**
- * Contains response data for the listByExtendedResource operation.
- */
-export type ServerVulnerabilityAssessmentListByExtendedResourceResponse = ServerVulnerabilityAssessmentsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessmentsList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServerVulnerabilityAssessmentGetResponse = ServerVulnerabilityAssessment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServerVulnerabilityAssessmentCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
-};
-
-/**
  * Contains response data for the listAll operation.
  */
 export type SubAssessmentsListAllResponse = SecuritySubAssessmentList & {
@@ -7176,6 +7399,66 @@ export type AlertsSuppressionRulesListNextResponse = AlertsSuppressionRulesList 
        * The response body as parsed JSON or XML
        */
       parsedBody: AlertsSuppressionRulesList;
+    };
+};
+
+/**
+ * Contains response data for the listByExtendedResource operation.
+ */
+export type ServerVulnerabilityAssessmentListByExtendedResourceResponse = ServerVulnerabilityAssessmentsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessmentsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServerVulnerabilityAssessmentGetResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ServerVulnerabilityAssessmentCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
     };
 };
 
@@ -8356,5 +8639,85 @@ export type SecureScoreControlDefinitionsListBySubscriptionNextResponse = Secure
        * The response body as parsed JSON or XML
        */
       parsedBody: SecureScoreControlDefinitionList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ConnectorsListResponse = ConnectorSettingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectorSettingList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ConnectorsGetResponse = ConnectorSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectorSetting;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ConnectorsCreateOrUpdateResponse = ConnectorSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectorSetting;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ConnectorsListNextResponse = ConnectorSettingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectorSettingList;
     };
 };

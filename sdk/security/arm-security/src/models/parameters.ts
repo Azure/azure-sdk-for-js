@@ -284,6 +284,16 @@ export const connectionType: msRest.OperationURLParameter = {
     }
   }
 };
+export const connectorName: msRest.OperationURLParameter = {
+  parameterPath: "connectorName",
+  mapper: {
+    required: true,
+    serializedName: "connectorName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const deviceSecurityGroupName: msRest.OperationURLParameter = {
   parameterPath: "deviceSecurityGroupName",
   mapper: {
@@ -466,7 +476,8 @@ export const resourceId: msRest.OperationURLParameter = {
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 export const resourceName: msRest.OperationURLParameter = {
   parameterPath: "resourceName",
@@ -506,7 +517,8 @@ export const scope: msRest.OperationURLParameter = {
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 export const secureScoreName: msRest.OperationURLParameter = {
   parameterPath: "secureScoreName",

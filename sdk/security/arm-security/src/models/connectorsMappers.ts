@@ -36,6 +36,7 @@ export {
   ComplianceSegment,
   ConnectionToIpNotAllowed,
   ConnectorSetting,
+  ConnectorSettingList,
   ContainerRegistryVulnerabilityProperties,
   CustomAlertRule,
   CVE,
@@ -105,6 +106,5 @@ export {
   TwinUpdatesNotInAllowedRange,
   UnauthorizedOperationsNotInAllowedRange,
   VendorReference,
-  WorkspaceSetting,
-  WorkspaceSettingList
+  WorkspaceSetting
 } from "../models/mappers";
