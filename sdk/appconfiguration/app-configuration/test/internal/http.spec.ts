@@ -5,7 +5,7 @@ import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
 import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
-import { getGeneratedClientOptions, packageVersion } from "../../src/appConfigurationClient";
+import { getUserAgentPrefix, packageVersion } from "../../src/appConfigurationClient";
 import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
@@ -13,7 +13,6 @@ import {
 } from "../testHelpers";
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-http";
 
 describe("http request related tests", function() {
   describe("unit tests", () => {
@@ -35,41 +34,30 @@ describe("http request related tests", function() {
       });
     });
 
-    it("useragentheadername", () => {
-      let expectedUserHeaderName;
-
-      if (isNode) {
-        expectedUserHeaderName = "User-Agent";
-      } else {
-        expectedUserHeaderName = "x-ms-useragent";
-      }
-
-      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
-
-      assert.equal(options.userAgentHeaderName, expectedUserHeaderName);
-    });
-
     it("useragent", () => {
-      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
-        userAgentOptions: {
-          userAgentPrefix: "MyCustomUserAgent"
-        }
+      describe("with user prefix", () => {
+        const prefix = getUserAgentPrefix("MyCustomUserAgent");
+
+        chai.assert.match(
+          prefix,
+          new RegExp(
+            `^MyCustomUserAgent azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`
+          ),
+          `Using a custom user agent`
+        );
+      })
+
+      describe("without user prefix", () => {
+        const prefix = getUserAgentPrefix(undefined);
+
+        chai.assert.match(
+          prefix,
+          new RegExp(
+            `^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`
+          ),
+          `Using the default user agent`
+        );
       });
-
-      chai.assert.match(
-        options.userAgent as string,
-        new RegExp(
-          `^MyCustomUserAgent azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`
-        ),
-        `Using a custom user agent`
-      );
-
-      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
-      chai.assert.match(
-        options.userAgent as string,
-        new RegExp(`^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`),
-        "Using the default user agent"
-      );
     });
 
     describe("syncTokens", () => {
