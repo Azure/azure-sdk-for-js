@@ -3304,10 +3304,6 @@ export interface ServiceCounters {
    * Total number of synonym maps.
    */
   synonymMapCounter: ResourceCounter;
-  /**
-   * Total number of skillsets.
-   */
-  skillsetCounter: ResourceCounter;
 }
 
 /**

@@ -5,6 +5,7 @@
 - [Breaking] In Suggest API & Search API return values, a new property called `document` is introduced. All user-defined fields are moved inside this `document` property.
 - [Breaking] In `analyzeText` API, the `text` parameter is moved from method level to inside `options` bag.
 - [Breaking] In `search` API, `includeTotalResultCount` property is renamed to `includeTotalCount`.
+- [Breaking] In `ServiceCounters`, the `skillsetCounter` property has been removed.
 - [Breaking] Modified the names of several properties. Please refer [#9321](https://github.com/Azure/azure-sdk-for-js/issues/9321) for a detailed list of renames.
 
 
