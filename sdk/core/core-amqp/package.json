@@ -32,7 +32,6 @@
     "dist-esm/src/",
     "types/latest/core-amqp.d.ts",
     "types/3.1",
-    "ThirdPartyNotices.txt",
     "README.md",
     "LICENSE"
   ],
