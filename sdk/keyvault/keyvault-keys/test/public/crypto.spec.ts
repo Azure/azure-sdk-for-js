@@ -25,7 +25,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let keySuffix: string;
 
   if (!isNode) {
-    // Local encryption is only supported in NodeJS
+    // Local cryptography is only supported in NodeJS
     return;
   }
 
