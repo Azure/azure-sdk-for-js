@@ -49,7 +49,7 @@ import {
   VerifyResult,
   EncryptResult
 } from "./cryptographyClientModels";
-import { KeyBundle } from './core/models';
+import { KeyBundle } from "./core/models";
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
@@ -614,10 +614,7 @@ export class CryptographyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
 
     let parsed;
     if (typeof key === "string") {
@@ -720,7 +717,7 @@ export class CryptographyClient {
     }
 
     if (expires && now < expires) {
-      throw new Error(`Key ${this.getKeyID()} expired at ${expires}`);      
+      throw new Error(`Key ${this.getKeyID()} expired at ${expires}`);
     }
   }
 }
