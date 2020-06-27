@@ -15,7 +15,6 @@
   },
   "scripts": {
     "audit": "echo skipped",
-    "build:minify": "echo skipped",
     "build:samples": "echo skipped",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "echo skipped",
