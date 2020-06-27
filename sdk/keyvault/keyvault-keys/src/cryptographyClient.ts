@@ -19,7 +19,6 @@ import { SDK_VERSION } from "./core/utils/constants";
 import { KeyVaultClient } from "./core/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
-import { LocalCryptographyUnsupportedError } from "./localCryptography/models";
 import {
   LocalSupportedAlgorithmName,
   localSupportedAlgorithms,
