@@ -74,7 +74,7 @@ describe("Sample scenarios for track 2", () => {
 
       const receivedBodies: string[] = [];
 
-      for (const message of await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 })) {
+      for (const message of await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 })) {
         receivedBodies.push(message.body);
       }
 
@@ -438,17 +438,17 @@ describe("Sample scenarios for track 2", () => {
 
     switch (method) {
       case "single": {
-        await sender.send(message);
+        await sender.sendMessages(message);
         break;
       }
       case "array": {
-        await sender.send([message]);
+        await sender.sendMessages([message]);
         break;
       }
       case "batch": {
         const batch = await sender.createBatch();
         assert.isTrue(batch.tryAdd(message));
-        await sender.send(batch);
+        await sender.sendMessages(batch);
         break;
       }
     }

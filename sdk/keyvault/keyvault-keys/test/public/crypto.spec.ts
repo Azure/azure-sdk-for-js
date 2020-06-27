@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
-import { isRecordMode, Recorder } from "@azure/test-utils-recorder";
+import { isRecordMode, Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
@@ -15,6 +15,7 @@ import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
+  const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
   let client: KeyClient;
   let testClient: TestClient;
   let cryptoClient: CryptographyClient;
@@ -23,6 +24,11 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let keyName: string;
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
+
+  if (!isNode) {
+    // Local cryptography is only supported in NodeJS
+    return;
+  }
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
@@ -55,7 +61,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("manually encrypt locally and decrypt remotely, both with RSA1_5", async function() {
-      recorder.skip("browser", "Local encryption is only supported in NodeJS");
       const text = this.test!.title;
       const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
       const padded: any = { key: keyPEM, padding: constants.RSA_PKCS1_PADDING };
@@ -74,7 +79,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("manually encrypt locally and decrypt remotely, both with RSA-OAEP", async function() {
-      recorder.skip("browser", "Local encryption is only supported in NodeJS");
       const text = this.test!.title;
       // Encrypting outside the client since the client will intentionally
       const keyPEM = convertJWKtoPEM(keyVaultKey.key!);
@@ -83,15 +87,22 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
     });
+
+    it("the CryptographyClient can be created from a full KeyVaultKey object", async function() {
+      const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+      const keyVaultKey = await client.createKey(keyName, "RSA");
+      const cryptoClientFromKey = new CryptographyClient(keyVaultKey, credential);
+
+      const text = this.test!.title;
+      const encryptResult = await cryptoClientFromKey.encrypt("RSA1_5", stringToUint8Array(text));
+      const decryptResult = await cryptoClientFromKey.decrypt("RSA1_5", encryptResult.result);
+      const decryptedText = uint8ArrayToString(decryptResult.result);
+      assert.equal(text, decryptedText);
+    });
   }
 
   // Local encryption is only supported in NodeJS.
   it("sign and verify with RS256", async function(): Promise<void> {
-    recorder.skip("browser", "Local encryption is only supported in NodeJS");
-    if (!isNode) {
-      // recorder.skip is not meant for TEST_MODE=live
-      return this.skip();
-    }
     const signatureValue = this.test!.title;
     const hash = createHash("sha256");
     hash.update(signatureValue);
