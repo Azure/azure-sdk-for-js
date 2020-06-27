@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyVaultKeysIdentifier } from "../../src/identifier";
 
-describe("KeyVault Keys Identifier", () => {
+describe("Key Vault Keys Identifier", () => {
   it("It should work with a URI of a key before it gets a version", async function() {
     const uri = "https://keyvault-name.vault.azure.net/keys/key-name/pending";
     const identifier = new KeyVaultKeysIdentifier(uri);
@@ -39,7 +39,8 @@ describe("KeyVault Keys Identifier", () => {
       id: "https://keyvault-name.vault.azure.net/deletedkeys/deleted-key",
       vaultUrl: "https://keyvault-name.vault.azure.net",
       collection: "deletedkeys",
-      name: "deleted-key"
+      name: "deleted-key",
+      version: undefined
     });
   });
 });

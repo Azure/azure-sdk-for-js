@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { KeyVaultCertificatesIdentifier } from "../../src";
 
-describe("KeyVault Certificates Identifier", () => {
+describe("Key Vault Certificates Identifier", () => {
   it("It should work with a URI of a certificate before it gets a version", async function() {
     const uri = "https://keyvault-name.vault.azure.net/certificates/certificate-name/pending";
     const identifier = new KeyVaultCertificatesIdentifier(uri);
@@ -31,20 +31,6 @@ describe("KeyVault Certificates Identifier", () => {
     });
   });
 
-  it("It should work with the URI of a certificate's issuer", async function() {
-    const uri =
-      "https://keyvault-name.vault.azure.net/certificates/issuers/certificate-issuer-name";
-    const identifier = new KeyVaultCertificatesIdentifier(uri);
-
-    assert.deepEqual(identifier, {
-      id: "https://keyvault-name.vault.azure.net/certificates/issuers/certificate-issuer-name",
-      vaultUrl: "https://keyvault-name.vault.azure.net",
-      collection: "certificates",
-      name: "issuers",
-      version: "certificate-issuer-name"
-    });
-  });
-
   it("It should work with a deleted certificate recovery ID", async function() {
     const uri = "https://keyvault-name.vault.azure.net/deletedcertificates/deleted-certificate";
     const identifier = new KeyVaultCertificatesIdentifier(uri);
@@ -53,7 +39,8 @@ describe("KeyVault Certificates Identifier", () => {
       id: "https://keyvault-name.vault.azure.net/deletedcertificates/deleted-certificate",
       vaultUrl: "https://keyvault-name.vault.azure.net",
       collection: "deletedcertificates",
-      name: "deleted-certificate"
+      name: "deleted-certificate",
+      version: undefined
     });
   });
 });

@@ -73,16 +73,17 @@ export class KeyVaultKeysIdentifier implements ParsedKeyVaultKeysIdentifier {
    */
   constructor(url: string) {
     const collections: KeyVaultKeysIdentifierCollectionName[] = ["keys", "deletedkeys"];
-    const collection = collections.filter((x) => url.split("/").includes(x))[0];
+    const urlParts = url.split("/");
+    const collection: KeyVaultKeysIdentifierCollectionName =
+      collections.filter((x) => urlParts.includes(x))[0] || "keys";
 
     this.collection = collection;
     this.id = url;
 
     const { vaultUrl, name, version } = parseKeyvaultIdentifier(collection, url);
+
     this.vaultUrl = vaultUrl;
     this.name = name;
-    if (version) {
-      this.version = version;
-    }
+    this.version = version;
   }
 }

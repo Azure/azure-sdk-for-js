@@ -39,7 +39,8 @@ describe("Key Vault Secrets Identifier", () => {
       id: "https://keyvault-name.vault.azure.net/deletedsecrets/deleted-secret",
       vaultUrl: "https://keyvault-name.vault.azure.net",
       collection: "deletedsecrets",
-      name: "deleted-secret"
+      name: "deleted-secret",
+      version: undefined
     });
   });
 });

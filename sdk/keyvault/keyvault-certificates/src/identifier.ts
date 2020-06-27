@@ -76,16 +76,17 @@ export class KeyVaultCertificatesIdentifier implements ParsedKeyVaultCertificate
       "certificates",
       "deletedcertificates"
     ];
-    const collection = collections.filter((x) => url.split("/").includes(x))[0];
+    const urlParts = url.split("/");
+    const collection: KeyVaultCertificatesIdentifierCollectionName =
+      collections.filter((x) => urlParts.includes(x))[0] || "certificates";
 
     this.collection = collection;
     this.id = url;
 
     const { vaultUrl, name, version } = parseKeyvaultIdentifier(collection, url);
+
     this.vaultUrl = vaultUrl;
     this.name = name;
-    if (version) {
-      this.version = version;
-    }
+    this.version = version;
   }
 }

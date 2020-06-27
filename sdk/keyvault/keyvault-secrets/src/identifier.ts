@@ -73,7 +73,9 @@ export class KeyVaultSecretsIdentifier implements ParsedKeyVaultSecretsIdentifie
    */
   constructor(url: string) {
     const collections: KeyVaultSecretsIdentifierCollectionName[] = ["secrets", "deletedsecrets"];
-    const collection = collections.filter((x) => url.split("/").includes(x))[0];
+    const urlParts = url.split("/");
+    const collection: KeyVaultSecretsIdentifierCollectionName =
+      collections.filter((x) => urlParts.includes(x))[0] || "secrets";
 
     this.collection = collection;
     this.id = url;
@@ -81,8 +83,6 @@ export class KeyVaultSecretsIdentifier implements ParsedKeyVaultSecretsIdentifie
     const { vaultUrl, name, version } = parseKeyvaultIdentifier(collection, url);
     this.vaultUrl = vaultUrl;
     this.name = name;
-    if (version) {
-      this.version = version;
-    }
+    this.version = version;
   }
 }
