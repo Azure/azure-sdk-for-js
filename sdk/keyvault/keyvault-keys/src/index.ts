@@ -248,7 +248,6 @@ export class KeyClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
-      credential,
       pipelineOptions.apiVersion || LATEST_API_VERSION,
       pipeline
     );

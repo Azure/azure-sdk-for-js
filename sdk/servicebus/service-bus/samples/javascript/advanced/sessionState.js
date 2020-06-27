@@ -93,7 +93,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
       body: shoppingEvents[index],
       label: "Shopping Step"
     };
-    await sender.send(message);
+    await sender.sendMessages(message);
   }
   await sender.close();
 }
@@ -103,7 +103,7 @@ async function processMessageFromSession(sessionId) {
     sessionId
   });
 
-  const messages = await sessionReceiver.receiveBatch(1, {
+  const messages = await sessionReceiver.receiveMessages(1, {
     maxWaitTimeSeconds: 10
   });
   // Custom logic for processing the messages

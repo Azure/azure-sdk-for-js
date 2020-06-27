@@ -45,7 +45,7 @@ async function sendMessage() {
     contentType: "application/json",
     label: "Recipe"
   };
-  await sender.send(message);
+  await sender.sendMessages(message);
   await sender.close();
 }
 
@@ -53,7 +53,7 @@ async function receiveMessage() {
   // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   const receiver = sbClient.createReceiver(queueName, "peekLock");
 
-  const messages = await receiver.receiveBatch(1);
+  const messages = await receiver.receiveMessages(1);
 
   if (messages.length) {
     console.log(

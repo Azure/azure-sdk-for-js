@@ -25,8 +25,7 @@ export async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeContent(readStream);
-  await poller.pollUntilDone();
-  const pages = poller.getResult();
+  const pages = await poller.pollUntilDone();
 
   if (!pages || pages.length === 0) {
     throw new Error("Expecting non-empty list of pages!");

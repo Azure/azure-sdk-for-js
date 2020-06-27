@@ -6,7 +6,7 @@
  * See recognizeForm.ts to recognize forms using a custom model.
  */
 
-import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormTrainingClient, AzureKeyCredential, BeginTrainingPollState } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -22,25 +22,23 @@ export async function main() {
   const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-    onProgress: (state) => {
-      console.log("training status: ");
-      console.log(state);
+    onProgress: (state: BeginTrainingPollState) => {
+      console.log(`training status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const response = poller.getResult();
+  const model = await poller.pollUntilDone();
 
-  if (!response) {
-    throw new Error("Expecting valid response!");
+  if (!model) {
+    throw new Error("Expecting valid training result!");
   }
 
-  console.log(`Model ID: ${response.modelId}`);
-  console.log(`Status: ${response.status}`);
-  console.log(`Requested on: ${response.requestedOn}`);
-  console.log(`Completed on: ${response.completedOn}`);
+  console.log(`Model ID: ${model.modelId}`);
+  console.log(`Status: ${model.status}`);
+  console.log(`Training started on: ${model.trainingStartedOn}`);
+  console.log(`Training completed on: ${model.trainingCompletedOn}`);
 
-  if (response.submodels) {
-    for (const submodel of response.submodels) {
+  if (model.submodels) {
+    for (const submodel of model.submodels) {
       // since the training data is unlabeled, we are unable to return the accuracy of this model
       console.log("We have recognized the following fields");
       for (const key in submodel.fields) {
@@ -50,12 +48,12 @@ export async function main() {
     }
   }
   // Training document information
-  if (response.trainingDocuments) {
-    for (const doc of response.trainingDocuments) {
+  if (model.trainingDocuments) {
+    for (const doc of model.trainingDocuments) {
       console.log(`Document name: ${doc.documentName}`);
       console.log(`Document status: ${doc.status}`);
       console.log(`Document page count: ${doc.pageCount}`);
-      console.log(`Document errors: ${doc.errors}`);
+      console.log(`Document errors: ${(doc.errors).map(e => `error code ${e.code} '${e.message}'`).join("\n")}`);
     }
   }
 }

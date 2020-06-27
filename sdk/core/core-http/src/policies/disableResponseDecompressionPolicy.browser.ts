@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /*
  * NOTE: When moving this file, please update "browser" section in package.json
  */
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from './requestPolicy';
-import { WebResource } from '../webResource';
-import { HttpOperationResponse } from '../httpOperationResponse';
+import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
+import { WebResource } from "../webResource";
+import { HttpOperationResponse } from "../httpOperationResponse";
 
-const DisbleResponseDecompressionNotSupportedInBrowser = new Error("DisableResponseDecompressionPolicy is not supported in browser environment");
+const DisbleResponseDecompressionNotSupportedInBrowser = new Error(
+  "DisableResponseDecompressionPolicy is not supported in browser environment"
+);
 
 /**
  * {@link DisableResponseDecompressionPolicy} is not supported in browser and attempting
@@ -23,10 +25,7 @@ export function disableResponseDecompressionPolicy() {
 }
 
 export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions,
-  ) {
+  constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions) {
     super(nextPolicy, options);
     throw DisbleResponseDecompressionNotSupportedInBrowser;
   }

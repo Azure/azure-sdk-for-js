@@ -339,9 +339,9 @@ describe("renew lock sessions", () => {
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
 
-    const msgs = await receiver.receiveBatch(1);
+    const msgs = await receiver.receiveMessages(1);
 
     // Compute expected initial lock expiry time
     const expectedLockExpiryTimeUtc = new Date();
@@ -387,9 +387,9 @@ describe("renew lock sessions", () => {
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
 
-    const msgs = await receiver.receiveBatch(1);
+    const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Expected message length does not match");
@@ -412,7 +412,7 @@ describe("renew lock sessions", () => {
     const entityNames = serviceBusClient.test.getTestEntities(entityType);
     receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
-    const unprocessedMsgsBatch = await receiver.receiveBatch(1);
+    const unprocessedMsgsBatch = await receiver.receiveMessages(1);
     should.equal(unprocessedMsgsBatch[0].deliveryCount, 1, "Unexpected deliveryCount");
     await unprocessedMsgsBatch[0].complete();
   }
@@ -427,7 +427,7 @@ describe("renew lock sessions", () => {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testStreamingReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
 
     async function processMessage(brokeredMessage: ReceivedMessageWithLock) {
       if (numOfMessagesReceived < 1) {
@@ -504,7 +504,7 @@ describe("renew lock sessions", () => {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
     testMessage.body = `testAutoLockRenewalConfigBehavior-${Date.now().toString()}`;
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
 
     let sessionLockLostErrorThrown = false;
     const messagesReceived: ReceivedMessageWithLock[] = [];

@@ -35,7 +35,7 @@ async function processDeadletterMessageQueue() {
   // If connecting to a subscription's dead letter queue you can use the createDeadLetterReceiver(topic, subscription) overload
   const receiver = sbClient.createDeadLetterReceiver(queueName, "peekLock");
 
-  const messages = await receiver.receiveBatch(1);
+  const messages = await receiver.receiveMessages(1);
 
   if (messages.length > 0) {
     console.log(">>>>> Received the message from DLQ - ", messages[0].body);
@@ -62,7 +62,7 @@ async function fixAndResendMessage(oldMessage) {
 
   console.log(">>>>> Cloning the message from DLQ and resending it - ", oldMessage.body);
 
-  await sender.send(repairedMessage);
+  await sender.sendMessages(repairedMessage);
   await sender.close();
 }
 
