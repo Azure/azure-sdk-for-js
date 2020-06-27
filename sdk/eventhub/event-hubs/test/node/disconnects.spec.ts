@@ -27,8 +27,12 @@ describe("disconnected", function() {
 
   describe("EventHubConsumerClient", function() {
     it("runtimeInfo work after disconnect", async () => {
-      const client = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroupName, service.connectionString, service.path);
-      const clientConnectionContext = client["_eventHubClient"]["_context"];
+      const client = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
+      const clientConnectionContext = client["_context"];
 
       await client.getPartitionIds({});
       const originalConnectionId = clientConnectionContext.connectionId;
@@ -46,10 +50,14 @@ describe("disconnected", function() {
     });
 
     it("should receive after a disconnect", async () => {
-      const client = new EventHubConsumerClient(EventHubConsumerClient.defaultConsumerGroupName, service.connectionString, service.path);
+      const client = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
       const partitionId = "0";
       const partitionProperties = await client.getPartitionProperties(partitionId);
-      const clientConnectionContext = client["_eventHubClient"]["_context"];
+      const clientConnectionContext = client["_context"];
 
       let subscription: Subscription | undefined;
       let originalConnectionId: string;

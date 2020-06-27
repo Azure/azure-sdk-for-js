@@ -224,7 +224,7 @@ const serviceClient = new ShareServiceClient(
 );
 
 async function main() {
-  let shareIter = await serviceClient.listShares();
+  let shareIter = serviceClient.listShares();
   let i = 1;
   let shareItem = await shareIter.next();
   while (!shareItem.done) {
@@ -358,7 +358,7 @@ const directoryName = "<directory name>";
 async function main() {
   const directoryClient = serviceClient.getShareClient(shareName).getDirectoryClient(directoryName);
 
-  let dirIter = await directoryClient.listFilesAndDirectories();
+  let dirIter = directoryClient.listFilesAndDirectories();
   let i = 1;
   let item = await dirIter.next();
   while (!item.done) {

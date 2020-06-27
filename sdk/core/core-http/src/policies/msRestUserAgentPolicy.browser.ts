@@ -14,7 +14,7 @@ interface NavigatorEx extends Navigator {
 }
 
 export function getDefaultUserAgentKey(): string {
-  return "x-ms-command-name";
+  return "x-ms-useragent";
 }
 
 export function getPlatformSpecificData(): TelemetryInfo[] {

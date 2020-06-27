@@ -79,9 +79,9 @@ describe("session tests", () => {
 
     async function test_batching(testClientType: TestClientType): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
-      let msgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 10000 });
+      let msgs = await receiver.receiveMessages(1, { maxWaitTimeInMs: 10000 });
       should.equal(msgs.length, 0, "Unexpected number of messages received");
 
       await receiver.close();
@@ -91,7 +91,7 @@ describe("session tests", () => {
       // get the next available session ID rather than specifying one
       receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
-      msgs = await receiver.receiveBatch(1);
+      msgs = await receiver.receiveMessages(1);
       should.equal(msgs.length, 1, "Unexpected number of messages received");
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
@@ -140,7 +140,7 @@ describe("session tests", () => {
 
     async function test_streaming(testClientType: TestClientType): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       let receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
@@ -226,9 +226,9 @@ describe("session tests", () => {
 
     async function testGetSetState(testClientType: TestClientType): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
-      let msgs = await receiver.receiveBatch(2);
+      let msgs = await receiver.receiveMessages(2);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -257,7 +257,7 @@ describe("session tests", () => {
       // get the next available session ID rather than specifying one
       receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
-      msgs = await receiver.receiveBatch(2);
+      msgs = await receiver.receiveMessages(2);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages received");
@@ -347,22 +347,6 @@ describe("session tests", () => {
       }
     });
 
-    it("Abort receiveDeferredMessage request on the session receiver", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, TestMessage.sessionId);
-      const controller = new AbortController();
-      setTimeout(() => controller.abort(), 1);
-      try {
-        await receiver.receiveDeferredMessage(Long.ZERO, { abortSignal: controller.signal });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal(
-          "The receiveDeferredMessage operation has been cancelled by the user."
-        );
-      }
-    });
-
     it("Abort receiveDeferredMessages request on the session receiver", async function(): Promise<
       void
     > {
@@ -407,7 +391,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     });
     const sender = serviceBusClient.createSender(entityName.queue!);
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(testMessage);
+    await sender.sendMessages(testMessage);
     const receivedErrors: any[] = [];
     let settledMessageCount = 0;
 
@@ -468,7 +452,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
     await delay(2000);
     // send a second message to trigger the message handler again.
-    await sender.send(TestMessage.getSessionSample());
+    await sender.sendMessages(TestMessage.getSessionSample());
     console.log("Waiting for 2nd message");
     // wait for the 2nd message to be received.
     await receiverSecondMessage;

@@ -38,7 +38,7 @@ describe("BatchingReceiver unit tests", () => {
         } as BatchingReceiver;
       };
 
-      await receiver.receiveBatch(1000, {
+      await receiver.receiveMessages(1000, {
         maxWaitTimeInMs: 60 * 1000,
         abortSignal: origAbortSignal
       });

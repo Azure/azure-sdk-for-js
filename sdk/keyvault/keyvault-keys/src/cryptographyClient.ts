@@ -539,14 +539,14 @@ export class CryptographyClient {
    * // or
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * ```
-   * @param key The key to use during cryptography operations.
+   * @param key The key to use during cryptography tasks. You can also pass the identifier of the key i.e its url here.
    * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CryptographyClient
    */
   constructor(
-    key: string | KeyVaultKey, // keyUrl or KeyVaultKey
+    key: string | KeyVaultKey,
     credential: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {}
   ) {
@@ -584,7 +584,6 @@ export class CryptographyClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
-      credential,
       pipelineOptions.apiVersion || LATEST_API_VERSION,
       pipeline
     );

@@ -82,11 +82,11 @@ export interface ModelInfo {
   /**
    * Date and time (UTC) when the model was created.
    */
-  requestedOn: Date;
+  trainingStartedOn: Date;
   /**
    * Date and time (UTC) when the status was last updated.
    */
-  completedOn: Date;
+  trainingCompletedOn: Date;
 }
 
 /**

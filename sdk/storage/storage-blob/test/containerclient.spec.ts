@@ -289,7 +289,7 @@ describe("ContainerClient", () => {
       blobClients.push(blobClient);
     }
 
-    const iterator = await containerClient.listBlobsFlat({
+    const iterator = containerClient.listBlobsFlat({
       includeCopy: true,
       includeDeleted: true,
       includeMetadata: true,
