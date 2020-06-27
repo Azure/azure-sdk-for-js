@@ -12,7 +12,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
 describe("Certificates client - LRO - recoverDelete", () => {
-  const certificatePrefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
+  const certificatePrefix = `lroRecover${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;
   let testClient: TestClient;
