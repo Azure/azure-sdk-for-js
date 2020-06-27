@@ -1,8 +1,8 @@
 {
  "recordings": [
   {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-list0versionsofanon-existingkey-/versions",
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-failstogenerateabackupofanon-existingkey-/backup",
    "query": {
     "api-version": "7.1-preview"
    },
@@ -13,7 +13,7 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 00:46:12 GMT",
+    "date": "Sat, 27 Jun 2020 00:55:25 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "401",
@@ -24,7 +24,7 @@
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
     "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "658bd128-6b7c-4536-9993-722d194f7481",
+    "x-ms-request-id": "943a21ef-4539-4d81-8529-db0477f56835",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -39,41 +39,41 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 00:46:13 GMT",
+    "date": "Sat, 27 Jun 2020 00:55:25 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10761.12 - NCUS ProdSlices",
-    "x-ms-request-id": "edff8430-1a04-4452-a6a6-2ffa3b380c00"
+    "x-ms-ests-server": "2.1.10761.12 - SCUS ProdSlices",
+    "x-ms-request-id": "3a2b1e99-d7dc-4973-b536-a825e0e70c00"
    }
   },
   {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-list0versionsofanon-existingkey-/versions",
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-failstogenerateabackupofanon-existingkey-/backup",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
-   "status": 200,
-   "response": "{\"value\":[],\"nextLink\":null}",
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) backupRestoreKeyName-failstogenerateabackupofanon-existingkey- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "28",
+    "content-length": "366",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 00:46:12 GMT",
+    "date": "Sat, 27 Jun 2020 00:55:25 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "status": "200",
+    "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
     "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
     "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "165fc24a-6542-4db8-bd84-390fe2939bba",
+    "x-ms-request-id": "a739d4b4-d4cc-4544-8ed5-472890a6abd2",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -82,5 +82,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "afff861b852942c8d454daec6d0fee49"
+ "hash": "96011f06f33848dc5d0a114e89519fad"
 }
