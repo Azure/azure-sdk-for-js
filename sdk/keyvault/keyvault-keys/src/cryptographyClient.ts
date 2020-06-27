@@ -34,7 +34,8 @@ import {
   KeyVaultKey,
   LATEST_API_VERSION,
   CryptographyOptions,
-  CryptographyClientOptions
+  CryptographyClientOptions,
+  KeyOperation
 } from "./keysModels";
 
 import {
@@ -48,6 +49,7 @@ import {
   VerifyResult,
   EncryptResult
 } from "./cryptographyClientModels";
+import { KeyBundle } from './core/models';
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
@@ -73,13 +75,14 @@ export class CryptographyClient {
       if (!this.name || this.name === "") {
         throw new Error("getKey requires a key with a name");
       }
-      const key = await this.client.getKey(
+      const keyBundle = await this.client.getKey(
         this.vaultUrl,
         this.name,
         options && options.version ? options.version : this.version ? this.version : "",
         this.setParentSpan(span, requestOptions)
       );
-      return key.key! as JsonWebKey;
+      this.keyBundle = keyBundle;
+      return keyBundle.key! as JsonWebKey;
     } else {
       return this.key;
     }
@@ -105,6 +108,9 @@ export class CryptographyClient {
     const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("encrypt", requestOptions);
+
+    await this.checkPermissions("encrypt");
+    await this.checkKeyValidity();
 
     if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
@@ -157,6 +163,9 @@ export class CryptographyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);
 
+    await this.checkPermissions("decrypt");
+    await this.checkKeyValidity();
+
     // Default to the service
 
     let result;
@@ -196,6 +205,9 @@ export class CryptographyClient {
     const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);
+
+    await this.checkPermissions("wrapKey");
+    await this.checkKeyValidity();
 
     if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
@@ -247,6 +259,9 @@ export class CryptographyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("unwrapKey", requestOptions);
 
+    await this.checkPermissions("unwrapKey");
+    await this.checkKeyValidity();
+
     // Default to the service
 
     let result;
@@ -285,6 +300,9 @@ export class CryptographyClient {
   ): Promise<SignResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("sign", requestOptions);
+
+    await this.checkPermissions("sign");
+    await this.checkKeyValidity();
 
     let result;
     try {
@@ -325,6 +343,9 @@ export class CryptographyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("verify", requestOptions);
 
+    await this.checkPermissions("verify");
+    await this.checkKeyValidity();
+
     let response;
     try {
       response = await this.client.verify(
@@ -362,6 +383,9 @@ export class CryptographyClient {
   ): Promise<SignResult> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("unwrapKey", requestOptions);
+
+    await this.checkPermissions("sign");
+    await this.checkKeyValidity();
 
     if (!isLocallySupported(algorithm)) {
       throw new Error(`Unsupported algorithm ${algorithm}`);
@@ -415,6 +439,9 @@ export class CryptographyClient {
     const localCryptographyClient = await this.getLocalCryptographyClient();
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("decrypt", requestOptions);
+
+    await this.checkPermissions("verify");
+    await this.checkKeyValidity();
 
     if (!isLocallySupported(algorithm)) {
       throw new Error(`Unsupported algorithm ${algorithm}`);
@@ -483,6 +510,11 @@ export class CryptographyClient {
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private readonly client: KeyVaultClient;
+
+  /**
+   * Other relevant information of the Key Vault Key that will be used for cryptographic operations.
+   */
+  private keyBundle: KeyBundle | undefined;
 
   /**
    * A reference to the key used for the cryptographic operations.
@@ -658,6 +690,37 @@ export class CryptographyClient {
       };
     } else {
       return options;
+    }
+  }
+
+  /**
+   * Checks whether the internal key can be used to execute a given operation, by the operation's name.
+   * @param operation The name of the operation that is expected to be viable
+   */
+  private async checkPermissions(operation: KeyOperation): Promise<void> {
+    await this.getLocalCryptographyClient();
+
+    if (typeof this.key !== "string" && this.key.keyOps && !this.key.keyOps.includes(operation)) {
+      throw new Error(`Operation ${operation} is not supported on key ${this.getKeyID()}`);
+    }
+  }
+
+  /**
+   * Checks whether a key can be used at that specific moment,
+   * by comparing the current date with the bundle's notBefore and expires values.
+   */
+  private async checkKeyValidity(): Promise<void> {
+    await this.getLocalCryptographyClient();
+    const attributes = this.keyBundle?.attributes || {};
+    const { notBefore, expires } = attributes;
+    const now = new Date();
+
+    if (notBefore && now < notBefore) {
+      throw new Error(`Key ${this.getKeyID()} can't be used before ${notBefore}`);
+    }
+
+    if (expires && now < expires) {
+      throw new Error(`Key ${this.getKeyID()} expired at ${expires}`);      
     }
   }
 }
