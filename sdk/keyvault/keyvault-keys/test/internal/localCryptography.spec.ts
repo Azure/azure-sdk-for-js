@@ -1,27 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  assertions,
-} from "../../src/localCryptography/algorithms";
+import { assertions } from "../../src/localCryptography/algorithms";
 import { JsonWebKey } from "../../src";
 import * as chai from "chai";
 import { isNode } from "@azure/core-http";
-import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure/test-utils-recorder";
 const { assert } = chai;
 
-describe.only("Local cryptography internal tests", () => {
-  let recorder: Recorder;
-
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
-    recorder = authentication.recorder;
-  });
-
-  afterEach(async function() {
-    recorder.stop();
-  });
+describe("Local cryptography internal tests", () => {
+  if (!isNode) {
+    // Local cryptography is only supported in NodeJS
+    return;
+  }
 
   describe("assertions", () => {
     describe("keyOps", () => {
@@ -73,5 +63,4 @@ describe.only("Local cryptography internal tests", () => {
       });
     });
   });
-
 });

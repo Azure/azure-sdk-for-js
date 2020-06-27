@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "22964b2a9590bf6d05c2d411c750d477";
+module.exports.hash = "62654b3c8747541322673853f67d0343";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/localCryptoKeyName-PS384-/create')
+  .post('/keys/localCryptoKeyName-RSA-OAEP-/create')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -23,11 +23,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a99be82c-be1c-45eb-9f93-46b16c133411',
+  '0d66848b-f523-4f5a-9f4c-8011c3a0e402',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -37,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:53:56 GMT'
+  'Sat, 27 Jun 2020 17:00:44 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -56,27 +56,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '57127453-c9c7-4146-b336-9a1ee9065800',
+  'd8a0c699-7ef7-46d3-a490-f6396bdd1e00',
   'x-ms-ests-server',
-  '2.1.10732.8 - EUS ProdSlices',
+  '2.1.10761.12 - EUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AltU2pUvfjJHvussLdPRd7w_aSJHAQAAABNHf9YOAAAA; expires=Sun, 19-Jul-2020 23:53:56 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhmTk7H7N7ZEirLiGEaXXa8_aSJHAQAAADxyidYOAAAA; expires=Mon, 27-Jul-2020 17:00:45 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Fri, 19 Jun 2020 23:53:56 GMT',
+  'Sat, 27 Jun 2020 17:00:45 GMT',
   'Content-Length',
   '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/localCryptoKeyName-PS384-/create', {"kty":"RSA"})
+  .post('/keys/localCryptoKeyName-RSA-OAEP-/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS384-/154b52ca08734e54889824433e91e1a2","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"wdOf80O6JLihF9GarevnPfCCm7xMumhi2S2KLtbAkXlv3LNMzfYe_kahik0-2HFXiLYdf_FFu_y4LHJliGQ8KJkjaj0TyIVPEzmcjcjJSlBlsb3tBK88up5sLfWAKlyGwvJx85u6nSrxe2H7Cx8COZERIRAXzkGTZIERqTsiDgz6pL68HFE_QAOaAufqv-xTYYvcha-toae5j7dzIfyeVdLAsI2sA7dDtv9dz-YXDsJrMWNZumvHe1eLisjEXKfY1cBdAWVM7wumGIJRmR_L0jSSeXE2kp4vb_IBVYaOnHEoZyrox47MbgpK-5_Gyaotz5eiz0j60701XeyUYn7Bnw","e":"AQAB"},"attributes":{"enabled":true,"created":1592610836,"updated":1592610836,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-RSA-OAEP-/6319c0ab57034d9b832acc729c2655ea","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"pHcBDVGAEGSLI2xDysxDqbzRG5dnijjRJ2mHB-X-VS7cuJQuavTAAdv2xnhG584psblIXNaQF6dfnjm2LAHRySItOoyyQCZwnlh8WmXakkHykvWM6fn5OAVgz9hwyoPPq-UHeyzP8aQ-v5SpaK8uhVOPKooTYMUGSOm0jAXF_ClOCp8rhtrNfT8PIWcVqqhkll4fAx-rbeX2zOgKgbPJl1l_HHE4pPGqWANXAt3SLSwFplwmLSWwyavrnOPkkqKRfm8kn3REVmNjDOc-vjIycu-oKrfecB3Qiji1UuO5khDV7qhyZdsHmfxccyrzE15yeXyNH4ghq9AhG_9uIgZPFw","e":"AQAB"},"attributes":{"enabled":true,"created":1593277245,"updated":1593277245,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -88,11 +88,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'bb7c08fe-c90f-4371-a359-b7a523cb90c5',
+  'efee85a3-efa1-4b69-85a6-40d7a78d0de6',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -102,13 +102,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:53:56 GMT',
+  'Sat, 27 Jun 2020 17:00:44 GMT',
   'Content-Length',
   '717'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/localCryptoKeyName-PS384-/154b52ca08734e54889824433e91e1a2/sign')
+  .get('/keys/localCryptoKeyName-RSA-OAEP-/6319c0ab57034d9b832acc729c2655ea')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -126,11 +126,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'e4922760-c37a-4ab6-9181-32f1b668a539',
+  '63eee3ac-dcfc-4811-aa1d-036036355217',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -140,7 +140,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:53:56 GMT'
+  'Sat, 27 Jun 2020 17:00:45 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -159,27 +159,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'f8ad51ad-1db5-4e5f-9322-b3eddc785600',
+  '0570605e-3503-4759-8270-394d91e11c00',
   'x-ms-ests-server',
-  '2.1.10732.8 - NCUS ProdSlices',
+  '2.1.10761.12 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AltU2pUvfjJHvussLdPRd7w_aSJHAgAAABNHf9YOAAAA; expires=Sun, 19-Jul-2020 23:53:57 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhmTk7H7N7ZEirLiGEaXXa8_aSJHAgAAADxyidYOAAAA; expires=Mon, 27-Jul-2020 17:00:46 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Fri, 19 Jun 2020 23:53:56 GMT',
+  'Sat, 27 Jun 2020 17:00:45 GMT',
   'Content-Length',
   '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/keys/localCryptoKeyName-PS384-/154b52ca08734e54889824433e91e1a2/sign', {"alg":"PS384","value":"0l4LGQIGx3h4tKvtYkm0UpyuXVNh_uavUS2WlYfyU1tD4dronxAsDyxnAN80h55g"})
+  .get('/keys/localCryptoKeyName-RSA-OAEP-/6319c0ab57034d9b832acc729c2655ea')
   .query(true)
-  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS384-/154b52ca08734e54889824433e91e1a2","value":"pZSJksam12z6XJh9vTTbRcfin9iEwIiNYd_s25dAVo1hFH6GKthNsivtCQ7jnkIFY0AQ0n5U-Lw4fbaspXmQ0gU1Cr8RsQEO8IH-umTL4-5RXgYeM1Xg1IFjzdGLWwTIRglC9IodJF1ju5L6vVYeaSQKrQw0AFodoOXJOYm6R27gEVBYryZsZuPgmBY6n74ghY0Seq81u--cJOwqW5Ne6gad_w36pfA9J5yCiffkOKf510Hx1ikBr1p68VLQ0rUdULuMOVYw3NHb8cQZZVkvAqDxfI-jtjkdf_M6Y82XeYtejxleGt0aabumU5nKUIet48RslQEUSgDH5nBQqnx7qA"}, [
+  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-RSA-OAEP-/6319c0ab57034d9b832acc729c2655ea","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"pHcBDVGAEGSLI2xDysxDqbzRG5dnijjRJ2mHB-X-VS7cuJQuavTAAdv2xnhG584psblIXNaQF6dfnjm2LAHRySItOoyyQCZwnlh8WmXakkHykvWM6fn5OAVgz9hwyoPPq-UHeyzP8aQ-v5SpaK8uhVOPKooTYMUGSOm0jAXF_ClOCp8rhtrNfT8PIWcVqqhkll4fAx-rbeX2zOgKgbPJl1l_HHE4pPGqWANXAt3SLSwFplwmLSWwyavrnOPkkqKRfm8kn3REVmNjDOc-vjIycu-oKrfecB3Qiji1UuO5khDV7qhyZdsHmfxccyrzE15yeXyNH4ghq9AhG_9uIgZPFw","e":"AQAB"},"attributes":{"enabled":true,"created":1593277245,"updated":1593277245,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -191,11 +191,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '1ae3491e-e19c-4735-be0b-4e6804d6bc75',
+  '241dd20e-d178-44a9-9255-0d2a6a9414b2',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -205,49 +205,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:53:56 GMT',
-  'Content-Length',
-  '487'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/keys/localCryptoKeyName-PS384-/154b52ca08734e54889824433e91e1a2')
-  .query(true)
-  .reply(200, {"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS384-/154b52ca08734e54889824433e91e1a2","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"wdOf80O6JLihF9GarevnPfCCm7xMumhi2S2KLtbAkXlv3LNMzfYe_kahik0-2HFXiLYdf_FFu_y4LHJliGQ8KJkjaj0TyIVPEzmcjcjJSlBlsb3tBK88up5sLfWAKlyGwvJx85u6nSrxe2H7Cx8COZERIRAXzkGTZIERqTsiDgz6pL68HFE_QAOaAufqv-xTYYvcha-toae5j7dzIfyeVdLAsI2sA7dDtv9dz-YXDsJrMWNZumvHe1eLisjEXKfY1cBdAWVM7wumGIJRmR_L0jSSeXE2kp4vb_IBVYaOnHEoZyrox47MbgpK-5_Gyaotz5eiz0j60701XeyUYn7Bnw","e":"AQAB"},"attributes":{"enabled":true,"created":1592610836,"updated":1592610836,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '10dfb130-dd6a-43e0-9f2f-b9f965db6713',
-  'x-ms-keyvault-service-version',
-  '1.1.7.0',
-  'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Fri, 19 Jun 2020 23:53:56 GMT',
+  'Sat, 27 Jun 2020 17:00:46 GMT',
   'Content-Length',
   '717'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/keys/localCryptoKeyName-PS384-')
+  .post('/keys/localCryptoKeyName-RSA-OAEP-/6319c0ab57034d9b832acc729c2655ea/unwrapkey', {"alg":"RSA-OAEP","value":"QnQgU69ywp2tvm2r7FrITyG-gD3sizmrxM7clZH4znxbkSGQCBOjpb8QoQDnfDm966oZDbsDQyy5bkqWQerBF_ciDSv_mcojvk5RXcgsrG95p_e9HmF9U3ev_vp4KI4hYSPGSZouzomLEmCCfZZNq_hbjZGnCeHFkbcdpMaH_q2EAeTg9hTWm0yNAg45W1q7pzWezr_xaMiNN1GtPMNN7wnbvmzXoNP079nEZZdJBHdlQFdcwCpN9G7_j4L8CfYEQzk204jBwC-WW7DDNHe4oAIY12LwOt8V2UsIObQ73Fbc4H9H6UX166yPlb1TgCRA8sPo1pfxiIQyjp1OXXVt5g"})
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-PS384-","deletedDate":1592610837,"scheduledPurgeDate":1600386837,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS384-/154b52ca08734e54889824433e91e1a2","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"wdOf80O6JLihF9GarevnPfCCm7xMumhi2S2KLtbAkXlv3LNMzfYe_kahik0-2HFXiLYdf_FFu_y4LHJliGQ8KJkjaj0TyIVPEzmcjcjJSlBlsb3tBK88up5sLfWAKlyGwvJx85u6nSrxe2H7Cx8COZERIRAXzkGTZIERqTsiDgz6pL68HFE_QAOaAufqv-xTYYvcha-toae5j7dzIfyeVdLAsI2sA7dDtv9dz-YXDsJrMWNZumvHe1eLisjEXKfY1cBdAWVM7wumGIJRmR_L0jSSeXE2kp4vb_IBVYaOnHEoZyrox47MbgpK-5_Gyaotz5eiz0j60701XeyUYn7Bnw","e":"AQAB"},"attributes":{"enabled":true,"created":1592610836,"updated":1592610836,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(200, {"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-RSA-OAEP-/6319c0ab57034d9b832acc729c2655ea","value":"YXJlcGE"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -259,11 +225,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a9585d79-0bc5-4ede-a868-d5c37ac4c89a',
+  '7686f154-c715-451c-a01f-89ffded1823c',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -273,15 +239,49 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:53:57 GMT',
+  'Sat, 27 Jun 2020 17:00:46 GMT',
+  'Content-Length',
+  '152'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/keys/localCryptoKeyName-RSA-OAEP-')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-RSA-OAEP-","deletedDate":1593277246,"scheduledPurgeDate":1601053246,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-RSA-OAEP-/6319c0ab57034d9b832acc729c2655ea","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"pHcBDVGAEGSLI2xDysxDqbzRG5dnijjRJ2mHB-X-VS7cuJQuavTAAdv2xnhG584psblIXNaQF6dfnjm2LAHRySItOoyyQCZwnlh8WmXakkHykvWM6fn5OAVgz9hwyoPPq-UHeyzP8aQ-v5SpaK8uhVOPKooTYMUGSOm0jAXF_ClOCp8rhtrNfT8PIWcVqqhkll4fAx-rbeX2zOgKgbPJl1l_HHE4pPGqWANXAt3SLSwFplwmLSWwyavrnOPkkqKRfm8kn3REVmNjDOc-vjIycu-oKrfecB3Qiji1UuO5khDV7qhyZdsHmfxccyrzE15yeXyNH4ghq9AhG_9uIgZPFw","e":"AQAB"},"attributes":{"enabled":true,"created":1593277245,"updated":1593277245,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'd51beff1-beff-4bc6-b558-46091555f66f',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 27 Jun 2020 17:00:45 GMT',
   'Content-Length',
   '888'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -295,11 +295,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '8b88834c-d5b7-4ee6-89b8-4899b923a281',
+  '48bebaa8-f3c4-4131-8718-927ce2fc0f8e',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -309,13 +309,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:53:57 GMT'
+  'Sat, 27 Jun 2020 17:00:45 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -329,11 +329,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '12f3ab24-676e-4f81-a4b1-00594fd59703',
+  '51e63866-c4fc-4efd-9e06-7424d338fb8c',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -343,13 +343,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:53:57 GMT'
+  'Sat, 27 Jun 2020 17:00:45 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -363,11 +363,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd5536500-dd8b-435c-aaa6-d632fa68967c',
+  '2aa4a409-f91c-4765-ae7a-a0e310021139',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -377,13 +377,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:53:58 GMT'
+  'Sat, 27 Jun 2020 17:00:48 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -397,11 +397,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'ac8aaa88-9c07-4611-9a1c-72369843e358',
+  '5c973cd7-2169-429d-8684-ec8060dc9c7a',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -411,13 +411,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:00 GMT'
+  'Sat, 27 Jun 2020 17:00:50 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -431,11 +431,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'e3da2146-4c4e-445e-a282-633dd5c3339d',
+  'd294ed68-ab80-4c46-afb1-3f6022dc97ea',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -445,13 +445,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:02 GMT'
+  'Sat, 27 Jun 2020 17:00:52 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -465,11 +465,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '03d8b2e1-8faf-4740-8021-89f2fdd2ff36',
+  '09dcfc19-2be0-43ec-979a-fe62970f97be',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -479,13 +479,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:05 GMT'
+  'Sat, 27 Jun 2020 17:00:54 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -499,11 +499,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '80c65577-0cae-4036-bd43-747c9921f3f0',
+  '57be62aa-9d44-4c65-baa7-f45735c7ed7b',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -513,13 +513,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:06 GMT'
+  'Sat, 27 Jun 2020 17:00:55 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -533,11 +533,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '6065915d-cf83-4639-be96-0b3ee524d28e',
+  '1af26c50-6134-4527-92b9-f0b20466d6f2',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -547,13 +547,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:09 GMT'
+  'Sat, 27 Jun 2020 17:00:57 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -567,11 +567,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'bfa4cbca-abe7-41ed-b5c5-e89eb83e55d1',
+  'b6b58966-7573-41ea-84e3-0c88743db347',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -581,13 +581,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:11 GMT'
+  'Sat, 27 Jun 2020 17:00:59 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -601,11 +601,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '5c7950e6-3bd2-416e-8726-1c1927792ae4',
+  '7d4252af-b49e-4f44-bbd9-2cc756401ccf',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -615,13 +615,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:13 GMT'
+  'Sat, 27 Jun 2020 17:01:01 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-PS384-"}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -635,11 +635,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '373679c3-523b-4f14-aa4b-b2611d8f16a6',
+  'af793d2e-09db-4f4c-acdc-6235ce39d26c',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -649,13 +649,115 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:15 GMT'
+  'Sat, 27 Jun 2020 17:01:04 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedkeys/localCryptoKeyName-PS384-')
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-PS384-","deletedDate":1592610837,"scheduledPurgeDate":1600386837,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-PS384-/154b52ca08734e54889824433e91e1a2","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"wdOf80O6JLihF9GarevnPfCCm7xMumhi2S2KLtbAkXlv3LNMzfYe_kahik0-2HFXiLYdf_FFu_y4LHJliGQ8KJkjaj0TyIVPEzmcjcjJSlBlsb3tBK88up5sLfWAKlyGwvJx85u6nSrxe2H7Cx8COZERIRAXzkGTZIERqTsiDgz6pL68HFE_QAOaAufqv-xTYYvcha-toae5j7dzIfyeVdLAsI2sA7dDtv9dz-YXDsJrMWNZumvHe1eLisjEXKfY1cBdAWVM7wumGIJRmR_L0jSSeXE2kp4vb_IBVYaOnHEoZyrox47MbgpK-5_Gyaotz5eiz0j60701XeyUYn7Bnw","e":"AQAB"},"attributes":{"enabled":true,"created":1592610836,"updated":1592610836,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '111',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '2787158c-c7f2-4b3e-99d6-999e5fc87a43',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 27 Jun 2020 17:01:06 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
+  .query(true)
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '111',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '81dfd0aa-1342-4a56-a213-3d9f91552ab8',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 27 Jun 2020 17:01:08 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
+  .query(true)
+  .reply(404, {"error":{"code":"KeyNotFound","message":"Deleted Key not found: localCryptoKeyName-RSA-OAEP-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '111',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '44ad0600-404d-4bb2-93bc-40329b28f3d4',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Sat, 27 Jun 2020 17:01:10 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedkeys/localCryptoKeyName-RSA-OAEP-","deletedDate":1593277246,"scheduledPurgeDate":1601053246,"key":{"kid":"https://keyvault_name.vault.azure.net/keys/localCryptoKeyName-RSA-OAEP-/6319c0ab57034d9b832acc729c2655ea","kty":"RSA","key_ops":["encrypt","decrypt","sign","verify","wrapKey","unwrapKey"],"n":"pHcBDVGAEGSLI2xDysxDqbzRG5dnijjRJ2mHB-X-VS7cuJQuavTAAdv2xnhG584psblIXNaQF6dfnjm2LAHRySItOoyyQCZwnlh8WmXakkHykvWM6fn5OAVgz9hwyoPPq-UHeyzP8aQ-v5SpaK8uhVOPKooTYMUGSOm0jAXF_ClOCp8rhtrNfT8PIWcVqqhkll4fAx-rbeX2zOgKgbPJl1l_HHE4pPGqWANXAt3SLSwFplwmLSWwyavrnOPkkqKRfm8kn3REVmNjDOc-vjIycu-oKrfecB3Qiji1UuO5khDV7qhyZdsHmfxccyrzE15yeXyNH4ghq9AhG_9uIgZPFw","e":"AQAB"},"attributes":{"enabled":true,"created":1593277245,"updated":1593277245,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -667,11 +769,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '71a9ac9d-d150-4bf3-8a69-8332c14f2fbe',
+  '5dc381e2-f615-4bc4-b610-84da68deab23',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -681,13 +783,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:17 GMT',
+  'Sat, 27 Jun 2020 17:01:12 GMT',
   'Content-Length',
   '888'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedkeys/localCryptoKeyName-PS384-')
+  .delete('/deletedkeys/localCryptoKeyName-RSA-OAEP-')
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -699,11 +801,11 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '5c516cc1-0fad-4d8e-9481-c0723bd767f6',
+  '05e9a6fc-d2bf-42a4-a032-82c2b7e53689',
   'x-ms-keyvault-service-version',
-  '1.1.7.0',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=52.175.226.52;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=13.66.134.228;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -713,5 +815,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 19 Jun 2020 23:54:17 GMT'
+  'Sat, 27 Jun 2020 17:01:12 GMT'
 ]);
