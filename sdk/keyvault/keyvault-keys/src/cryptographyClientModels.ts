@@ -52,7 +52,7 @@ export interface EncryptResult {
    */
   algorithm: EncryptionAlgorithm;
   /**
-   * The ID of the KeyVault Key used to encrypt the data.
+   * The ID of the Key Vault Key used to encrypt the data.
    */
   keyID?: string;
 }
@@ -66,7 +66,7 @@ export interface WrapResult {
    */
   result: Uint8Array;
   /**
-   * The ID of the KeyVault Key used to wrap the data.
+   * The ID of the Key Vault Key used to wrap the data.
    */
   keyID?: string;
   /**
@@ -84,7 +84,7 @@ export interface UnwrapResult {
    */
   result: Uint8Array;
   /**
-   * The ID of the KeyVault Key used to unwrap the data.
+   * The ID of the Key Vault Key used to unwrap the data.
    */
   keyID?: string;
 }
@@ -97,7 +97,7 @@ export interface DecryptResult {
    */
   result: Uint8Array;
   /**
-   * The ID of the KeyVault Key used to decrypt the encrypted data.
+   * The ID of the Key Vault Key used to decrypt the encrypted data.
    */
   keyID?: string;
   /**
@@ -115,7 +115,7 @@ export interface SignResult {
    */
   result: Uint8Array;
   /**
-   * The ID of the KeyVault Key used to sign the data.
+   * The ID of the Key Vault Key used to sign the data.
    */
   keyID?: string;
   /**
@@ -133,7 +133,7 @@ export interface VerifyResult {
    */
   result: boolean;
   /**
-   * The ID of the KeyVault Key used to verify the data.
+   * The ID of the Key Vault Key used to verify the data.
    */
   keyID?: string;
 }

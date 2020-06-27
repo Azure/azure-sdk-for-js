@@ -57,7 +57,7 @@ export interface KeyClientInterface {
 }
 
 /**
- * The latest supported KeyVault service API version
+ * The latest supported Key Vault service API version
  */
 export const LATEST_API_VERSION = "7.1-preview";
 
@@ -151,7 +151,7 @@ export interface JsonWebKey {
 }
 
 /**
- * An interface representing a KeyVault Key, with its name, value and {@link KeyProperties}.
+ * An interface representing a Key Vault Key, with its name, value and {@link KeyProperties}.
  */
 export interface KeyVaultKey {
   /**
@@ -250,7 +250,7 @@ export interface KeyProperties {
 }
 
 /**
- * An interface representing a deleted KeyVault Key.
+ * An interface representing a deleted Key Vault Key.
  */
 export interface DeletedKey {
   /**
