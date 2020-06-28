@@ -7,8 +7,13 @@
  */
 
 export {
+  CachedImages,
+  CachedImagesListResult,
+  Capabilities,
+  CapabilitiesCapabilities,
+  CapabilitiesListResult,
   CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  Usage,
+  UsageListResult,
+  UsageName
 } from "../models/mappers";
