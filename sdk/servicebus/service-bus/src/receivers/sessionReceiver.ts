@@ -17,7 +17,6 @@ import {
 import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
-  getOpenSessionReceiverErrorMsg,
   getReceiverClosedErrorMsg,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
@@ -124,20 +123,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     if (this._sessionOptions.sessionId) {
       this._sessionOptions.sessionId = String(this._sessionOptions.sessionId);
-
-      // Check if receiver for given session already exists
-      if (
-        this._context.messageSessions[this._sessionOptions.sessionId] &&
-        this._context.messageSessions[this._sessionOptions.sessionId].isOpen()
-      ) {
-        const errorMessage = getOpenSessionReceiverErrorMsg(
-          this._context.entityPath,
-          this._sessionOptions.sessionId
-        );
-        const error = new Error(errorMessage);
-        log.error(`[${this._context.namespace.connectionId}] %O`, error);
-        throw error;
-      }
     }
 
     // `createInitializedSessionReceiver` will set this value by calling init()

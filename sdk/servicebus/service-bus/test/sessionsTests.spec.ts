@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ReceivedMessage, delay } from "../src";
 
-import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout, isMessagingError } from "./utils/testUtils";
 import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
 import {
@@ -33,7 +33,7 @@ describe("session tests", () => {
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
-  async function beforeEachTest(testClientType: TestClientType, sessionId: string): Promise<void> {
+  async function beforeEachTest(testClientType: TestClientType, sessionId?: string): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
@@ -66,6 +66,56 @@ describe("session tests", () => {
     await serviceBusClient.test.afterEach();
     await serviceBusClient.test.after();
   }
+
+  describe("createSessionReceiver error scenarios", function(): void {
+    it("No sessionId on empty queue throws OperationTimeoutError", async function(): Promise<
+      void
+    > {
+      let expectedErrorThrown = false;
+      let unexpectedError;
+      try {
+        await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+      } catch (error) {
+        if (isMessagingError(error) && error.code === "OperationTimeoutError") {
+          expectedErrorThrown = true;
+        } else {
+          unexpectedError = error;
+        }
+      }
+      should.equal(
+        expectedErrorThrown,
+        true,
+        `Instead of OperationTimeoutError, found ${unexpectedError}`
+      );
+      await serviceBusClient.close();
+    });
+
+    it("An already locked session throws SessionCannotBeLockedError", async function(): Promise<
+      void
+    > {
+      let expectedErrorThrown = false;
+      let unexpectedError;
+      await beforeEachTest(TestClientType.PartitionedQueueWithSessions, "boo");
+      try {
+        await serviceBusClient.test.getSessionPeekLockReceiver(
+          { queue: receiver.entityPath, usesSessions: true },
+          { sessionId: "boo" }
+        );
+      } catch (error) {
+        if (isMessagingError(error) && error.code === "SessionCannotBeLockedError") {
+          expectedErrorThrown = true;
+        } else {
+          unexpectedError = error;
+        }
+      }
+      should.equal(
+        expectedErrorThrown,
+        true,
+        `Instead of SessionCannotBeLockedError, found ${unexpectedError}`
+      );
+      await serviceBusClient.close();
+    });
+  });
 
   describe("SessionReceiver with invalid sessionId", function(): void {
     const nonExistentSessionId: string = "non" + TestMessage.sessionId;

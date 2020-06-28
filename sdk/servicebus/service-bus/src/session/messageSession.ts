@@ -363,21 +363,16 @@ export class MessageSession extends LinkEntity {
         let errorMessage: string = "";
         // SB allows a sessionId with empty string value :)
 
-        if (receivedSessionId == null) {
-          if (this.sessionId == null) {
-            errorMessage = `No unlocked sessions were available`;
-          } else {
-            errorMessage =
-              `Received an incorrect sessionId '${receivedSessionId}' while creating ` +
-              `the receiver '${this.name}'.`;
-          }
+        if (this.sessionId == null && receivedSessionId == null) {
+          // In reality this code path is never reached as `createReceiver()` fails with OperationTimeoutError
+          // when we ask for next available session and none are available.
+          errorMessage = `No unlocked sessions were available`;
+        } else if (this.sessionId != null && receivedSessionId !== this.sessionId) {
+          // This code path is reached if the session is already locked by another receiver.
+          // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
+          errorMessage = `Failed to get a lock on the session ${this.sessionId};`
         }
-
-        if (this.sessionId != null && receivedSessionId !== this.sessionId) {
-          errorMessage =
-            `Received sessionId '${receivedSessionId}' does not match the provided ` +
-            `sessionId '${this.sessionId}' while creating the receiver '${this.name}'.`;
-        }
+        
         if (errorMessage) {
           const error = translate({
             description: errorMessage,
