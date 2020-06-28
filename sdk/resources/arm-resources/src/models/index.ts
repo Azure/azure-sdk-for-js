@@ -58,9 +58,18 @@ export interface ResourceGroupFilter {
  */
 export interface TemplateLink {
   /**
-   * The URI of the template to deploy.
+   * The URI of the template to deploy. Use either the uri or id property, but not both.
    */
-  uri: string;
+  uri?: string;
+  /**
+   * The resource id of a Template Spec. Use either the id or uri property, but not both.
+   */
+  id?: string;
+  /**
+   * Applicable only if this template link references a Template Spec. This relativePath property
+   * can optionally be used to reference a Template Spec artifact by path.
+   */
+  relativePath?: string;
   /**
    * If included, must match the ContentVersion in the template.
    */
@@ -483,10 +492,12 @@ export interface ResourceReference {
  */
 export interface DeploymentPropertiesExtended {
   /**
-   * The state of the provisioning.
+   * Denotes the state of provisioning. Possible values include: 'NotSpecified', 'Accepted',
+   * 'Running', 'Ready', 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
+   * 'Succeeded', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The correlation ID of the deployment.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -988,6 +999,20 @@ export interface HttpMessage {
 }
 
 /**
+ * Operation status message object.
+ */
+export interface StatusMessage {
+  /**
+   * Status of the deployment operation.
+   */
+  status?: string;
+  /**
+   * The error reported by the operation.
+   */
+  error?: ErrorResponse;
+}
+
+/**
  * Deployment operation properties.
  */
 export interface DeploymentOperationProperties {
@@ -1019,15 +1044,17 @@ export interface DeploymentOperationProperties {
    */
   readonly serviceRequestId?: string;
   /**
-   * Operation status code.
+   * Operation status code from the resource provider. This property may not be set if a response
+   * has not yet been received.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly statusCode?: string;
   /**
-   * Operation status message.
+   * Operation status message from the resource provider. This property is optional.  It will only
+   * be provided if an error was received from the resource provider.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly statusMessage?: any;
+  readonly statusMessage?: StatusMessage;
   /**
    * The target resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1710,6 +1737,15 @@ export type AliasPatternType = 'NotSpecified' | 'Extract';
  * @enum {string}
  */
 export type AliasType = 'NotSpecified' | 'PlainText' | 'Mask';
+
+/**
+ * Defines values for ProvisioningState.
+ * Possible values include: 'NotSpecified', 'Accepted', 'Running', 'Ready', 'Creating', 'Created',
+ * 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Updating'
+ * @readonly
+ * @enum {string}
+ */
+export type ProvisioningState = 'NotSpecified' | 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Updating';
 
 /**
  * Defines values for ResourceIdentityType.

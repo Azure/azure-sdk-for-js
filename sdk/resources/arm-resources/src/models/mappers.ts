@@ -85,8 +85,19 @@ export const TemplateLink: msRest.CompositeMapper = {
     className: "TemplateLink",
     modelProperties: {
       uri: {
-        required: true,
         serializedName: "uri",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      relativePath: {
+        serializedName: "relativePath",
         type: {
           name: "String"
         }
@@ -1654,6 +1665,29 @@ export const HttpMessage: msRest.CompositeMapper = {
   }
 };
 
+export const StatusMessage: msRest.CompositeMapper = {
+  serializedName: "StatusMessage",
+  type: {
+    name: "Composite",
+    className: "StatusMessage",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
+        }
+      }
+    }
+  }
+};
+
 export const DeploymentOperationProperties: msRest.CompositeMapper = {
   serializedName: "DeploymentOperationProperties",
   type: {
@@ -1718,7 +1752,8 @@ export const DeploymentOperationProperties: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "statusMessage",
         type: {
-          name: "Object"
+          name: "Composite",
+          className: "StatusMessage"
         }
       },
       targetResource: {
