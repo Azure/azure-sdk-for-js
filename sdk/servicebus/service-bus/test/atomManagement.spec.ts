@@ -2465,10 +2465,11 @@ async function updateEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const getSubscriptionResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
+      const getSubscriptionResponse = await serviceBusAtomManagementClient.getSubscription(
+        topicPath,
+        subscriptionPath!
+      );
       const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription({
-        topicName: topicPath,
-        subscriptionName: entityPath,
         ...getSubscriptionResponse,
         ...subscriptionOptions
       });
