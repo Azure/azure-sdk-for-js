@@ -1,12 +1,17 @@
 import { join } from "path";
 import * as assert from "assert";
+import { isNode } from "@azure/core-http";
 
 import { packageVersion } from "../src/appConfigurationClient";
 
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
   // in the generated code.
-  it("user agent string matches the package version", () => {
+  it("user agent string matches the package version", function() {
+    if (!isNode) {
+      this.skip();
+    }
+
     let packageJsonContents: {
       [property: string]: string;
     };

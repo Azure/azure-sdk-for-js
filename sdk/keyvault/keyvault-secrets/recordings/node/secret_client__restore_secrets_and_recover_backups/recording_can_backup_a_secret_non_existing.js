@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "2096ad61cae23e39288699cc56fd91ee";
+module.exports.hash = "5204a75ee47906cd6ad44b577accb4f0";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/secrets/CRUDSecretName-canbackupasecretnonexisting-/backup')
+  .post('/secrets/backupRestoreSecretName-canbackupasecretnonexisting-/backup')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -18,18 +18,16 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'edf95749-68a8-429a-871b-5700d3cd15fa',
+  '73ba0ab3-e912-4d0b-967a-ce23e695c663',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -39,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 04:21:17 GMT'
+  'Thu, 25 Jun 2020 12:05:01 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -58,47 +56,45 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'c95bc603-0b54-48dc-9013-ebe044ac7900',
+  '4fd12eaf-6813-45e8-bf0d-cba8edb24101',
   'x-ms-ests-server',
-  '2.1.10433.14 - SCUS ProdSlices',
+  '2.1.10732.8 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AicLVQKvQZRFj2gIefoSj8o_aSJHAQAAAD2mOdYOAAAA; expires=Thu, 28-May-2020 04:21:18 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aks1pUXUTl5DtFOk9OrFhdE_aSJHAQAAAO2JhtYOAAAA; expires=Sat, 25-Jul-2020 12:05:01 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 28 Apr 2020 04:21:18 GMT',
+  'Thu, 25 Jun 2020 12:05:00 GMT',
   'Content-Length',
   '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/secrets/CRUDSecretName-canbackupasecretnonexisting-/backup')
+  .post('/secrets/backupRestoreSecretName-canbackupasecretnonexisting-/backup')
   .query(true)
-  .reply(404, {"error":{"code":"SecretNotFound","message":"Secret not found: CRUDSecretName-canbackupasecretnonexisting-"}}, [
+  .reply(404, {"error":{"code":"SecretNotFound","message":"A secret with (name/id) backupRestoreSecretName-canbackupasecretnonexisting- was not found in this key vault. If you recently deleted this secret you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '125',
+  '365',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '4722d773-8600-486e-b7ce-ac7822c50cc8',
+  '5b8421ae-e0be-42e2-b860-0a16e637db76',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -108,5 +104,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 04:21:17 GMT'
+  'Thu, 25 Jun 2020 12:05:01 GMT'
 ]);

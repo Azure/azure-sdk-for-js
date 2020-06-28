@@ -106,12 +106,12 @@ This gives you a sender which you can use to [send][sender_send] messages.
 const sender = serviceBusClient.createSender("my-queue");
 
 // sending a single message
-await sender.send({
+await sender.sendMessages({
   body: "my-message-body"
 });
 
 // sending multiple messages
-await sender.send([
+await sender.sendMessages([
   {
     body: "my-message-body"
   },
@@ -124,7 +124,7 @@ await sender.send([
 ### Receive messages
 
 Once you have created an instance of a `ServiceBusClient` class, you can get a `Receiver`
-using the [createReceiver][sbclient_createreceiver] function.
+using the [createReceiver][sbclient_createreceiver] method.
 
 ```javascript
 const receiver = serviceBusClient.createReceiver("my-queue", "peekLock");
@@ -134,11 +134,11 @@ You can use this receiver in one of 3 ways to receive messages:
 
 #### Get an array of messages
 
-Use the [receiveBatch][receiverreceivebatch] function which returns a promise that
+Use the [receiveMessages][receiverreceivebatch] function which returns a promise that
 resolves to an array of messages.
 
 ```javascript
-const myMessages = await receiver.receiveBatch(10);
+const myMessages = await receiver.receiveMessages(10);
 ```
 
 #### Subscribe using a message handler
@@ -191,7 +191,7 @@ your message lands in the right session.
 
 ```javascript
 const sender = serviceBusClient.createSender("my-session-queue");
-await sender.send({
+await sender.sendMessages({
   body: "my-message-body",
   sessionId: "my-session"
 });
@@ -346,3 +346,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [queue_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#queues
 [topic_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#topics
 [subscription_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions#topics-and-subscriptions
+[service_bus_overview]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview

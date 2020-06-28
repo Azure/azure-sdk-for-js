@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-candeleteacertificateNonExisting-",
+   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-candeleteacertificateNonExisting-",
    "query": {
     "api-version": "7.1-preview"
    },
@@ -13,19 +13,18 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Apr 2020 22:22:25 GMT",
+    "date": "Fri, 26 Jun 2020 22:56:07 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "105e0b01-5690-478f-8882-ac894266e996",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "39b2ccd6-7eac-401e-bb91-6cfcf96b080d",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,42 +39,41 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Apr 2020 22:22:26 GMT",
+    "date": "Fri, 26 Jun 2020 22:56:08 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10433.14 - WUS2 ProdSlices",
-    "x-ms-request-id": "6f53fd89-dfb1-4498-a2fe-f98bd2fb0400"
+    "x-ms-ests-server": "2.1.10761.12 - EUS ProdSlices",
+    "x-ms-request-id": "d9691dd9-b624-473e-8006-9444f3890a00"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-candeleteacertificateNonExisting-",
+   "url": "https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-candeleteacertificateNonExisting-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Certificate not found: recoverCertificateName-candeleteacertificateNonExisting-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) CRUDCertificateName-candeleteacertificateNonExisting- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "148",
+    "content-length": "383",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Apr 2020 22:22:26 GMT",
+    "date": "Fri, 26 Jun 2020 22:56:08 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "182d6445-db06-40d8-9807-c8dd7a39bba7",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "0ca41db7-99ec-4a92-b3b1-e055484f2fe9",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -84,5 +82,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "e6c9f4932701f796c7aeac0fb942f9e6"
+ "hash": "8d5fa04e4c177a1778ff2c9b6951f29c"
 }

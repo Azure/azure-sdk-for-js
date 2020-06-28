@@ -368,6 +368,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-client",
+      "projectFolder": "sdk/core/core-client",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
       "versionPolicyName": "core"
@@ -428,6 +433,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/keyvault-admin",
+      "projectFolder": "sdk/keyvault/keyvault-admin",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/keyvault-certificates",
       "projectFolder": "sdk/keyvault/keyvault-certificates",
       "versionPolicyName": "client"
@@ -470,6 +480,11 @@
     {
       "packageName": "@azure/storage-queue",
       "projectFolder": "sdk/storage/storage-queue",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/tables",
+      "projectFolder": "sdk/tables/azure-tables",
       "versionPolicyName": "client"
     },
     {

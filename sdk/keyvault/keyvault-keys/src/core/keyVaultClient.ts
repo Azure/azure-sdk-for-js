@@ -18,15 +18,10 @@ class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
    * @param apiVersion Client API version.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    apiVersion: string,
-    options?: coreHttp.ServiceClientOptions
-  ) {
-    super(credentials, apiVersion, options);
+  constructor(apiVersion: string, options?: coreHttp.ServiceClientOptions) {
+    super(apiVersion, options);
   }
 
   /**
@@ -42,12 +37,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateKeyResponse>
    */
-  createKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    kty: Models.JsonWebKeyType,
-    options?: Models.KeyVaultClientCreateKeyOptionalParams
-  ): Promise<Models.CreateKeyResponse>;
+  createKey(vaultBaseUrl: string, keyName: string, kty: Models.JsonWebKeyType, options?: Models.KeyVaultClientCreateKeyOptionalParams): Promise<Models.CreateKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name for the new key. The system will generate the version name for the new
@@ -56,12 +46,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
    * @param callback The callback
    */
-  createKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    kty: Models.JsonWebKeyType,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
+  createKey(vaultBaseUrl: string, keyName: string, kty: Models.JsonWebKeyType, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name for the new key. The system will generate the version name for the new
@@ -71,22 +56,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    kty: Models.JsonWebKeyType,
-    options: Models.KeyVaultClientCreateKeyOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
-  createKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    kty: Models.JsonWebKeyType,
-    options?:
-      | Models.KeyVaultClientCreateKeyOptionalParams
-      | coreHttp.ServiceCallback<Models.KeyBundle>,
-    callback?: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): Promise<Models.CreateKeyResponse> {
+  createKey(vaultBaseUrl: string, keyName: string, kty: Models.JsonWebKeyType, options: Models.KeyVaultClientCreateKeyOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
+  createKey(vaultBaseUrl: string, keyName: string, kty: Models.JsonWebKeyType, options?: Models.KeyVaultClientCreateKeyOptionalParams | coreHttp.ServiceCallback<Models.KeyBundle>, callback?: coreHttp.ServiceCallback<Models.KeyBundle>): Promise<Models.CreateKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -95,8 +66,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       createKeyOperationSpec,
-      callback
-    ) as Promise<Models.CreateKeyResponse>;
+      callback) as Promise<Models.CreateKeyResponse>;
   }
 
   /**
@@ -111,24 +81,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImportKeyResponse>
    */
-  importKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    key: Models.JsonWebKey,
-    options?: Models.KeyVaultClientImportKeyOptionalParams
-  ): Promise<Models.ImportKeyResponse>;
+  importKey(vaultBaseUrl: string, keyName: string, key: Models.JsonWebKey, options?: Models.KeyVaultClientImportKeyOptionalParams): Promise<Models.ImportKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName Name for the imported key.
    * @param key The Json web key
    * @param callback The callback
    */
-  importKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    key: Models.JsonWebKey,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
+  importKey(vaultBaseUrl: string, keyName: string, key: Models.JsonWebKey, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName Name for the imported key.
@@ -136,22 +96,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  importKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    key: Models.JsonWebKey,
-    options: Models.KeyVaultClientImportKeyOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
-  importKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    key: Models.JsonWebKey,
-    options?:
-      | Models.KeyVaultClientImportKeyOptionalParams
-      | coreHttp.ServiceCallback<Models.KeyBundle>,
-    callback?: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): Promise<Models.ImportKeyResponse> {
+  importKey(vaultBaseUrl: string, keyName: string, key: Models.JsonWebKey, options: Models.KeyVaultClientImportKeyOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
+  importKey(vaultBaseUrl: string, keyName: string, key: Models.JsonWebKey, options?: Models.KeyVaultClientImportKeyOptionalParams | coreHttp.ServiceCallback<Models.KeyBundle>, callback?: coreHttp.ServiceCallback<Models.KeyBundle>): Promise<Models.ImportKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -160,8 +106,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       importKeyOperationSpec,
-      callback
-    ) as Promise<Models.ImportKeyResponse>;
+      callback) as Promise<Models.ImportKeyResponse>;
   }
 
   /**
@@ -175,39 +120,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteKeyResponse>
    */
-  deleteKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.DeleteKeyResponse>;
+  deleteKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.DeleteKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to delete.
    * @param callback The callback
    */
-  deleteKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedKeyBundle>
-  ): void;
+  deleteKey(vaultBaseUrl: string, keyName: string, callback: coreHttp.ServiceCallback<Models.DeletedKeyBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to delete.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.DeletedKeyBundle>
-  ): void;
-  deleteKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedKeyBundle>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedKeyBundle>
-  ): Promise<Models.DeleteKeyResponse> {
+  deleteKey(vaultBaseUrl: string, keyName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DeletedKeyBundle>): void;
+  deleteKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedKeyBundle>, callback?: coreHttp.ServiceCallback<Models.DeletedKeyBundle>): Promise<Models.DeleteKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -215,8 +142,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteKeyOperationSpec,
-      callback
-    ) as Promise<Models.DeleteKeyResponse>;
+      callback) as Promise<Models.DeleteKeyResponse>;
   }
 
   /**
@@ -231,24 +157,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateKeyResponse>
    */
-  updateKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    options?: Models.KeyVaultClientUpdateKeyOptionalParams
-  ): Promise<Models.UpdateKeyResponse>;
+  updateKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options?: Models.KeyVaultClientUpdateKeyOptionalParams): Promise<Models.UpdateKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of key to update.
    * @param keyVersion The version of the key to update.
    * @param callback The callback
    */
-  updateKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
+  updateKey(vaultBaseUrl: string, keyName: string, keyVersion: string, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of key to update.
@@ -256,22 +172,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    options: Models.KeyVaultClientUpdateKeyOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
-  updateKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    options?:
-      | Models.KeyVaultClientUpdateKeyOptionalParams
-      | coreHttp.ServiceCallback<Models.KeyBundle>,
-    callback?: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): Promise<Models.UpdateKeyResponse> {
+  updateKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options: Models.KeyVaultClientUpdateKeyOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
+  updateKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options?: Models.KeyVaultClientUpdateKeyOptionalParams | coreHttp.ServiceCallback<Models.KeyBundle>, callback?: coreHttp.ServiceCallback<Models.KeyBundle>): Promise<Models.UpdateKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -280,8 +182,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateKeyOperationSpec,
-      callback
-    ) as Promise<Models.UpdateKeyResponse>;
+      callback) as Promise<Models.UpdateKeyResponse>;
   }
 
   /**
@@ -290,49 +191,30 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @summary Gets the public part of a stored key.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to get.
-   * @param keyVersion Adding the version parameter retrieves a specific version of a key.
+   * @param keyVersion Adding the version parameter retrieves a specific version of a key. This URI
+   * fragment is optional. If not specified, the latest version of the key is returned.
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeyResponse>
    */
-  getKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetKeyResponse>;
+  getKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to get.
-   * @param keyVersion Adding the version parameter retrieves a specific version of a key.
+   * @param keyVersion Adding the version parameter retrieves a specific version of a key. This URI
+   * fragment is optional. If not specified, the latest version of the key is returned.
    * @param callback The callback
    */
-  getKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
+  getKey(vaultBaseUrl: string, keyName: string, keyVersion: string, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key to get.
-   * @param keyVersion Adding the version parameter retrieves a specific version of a key.
+   * @param keyVersion Adding the version parameter retrieves a specific version of a key. This URI
+   * fragment is optional. If not specified, the latest version of the key is returned.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
-  getKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyBundle>,
-    callback?: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): Promise<Models.GetKeyResponse> {
+  getKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
+  getKey(vaultBaseUrl: string, keyName: string, keyVersion: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyBundle>, callback?: coreHttp.ServiceCallback<Models.KeyBundle>): Promise<Models.GetKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -341,8 +223,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getKeyOperationSpec,
-      callback
-    ) as Promise<Models.GetKeyResponse>;
+      callback) as Promise<Models.GetKeyResponse>;
   }
 
   /**
@@ -354,41 +235,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeyVersionsResponse>
    */
-  getKeyVersions(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: Models.KeyVaultClientGetKeyVersionsOptionalParams
-  ): Promise<Models.GetKeyVersionsResponse>;
+  getKeyVersions(vaultBaseUrl: string, keyName: string, options?: Models.KeyVaultClientGetKeyVersionsOptionalParams): Promise<Models.GetKeyVersionsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param callback The callback
    */
-  getKeyVersions(
-    vaultBaseUrl: string,
-    keyName: string,
-    callback: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): void;
+  getKeyVersions(vaultBaseUrl: string, keyName: string, callback: coreHttp.ServiceCallback<Models.KeyListResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeyVersions(
-    vaultBaseUrl: string,
-    keyName: string,
-    options: Models.KeyVaultClientGetKeyVersionsOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): void;
-  getKeyVersions(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?:
-      | Models.KeyVaultClientGetKeyVersionsOptionalParams
-      | coreHttp.ServiceCallback<Models.KeyListResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): Promise<Models.GetKeyVersionsResponse> {
+  getKeyVersions(vaultBaseUrl: string, keyName: string, options: Models.KeyVaultClientGetKeyVersionsOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyListResult>): void;
+  getKeyVersions(vaultBaseUrl: string, keyName: string, options?: Models.KeyVaultClientGetKeyVersionsOptionalParams | coreHttp.ServiceCallback<Models.KeyListResult>, callback?: coreHttp.ServiceCallback<Models.KeyListResult>): Promise<Models.GetKeyVersionsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -396,8 +257,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getKeyVersionsOperationSpec,
-      callback
-    ) as Promise<Models.GetKeyVersionsResponse>;
+      callback) as Promise<Models.GetKeyVersionsResponse>;
   }
 
   /**
@@ -410,10 +270,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetKeysResponse>
    */
-  getKeys(
-    vaultBaseUrl: string,
-    options?: Models.KeyVaultClientGetKeysOptionalParams
-  ): Promise<Models.GetKeysResponse>;
+  getKeys(vaultBaseUrl: string, options?: Models.KeyVaultClientGetKeysOptionalParams): Promise<Models.GetKeysResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
@@ -424,26 +281,15 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeys(
-    vaultBaseUrl: string,
-    options: Models.KeyVaultClientGetKeysOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): void;
-  getKeys(
-    vaultBaseUrl: string,
-    options?:
-      | Models.KeyVaultClientGetKeysOptionalParams
-      | coreHttp.ServiceCallback<Models.KeyListResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyListResult>
-  ): Promise<Models.GetKeysResponse> {
+  getKeys(vaultBaseUrl: string, options: Models.KeyVaultClientGetKeysOptionalParams, callback: coreHttp.ServiceCallback<Models.KeyListResult>): void;
+  getKeys(vaultBaseUrl: string, options?: Models.KeyVaultClientGetKeysOptionalParams | coreHttp.ServiceCallback<Models.KeyListResult>, callback?: coreHttp.ServiceCallback<Models.KeyListResult>): Promise<Models.GetKeysResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getKeysOperationSpec,
-      callback
-    ) as Promise<Models.GetKeysResponse>;
+      callback) as Promise<Models.GetKeysResponse>;
   }
 
   /**
@@ -464,39 +310,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupKeyResponse>
    */
-  backupKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.BackupKeyResponse>;
+  backupKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BackupKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param callback The callback
    */
-  backupKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    callback: coreHttp.ServiceCallback<Models.BackupKeyResult>
-  ): void;
+  backupKey(vaultBaseUrl: string, keyName: string, callback: coreHttp.ServiceCallback<Models.BackupKeyResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param options The optional parameters
    * @param callback The callback
    */
-  backupKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.BackupKeyResult>
-  ): void;
-  backupKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BackupKeyResult>,
-    callback?: coreHttp.ServiceCallback<Models.BackupKeyResult>
-  ): Promise<Models.BackupKeyResponse> {
+  backupKey(vaultBaseUrl: string, keyName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BackupKeyResult>): void;
+  backupKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BackupKeyResult>, callback?: coreHttp.ServiceCallback<Models.BackupKeyResult>): Promise<Models.BackupKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -504,8 +332,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       backupKeyOperationSpec,
-      callback
-    ) as Promise<Models.BackupKeyResponse>;
+      callback) as Promise<Models.BackupKeyResponse>;
   }
 
   /**
@@ -525,39 +352,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestoreKeyResponse>
    */
-  restoreKey(
-    vaultBaseUrl: string,
-    keyBundleBackup: Uint8Array,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.RestoreKeyResponse>;
+  restoreKey(vaultBaseUrl: string, keyBundleBackup: Uint8Array, options?: coreHttp.RequestOptionsBase): Promise<Models.RestoreKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyBundleBackup The backup blob associated with a key bundle.
    * @param callback The callback
    */
-  restoreKey(
-    vaultBaseUrl: string,
-    keyBundleBackup: Uint8Array,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
+  restoreKey(vaultBaseUrl: string, keyBundleBackup: Uint8Array, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyBundleBackup The backup blob associated with a key bundle.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restoreKey(
-    vaultBaseUrl: string,
-    keyBundleBackup: Uint8Array,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
-  restoreKey(
-    vaultBaseUrl: string,
-    keyBundleBackup: Uint8Array,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyBundle>,
-    callback?: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): Promise<Models.RestoreKeyResponse> {
+  restoreKey(vaultBaseUrl: string, keyBundleBackup: Uint8Array, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
+  restoreKey(vaultBaseUrl: string, keyBundleBackup: Uint8Array, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyBundle>, callback?: coreHttp.ServiceCallback<Models.KeyBundle>): Promise<Models.RestoreKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -565,8 +374,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       restoreKeyOperationSpec,
-      callback
-    ) as Promise<Models.RestoreKeyResponse>;
+      callback) as Promise<Models.RestoreKeyResponse>;
   }
 
   /**
@@ -589,14 +397,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.EncryptResponse>
    */
-  encrypt(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.EncryptResponse>;
+  encrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase): Promise<Models.EncryptResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -606,14 +407,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  encrypt(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
+  encrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -624,24 +418,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  encrypt(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
-  encrypt(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): Promise<Models.EncryptResponse> {
+  encrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
+  encrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>, callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>): Promise<Models.EncryptResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -652,8 +430,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       encryptOperationSpec,
-      callback
-    ) as Promise<Models.EncryptResponse>;
+      callback) as Promise<Models.EncryptResponse>;
   }
 
   /**
@@ -673,14 +450,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DecryptResponse>
    */
-  decrypt(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.DecryptResponse>;
+  decrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase): Promise<Models.DecryptResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -690,14 +460,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  decrypt(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
+  decrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -708,24 +471,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  decrypt(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
-  decrypt(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): Promise<Models.DecryptResponse> {
+  decrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
+  decrypt(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>, callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>): Promise<Models.DecryptResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -736,8 +483,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       decryptOperationSpec,
-      callback
-    ) as Promise<Models.DecryptResponse>;
+      callback) as Promise<Models.DecryptResponse>;
   }
 
   /**
@@ -755,14 +501,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignResponse>
    */
-  sign(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeySignatureAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.SignResponse>;
+  sign(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase): Promise<Models.SignResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -773,14 +512,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  sign(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeySignatureAlgorithm,
-    value: Uint8Array,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
+  sign(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, value: Uint8Array, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -792,24 +524,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  sign(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeySignatureAlgorithm,
-    value: Uint8Array,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
-  sign(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeySignatureAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): Promise<Models.SignResponse> {
+  sign(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, value: Uint8Array, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
+  sign(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>, callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>): Promise<Models.SignResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -820,8 +536,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       signOperationSpec,
-      callback
-    ) as Promise<Models.SignResponse>;
+      callback) as Promise<Models.SignResponse>;
   }
 
   /**
@@ -842,15 +557,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.VerifyResponse>
    */
-  verify(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeySignatureAlgorithm,
-    digest: Uint8Array,
-    signature: Uint8Array,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.VerifyResponse>;
+  verify(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: coreHttp.RequestOptionsBase): Promise<Models.VerifyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -862,15 +569,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param signature The signature to be verified.
    * @param callback The callback
    */
-  verify(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeySignatureAlgorithm,
-    digest: Uint8Array,
-    signature: Uint8Array,
-    callback: coreHttp.ServiceCallback<Models.KeyVerifyResult>
-  ): void;
+  verify(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, callback: coreHttp.ServiceCallback<Models.KeyVerifyResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -883,26 +582,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  verify(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeySignatureAlgorithm,
-    digest: Uint8Array,
-    signature: Uint8Array,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyVerifyResult>
-  ): void;
-  verify(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeySignatureAlgorithm,
-    digest: Uint8Array,
-    signature: Uint8Array,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyVerifyResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyVerifyResult>
-  ): Promise<Models.VerifyResponse> {
+  verify(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.KeyVerifyResult>): void;
+  verify(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeySignatureAlgorithm, digest: Uint8Array, signature: Uint8Array, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyVerifyResult>, callback?: coreHttp.ServiceCallback<Models.KeyVerifyResult>): Promise<Models.VerifyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -914,8 +595,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       verifyOperationSpec,
-      callback
-    ) as Promise<Models.VerifyResponse>;
+      callback) as Promise<Models.VerifyResponse>;
   }
 
   /**
@@ -935,14 +615,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.WrapKeyResponse>
    */
-  wrapKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.WrapKeyResponse>;
+  wrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase): Promise<Models.WrapKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -952,14 +625,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  wrapKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
+  wrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -970,24 +636,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  wrapKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
-  wrapKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): Promise<Models.WrapKeyResponse> {
+  wrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
+  wrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>, callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>): Promise<Models.WrapKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -998,8 +648,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       wrapKeyOperationSpec,
-      callback
-    ) as Promise<Models.WrapKeyResponse>;
+      callback) as Promise<Models.WrapKeyResponse>;
   }
 
   /**
@@ -1018,14 +667,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UnwrapKeyResponse>
    */
-  unwrapKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.UnwrapKeyResponse>;
+  unwrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase): Promise<Models.UnwrapKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -1035,14 +677,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param value
    * @param callback The callback
    */
-  unwrapKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
+  unwrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
@@ -1053,24 +688,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  unwrapKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): void;
-  unwrapKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    keyVersion: string,
-    algorithm: Models.JsonWebKeyEncryptionAlgorithm,
-    value: Uint8Array,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>,
-    callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>
-  ): Promise<Models.UnwrapKeyResponse> {
+  unwrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.KeyOperationResult>): void;
+  unwrapKey(vaultBaseUrl: string, keyName: string, keyVersion: string, algorithm: Models.JsonWebKeyEncryptionAlgorithm, value: Uint8Array, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyOperationResult>, callback?: coreHttp.ServiceCallback<Models.KeyOperationResult>): Promise<Models.UnwrapKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1081,8 +700,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       unwrapKeyOperationSpec,
-      callback
-    ) as Promise<Models.UnwrapKeyResponse>;
+      callback) as Promise<Models.UnwrapKeyResponse>;
   }
 
   /**
@@ -1096,43 +714,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedKeysResponse>
    */
-  getDeletedKeys(
-    vaultBaseUrl: string,
-    options?: Models.KeyVaultClientGetDeletedKeysOptionalParams
-  ): Promise<Models.GetDeletedKeysResponse>;
+  getDeletedKeys(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedKeysOptionalParams): Promise<Models.GetDeletedKeysResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getDeletedKeys(
-    vaultBaseUrl: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedKeyListResult>
-  ): void;
+  getDeletedKeys(vaultBaseUrl: string, callback: coreHttp.ServiceCallback<Models.DeletedKeyListResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedKeys(
-    vaultBaseUrl: string,
-    options: Models.KeyVaultClientGetDeletedKeysOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.DeletedKeyListResult>
-  ): void;
-  getDeletedKeys(
-    vaultBaseUrl: string,
-    options?:
-      | Models.KeyVaultClientGetDeletedKeysOptionalParams
-      | coreHttp.ServiceCallback<Models.DeletedKeyListResult>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedKeyListResult>
-  ): Promise<Models.GetDeletedKeysResponse> {
+  getDeletedKeys(vaultBaseUrl: string, options: Models.KeyVaultClientGetDeletedKeysOptionalParams, callback: coreHttp.ServiceCallback<Models.DeletedKeyListResult>): void;
+  getDeletedKeys(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedKeysOptionalParams | coreHttp.ServiceCallback<Models.DeletedKeyListResult>, callback?: coreHttp.ServiceCallback<Models.DeletedKeyListResult>): Promise<Models.GetDeletedKeysResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getDeletedKeysOperationSpec,
-      callback
-    ) as Promise<Models.GetDeletedKeysResponse>;
+      callback) as Promise<Models.GetDeletedKeysResponse>;
   }
 
   /**
@@ -1145,39 +746,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedKeyResponse>
    */
-  getDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetDeletedKeyResponse>;
+  getDeletedKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetDeletedKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param callback The callback
    */
-  getDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedKeyBundle>
-  ): void;
+  getDeletedKey(vaultBaseUrl: string, keyName: string, callback: coreHttp.ServiceCallback<Models.DeletedKeyBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.DeletedKeyBundle>
-  ): void;
-  getDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedKeyBundle>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedKeyBundle>
-  ): Promise<Models.GetDeletedKeyResponse> {
+  getDeletedKey(vaultBaseUrl: string, keyName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DeletedKeyBundle>): void;
+  getDeletedKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedKeyBundle>, callback?: coreHttp.ServiceCallback<Models.DeletedKeyBundle>): Promise<Models.GetDeletedKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1185,8 +768,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getDeletedKeyOperationSpec,
-      callback
-    ) as Promise<Models.GetDeletedKeyResponse>;
+      callback) as Promise<Models.GetDeletedKeyResponse>;
   }
 
   /**
@@ -1199,39 +781,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<coreHttp.RestResponse>
    */
-  purgeDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<coreHttp.RestResponse>;
+  purgeDeletedKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key
    * @param callback The callback
    */
-  purgeDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    callback: coreHttp.ServiceCallback<void>
-  ): void;
+  purgeDeletedKey(vaultBaseUrl: string, keyName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the key
    * @param options The optional parameters
    * @param callback The callback
    */
-  purgeDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<void>
-  ): void;
-  purgeDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>,
-    callback?: coreHttp.ServiceCallback<void>
-  ): Promise<coreHttp.RestResponse> {
+  purgeDeletedKey(vaultBaseUrl: string, keyName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  purgeDeletedKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1239,8 +803,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       purgeDeletedKeyOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -1254,39 +817,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoverDeletedKeyResponse>
    */
-  recoverDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.RecoverDeletedKeyResponse>;
+  recoverDeletedKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RecoverDeletedKeyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the deleted key.
    * @param callback The callback
    */
-  recoverDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
+  recoverDeletedKey(vaultBaseUrl: string, keyName: string, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param keyName The name of the deleted key.
    * @param options The optional parameters
    * @param callback The callback
    */
-  recoverDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): void;
-  recoverDeletedKey(
-    vaultBaseUrl: string,
-    keyName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyBundle>,
-    callback?: coreHttp.ServiceCallback<Models.KeyBundle>
-  ): Promise<Models.RecoverDeletedKeyResponse> {
+  recoverDeletedKey(vaultBaseUrl: string, keyName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.KeyBundle>): void;
+  recoverDeletedKey(vaultBaseUrl: string, keyName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.KeyBundle>, callback?: coreHttp.ServiceCallback<Models.KeyBundle>): Promise<Models.RecoverDeletedKeyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1294,8 +839,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       recoverDeletedKeyOperationSpec,
-      callback
-    ) as Promise<Models.RecoverDeletedKeyResponse>;
+      callback) as Promise<Models.RecoverDeletedKeyResponse>;
   }
 }
 
@@ -1304,16 +848,36 @@ const serializer = new coreHttp.Serializer(Mappers);
 const createKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/create",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       kty: "kty",
-      keySize: ["options", "keySize"],
-      keyOps: ["options", "keyOps"],
-      keyAttributes: ["options", "keyAttributes"],
-      tags: ["options", "tags"],
-      curve: ["options", "curve"]
+      keySize: [
+        "options",
+        "keySize"
+      ],
+      keyOps: [
+        "options",
+        "keyOps"
+      ],
+      keyAttributes: [
+        "options",
+        "keyAttributes"
+      ],
+      tags: [
+        "options",
+        "tags"
+      ],
+      curve: [
+        "options",
+        "curve"
+      ]
     },
     mapper: {
       ...Mappers.KeyCreateParameters,
@@ -1334,14 +898,28 @@ const createKeyOperationSpec: coreHttp.OperationSpec = {
 const importKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "keys/{key-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
-      hsm: ["options", "hsm"],
+      hsm: [
+        "options",
+        "hsm"
+      ],
       key: "key",
-      keyAttributes: ["options", "keyAttributes"],
-      tags: ["options", "tags"]
+      keyAttributes: [
+        "options",
+        "keyAttributes"
+      ],
+      tags: [
+        "options",
+        "tags"
+      ]
     },
     mapper: {
       ...Mappers.KeyImportParameters,
@@ -1362,8 +940,13 @@ const importKeyOperationSpec: coreHttp.OperationSpec = {
 const deleteKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "keys/{key-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -1378,13 +961,28 @@ const deleteKeyOperationSpec: coreHttp.OperationSpec = {
 const updateKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "keys/{key-name}/{key-version}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
-      keyOps: ["options", "keyOps"],
-      keyAttributes: ["options", "keyAttributes"],
-      tags: ["options", "tags"]
+      keyOps: [
+        "options",
+        "keyOps"
+      ],
+      keyAttributes: [
+        "options",
+        "keyAttributes"
+      ],
+      tags: [
+        "options",
+        "tags"
+      ]
     },
     mapper: {
       ...Mappers.KeyUpdateParameters,
@@ -1405,8 +1003,14 @@ const updateKeyOperationSpec: coreHttp.OperationSpec = {
 const getKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "keys/{key-name}/{key-version}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle
@@ -1421,8 +1025,14 @@ const getKeyOperationSpec: coreHttp.OperationSpec = {
 const getKeyVersionsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "keys/{key-name}/versions",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
-  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1
+  ],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -1437,8 +1047,13 @@ const getKeyVersionsOperationSpec: coreHttp.OperationSpec = {
 const getKeysOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "keys",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.KeyListResult
@@ -1453,8 +1068,13 @@ const getKeysOperationSpec: coreHttp.OperationSpec = {
 const backupKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/backup",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BackupKeyResult
@@ -1469,8 +1089,12 @@ const backupKeyOperationSpec: coreHttp.OperationSpec = {
 const restoreKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keys/restore",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       keyBundleBackup: "keyBundleBackup"
@@ -1494,8 +1118,14 @@ const restoreKeyOperationSpec: coreHttp.OperationSpec = {
 const encryptOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/encrypt",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -1520,8 +1150,14 @@ const encryptOperationSpec: coreHttp.OperationSpec = {
 const decryptOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/decrypt",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -1546,8 +1182,14 @@ const decryptOperationSpec: coreHttp.OperationSpec = {
 const signOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/sign",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -1572,8 +1214,14 @@ const signOperationSpec: coreHttp.OperationSpec = {
 const verifyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/verify",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -1599,8 +1247,14 @@ const verifyOperationSpec: coreHttp.OperationSpec = {
 const wrapKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/wrapkey",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -1625,8 +1279,14 @@ const wrapKeyOperationSpec: coreHttp.OperationSpec = {
 const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "keys/{key-name}/{key-version}/unwrapkey",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1, Parameters.keyVersion],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1,
+    Parameters.keyVersion
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       algorithm: "algorithm",
@@ -1651,8 +1311,13 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
 const getDeletedKeysOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "deletedkeys",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyListResult
@@ -1667,8 +1332,13 @@ const getDeletedKeysOperationSpec: coreHttp.OperationSpec = {
 const getDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "deletedkeys/{key-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedKeyBundle
@@ -1683,8 +1353,13 @@ const getDeletedKeyOperationSpec: coreHttp.OperationSpec = {
 const purgeDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "deletedkeys/{key-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     204: {},
     default: {
@@ -1697,8 +1372,13 @@ const purgeDeletedKeyOperationSpec: coreHttp.OperationSpec = {
 const recoverDeletedKeyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "deletedkeys/{key-name}/recover",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.keyName1],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.keyName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.KeyBundle

@@ -92,7 +92,7 @@ export class EventHubConsumerClient {
     get eventHubName(): string;
     get fullyQualifiedNamespace(): string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
-    getPartitionIds(options?: GetPartitionIdsOptions): Promise<string[]>;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
     subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
@@ -112,7 +112,7 @@ export class EventHubProducerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
-}
+    }
 
 // @public
 export interface EventHubProperties {

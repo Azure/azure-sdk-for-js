@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/create",
+   "url": "https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/create",
    "query": {
     "api-version": "7.1-preview"
    },
@@ -13,19 +13,18 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:20 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:11 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "fae5139c-06ce-4dcc-9ee3-d5aad93cceb2",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "7c148f56-e54f-43f6-8ee7-d549d4d9e1bc",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,1227 +39,347 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:20 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:11 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10433.14 - EUS ProdSlices",
-    "x-ms-request-id": "cf26c0bb-81cd-42ad-90d5-0f5dde8d0b00"
+    "x-ms-ests-server": "2.1.10761.12 - SCUS ProdSlices",
+    "x-ms-request-id": "d5a76bf8-5783-4b44-a8d3-05ccb77d0a00"
    }
   },
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/create",
+   "url": "https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/create",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": "{\"policy\":{\"key_props\":{},\"secret_props\":{},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{}},\"issuer\":{\"name\":\"Self\"},\"attributes\":{}},\"attributes\":{}}",
    "status": 202,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqGHe2oWj3y7liEozbtde9nL8T9aaD+ciswAomnNlpqPPbcavGCBxia/PatI3dZU/zJRRbIX61x5hqAwpfVfpHTkRgJorKp/yp9+ZEnFZKPUglzJ7V2e6gYWvqfiX7m8oDSVEwKM6rGpq3tPYhveuoYA/AIqu918s6zgVyCRt83L4qfFDi8ABL8uBuHfAf8wK5snsUmf/SLBtCpptk5WvhofPurSuYl0RCoAM5efeY6n1XY9Anna00Pkak2jgW7Y8LrG4iW8FYxG355CV0TP8DMSPBGeRl4YYbF+7jLG0ENkpzgDilmls79o+JbRiwgneZHrsRki5lDoNlMDcvL05mQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBADxAJsPG7xoxtQlgP5cpERVFCHuNVmNTzljJsdll1sATFfdHc2Uz/Yo/76MmceV0HyhM2pNboR5/aMVI71ZdOdgRwXx2Qr4BPCCFvh2l+RIQeWUibIA9ZNL+Z92t5oMGmYm7Bqa5xTk0t7g6tjOYZsENTUL7f+WiYUwnj+qGfViLJqEL1rAD3SjeKjdZtdt7M9GI5KYCr5Z4zfr6uIv52P600z9jF7ZmFe3Bd7h6Qc1BnZATkD5EWAsxwrl1ffhLBg3XrXubWY/c2nqPliWHujLrXAW7ETTtnq8GfuNZGq9hH8ODk5/iERm0+rLLRvm6zHFybLmz/5jzQ48Tz+6Nlt8=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"60aa80119ebf48eabf3ee5c425679a42\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx38a3M8mK+ZOb2ido22WKsm9Bpkm4tx6i2nRWPyb71bdQt68v0enTzzYxjT1hASAcwsx4MLv0MEjjAQsqoVDbeouuN87phvEvID4UWbjUuUtdAqyyjDUmaoYQorp4O8HujXfeAoVVQkqDemEMAN8PBTwE9RlX1iD7M044UwR6YWUDSxk5Fn1erC3iZeGyvOce1Sc2rfW+gR8zbkC7wYsuR+0yT503/qXpGJItvRV3JtRMtKPc8o1pleKEPP08ocdrckp7ywA3C/YD1ifxvRt6gTbVo3jfBcVWUZZfHB55r4xhbkvLBbv3D0FevIqZmyBdh3lgmEK30NU5r4d5lS+vwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBABLrtB1TUF0xnrdKz47hIsAZUtVic5PQDfDdcKjd4nmjlPu1PELm7Jvhp6A8BmB4nn7UfzRPCBZReK/MaNtlLjPlfHm93tFa2KcfsuKAer6KJ+k2uXvx1p/ppCHmftBxuPO0OWbMxVzu1NBnMpwNslHOh3UZ+Xnrq3PyyAZ8GnRPHnPqCobDCHyZXlXoUiQxpVcU8bii1eQ4rKokEPs9uDj9OAle0BWPdwtVEgHjlJtQwyojakK1OUcwQbWsEYbfJX8X8C+kg4kgCdH8XfPEJgoZ/S6uWCgi7iZqPaVUvx7SaDh0kkaYeaeReCgOhLBG9CiDIG6UlaUAHSE85Elgzmw=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"b1c0409ad9b74a87b2efaae462045e33\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1349",
+    "content-length": "1351",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:21 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:11 GMT",
     "expires": "-1",
-    "location": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/pending?api-version=7.1-preview&request_id=60aa80119ebf48eabf3ee5c425679a42",
+    "location": "https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/pending?api-version=7.1-preview&request_id=b1c0409ad9b74a87b2efaae462045e33",
     "pragma": "no-cache",
     "retry-after": "10",
-    "server": "Microsoft-IIS/10.0",
     "status": "202",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "7a867ad7-f030-45ba-a43d-09a90c3c8c6a",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "f8b07700-8b5f-4d31-a17f-e4f3ce99a57f",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/pending",
+   "url": "https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/pending",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqGHe2oWj3y7liEozbtde9nL8T9aaD+ciswAomnNlpqPPbcavGCBxia/PatI3dZU/zJRRbIX61x5hqAwpfVfpHTkRgJorKp/yp9+ZEnFZKPUglzJ7V2e6gYWvqfiX7m8oDSVEwKM6rGpq3tPYhveuoYA/AIqu918s6zgVyCRt83L4qfFDi8ABL8uBuHfAf8wK5snsUmf/SLBtCpptk5WvhofPurSuYl0RCoAM5efeY6n1XY9Anna00Pkak2jgW7Y8LrG4iW8FYxG355CV0TP8DMSPBGeRl4YYbF+7jLG0ENkpzgDilmls79o+JbRiwgneZHrsRki5lDoNlMDcvL05mQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBADxAJsPG7xoxtQlgP5cpERVFCHuNVmNTzljJsdll1sATFfdHc2Uz/Yo/76MmceV0HyhM2pNboR5/aMVI71ZdOdgRwXx2Qr4BPCCFvh2l+RIQeWUibIA9ZNL+Z92t5oMGmYm7Bqa5xTk0t7g6tjOYZsENTUL7f+WiYUwnj+qGfViLJqEL1rAD3SjeKjdZtdt7M9GI5KYCr5Z4zfr6uIv52P600z9jF7ZmFe3Bd7h6Qc1BnZATkD5EWAsxwrl1ffhLBg3XrXubWY/c2nqPliWHujLrXAW7ETTtnq8GfuNZGq9hH8ODk5/iERm0+rLLRvm6zHFybLmz/5jzQ48Tz+6Nlt8=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"60aa80119ebf48eabf3ee5c425679a42\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx38a3M8mK+ZOb2ido22WKsm9Bpkm4tx6i2nRWPyb71bdQt68v0enTzzYxjT1hASAcwsx4MLv0MEjjAQsqoVDbeouuN87phvEvID4UWbjUuUtdAqyyjDUmaoYQorp4O8HujXfeAoVVQkqDemEMAN8PBTwE9RlX1iD7M044UwR6YWUDSxk5Fn1erC3iZeGyvOce1Sc2rfW+gR8zbkC7wYsuR+0yT503/qXpGJItvRV3JtRMtKPc8o1pleKEPP08ocdrckp7ywA3C/YD1ifxvRt6gTbVo3jfBcVWUZZfHB55r4xhbkvLBbv3D0FevIqZmyBdh3lgmEK30NU5r4d5lS+vwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBABLrtB1TUF0xnrdKz47hIsAZUtVic5PQDfDdcKjd4nmjlPu1PELm7Jvhp6A8BmB4nn7UfzRPCBZReK/MaNtlLjPlfHm93tFa2KcfsuKAer6KJ+k2uXvx1p/ppCHmftBxuPO0OWbMxVzu1NBnMpwNslHOh3UZ+Xnrq3PyyAZ8GnRPHnPqCobDCHyZXlXoUiQxpVcU8bii1eQ4rKokEPs9uDj9OAle0BWPdwtVEgHjlJtQwyojakK1OUcwQbWsEYbfJX8X8C+kg4kgCdH8XfPEJgoZ/S6uWCgi7iZqPaVUvx7SaDh0kkaYeaeReCgOhLBG9CiDIG6UlaUAHSE85Elgzmw=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"b1c0409ad9b74a87b2efaae462045e33\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1349",
+    "content-length": "1351",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:21 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:11 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
-    "server": "Microsoft-IIS/10.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "b8d2e526-5d30-4395-8514-dc84a50ff181",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "cf77e54a-a7a3-4db4-9e91-9bf863bf0cba",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-\",\"deletedDate\":1588214841,\"scheduledPurgeDate\":1595990841,\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/16aca0aabbfe4f029f7b89bb9a3bf747\",\"attributes\":{\"enabled\":false,\"nbf\":1588214241,\"exp\":1619750841,\"created\":1588214841,\"updated\":1588214841,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1588214841,\"updated\":1588214841}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/pending\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-\",\"deletedDate\":1593214452,\"scheduledPurgeDate\":1600990452,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/578f965b27d2406db467f52e5a04b107\",\"attributes\":{\"enabled\":false,\"nbf\":1593213852,\"exp\":1624750452,\"created\":1593214452,\"updated\":1593214452,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593214452,\"updated\":1593214452}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1387",
+    "content-length": "1395",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:21 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:12 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "3b662d3b-f7eb-4532-9846-2503b4817773",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "dd511804-502a-4989-af26-fc6993821632",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroDeleteCertificateName-canwaituntilacertificateisdeleted-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "157",
+    "content-length": "159",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:21 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:12 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "82093f46-be17-4696-a265-00504f5fd196",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "641deed8-70af-4444-86d9-95de410ab779",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroDeleteCertificateName-canwaituntilacertificateisdeleted-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "157",
+    "content-length": "159",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:21 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:12 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "91448766-a8be-47c0-870c-3b59ff6c3c12",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "7c0f6152-7eec-46a4-abfd-88d147fef43e",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroDeleteCertificateName-canwaituntilacertificateisdeleted-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "157",
+    "content-length": "159",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:23 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:14 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "c3ccf2f2-0f43-42aa-a508-a5a9540528ab",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "3ed6f038-b88b-4fce-a692-bf95ae4de09e",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroDeleteCertificateName-canwaituntilacertificateisdeleted-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "157",
+    "content-length": "159",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:25 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:17 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "6a5e990c-98b5-4976-9276-b6e797b4285f",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "185453c6-b951-48fb-9ce2-306d1248eabd",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroDeleteCertificateName-canwaituntilacertificateisdeleted-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "157",
+    "content-length": "159",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:27 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:19 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "93161ced-f56a-48de-a872-04ff3e958231",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "62103d63-087f-4be6-867f-ff32786d5979",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroDeleteCertificateName-canwaituntilacertificateisdeleted-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "157",
+    "content-length": "159",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:29 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:20 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "6975981b-62b2-4e7c-aafc-ce8711dff950",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "802e86e4-1b57-488a-81a0-36edea6c5277",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroDeleteCertificateName-canwaituntilacertificateisdeleted-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "157",
+    "content-length": "159",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:31 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:22 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "3a544b44-c700-4507-af42-395ed2296cc6",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "57a24e72-b29a-4620-a15a-5b7b4b173865",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:33 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "d56f7ea2-c890-4aec-8b8f-1190fb114fd7",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:35 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "d166d334-050b-44bd-866b-1fc79804ebc0",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:38 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "da5536ac-5908-4ecb-a4d4-f335a4bdce6f",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:40 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "d4911e06-a531-487f-b69c-7678efa596d2",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:42 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "eb098244-8db0-4e64-a0a6-f768c2f645ec",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:44 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "973c681b-4c20-4064-9dae-5e68ffb9f643",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:46 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "f660c409-24ff-4cb4-93a0-8af668cb1a23",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:48 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "ccc58c66-1fcb-45e2-b836-5eccef13b0dd",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:50 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "d64dba1e-1336-4386-afd5-458bdf37ec75",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:52 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "aa5ce218-ec25-49fc-9693-b1167b0cadc0",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:54 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "fc4dd5b2-b1d2-46c3-a3df-b9600c2144ea",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:56 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "8b19b195-034c-4376-a30e-fb58356300f0",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:47:58 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "6bac1466-f894-4426-9c9a-6c2964cda493",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:00 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "c8ea5047-a097-4cc0-ba8a-db2a0636d6b7",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:02 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "736e41d4-83df-4a18-9cad-85bf3f411632",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:04 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "aa2c15b6-fad2-4eb7-a010-7e182b4423f7",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:07 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "e6abb6df-c6d0-4907-8dd2-ebc2579ddb01",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:09 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "66de5a2c-0c81-4c99-921e-4e355935bad8",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:11 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "e1de2696-bff1-4f7a-b43e-82bf56bc051e",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:13 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "ca26feaa-c977-40eb-a057-4c2439dfbe44",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:15 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "726b39e3-9d39-4c3b-a383-6dda46c8f9e9",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:17 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "11067ec0-142a-437f-8574-c4d47f61f6d6",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:19 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "bcb3c81d-1ccc-4642-9c05-5f61999cf401",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:21 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "aff1828c-b174-4c55-8ebe-9ca927a2c2c1",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:23 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "84c6b072-a75b-4c2b-96a8-ba6b5c089371",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:25 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "eb1598a6-82b7-4237-9a16-abcdc2aac36c",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:27 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "111f60b9-f173-4a74-b9d6-bf4c56b85a53",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:29 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "8e27cfc6-8d0e-46ae-a479-970ec188f453",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:31 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "3cb16575-20f4-4a63-a3b0-5a4507406d63",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:33 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "54b0451e-1875-48ae-a384-fc1534f046b4",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
-   "query": {
-    "api-version": "7.1-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: recoverCertificateName-canwaituntilacertificateisdeleted-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "157",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:35 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "545474b4-6270-4dda-9838-083f471de7c2",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-\",\"deletedDate\":1588214841,\"scheduledPurgeDate\":1595990841,\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/16aca0aabbfe4f029f7b89bb9a3bf747\",\"attributes\":{\"enabled\":false,\"nbf\":1588214241,\"exp\":1619750841,\"created\":1588214841,\"updated\":1588214841,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1588214841,\"updated\":1588214841}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/pending\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-\",\"deletedDate\":1593214452,\"scheduledPurgeDate\":1600990452,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/578f965b27d2406db467f52e5a04b107\",\"attributes\":{\"enabled\":false,\"nbf\":1593213852,\"exp\":1624750452,\"created\":1593214452,\"updated\":1593214452,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593214452,\"updated\":1593214452}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1387",
+    "content-length": "1395",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:37 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:24 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "80a4263b-5f71-41a5-9e48-d368a3636ed8",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "aafbce1b-0bb2-4837-b284-a6bc4010b073",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-\",\"deletedDate\":1588214841,\"scheduledPurgeDate\":1595990841,\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/16aca0aabbfe4f029f7b89bb9a3bf747\",\"attributes\":{\"enabled\":false,\"nbf\":1588214241,\"exp\":1619750841,\"created\":1588214841,\"updated\":1588214841,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1588214841,\"updated\":1588214841}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canwaituntilacertificateisdeleted-/pending\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-\",\"deletedDate\":1593214452,\"scheduledPurgeDate\":1600990452,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/578f965b27d2406db467f52e5a04b107\",\"attributes\":{\"enabled\":false,\"nbf\":1593213852,\"exp\":1624750452,\"created\":1593214452,\"updated\":1593214452,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593214452,\"updated\":1593214452}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1387",
+    "content-length": "1395",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 02:48:37 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:24 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "1b9a9352-21aa-443b-be00-ed870215847c",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "60b91637-583d-4341-8a93-c7671d250337",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canwaituntilacertificateisdeleted-",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroDeleteCertificateName-canwaituntilacertificateisdeleted-",
    "query": {
     "api-version": "7.1-preview"
    },
@@ -1269,18 +388,17 @@
    "response": "",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "date": "Thu, 30 Apr 2020 02:48:37 GMT",
+    "date": "Fri, 26 Jun 2020 23:34:24 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "204",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "5945d0eb-546e-41aa-b6b0-e6f86a05dda3",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "07af128a-fa9d-4ae3-9863-8325b5400eaa",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -1289,5 +407,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "e468a4e05a5bf21038c1f3ad00c3f93b"
+ "hash": "bb19c8c1894be35bbcfde2c1c8cfff5c"
 }

@@ -6,7 +6,7 @@ If you would like to know more about Azure Key Vault, you may want to review: [W
 Azure Key Vault Key management allows you to create and control 
 encryption keys that encrypt your data.
 
-Use the client library for Azure Key Vault Keys in your Node.js application to
+Use the client library for Azure Key Vault Keys in your Node.js application to:
 
 - Create keys using elliptic curve or RSA encryption, optionally backed by Hardware Security Modules (HSM).
 - Import, Delete, and Update keys.
@@ -14,7 +14,7 @@ Use the client library for Azure Key Vault Keys in your Node.js application to
 - Recover a deleted key and restore a backed up key.
 - Get the versions of a key.
 
-Using the cryptography client available in this library you also have access to
+Using the cryptography client available in this library you also have access to:
 
 - Encrypting
 - Decrypting
@@ -22,6 +22,8 @@ Using the cryptography client available in this library you also have access to
 - Verifying
 - Wrapping keys
 - Unwrapping keys
+
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
@@ -146,6 +148,25 @@ const url = `https://${vaultName}.vault.azure.net`;
 
 // Lastly, create our keys client and connect to the service
 const client = new KeyClient(url, credential);
+```
+
+## Specifying the Azure Key Vault service API version
+
+By default, this package uses the latest Azure Key Vault service version which is `7.1-preview`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `apiVersion` in the client constructor as shown below:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyClient } = require("@azure/keyvault-keys");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+// Change the Azure Key Vault service API version being used via the `apiVersion` option
+const client = new KeyClient(url, credential, {
+  apiVersion: "7.0"
+});
 ```
 
 ## Examples
