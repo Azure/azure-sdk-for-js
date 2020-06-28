@@ -19,7 +19,6 @@ class SqlManagementClient extends SqlManagementClientContext {
   // Operation groups
   recoverableDatabases: operations.RecoverableDatabases;
   restorableDroppedDatabases: operations.RestorableDroppedDatabases;
-  servers: operations.Servers;
   serverConnectionPolicies: operations.ServerConnectionPolicies;
   databaseThreatDetectionPolicies: operations.DatabaseThreatDetectionPolicies;
   dataMaskingPolicies: operations.DataMaskingPolicies;
@@ -30,7 +29,6 @@ class SqlManagementClient extends SqlManagementClientContext {
   elasticPools: operations.ElasticPools;
   recommendedElasticPools: operations.RecommendedElasticPools;
   replicationLinks: operations.ReplicationLinks;
-  serverAzureADAdministrators: operations.ServerAzureADAdministrators;
   serverCommunicationLinks: operations.ServerCommunicationLinks;
   serviceObjectives: operations.ServiceObjectives;
   elasticPoolActivities: operations.ElasticPoolActivities;
@@ -46,8 +44,6 @@ class SqlManagementClient extends SqlManagementClientContext {
   operations: operations.Operations;
   serverKeys: operations.ServerKeys;
   syncAgents: operations.SyncAgents;
-  syncGroups: operations.SyncGroups;
-  syncMembers: operations.SyncMembers;
   subscriptionUsages: operations.SubscriptionUsages;
   virtualClusters: operations.VirtualClusters;
   virtualNetworkRules: operations.VirtualNetworkRules;
@@ -81,7 +77,6 @@ class SqlManagementClient extends SqlManagementClientContext {
   managedInstanceAdministrators: operations.ManagedInstanceAdministrators;
   databaseOperations: operations.DatabaseOperations;
   elasticPoolOperations: operations.ElasticPoolOperations;
-  capabilities: operations.Capabilities;
   databaseVulnerabilityAssessmentScans: operations.DatabaseVulnerabilityAssessmentScans;
   managedDatabaseVulnerabilityAssessmentRuleBaselines: operations.ManagedDatabaseVulnerabilityAssessmentRuleBaselines;
   managedDatabaseVulnerabilityAssessmentScans: operations.ManagedDatabaseVulnerabilityAssessmentScans;
@@ -99,10 +94,20 @@ class SqlManagementClient extends SqlManagementClientContext {
   instancePools: operations.InstancePools;
   usages: operations.Usages;
   managedInstances: operations.ManagedInstances;
-  managedDatabaseRestoreDetails: operations.ManagedDatabaseRestoreDetails;
-  managedDatabases: operations.ManagedDatabases;
   privateEndpointConnections: operations.PrivateEndpointConnections;
   privateLinkResources: operations.PrivateLinkResources;
+  servers: operations.Servers;
+  capabilities: operations.Capabilities;
+  longTermRetentionManagedInstanceBackups: operations.LongTermRetentionManagedInstanceBackups;
+  managedInstanceLongTermRetentionPolicies: operations.ManagedInstanceLongTermRetentionPolicies;
+  workloadGroups: operations.WorkloadGroups;
+  workloadClassifiers: operations.WorkloadClassifiers;
+  managedDatabaseRestoreDetails: operations.ManagedDatabaseRestoreDetails;
+  managedDatabases: operations.ManagedDatabases;
+  serverAzureADAdministrators: operations.ServerAzureADAdministrators;
+  managedInstanceOperations: operations.ManagedInstanceOperations;
+  syncGroups: operations.SyncGroups;
+  syncMembers: operations.SyncMembers;
 
   /**
    * Initializes a new instance of the SqlManagementClient class.
@@ -114,7 +119,6 @@ class SqlManagementClient extends SqlManagementClientContext {
     super(credentials, subscriptionId, options);
     this.recoverableDatabases = new operations.RecoverableDatabases(this);
     this.restorableDroppedDatabases = new operations.RestorableDroppedDatabases(this);
-    this.servers = new operations.Servers(this);
     this.serverConnectionPolicies = new operations.ServerConnectionPolicies(this);
     this.databaseThreatDetectionPolicies = new operations.DatabaseThreatDetectionPolicies(this);
     this.dataMaskingPolicies = new operations.DataMaskingPolicies(this);
@@ -125,7 +129,6 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.elasticPools = new operations.ElasticPools(this);
     this.recommendedElasticPools = new operations.RecommendedElasticPools(this);
     this.replicationLinks = new operations.ReplicationLinks(this);
-    this.serverAzureADAdministrators = new operations.ServerAzureADAdministrators(this);
     this.serverCommunicationLinks = new operations.ServerCommunicationLinks(this);
     this.serviceObjectives = new operations.ServiceObjectives(this);
     this.elasticPoolActivities = new operations.ElasticPoolActivities(this);
@@ -141,8 +144,6 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.operations = new operations.Operations(this);
     this.serverKeys = new operations.ServerKeys(this);
     this.syncAgents = new operations.SyncAgents(this);
-    this.syncGroups = new operations.SyncGroups(this);
-    this.syncMembers = new operations.SyncMembers(this);
     this.subscriptionUsages = new operations.SubscriptionUsages(this);
     this.virtualClusters = new operations.VirtualClusters(this);
     this.virtualNetworkRules = new operations.VirtualNetworkRules(this);
@@ -176,7 +177,6 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.managedInstanceAdministrators = new operations.ManagedInstanceAdministrators(this);
     this.databaseOperations = new operations.DatabaseOperations(this);
     this.elasticPoolOperations = new operations.ElasticPoolOperations(this);
-    this.capabilities = new operations.Capabilities(this);
     this.databaseVulnerabilityAssessmentScans = new operations.DatabaseVulnerabilityAssessmentScans(this);
     this.managedDatabaseVulnerabilityAssessmentRuleBaselines = new operations.ManagedDatabaseVulnerabilityAssessmentRuleBaselines(this);
     this.managedDatabaseVulnerabilityAssessmentScans = new operations.ManagedDatabaseVulnerabilityAssessmentScans(this);
@@ -194,10 +194,20 @@ class SqlManagementClient extends SqlManagementClientContext {
     this.instancePools = new operations.InstancePools(this);
     this.usages = new operations.Usages(this);
     this.managedInstances = new operations.ManagedInstances(this);
-    this.managedDatabaseRestoreDetails = new operations.ManagedDatabaseRestoreDetails(this);
-    this.managedDatabases = new operations.ManagedDatabases(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.servers = new operations.Servers(this);
+    this.capabilities = new operations.Capabilities(this);
+    this.longTermRetentionManagedInstanceBackups = new operations.LongTermRetentionManagedInstanceBackups(this);
+    this.managedInstanceLongTermRetentionPolicies = new operations.ManagedInstanceLongTermRetentionPolicies(this);
+    this.workloadGroups = new operations.WorkloadGroups(this);
+    this.workloadClassifiers = new operations.WorkloadClassifiers(this);
+    this.managedDatabaseRestoreDetails = new operations.ManagedDatabaseRestoreDetails(this);
+    this.managedDatabases = new operations.ManagedDatabases(this);
+    this.serverAzureADAdministrators = new operations.ServerAzureADAdministrators(this);
+    this.managedInstanceOperations = new operations.ManagedInstanceOperations(this);
+    this.syncGroups = new operations.SyncGroups(this);
+    this.syncMembers = new operations.SyncMembers(this);
   }
 }
 
