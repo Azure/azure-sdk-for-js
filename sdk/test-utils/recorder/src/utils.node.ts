@@ -39,16 +39,11 @@ export function fakeOutDelaysForNewRequests(nock: any, recordingPath: string) {
   const content = fs.readFileSync(recordingPath, "utf-8").toString();
 
   // Find all the mocked urls in the recording
-  const setOfUrlsInRecording: Set<string[]> = new Set();
-  Array.from(
-    matchAll(content, /nock\('(.*?)', {"encodedQueryParams":true}\)/g).toArray(),
-    (m: Array<string>) => {
-      setOfUrlsInRecording.add(m);
-    }
-  );
+  const matchArray = matchAll(content, /nock\('(.*?)', {"encodedQueryParams":true}\)/g).toArray();
+  const setOfUrlsInRecording: Set<string[]> = new Set(matchArray);
 
   if (setOfUrlsInRecording.size) {
-    setOfUrlsInRecording.forEach(function(url: any) {
+    for (const url of setOfUrlsInRecording) {
       // Get `nock.Interceptor`s for each of the URLs
       const nockInterceptors = getNockInterceptors(nock(url), /.*/);
       for (const interceptor of nockInterceptors) {
@@ -63,6 +58,6 @@ export function fakeOutDelaysForNewRequests(nock: any, recordingPath: string) {
           }
         });
       }
-    });
+    }
   }
 }
