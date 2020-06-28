@@ -2446,14 +2446,16 @@ async function updateEntity(
 
   switch (testEntityType) {
     case EntityType.QUEUE:
+      const getQueueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
       const queueResponse = await serviceBusAtomManagementClient.updateQueue({
-        name: entityPath,
+        ...getQueueResponse,
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
+      const getTopicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
       const topicResponse = await serviceBusAtomManagementClient.updateTopic({
-        name: entityPath,
+        ...getTopicResponse,
         ...topicOptions
       });
       return topicResponse;
@@ -2463,9 +2465,11 @@ async function updateEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
+      const getSubscriptionResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
       const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription({
         topicName: topicPath,
         subscriptionName: entityPath,
+        ...getSubscriptionResponse,
         ...subscriptionOptions
       });
       return subscriptionResponse;
