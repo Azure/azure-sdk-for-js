@@ -364,8 +364,8 @@ export class MessageSession extends LinkEntity {
         // SB allows a sessionId with empty string value :)
 
         if (this.sessionId == null && receivedSessionId == null) {
-          // In reality this code path is never reached as `createReceiver()` fails with OperationTimeoutError
-          // when we ask for next available session and none are available.
+          // Ideally this code path should never be reached as `createReceiver()` should fail instead 
+          // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
           errorMessage = `No unlocked sessions were available`;
         } else if (this.sessionId != null && receivedSessionId !== this.sessionId) {
           // This code path is reached if the session is already locked by another receiver.

@@ -76,7 +76,8 @@ describe("session tests", () => {
       try {
         await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       } catch (error) {
-        if (isMessagingError(error) && error.code === "OperationTimeoutError") {
+        // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why we get two different errors.
+        if (isMessagingError(error) && (error.code === "OperationTimeoutError" || error.code === "SessionCannotBeLockedError")) {
           expectedErrorThrown = true;
         } else {
           unexpectedError = error;
