@@ -287,4 +287,4 @@ export {
   WebApplicationFirewallCustomRule,
   WebApplicationFirewallPolicy,
   WebApplicationFirewallPolicyListResult
-} from "../models/mappers";
+} from "./mappers";

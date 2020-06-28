@@ -22110,6 +22110,46 @@ export type PrivateLinkServicesBeginCreateOrUpdateResponse = PrivateLinkService 
 };
 
 /**
+ * Contains response data for the beginCheckPrivateLinkServiceVisibility operation.
+ */
+export type PrivateLinkServicesBeginCheckPrivateLinkServiceVisibilityResponse = PrivateLinkServiceVisibility & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceVisibility;
+    };
+};
+
+/**
+ * Contains response data for the beginCheckPrivateLinkServiceVisibilityByResourceGroup operation.
+ */
+export type PrivateLinkServicesBeginCheckPrivateLinkServiceVisibilityByResourceGroupResponse = PrivateLinkServiceVisibility & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkServiceVisibility;
+    };
+};
+
+/**
  * Contains response data for the listNext operation.
  */
 export type PrivateLinkServicesListNextResponse = PrivateLinkServiceListResult & {
