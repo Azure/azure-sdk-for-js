@@ -9,7 +9,7 @@ import { OperationOptions } from "@azure/core-http";
 /**
  * Options for configuring tracing and the abortSignal.
  */
-// NOTE: This class is intended to mirror the relevant fields and structure from
+// NOTE: This type is intended to mirror the relevant fields and structure from
 // @azure/core-http OperationOptions
 export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
 
