@@ -8,7 +8,7 @@ import { LoadBalancingStrategy, identifyClaimablePartitions } from "./loadBalanc
  * The BalancedLoadBalancerStrategy is meant to be used when the user
  * wants to reach a load balanced state with less partition 'thrashing'.
  *
- * Partition trashing - where a partition changes owners - is minimized
+ * Partition thrashing - where a partition changes owners - is minimized
  * by only returning a single partition to claim at a time.
  * This minimizes the number of times a partition should need to be stolen.
  * @internal
