@@ -391,9 +391,6 @@ describe("Event Processor", function(): void {
             async removeAllPumps(): Promise<void> {},
             isReceivingFromPartition() {
               return false;
-            },
-            receivingFromPartitions() {
-              return [];
             }
           },
           loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000)
