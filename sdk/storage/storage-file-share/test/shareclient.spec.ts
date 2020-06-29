@@ -80,13 +80,13 @@ describe("ShareClient", () => {
     done();
   });
 
-  it("deletIfExists", async () => {
+  it("deleteIfExists", async () => {
     const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
     await shareClient2.create();
-    await shareClient2.deletIfExists();
+    await shareClient2.deleteIfExists();
 
     const shareClient3 = serviceClient.getShareClient(recorder.getUniqueName(shareName + '3'));
-    await shareClient3.deletIfExists();
+    await shareClient3.deleteIfExists();
   });
 
   it("setQuota", async () => {

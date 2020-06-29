@@ -845,10 +845,10 @@ export class ShareClient extends StorageClient {
    * @returns {Promise<ShareDeleteResponse | null>} Return null if the share does not exist.
    * @memberof ShareClient
    */
-  public async deletIfExists(
+  public async deleteIfExists(
     options: ShareDeleteMethodOptions = {}
   ): Promise<ShareDeleteResponse | null> {
-    const { span, spanOptions } = createSpan("ShareClient-deletIfExists", options.tracingOptions);
+    const { span, spanOptions } = createSpan("ShareClient-deleteIfExists", options.tracingOptions);
     try {
       return await this.delete({
         ...options,
