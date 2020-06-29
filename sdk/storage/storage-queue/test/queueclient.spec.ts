@@ -15,7 +15,7 @@ describe("QueueClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -23,7 +23,7 @@ describe("QueueClient", () => {
     await queueClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await queueClient.delete();
     recorder.stop();
   });
@@ -105,19 +105,27 @@ describe("QueueClient", () => {
 
   it("createIfNotExists", async () => {
     const res = await queueClient.createIfNotExists();
-    assert.equal(null, res);
+    assert.ok(!res.succeeded);
 
     const metadata = { key: "value" };
     const res2 = await queueClient.createIfNotExists({ metadata });
-    assert.equal(null, res2);
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "QueueAlreadyExists");
+
+    queueClient = queueServiceClient.getQueueClient(recorder.getUniqueName("queue2"));
+    const res3 = await queueClient.createIfNotExists();
+    assert.ok(res3.succeeded);
   });
 
   it("deleteIfExists", async () => {
     const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
-    await qClient.deleteIfExists();
+    const res = await qClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "QueueNotFound");
 
     await qClient.create();
-    await qClient.deleteIfExists();
+    const res2 = await qClient.deleteIfExists();
+    assert.ok(res2.succeeded);
   });
 
   it("delete", (done) => {
