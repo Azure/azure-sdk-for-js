@@ -15,7 +15,7 @@ import TestClient from "../utils/testClient";
 const { expect } = chai;
 
 describe("Certificates client - list certificates in various ways", () => {
-  const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
+  const prefix = `list${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificateClient;
   let testClient: TestClient;

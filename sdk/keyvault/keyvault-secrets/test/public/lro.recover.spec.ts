@@ -12,7 +12,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
 describe("Secrets client - Long Running Operations - recoverDelete", () => {
-  const secretPrefix = `recover${env.CERTIFICATE_NAME || "SecretName"}`;
+  const secretPrefix = `lroRecover${env.CERTIFICATE_NAME || "SecretName"}`;
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;

@@ -10,7 +10,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
 describe("Keys client - import keys", () => {
-  const prefix = `merge${env.CERTIFICATE_NAME || "KeyName"}`;
+  const prefix = `import${env.CERTIFICATE_NAME || "KeyName"}`;
   let suffix: string;
   let client: KeyClient;
   let testClient: TestClient;

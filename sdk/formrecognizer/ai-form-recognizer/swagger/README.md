@@ -85,24 +85,24 @@ directive:
       $["x-ms-client-name"] = "lastModified";
 ```
 
-### ModelInfo `createDateTime` => `requestedOn`
+### ModelInfo `createDateTime` => `trainingStartedOn`
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.definitions.ModelInfo.properties.createdDateTime
     transform: >
-      $["x-ms-client-name"] = "requestedOn";
+      $["x-ms-client-name"] = "trainingStartedOn";
 ```
 
-### ModelInfo `lastUpdatedDateTime` => `completedOn`
+### ModelInfo `lastUpdatedDateTime` => `trainingCompletedOn`
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.definitions.ModelInfo.properties.lastUpdatedDateTime
     transform: >
-      $["x-ms-client-name"] = "completedOn";
+      $["x-ms-client-name"] = "trainingCompletedOn";
 ```
 
 ### `TrainingDocumentInfo.pages` => `TrainingDocumentInfo.pageCount`

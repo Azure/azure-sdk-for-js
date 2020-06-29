@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-canabortcreatingakey-/create",
+   "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-canabortcreatingakey-/create",
    "query": {
     "api-version": "7.1-preview"
    },
@@ -16,5 +16,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "9d4bd0a30f1a89c19468ebd3df569daa"
+ "hash": "5158095e0f7ecf781e7b7dc0b5d08cc3"
 }
