@@ -20,7 +20,7 @@ describe("DataLakePathClient", () => {
 
   let recorder: any;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -33,7 +33,7 @@ describe("DataLakePathClient", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await fileSystemClient.delete();
     recorder.stop();
   });
@@ -336,20 +336,29 @@ describe("DataLakePathClient", () => {
   it("DataLakeDirectoryClient-createIfNotExists", async () => {
     const directoryName = recorder.getUniqueName("dir");
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
-    assert.notDeepStrictEqual(null, await directoryClient.createIfNotExists());
-    assert.equal(null, await directoryClient.createIfNotExists());
+    const res = await directoryClient.createIfNotExists();
+    assert.ok(res.succeeded);
+
+    const res2 = await directoryClient.createIfNotExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "PathAlreadyExists");
   });
 
   it("DataLakeFileClient-createIfNotExists", async () => {
-    await fileClient.createIfNotExists();
+    const res = await fileClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "PathAlreadyExists");
   });
 
   it("DataLakePathClient-deleteIfExists", async () => {
     const directoryName = recorder.getUniqueName("dir");
     const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
-    assert.equal(null, await directoryClient.deleteIfExists());
+    const res = await directoryClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "PathNotFound");
 
     await directoryClient.create();
-    assert.notDeepStrictEqual(null, await directoryClient.deleteIfExists());
+    const res2 = await directoryClient.deleteIfExists();
+    assert.ok(res2.succeeded);
   });
 });

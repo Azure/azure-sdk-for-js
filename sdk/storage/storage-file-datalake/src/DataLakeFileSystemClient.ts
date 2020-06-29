@@ -30,7 +30,9 @@ import {
   Path,
   PublicAccessType,
   SignedIdentifier,
-  FileSystemListPathsResponse
+  FileSystemListPathsResponse,
+  FileSystemCreateIfNotExistsResponse,
+  FileSystemDeleteIfExistsResponse
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -205,15 +207,17 @@ export class DataLakeFileSystemClient extends StorageClient {
 
   /**
    * Creates a new file system under the specified account. If the file system with
-   * the same name already exists, it is not changed and this operation returns null.
+   * the same name already exists, it is not changed.
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    *
    * @param {FileSystemCreateOptions} [options={}]
-   * @returns {Promise<FileSystemCreateResponse | null>}
+   * @returns {Promise<FileSystemCreateIfNotExistsResponse>}
    * @memberof DataLakeFileSystemClient
    */
-  public async createIfNotExists(options: FileSystemCreateOptions = {}): Promise<FileSystemCreateResponse | null> {
+  public async createIfNotExists(
+    options: FileSystemCreateOptions = {}
+  ): Promise<FileSystemCreateIfNotExistsResponse> {
     const { span, spanOptions } = createSpan(
       "DataLakeFileSystemClient-createIfNotExists",
       options.tracingOptions
@@ -303,10 +307,12 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
    * @param {FileSystemDeleteOptions} [options={}]
-   * @returns {Promise<FileSystemDeleteResponse | null>} Returns null if the specified file system doesn't exists.
+   * @returns {Promise<FileSystemDeleteIfExistsResponse>}
    * @memberof DataLakeFileSystemClient
    */
-  public async deleteIfExists(options: FileSystemDeleteOptions = {}): Promise<FileSystemDeleteResponse | null> {
+  public async deleteIfExists(
+    options: FileSystemDeleteOptions = {}
+  ): Promise<FileSystemDeleteIfExistsResponse> {
     const { span, spanOptions } = createSpan(
       "DataLakeFileSystemClient-deleteIfExists",
       options.tracingOptions

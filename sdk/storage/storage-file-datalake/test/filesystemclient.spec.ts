@@ -20,7 +20,7 @@ describe("DataLakeFileSystemClient", () => {
   let recorder: Recorder;
   let serviceClient: DataLakeServiceClient;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -28,7 +28,7 @@ describe("DataLakeFileSystemClient", () => {
     await fileSystemClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await fileSystemClient.delete();
     recorder.stop();
   });
@@ -127,20 +127,23 @@ describe("DataLakeFileSystemClient", () => {
     const metadata = { key: "value" };
     const access = "filesystem";
     const createRes = await cClient.createIfNotExists({ metadata, access });
-    assert.notDeepStrictEqual(null, createRes);
+    assert.ok(createRes.succeeded);
+    assert.ok(createRes.etag);
 
     const createRes2 = await cClient.createIfNotExists({ metadata, access });
-    assert.equal(null, createRes2);
+    assert.ok(!createRes2.succeeded);
 
     await cClient.delete();
   });
 
   it("deleteIfExists", async () => {
     const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
-    assert.equal(null, await cClient.deleteIfExists());
+    const res = await cClient.deleteIfExists();
+    assert.ok(!res.succeeded);
 
     await cClient.create();
-    assert.notDeepStrictEqual(null, await cClient.deleteIfExists());
+    const res2 = await cClient.deleteIfExists();
+    assert.ok(res2.succeeded);
   });
 
   it("delete", (done) => {
