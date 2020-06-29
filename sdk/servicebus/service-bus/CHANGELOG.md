@@ -17,9 +17,12 @@
       [PR 9434](https://github.com/Azure/azure-sdk-for-js/pull/9434)
   - The property `top` in the options passed to any of the methods that get information for multiple entities like `getQueues` or `getQueuesRuntimeInfo` is renamed to `maxCount`.
     [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
-  - The "update" methods (`updateQueue`, `updateTopic` and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are actually updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods. [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751). 
-  
+  - The "update" methods (`updateQueue`, `updateTopic` and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are actually updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods. [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751).
+
   See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
+
+  - Bug - Cannot set `userProperties` under `CorrelationFilter` while using the `createRule()` method.
+    Fixed in [PR 9794](https://github.com/Azure/azure-sdk-for-js/pull/9794)
 
 ## 7.0.0-preview.3 (2020-06-08)
 
