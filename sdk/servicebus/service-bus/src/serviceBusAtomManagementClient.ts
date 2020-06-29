@@ -286,7 +286,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns an object representing the metadata related to a service bus namespace.
    * @param queueName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    */
   async getNamespaceProperties(
@@ -305,7 +305,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Creates a queue with given name, configured using the given options
    * @param queueName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -323,7 +323,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Creates a queue configured using the given options
    * @param queue Options to configure the Queue being created.
    * For example, you can configure a queue to support partitions or sessions.
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -368,7 +368,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Returns an object representing the Queue and its properties.
    * If you want to get the Queue runtime info like message count details, use `getQueueRuntimeInfo` API.
    * @param queueName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -394,7 +394,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns an object representing the Queue runtime info like message count details.
    * @param queueName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -423,7 +423,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Queue along with its properties.
    * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeInfo` API instead.
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -447,7 +447,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   /**
    * Returns a list of objects, each representing a Queue's runtime info like message count details.
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -475,7 +475,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Updates properties on the Queue by the given name based on the given options
    * @param queue Options to configure the Queue being updated.
    * For example, you can configure a queue to support partitions or sessions.
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -523,7 +523,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Deletes a queue.
    * @param queueName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -549,7 +549,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Checks whether a given queue exists or not.
    * @param queueName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
     log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
@@ -567,7 +567,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Creates a topic with given name, configured using the given options
    * @param topicName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -585,7 +585,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Creates a topic with given name, configured using the given options
    * @param topic Options to configure the Topic being created.
    * For example, you can configure a topic to support partitions or sessions.
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -630,7 +630,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Returns an object representing the Topic and its properties.
    * If you want to get the Topic runtime info like subscription count details, use `getTopicRuntimeInfo` API.
    * @param topicName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -656,7 +656,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns an object representing the Topic runtime info like subscription count.
    * @param topicName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -685,7 +685,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Topic along with its properties.
    * If you want to get the runtime info of the topics like subscription count, use `getTopicsRuntimeInfo` API instead.
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -709,7 +709,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   /**
    * Returns a list of objects, each representing a Topic's runtime info like subscription count.
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -737,7 +737,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Updates properties on the Topic by the given name based on the given options
    * @param topic Options to configure the Topic being updated.
    * For example, you can configure a topic to support partitions or sessions.
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -785,7 +785,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Deletes a topic.
    * @param topicName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -811,7 +811,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Checks whether a given topic exists or not.
    * @param topicName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
     log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
@@ -830,7 +830,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Creates a subscription with given name, configured using the given options
    * @param topicName
    * @param subscriptionName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -853,7 +853,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Creates a subscription with given name, configured using the given options
    * @param subscription Options to configure the Subscription being created.
    * For example, you can configure a Subscription to support partitions or sessions.
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -913,7 +913,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * If you want to get the Subscription runtime info like message count details, use `getSubscriptionRuntimeInfo` API.
    * @param topicName
    * @param subscriptionName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -947,7 +947,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Returns an object representing the Subscription runtime info like message count details.
    * @param topicName
    * @param subscriptionName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -981,7 +981,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Returns a list of objects, each representing a Subscription along with its properties.
    * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeInfo` API instead.
    * @param topicName
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1011,7 +1011,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Returns a list of objects, each representing a Subscription's runtime info like message count details.
    * @param topicName
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1042,7 +1042,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Updates properties on the Subscription by the given name based on the given options
    * @param subscription Options to configure the Subscription being updated.
    * For example, you can configure a Subscription to support partitions or sessions.
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1105,7 +1105,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Deletes a subscription.
    * @param topicName
    * @param subscriptionName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1139,7 +1139,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Checks whether a given subscription exists in the topic or not.
    * @param topicName
    * @param subscriptionName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    */
   async subscriptionExists(
@@ -1166,7 +1166,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param rule
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1204,7 +1204,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param ruleName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1237,7 +1237,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Lists existing rules.
    * @param topicName
    * @param subscriptionName
-   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1270,7 +1270,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param subscriptionName
    * @param rule Options to configure the Rule being updated.
    * For example, you can configure the filter to apply on associated Topic/Subscription.
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1319,7 +1319,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param ruleName
-   * @param operationOptions The operation options that can be used to signal abort requests, when creating and sending HTTP requests for this operation, for tracing.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
