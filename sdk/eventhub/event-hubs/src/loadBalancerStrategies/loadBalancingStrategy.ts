@@ -70,7 +70,10 @@ function getActivePartitionOwnerships(
   const activePartitionOwnershipMap: Map<string, PartitionOwnership> = new Map();
   partitionOwnershipMap.forEach((partitionOwnership: PartitionOwnership, partitionId: string) => {
     // If lastModifiedtimeInMs is missing, assume it is inactive.
-    if (!partitionOwnership.lastModifiedTimeInMs) {
+    if (
+      typeof partitionOwnership.lastModifiedTimeInMs === "undefined" ||
+      partitionOwnership.lastModifiedTimeInMs === null
+    ) {
       return;
     }
 
