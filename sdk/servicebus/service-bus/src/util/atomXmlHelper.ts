@@ -18,7 +18,7 @@ import * as log from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
-import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptions } from "@azure/core-http";
 
 /**
  * @internal

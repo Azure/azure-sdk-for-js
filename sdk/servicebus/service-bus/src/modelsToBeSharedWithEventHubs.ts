@@ -12,7 +12,6 @@ import { OperationOptions } from "@azure/core-http";
 // NOTE: This class is intended to mirror the relevant fields and structure from
 // @azure/core-http OperationOptions
 export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
-export { OperationOptions };
 
 /**
  * @internal

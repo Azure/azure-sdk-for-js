@@ -12,6 +12,7 @@ export {
   TokenType,
   WebSocketOptions
 } from "@azure/core-amqp";
+export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
@@ -27,7 +28,7 @@ export {
   SubscribeOptions,
   WaitTimeOptions
 } from "./models";
-export { OperationOptions, OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
