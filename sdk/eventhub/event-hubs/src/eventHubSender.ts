@@ -183,7 +183,7 @@ export class EventHubSender extends LinkEntity {
         await this._closeLink(senderLink);
       }
     } catch (err) {
-      const msg = `[${this._context.connectionId}] An error occurred while closing sender ${this.name}: ${err}`;
+      const msg = `[${this._context.connectionId}] An error occurred while closing sender ${this.name}: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
       throw err;
@@ -347,7 +347,9 @@ export class EventHubSender extends LinkEntity {
       );
       return await this._trySendBatch(encodedBatchMessage, options);
     } catch (err) {
-      logger.warning("An error occurred while sending the batch message %O", err);
+      logger.warning(
+        `An error occurred while sending the batch message ${err?.name}: ${err?.message}`
+      );
       logErrorStackTrace(err);
       throw err;
     }
@@ -463,10 +465,10 @@ export class EventHubSender extends LinkEntity {
             removeListeners();
             err = translate(err);
             logger.warning(
-              "[%s] An error occurred while creating the sender %s",
+              "[%s] An error occurred while creating the sender %s: %s",
               this._context.connectionId,
               this.name,
-              err
+              `${err?.name}: ${err?.message}`
             );
             logErrorStackTrace(err);
             return reject(err);
@@ -504,9 +506,9 @@ export class EventHubSender extends LinkEntity {
           } catch (err) {
             err = translate(err.innerError || err);
             logger.warning(
-              "[%s] An error occurred while sending the message",
+              "[%s] An error occurred while sending the message %s",
               this._context.connectionId,
-              err
+              `${err?.name}: ${err?.message}`
             );
             logErrorStackTrace(err);
             return reject(err);
@@ -586,10 +588,10 @@ export class EventHubSender extends LinkEntity {
       this.isConnecting = false;
       err = translate(err);
       logger.warning(
-        "[%s] An error occurred while creating the sender %s",
+        "[%s] An error occurred while creating the sender %s: %s",
         this._context.connectionId,
         this.name,
-        err
+        `${err?.name}: ${err?.message}`
       );
       logErrorStackTrace(err);
       throw err;

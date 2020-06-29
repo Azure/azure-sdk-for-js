@@ -346,3 +346,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [queue_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#queues
 [topic_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview#topics
 [subscription_concept]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions#topics-and-subscriptions
+[service_bus_overview]: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-messaging-overview

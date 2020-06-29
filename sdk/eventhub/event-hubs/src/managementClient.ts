@@ -201,7 +201,9 @@ export class ManagementClient extends LinkEntity {
         code: CanonicalCode.UNKNOWN,
         message: error.message
       });
-      logger.warning("An error occurred while getting the hub runtime information: %O", error);
+      logger.warning(
+        `An error occurred while getting the hub runtime information: ${error?.name}: ${error?.message}`
+      );
       logErrorStackTrace(error);
       throw error;
     } finally {
@@ -271,7 +273,9 @@ export class ManagementClient extends LinkEntity {
         code: CanonicalCode.UNKNOWN,
         message: error.message
       });
-      logger.warning("An error occurred while getting the partition information: %O", error);
+      logger.warning(
+        `An error occurred while getting the partition information: ${error?.name}: ${error?.message}`
+      );
       logErrorStackTrace(error);
       throw error;
     } finally {
@@ -297,7 +301,7 @@ export class ManagementClient extends LinkEntity {
         logger.info("Successfully closed the management session.");
       }
     } catch (err) {
-      const msg = `An error occurred while closing the management session: ${err}`;
+      const msg = `An error occurred while closing the management session: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
       throw new Error(msg);
@@ -365,9 +369,7 @@ export class ManagementClient extends LinkEntity {
     } catch (err) {
       err = translate(err);
       logger.warning(
-        "[%s] An error occured while establishing the $management links: %O",
-        this._context.connectionId,
-        err
+        `[${this._context.connectionId}] An error occured while establishing the $management links: ${err?.name}: ${err?.message}`
       );
       logErrorStackTrace(err);
       throw err;
@@ -474,10 +476,10 @@ export class ManagementClient extends LinkEntity {
             err = translate(err);
             logger.warning(
               "[%s] An error occurred during send on management request-response link with address " +
-                "'%s': %O",
+                "'%s': %s",
               this._context.connectionId,
               this.address,
-              err
+              `${err?.name}: ${err?.message}`
             );
             logErrorStackTrace(err);
             reject(err);
@@ -494,7 +496,9 @@ export class ManagementClient extends LinkEntity {
       return (await retry<Message>(config)).body;
     } catch (err) {
       err = translate(err);
-      logger.warning("An error occurred while making the request to $management endpoint: %O", err);
+      logger.warning(
+        `An error occurred while making the request to $management endpoint: ${err?.name}: ${err?.message}`
+      );
       logErrorStackTrace(err);
       throw err;
     }

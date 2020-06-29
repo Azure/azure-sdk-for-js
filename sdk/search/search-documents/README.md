@@ -279,7 +279,7 @@ async function main() {
 main();
 ```
 
-For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
+For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `full`:
 
 ```js
 const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");

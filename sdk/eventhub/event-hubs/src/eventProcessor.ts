@@ -372,7 +372,9 @@ export class EventProcessor {
       try {
         await this._startPump(partitionId, abortSignal);
       } catch (err) {
-        logger.warning(`[${this._id}] An error occured within the EventProcessor loop: ${err}`);
+        logger.warning(
+          `[${this._id}] An error occured within the EventProcessor loop: ${err?.name}: ${err?.message}`
+        );
         logErrorStackTrace(err);
         await this._handleSubscriptionError(err);
       } finally {
@@ -423,7 +425,7 @@ export class EventProcessor {
         await this._performLoadBalancing(loadBalancingStrategy, partitionIds, abortSignal);
       } catch (err) {
         logger.warning(
-          `[${this._id}] An error occurred within the EventProcessor loop: ${err?.message}`
+          `[${this._id}] An error occured within the EventProcessor loop: ${err?.name}: ${err?.message}`
         );
         logErrorStackTrace(err);
         // Protect against the scenario where the user awaits on subscription.close() from inside processError.

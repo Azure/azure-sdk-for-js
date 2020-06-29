@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-/",
+   "url": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-failsifonetriestorecoveranon-existingdeletedkey-/",
    "query": {
     "api-version": "7.1-preview"
    },
@@ -13,19 +13,18 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 17:20:12 GMT",
+    "date": "Sat, 27 Jun 2020 00:55:00 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.151.14.88;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "e23690eb-6ffb-4e51-8992-dbe376632108",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "62e3ad8e-4dc2-4b7d-a515-52db3cd4465f",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,70 +39,68 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 17:20:12 GMT",
+    "date": "Sat, 27 Jun 2020 00:55:00 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10476.10 - WUS2 ProdSlices",
-    "x-ms-request-id": "32553f36-4693-4f0f-bd4a-f5aa0b7f1700"
+    "x-ms-ests-server": "2.1.10761.12 - SCUS ProdSlices",
+    "x-ms-request-id": "2852e0b6-db65-4ead-99bf-d0ef48ef0b00"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-/",
+   "url": "https://keyvault_name.vault.azure.net/keys/backupRestoreKeyName-failsifonetriestorecoveranon-existingdeletedkey-/",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Key not found: recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-\"}}",
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) backupRestoreKeyName-failsifonetriestorecoveranon-existingdeletedkey- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "140",
+    "content-length": "374",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 17:20:12 GMT",
+    "date": "Sat, 27 Jun 2020 00:55:00 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.151.14.88;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "b0d456ec-0b71-4b86-83bb-e429befe4515",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "b350923c-885c-4894-ba2e-351d29c30d38",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-/recover",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/backupRestoreKeyName-failsifonetriestorecoveranon-existingdeletedkey-/recover",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Key not found: recoverKeyName-failsifonetriestorecoveranon-existingdeletedkey-\"}}",
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"A key with (name/id) backupRestoreKeyName-failsifonetriestorecoveranon-existingdeletedkey- was not found in this key vault. If you recently deleted this key you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "140",
+    "content-length": "374",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 17:20:12 GMT",
+    "date": "Sat, 27 Jun 2020 00:55:00 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.151.14.88;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "b1ccbdf4-0552-4870-9fb2-90be398882ce",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "82141423-d100-4b1f-9064-d4e2b151f91b",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -112,5 +109,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "0bb9570a700e7feb6c42efa81ef99e20"
+ "hash": "87903e9184e091f48dda3e7e8e621e18"
 }

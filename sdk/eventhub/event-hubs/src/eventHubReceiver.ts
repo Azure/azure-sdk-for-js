@@ -389,7 +389,7 @@ export class EventHubReceiver extends LinkEntity {
       this._deleteFromCache();
       await this._closeLink(receiverLink);
     } catch (err) {
-      const msg = `[${this._context.connectionId}] An error occurred while closing receiver ${this.name}: ${err}`;
+      const msg = `[${this._context.connectionId}] An error occurred while closing receiver ${this.name}: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
       throw err;
@@ -590,10 +590,10 @@ export class EventHubReceiver extends LinkEntity {
       this.isConnecting = false;
       const error = translate(err);
       logger.warning(
-        "[%s] An error occured while creating the receiver '%s': %O",
+        "[%s] An error occured while creating the receiver '%s': %s",
         this._context.connectionId,
         this.name,
-        error
+        `${error?.name}: ${error?.message}`
       );
       logErrorStackTrace(err);
       throw error;

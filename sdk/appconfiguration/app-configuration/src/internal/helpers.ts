@@ -3,7 +3,6 @@
 
 import { ListConfigurationSettingsOptions } from "..";
 import { URLBuilder } from "@azure/core-http";
-import { isArray } from "util";
 import {
   ListRevisionsOptions,
   ConfigurationSettingId,
@@ -129,7 +128,7 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
   let parsedLink = URLBuilder.parse(nextLink);
   let afterToken = parsedLink.getQueryParameterValue("after");
 
-  if (afterToken == null || isArray(afterToken)) {
+  if (afterToken == null || Array.isArray(afterToken)) {
     throw new Error("Invalid nextLink - invalid after token");
   }
 

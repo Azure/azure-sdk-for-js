@@ -6,7 +6,7 @@
   how aggressively the client claims partitions while load balancing.
   ([PR 9706](https://github.com/Azure/azure-sdk-for-js/pull/9706))
 
-## 5.2.2 (Unreleased)
+## 5.2.2 (2020-06-30)
 
 - Fixes issue [#9289](https://github.com/Azure/azure-sdk-for-js/issues/9289)
   where calling `await subscription.close()` inside of a subscription's `processError`
@@ -14,10 +14,13 @@
 - Fixes issue [#9083](https://github.com/Azure/azure-sdk-for-js/issues/9083)
   where calling `EventHubConsumerClient.close()` would not stop any actively
   running `Subscriptions`.
-- Fixes issue [8598](https://github.com/Azure/azure-sdk-for-js/issues/8598)
+- Fixes issue [#8598](https://github.com/Azure/azure-sdk-for-js/issues/8598)
   where the EventHubConsumerClient would remain open in the background beyond
   when `subscription.close()` was called. This would prevent the process from
   exiting until the `maxWaitTimeInSeconds` (default 60) was reached.
+- Updated to use the latest version of the `@azure/core-amqp` package.
+  This update fixes issue [#9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
+  where some failed operations would delay the process exiting.
 
 ## 5.2.1 (2020-06-08)
 

@@ -16,6 +16,8 @@ Use the client library for Azure Key Vault Certificates in your Node.js applicat
 - Get all certificates.
 - Get all deleted certificates.
 
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations.
+
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-certificates) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-certificates) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
 ## Getting started
@@ -135,6 +137,25 @@ const client = new CertificateClient(url, credential);
   enabled.
 - A **Certificate backup** can be generated from any created certificate. These backups come as
   binary data, and can only be used to regenerate a previously deleted certificate.
+
+## Specifying the Azure Key Vault service API version
+
+By default, this package uses the latest Azure Key Vault service version which is `7.1-preview`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `apiVersion` in the client constructor as shown below:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { CertificateClient } = require("@azure/keyvault-certificates");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+// Change the Azure Key Vault service API version being used via the `apiVersion` option
+const client = new CertificateClient(url, credential, {
+  apiVersion: "7.0"
+});
+```
 
 ## Examples
 

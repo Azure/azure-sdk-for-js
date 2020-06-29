@@ -1290,7 +1290,6 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
-    skillsetCounter: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
 }
