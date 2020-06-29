@@ -25,7 +25,7 @@ import {
 } from "../util/errors";
 import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
-import { assertValidMessageHandlers, getMessageIterator } from "./shared";
+import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
@@ -468,14 +468,13 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     // TODO - receiverOptions for subscribe??
     assertValidMessageHandlers(handlers);
 
+    const processError = wrapProcessErrorHandler(handlers);
+
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
         return handlers.processMessage((message as any) as ReceivedMessageT);
       },
-      (err: Error) => {
-        // TODO: not async internally yet.
-        handlers.processError(err);
-      },
+      processError,
       options
     );
   }
