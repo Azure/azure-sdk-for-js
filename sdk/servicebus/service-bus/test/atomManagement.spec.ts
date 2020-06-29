@@ -1944,16 +1944,14 @@ describe("Atom management - Authentication", function(): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  describe.only(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
-      await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
     });
 
     afterEach(async () => {
       await deleteEntity(EntityType.TOPIC, managementTopic1);
-      await deleteEntity(EntityType.QUEUE, managementQueue1);
     });
 
     it(`${testCase.testCaseTitle}`, async () => {
@@ -2006,7 +2004,7 @@ describe("Atom management - Authentication", function(): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
+  describe.only(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
@@ -2467,7 +2465,7 @@ async function updateEntity(
       }
       const getSubscriptionResponse = await serviceBusAtomManagementClient.getSubscription(
         topicPath,
-        subscriptionPath!
+        entityPath
       );
       const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription({
         ...getSubscriptionResponse,
@@ -2490,7 +2488,6 @@ async function updateEntity(
       );
       return ruleResponse;
   }
-  throw new Error("TestError: Unrecognized EntityType");
 }
 
 async function deleteEntity(
