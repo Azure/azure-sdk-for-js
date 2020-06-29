@@ -1,5 +1,8 @@
 # Release History
 
+## 3.7.4 (Unreleased)
+
+
 ## 3.7.3 (2020-6-29)
 
 - BUGFIX: Cannot create item with automatic id generation and a container partitioned on ID (#9734)
