@@ -40,7 +40,7 @@ export type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getP
  * @internal
  * @ignore
  */
-export interface CommonEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends for our internal classes (these are optional for external users)
+export interface CommonEventProcessorOptions
   extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
     Pick<
       SubscribeOptions,
