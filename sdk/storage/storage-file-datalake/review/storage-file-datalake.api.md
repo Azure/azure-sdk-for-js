@@ -449,7 +449,8 @@ export interface FileSetExpiryHeaders {
 // @public
 export interface FileSetExpiryOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    expiresOn?: number | Date;
+    expiresOn?: Date;
+    timeToExpireInMs?: number;
 }
 
 // @public

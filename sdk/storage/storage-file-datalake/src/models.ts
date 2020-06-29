@@ -883,15 +883,21 @@ export interface FileSetExpiryOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 
   /**
-   * The time to set the file to expiry, used in combination with {@link FileExpiryMode}.
-   * When using 'RelativeToCreation' or 'RelativeToNow' mode, should be the number of milliseconds elapsed from the relative time.
-   * when using 'Absolute', should be a valid time. A time in the past is not allowed and milliseconds will be dropped.
-   * When using 'NeverExpire', it shouldn't be provided.
+   * The time to set the file to expire on, used in combination with the "Absolute" {@link FileExpiryMode}.
+   * A time in the past is not allowed and milliseconds will be dropped.
    *
-   * @type {number | Date}
+   * @type {Date}
    * @memberof FileSetExpiryOptions
    */
-  expiresOn?: number | Date;
+  expiresOn?: Date;
+
+  /**
+   * The number of milliseconds to elapse before the file expires, used in combination with the "RelativeToCreation" or "RelativeToNow" {@link FileExpiryMode}.
+   *
+   * @type {number}
+   * @memberof FileSetExpiryOptions
+   */
+  timeToExpireInMs?: number;
 }
 
 /***********************************************************/

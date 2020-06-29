@@ -1542,27 +1542,18 @@ export class DataLakeFileClient extends DataLakePathClient {
       options.tracingOptions
     );
     try {
-      if (mode === "NeverExpire" && options.expiresOn) {
-        throw new Error(`Shouldn't specify options.expiresOn when using mode ${mode}`);
-      }
-      if (!options.expiresOn && mode !== "NeverExpire") {
-        throw new Error(`Must specify options.expiresOn when using modes other than ${mode}`);
-      }
-
       let expiresOn: string | undefined = undefined;
       if (mode === "RelativeToNow" || mode === "RelativeToCreation") {
-        if (typeof options.expiresOn !== "number" || options.expiresOn < 0) {
-          throw new Error(
-            `options.expiresOn should be the number of milliseconds elapsed from the relative time when using mode ${mode}, but is ${options.expiresOn}`
-          );
+        if (!options.timeToExpireInMs) {
+          throw new Error(`Should specify options.timeToExpireInMs when using mode ${mode}.`);
         }
         // MINOR: need check against <= 2**64, but JS number has the precision problem.
-        expiresOn = Math.round(options.expiresOn).toString();
-      } else if (mode === "Absolute") {
-        if (typeof options.expiresOn === "number") {
-          throw new Error(
-            `options.expiresOn should be a valid time when using mode ${mode}, but is ${options.expiresOn}`
-          );
+        expiresOn = Math.round(options.timeToExpireInMs).toString();
+      }
+
+      if (mode === "Absolute") {
+        if (!options.expiresOn) {
+          throw new Error(`Should specify options.expiresOn when using mode ${mode}.`);
         }
         const now = new Date();
         if (!(options.expiresOn!.getTime() > now.getTime())) {
