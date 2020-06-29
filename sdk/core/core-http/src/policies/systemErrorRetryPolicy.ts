@@ -93,7 +93,7 @@ async function retry(
 ): Promise<HttpOperationResponse> {
   retryData = updateRetryData(policy, retryData, err);
 
-  function shouldPolicyRetry(_response?: HttpOperationResponse, error?: RetryError) {
+  function shouldPolicyRetry(_response?: HttpOperationResponse, error?: RetryError): boolean {
     if (
       error &&
       error.code &&

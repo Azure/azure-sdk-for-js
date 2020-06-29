@@ -140,7 +140,7 @@ async function retry(
   retryData?: RetryData,
   requestError?: RetryError
 ): Promise<HttpOperationResponse> {
-  function shouldPolicyRetry(response?: HttpOperationResponse) {
+  function shouldPolicyRetry(response?: HttpOperationResponse): boolean {
     if (response) {
       const statusCode = response.status;
       if (
