@@ -331,12 +331,18 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
       } else if (rawProperty.Value["$"]["i:type"] === ResponseTypeMap.string) {
         properties[rawProperty.Key] = rawProperty.Value["_"];
       } else {
-        throw new Error(`Unable to parse the user property in the response - ${rawProperty}`);
+        throw new TypeError(
+          `Unable to parse the user property in the response - ${JSON.stringify(rawProperty)}`
+        );
         // TODO: Add more cases if other types are supported.
       }
     }
   } else {
-    throw new Error("Not an array, unable to parse response");
+    throw new TypeError(
+      `"UserProperties" in the response is not an array, unable to parse the response - ${JSON.stringify(
+        value
+      )}`
+    );
   }
   console.log(properties);
   return properties;
@@ -364,7 +370,7 @@ function buildSqlParameter(value: RawSqlParameter): SqlParameter {
       break;
 
     default:
-      throw new Error(
+      throw new TypeError(
         `Invalid type "${type}" on the SQL Parameter. Must be either of "interface, "string", "long" or "date".`
       );
   }
@@ -425,7 +431,9 @@ export function getRawUserProperties(parameters: { [key: string]: any } | undefi
     } else if (typeof value === "string") {
       type = ParameterType.String;
     } else {
-      throw new Error(`Unsupported type for the value in the user property {${key}:${value}}`);
+      throw new TypeError(
+        `Unsupported type for the value in the user property {${key}:${JSON.stringify(value)}}`
+      );
       // TODO: Add more cases if other types are supported.
     }
     const rawParameterValue: any = {};
