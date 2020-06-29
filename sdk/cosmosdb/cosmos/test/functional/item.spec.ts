@@ -213,7 +213,7 @@ describe("Item CRUD", function() {
     await bulkDeleteItems(container, returnedDocuments, partitionKey);
   });
 
-  it("Should auto generate an ID for a colleciton partitioned on id", async function() {
+  it("Should auto generate an id for a collection partitioned on id", async function() {
     // https://github.com/Azure/azure-sdk-for-js/issues/9734
     const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
     const { resource } = await container.items.create({});
