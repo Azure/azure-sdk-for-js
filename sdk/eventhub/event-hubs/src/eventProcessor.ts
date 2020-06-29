@@ -486,7 +486,7 @@ export class EventProcessor {
     // Pass the list of all the partition ids and the collection of claimed partition ownerships
     // to the load balance strategy.
     // We exclude the abandoned partition ownerships to simplify the load balancing logic.
-    const partitionsToClaim = loadBalancingStrategy.identifyPartitionsToClaim(
+    const partitionsToClaim = loadBalancingStrategy.getPartitionsToCliam(
       this._id,
       nonAbandonedPartitionOwnershipMap,
       partitionIds

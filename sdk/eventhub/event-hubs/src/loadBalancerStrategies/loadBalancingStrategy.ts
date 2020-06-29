@@ -18,7 +18,7 @@ export interface LoadBalancingStrategy {
    * @param partitionIds Partitions to assign owners to.
    * @returns Partition ids to claim.
    */
-  identifyPartitionsToClaim(
+  getPartitionsToCliam(
     ownerId: string,
     claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIds: string[]

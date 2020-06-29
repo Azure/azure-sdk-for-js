@@ -30,7 +30,7 @@ export class BalancedLoadBalancingStrategy implements LoadBalancingStrategy {
    * @param partitionIds Partitions to assign owners to.
    * @returns Partition ids to claim.
    */
-  public identifyPartitionsToClaim(
+  public getPartitionsToCliam(
     ourOwnerId: string,
     claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIds: string[]

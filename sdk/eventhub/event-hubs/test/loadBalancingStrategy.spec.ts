@@ -32,7 +32,7 @@ describe("LoadBalancingStrategy", () => {
       const m = new Map<string, PartitionOwnership>();
       const lb = new UnbalancedLoadBalancingStrategy();
 
-      lb.identifyPartitionsToClaim("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
+      lb.getPartitionsToCliam("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
       m.should.be.empty;
     });
 
@@ -61,7 +61,7 @@ describe("LoadBalancingStrategy", () => {
 
       const lb = new UnbalancedLoadBalancingStrategy();
 
-      lb.identifyPartitionsToClaim("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
+      lb.getPartitionsToCliam("ownerId", m, ["1", "2", "3"]).should.deep.eq(["1", "2", "3"]);
     });
   });
 
@@ -73,7 +73,7 @@ describe("LoadBalancingStrategy", () => {
 
       // at this point 'a' has it's fair share of partitions (there are 3 total)
       // and it's okay to have 1 extra.
-      let partitionsToOwn = lb.identifyPartitionsToClaim(
+      let partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "1": "b",
@@ -90,7 +90,7 @@ describe("LoadBalancingStrategy", () => {
 
       // now the other side of this is when we're fighting for the ownership of an
       // extra partition
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "1": "b",
@@ -110,7 +110,7 @@ describe("LoadBalancingStrategy", () => {
 
       // at this point 'a' has it's fair share of partitions (there are 4 total)
       // so it'll stop claiming additional partitions.
-      let partitionsToOwn = lb.identifyPartitionsToClaim(
+      let partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "1": "b",
@@ -125,7 +125,7 @@ describe("LoadBalancingStrategy", () => {
         "we've gotten our fair share, shouldn't claim anything new"
       );
 
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "0": "b",
@@ -148,7 +148,7 @@ describe("LoadBalancingStrategy", () => {
     it("stealing", () => {
       // something like this could happen if 'a' were just the only processor
       // and now we're spinning up 'b'
-      let partitionsToOwn = lb.identifyPartitionsToClaim(
+      let partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "0": "a",
@@ -165,7 +165,7 @@ describe("LoadBalancingStrategy", () => {
       );
 
       // and now the same case as above, but with an even number of partitions per processor.
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "0": "a",
@@ -220,11 +220,7 @@ describe("LoadBalancingStrategy", () => {
         "9": "d"
       });
 
-      const requestedPartitions = lb.identifyPartitionsToClaim(
-        "c",
-        initialOwnershipMap,
-        partitions
-      );
+      const requestedPartitions = lb.getPartitionsToCliam("c", initialOwnershipMap, partitions);
       requestedPartitions.sort();
 
       requestedPartitions.should.deep.equal(
@@ -237,7 +233,7 @@ describe("LoadBalancingStrategy", () => {
       // this is a case where we shouldn't steal - we have
       // the minimum number of partitions and stealing at this
       // point will just keep thrashing both processors.
-      const partitionsToOwn = lb.identifyPartitionsToClaim(
+      const partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "0": "a",
@@ -255,15 +251,11 @@ describe("LoadBalancingStrategy", () => {
       const allPartitions = ["0", "1", "2", "3"];
 
       // in the presence of no owners we claim a random partition
-      let partitionsToOwn = lb.identifyPartitionsToClaim(
-        "a",
-        createOwnershipMap({}),
-        allPartitions
-      );
+      let partitionsToOwn = lb.getPartitionsToCliam("a", createOwnershipMap({}), allPartitions);
       partitionsToOwn.length.should.be.equal(1, "nothing is owned, claim one");
 
       // if there are other owners we should claim up to #partitions/#owners
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "1": "b",
@@ -276,7 +268,7 @@ describe("LoadBalancingStrategy", () => {
       partitionsToOwn.filter((p) => p === "1").length.should.equal(0);
 
       // 'b' should claim the last unowned partition
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "1": "b",
@@ -289,7 +281,7 @@ describe("LoadBalancingStrategy", () => {
       partitionsToOwn.should.be.deep.equal(["0"], "b grabbed the last available partition");
 
       // we're balanced - processors now only grab the partitions that they own
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "0": "b",
@@ -313,14 +305,14 @@ describe("LoadBalancingStrategy", () => {
       });
 
       // At this point, 'a' has its fair share of partitions, and none should be returned.
-      let partitionsToOwn = lb.identifyPartitionsToClaim("a", ownershipMap, allPartitions);
+      let partitionsToOwn = lb.getPartitionsToCliam("a", ownershipMap, allPartitions);
       partitionsToOwn.length.should.equal(0, "Expected to not claim any new partitions.");
 
       // Change the ownership of partition "0" so it is older than the interval.
       const ownership = ownershipMap.get("0")!;
       ownership.lastModifiedTimeInMs = Date.now() - (intervalInMs + 1); // Add 1 to the interval to ensure it has just expired.
 
-      partitionsToOwn = lb.identifyPartitionsToClaim("a", ownershipMap, allPartitions);
+      partitionsToOwn = lb.getPartitionsToCliam("a", ownershipMap, allPartitions);
       partitionsToOwn.should.deep.equal(["0"]);
     });
   });
@@ -333,7 +325,7 @@ describe("LoadBalancingStrategy", () => {
 
       // at this point 'a' has it's fair share of partitions (there are 3 total)
       // and it's okay to have 1 extra.
-      let partitionsToOwn = lb.identifyPartitionsToClaim(
+      let partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "1": "b",
@@ -350,7 +342,7 @@ describe("LoadBalancingStrategy", () => {
 
       // now the other side of this is when we're fighting for the ownership of an
       // extra partition
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "1": "b",
@@ -370,7 +362,7 @@ describe("LoadBalancingStrategy", () => {
 
       // at this point 'a' has it's fair share of partitions (there are 4 total)
       // so it'll stop claiming additional partitions.
-      let partitionsToOwn = lb.identifyPartitionsToClaim(
+      let partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "1": "b",
@@ -385,7 +377,7 @@ describe("LoadBalancingStrategy", () => {
         "we've gotten our fair share, shouldn't claim anything new"
       );
 
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "0": "b",
@@ -408,7 +400,7 @@ describe("LoadBalancingStrategy", () => {
     it("stealing", () => {
       // something like this could happen if 'a' were just the only processor
       // and now we're spinning up 'b'
-      let partitionsToOwn = lb.identifyPartitionsToClaim(
+      let partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "0": "a",
@@ -425,7 +417,7 @@ describe("LoadBalancingStrategy", () => {
       );
 
       // and now the same case as above, but with an even number of partitions per processor.
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "0": "a",
@@ -449,7 +441,7 @@ describe("LoadBalancingStrategy", () => {
         allPartitions.push(`${i}`);
       }
 
-      let partitionsToOwn = lb.identifyPartitionsToClaim(
+      let partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "0": "",
@@ -508,11 +500,7 @@ describe("LoadBalancingStrategy", () => {
         "9": "d"
       });
 
-      const requestedPartitions = lb.identifyPartitionsToClaim(
-        "c",
-        initialOwnershipMap,
-        partitions
-      );
+      const requestedPartitions = lb.getPartitionsToCliam("c", initialOwnershipMap, partitions);
       requestedPartitions.sort();
 
       requestedPartitions.should.deep.equal(
@@ -525,7 +513,7 @@ describe("LoadBalancingStrategy", () => {
       // this is a case where we shouldn't steal - we have
       // the minimum number of partitions and stealing at this
       // point will just keep thrashing both processors.
-      const partitionsToOwn = lb.identifyPartitionsToClaim(
+      const partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "0": "a",
@@ -543,15 +531,11 @@ describe("LoadBalancingStrategy", () => {
       const allPartitions = ["0", "1", "2", "3"];
 
       // in the presence of no owners we claim a random partition
-      let partitionsToOwn = lb.identifyPartitionsToClaim(
-        "a",
-        createOwnershipMap({}),
-        allPartitions
-      );
+      let partitionsToOwn = lb.getPartitionsToCliam("a", createOwnershipMap({}), allPartitions);
       partitionsToOwn.length.should.be.equal(4, "nothing is owned, claim all");
 
       // if there are other owners we should claim up to #partitions/#owners
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "a",
         createOwnershipMap({
           "1": "b",
@@ -564,7 +548,7 @@ describe("LoadBalancingStrategy", () => {
       partitionsToOwn.filter((p) => p === "1").length.should.equal(0);
 
       // 'b' should claim the last unowned partition
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "1": "b",
@@ -577,7 +561,7 @@ describe("LoadBalancingStrategy", () => {
       partitionsToOwn.should.be.deep.equal(["0"], "b grabbed the last available partition");
 
       // we're balanced - processors now only grab the partitions that they own
-      partitionsToOwn = lb.identifyPartitionsToClaim(
+      partitionsToOwn = lb.getPartitionsToCliam(
         "b",
         createOwnershipMap({
           "0": "b",
@@ -601,7 +585,7 @@ describe("LoadBalancingStrategy", () => {
       });
 
       // At this point, "a" should only grab 1 partition since both "a" and "b" should end up with 2 partitions each.
-      let partitionsToOwn = lb.identifyPartitionsToClaim("a", ownershipMap, allPartitions);
+      let partitionsToOwn = lb.getPartitionsToCliam("a", ownershipMap, allPartitions);
       partitionsToOwn.length.should.equal(1, "Expected to claim 1 new partitions.");
 
       // Change the ownership of partition "0" so it is older than the interval.
@@ -611,7 +595,7 @@ describe("LoadBalancingStrategy", () => {
       // At this point, "a" should grab partitions 0, 2, and 3.
       // This is because "b" only owned 1 partition and that claim is expired,
       // so "a" as treated as if it is the only owner.
-      partitionsToOwn = lb.identifyPartitionsToClaim("a", ownershipMap, allPartitions);
+      partitionsToOwn = lb.getPartitionsToCliam("a", ownershipMap, allPartitions);
       partitionsToOwn.sort();
       partitionsToOwn.should.deep.equal(["0", "2", "3"]);
     });
