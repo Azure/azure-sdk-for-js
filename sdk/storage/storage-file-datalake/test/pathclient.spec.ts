@@ -5,7 +5,7 @@ import { record } from "@azure/test-utils-recorder";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { DataLakeFileClient, DataLakeFileSystemClient, FileExpiryMode } from "../src";
+import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
 import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
@@ -334,7 +334,7 @@ describe("DataLakePathClient", () => {
   });
 
   it("set expiry - NeverExpire", async () => {
-    await fileClient.setExpiry(FileExpiryMode.NeverExpire);
+    await fileClient.setExpiry("NeverExpire");
     const getRes = await fileClient.getProperties();
     assert.equal(getRes.expiresOn, undefined);
   });
@@ -343,7 +343,7 @@ describe("DataLakePathClient", () => {
     const now = recorder.newDate("now");
     const delta = 5 * 1000;
     const expiresOn = new Date(now.getTime() + delta);
-    await fileClient.setExpiry(FileExpiryMode.Absolute, { expiresOn });
+    await fileClient.setExpiry("Absolute", { expiresOn });
 
     const getRes = await fileClient.getProperties();
     expiresOn.setMilliseconds(0); // milliseconds dropped
@@ -355,7 +355,7 @@ describe("DataLakePathClient", () => {
 
   it("set expiry - RelativeToNow", async () => {
     const delta = 1000;
-    await fileClient.setExpiry(FileExpiryMode.RelativeToNow, { timeToExpireInMs: delta });
+    await fileClient.setExpiry("RelativeToNow", { timeToExpireInMs: delta });
 
     await delay(delta);
     assert.ok(!(await fileClient.exists()));
@@ -363,7 +363,7 @@ describe("DataLakePathClient", () => {
 
   it("set expiry - RelativeToCreation", async () => {
     const delta = 1000 * 3600 + 0.12;
-    await fileClient.setExpiry(FileExpiryMode.RelativeToCreation, { timeToExpireInMs: delta });
+    await fileClient.setExpiry("RelativeToCreation", { timeToExpireInMs: delta });
 
     const getRes = await fileClient.getProperties();
     assert.equal(getRes.expiresOn?.getTime(), getRes.createdOn!.getTime() + Math.round(delta));
@@ -371,12 +371,12 @@ describe("DataLakePathClient", () => {
 
   it("set expiry - override", async () => {
     const delta = 1000 * 3600;
-    await fileClient.setExpiry(FileExpiryMode.RelativeToCreation, { timeToExpireInMs: delta });
+    await fileClient.setExpiry("RelativeToCreation", { timeToExpireInMs: delta });
 
     const getRes = await fileClient.getProperties();
     assert.equal(getRes.expiresOn?.getTime(), getRes.createdOn!.getTime() + delta);
 
-    await fileClient.setExpiry(FileExpiryMode.NeverExpire);
+    await fileClient.setExpiry("NeverExpire");
     const getRes2 = await fileClient.getProperties();
     assert.equal(getRes2.expiresOn, undefined);
   });

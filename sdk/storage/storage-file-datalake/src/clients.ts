@@ -31,14 +31,12 @@ import {
   PathExistsOptions,
   PathGetAccessControlOptions,
   PathGetAccessControlResponse,
-  PathGetPropertiesAction,
   PathGetPropertiesOptions,
   PathGetPropertiesResponse,
   PathHttpHeaders,
   PathMoveOptions,
   PathMoveResponse,
   PathPermissions,
-  PathRenameMode,
   PathResourceType,
   PathSetAccessControlOptions,
   PathSetAccessControlResponse,
@@ -338,7 +336,7 @@ export class DataLakePathClient extends StorageClient {
     );
     try {
       const response = await this.pathContext.getProperties({
-        action: PathGetPropertiesAction.GetAccessControl,
+        action: "getAccessControl",
         upn: options.userPrincipalName,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
@@ -614,7 +612,7 @@ export class DataLakePathClient extends StorageClient {
 
     try {
       return await destPathClient.pathContext.create({
-        mode: PathRenameMode.Legacy, // By default
+        mode: "legacy", // By default
         renameSource,
         sourceLeaseId: options.conditions.leaseId,
         leaseAccessConditions: options.destinationConditions,
@@ -678,13 +676,13 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
     resourceTypeOrOptions?: PathResourceType | PathCreateOptions,
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
-    if (resourceTypeOrOptions === PathResourceType.Directory) {
+    if (resourceTypeOrOptions === "directory") {
       return super.create(resourceTypeOrOptions as PathResourceType, options);
     }
 
-    if (resourceTypeOrOptions === PathResourceType.File) {
+    if (resourceTypeOrOptions === "file") {
       throw TypeError(
-        `DataLakeDirectoryClient:create() resourceType cannot be ${PathResourceType.File}. Refer to DataLakeFileClient for file creation.`
+        `DataLakeDirectoryClient:create() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeFileClient for file creation.`
       );
     }
 
@@ -695,7 +693,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
       options.tracingOptions
     );
     try {
-      return await super.create(PathResourceType.Directory, {
+      return await super.create("directory", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
@@ -865,13 +863,13 @@ export class DataLakeFileClient extends DataLakePathClient {
     resourceTypeOrOptions?: PathResourceType | PathCreateOptions,
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
-    if (resourceTypeOrOptions === PathResourceType.File) {
+    if (resourceTypeOrOptions === "file") {
       return super.create(resourceTypeOrOptions as PathResourceType, options);
     }
 
-    if (resourceTypeOrOptions === PathResourceType.Directory) {
+    if (resourceTypeOrOptions === "directory") {
       throw TypeError(
-        `DataLakeFileClient:create() resourceType cannot be ${PathResourceType.Directory}. Refer to DataLakeDirectoryClient for directory creation.`
+        `DataLakeFileClient:create() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeDirectoryClient for directory creation.`
       );
     }
 
@@ -879,7 +877,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     options.conditions = options.conditions || {};
     const { span, spanOptions } = createSpan("DataLakeFileClient-create", options.tracingOptions);
     try {
-      return await super.create(PathResourceType.File, {
+      return await super.create("file", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,

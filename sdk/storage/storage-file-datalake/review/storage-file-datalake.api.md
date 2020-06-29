@@ -297,16 +297,7 @@ export interface FileCreateResponse extends PathCreateResponse {
 }
 
 // @public
-export enum FileExpiryMode {
-    // (undocumented)
-    Absolute = "Absolute",
-    // (undocumented)
-    NeverExpire = "NeverExpire",
-    // (undocumented)
-    RelativeToCreation = "RelativeToCreation",
-    // (undocumented)
-    RelativeToNow = "RelativeToNow"
-}
+export type FileExpiryMode = 'NeverExpire' | 'RelativeToCreation' | 'RelativeToNow' | 'Absolute';
 
 // @public (undocumented)
 export interface FileFlushOptions extends CommonOptions {
@@ -1011,12 +1002,7 @@ export type PathGetAccessControlResponse = PathAccessControl & PathGetAccessCont
 };
 
 // @public
-export enum PathGetPropertiesAction {
-    // (undocumented)
-    GetAccessControl = "getAccessControl",
-    // (undocumented)
-    GetStatus = "getStatus"
-}
+export type PathGetPropertiesAction = 'getAccessControl' | 'getStatus';
 
 // @public (undocumented)
 export interface PathGetPropertiesHeaders {
@@ -1228,20 +1214,10 @@ export interface PathRemoveHeaders {
 }
 
 // @public
-export enum PathRenameMode {
-    // (undocumented)
-    Legacy = "legacy",
-    // (undocumented)
-    Posix = "posix"
-}
+export type PathRenameMode = 'legacy' | 'posix';
 
 // @public
-export enum PathResourceType {
-    // (undocumented)
-    Directory = "directory",
-    // (undocumented)
-    File = "file"
-}
+export type PathResourceType = 'directory' | 'file';
 
 // @public
 export interface PathSetAccessControlHeaders {
