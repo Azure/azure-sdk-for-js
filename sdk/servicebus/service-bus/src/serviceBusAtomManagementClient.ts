@@ -860,18 +860,18 @@ export class ServiceBusManagementClient extends ServiceClient {
   ): Promise<SubscriptionResponse> {
     let subscription: SubscriptionDescription;
     let operOptions: OperationOptions | undefined;
-    if (typeof topicNameOrSubscriptionOptions === "string") {
-      if (subscriptionNameOrOperationOptions !== "string") {
-        throw new Error("Subscription name provided is invalid");
+    if (typeof subscriptionNameOrOperationOptions === "string") {
+      if (topicNameOrSubscriptionOptions !== "string") {
+        throw new Error("Topic name provided is invalid");
       }
       subscription = {
         topicName: topicNameOrSubscriptionOptions,
-        subscriptionName: subscriptionNameOrOperationOptions as "string"
+        subscriptionName: subscriptionNameOrOperationOptions
       };
       operOptions = operationOptions;
     } else {
-      subscription = topicNameOrSubscriptionOptions;
-      operOptions = operationOptions;
+      subscription = topicNameOrSubscriptionOptions as SubscriptionDescription;
+      operOptions = subscriptionNameOrOperationOptions;
     }
     log.httpAtomXml(
       `Performing management operation - createSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
