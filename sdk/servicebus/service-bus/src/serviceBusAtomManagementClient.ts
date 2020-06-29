@@ -448,24 +448,18 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates properties on the Queue by the given name based on the given options
-   * @param queue Options to configure the Queue being updated.
+   * Updates the queue based on the queue description provided.
+   * All properties on the queue description must be set even though only a subset of them are actually updatable.
+   * Therefore, the suggested flow is to use `getQueue()` to get the queue description with all properties set,
+   * update as needed and then pass it to `updateQueue()`.
+   * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue for more details.
    *
-   * Update request allows only a subset of properties from QueueDescription to be changed
-   *  https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue
-   *  Updatable properties:
-   *   - defaultMessageTimeToLive
-   *   - lockDuration
-   *   - deadLetteringOnMessageExpiration
-   *   - duplicateDetectionHistoryTimeWindow
-   *   - maxDeliveryCount
-   *
-   * The `queue` param must be fully populated as all of the properties are replaced with the update API.
-   * If a property is not set, the service default value is used.
-   * The suggested flow is:
-   *  - Use `await getQueue(<queue-name>)` and obtain the getResponse.
-   *  - Update the required elements from the list of updatable properties in the `getResponse`.
-   *  - Pass the updated description into this method.
+   * @param queue Object representing the queue with one or more of the below properties updated
+   * - defaultMessageTimeToLive
+   * - lockDuration
+   * - deadLetteringOnMessageExpiration
+   * - duplicateDetectionHistoryTimeWindow
+   * - maxDeliveryCount
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -695,21 +689,15 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates properties on the Topic by the given name based on the given options
-   * @param topic Options to configure the Topic being updated.
+   * Updates the topic based on the topic description provided.
+   * All properties on the topic description must be set even though only a subset of them are actually updatable.
+   * Therefore, the suggested flow is to use `getTopic()` to get the topic description with all properties set,
+   * update as needed and then pass it to `updateTopic()`.
+   * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-topic for more details.
    *
-   * Update request allows only a subset of properties from TopicDescription to be changed
-   *  https://docs.microsoft.com/en-us/rest/api/servicebus/update-topic
-   *  Updatable properties:
+   * @param topic Object representing the topic with one or more of the below properties updated
    *   - defaultMessageTimeToLive
    *   - duplicateDetectionHistoryTimeWindow
-   *
-   * The `topic` param must be fully populated as all of the properties are replaced with the update API.
-   * If a property is not set, the service default value is used.
-   * The suggested flow is:
-   *  - Use `await getTopic(<topic-name>)` and obtain the getResponse.
-   *  - Update the required elements from the list of updatable properties in the `getResponse`.
-   *  - Pass the updated description into this method.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -983,21 +971,15 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates properties on the Subscription by the given name based on the given options
-   * @param subscription Options to configure the Subscription being updated.
+   * Updates the subscription based on the subscription description provided.
+   * All properties on the subscription description must be set even though only a subset of them are actually updatable.
+   * Therefore, the suggested flow is to use `getSubscription()` to get the subscription description with all properties set,
+   * update as needed and then pass it to `updateSubscription()`.
    *
-   * Update request allows only a subset of properties from SubscriptionDescription to be changed
-   *  Updatable properties:
+   * @param subscription Object representing the subscription with one or more of the below properties updated
    *   - lockDuration
    *   - deadLetteringOnMessageExpiration
    *   - maxDeliveryCount
-   *
-   * The `subscription` param must be fully populated as all of the properties are replaced with the update API.
-   * If a property is not set, the service default value is used.
-   * The suggested flow is:
-   *  - Use `await getSubscription(<topic-name>, <subscription-name>)` and obtain the getResponse.
-   *  - Update the required elements from the list of updatable properties in the `getResponse`.
-   *  - Pass the updated description into this method.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
