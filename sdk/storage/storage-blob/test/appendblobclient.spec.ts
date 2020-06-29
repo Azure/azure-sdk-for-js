@@ -65,8 +65,13 @@ describe("AppendBlobClient", () => {
   });
 
   it("createIfNotExists", async () => {
-    await appendBlobClient.createIfNotExists();
-    await appendBlobClient.createIfNotExists();
+    const res = await appendBlobClient.createIfNotExists();
+    assert.ok(res.succeeded);
+    assert.ok(res.etag);
+
+    const res2 = await appendBlobClient.createIfNotExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
   it("appendBlock", async () => {

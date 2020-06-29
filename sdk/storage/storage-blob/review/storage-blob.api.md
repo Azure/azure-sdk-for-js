@@ -179,7 +179,7 @@ export class AppendBlobClient extends BlobClient {
     appendBlock(body: HttpRequestBody, contentLength: number, options?: AppendBlobAppendBlockOptions): Promise<AppendBlobAppendBlockResponse>;
     appendBlockFromURL(sourceURL: string, sourceOffset: number, count: number, options?: AppendBlobAppendBlockFromURLOptions): Promise<AppendBlobAppendBlockFromUrlResponse>;
     create(options?: AppendBlobCreateOptions): Promise<AppendBlobCreateResponse>;
-    createIfNotExists(options?: AppendBlobCreateIfNotExistsOptions): Promise<AppendBlobCreateResponse | null>;
+    createIfNotExists(options?: AppendBlobCreateIfNotExistsOptions): Promise<AppendBlobCreateIfNotExistsResponse>;
     withSnapshot(snapshot: string): AppendBlobClient;
 }
 
@@ -206,6 +206,11 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: Metadata;
+}
+
+// @public
+export interface AppendBlobCreateIfNotExistsResponse extends AppendBlobCreateResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -371,7 +376,7 @@ export class BlobClient extends StorageClient {
     get containerName(): string;
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
-    deleteIfExists(options?: BlobDeleteOptions): Promise<BlobDeleteResponse | null>;
+    deleteIfExists(options?: BlobDeleteOptions): Promise<BlobDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
     downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
@@ -452,6 +457,11 @@ export interface BlobDeleteHeaders {
     errorCode?: string;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface BlobDeleteIfExistsResponse extends BlobDeleteResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -1247,10 +1257,10 @@ export class ContainerClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     get containerName(): string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
-    createIfNotExists(options?: ContainerCreateOptions): Promise<ContainerCreateResponse | null>;
+    createIfNotExists(options?: ContainerCreateOptions): Promise<ContainerCreateIfNotExistsResponse>;
     delete(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
     deleteBlob(blobName: string, options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
-    deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse | null>;
+    deleteIfExists(options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteIfExistsResponse>;
     exists(options?: ContainerExistsOptions): Promise<boolean>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;
@@ -1286,6 +1296,11 @@ export interface ContainerCreateHeaders {
 }
 
 // @public
+export interface ContainerCreateIfNotExistsResponse extends ContainerCreateResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface ContainerCreateOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     access?: PublicAccessType;
@@ -1308,6 +1323,11 @@ export interface ContainerDeleteHeaders {
     errorCode?: string;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface ContainerDeleteIfExistsResponse extends ContainerDeleteResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -1804,7 +1824,7 @@ export class PageBlobClient extends BlobClient {
     constructor(url: string, pipeline: Pipeline);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
-    createIfNotExists(size: number, options?: PageBlobCreateIfNotExistsOptions): Promise<PageBlobCreateResponse | null>;
+    createIfNotExists(size: number, options?: PageBlobCreateIfNotExistsOptions): Promise<PageBlobCreateIfNotExistsResponse>;
     getPageRanges(offset?: number, count?: number, options?: PageBlobGetPageRangesOptions): Promise<PageBlobGetPageRangesResponse>;
     getPageRangesDiff(offset: number, count: number, prevSnapshot: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
     getPageRangesDiffForManagedDisks(offset: number, count: number, prevSnapshotUrl: string, options?: PageBlobGetPageRangesDiffOptions): Promise<PageBlobGetPageRangesDiffResponse>;
@@ -1862,6 +1882,11 @@ export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
     encryptionScope?: string;
     metadata?: Metadata;
     tier?: PremiumPageBlobTier | string;
+}
+
+// @public
+export interface PageBlobCreateIfNotExistsResponse extends PageBlobCreateResponse {
+    succeeded: boolean;
 }
 
 // @public

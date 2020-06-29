@@ -174,10 +174,15 @@ describe("BlobClient", () => {
   });
 
   it("deleteIfExists", async () => {
+    const res = await blobClient.deleteIfExists();
+    assert.ok(res.succeeded);
+
     const blobName2 = recorder.getUniqueName("blob2");
     const blobClient2 = containerClient.getBlobClient(blobName2);
     // delete a non-existent blob
-    await blobClient2.deleteIfExists();
+    const res2 = await blobClient2.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "BlobNotFound");
   });
 
   // The following code illustrates deleting a snapshot after creating one
@@ -189,6 +194,10 @@ describe("BlobClient", () => {
     await blobSnapshotClient.getProperties();
 
     await blobSnapshotClient.delete();
+    const res = await blobSnapshotClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "BlobNotFound");
+
     await blobClient.delete();
 
     const result2 = (
