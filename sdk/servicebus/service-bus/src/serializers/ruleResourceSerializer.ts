@@ -344,7 +344,6 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
       )}`
     );
   }
-  console.log(properties);
   return properties;
 }
 
