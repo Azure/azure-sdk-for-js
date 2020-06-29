@@ -18,7 +18,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
 describe("Certificates client - create, read, update and delete", () => {
-  const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
+  const prefix = `CRUD${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificateClient;
   let testClient: TestClient;

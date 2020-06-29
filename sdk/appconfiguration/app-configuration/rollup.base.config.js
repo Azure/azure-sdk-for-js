@@ -6,6 +6,8 @@ import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
 import json from "@rollup/plugin-json";
+import * as path from "path";
+import inject from "@rollup/plugin-inject";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -23,8 +25,27 @@ const banner = [
   " */"
 ].join("\n");
 
+const ignoreKnownWarnings = (warning) => {
+  if (warning.code === "THIS_IS_UNDEFINED") {
+    // This error happens frequently due to TypeScript emitting `this` at the
+    // top-level of a module. In this case its fine if it gets rewritten to
+    // undefined, so ignore this error.
+    return;
+  }
+
+  if (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+  ) {
+    // Chai contains circular references, but they are not fatal and can be ignored.
+    return;
+  }
+
+  console.error(`(!) ${warning.message}`);
+};
+
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events"];
+  const externalNodeBuiltins = ["events", "crypto", "path"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -39,10 +60,7 @@ export function nodeConfig(test = false) {
     plugins: [
       sourcemaps(),
       replace({
-        delimiters: ["", ""],
-        // replace dynamic checks with if (true) since this is for node only.
-        // Allows rollup's dead code elimination to be more aggressive.
-        "if (isNode)": "if (true)"
+        delimiters: ["", ""]
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
@@ -58,7 +76,7 @@ export function nodeConfig(test = false) {
     );
 
     // different output file
-    baseConfig.output.file = "dist-test/index.node.js";
+    baseConfig.output.file = "test-dist/index.node.js";
 
     // mark assert packages we use as external
     baseConfig.external.push("assert");
@@ -71,6 +89,82 @@ export function nodeConfig(test = false) {
     baseConfig.treeshake = false;
   } else if (production) {
     baseConfig.plugins.push(terser());
+  }
+
+  return baseConfig;
+}
+
+export function browserConfig(test = false) {
+  const baseConfig = {
+    input: input,
+    output: {
+      file: "dist-browser/appconfiguration.js",
+      format: "umd",
+      name: "Azure.AppConfiguration",
+      globals: {
+        "@azure/core-http": "Azure.Core.HTTP"
+      },
+      sourcemap: true
+    },
+    external: ["nock", "fs-extra"],
+    preserveSymlinks: false,
+    plugins: [
+      sourcemaps(),
+      replace({
+        delimiters: ["", ""]
+      }),
+
+      nodeResolve({
+        mainFields: ["module", "browser"],
+        preferBuiltins: false
+      }),
+      cjs({
+        namedExports: {
+          chai: ["assert", "expect", "use"],
+          assert: ["ok", "equal", "strictEqual", "deepEqual", "fail", "throws", "notEqual"],
+          events: ["EventEmitter"],
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
+      }),
+
+      inject({
+        modules: {
+          process: "process"
+        },
+        exclude: ["./**/package.json"]
+      }),
+
+      json()
+    ]
+  };
+
+  baseConfig.onwarn = ignoreKnownWarnings;
+
+  if (test) {
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
+
+    baseConfig.external.unshift(...["process"]);
+
+    baseConfig.output.globals = {
+      ...baseConfig.output.globals,
+      nock: "nock",
+      fs: "fs-extra",
+      "fs-extra": "fs",
+      process: "process",
+      path: "path"
+    };
+
+    baseConfig.plugins.unshift(multiEntry({ exports: false }));
+    baseConfig.plugins.unshift(
+      ...[shim({ path: `export function join() {}`, dotenv: `export function config() { }` })]
+    );
+
+    baseConfig.output.file = "test-browser/index.js";
+
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    baseConfig.treeshake = false;
   }
 
   return baseConfig;

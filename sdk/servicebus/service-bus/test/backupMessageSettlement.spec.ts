@@ -57,8 +57,8 @@ describe("Backup message settlement - Through ManagementLink", () => {
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage
     ): Promise<ReceivedMessageWithLock> {
-      await sender.send(testMessages);
-      const msgs = await receiver.receiveBatch(1);
+      await sender.sendMessages(testMessages);
+      const msgs = await receiver.receiveMessages(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -95,7 +95,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
         receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         if (entityNames.usesSessions) {
           should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-          const msgBatch = await receiver.receiveBatch(1);
+          const msgBatch = await receiver.receiveMessages(1);
           await msgBatch[0].complete();
         } else {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
@@ -181,7 +181,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
         receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         await testPeekMsgsLength(receiver, 1);
 
-        const messageBatch = await receiver.receiveBatch(1);
+        const messageBatch = await receiver.receiveMessages(1);
 
         await messageBatch[0].complete();
 
@@ -276,13 +276,13 @@ describe("Backup message settlement - Through ManagementLink", () => {
         }
         receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         if (!entityNames.usesSessions) {
-          const deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
-          if (!deferredMsgs) {
+          const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
+          if (!deferredMsg) {
             throw "No message received for sequence number";
           }
-          await deferredMsgs.complete();
+          await deferredMsg.complete();
         } else {
-          const messageBatch = await receiver.receiveBatch(1);
+          const messageBatch = await receiver.receiveMessages(1);
           await messageBatch[0].complete();
         }
         await testPeekMsgsLength(receiver, 0);
@@ -369,7 +369,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
         receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
         if (!entityNames.usesSessions) {
-          const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
+          const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
 
           should.equal(
             Array.isArray(deadLetterMsgsBatch),
@@ -392,7 +392,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
 
           await testPeekMsgsLength(deadLetterReceiver, 0);
         } else {
-          const messageBatch = await receiver.receiveBatch(1);
+          const messageBatch = await receiver.receiveMessages(1);
           await messageBatch[0].complete();
 
           await testPeekMsgsLength(receiver, 0);
@@ -485,7 +485,7 @@ describe("Backup message settlement - Through ManagementLink", () => {
         receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
         if (entityNames.usesSessions) {
           should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-          const msgBatch = await receiver.receiveBatch(1);
+          const msgBatch = await receiver.receiveMessages(1);
           await msgBatch[0].complete();
         } else {
           should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");

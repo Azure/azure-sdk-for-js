@@ -73,8 +73,8 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 
 // @public
 export interface ListRequestOptions {
+    maxCount?: number;
     skip?: number;
-    top?: number;
 }
 
 // @public
@@ -103,12 +103,12 @@ export { MessagingError }
 
 // @public
 export interface NamespaceProperties {
-    createdOn: string;
+    createdOn: Date;
     messagingSku: string;
     messagingUnits: number | undefined;
     name: string;
     namespaceType: string;
-    updatedOn: string;
+    updatedOn: Date;
 }
 
 // @public
@@ -154,13 +154,13 @@ export interface QueueResponse extends QueueDescription, Response {
 
 // @public
 export interface QueueRuntimeInfo {
-    accessedOn?: string;
-    createdOn?: string;
+    accessedOn: Date;
+    createdOn: Date;
     messageCount?: number;
     messageCountDetails?: MessageCountDetails;
     name: string;
     sizeInBytes?: number;
-    updatedOn?: string;
+    updatedOn: Date;
 }
 
 // @public
@@ -173,10 +173,6 @@ export interface QueuesResponse extends Array<QueueDescription>, Response {
 
 // @public
 export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {
-}
-
-// @public
-export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
 }
 
 // @public
@@ -208,6 +204,10 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 }
 
 // @public
+export interface ReceiveMessagesOptions extends OperationOptions, WaitTimeOptions {
+}
+
+// @public
 export interface Receiver<ReceivedMessageT> {
     close(): Promise<void>;
     entityPath: string;
@@ -215,9 +215,8 @@ export interface Receiver<ReceivedMessageT> {
     isClosed: boolean;
     isReceivingMessages(): boolean;
     peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
-    receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
-    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
@@ -246,18 +245,14 @@ export interface RulesResponse extends Array<RuleDescription>, Response {
 
 // @public
 export interface Sender {
-    cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
-    cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptions): Promise<void>;
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
     open(options?: SenderOpenOptions): Promise<void>;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
-    send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
-    send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
-    send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
+    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
 }
 
 // @public
@@ -433,13 +428,13 @@ export interface SubscriptionResponse extends SubscriptionDescription, Response 
 
 // @public
 export interface SubscriptionRuntimeInfo {
-    accessedOn?: string;
-    createdOn: string;
+    accessedOn: Date;
+    createdOn: Date;
     messageCount: number;
     messageCountDetails?: MessageCountDetails;
     subscriptionName: string;
     topicName: string;
-    updatedOn: string;
+    updatedOn: Date;
 }
 
 // @public
@@ -480,12 +475,12 @@ export interface TopicResponse extends TopicDescription, Response {
 
 // @public
 export interface TopicRuntimeInfo {
-    accessedOn?: string;
-    createdOn?: string;
+    accessedOn: Date;
+    createdOn: Date;
     name: string;
     sizeInBytes?: number;
     subscriptionCount?: number;
-    updatedOn?: string;
+    updatedOn: Date;
 }
 
 // @public

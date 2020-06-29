@@ -25,7 +25,7 @@ describe("sender unit tests", () => {
       const sender = new SenderImpl(createClientEntityContextForTests());
 
       try {
-        await sender.send(
+        await sender.sendMessages(
           // @ts-expect-error
           invalidValue
         );

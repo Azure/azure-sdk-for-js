@@ -11,29 +11,20 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/ai-text-analytics";
-const packageVersion = "1.0.0";
+const packageVersion = "1.0.1";
 
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
-  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    * https://westus.api.cognitive.microsoft.com).
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    endpoint: string,
-    options?: coreHttp.ServiceClientOptions
-  ) {
+  constructor(endpoint: string, options?: coreHttp.ServiceClientOptions) {
     if (endpoint == undefined) {
       throw new Error("'endpoint' cannot be null.");
-    }
-    if (credentials == undefined) {
-      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
@@ -45,11 +36,10 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(credentials, options);
+    super(undefined, options);
 
     this.baseUri = "{Endpoint}/text/analytics/v3.0";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
-    this.credentials = credentials;
   }
 }

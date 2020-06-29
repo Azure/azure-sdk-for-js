@@ -3,6 +3,7 @@
 ## 1.0.0-preview.4 (Unreleased)
 
 - [Breaking] Rename `includeTextDetails` to `includeTextContent` in custom form and receipt recognition options to be consistent with other languages.
+- [Breaking] Rename properties `requestedOn` to `trainingStartedOn` and `completedOn` to `trainingCompletedOn` in `CustomFormModel` and `CustomFormModelInfo` types.
 
 ## 1.0.0-preview.3 (2020-06-10)
 

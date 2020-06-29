@@ -5,7 +5,7 @@ extends:
   parameters:
     PackageName: "@azure/app-configuration"
     ResourceServiceDirectory: appconfiguration
-    TestBrowser: false
+    TestBrowser: true
     TestSamples: false
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)

@@ -3,16 +3,17 @@
 
 import { assert } from "chai";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
-import { FormRecognizerClient } from "../../src";
+import { FormRecognizerClient, AzureKeyCredential } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { createRecordedRecognizerClient } from "../util/recordedClients";
+import { createRecordedRecognizerClient, testEnv } from "../util/recordedClients";
 
 describe("FormRecognizerClient browser only", () => {
   let client: FormRecognizerClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client } = createRecordedRecognizerClient(this));
+    ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
   afterEach(function() {
@@ -27,8 +28,7 @@ describe("FormRecognizerClient browser only", () => {
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
     const poller = await client.beginRecognizeContentFromUrl(url);
-    await poller.pollUntilDone();
-    const pages = poller.getResult();
+    const pages = await poller.pollUntilDone();
 
     assert.ok(
       pages && pages.length > 0,
@@ -42,8 +42,7 @@ describe("FormRecognizerClient browser only", () => {
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
     const poller = await client.beginRecognizeReceiptsFromUrl(url);
-    await poller.pollUntilDone();
-    const receipts = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
     assert.ok(
       receipts && receipts.length > 0,
@@ -69,8 +68,7 @@ describe("FormRecognizerClient browser only", () => {
 
     assert.ok(data, "Expect valid Blob data to use as input");
     const poller = await client.beginRecognizeReceipts(data!);
-    await poller.pollUntilDone();
-    const receipts = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
     assert.ok(
       receipts && receipts.length > 0,

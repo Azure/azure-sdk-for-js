@@ -5,7 +5,7 @@ import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
 import * as assert from "assert";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
-import { getGeneratedClientOptions, packageVersion } from "../../src/appConfigurationClient";
+import { getUserAgentPrefix, packageVersion } from "../../src/appConfigurationClient";
 import {
   createAppConfigurationClientForTests,
   assertThrowsRestError,
@@ -34,51 +34,30 @@ describe("http request related tests", function() {
       });
     });
 
-    it("useragentheadername", () => {
-      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
-        isNodeOverride: false
-      });
-
-      assert.equal(
-        options.userAgentHeaderName,
-        "x-ms-useragent",
-        "Pretending we're running in a browser."
-      );
-
-      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
-        isNodeOverride: true
-      });
-
-      assert.equal(options.userAgentHeaderName, "User-Agent", "Pretending we're running in node.");
-
-      // since we're only running these tests in node this will be the same as the
-      // case above (undefined, thus using the normal User-Agent header)
-      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
-
-      assert.equal(options.userAgentHeaderName, "User-Agent", "We know that we're running node.");
-    });
-
     it("useragent", () => {
-      let options = getGeneratedClientOptions("base-uri", new SyncTokens(), {
-        userAgentOptions: {
-          userAgentPrefix: "MyCustomUserAgent"
-        }
+      describe("with user prefix", () => {
+        const prefix = getUserAgentPrefix("MyCustomUserAgent");
+
+        chai.assert.match(
+          prefix,
+          new RegExp(
+            `^MyCustomUserAgent azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`
+          ),
+          `Using a custom user agent`
+        );
+      })
+
+      describe("without user prefix", () => {
+        const prefix = getUserAgentPrefix(undefined);
+
+        chai.assert.match(
+          prefix,
+          new RegExp(
+            `^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`
+          ),
+          `Using the default user agent`
+        );
       });
-
-      chai.assert.match(
-        options.userAgent as string,
-        new RegExp(
-          `^MyCustomUserAgent azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`
-        ),
-        `Using a custom user agent`
-      );
-
-      options = getGeneratedClientOptions("base-uri", new SyncTokens(), {});
-      chai.assert.match(
-        options.userAgent as string,
-        new RegExp(`^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`),
-        "Using the default user agent"
-      );
     });
 
     describe("syncTokens", () => {
@@ -134,7 +113,7 @@ describe("http request related tests", function() {
     });
 
     it("custom client request ID", async () => {
-      const iterator = await client.listConfigurationSettings({
+      const iterator = client.listConfigurationSettings({
         requestOptions: {
           customHeaders: {
             "x-ms-client-request-id": "this is my custom client request id"
@@ -146,7 +125,7 @@ describe("http request related tests", function() {
     });
 
     it("default client request ID", async () => {
-      const iterator = await client.listConfigurationSettings();
+      const iterator = client.listConfigurationSettings();
       await iterator.next();
     });
   });
@@ -161,6 +140,11 @@ describe("http request related tests", function() {
     let scope: nock.Scope;
 
     beforeEach(function() {
+      if (nock == null || nock.recorder == null) {
+        this.skip();
+        return;
+      }
+
       syncTokens = new SyncTokens();
 
       client =
@@ -178,6 +162,10 @@ describe("http request related tests", function() {
     });
 
     afterEach(function() {
+      if (nock == null || nock.recorder == null) {
+        return;
+      }
+
       if (!this.currentTest?.isPending()) {
         assert.ok(scope.isDone());
       }

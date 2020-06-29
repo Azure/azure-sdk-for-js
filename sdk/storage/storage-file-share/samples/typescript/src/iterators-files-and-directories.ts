@@ -77,7 +77,7 @@ export async function main() {
 
   // 3. Generator syntax .next()
   i = 1;
-  iter = await directoryClient.listFilesAndDirectories();
+  iter = directoryClient.listFilesAndDirectories();
   let entity = await iter.next();
   while (!entity.done) {
     if (entity.value.kind === "directory") {
