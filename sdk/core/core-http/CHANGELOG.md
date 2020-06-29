@@ -1,6 +1,7 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.1.4 (2020-06-30)
+
 - Fix issue with flattened model serialization, where constant properties are being dropped [PR #8658](https://github.com/Azure/azure-sdk-for-js/pull/8658)
 - Switch to use `x-ms-useragent` header key for passing user agent info in browsers [PR #9490](https://github.com/Azure/azure-sdk-for-js/pull/9490)
 - Refactor `ExponentialRetryPolicy` and `SystemErrorRetryPolicy` to share common code [PR #9667](https://github.com/Azure/azure-sdk-for-js/pull/9490)
