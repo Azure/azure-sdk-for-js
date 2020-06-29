@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PartitionOwnership } from "../eventProcessor";
-import { LoadBalancingStrategy, identifyClaimablePartitions } from "./loadBalancingStrategy";
+import { LoadBalancingStrategy, listAvailablePartitions } from "./loadBalancingStrategy";
 
 /**
  * @internal
@@ -29,7 +29,7 @@ export class GreedyLoadBalancingStrategy implements LoadBalancingStrategy {
     claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIds: string[]
   ): string[] {
-    return identifyClaimablePartitions(
+    return listAvailablePartitions(
       ourOwnerId,
       claimedPartitionOwnershipMap,
       partitionIds,

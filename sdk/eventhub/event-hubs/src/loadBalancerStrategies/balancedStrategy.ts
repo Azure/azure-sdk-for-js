@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PartitionOwnership } from "../eventProcessor";
-import { LoadBalancingStrategy, identifyClaimablePartitions } from "./loadBalancingStrategy";
+import { LoadBalancingStrategy, listAvailablePartitions } from "./loadBalancingStrategy";
 
 /**
  * The BalancedLoadBalancerStrategy is meant to be used when the user
@@ -35,7 +35,7 @@ export class BalancedLoadBalancingStrategy implements LoadBalancingStrategy {
     claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
     partitionIds: string[]
   ): string[] {
-    const claimablePartitions = identifyClaimablePartitions(
+    const claimablePartitions = listAvailablePartitions(
       ourOwnerId,
       claimedPartitionOwnershipMap,
       partitionIds,

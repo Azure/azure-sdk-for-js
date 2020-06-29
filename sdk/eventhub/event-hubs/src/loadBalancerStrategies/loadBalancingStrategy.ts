@@ -293,7 +293,7 @@ function findPartitionsToSteal(
  * @internal
  * @ignore
  */
-export function identifyClaimablePartitions(
+export function listAvailablePartitions(
   ownerId: string,
   claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
   partitionIds: string[],
