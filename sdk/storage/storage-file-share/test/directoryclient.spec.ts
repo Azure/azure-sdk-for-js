@@ -28,7 +28,7 @@ describe("DirectoryClient", () => {
   fullDirAttributes.notContentIndexed = true;
   fullDirAttributes.noScrubData = true;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -49,7 +49,7 @@ describe("DirectoryClient", () => {
     assert.ok(defaultDirCreateResp.filePermissionKey!);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await shareClient.delete();
     recorder.stop();
   });
@@ -153,19 +153,26 @@ describe("DirectoryClient", () => {
   });
 
   it("createIfNotExists", async () => {
-    await dirClient.createIfNotExists();
+    const res = await dirClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceAlreadyExists");
 
     const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
-    await dirClient2.createIfNotExists();
+    const res2 = await dirClient2.createIfNotExists();
+    assert.ok(res2.succeeded);
+
     await dirClient2.delete();
   });
 
   it("deleteIfExists", async () => {
     const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
-    await dirClient2.deleteIfExists();
+    const res = await dirClient2.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
 
     await dirClient2.create();
-    await dirClient2.deleteIfExists();
+    const res2 = await dirClient2.deleteIfExists();
+    assert.ok(res2.succeeded);
   });
 
   it("exists", async () => {

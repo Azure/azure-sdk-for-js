@@ -174,6 +174,11 @@ export interface DirectoryCreateHeaders {
 }
 
 // @public
+export interface DirectoryCreateIfNotExistsResponse extends DirectoryCreateResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
     metadata?: Metadata;
@@ -193,6 +198,11 @@ export interface DirectoryDeleteHeaders {
     errorCode?: string;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface DirectoryDeleteIfExistsResponse extends DirectoryDeleteResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -492,6 +502,11 @@ export interface FileDeleteHeaders {
     errorCode?: string;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface FileDeleteIfExistsResponse extends FileDeleteResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -1296,13 +1311,13 @@ export class ShareClient extends StorageClient {
         fileClient: ShareFileClient;
         fileCreateResponse: FileCreateResponse;
     }>;
-    createIfNotExists(options?: ShareCreateOptions): Promise<ShareCreateResponse | null>;
+    createIfNotExists(options?: ShareCreateOptions): Promise<ShareCreateIfNotExistsResponse>;
     createPermission(filePermission: string, options?: ShareCreatePermissionOptions): Promise<ShareCreatePermissionResponse>;
     createSnapshot(options?: ShareCreateSnapshotOptions): Promise<ShareCreateSnapshotResponse>;
     delete(options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse>;
     deleteDirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
-    deletIfExists(options?: ShareDeleteMethodOptions): Promise<ShareDeleteResponse | null>;
+    deleteIfExists(options?: ShareDeleteMethodOptions): Promise<ShareDeleteIfExistsResponse>;
     exists(options?: ShareExistsOptions): Promise<boolean>;
     getAccessPolicy(options?: ShareGetAccessPolicyOptions): Promise<ShareGetAccessPolicyResponse>;
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
@@ -1326,6 +1341,11 @@ export interface ShareCreateHeaders {
     lastModified?: Date;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -1403,6 +1423,11 @@ export interface ShareDeleteHeaders {
 }
 
 // @public
+export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface ShareDeleteMethodOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     deleteSnapshots?: DeleteSnapshotsOptionType;
@@ -1424,14 +1449,14 @@ export class ShareDirectoryClient extends StorageClient {
         fileClient: ShareFileClient;
         fileCreateResponse: FileCreateResponse;
     }>;
-    createIfNotExists(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse | null>;
+    createIfNotExists(options?: DirectoryCreateOptions): Promise<DirectoryCreateIfNotExistsResponse>;
     createSubdirectory(directoryName: string, options?: DirectoryCreateOptions): Promise<{
         directoryClient: ShareDirectoryClient;
         directoryCreateResponse: DirectoryCreateResponse;
     }>;
     delete(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     deleteFile(fileName: string, options?: FileDeleteOptions): Promise<FileDeleteResponse>;
-    deleteIfExists(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse | null>;
+    deleteIfExists(options?: DirectoryDeleteOptions): Promise<DirectoryDeleteIfExistsResponse>;
     deleteSubdirectory(directoryName: string, options?: DirectoryDeleteOptions): Promise<DirectoryDeleteResponse>;
     exists(options?: DirectoryExistsOptions): Promise<boolean>;
     forceCloseAllHandles(options?: DirectoryForceCloseHandlesSegmentOptions): Promise<CloseHandlesInfo>;
@@ -1465,7 +1490,7 @@ export class ShareFileClient extends StorageClient {
     clearRange(offset: number, contentLength: number, options?: FileClearRangeOptions): Promise<FileUploadRangeResponse>;
     create(size: number, options?: FileCreateOptions): Promise<FileCreateResponse>;
     delete(options?: FileDeleteOptions): Promise<FileDeleteResponse>;
-    deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteResponse | null>;
+    deleteIfExists(options?: FileDeleteOptions): Promise<FileDeleteIfExistsResponse>;
     download(offset?: number, count?: number, options?: FileDownloadOptions): Promise<FileDownloadResponseModel>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(offset?: number, count?: number, options?: FileDownloadToBufferOptions): Promise<Buffer>;

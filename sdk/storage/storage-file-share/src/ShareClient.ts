@@ -258,24 +258,24 @@ export interface SignedIdentifier {
 export declare type ShareGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier[];
 } & ShareGetAccessPolicyHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse & {
     /**
-     * The parsed HTTP response headers.
+     * The underlying HTTP response.
      */
-    parsedHeaders: ShareGetAccessPolicyHeaders;
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: SignedIdentifierModel[];
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ShareGetAccessPolicyHeaders;
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SignedIdentifierModel[];
+    };
   };
-};
 
 /**
  * Options to configure the {@link ShareClient.createSnapshot} operation.
@@ -352,6 +352,38 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
    */
   shareUsage: number;
 };
+
+/**
+ * Contains response data for the {@link ShareClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface ShareCreateIfNotExistsResponse
+ */
+export interface ShareCreateIfNotExistsResponse extends ShareCreateResponse {
+  /**
+   * Indicate whether the share is successfully created. Is false when the share is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof ShareCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
+ * Contains response data for the {@link ShareClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface ShareDeleteIfExistsResponse
+ */
+export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
+  /**
+   * Indicate whether the share is successfully deleted. Is false if the share does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof ShareDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
 
 /**
  * A ShareClient represents a URL to the Azure Storage share allowing you to manipulate its directories and files.
@@ -523,32 +555,40 @@ export class ShareClient extends StorageClient {
 
   /**
    * Creates a new share under the specified account. If the share with
-   * the same name already exists, it is not changed and the operation returns null.
+   * the same name already exists, it is not changed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
    * @param {ShareCreateOptions} [options]
-   * @returns {Promise<ShareCreateResponse | null>} If the share already exists, returns null.
+   * @returns {Promise<ShareCreateIfNotExistsResponse>}
    * @memberof ShareClient
    */
   public async createIfNotExists(
     options: ShareCreateOptions = {}
-  ): Promise<ShareCreateResponse | null> {
+  ): Promise<ShareCreateIfNotExistsResponse> {
     const { span, spanOptions } = createSpan(
       "ShareClient-createIfNotExists",
       options.tracingOptions
     );
     try {
-      return await this.create({
+      const res = await this.create({
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+      return {
+        succeeded: true,
+        ...res
+      };
     } catch (e) {
       if (e.details?.errorCode === "ShareAlreadyExists") {
         span.setStatus({
           code: CanonicalCode.ALREADY_EXISTS,
           message: "Expected exception when creating a share only if it doesn't already exist."
         });
-        return null;
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
       }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -842,25 +882,33 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
    *
    * @param {ShareDeleteMethodOptions} [options]
-   * @returns {Promise<ShareDeleteResponse | null>} Return null if the share does not exist.
+   * @returns {Promise<ShareDeleteIfExistsResponse>}
    * @memberof ShareClient
    */
   public async deleteIfExists(
     options: ShareDeleteMethodOptions = {}
-  ): Promise<ShareDeleteResponse | null> {
+  ): Promise<ShareDeleteIfExistsResponse> {
     const { span, spanOptions } = createSpan("ShareClient-deleteIfExists", options.tracingOptions);
     try {
-      return await this.delete({
+      const res = await this.delete({
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+      return {
+        succeeded: true,
+        ...res
+      };
     } catch (e) {
       if (e.details?.errorCode === "ShareNotFound") {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
           message: "Expected exception when deleting a share only if it exists."
         });
-        return null;
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
       }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

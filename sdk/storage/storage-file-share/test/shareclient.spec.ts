@@ -12,7 +12,7 @@ describe("ShareClient", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -20,7 +20,7 @@ describe("ShareClient", () => {
     await shareClient.create();
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await shareClient.delete();
     recorder.stop();
   });
@@ -69,9 +69,12 @@ describe("ShareClient", () => {
   it("createIfNotExists", async () => {
     const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
     const res = await shareClient2.createIfNotExists();
-    assert.notDeepStrictEqual(null, res);
+    assert.ok(res.succeeded);
+
     const res2 = await shareClient2.createIfNotExists();
-    assert.equal(null, res2);
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "ShareAlreadyExists");
+
     await shareClient2.delete();
   });
 
@@ -83,10 +86,13 @@ describe("ShareClient", () => {
   it("deleteIfExists", async () => {
     const shareClient2 = serviceClient.getShareClient(recorder.getUniqueName(shareName));
     await shareClient2.create();
-    await shareClient2.deleteIfExists();
+    const res = await shareClient2.deleteIfExists();
+    assert.ok(res.succeeded);
 
-    const shareClient3 = serviceClient.getShareClient(recorder.getUniqueName(shareName + '3'));
-    await shareClient3.deleteIfExists();
+    const shareClient3 = serviceClient.getShareClient(recorder.getUniqueName(shareName + "3"));
+    const res2 = await shareClient3.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "ShareNotFound");
   });
 
   it("setQuota", async () => {

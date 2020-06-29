@@ -68,7 +68,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
 
 export interface DirectoryProperties
   extends FileAndDirectorySetPropertiesCommonOptions,
-  CommonOptions {
+    CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
@@ -363,6 +363,38 @@ export interface DirectoryForceCloseHandlesOptions extends CommonOptions {
 }
 
 /**
+ * Contains response data for the {@link DirectoryClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface DirectoryCreateIfNotExistsResponse
+ */
+export interface DirectoryCreateIfNotExistsResponse extends DirectoryCreateResponse {
+  /**
+   * Indicate whether the directory is successfully created. Is false when the directory is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof DirectoryCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
+ * Contains response data for the {@link DirectoryClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface DirectoryDeleteIfExistsResponse
+ */
+export interface DirectoryDeleteIfExistsResponse extends DirectoryDeleteResponse {
+  /**
+   * Indicate whether the directory is successfully deleted. Is false if the directory does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof DirectoryDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
  * A ShareDirectoryClient represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
  *
  * @export
@@ -513,32 +545,40 @@ export class ShareDirectoryClient extends StorageClient {
 
   /**
    * Creates a new directory under the specified share or parent directory if it does not already exists.
-   * If the directory already exists, it is not modified and this operation returns null.
+   * If the directory already exists, it is not modified.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
    * @param {DirectoryCreateOptions} [options]
-   * @returns {Promise<DirectoryCreateResponse | null>} Returns null if the directory with the same name already exists.
+   * @returns {Promise<DirectoryCreateIfNotExistsResponse>}
    * @memberof ShareDirectoryClient
    */
   public async createIfNotExists(
     options: DirectoryCreateOptions = {}
-  ): Promise<DirectoryCreateResponse | null> {
+  ): Promise<DirectoryCreateIfNotExistsResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-createIfNotExists",
       options.tracingOptions
     );
     try {
-      return await this.create({
+      const res = await this.create({
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+      return {
+        succeeded: true,
+        ...res
+      };
     } catch (e) {
       if (e.details?.errorCode === "ResourceAlreadyExists") {
         span.setStatus({
           code: CanonicalCode.ALREADY_EXISTS,
           message: "Expected exception when creating a directory only if it does not already exist."
         });
-        return null;
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
       }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -907,28 +947,36 @@ export class ShareDirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
    * @param {DirectoryDeleteOptions} [options]
-   * @returns {Promise<DirectoryDeleteResponse | null>} Returns null if the directory doesn't exists.
+   * @returns {Promise<DirectoryDeleteIfExistsResponse>}
    * @memberof ShareDirectoryClient
    */
   public async deleteIfExists(
     options: DirectoryDeleteOptions = {}
-  ): Promise<DirectoryDeleteResponse | null> {
+  ): Promise<DirectoryDeleteIfExistsResponse> {
     const { span, spanOptions } = createSpan(
       "ShareDirectoryClient-deleteIfExists",
       options.tracingOptions
     );
     try {
-      return await this.delete({
+      const res = await this.delete({
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+      return {
+        succeeded: true,
+        ...res
+      };
     } catch (e) {
       if (e.details?.errorCode === "ResourceNotFound") {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
           message: "Expected exception when deleting a directory only if it exists."
         });
-        return null;
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
       }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

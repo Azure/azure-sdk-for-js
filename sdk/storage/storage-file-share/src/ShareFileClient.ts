@@ -889,6 +889,22 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
 }
 
 /**
+ * Contains response data for the {@link ShareFileClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface FileDeleteIfExistsResponse
+ */
+export interface FileDeleteIfExistsResponse extends FileDeleteResponse {
+  /**
+   * Indicate whether the file is successfully deleted. Is false if the file does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof FileDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
  * A ShareFileClient represents a URL to an Azure Storage file.
  *
  * @export
@@ -1378,26 +1394,36 @@ export class ShareFileClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
    * @param {FileDeleteOptions} [options]
-   * @returns {Promise<FileDeleteResponse | null>} Return null if the file does not exist.
+   * @returns {Promise<FileDeleteIfExistsResponse>}
    * @memberof ShareFileClient
    */
-  public async deleteIfExists(options: FileDeleteOptions = {}): Promise<FileDeleteResponse | null> {
+  public async deleteIfExists(
+    options: FileDeleteOptions = {}
+  ): Promise<FileDeleteIfExistsResponse> {
     const { span, spanOptions } = createSpan(
       "ShareFileClient-deleteIfExists",
       options.tracingOptions
     );
     try {
-      return await this.delete({
+      const res = await this.delete({
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+      return {
+        succeeded: true,
+        ...res
+      };
     } catch (e) {
       if (e.details?.errorCode === "ResourceNotFound") {
         span.setStatus({
           code: CanonicalCode.NOT_FOUND,
           message: "Expected exception when deleting a file only if it exists."
         });
-        return null;
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
       }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
