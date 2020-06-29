@@ -406,8 +406,14 @@ describe("Event Processor", function(): void {
       // we'll let one more go through just to make sure we're not going to
       // pick up an extra surprise partition
       //
-      // This particular behavior is really specific to the FairPartitionLoadBalancer but that's okay for now.
-      const numTimesAbortedIsCheckedInLoop = 5;
+      // There are 6 places where the abort signal is checked during the loop:
+      // - while condition
+      // - getEventHubProperties
+      // - _performLoadBalancing (start)
+      // - _performLoadBalancing (after listOwnership)
+      // - _performLoadBalancing (passed to _claimOwnership)
+      // - delay
+      const numTimesAbortedIsCheckedInLoop = 6;
       await ep["_runLoopWithLoadBalancing"](
         ep["_loadBalancingStrategy"],
         triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
