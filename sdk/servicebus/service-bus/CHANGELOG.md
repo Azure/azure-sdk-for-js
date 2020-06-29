@@ -8,6 +8,7 @@
 - Bug - Messages scheduled in parallel with the `scheduleMessage` method have the same sequence number in response.
   Fixed in [PR 9503](https://github.com/Azure/azure-sdk-for-js/pull/9503)
 - Management api updates (Includes breaking changes)
+
   - Following return types are changed to improve the API surface.
     - [Create,Get,Update]QueueResponse as QueueResponse, DeleteQueueResponse as Response, GetQueueRuntimeInfoResponse as QueueRuntimeInfoResponse.
       Similarly for topics, subscriptions and rules.
@@ -18,6 +19,9 @@
     [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
   - `OperationOptions` has been added for all the methods under `ServiceBusManagementClient`, this adds support for abortSignal, requestOptions when creating and sending HTTP requests.
     [PR 9654](https://github.com/Azure/azure-sdk-for-js/pull/9654)
+  - The "update" methods (`updateQueue`, `updateTopic` and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are actually updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods. [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751). 
+  
+  See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
 
 ## 7.0.0-preview.3 (2020-06-08)
 
