@@ -129,7 +129,7 @@ export interface EventHubClientOptions {
 }
 
 /**
- * An options bag to configure load balancing settings.
+ * Describes the options that can be provided while creating the EventHubConsumerClient.
  * - `loadBalancingOptions`: Options to tune how the EventHubConsumerClient claims partitions.
  * - `userAgent`        : A string to append to the built in user agent string that is passed as a connection property
  * to the service.
