@@ -165,6 +165,14 @@ export interface LoadBalancingOptions {
    * Whether to apply a greedy or a more balanced approach when
    * claiming partitions.
    *
+   * - balanced: The `EventHubConsumerClient` will take a measured approach to
+   * requesting partition ownership when balancing work with other clients,
+   * slowly claiming partitions until a stabilized distribution is achieved.
+   *
+   * - greedy: The `EventHubConsumerClient` will attempt to claim ownership
+   * of its fair share of partitions aggressively when balancing work with
+   * other clients.
+   *
    * This option is ignored when either:
    *   - `CheckpointStore` is __not__ provided to the `EventHubConsumerClient`.
    *   - `subscribe()` is called for a single partition.
