@@ -899,12 +899,12 @@ export function flattenResponse(
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
   const addOperationResponse = (obj: {}): {
-    _response: HttpOperationResponse
+    _response: HttpOperationResponse;
   } => {
     return Object.defineProperty(obj, "_response", {
       value: _response
     });
-  }
+  };
 
   if (bodyMapper) {
     const typeName = bodyMapper.type.name;
