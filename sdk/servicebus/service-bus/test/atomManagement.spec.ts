@@ -1944,7 +1944,7 @@ describe("Atom management - Authentication", function(): void {
     }
   }
 ].forEach((testCase) => {
-  describe.only(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
+  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
@@ -2004,7 +2004,7 @@ describe("Atom management - Authentication", function(): void {
     }
   }
 ].forEach((testCase) => {
-  describe.only(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
+  describe(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
