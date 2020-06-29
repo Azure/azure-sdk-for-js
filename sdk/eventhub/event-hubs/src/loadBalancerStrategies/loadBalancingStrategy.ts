@@ -149,20 +149,16 @@ function getEventProcessorCounts(
     // there are basically three kinds of partition counts
     // for a processor:
 
-    // 1. Has _exactly_ the required number of partitions
     if (numberOfPartitions === minPartitionsPerOwner) {
+      // 1. Has _exactly_ the required number of partitions
       counts.haveRequiredPartitions++;
-    }
-
-    // 2. Has the required number plus one extra (correct in cases)
-    // where the # of partitions is not evenly divisible by the
-    // number of processors.
-    if (numberOfPartitions === minPartitionsPerOwner + 1) {
+    } else if (numberOfPartitions === minPartitionsPerOwner + 1) {
+      // 2. Has the required number plus one extra (correct in cases)
+      // where the # of partitions is not evenly divisible by the
+      // number of processors.
       counts.haveAdditionalPartition++;
-    }
-
-    // 3. has more than the possible # of partitions required
-    if (numberOfPartitions > minPartitionsPerOwner + 1) {
+    } else if (numberOfPartitions > minPartitionsPerOwner + 1) {
+      // 3. has more than the possible # of partitions required
       counts.haveTooManyPartitions++;
     }
   }
