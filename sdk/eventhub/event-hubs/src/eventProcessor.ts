@@ -3,7 +3,7 @@
 
 import { v4 as uuid } from "uuid";
 import { PumpManager, PumpManagerImpl } from "./pumpManager";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike, AbortError } from "@azure/abort-controller";
 import { logErrorStackTrace, logger } from "./log";
 import { Checkpoint, PartitionProcessor } from "./partitionProcessor";
 import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
@@ -451,7 +451,7 @@ export class EventProcessor {
     partitionIds: string[],
     abortSignal: AbortSignalLike
   ) {
-    if (abortSignal.aborted) return;
+    if (abortSignal.aborted) throw new AbortError("The operation was aborted.");
 
     // Retrieve current partition ownership details from the datastore.
     const partitionOwnership = await this._checkpointStore.listOwnership(
@@ -460,7 +460,7 @@ export class EventProcessor {
       this._consumerGroup
     );
 
-    if (abortSignal.aborted) return;
+    if (abortSignal.aborted) throw new AbortError("The operation was aborted.");
 
     const partitionOwnershipMap = new Map<string, PartitionOwnership>();
     const nonAbandonedPartitionOwnershipMap = new Map<string, PartitionOwnership>();
