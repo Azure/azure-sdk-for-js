@@ -12,7 +12,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
 describe("Keys client - restore keys and recover backups", () => {
-  const keyPrefix = `recover${env.KEY_NAME || "KeyName"}`;
+  const keyPrefix = `backupRestore${env.KEY_NAME || "KeyName"}`;
   let keySuffix: string;
   let client: KeyClient;
   let testClient: TestClient;

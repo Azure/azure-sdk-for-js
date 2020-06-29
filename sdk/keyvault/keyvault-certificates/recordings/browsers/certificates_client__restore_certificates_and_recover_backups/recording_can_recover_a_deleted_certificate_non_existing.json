@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canrecoveradeletedcertificatenonexisting-/",
+   "url": "https://keyvault_name.vault.azure.net/certificates/backupRestoreCertificateName-canrecoveradeletedcertificatenonexisting-/",
    "query": {
     "api-version": "7.1-preview"
    },
@@ -13,19 +13,18 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 03:14:54 GMT",
+    "date": "Fri, 26 Jun 2020 23:37:02 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "17bef440-e91b-4171-ac39-7526132fd100",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "25c6d4ef-4225-4259-a226-5b4ea068f6c1",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,70 +39,68 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 03:14:55 GMT",
+    "date": "Fri, 26 Jun 2020 23:37:02 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10433.14 - EUS ProdSlices",
-    "x-ms-request-id": "e34bc116-8220-4e7a-b5a7-e4514712b700"
+    "x-ms-ests-server": "2.1.10761.12 - SCUS ProdSlices",
+    "x-ms-request-id": "74e094b1-4c13-4dc6-bb2e-b91e29670900"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canrecoveradeletedcertificatenonexisting-/",
+   "url": "https://keyvault_name.vault.azure.net/certificates/backupRestoreCertificateName-canrecoveradeletedcertificatenonexisting-/",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Certificate not found: recoverCertificateName-canrecoveradeletedcertificatenonexisting-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) backupRestoreCertificateName-canrecoveradeletedcertificatenonexisting- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "156",
+    "content-length": "399",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 03:14:54 GMT",
+    "date": "Fri, 26 Jun 2020 23:37:02 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "e3e2c0d7-9666-4367-81a7-d102d2566c94",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "416d6df6-f66c-43b9-b8b1-69af4b690d68",
     "x-powered-by": "ASP.NET"
    }
   },
   {
    "method": "POST",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canrecoveradeletedcertificatenonexisting-/recover",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/backupRestoreCertificateName-canrecoveradeletedcertificatenonexisting-/recover",
    "query": {
     "api-version": "7.1-preview"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Certificate not found: recoverCertificateName-canrecoveradeletedcertificatenonexisting-\"}}",
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) backupRestoreCertificateName-canrecoveradeletedcertificatenonexisting- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "156",
+    "content-length": "399",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 03:14:54 GMT",
+    "date": "Fri, 26 Jun 2020 23:37:02 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=51.141.174.130;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "f47a5db1-c396-4e79-ad49-505bac4d4f4f",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "928029b6-fd66-4435-a368-afe16d5deb2d",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -112,5 +109,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "213c44f6f6d456d21d2607ac4e4d011d"
+ "hash": "db7c26e3fc1199914e56f05b1308765d"
 }

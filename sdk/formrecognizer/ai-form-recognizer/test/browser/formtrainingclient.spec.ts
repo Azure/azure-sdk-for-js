@@ -13,7 +13,8 @@ import {
 import { env, Recorder } from "@azure/test-utils-recorder";
 import {
   createRecordedTrainingClient,
-  createRecordedRecognizerClient
+  createRecordedRecognizerClient,
+  testEnv
 } from "../util/recordedClients";
 
 let unlabeledModelId: string | undefined;
@@ -22,9 +23,10 @@ let modelIdToDelete: string | undefined;
 describe("FormTrainingClient browser only", () => {
   let trainingClient: FormTrainingClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
+    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this, apiKey));
     trainingClient = new FormTrainingClient(
       env.FORM_RECOGNIZER_ENDPOINT,
       new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
@@ -200,9 +202,10 @@ describe("FormTrainingClient browser only", () => {
 describe("FormRecognizerClient custom form recognition browser only", () => {
   let recognizerClient: FormRecognizerClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this));
+    ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
   afterEach(function() {
