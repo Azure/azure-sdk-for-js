@@ -11,7 +11,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
 describe("Certificates client - lro - delete", () => {
-  const certificatePrefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
+  const certificatePrefix = `lroDelete${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;
   let testClient: TestClient;

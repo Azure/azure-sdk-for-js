@@ -117,6 +117,10 @@
       "path": "sdk\\storage\\storage-queue"
     },
     {
+      "name": "tables",
+      "path": "sdk\\tables\\azure-tables"
+    },
+    {
       "name": "text analytics",
       "path": "sdk\\textanalytics\\ai-text-analytics"
     },
@@ -162,9 +166,11 @@
       "**/test-browser/*": true
     },
     "typescript.tsdk": "core-http\\node_modules\\typescript\\lib",
-    
   },
   "extensions": {
-    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode"
+    ]
   }
 }

@@ -9,8 +9,8 @@ import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrum
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { EventData } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
-import { EventHubSender } from './eventHubSender';
-import { logErrorStackTrace, logger } from './log';
+import { EventHubSender } from "./eventHubSender";
+import { logErrorStackTrace, logger } from "./log";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import {
   CreateBatchOptions,
@@ -178,9 +178,7 @@ export class EventHubProducerClient {
         const error = new Error(
           `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
         );
-        logger.warning(
-          `[${this._context.connectionId}] ${error.message}`
-        );
+        logger.warning(`[${this._context.connectionId}] ${error.message}`);
         logErrorStackTrace(error);
         throw error;
       }
@@ -236,7 +234,7 @@ export class EventHubProducerClient {
 
     // link message span contexts
     let spanContextsToLink: SpanContext[] = [];
-  
+
     if (isEventDataBatch(batch)) {
       // For batches, partitionId and partitionKey would be set on the batch.
       partitionId = batch.partitionId;
@@ -283,10 +281,10 @@ export class EventHubProducerClient {
     }
 
     if (partitionId != undefined) {
-      partitionId = String(partitionId)
+      partitionId = String(partitionId);
     }
     if (partitionKey != undefined) {
-      partitionKey = String(partitionKey)
+      partitionKey = String(partitionKey);
     }
 
     let sender = this._sendersMap.get(partitionId || "");
@@ -342,9 +340,7 @@ export class EventHubProducerClient {
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
-  getEventHubProperties(
-    options: GetEventHubPropertiesOptions = {}
-  ): Promise<EventHubProperties> {
+  getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     return this._context.managementSession!.getEventHubProperties({
       ...options,
       retryOptions: this._clientOptions.retryOptions
@@ -360,12 +356,14 @@ export class EventHubProducerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
-    return this._context.managementSession!.getEventHubProperties({
-      ...options,
-      retryOptions: this._clientOptions.retryOptions
-    }).then(eventHubProperties => {
-      return eventHubProperties.partitionIds;
-    });
+    return this._context
+      .managementSession!.getEventHubProperties({
+        ...options,
+        retryOptions: this._clientOptions.retryOptions
+      })
+      .then((eventHubProperties) => {
+        return eventHubProperties.partitionIds;
+      });
   }
 
   /**

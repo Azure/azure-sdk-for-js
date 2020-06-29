@@ -1,0 +1,107 @@
+{
+  "name": "@azure/keyvault-admin",
+  "sdk-type": "client",
+  "author": "Microsoft Corporation",
+  "version": "1.0.0-preview.1",
+  "license": "MIT",
+  "description": "Isomorphic client library for Azure KeyVault's administrative functions.",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "node",
+    "Azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "keyvault"
+  ],
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "main": "./dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "types": "./types/keyvault-admin.d.ts",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "types/",
+    "dist/",
+    "dist-browser/",
+    "dist-esm/src",
+    "README.md",
+    "LICENSE"
+  ],
+  "browser": {
+    "os": false,
+    "process": false
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "echo skipped",
+    "build:es6": "tsc -p tsconfig.json",
+    "build:nodebrowser": "rollup -c 2>&1",
+    "build:test": "echo skipped",
+    "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm dist-test types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
+    "execute:js-samples": "echo skipped",
+    "execute:ts-samples": "echo skipped",
+    "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
+    "extract-api": "echo skipped",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json src --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json src --ext .ts -f html -o keyvault-admin-lintReport.html",
+    "lint:terminal": "eslint package.json src test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "regenerate": "npx autorest swagger/README.md --typescript --version=3.0.6267",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/core-http": "^1.1.1",
+    "@azure/core-tracing": "1.0.0-preview.8",
+    "@opentelemetry/api": "^0.6.1",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-replace": "^2.2.0",
+    "@types/node": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-no-null": "^1.0.2",
+    "eslint-plugin-no-only-tests": "^2.3.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "esm": "^3.2.18",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.16.3",
+    "rollup-plugin-shim": "^1.0.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
+    "source-map-support": "^0.5.9",
+    "typescript": "~3.9.3"
+  }
+}

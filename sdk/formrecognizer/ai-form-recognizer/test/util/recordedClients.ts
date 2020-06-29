@@ -9,6 +9,7 @@ import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-uti
 import { isNode } from "@azure/core-http";
 
 import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src/index";
+import { ClientSecretCredential } from '@azure/identity';
 
 if (isNode) {
   dotenv.config({ path: path.join(__dirname, "..", ".env") });
@@ -65,23 +66,33 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecordedTrainingClient(context: Context): RecordedTrainingClient {
+export function createRecordedTrainingClient(context: Context,
+  apiKey?: AzureKeyCredential): RecordedTrainingClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new FormTrainingClient(
       testEnv.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY)
+      apiKey || new ClientSecretCredential(
+        testEnv.AZURE_TENANT_ID,
+        testEnv.AZURE_CLIENT_ID,
+        testEnv.AZURE_CLIENT_SECRET
+      )
     ),
     recorder
   };
 }
 
-export function createRecordedRecognizerClient(context: Context): RecordedRecognizerClient {
+export function createRecordedRecognizerClient(context: Context,
+  apiKey?: AzureKeyCredential): RecordedRecognizerClient {
   const recorder = record(context, environmentSetup);
   return {
     client: new FormRecognizerClient(
       testEnv.FORM_RECOGNIZER_ENDPOINT,
-      new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY)
+      apiKey || new ClientSecretCredential(
+        testEnv.AZURE_TENANT_ID,
+        testEnv.AZURE_CLIENT_ID,
+        testEnv.AZURE_CLIENT_SECRET
+      )
     ),
     recorder
   };
