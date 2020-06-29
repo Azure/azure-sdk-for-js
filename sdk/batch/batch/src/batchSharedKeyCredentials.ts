@@ -75,10 +75,10 @@ export class BatchSharedKeyCredentials implements ServiceClientCredentials {
           return Buffer.byteLength(body) + "\n";
         }
         // For GET verb, do not add content-length
-        if (method === "GET") {
-          return "\n";
-        } else {
+        if (method === "POST") {
           return "0\n";
+        } else {
+          return "\n";
         }
       } else {
         return value.get("Content-Length") + "\n";
