@@ -3,16 +3,17 @@
 
 import { assert } from "chai";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
-import { FormRecognizerClient } from "../../src";
+import { FormRecognizerClient, AzureKeyCredential } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { createRecordedRecognizerClient } from "../util/recordedClients";
+import { createRecordedRecognizerClient, testEnv } from "../util/recordedClients";
 
 describe("FormRecognizerClient browser only", () => {
   let client: FormRecognizerClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client } = createRecordedRecognizerClient(this));
+    ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
   afterEach(function() {

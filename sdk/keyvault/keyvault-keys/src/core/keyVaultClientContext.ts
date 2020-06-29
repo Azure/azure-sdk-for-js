@@ -15,24 +15,15 @@ export const packageVersion = "4.1.0-preview.2";
 
 export class KeyVaultClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
-  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the KeyVaultClientContext class.
    * @param apiVersion Client API version.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    apiVersion: string,
-    options?: coreHttp.ServiceClientOptions
-  ) {
+  constructor(apiVersion: string, options?: coreHttp.ServiceClientOptions) {
     if (apiVersion == undefined) {
       throw new Error("'apiVersion' cannot be null.");
-    }
-    if (credentials == undefined) {
-      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
@@ -44,11 +35,10 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(credentials, options);
+    super(undefined, options);
 
     this.baseUri = "{vaultBaseUrl}";
     this.requestContentType = "application/json; charset=utf-8";
     this.apiVersion = apiVersion;
-    this.credentials = credentials;
   }
 }

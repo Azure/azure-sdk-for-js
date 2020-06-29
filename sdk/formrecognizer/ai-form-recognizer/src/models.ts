@@ -416,13 +416,13 @@ export interface CustomFormModelInfo {
    */
   status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the custom model training request was received.
+   * Date and time (UTC) when the custom model training started.
    */
-  requestedOn: Date;
+  trainingStartedOn: Date;
   /**
    * Date and time (UTC) when the training operation completed.
    */
-  completedOn: Date;
+  trainingCompletedOn: Date;
 }
 
 export interface CustomFormField {
@@ -471,13 +471,13 @@ export interface CustomFormModel {
    */
   status: CustomFormModelStatus;
   /**
-   * Date and time (UTC) when the custom model training request was received.
+   * Date and time (UTC) when the custom model training started.
    */
-  requestedOn: Date;
+  trainingStartedOn: Date;
   /**
    * Date and time (UTC) when the training operation completed.
    */
-  completedOn: Date;
+  trainingCompletedOn: Date;
   /**
    * List of document used to train the model and any errors reported for each document.
    */

@@ -8,6 +8,7 @@
 
 import * as coreHttp from "@azure/core-http";
 
+
 export const Attributes: coreHttp.CompositeMapper = {
   serializedName: "Attributes",
   type: {
@@ -327,7 +328,10 @@ export const Action: coreHttp.CompositeMapper = {
         serializedName: "action_type",
         type: {
           name: "Enum",
-          allowedValues: ["EmailContacts", "AutoRenew"]
+          allowedValues: [
+            "EmailContacts",
+            "AutoRenew"
+          ]
         }
       }
     }

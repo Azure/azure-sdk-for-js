@@ -144,9 +144,9 @@ export class CbsClient {
     } catch (err) {
       const translatedError = translate(err);
       logger.warning(
-        "[%s] An error occurred while establishing the cbs links: %O",
+        "[%s] An error occurred while establishing the cbs links: %s",
         this.connection.id,
-        translatedError
+        `${translatedError?.name}: ${translatedError?.message}`
       );
       logErrorStackTrace(translatedError);
       throw translatedError;
@@ -207,9 +207,9 @@ export class CbsClient {
       return this._fromAmqpMessageResponse(responseMessage);
     } catch (err) {
       logger.warning(
-        "[%s] An error occurred while negotiating the cbs claim: %O",
+        "[%s] An error occurred while negotiating the cbs claim: %s",
         this.connection.id,
-        err
+        `${err?.name}: ${err?.message}`
       );
       logErrorStackTrace(err);
       throw err;

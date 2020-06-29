@@ -45,7 +45,7 @@ async function main() {
 
   console.log(`Sending message using proxy server ${proxyInfo}`);
 
-  await sender.send({
+  await sender.sendMessages({
     body: "sample message"
   });
 

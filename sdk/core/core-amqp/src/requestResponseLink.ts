@@ -85,7 +85,7 @@ export class RequestResponseLink implements ReqResLink {
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 
-    // If message_id is not already set on the request, set it to a unique value 
+    // If message_id is not already set on the request, set it to a unique value
     // This helps in determining the right response for current request among multiple incoming messages
     if (!request.message_id) {
       request.message_id = generate_uuid();
@@ -194,7 +194,7 @@ export class RequestResponseLink implements ReqResLink {
             description: info.statusDescription
           };
           const error = translate(e);
-          logger.warning(error);
+          logger.warning(`${error?.name}: ${error?.message}`);
           logErrorStackTrace(error);
           return reject(error);
         }
