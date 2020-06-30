@@ -334,8 +334,7 @@ export class FormRecognizerClient {
    * const pages = await poller.pollUntilDone();
    * ```
    * @summary Recognizes content/layout information from a url to a form document
-   * @param {string} formUrl Url to an accessible form document
-ng", and "image/tiff";
+   * @param {string} formUrl Url to an accessible form document. Supported document types include PDF, JPEG, PNG, and TIFF.
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContentFromUrl(
@@ -462,8 +461,7 @@ ng", and "image/tiff";
    * ```
    * @summary Recognizes form information from a url to a form document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
-   * @param {string} formUrl Url to an accessible form document
-   ng", and "image/tiff";
+   * @param {string} formUrl Url to an accessible form document. Supported document types include PDF, JPEG, PNG, and TIFF.
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
   public async beginRecognizeCustomFormsFromUrl(
@@ -668,7 +666,7 @@ ng", and "image/tiff";
    * }
    * ```
    * @summary Recognizes receipt information from a given accessible url to input document
-   * @param {string} receiptUrl url to the input receipt document
+   * @param {string} receiptUrl Url to an accesssible receipt document. Supported document types include PDF, JPEG, PNG, and TIFF.
    * @param {BeginRecognizeReceiptsOptions} [options] Options to start receipt recognition operation
    */
   public async beginRecognizeReceiptsFromUrl(

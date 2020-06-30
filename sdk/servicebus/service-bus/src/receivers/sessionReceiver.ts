@@ -17,7 +17,6 @@ import {
 import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
-  getOpenSessionReceiverErrorMsg,
   getReceiverClosedErrorMsg,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
@@ -25,7 +24,7 @@ import {
 } from "../util/errors";
 import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
-import { assertValidMessageHandlers, getMessageIterator } from "./shared";
+import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
@@ -124,20 +123,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     if (this._sessionOptions.sessionId) {
       this._sessionOptions.sessionId = String(this._sessionOptions.sessionId);
-
-      // Check if receiver for given session already exists
-      if (
-        this._context.messageSessions[this._sessionOptions.sessionId] &&
-        this._context.messageSessions[this._sessionOptions.sessionId].isOpen()
-      ) {
-        const errorMessage = getOpenSessionReceiverErrorMsg(
-          this._context.entityPath,
-          this._sessionOptions.sessionId
-        );
-        const error = new Error(errorMessage);
-        log.error(`[${this._context.namespace.connectionId}] %O`, error);
-        throw error;
-      }
     }
 
     // `createInitializedSessionReceiver` will set this value by calling init()
@@ -198,7 +183,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw error;
     }
     this.sessionId = this._messageSession.sessionId;
-    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
     return;
   }
 
@@ -468,14 +452,13 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     // TODO - receiverOptions for subscribe??
     assertValidMessageHandlers(handlers);
 
+    const processError = wrapProcessErrorHandler(handlers);
+
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
         return handlers.processMessage((message as any) as ReceivedMessageT);
       },
-      (err: Error) => {
-        // TODO: not async internally yet.
-        handlers.processError(err);
-      },
+      processError,
       options
     );
   }

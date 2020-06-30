@@ -25,7 +25,7 @@ describe("DisableResponseDecompressionPolicy (browser)", function() {
 
   describe("for browser", () => {
     it("should throw an Error while constructing object", () => {
-      const construct = () =>
+      const construct = (): DisableResponseDecompressionPolicy =>
         new DisableResponseDecompressionPolicy(emptyRequestPolicy, emptyPolicyOptions);
       construct.should.throw();
     });
