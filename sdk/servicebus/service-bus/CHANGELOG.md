@@ -13,13 +13,15 @@
     - [Create,Get,Update]QueueResponse as QueueResponse, DeleteQueueResponse as Response, GetQueueRuntimeInfoResponse as QueueRuntimeInfoResponse.
       Similarly for topics, subscriptions and rules.
       [PR 9432](https://github.com/Azure/azure-sdk-for-js/pull/9432)
-    - Updated `ISO-8601 timestamp string` to the `Date` type for the createdOn, accessedOn and modifiedOn properties in the responses for the `runtimeInfo` methods for Queue, Topic and Subscription.
+    - Renamed `createdOn`, `accessedOn` and `modifiedOn` properties to `createdAt`, `accessedAt` and `modifiedAt`, updated the corresponding type from `ISO-8601 timestamp string` to the `Date` type in the responses for the `runtimeInfo` methods for Queue, Topic and Subscription.
       [PR 9434](https://github.com/Azure/azure-sdk-for-js/pull/9434)
+      [PR 9807](https://github.com/Azure/azure-sdk-for-js/pull/9807)
   - The property `top` in the options passed to any of the methods that get information for multiple entities like `getQueues` or `getQueuesRuntimeInfo` is renamed to `maxCount`.
     [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
-  - The "update" methods (`updateQueue`, `updateTopic` and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are actually updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods. [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751). 
-  
-  See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
+  - The "update" methods (`updateQueue`, `updateTopic` and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are actually updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
+    [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
+
+    See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
 
 ## 7.0.0-preview.3 (2020-06-08)
 
