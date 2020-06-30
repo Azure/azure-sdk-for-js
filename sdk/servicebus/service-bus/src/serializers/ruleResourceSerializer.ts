@@ -269,6 +269,10 @@ type RawKeyValuePair = {
   Value: any;
 };
 
+interface InternalRawKeyValuePairs {
+  KeyValueOfstringanyType: RawKeyValuePair[];
+}
+
 /**
  * Key-value pairs are supposed to be wrapped with this tag in the XML request, they are ignored otherwise.
  *
@@ -385,7 +389,9 @@ function buildSqlParameter(value: RawKeyValuePair): SqlParameter {
  * or undefined if not passed in.
  * @param value
  */
-export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any {
+export function getRawSqlParameters(
+  parameters: SqlParameter[] | undefined
+): InternalRawKeyValuePairs | undefined {
   if (parameters == undefined) {
     return undefined;
   }
@@ -404,17 +410,19 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
   for (let i = 0; i < parameters.length; i++) {
     rawParameters.push(buildRawKeyValuePairFromSqlParameter(parameters[i]));
   }
-  return { KeyValueOfstringanyType: rawParameters };
+  return { [keyValuePairXMLTag]: rawParameters };
 }
 
 /**
  * @internal
  * @ignore
- * Helper utility to extract array of userProperties key:value instances from given input,
+ * Helper utility to extract array of userProperties key-value instances from given input,
  * or undefined if not passed in.
  * @param value
  */
-export function getRawUserProperties(parameters: { [key: string]: any } | undefined): any {
+export function getRawUserProperties(
+  parameters: { [key: string]: any } | undefined
+): InternalRawKeyValuePairs | undefined {
   if (parameters == undefined) {
     return undefined;
   }
@@ -432,21 +440,21 @@ export function getRawUserProperties(parameters: { [key: string]: any } | undefi
       );
       // TODO: Add more cases if other types are supported.
     }
-    const rawParameterValue: any = {};
-    rawParameterValue[Constants.XML_METADATA_MARKER] = {
-      "p4:type": type,
-      "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
-    };
-    rawParameterValue[Constants.XML_VALUE_MARKER] = value;
 
     const rawParameter: RawKeyValuePair = {
       Key: key,
-      Value: rawParameterValue
+      Value: {
+        [Constants.XML_METADATA_MARKER]: {
+          "p4:type": type,
+          "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
+        },
+        [Constants.XML_VALUE_MARKER]: value
+      }
     };
     rawParameters.push(rawParameter);
   }
   return {
-    KeyValueOfstringanyType: rawParameters
+    [keyValuePairXMLTag]: rawParameters
   };
 }
 
@@ -489,16 +497,15 @@ function buildRawKeyValuePairFromSqlParameter(parameter: SqlParameter): RawKeyVa
       );
   }
 
-  const rawParameterValue: any = {};
-  rawParameterValue[Constants.XML_METADATA_MARKER] = {
-    "p4:type": type.valueOf(),
-    "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
-  };
-  rawParameterValue[Constants.XML_VALUE_MARKER] = parameter.value;
-
   const rawParameter: RawKeyValuePair = {
     Key: parameter.key,
-    Value: rawParameterValue
+    Value: {
+      [Constants.XML_METADATA_MARKER]: {
+        "p4:type": type.valueOf(),
+        "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
+      },
+      [Constants.XML_VALUE_MARKER]: parameter.value
+    }
   };
   return rawParameter;
 }
