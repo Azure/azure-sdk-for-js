@@ -96,6 +96,7 @@ known_content_issues:
   - ["sdk/storage/storage-queue/test/README.md", "#1583"]
   - ["sdk/synapse/synapse/README.md", "#1583"]
   - ["sdk/template/template/README.md", "#1583"]
+  - ["sdk/template/templates/README.md", "#1583"]
   - ["sdk/test-utils/recorder/README.md", "#1583"]
   - ['sdk/test-utils/perfstress/CHANGELOG.md','#1583']
 
