@@ -21,8 +21,7 @@
 
   See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
 
-  - Bug - Cannot set `userProperties` under `CorrelationFilter` while using the `createRule()` method.
-    Fixed in [PR 9794](https://github.com/Azure/azure-sdk-for-js/pull/9794)
+  - Fixed the bug where one cannot set `userProperties` in a correlation filter while using the `createRule()` method. [PR 9794](https://github.com/Azure/azure-sdk-for-js/pull/9794)
 
 ## 7.0.0-preview.3 (2020-06-08)
 
