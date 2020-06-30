@@ -13,6 +13,7 @@ import {
 } from "../utils/index.browser";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import { isBlobTagsDisabled } from "../utils";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -154,7 +155,10 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should work with tags", async () => {
+  it("uploadBrowserDataToBlockBlob should work with tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
 
     const tags = {
