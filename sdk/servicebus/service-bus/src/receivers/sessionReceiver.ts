@@ -183,7 +183,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw error;
     }
     this.sessionId = this._messageSession.sessionId;
-    delete this._context.expiredMessageSessions[this._messageSession.sessionId];
     return;
   }
 
