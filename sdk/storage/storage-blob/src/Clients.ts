@@ -6380,7 +6380,7 @@ export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
   /**
    * An opaque DateTime value that, when present, specifies the version
    * of the blob to delete. It's for service version 2019-10-10 and newer.
-   *
+   * 
    * @type {string}
    * @memberof ContainerDeleteBlobOptions
    */

@@ -131,7 +131,7 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 
 // @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
-    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: DirectoryCreateIfNotExistsOptions): Promise<DirectoryCreateIfNotExistsResponse>;
@@ -144,7 +144,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
-    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
@@ -153,7 +153,6 @@ export class DataLakeFileClient extends DataLakePathClient {
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToFile(filePath: string, offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
-    setExpiry(mode: FileExpiryMode, options?: FileSetExpiryOptions): Promise<FileSetExpiryResponse>;
     upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
     uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
     uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
@@ -320,9 +319,6 @@ export interface FileCreateOptions extends PathCreateOptions {
 export interface FileCreateResponse extends PathCreateResponse {
 }
 
-// @public
-export type FileExpiryMode = 'NeverExpire' | 'RelativeToCreation' | 'RelativeToNow' | 'Absolute';
-
 // @public (undocumented)
 export interface FileFlushOptions extends CommonOptions {
     // (undocumented)
@@ -448,32 +444,6 @@ export interface FileReadToBufferOptions extends CommonOptions {
     maxRetryRequestsPerChunk?: number;
     onProgress?: (progress: TransferProgressEvent) => void;
 }
-
-// @public
-export interface FileSetExpiryHeaders {
-    clientRequestId?: string;
-    date?: Date;
-    // (undocumented)
-    errorCode?: string;
-    etag?: string;
-    lastModified?: Date;
-    requestId?: string;
-    version?: string;
-}
-
-// @public
-export interface FileSetExpiryOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-    expiresOn?: Date;
-    timeToExpireInMs?: number;
-}
-
-// @public
-export type FileSetExpiryResponse = FileSetExpiryHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileSetExpiryHeaders;
-    };
-};
 
 // @public (undocumented)
 export interface FileSystemCreateHeaders {
@@ -1067,9 +1037,6 @@ export enum PathGetPropertiesAction {
     GetStatus = "getStatus"
 }
 
-// @public
-export type PathGetPropertiesActionModel = 'getAccessControl' | 'getStatus';
-
 // @public (undocumented)
 export interface PathGetPropertiesHeaders {
     // (undocumented)
@@ -1120,7 +1087,6 @@ export interface PathGetPropertiesHeaders {
     encryptionKeySha256?: string;
     // (undocumented)
     etag?: string;
-    expiresOn?: Date;
     // (undocumented)
     isIncrementalCopy?: boolean;
     // (undocumented)
@@ -1288,18 +1254,12 @@ export enum PathRenameMode {
 }
 
 // @public
-export type PathRenameModeModel = 'legacy' | 'posix';
-
-// @public
 export enum PathResourceType {
     // (undocumented)
     Directory = "directory",
     // (undocumented)
     File = "file"
 }
-
-// @public
-export type PathResourceTypeModel = 'directory' | 'file';
 
 // @public
 export interface PathSetAccessControlHeaders {
