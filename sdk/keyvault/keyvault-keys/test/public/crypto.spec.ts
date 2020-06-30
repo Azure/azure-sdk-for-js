@@ -6,7 +6,7 @@ import { createHash, publicEncrypt } from "crypto";
 import * as constants from "constants";
 import { isRecordMode, Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { isNode } from "@azure/core-http";
+// import { isNode } from "@azure/core-http";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
 import { convertJWKtoPEM } from "../../src/cryptographyClient";
@@ -14,7 +14,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 
-describe("CryptographyClient (all decrypts happen remotely)", () => {
+describe.only("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
   let client: KeyClient;
   let testClient: TestClient;
@@ -25,10 +25,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
 
-  if (!isNode) {
-    // Local cryptography is only supported in NodeJS
-    return;
-  }
+  // if (!isNode) {
+  //   // Local cryptography is only supported in NodeJS
+  //   return;
+  // }
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
