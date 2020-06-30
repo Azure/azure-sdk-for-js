@@ -86,7 +86,7 @@ describe("session tests", () => {
       should.equal(
         expectedErrorThrown,
         true,
-        `Instead of OperationTimeoutError, found ${unexpectedError}`
+        `Instead of OperationTimeoutError or SessionCannotBeLockedError, found ${unexpectedError}`
       );
       await serviceBusClient.close();
     });
