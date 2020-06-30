@@ -1,12 +1,12 @@
 import { writeNumberForBinaryEncoding, doubleToByteArray } from "./encoding/number";
 import { writeStringForBinaryEncoding } from "./encoding/string";
-import { MurmurHash } from "./murmurHashV1";
+const MurmurHash = require("./murmurHashV1").default;
 
 type v1Key = string | number | null | {} | undefined;
 
 export function hashV1PartitionKey(partitionKey: v1Key): string {
   const toHash = prefixKeyByType(partitionKey);
-  const hash = MurmurHash.hash(toHash, 0);
+  const hash = MurmurHash.x86.hash32(toHash);
   const encodedHash = writeNumberForBinaryEncoding(hash);
   const encodedValue = encodeByType(partitionKey);
   return Buffer.concat([encodedHash, encodedValue])
@@ -24,21 +24,21 @@ function prefixKeyByType(key: v1Key) {
         Buffer.from(truncated),
         Buffer.from("00", "hex")
       ]);
-      return bytes.toString();
+      return bytes;
     case "number":
       const numberBytes = doubleToByteArray(key);
       bytes = Buffer.concat([Buffer.from("05", "hex"), numberBytes]);
-      return bytes.toString();
+      return bytes;
     case "boolean":
       const prefix = key ? "03" : "02";
-      return Buffer.from(prefix, "hex").toString();
+      return Buffer.from(prefix, "hex");
     case "object":
       if (key === null) {
-        return Buffer.from("01", "hex").toString();
+        return Buffer.from("01", "hex");
       }
-      return Buffer.from("00", "hex").toString();
+      return Buffer.from("00", "hex");
     case "undefined":
-      return Buffer.from("00", "hex").toString();
+      return Buffer.from("00", "hex");
   }
 }
 
