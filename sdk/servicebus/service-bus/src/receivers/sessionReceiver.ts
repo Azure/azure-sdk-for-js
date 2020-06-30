@@ -340,6 +340,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
+    if (maxMessageCount == undefined) {
+      maxMessageCount = 1;
+    }
+
     const managementRequestOptions = {
       ...options,
       requestName: "peekMessages",
@@ -446,6 +450,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+
+    if (maxMessageCount == undefined) {
+      maxMessageCount = 1;
+    }
 
     const receiveBatchOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();

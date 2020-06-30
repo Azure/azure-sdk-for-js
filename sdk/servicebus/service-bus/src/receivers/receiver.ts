@@ -265,6 +265,10 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
+    if (maxMessageCount == undefined) {
+      maxMessageCount = 1;
+    }
+
     const receiveMessages = async () => {
       if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
         const options: ReceiveOptions = {
@@ -367,6 +371,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     options: PeekMessagesOptions = {}
   ): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+
+    if (maxMessageCount == undefined) {
+      maxMessageCount = 1;
+    }
+    
     const managementRequestOptions = {
       ...options,
       requestName: "peekMessages",

@@ -53,6 +53,38 @@ describe("batchReceiver", () => {
     return serviceBusClient.test.afterEach();
   }
 
+  it("Partitioned Queue: - maxMessageCount defaults to 1", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.PartitionedQueue);
+    const testMessage = TestMessage.getSample();
+    await sender.sendMessages(testMessage);
+
+    // @ts-expect-error
+    const peekedMsgs = await receiver.peekMessages();
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked.");
+    should.equal(peekedMsgs[0].body, testMessage.body, "Peeked message body is different than expected");
+
+    // @ts-expect-error
+    const msgs = await receiver.receiveMessages();
+    should.equal(msgs.length, 1, "Unexpected number of messages received.");
+    should.equal(msgs[0].body, testMessage.body, "Received message body is different than expected");
+  });
+
+  it("Partitioned Queue with Sessions- maxMessageCount defaults to 1", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+    const testMessage = TestMessage.getSessionSample();
+    await sender.sendMessages(testMessage);
+
+    // @ts-expect-error
+    const peekedMsgs = await receiver.peekMessages();
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked.");
+    should.equal(peekedMsgs[0].body, testMessage.body, "Peeked message body is different than expected");
+
+    // @ts-expect-error
+    const msgs = await receiver.receiveMessages();
+    should.equal(msgs.length, 1, "Unexpected number of messages received.");
+    should.equal(msgs[0].body, testMessage.body, "Received message body is different than expected");
+  });
+
   describe("Batch Receiver - Settle message", function(): void {
     afterEach(async () => {
       await afterEachTest();
