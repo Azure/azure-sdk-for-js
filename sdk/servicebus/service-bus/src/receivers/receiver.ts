@@ -47,12 +47,12 @@ export interface Receiver<ReceivedMessageT> {
   getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
 
   /**
-   * Receives, at most, `maxMessages` worth of messages.
-   * @param maxMessages The maximum number of messages to accept.
+   * Receives, at most, `maxMessageCount` worth of messages.
+   * @param maxMessageCount The maximum number of messages to accept.
    * @param options Options for receiveMessages
    */
   receiveMessages(
-    maxMessages: number,
+    maxMessageCount: number,
     options?: ReceiveMessagesOptions
   ): Promise<ReceivedMessageT[]>;
 
@@ -84,10 +84,11 @@ export interface Receiver<ReceivedMessageT> {
    * subsequent message.
    * - Unlike a "received" message, "peeked" message is a read-only version of the message.
    * It cannot be `Completed/Abandoned/Deferred/Deadlettered`.
+   * @param maxMessageCount The maximum number of messages to peek.
    * @param options Options that allow to specify the maximum number of messages to peek,
    * the sequenceNumber to start peeking from or an abortSignal to abort the operation.
    */
-  peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
+  peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
   /**
    * Path of the entity for which the receiver has been created.
    */
@@ -264,6 +265,10 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
 
+    if (maxMessageCount == undefined) {
+      maxMessageCount = 1;
+    }
+
     const receiveMessages = async () => {
       if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
         const options: ReceiveOptions = {
@@ -361,8 +366,16 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
   // ManagementClient methods # Begin
 
-  async peekMessages(options: PeekMessagesOptions = {}): Promise<ReceivedMessage[]> {
+  async peekMessages(
+    maxMessageCount: number,
+    options: PeekMessagesOptions = {}
+  ): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+
+    if (maxMessageCount == undefined) {
+      maxMessageCount = 1;
+    }
+    
     const managementRequestOptions = {
       ...options,
       requestName: "peekMessages",
@@ -372,13 +385,13 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       if (options.fromSequenceNumber) {
         return await this._context.managementClient!.peekBySequenceNumber(
           options.fromSequenceNumber,
-          options.maxMessageCount,
+          maxMessageCount,
           undefined,
           managementRequestOptions
         );
       } else {
         return await this._context.managementClient!.peek(
-          options.maxMessageCount,
+          maxMessageCount,
           managementRequestOptions
         );
       }

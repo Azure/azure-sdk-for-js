@@ -468,9 +468,7 @@ export async function testPeekMsgsLength(
   peekableReceiver: Receiver<ReceivedMessage>,
   expectedPeekLength: number
 ): Promise<void> {
-  const peekedMsgs = await peekableReceiver.peekMessages({
-    maxMessageCount: expectedPeekLength + 1
-  });
+  const peekedMsgs = await peekableReceiver.peekMessages(expectedPeekLength + 1);
 
   should.equal(
     peekedMsgs.length,

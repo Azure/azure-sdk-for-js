@@ -81,7 +81,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
 
       // At this point AMQP receiver link has not been established.
       // peekMessages() will not establish the link if sessionId was provided
-      const peekedMsgs = await receiver.peekMessages();
+      const peekedMsgs = await receiver.peekMessages(1);
       should.equal(peekedMsgs.length, 1, "Unexpected number of messages browsed");
       should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
       should.equal(
@@ -281,7 +281,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       );
       await msgs[0].complete();
 
-      const peekedMsgsInSession = await receiver.peekMessages();
+      const peekedMsgsInSession = await receiver.peekMessages(1);
       should.equal(peekedMsgsInSession.length, 0, "Unexpected number of messages peeked");
 
       await receiver.close();
