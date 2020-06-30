@@ -207,7 +207,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * duration as specified during the Queue/Subscription creation.
    *
    * When the lock on the session expires
-   * - The current receiver can no longer be used to receive mode messages.
+   * - The current receiver can no longer be used to receive more messages.
    * Create a new receiver using the `ServiceBusClient.createSessionReceiver()`.
    * - Messages that were received in `peekLock` mode with this receiver but not yet settled
    * will land back in the Queue/Subscription with their delivery count incremented.
