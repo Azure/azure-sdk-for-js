@@ -717,7 +717,7 @@ export class MessageReceiver extends LinkEntity {
    * Prevents us from receiving any further messages.
    */
   public stopReceivingMessages(): Promise<void> {
-    log.error(`[${this._receiver?.name}]: User has requested we stop receiving new messages`);
+    log.error(`[${this._receiver?.name}]: User has requested to stop receiving new messages`);
     this._stopReceivingMessages = true;
 
     return this.drainReceiver();
