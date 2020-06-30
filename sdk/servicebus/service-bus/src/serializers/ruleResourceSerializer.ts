@@ -304,7 +304,7 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
  * @param value
  */
 function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | undefined {
-  if (value == undefined) {
+  if (!value) {
     return undefined;
   }
   const properties: any = {};
