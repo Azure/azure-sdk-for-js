@@ -739,10 +739,29 @@ export class MessageReceiver extends LinkEntity {
       });
 
       this._receiver.drain = true;
+      // this is not actually adding another credit - it'll just
+      // cause the drain call to start.
       this._receiver.addCredit(1);
     });
 
     return drainPromise;
+  }
+
+  /**
+   * Adds credits to the receiver, respecting any state that
+   * indicates the receiver is closed or should not continue
+   * to receive more messages.
+   *
+   * @param credits Number of credits to add.
+   */
+  protected addCredit(credits: number): boolean {
+    // TODO: seems useful to also migrate a closed check into here.
+    if (this._stopReceivingMessages || this._receiver == null) {
+      return false;
+    }
+
+    this._receiver.addCredit(credits);
+    return true;
   }
 
   /**
@@ -1016,7 +1035,9 @@ export class MessageReceiver extends LinkEntity {
               await this.close();
             } else {
               if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                this._receiver.addCredit(this.maxConcurrentCalls);
+                if (!this._stopReceivingMessages) {
+                  this.addCredit(this.maxConcurrentCalls);
+                }
               }
             }
             return;

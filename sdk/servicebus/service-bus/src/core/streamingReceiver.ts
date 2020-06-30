@@ -60,10 +60,7 @@ export class StreamingReceiver extends MessageReceiver {
     throwErrorIfConnectionClosed(this._context.namespace);
     this._onMessage = onMessage;
     this._onError = onError;
-
-    if (this._receiver) {
-      this._receiver.addCredit(this.maxConcurrentCalls);
-    }
+    this.addCredit(this.maxConcurrentCalls);
   }
 
   /**
