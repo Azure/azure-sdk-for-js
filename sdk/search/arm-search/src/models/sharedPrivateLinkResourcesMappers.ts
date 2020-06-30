@@ -8,8 +8,6 @@
 
 export {
   BaseResource,
-  CheckNameAvailabilityInput,
-  CheckNameAvailabilityOutput,
   CloudError,
   Identity,
   IpRule,
@@ -20,8 +18,8 @@ export {
   PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState,
   Resource,
   SearchService,
-  SearchServiceListResult,
   SharedPrivateLinkResource,
+  SharedPrivateLinkResourceListResult,
   SharedPrivateLinkResourceProperties,
   Sku
 } from "../models/mappers";

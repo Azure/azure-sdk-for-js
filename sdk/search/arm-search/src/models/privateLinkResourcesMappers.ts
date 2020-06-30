@@ -8,6 +8,9 @@
 
 export {
   CloudError,
-  ListQueryKeysResult,
-  QueryKey
+  PrivateLinkResource,
+  PrivateLinkResourceProperties,
+  PrivateLinkResourcesResult,
+  ShareablePrivateLinkResourceProperties,
+  ShareablePrivateLinkResourceType
 } from "../models/mappers";
