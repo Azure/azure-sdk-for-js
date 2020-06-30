@@ -5,6 +5,10 @@
 - Adds abortSignal support throughout Sender and non-session Receivers.
   [PR 9233](https://github.com/Azure/azure-sdk-for-js/pull/9233)
   [PR 9284](https://github.com/Azure/azure-sdk-for-js/pull/9284)
+- Standardized methods on senders and receivers to use the `Messages` suffix and deal with multiple messages rather than
+have dedicated methods to deal with a single message. [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
+- Standardized methods that peek and receive given number messages to use similar signature. 
+[PR 9798](https://github.com/Azure/azure-sdk-for-js/pull/9798)
 - Bug - Messages scheduled in parallel with the `scheduleMessage` method have the same sequence number in response.
   Fixed in [PR 9503](https://github.com/Azure/azure-sdk-for-js/pull/9503)
 - Management api updates (Includes breaking changes)
