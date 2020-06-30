@@ -318,8 +318,15 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     return retry<any>(config);
   }
 
-  async peekMessages(options: PeekMessagesOptions = {}): Promise<ReceivedMessage[]> {
+  async peekMessages(
+    maxMessageCount: number,
+    options: PeekMessagesOptions = {}
+  ): Promise<ReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
+
+    if (maxMessageCount == undefined) {
+      maxMessageCount = 1;
+    }
 
     const managementRequestOptions = {
       ...options,
@@ -330,14 +337,14 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       if (options.fromSequenceNumber) {
         return await this._context.managementClient!.peekBySequenceNumber(
           options.fromSequenceNumber,
-          options.maxMessageCount,
+          maxMessageCount,
           this.sessionId,
           managementRequestOptions
         );
       } else {
         return await this._context.managementClient!.peekMessagesBySession(
           this.sessionId,
-          options.maxMessageCount,
+          maxMessageCount,
           managementRequestOptions
         );
       }
@@ -427,6 +434,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
+
+    if (maxMessageCount == undefined) {
+      maxMessageCount = 1;
+    }
 
     const receiveBatchOperationPromise = async () => {
       await this._createMessageSessionIfDoesntExist();

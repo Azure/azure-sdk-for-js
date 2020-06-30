@@ -1,5 +1,8 @@
 # Release History
 
+## 3.7.5 (Unreleased)
+
+
 ## 3.7.4 (2020-6-30)
 
 - BUGFIX: Properly escape ASCII "DEL" character in partition key header
