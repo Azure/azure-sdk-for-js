@@ -42,14 +42,15 @@ describe("invalid parameters", () => {
     });
 
     it("Peek: Invalid maxMessageCount for Queue", async function(): Promise<void> {
-      const peekedMessages = await receiver.peekMessages({ maxMessageCount: -100 });
+      const peekedMessages = await receiver.peekMessages(-100);
       should.equal(peekedMessages.length, 0);
     });
 
     it("Peek: Wrong type maxMessageCount for Queue", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.peekMessages({ maxMessageCount: "somestring" as any });
+        // @ts-expect-error
+        await receiver.peekMessages("somestring");
       } catch (error) {
         caughtError = error;
       }
@@ -61,9 +62,8 @@ describe("invalid parameters", () => {
     });
 
     it("PeekBySequenceNumber: Invalid maxMessageCount for Queue", async function(): Promise<void> {
-      const peekedMessages = await receiver.peekMessages({
-        fromSequenceNumber: Long.ZERO,
-        maxMessageCount: -100
+      const peekedMessages = await receiver.peekMessages(-100, {
+        fromSequenceNumber: Long.ZERO
       });
       should.equal(peekedMessages.length, 0);
     });
@@ -73,9 +73,9 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.peekMessages({
-          fromSequenceNumber: Long.ZERO,
-          maxMessageCount: "somestring" as any
+        // @ts-expect-error
+        await receiver.peekMessages("somestring", {
+          fromSequenceNumber: Long.ZERO
         });
       } catch (error) {
         caughtError = error;
@@ -92,7 +92,7 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.peekMessages({ fromSequenceNumber: "somestring" as any });
+        await receiver.peekMessages(1, { fromSequenceNumber: "somestring" as any });
       } catch (error) {
         caughtError = error;
       }
@@ -127,16 +127,15 @@ describe("invalid parameters", () => {
     });
 
     it("Peek: Invalid maxMessageCount for Subscription", async function(): Promise<void> {
-      const browsedMessages = await subscriptionReceiverClient.peekMessages({
-        maxMessageCount: -100
-      });
+      const browsedMessages = await subscriptionReceiverClient.peekMessages(-100);
       should.equal(browsedMessages.length, 0);
     });
 
     it("Peek: Wrong type maxMessageCount for Subscription", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await subscriptionReceiverClient.peekMessages({ maxMessageCount: "somestring" as any });
+        // @ts-expect-error
+        await subscriptionReceiverClient.peekMessages("somestring");
       } catch (error) {
         caughtError = error;
       }
@@ -150,9 +149,8 @@ describe("invalid parameters", () => {
     it("PeekBySequenceNumber: Invalid maxMessageCount for Subscription", async function(): Promise<
       void
     > {
-      const browsedMessages = await subscriptionReceiverClient.peekMessages({
-        fromSequenceNumber: Long.ZERO,
-        maxMessageCount: -100
+      const browsedMessages = await subscriptionReceiverClient.peekMessages(-100, {
+        fromSequenceNumber: Long.ZERO
       });
       should.equal(browsedMessages.length, 0);
     });
@@ -162,9 +160,9 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await subscriptionReceiverClient.peekMessages({
-          fromSequenceNumber: Long.ZERO,
-          maxMessageCount: "somestring" as any
+        // @ts-expect-error
+        await subscriptionReceiverClient.peekMessages("somestring", {
+          fromSequenceNumber: Long.ZERO
         });
       } catch (error) {
         caughtError = error;
@@ -181,7 +179,7 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await subscriptionReceiverClient.peekMessages({
+        await subscriptionReceiverClient.peekMessages(1, {
           fromSequenceNumber: "somestring" as any
         });
       } catch (error) {
@@ -366,14 +364,15 @@ describe("invalid parameters", () => {
     });
 
     it("Peek: Invalid maxMessageCount in SessionReceiver", async function(): Promise<void> {
-      const peekedMessages = await receiver.peekMessages({ maxMessageCount: -100 });
+      const peekedMessages = await receiver.peekMessages(-100);
       should.equal(peekedMessages.length, 0);
     });
 
     it("Peek: Wrong type maxMessageCount in SessionReceiver", async function(): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.peekMessages({ maxMessageCount: "somestring" as any });
+        // @ts-expect-error
+        await receiver.peekMessages("somestring");
       } catch (error) {
         caughtError = error;
       }
@@ -387,9 +386,8 @@ describe("invalid parameters", () => {
     it("PeekBySequenceNumber: Invalid maxMessageCount in SessionReceiver", async function(): Promise<
       void
     > {
-      const peekedMessages = await receiver.peekMessages({
-        fromSequenceNumber: Long.ZERO,
-        maxMessageCount: -100
+      const peekedMessages = await receiver.peekMessages(-100, {
+        fromSequenceNumber: Long.ZERO
       });
       should.equal(peekedMessages.length, 0);
     });
@@ -399,9 +397,9 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.peekMessages({
-          fromSequenceNumber: Long.ZERO,
-          maxMessageCount: "somestring" as any
+        // @ts-expect-error
+        await receiver.peekMessages("somestring", {
+          fromSequenceNumber: Long.ZERO
         });
       } catch (error) {
         caughtError = error;
@@ -418,7 +416,7 @@ describe("invalid parameters", () => {
     > {
       let caughtError: Error | undefined;
       try {
-        await receiver.peekMessages({ fromSequenceNumber: "somestring" as any });
+        await receiver.peekMessages(1, { fromSequenceNumber: "somestring" as any });
       } catch (error) {
         caughtError = error;
       }

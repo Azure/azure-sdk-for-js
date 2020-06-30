@@ -124,7 +124,6 @@ export interface OperationOptions {
 // @public
 export interface PeekMessagesOptions extends OperationOptions {
     fromSequenceNumber?: Long;
-    maxMessageCount?: number;
 }
 
 // @public
@@ -214,9 +213,9 @@ export interface Receiver<ReceivedMessageT> {
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isClosed: boolean;
     isReceivingMessages(): boolean;
-    peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
+    peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
-    receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
+    receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
