@@ -13,12 +13,12 @@ import {
 import {
   RetryData,
   RetryError,
-  shouldRetry,
-  updateRetryData,
   DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
   DEFAULT_CLIENT_RETRY_COUNT,
   DEFAULT_CLIENT_RETRY_INTERVAL,
-  isNumber
+  isNumber,
+  updateRetryData,
+  shouldRetry
 } from "../util/exponentialBackoffStrategy";
 import { RestError } from "../restError";
 import { logger } from "../log";
@@ -140,7 +140,7 @@ async function retry(
   retryData?: RetryData,
   requestError?: RetryError
 ): Promise<HttpOperationResponse> {
-  function shouldPolicyRetry(response?: HttpOperationResponse) {
+  function shouldPolicyRetry(response?: HttpOperationResponse): boolean {
     if (response) {
       const statusCode = response.status;
       if (

@@ -87,6 +87,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     }
   }
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response> {
     return fetch(input, init);
   }
@@ -119,7 +120,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
   async processRequest(operationResponse: HttpOperationResponse): Promise<void> {
     if (this.cookieJar) {
       const setCookieHeader = operationResponse.headers.get("Set-Cookie");
-      if (setCookieHeader != undefined) {
+      if (setCookieHeader !== undefined) {
         await new Promise((resolve, reject) => {
           this.cookieJar!.setCookie(
             setCookieHeader,

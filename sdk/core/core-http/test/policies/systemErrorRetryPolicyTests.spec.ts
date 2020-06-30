@@ -51,7 +51,9 @@ describe("SystemErrorRetryPolicy", () => {
     headers: new HttpHeaders()
   };
 
-  function createDefaultSystemErrorRetryPolicy(response?: HttpOperationResponse) {
+  function createDefaultSystemErrorRetryPolicy(
+    response?: HttpOperationResponse
+  ): SystemErrorRetryPolicy {
     if (!response) {
       response = defaultResponse;
     }
