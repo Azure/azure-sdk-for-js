@@ -206,6 +206,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * Everytime `renewSessionLock()` is called, this time gets updated to current time plus the lock
    * duration as specified during the Queue/Subscription creation.
    *
+   * When the lock on the session expires
+   * - The current receiver can no longer be used to receive mode messages.
+   * Create a new receiver using the `ServiceBusClient.createSessionReceiver()`.
+   * - Messages that were received in `peekLock` mode with this receiver but not yet settled
+   * will land back in the Queue/Subscription with their delivery count incremented.
+   *
    * @readonly
    */
   public get sessionLockedUntilUtc(): Date | undefined {
@@ -215,6 +221,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   /**
    * Renews the lock on the session for the duration as specified during the Queue/Subscription
    * creation. You can check the `sessionLockedUntilUtc` property for the time when the lock expires.
+   *
    * When the lock on the session expires
    * - The current receiver can no longer be used to receive mode messages.
    * Create a new receiver using the `ServiceBusClient.createSessionReceiver()`.
