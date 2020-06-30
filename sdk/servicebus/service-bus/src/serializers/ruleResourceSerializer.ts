@@ -269,20 +269,6 @@ type RawKeyValuePair = {
 /**
  * @internal
  * @ignore
- * Internal representation of SQL parameter info
- */
-type RawSqlParameter = RawKeyValuePair;
-
-/**
- * @internal
- * @ignore
- * Internal representation of user property key-value pair
- */
-type RawUserProperty = RawKeyValuePair;
-
-/**
- * @internal
- * @ignore
  * Helper utility to retrieve array of `SqlParameter` from given input,
  * or undefined if not passed in.
  * @param value
@@ -350,11 +336,11 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
 /**
  * @internal
  * @ignore
- * Helper utility to build an instance of parsed SQL parameteras `Parameter`
+ * Helper utility to build an instance of parsed SQL parameters `Parameter`
  * from given input
  * @param value
  */
-function buildSqlParameter(value: RawSqlParameter): SqlParameter {
+function buildSqlParameter(value: RawKeyValuePair): SqlParameter {
   const rawValue = value["Value"]["_"];
   const type = value["Value"]["$"]["i:type"].toString().substring(5);
   let parsedValue: any;
@@ -403,7 +389,7 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
     );
   }
 
-  const rawParameters: RawSqlParameter[] = [];
+  const rawParameters: RawKeyValuePair[] = [];
   for (let i = 0; i < parameters.length; i++) {
     rawParameters.push(buildRawSqlParameter(parameters[i]));
   }
@@ -422,7 +408,7 @@ export function getRawUserProperties(parameters: { [key: string]: any } | undefi
     return undefined;
   }
 
-  const rawParameters: RawUserProperty[] = [];
+  const rawParameters: RawKeyValuePair[] = [];
   for (let [key, value] of Object.entries(parameters)) {
     let type: string | number;
     if (typeof value === "number") {
@@ -442,7 +428,7 @@ export function getRawUserProperties(parameters: { [key: string]: any } | undefi
     };
     rawParameterValue[Constants.XML_VALUE_MARKER] = value;
 
-    const rawParameter: RawUserProperty = {
+    const rawParameter: RawKeyValuePair = {
       Key: key,
       Value: rawParameterValue
     };
@@ -456,11 +442,11 @@ export function getRawUserProperties(parameters: { [key: string]: any } | undefi
 /**
  * @internal
  * @ignore
- * Helper utility to build an instance of raw SQL parameter as `RawSqlParameter`
+ * Helper utility to build an instance of raw SQL parameter as `RawKeyValuePair`
  * from given `SqlParameter` input,
  * @param parameter parsed SQL parameter instance
  */
-function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
+function buildRawSqlParameter(parameter: SqlParameter): RawKeyValuePair {
   if (!isJSONLikeObject(parameter) || parameter === null) {
     throw new TypeError(
       `Expected SQL parameter input to be a JS object value, but received ${JSON.stringify(
@@ -499,7 +485,7 @@ function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
   };
   rawParameterValue[Constants.XML_VALUE_MARKER] = parameter.value;
 
-  const rawParameter: RawSqlParameter = {
+  const rawParameter: RawKeyValuePair = {
     Key: parameter.key,
     Value: rawParameterValue
   };
