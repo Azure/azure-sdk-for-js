@@ -22,7 +22,7 @@ import * as log from "../log";
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
-import { assertValidMessageHandlers, getMessageIterator } from "./shared";
+import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
@@ -51,7 +51,10 @@ export interface Receiver<ReceivedMessageT> {
    * @param maxMessages The maximum number of messages to accept.
    * @param options Options for receiveMessages
    */
-  receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
+  receiveMessages(
+    maxMessages: number,
+    options?: ReceiveMessagesOptions
+  ): Promise<ReceivedMessageT[]>;
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
@@ -394,14 +397,13 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
     assertValidMessageHandlers(handlers);
 
+    const processError = wrapProcessErrorHandler(handlers);
+
     this._registerMessageHandler(
       async (message: ServiceBusMessageImpl) => {
         return handlers.processMessage((message as any) as ReceivedMessageT);
       },
-      (err: Error) => {
-        // TODO: not async internally yet.
-        handlers.processError(err);
-      },
+      processError,
       options
     );
   }
