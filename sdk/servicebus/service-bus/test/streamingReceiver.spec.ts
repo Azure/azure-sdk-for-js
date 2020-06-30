@@ -1119,8 +1119,6 @@ describe("Streaming", () => {
   });
 
   it("Streaming - user can stop a message subscription without closing the receiver", async () => {
-    // await beforeEachTest(TestClientType.UnpartitionedQueue, "peekLock");
-
     const entities = await serviceBusClient.test.createTestEntities(
       TestClientType.UnpartitionedQueue
     );
