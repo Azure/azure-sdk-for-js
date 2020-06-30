@@ -21,7 +21,7 @@ export type CommonRequestInfo = Request | string;
 
 export class ReportTransform extends Transform {
   private loadedBytes: number = 0;
-  _transform(chunk: string | Buffer, _encoding: string, callback: Function) {
+  _transform(chunk: string | Buffer, _encoding: string, callback: Function): void {
     this.push(chunk);
     this.loadedBytes += chunk.length;
     this.progressCallback!({ loadedBytes: this.loadedBytes });
@@ -65,11 +65,12 @@ export abstract class FetchHttpClient implements HttpClient {
     if (httpRequest.formData) {
       const formData: any = httpRequest.formData;
       const requestForm = new FormData();
-      const appendFormValue = (key: string, value: any) => {
+      const appendFormValue = (key: string, value: any): void => {
         // value function probably returns a stream so we can provide a fresh stream on each retry
         if (typeof value === "function") {
           value = value();
         }
+        // eslint-disable-next-line no-prototype-builtins
         if (value && value.hasOwnProperty("value") && value.hasOwnProperty("options")) {
           requestForm.append(key, value.value, value.options);
         } else {
