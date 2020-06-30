@@ -569,8 +569,7 @@ class MockSerializer implements AtomXmlSerializer {
         userProperties: {
           message: ["hello"]
         }
-      },
-      action: { sqlExpression: "SET sys.label='GREEN'" }
+      }
     },
     output: {
       testErrorMessage: `Unsupported type for the value in the user property {message:["hello"]}`,
@@ -578,7 +577,7 @@ class MockSerializer implements AtomXmlSerializer {
     }
   }
 ].forEach((testCase) => {
-  describe(`Type validation errors on Correlation user property inputs`, function(): void {
+  describe.only(`Type validation errors on Correlation user property inputs`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const request = new WebResource();
