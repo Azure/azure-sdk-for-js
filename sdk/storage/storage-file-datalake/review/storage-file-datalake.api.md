@@ -131,7 +131,7 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 
 // @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
     getFileClient(fileName: string): DataLakeFileClient;
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;
@@ -142,7 +142,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
     flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
@@ -198,7 +198,7 @@ export class DataLakeLeaseClient {
 export class DataLakePathClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
     exists(options?: PathExistsOptions): Promise<boolean>;
     get fileSystemName(): string;
@@ -1001,8 +1001,16 @@ export type PathGetAccessControlResponse = PathAccessControl & PathGetAccessCont
     };
 };
 
+// @public (undocumented)
+export enum PathGetPropertiesAction {
+    // (undocumented)
+    GetAccessControl = "getAccessControl",
+    // (undocumented)
+    GetStatus = "getStatus"
+}
+
 // @public
-export type PathGetPropertiesAction = 'getAccessControl' | 'getStatus';
+export type PathGetPropertiesActionModel = 'getAccessControl' | 'getStatus';
 
 // @public (undocumented)
 export interface PathGetPropertiesHeaders {
@@ -1213,11 +1221,27 @@ export interface PathRemoveHeaders {
     version?: string;
 }
 
-// @public
-export type PathRenameMode = 'legacy' | 'posix';
+// @public (undocumented)
+export enum PathRenameMode {
+    // (undocumented)
+    Legacy = "legacy",
+    // (undocumented)
+    Posix = "posix"
+}
 
 // @public
-export type PathResourceType = 'directory' | 'file';
+export type PathRenameModeModel = 'legacy' | 'posix';
+
+// @public (undocumented)
+export enum PathResourceType {
+    // (undocumented)
+    Directory = "directory",
+    // (undocumented)
+    File = "file"
+}
+
+// @public
+export type PathResourceTypeModel = 'directory' | 'file';
 
 // @public
 export interface PathSetAccessControlHeaders {

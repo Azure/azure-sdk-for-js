@@ -37,7 +37,7 @@ import {
   PathMoveOptions,
   PathMoveResponse,
   PathPermissions,
-  PathResourceType,
+  PathResourceTypeModel,
   PathSetAccessControlOptions,
   PathSetAccessControlResponse,
   PathSetHttpHeadersOptions,
@@ -213,13 +213,13 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceType} resourceType Resource type, "directory" or "file".
+   * @param {PathResourceTypeModel} resourceType Resource type, "directory" or "file".
    * @param {PathCreateOptions} [options={}] Optional. Options when creating path.
    * @returns {Promise<PathCreateResponse>}
    * @memberof DataLakePathClient
    */
   public async create(
-    resourceType: PathResourceType,
+    resourceType: PathResourceTypeModel,
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
     options.conditions = options.conditions || {};
@@ -651,13 +651,13 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceType} resourceType Resource type, must be "directory" for DataLakeDirectoryClient.
+   * @param {PathResourceTypeModel} resourceType Resource type, must be "directory" for DataLakeDirectoryClient.
    * @param {PathCreateOptions} [options] Optional. Options when creating directory.
    * @returns {Promise<PathCreateResponse>}
    * @memberof DataLakeDirectoryClient
    */
   public async create(
-    resourceType: PathResourceType,
+    resourceType: PathResourceTypeModel,
     options?: PathCreateOptions
   ): Promise<PathCreateResponse>;
 
@@ -673,11 +673,11 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   public async create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
 
   public async create(
-    resourceTypeOrOptions?: PathResourceType | PathCreateOptions,
+    resourceTypeOrOptions?: PathResourceTypeModel | PathCreateOptions,
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
     if (resourceTypeOrOptions === "directory") {
-      return super.create(resourceTypeOrOptions as PathResourceType, options);
+      return super.create(resourceTypeOrOptions as PathResourceTypeModel, options);
     }
 
     if (resourceTypeOrOptions === "file") {
@@ -838,13 +838,13 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
-   * @param {PathResourceType} resourceType Resource type, must be "file" for DataLakeFileClient.
+   * @param {PathResourceTypeModel} resourceType Resource type, must be "file" for DataLakeFileClient.
    * @param {PathCreateOptions} [options] Optional. Options when creating file.
    * @returns {Promise<PathCreateResponse>}
    * @memberof DataLakeFileClient
    */
   public async create(
-    resourceType: PathResourceType,
+    resourceType: PathResourceTypeModel,
     options?: PathCreateOptions
   ): Promise<PathCreateResponse>;
 
@@ -860,11 +860,11 @@ export class DataLakeFileClient extends DataLakePathClient {
   public async create(options?: FileCreateOptions): Promise<FileCreateResponse>;
 
   public async create(
-    resourceTypeOrOptions?: PathResourceType | PathCreateOptions,
+    resourceTypeOrOptions?: PathResourceTypeModel | PathCreateOptions,
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
     if (resourceTypeOrOptions === "file") {
-      return super.create(resourceTypeOrOptions as PathResourceType, options);
+      return super.create(resourceTypeOrOptions as PathResourceTypeModel, options);
     }
 
     if (resourceTypeOrOptions === "directory") {

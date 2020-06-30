@@ -37,15 +37,15 @@ export {
   PathSetAccessControlHeaders,
   PathSetAccessControlResponse,
   PathSetAccessControlResponse as PathSetPermissionsResponse,
-  PathResourceType,
+  PathResourceType as PathResourceTypeModel,
   PathUpdateHeaders,
   PathAppendDataHeaders,
   PathFlushDataHeaders,
   PathAppendDataResponse as FileAppendResponse,
   PathFlushDataResponse as FileFlushResponse,
   PathFlushDataResponse as FileUploadResponse,
-  PathGetPropertiesAction,
-  PathRenameMode,
+  PathGetPropertiesAction as PathGetPropertiesActionModel,
+  PathRenameMode as PathRenameModeModel,
   PathExpiryOptions as FileExpiryMode,
   PathSetExpiryResponse as FileSetExpiryResponse,
   PathSetExpiryHeaders as FileSetExpiryHeaders
@@ -595,6 +595,22 @@ export interface PathExistsOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   // customerProvidedKey?: CpkInfo; not supported yet
+}
+
+// Keeping these for backward compatibility when we changed to use string unions.
+export enum PathGetPropertiesAction {
+  GetAccessControl = "getAccessControl",
+  GetStatus = "getStatus"
+}
+
+export enum PathRenameMode {
+  Legacy = "legacy",
+  Posix = "posix"
+}
+
+export enum PathResourceType {
+  Directory = "directory",
+  File = "file"
 }
 
 /****************************************************************/
