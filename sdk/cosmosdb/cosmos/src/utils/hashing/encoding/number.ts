@@ -12,8 +12,9 @@ export function writeNumberForBinaryEncoding(hash: number) {
 
   do {
     if (!firstIteration) {
-      // we pad because javascrpt will produce "f" or similar for sufficiently small integers,
-      // which cannot be encoded as hex in a buffer https://github.com/nodejs/node/issues/24491
+      // we pad because after shifting we will produce characters like "f" or similar,
+      // which cannot be encoded as hex in a buffer because they are invalid hex
+      // https://github.com/nodejs/node/issues/24491
       padded = byteToWrite.toString(16).padStart(2, "0");
       if (padded !== "00") {
         outputStream = Buffer.concat([outputStream, Buffer.from(padded, "hex")]);
@@ -28,8 +29,9 @@ export function writeNumberForBinaryEncoding(hash: number) {
   } while (payload != 0n);
 
   const lastChunk = BigInt.asUintN(64, byteToWrite & 0xfen);
-  // we pad because javascrpt will produce "f" or similar for sufficiently small integers,
-  // which cannot be encoded as hex in a buffer https://github.com/nodejs/node/issues/24491
+  // we pad because after shifting we will produce characters like "f" or similar,
+  // which cannot be encoded as hex in a buffer because they are invalid hex
+  // https://github.com/nodejs/node/issues/24491
   padded = lastChunk.toString(16).padStart(2, "0");
   if (padded !== "00") {
     outputStream = Buffer.concat([outputStream, Buffer.from(padded, "hex")]);
