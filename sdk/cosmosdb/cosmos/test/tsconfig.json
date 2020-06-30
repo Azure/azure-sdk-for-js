@@ -9,7 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "preserveConstEnums": true,
     "removeComments": false,
-    "target": "esnext",
+    "target": "es2020",
     "sourceMap": true,
     "newLine": "LF",
     "composite": true,
