@@ -5,7 +5,7 @@
  * This sample demonstrates how to recognize US sales receipts from a file.
  */
 
-import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential, BeginRecognizeReceiptPollState } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
 
@@ -26,13 +26,12 @@ export async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
-    onProgress: (state) => {
+    onProgress: (state: BeginRecognizeReceiptPollState) => {
       console.log(`status: ${state.status}`);
     }
   });
 
-  await poller.pollUntilDone();
-  const receipts = poller.getResult();
+  const receipts = await poller.pollUntilDone();
 
   if (!receipts || receipts.length <= 0) {
     throw new Error("Expecting at lease one receipt in analysis result");

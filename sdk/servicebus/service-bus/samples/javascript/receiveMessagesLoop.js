@@ -5,7 +5,7 @@
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
 
-  This sample demonstrates how the receiveBatch() function can be used to receive Service Bus
+  This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
   messages in a loop.
 
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
@@ -27,7 +27,7 @@ async function main() {
 
   try {
     for (let i = 0; i < 10; i++) {
-      const messages = await queueReceiver.receiveBatch(1, {
+      const messages = await queueReceiver.receiveMessages(1, {
         maxWaitTimeSeconds: 5
       });
       if (!messages.length) {

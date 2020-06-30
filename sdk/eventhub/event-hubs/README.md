@@ -257,10 +257,11 @@ async function main() {
   // In this sample, we use the position of earliest available event to start from
   // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
   const subscriptionOptions = {
-    startPosition: earliestEventPosition,
+    startPosition: earliestEventPosition
   };
 
-  const subscription = client.subscribe({
+  const subscription = client.subscribe(
+    {
       processEvents: (events, context) => {
         // event processing code goes here
       },
@@ -353,7 +354,7 @@ The `subscribe` method takes callbacks to process events as they are received fr
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
 ```javascript
-const { EventHubConsumerClient } = require("@azure/event-hubs");
+const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
 
 async function main() {
   const client = new EventHubConsumerClient(
@@ -366,10 +367,12 @@ async function main() {
   // In this sample, we use the position of earliest available event to start from
   // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
   const subscriptionOptions = {
-    startPosition: earliestEventPosition,
+    startPosition: earliestEventPosition
   };
 
-  const subscription = client.subscribe(partitionIds[0], {
+  const subscription = client.subscribe(
+    partitionIds[0],
+    {
       processEvents: (events, context) => {
         // event processing code goes here
       },

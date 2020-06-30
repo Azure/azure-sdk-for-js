@@ -68,8 +68,7 @@ async function recognizeCustomForm(path, endpoint, apiKey, labeledModelId) {
       console.log(`\tstatus: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const forms  = poller.getResult();
+  const forms = await poller.pollUntilDone();
   if (!forms || forms.length <= 0) {
     throw new Error("Expecting valid response!");
   }

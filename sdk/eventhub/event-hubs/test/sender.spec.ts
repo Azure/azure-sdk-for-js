@@ -116,7 +116,7 @@ describe("EventHub Sender", function(): void {
     it("maxSizeInBytes is set as expected", async () => {
       const batch = await producerClient.createBatch({ maxSizeInBytes: 30 });
       should.equal(batch.maxSizeInBytes, 30);
-    })
+    });
 
     it("should be sent successfully", async function(): Promise<void> {
       const list = ["Albert", `${Buffer.from("Mike".repeat(1300000))}`, "Marie"];
@@ -174,7 +174,7 @@ describe("EventHub Sender", function(): void {
       batch.maxSizeInBytes.should.be.gt(0);
 
       batch.tryAdd({ body: list[0] }).should.be.ok;
-      batch.tryAdd({ body: list[1] }).should.be.ok; 
+      batch.tryAdd({ body: list[1] }).should.be.ok;
 
       const {
         subscriptionEventHandler,

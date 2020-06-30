@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 // tslint:disable-next-line:no-null-keyword
 const doc = document.implementation.createDocument(null, null, null);
@@ -31,7 +31,7 @@ try {
   // Most browsers will return a document containing <parsererror>, but IE will throw.
 }
 
-function throwIfError(dom: Document) {
+function throwIfError(dom: Document): void {
   if (errorNS) {
     const parserErrors = dom.getElementsByTagNameNS(errorNS, "parsererror");
     if (parserErrors.length) {
@@ -125,13 +125,14 @@ function buildAttributes(attrs: { [key: string]: { toString(): string } }): Attr
 
 function buildNode(obj: any, elementName: string): Node[] {
   if (
-    obj == undefined ||
+    obj === undefined ||
+    obj === null ||
     typeof obj === "string" ||
     typeof obj === "number" ||
     typeof obj === "boolean"
   ) {
     const elem = doc.createElement(elementName);
-    elem.textContent = obj == undefined ? "" : obj.toString();
+    elem.textContent = obj === undefined || obj === null ? "" : obj.toString();
     return [elem];
   } else if (Array.isArray(obj)) {
     const result = [];

@@ -13,7 +13,8 @@ import {
 import { env, Recorder } from "@azure/test-utils-recorder";
 import {
   createRecordedTrainingClient,
-  createRecordedRecognizerClient
+  createRecordedRecognizerClient,
+  testEnv
 } from "../util/recordedClients";
 
 let unlabeledModelId: string | undefined;
@@ -22,9 +23,10 @@ let modelIdToDelete: string | undefined;
 describe("FormTrainingClient browser only", () => {
   let trainingClient: FormTrainingClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
+    ({ recorder, client: trainingClient } = createRecordedTrainingClient(this, apiKey));
     trainingClient = new FormTrainingClient(
       env.FORM_RECOGNIZER_ENDPOINT,
       new AzureKeyCredential(env.FORM_RECOGNIZER_API_KEY)
@@ -48,8 +50,7 @@ describe("FormTrainingClient browser only", () => {
     const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
     const poller = await trainingClient.beginTraining(containerSasUrl, false);
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
@@ -71,8 +72,7 @@ describe("FormTrainingClient browser only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, true);
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
@@ -98,8 +98,7 @@ describe("FormTrainingClient browser only", () => {
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
       includeSubFolders: true
     });
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
@@ -120,8 +119,7 @@ describe("FormTrainingClient browser only", () => {
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
       prefix: "Form_"
     });
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
@@ -204,9 +202,10 @@ describe("FormTrainingClient browser only", () => {
 describe("FormRecognizerClient custom form recognition browser only", () => {
   let recognizerClient: FormRecognizerClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this));
+    ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
   afterEach(function() {
@@ -221,8 +220,7 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
-    await poller.pollUntilDone();
-    const forms = poller.getResult();
+    const forms = await poller.pollUntilDone();
 
     assert.ok(
       forms && forms.length > 0,
@@ -257,8 +255,7 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     assert.ok(data, "Expect valid Blob data to use as input");
     const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, data!);
-    await poller.pollUntilDone();
-    const forms = poller.getResult();
+    const forms = await poller.pollUntilDone();
 
     assert.ok(
       forms && forms.length > 0,

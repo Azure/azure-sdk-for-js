@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
 
 import { assert } from "chai";
 import "chai/register-should";

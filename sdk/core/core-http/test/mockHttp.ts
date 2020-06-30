@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import xhrMock, { proxy } from "xhr-mock";
 import { isNode, HttpMethods } from "../src/coreHttp";
@@ -19,7 +19,7 @@ export type MockResponseFunction = (
   method?: string,
   body?: any,
   headers?: any
-) => Promise<MockResponseData>;
+) => Promise<MockResponseData | void>;
 
 export type MockResponse = MockResponseData | MockResponseFunction;
 
@@ -73,7 +73,7 @@ class FetchHttpMock implements HttpMockFacade {
     });
   }
 
-  mockHttpMethod(method: HttpMethods, url: UrlFilter, response: MockResponse) {
+  mockHttpMethod(method: HttpMethods, url: UrlFilter, response: MockResponse): void {
     let mockResponse: fetch.MockResponse | fetch.MockResponseFunction = response;
 
     if (typeof response === "function") {
@@ -87,7 +87,7 @@ class FetchHttpMock implements HttpMockFacade {
       }) as fetch.MockResponseFunction;
     }
 
-    const matcher = (_url: string, opts: fetch.MockRequest) =>
+    const matcher = (_url: string, opts: fetch.MockRequest): boolean =>
       url === _url && opts.method === method;
     fetchMock.mock(matcher, mockResponse);
   }
@@ -117,12 +117,13 @@ export class BrowserHttpMock implements HttpMockFacade {
   mockHttpMethod(method: HttpMethods, url: UrlFilter, response: MockResponse): void {
     if (typeof response === "function") {
       xhrMock.use(method, url, async (req, res) => {
-        const result = await response(
-          req.url().toString(),
-          req.method().toString(),
-          req.body(),
-          req.headers()
-        );
+        const result =
+          (await response(
+            req.url().toString(),
+            req.method().toString(),
+            req.body(),
+            req.headers()
+          )) || {};
         return res
           .status(result.status || 200)
           .body(result.body || {})
@@ -157,6 +158,8 @@ export class BrowserHttpMock implements HttpMockFacade {
   }
 
   timeout(method: HttpMethods, url: UrlFilter): void {
-    return this.mockHttpMethod(method, url, () => new Promise(() => {}));
+    return this.mockHttpMethod(method, url, async () => {
+      throw new Error("Timeout");
+    });
   }
 }
