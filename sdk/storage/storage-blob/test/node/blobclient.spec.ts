@@ -23,7 +23,8 @@ import {
   getBSU,
   getConnectionStringFromEnvironment,
   recorderEnvSetup,
-  isBlobVersioningDisabled
+  isBlobVersioningDisabled,
+  isQuickQueryDisabled
 } from "../utils";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
@@ -349,8 +350,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(result.metadata, metadata);
   });
 
-  it("query should work", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -358,8 +362,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 
-  it("query should work with access conditions", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work with access conditions", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     const uploadResponse = await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -374,8 +381,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 
-  it("query should not work with access conditions ifModifiedSince", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should not work with access conditions ifModifiedSince", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -392,8 +402,11 @@ describe("BlobClient Node.js only", () => {
     assert.fail();
   });
 
-  it("query should not work with access conditions leaseId", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should not work with access conditions leaseId", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -410,8 +423,11 @@ describe("BlobClient Node.js only", () => {
     assert.fail();
   });
 
-  it("query should work with snapshot", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work with snapshot", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
     const snapshotResponse = await blockBlobClient.createSnapshot();
@@ -421,8 +437,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 
-  it("query should work with where conditionals", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work with where conditionals", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -430,8 +449,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "250\n");
   });
 
-  it("query should work with empty results", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work with empty results", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -440,8 +462,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "");
   });
 
-  it("query should work with blob properties", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it.only("query should work with blob properties", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -458,9 +483,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(typeof response.date, "object");
   });
 
-  it("query should work with large file", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
-    // TODO: Avor reader emiter listener leak MaxListenersExceededWarning: Possible EventEmitter memory leak detected. 11 error listeners added. Use emitter.setMaxListeners() to increase limit
+  it.only("query should work with large file", async function() {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
       tempFolderPath,
@@ -483,8 +510,12 @@ describe("BlobClient Node.js only", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it("query should work with aborter", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it.only("query should work with aborter", async function() {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
       tempFolderPath,
@@ -519,8 +550,11 @@ describe("BlobClient Node.js only", () => {
     assert.fail();
   });
 
-  it("query should work with progress event", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work with progress event", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -540,8 +574,11 @@ describe("BlobClient Node.js only", () => {
     });
   });
 
-  it("query should work with fatal error event", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work with fatal error event", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -564,8 +601,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "\n");
   });
 
-  it("query should work with non fatal error event", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work with non fatal error event", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100,hello,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -581,8 +621,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "250\n");
   });
 
-  it("query should work with CSV input and output configurations", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work with CSV input and output configurations", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const csvContent = "100.200.300.400!150.250.350.450!180.280.380.480!";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -607,8 +650,11 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "150!180!");
   });
 
-  it("query should work with JSON input and output configurations", async () => {
-    recorder.skip("node", "TODO: Avor reader doesn't work with recorder yet.");
+  it("query should work with JSON input and output configurations", async function() {
+    if (isQuickQueryDisabled()) {
+      this.skip();
+    }
+
     const recordSeparator = "\n";
     const jsonContent =
       [

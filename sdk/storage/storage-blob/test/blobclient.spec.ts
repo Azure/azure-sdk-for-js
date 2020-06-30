@@ -9,7 +9,8 @@ import {
   getBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
-  isBlobVersioningDisabled
+  isBlobVersioningDisabled,
+  isBlobTagsDisabled
 } from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
 import {
@@ -52,7 +53,10 @@ describe("BlobClient", () => {
     }
   });
 
-  it("Set blob tags should work", async () => {
+  it("Set blob tags should work", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -77,7 +81,10 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(segment.value.segment.blobItems[0].tags, tags);
   });
 
-  it("Get blob tags should work with a snapshot", async () => {
+  it("Get blob tags should work with a snapshot", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -91,7 +98,10 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create block blob should work with tags", async () => {
+  it("Create block blob should work with tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     await blockBlobClient.delete();
 
     const tags = {
@@ -104,7 +114,10 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create append blob should work with tags", async () => {
+  it("Create append blob should work with tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     await blockBlobClient.delete();
 
     const tags = {
@@ -119,7 +132,10 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("Create page blob should work with tags", async () => {
+  it("Create page blob should work with tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     await blockBlobClient.delete();
 
     const tags = {
@@ -349,10 +365,16 @@ describe("BlobClient", () => {
 
     await blobClient.delete();
 
+    let includeVersionOption = {};
+    if (!isBlobVersioningDisabled()) {
+      // Need this when blob versioning is turned on.
+      includeVersionOption = { includeVersions: true };
+    }
+
     const iter = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        includeVersions: true // Need this when blob versioning is turned on.
+        ...includeVersionOption
       })
       .byPage({ maxPageSize: 1 });
 
@@ -402,7 +424,7 @@ describe("BlobClient", () => {
     const iter2 = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        includeVersions: true // Need this when blob versioning is turned on.
+        ...includeVersionOption
       })
       .byPage();
 

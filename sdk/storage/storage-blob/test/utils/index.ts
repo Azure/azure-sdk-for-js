@@ -236,3 +236,11 @@ export function getSASConnectionStringFromEnvironment(): string {
 export function isBlobVersioningDisabled(): boolean {
   return !process.env.BLOB_VERSIONING_ENABLED;
 }
+
+export function isBlobTagsDisabled(): boolean {
+  return !process.env.BLOB_TAGS_ENABLED;
+}
+
+export function isQuickQueryDisabled(): boolean {
+  return !process.env.QUICK_QUERY_ENABLED;
+}

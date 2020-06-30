@@ -8,7 +8,8 @@ import {
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
   recorderEnvSetup,
-  sleep
+  sleep,
+  isBlobTagsDisabled
 } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import { Tags } from "../src/models";
@@ -469,7 +470,11 @@ describe("BlobServiceClient", () => {
     assert.notDeepStrictEqual(response.signedExpiresOn, undefined);
   });
 
-  it("Find blob by tags should work", async () => {
+  it("Find blob by tags should work", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
+
     const blobServiceClient = getBSU();
 
     const containerName = recorder.getUniqueName("container1");

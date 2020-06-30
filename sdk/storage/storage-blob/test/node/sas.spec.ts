@@ -18,7 +18,14 @@ import {
   Tags
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import { getBSU, getTokenBSU, recorderEnvSetup, isBlobVersioningDisabled, sleep } from "../utils";
+import {
+  getBSU,
+  getTokenBSU,
+  recorderEnvSetup,
+  isBlobVersioningDisabled,
+  sleep,
+  isBlobTagsDisabled
+} from "../utils";
 import { delay, record } from "@azure/test-utils-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 
@@ -325,7 +332,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for blob tags", async () => {
+  it("generateBlobSASQueryParameters should work for blob tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -385,7 +395,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await containerClient.delete();
   });
 
-  it("generateBlobSASQueryParameters should work for container for blob tags", async () => {
+  it("generateBlobSASQueryParameters should work for container for blob tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -1081,6 +1094,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob version delete and blob tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     if (isBlobVersioningDisabled()) {
       this.skip();
     }
@@ -1136,6 +1152,9 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("account SAS permission f, t for blob tags should work", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
     const tmr = recorder.newDate("tmr");

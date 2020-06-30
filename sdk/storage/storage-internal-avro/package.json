@@ -25,7 +25,8 @@
     "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\""
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "@azure/core-paging": "^1.1.1"
   },
   "devDependencies": {
     "@azure/identity": "^1.1.0-preview",

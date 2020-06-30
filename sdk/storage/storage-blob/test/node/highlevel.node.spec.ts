@@ -8,7 +8,8 @@ import {
   createRandomLocalFile,
   getBSU,
   recorderEnvSetup,
-  isBlobVersioningDisabled
+  isBlobVersioningDisabled,
+  isBlobTagsDisabled
 } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
@@ -107,7 +108,10 @@ describe("Highlevel", () => {
     assert.ok(downloadedData.equals(uploadedData));
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadFile should work with tags", async () => {
+  it("uploadFile should work with tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
 
     const tags = {
@@ -292,7 +296,10 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   });
 
-  it("uploadStream should work with tags", async () => {
+  it("uploadStream should work with tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
 
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);

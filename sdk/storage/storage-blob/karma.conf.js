@@ -67,6 +67,8 @@ module.exports = function(config) {
       "ENCRYPTION_SCOPE_1",
       "ENCRYPTION_SCOPE_2",
       "BLOB_VERSIONING_ENABLED",
+      "BLOB_TAGS_ENABLED",
+      "QUICK_QUERY_ENABLED"
     ],
 
     // test results reporter to use

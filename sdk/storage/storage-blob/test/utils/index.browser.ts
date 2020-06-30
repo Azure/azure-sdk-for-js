@@ -179,3 +179,13 @@ export function isBlobVersioningDisabled(): boolean {
   const env = (window as any).__env__;
   return !env["BLOB_VERSIONING_ENABLED"];
 }
+
+export function isBlobTagsDisabled(): boolean {
+  const env = (window as any).__env__;
+  return !env["BLOB_TAGS_ENABLED"];
+}
+
+export function isQuickQueryDisabled(): boolean {
+  const env = (window as any).__env__;
+  return !env["QUICK_QUERY_ENABLED"];
+}
