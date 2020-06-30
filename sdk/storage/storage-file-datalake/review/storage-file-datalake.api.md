@@ -1001,7 +1001,7 @@ export type PathGetAccessControlResponse = PathAccessControl & PathGetAccessCont
     };
 };
 
-// @public (undocumented)
+// @public
 export enum PathGetPropertiesAction {
     // (undocumented)
     GetAccessControl = "getAccessControl",
@@ -1221,7 +1221,7 @@ export interface PathRemoveHeaders {
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export enum PathRenameMode {
     // (undocumented)
     Legacy = "legacy",
@@ -1232,7 +1232,7 @@ export enum PathRenameMode {
 // @public
 export type PathRenameModeModel = 'legacy' | 'posix';
 
-// @public (undocumented)
+// @public
 export enum PathResourceType {
     // (undocumented)
     Directory = "directory",

@@ -598,16 +598,32 @@ export interface PathExistsOptions extends CommonOptions {
 }
 
 // Keeping these for backward compatibility when we changed to use string unions.
+/**
+ * Defines values for PathGetPropertiesAction.
+ * Possible values include: 'getAccessControl', 'getStatus'
+ * @readonly
+ * @enum {string}
+ */
 export enum PathGetPropertiesAction {
   GetAccessControl = "getAccessControl",
   GetStatus = "getStatus"
 }
-
+/**
+ * Defines values for PathRenameMode.
+ * Possible values include: 'legacy', 'posix'
+ * @readonly
+ * @enum {string}
+ */
 export enum PathRenameMode {
   Legacy = "legacy",
   Posix = "posix"
 }
-
+/**
+ * Defines values for PathResourceType.
+ * Possible values include: 'directory', 'file'
+ * @readonly
+ * @enum {string}
+ */
 export enum PathResourceType {
   Directory = "directory",
   File = "file"
