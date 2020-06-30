@@ -230,11 +230,11 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
  * @ignore
  * @enum {number}
  */
-enum ParameterType {
-  Integer = "l28:int",
-  String = "l28:string",
-  Long = "l28:long",
-  Date = "l28:date"
+enum TypeMapForRequestSerialization {
+  number = "l28:int",
+  string = "l28:string",
+  long = "l28:long",
+  date = "l28:date"
 }
 
 /**
@@ -242,9 +242,9 @@ enum ParameterType {
  * @ignore
  * @enum {number}
  */
-enum ResponseTypeMap {
-  string = "d6p1:string",
-  number = "d6p1:int"
+enum TypeMapForResponseDeserialization {
+  number = "d6p1:int",
+  string = "d6p1:string"
 }
 
 /**
@@ -312,9 +312,9 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
   if (Array.isArray(rawProperties)) {
     for (const rawProperty of rawProperties) {
       properties[rawProperty.Key] = rawProperty.Value["_"];
-      if (rawProperty.Value["$"]["i:type"] === ResponseTypeMap.number) {
+      if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.number) {
         properties[rawProperty.Key] = Number(rawProperty.Value["_"]);
-      } else if (rawProperty.Value["$"]["i:type"] === ResponseTypeMap.string) {
+      } else if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.string) {
         properties[rawProperty.Key] = rawProperty.Value["_"];
       } else {
         throw new TypeError(
@@ -412,9 +412,9 @@ export function getRawUserProperties(parameters: { [key: string]: any } | undefi
   for (let [key, value] of Object.entries(parameters)) {
     let type: string | number;
     if (typeof value === "number") {
-      type = ParameterType.Integer;
+      type = TypeMapForRequestSerialization.number;
     } else if (typeof value === "string") {
-      type = ParameterType.String;
+      type = TypeMapForRequestSerialization.string;
     } else {
       throw new TypeError(
         `Unsupported type for the value in the user property {${key}:${JSON.stringify(value)}}`
@@ -457,19 +457,19 @@ function buildRawSqlParameter(parameter: SqlParameter): RawKeyValuePair {
     );
   }
 
-  let type: ParameterType;
+  let type: TypeMapForRequestSerialization;
   switch (parameter.type) {
     case "int":
-      type = ParameterType.Integer;
+      type = TypeMapForRequestSerialization.number;
       break;
     case "string":
-      type = ParameterType.String;
+      type = TypeMapForRequestSerialization.string;
       break;
     case "long":
-      type = ParameterType.Long;
+      type = TypeMapForRequestSerialization.long;
       break;
     case "date":
-      type = ParameterType.Date;
+      type = TypeMapForRequestSerialization.date;
       break;
 
     default:
