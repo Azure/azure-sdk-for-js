@@ -33,7 +33,7 @@ stages:
                       parameters:
                         SourceFolder: ${{parameters.ArtifactName}}
                         TargetFolder: ${{artifact.safeName}}
-                        PackageName: ${{artifact.name}}
+                        PackageName: ${{artifact.name}}-
                     - pwsh: |
                         Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                       workingDirectory: $(Pipeline.Workspace)
@@ -135,7 +135,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.DocArtifact}}
                           TargetFolder: ${{artifact.safeName}}/${{parameters.DocArtifact}}
-                          PackageName: $(Documentation.Zip)
+                          PackageName: $(Documentation.Zip).zip
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
