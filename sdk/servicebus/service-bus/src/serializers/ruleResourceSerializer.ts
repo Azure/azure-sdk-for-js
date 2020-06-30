@@ -266,6 +266,8 @@ type RawKeyValuePair = {
   Value: any;
 };
 
+const keyValueTypeXMLTag = "KeyValueOfstringanyType";
+
 /**
  * @internal
  * @ignore
@@ -285,7 +287,7 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
     return undefined;
   }
 
-  const rawParameters = value["KeyValueOfstringanyType"];
+  const rawParameters = value[keyValueTypeXMLTag];
   if (Array.isArray(rawParameters)) {
     for (let i = 0; i < rawParameters.length; i++) {
       parameters.push(buildSqlParameter(rawParameters[i]));
@@ -308,7 +310,7 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
     return undefined;
   }
   const properties: any = {};
-  const rawProperties = value["KeyValueOfstringanyType"];
+  const rawProperties = value[keyValueTypeXMLTag];
   if (Array.isArray(rawProperties)) {
     for (const rawProperty of rawProperties) {
       properties[rawProperty.Key] = rawProperty.Value["_"];
