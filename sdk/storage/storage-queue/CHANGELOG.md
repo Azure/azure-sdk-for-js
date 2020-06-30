@@ -1,5 +1,9 @@
 # Release History
 
+## 12.1.0 (unreleased)
+
+- Added `exists`, `createIfNotExists` and `deleteIfExists` to `QueueClient`.
+
 ## 12.0.5 (2020.05)
 
 - Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)

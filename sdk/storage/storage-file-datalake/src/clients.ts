@@ -10,9 +10,11 @@ import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
 import { PathOperations } from "./generated/src/operations";
 import {
   DirectoryCreateOptions,
+  DirectoryCreateIfNotExistsOptions,
   DirectoryCreateResponse,
   FileAppendOptions,
   FileAppendResponse,
+  FileCreateIfNotExistsOptions,
   FileCreateOptions,
   FileCreateResponse,
   FileFlushOptions,
@@ -25,6 +27,7 @@ import {
   Metadata,
   PathAccessControlItem,
   PathCreateOptions,
+  PathCreateIfNotExistsOptions,
   PathCreateResponse,
   PathDeleteOptions,
   PathDeleteResponse,
@@ -48,7 +51,11 @@ import {
   PathSetPermissionsResponse,
   FileExpiryMode,
   FileSetExpiryOptions,
-  FileSetExpiryResponse
+  FileSetExpiryResponse,
+  PathCreateIfNotExistsResponse,
+  PathDeleteIfExistsResponse,
+  DirectoryCreateIfNotExistsResponse,
+  FileCreateIfNotExistsResponse
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -67,7 +74,8 @@ import {
   FILE_UPLOAD_MAX_CHUNK_SIZE,
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
-  BLOCK_BLOB_MAX_BLOCKS
+  BLOCK_BLOB_MAX_BLOCKS,
+  ETagAny
 } from "./utils/constants";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Batch } from "./utils/Batch";
@@ -245,6 +253,57 @@ export class DataLakePathClient extends StorageClient {
   }
 
   /**
+   * Create a directory or file. If the resource already exists, it is not changed.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   *
+   * @param {PathResourceTypeModel} resourceType Resource type, "directory" or "file".
+   * @param {PathCreateOptions} [options={}]
+   * @returns {Promise<PathCreateIfNotExistsResponse>}
+   * @memberof DataLakePathClient
+   */
+  public async createIfNotExists(
+    resourceType: PathResourceTypeModel,
+    options: PathCreateIfNotExistsOptions = {}
+  ): Promise<PathCreateIfNotExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakePathClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      const conditions = { ifNoneMatch: ETagAny };
+      const res = await this.create(resourceType, {
+        ...options,
+        conditions,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "PathAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating a blob only if it does not already exist."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Returns true if the Data Lake file represented by this client exists; false otherwise.
    *
    * NOTE: use this function with care since an existing file might be deleted by other clients or
@@ -307,6 +366,56 @@ export class DataLakePathClient extends StorageClient {
 
       return response;
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Delete current path (directory or file) if it exists.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
+   *
+   * @param {boolean} [recursive] Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
+   * @param {PathDeleteOptions} [options={}]
+   * @returns {Promise<PathDeleteIfExistsResponse>}
+   * @memberof DataLakePathClient
+   */
+  public async deleteIfExists(
+    recursive?: boolean,
+    options: PathDeleteOptions = {}
+  ): Promise<PathDeleteIfExistsResponse> {
+    options.conditions = options.conditions || {};
+    const { span, spanOptions } = createSpan(
+      "DataLakePathClient-deleteIfExists",
+      options.tracingOptions
+    );
+    try {
+      const res = await this.delete(recursive, {
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "PathNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting a directory or file only if it exists."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -712,6 +821,71 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   }
 
   /**
+   * Create a directory if it doesn't already exists.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   *
+   * @param {PathResourceTypeModel} resourceType Resource type, must be "directory" for DataLakeDirectoryClient.
+   * @param {PathCreateIfNotExistsOptions} [options]
+   * @returns {Promise<PathCreateIfNotExistsResponse>}
+   * @memberof DataLakeDirectoryClient
+   */
+  public async createIfNotExists(
+    resourceType: PathResourceTypeModel,
+    options?: PathCreateIfNotExistsOptions
+  ): Promise<PathCreateIfNotExistsResponse>;
+
+  /**
+   * Create a directory if it doesn't already exists.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   *
+   * @param {DirectoryCreateIfNotExistsOptions} [options]
+   * @returns {Promise<DirectoryCreateIfNotExistsResponse>}
+   * @memberof DataLakeDirectoryClient
+   */
+  public async createIfNotExists(
+    options?: DirectoryCreateIfNotExistsOptions
+  ): Promise<DirectoryCreateIfNotExistsResponse>;
+
+  public async createIfNotExists(
+    resourceTypeOrOptions?: PathResourceTypeModel | PathCreateIfNotExistsOptions,
+    options: PathCreateIfNotExistsOptions = {}
+  ): Promise<PathCreateIfNotExistsResponse> {
+    if (resourceTypeOrOptions === "file") {
+      throw TypeError(
+        `DataLakeDirectoryClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeFileClient for file creation.`
+      );
+    }
+
+    if (resourceTypeOrOptions !== "directory") {
+      options = resourceTypeOrOptions || {};
+    }
+
+    const { span, spanOptions } = createSpan(
+      "DataLakeDirectoryClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      return await super.createIfNotExists("directory", {
+        ...options,
+        tracingOptions: {
+          ...options.tracingOptions,
+          spanOptions
+        }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Creates a {@link DataLakeDirectoryClient} object under current directory.
    *
    * @param {string} subdirectoryName Subdirectory name.
@@ -878,6 +1052,71 @@ export class DataLakeFileClient extends DataLakePathClient {
     const { span, spanOptions } = createSpan("DataLakeFileClient-create", options.tracingOptions);
     try {
       return await super.create("file", {
+        ...options,
+        tracingOptions: {
+          ...options.tracingOptions,
+          spanOptions
+        }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Create a file if it doesn't already exists.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   *
+   * @param {PathResourceTypeModel} resourceType Resource type, must be "file" for DataLakeFileClient.
+   * @param {PathCreateIfNotExistsOptions} [options]
+   * @returns {Promise<PathCreateIfNotExistsResponse>}
+   * @memberof DataLakeFileClient
+   */
+  public async createIfNotExists(
+    resourceType: PathResourceTypeModel,
+    options?: PathCreateIfNotExistsOptions
+  ): Promise<PathCreateIfNotExistsResponse>;
+
+  /**
+   * Create a file if it doesn't already exists.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
+   *
+   * @param {FileCreateIfNotExistsOptions} [options] Optional. Options when creating file.
+   * @returns {Promise<FileCreateIfNotExistsResponse>}
+   * @memberof DataLakeFileClient
+   */
+  public async createIfNotExists(
+    options?: FileCreateIfNotExistsOptions
+  ): Promise<FileCreateIfNotExistsResponse>;
+
+  public async createIfNotExists(
+    resourceTypeOrOptions?: PathResourceTypeModel | PathCreateOptions,
+    options: PathCreateIfNotExistsOptions = {}
+  ): Promise<PathCreateIfNotExistsResponse> {
+    if (resourceTypeOrOptions === "directory") {
+      throw TypeError(
+        `DataLakeFileClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeDirectoryClient for directory creation.`
+      );
+    }
+
+    if (resourceTypeOrOptions !== "file") {
+      options = resourceTypeOrOptions || {};
+    }
+
+    const { span, spanOptions } = createSpan(
+      "DataLakeFileClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      return await super.createIfNotExists("file", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,

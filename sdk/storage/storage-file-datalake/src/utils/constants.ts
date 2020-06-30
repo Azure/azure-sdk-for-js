@@ -217,3 +217,5 @@ export const ToDfsEndpointHostMappings = [
   ["blob.core.microsoft.scloud", "dfs.core.microsoft.scloud"],
   ["blob.core.eaglex.ic.gov", "dfs.core.eaglex.ic.gov"]
 ];
+
+export const ETagAny = "*";

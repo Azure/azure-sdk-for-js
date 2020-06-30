@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import "@azure/core-paging";
-
 import * as fs from "fs";
 import { Readable } from "stream";
 
@@ -102,37 +100,23 @@ import {
   PremiumPageBlobTier,
   toAccessTier
 } from "./models";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
-  PageBlobGetPageRangesDiffResponse,
-  PageBlobGetPageRangesResponse,
-  rangeResponseFromModel
-} from "./PageBlobRangeResponse";
-import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
-import {
-  BlobBeginCopyFromUrlPoller,
-  BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient
-} from "./pollers/BlobStartCopyFromUrlPoller";
-import { Range, rangeToString } from "./Range";
-import { CommonOptions, StorageClient } from "./StorageClient";
-import { Batch } from "./utils/Batch";
-import { BufferScheduler } from "./utils/BufferScheduler";
-import {
-  BLOCK_BLOB_MAX_BLOCKS,
-  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
-  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
+  URLConstants,
   DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
   DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
-  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
-  ETagNone,
-  URLConstants
+  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
+  BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
+  BLOCK_BLOB_MAX_BLOCKS,
+  ETagAny,
+  ETagNone
 } from "./utils/constants";
-import { createSpan } from "./utils/tracing";
 import {
-  appendToURLPath,
-  extractConnectionStringParts,
-  generateBlockID,
   setURLParameter,
+  extractConnectionStringParts,
+  appendToURLPath,
+  generateBlockID,
   toBlobTagsString,
   toQuerySerialization,
   truncatedISO8061Date,
@@ -140,6 +124,21 @@ import {
   toTags
 } from "./utils/utils.common";
 import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
+import { Batch } from "./utils/Batch";
+import { createSpan } from "./utils/tracing";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import { Range, rangeToString } from "./Range";
+import { BufferScheduler } from "./utils/BufferScheduler";
+import {
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  rangeResponseFromModel
+} from "./PageBlobRangeResponse";
+import {
+  BlobBeginCopyFromUrlPoller,
+  BlobBeginCopyFromUrlPollState,
+  CopyPollerBlobClient
+} from "./pollers/BlobStartCopyFromUrlPoller";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
@@ -940,6 +939,22 @@ export interface BlobDownloadToBufferOptions extends CommonOptions {
 }
 
 /**
+ * Contains response data for the {@link BlobClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface BlobDeleteIfExistsResponse
+ */
+export interface BlobDeleteIfExistsResponse extends BlobDeleteResponse {
+  /**
+   * Indicate whether the blob is successfully deleted. Is false if the blob does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof BlobDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  *
@@ -1454,6 +1469,52 @@ export class BlobClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Marks the specified blob or snapshot for deletion if it exists. The blob is later deleted
+   * during garbage collection. Note that in order to delete a blob, you must delete
+   * all of its snapshots. You can delete both at the same time with the Delete
+   * Blob operation.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
+   *
+   * @param {BlobDeleteOptions} [options] Optional options to Blob Delete operation.
+   * @returns {Promise<BlobDeleteIfExistsResponse>}
+   * @memberof BlobClient
+   */
+  public async deleteIfExists(
+    options: BlobDeleteOptions = {}
+  ): Promise<BlobDeleteIfExistsResponse> {
+    const { span, spanOptions } = createSpan("BlobClient-deleteIfExists", options.tracingOptions);
+    try {
+      const res = await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "BlobNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting a blob or snapshot only if it exists."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -2276,6 +2337,54 @@ export interface AppendBlobCreateOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure {@link AppendBlobClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface AppendBlobCreateIfNotExistsOptions
+ */
+export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobCreateIfNotExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * HTTP headers to set when creating append blobs.
+   *
+   * @type {BlobHTTPHeaders}
+   * @memberof AppendBlobCreateIfNotExistsOptions
+   */
+  blobHTTPHeaders?: BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when creating append blobs.
+   *
+   * @type {Metadata}
+   * @memberof AppendBlobCreateIfNotExistsOptions
+   */
+  metadata?: Metadata;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof AppendBlobCreateIfNotExistsOptions
+   */
+  customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof AppendBlobCreateIfNotExistsOptions
+   */
+  encryptionScope?: string;
+}
+
+/**
  * Options to configure the {@link AppendBlobClient.appendBlock} operation.
  *
  * @export
@@ -2411,6 +2520,22 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
   encryptionScope?: string;
+}
+
+/**
+ * Contains response data for the {@link appendBlobClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface AppendBlobCreateIfNotExistsResponse
+ */
+export interface AppendBlobCreateIfNotExistsResponse extends AppendBlobCreateResponse {
+  /**
+   * Indicate whether the blob is successfully created. Is false when the blob is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof AppendBlobCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
 }
 
 /**
@@ -2630,6 +2755,56 @@ export class AppendBlobClient extends BlobClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a 0-length append blob. Call AppendBlock to append data to an append blob.
+   * If the blob with the same name already exists, the content of the existing blob will remain unchanged.
+   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   *
+   * @param {AppendBlobCreateIfNotExistsOptions} [options]
+   * @returns {Promise<AppendBlobCreateIfNotExistsResponse>}
+   * @memberof AppendBlobClient
+   */
+  public async createIfNotExists(
+    options: AppendBlobCreateIfNotExistsOptions = {}
+  ): Promise<AppendBlobCreateIfNotExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "AppendBlobClient-createIfNotExists",
+      options.tracingOptions
+    );
+    const conditions = { ifNoneMatch: ETagAny };
+    try {
+      const res = await this.create({
+        ...options,
+        conditions,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "BlobAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating a blob only if it does not already exist."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
+
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -4456,6 +4631,70 @@ export interface PageBlobCreateOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link PageBlobClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface PageBlobCreateIfNotExistsOptions
+ */
+export interface PageBlobCreateIfNotExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * A user-controlled value that can be used to track requests.
+   * The value must be between 0 and 2^63 - 1. The default value is 0.
+   *
+   * @type {number}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  blobSequenceNumber?: number;
+  /**
+   * HTTP headers to set when creating a page blob.
+   *
+   * @type {BlobHTTPHeaders}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  blobHTTPHeaders?: BlobHTTPHeaders;
+  /**
+   * A collection of key-value string pair to associate with the blob when creating append blobs.
+   *
+   * @type {Metadata}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  metadata?: Metadata;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  encryptionScope?: string;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {PremiumPageBlobTier | string}
+   * @memberof PageBlobCreateIfNotExistsOptions
+   */
+  tier?: PremiumPageBlobTier | string;
+}
+
+/**
  * Options to configure the {@link PageBlobClient.uploadPages} operation.
  *
  * @export
@@ -4772,6 +5011,22 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
 }
 
 /**
+ * Contains response data for the {@link PageBlobClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface PageBlobCreateIfNotExistsResponse
+ */
+export interface PageBlobCreateIfNotExistsResponse extends PageBlobCreateResponse {
+  /**
+   * Indicate whether the blob is successfully created. Is false when the blob is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof PageBlobCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
  * PageBlobClient defines a set of operations applicable to page blobs.
  *
  * @export
@@ -4979,6 +5234,59 @@ export class PageBlobClient extends BlobClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a page blob of the specified length. Call uploadPages to upload data
+   * data to a page blob. If the blob with the same name already exists, the content
+   * of the existing blob will remain unchanged.
+   * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
+   *
+   * @param {number} size size of the page blob.
+   * @param {PageBlobCreateIfNotExistsOptions} [options]
+   * @returns {Promise<PageBlobCreateIfNotExistsResponse>}
+   * @memberof PageBlobClient
+   */
+  public async createIfNotExists(
+    size: number,
+    options: PageBlobCreateIfNotExistsOptions = {}
+  ): Promise<PageBlobCreateIfNotExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "PageBlobClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      const conditions = { ifNoneMatch: ETagAny };
+      const res = await this.create(size, {
+        ...options,
+        conditions,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "BlobAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating a blob only if it does not already exist."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
+
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -6287,6 +6595,38 @@ export interface ContainerListBlobsOptions extends CommonOptions {
 }
 
 /**
+ * Contains response data for the {@link ContainerClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface ContainerCreateIfNotExistsResponse
+ */
+export interface ContainerCreateIfNotExistsResponse extends ContainerCreateResponse {
+  /**
+   * Indicate whether the container is successfully created. Is false when the container is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof ContainerCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
+ * Contains response data for the {@link ContainerClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface ContainerDeleteIfExistsResponse
+ */
+export interface ContainerDeleteIfExistsResponse extends ContainerDeleteResponse {
+  /**
+   * Indicate whether the container is successfully deleted. Is false if the container does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof ContainerDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  *
  * @export
@@ -6478,6 +6818,54 @@ export class ContainerClient extends StorageClient {
   }
 
   /**
+   * Creates a new container under the specified account. If the container with
+   * the same name already exists, it is not changed.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
+   *
+   * @param {ContainerCreateOptions} [options]
+   * @returns {Promise<ContainerCreateIfNotExistsResponse>}
+   * @memberof ContainerClient
+   */
+  public async createIfNotExists(
+    options: ContainerCreateOptions = {}
+  ): Promise<ContainerCreateIfNotExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      const res = await this.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "ContainerAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating a container only if it does not already exist."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
+
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Returns true if the Azure container resource represented by this client exists; false otherwise.
    *
    * NOTE: use this function with care since an existing container might be deleted by other clients or
@@ -6654,6 +7042,54 @@ export class ContainerClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Marks the specified container for deletion if it exists. The container and any blobs
+   * contained within it are later deleted during garbage collection.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
+   *
+   * @param {ContainerDeleteMethodOptions} [options] Options to Container Delete operation.
+   * @returns {Promise<ContainerDeleteIfExistsResponse>}
+   * @memberof ContainerClient
+   */
+  public async deleteIfExists(
+    options: ContainerDeleteMethodOptions = {}
+  ): Promise<ContainerDeleteIfExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "ContainerClient-deleteIfExists",
+      options.tracingOptions
+    );
+
+    try {
+      const res = await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "ContainerNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting a container only if it exists."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message

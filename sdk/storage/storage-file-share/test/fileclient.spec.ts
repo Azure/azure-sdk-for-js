@@ -301,6 +301,22 @@ describe("FileClient", () => {
     await fileClient.delete();
   });
 
+  it("deleteIfExists", async () => {
+    const res = await fileClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await fileClient.create(content.length);
+    const res2 = await fileClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("exists", async () => {
+    assert.ok(!(await fileClient.exists()));
+    await fileClient.create(content.length);
+    assert.ok(await fileClient.exists());
+  });
+
   it("startCopyFromURL", async () => {
     recorder.skip("browser");
     await fileClient.create(1024);
