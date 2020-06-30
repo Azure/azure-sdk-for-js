@@ -226,6 +226,9 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
 }
 
 /**
+ * Service expects the XML request with the special type names serialized in the request,
+ * the request would fail otherwise.
+ *
  * @internal
  * @ignore
  * @enum {number}
@@ -266,7 +269,13 @@ type RawKeyValuePair = {
   Value: any;
 };
 
-const keyValueTypeXMLTag = "KeyValueOfstringanyType";
+/**
+ * Key-value pairs are supposed to be wrapped with this tag in the XML request, they are ignored otherwise.
+ *
+ * @internal
+ * @ignore
+ */
+const keyValuePairXMLTag = "KeyValueOfstringanyType";
 
 /**
  * @internal
@@ -287,7 +296,7 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
     return undefined;
   }
 
-  const rawParameters = value[keyValueTypeXMLTag];
+  const rawParameters = value[keyValuePairXMLTag];
   if (Array.isArray(rawParameters)) {
     for (let i = 0; i < rawParameters.length; i++) {
       parameters.push(buildSqlParameter(rawParameters[i]));
@@ -310,7 +319,7 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
     return undefined;
   }
   const properties: any = {};
-  const rawProperties = value[keyValueTypeXMLTag];
+  const rawProperties = value[keyValuePairXMLTag];
   if (Array.isArray(rawProperties)) {
     for (const rawProperty of rawProperties) {
       properties[rawProperty.Key] = rawProperty.Value["_"];
