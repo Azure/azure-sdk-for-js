@@ -11,7 +11,7 @@
     "outDir": "dist-esm",
     "preserveConstEnums": true,
     "removeComments": false,
-    "target": "es6",
+    "target": "esnext",
     "sourceMap": true,
     "inlineSources": true,
     "newLine": "LF",
