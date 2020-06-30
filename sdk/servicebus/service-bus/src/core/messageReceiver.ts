@@ -515,9 +515,7 @@ export class MessageReceiver extends LinkEntity {
         }
         return;
       } finally {
-        if (this._receiver && !this._stopReceivingMessages) {
-          this._receiver.addCredit(1);
-        }
+        this.addCredit(1);
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -1035,9 +1033,7 @@ export class MessageReceiver extends LinkEntity {
               await this.close();
             } else {
               if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                if (!this._stopReceivingMessages) {
-                  this.addCredit(this.maxConcurrentCalls);
-                }
+                this.addCredit(this.maxConcurrentCalls);
               }
             }
             return;
