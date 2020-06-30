@@ -564,6 +564,61 @@ class MockSerializer implements AtomXmlSerializer {
 
 [
   {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties that uses an unsupported type",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: {
+          message: ["hello"]
+        }
+      },
+      action: { sqlExpression: "SET sys.label='GREEN'" }
+    },
+    output: {
+      testErrorMessage: `Unsupported type for the value in the user property {message:["hello"]}`,
+      testErrorType: Error
+    }
+  }
+].forEach((testCase) => {
+  describe(`Type validation errors on Correlation user property inputs`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        const request = new WebResource();
+        request.body = testCase.input;
+
+        mockServiceBusAtomManagementClient.sendRequest = async () => {
+          return {
+            request: request,
+            status: 200,
+            headers: new HttpHeaders({})
+          };
+        };
+        await executeAtomXmlOperation(
+          mockServiceBusAtomManagementClient,
+          request,
+          new RuleResourceSerializer()
+        );
+        assert.fail("Error must be thrown");
+      } catch (err) {
+        assert.equal(
+          err.message,
+          testCase.output.testErrorMessage,
+          `Unexpected error message found.`
+        );
+
+        assert.equal(
+          err instanceof testCase.output.testErrorType,
+          true,
+          `Expected error type to be "${testCase.output.testErrorType}"`
+        );
+      }
+    });
+  });
+});
+
+[
+  {
     testCaseTitle: "Create queue throws Error if authorization rules input is not an array",
     input: {
       authorizationRules: "notAnArray"
