@@ -393,7 +393,7 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
 
   const rawParameters: RawKeyValuePair[] = [];
   for (let i = 0; i < parameters.length; i++) {
-    rawParameters.push(buildRawSqlParameter(parameters[i]));
+    rawParameters.push(buildRawKeyValuePairFromSqlParameter(parameters[i]));
   }
   return { KeyValueOfstringanyType: rawParameters };
 }
@@ -448,7 +448,7 @@ export function getRawUserProperties(parameters: { [key: string]: any } | undefi
  * from given `SqlParameter` input,
  * @param parameter parsed SQL parameter instance
  */
-function buildRawSqlParameter(parameter: SqlParameter): RawKeyValuePair {
+function buildRawKeyValuePairFromSqlParameter(parameter: SqlParameter): RawKeyValuePair {
   if (!isJSONLikeObject(parameter) || parameter === null) {
     throw new TypeError(
       `Expected SQL parameter input to be a JS object value, but received ${JSON.stringify(
