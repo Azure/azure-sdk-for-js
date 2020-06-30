@@ -38,7 +38,15 @@ export interface Receiver<ReceivedMessageT> {
    * @param handlers A handler that gets called for messages and errors.
    * @param options Options for subscribe.
    */
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    /**
+     * Causes the subscriber to stop receiving new messages.
+     */
+    close(): Promise<void>;
+  };
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
@@ -51,7 +59,10 @@ export interface Receiver<ReceivedMessageT> {
    * @param maxMessages The maximum number of messages to accept.
    * @param options Options for receiveMessages
    */
-  receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
+  receiveMessages(
+    maxMessages: number,
+    options?: ReceiveMessagesOptions
+  ): Promise<ReceivedMessageT[]>;
 
   /**
    * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
@@ -391,7 +402,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     return retry<ReceivedMessage[]>(config);
   }
 
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    close(): Promise<void>;
+  } {
     assertValidMessageHandlers(handlers);
 
     this._registerMessageHandler(
@@ -404,6 +420,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       },
       options
     );
+
+    return {
+      close: async (): Promise<void> => {
+        return this._context.streamingReceiver?.stopReceivingMessages();
+      }
+    };
   }
 
   /**

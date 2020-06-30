@@ -389,6 +389,14 @@ export class ServiceBusTestHelpers {
     );
   }
 
+  async createSender(entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">) {
+    return this.addToCleanup(
+      entityNames.queue
+        ? this._serviceBusClient.createSender(entityNames.queue)
+        : this._serviceBusClient.createSender(entityNames.topic!)
+    );
+  }
+
   private _closeables: { close(): Promise<void> }[] = [];
   private _testClientEntities: Map<TestClientType, ReturnType<typeof getEntityNames>> = new Map();
 }

@@ -18,7 +18,8 @@ import {
   OnAmqpEvent,
   Receiver,
   ReceiverOptions,
-  isAmqpError
+  isAmqpError,
+  ReceiverEvents
 } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
@@ -245,6 +246,7 @@ export class MessageReceiver extends LinkEntity {
    * to bring its link back up due to a retryable issue.
    */
   private _isDetaching: boolean = false;
+  private _stopReceivingMessages: boolean = false;
 
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
     super(context.entityPath, context, {
@@ -513,7 +515,7 @@ export class MessageReceiver extends LinkEntity {
         }
         return;
       } finally {
-        if (this._receiver) {
+        if (this._receiver && !this._stopReceivingMessages) {
           this._receiver.addCredit(1);
         }
       }
@@ -709,6 +711,34 @@ export class MessageReceiver extends LinkEntity {
         );
       }
     };
+  }
+
+  /**
+   * Prevents us from receiving any further messages.
+   */
+  public stopReceivingMessages(): Promise<void> {
+    log.error(`[${this._receiver?.name}]: User has requested we stop receiving new messages`);
+    this._stopReceivingMessages = true;
+
+    return this.drainReceiver();
+  }
+
+  private drainReceiver() {
+    const drainPromise = new Promise<void>((resolve) => {
+      if (this._receiver == null) {
+        resolve();
+        return;
+      }
+
+      this._receiver.once(ReceiverEvents.receiverDrained, () => {
+        resolve();
+      });
+
+      this._receiver.drain = true;
+      this._receiver.addCredit(1);
+    });
+
+    return drainPromise;
   }
 
   /**
