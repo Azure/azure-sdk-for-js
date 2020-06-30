@@ -753,7 +753,6 @@ export class MessageReceiver extends LinkEntity {
    * @param credits Number of credits to add.
    */
   protected addCredit(credits: number): boolean {
-    // TODO: seems useful to also migrate a closed check into here.
     if (this._stopReceivingMessages || this._receiver == null) {
       return false;
     }
