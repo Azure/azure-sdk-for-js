@@ -1,5 +1,10 @@
 # Release History
 
+## 12.2.0 (unreleased)
+
+- Added convenience method `createIfNotExists` for `ContainerClient`, `AppendBlobClient` and `PageBlobClient`.
+- Added convenience method `deleteIfExists` for `ContainerClient` and `BlobClients`.
+
 ## 12.1.2 (2020.05)
 
 - Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)

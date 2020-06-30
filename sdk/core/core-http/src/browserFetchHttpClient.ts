@@ -14,6 +14,7 @@ export class BrowserFetchHttpClient extends FetchHttpClient {
     return Promise.resolve();
   }
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response> {
     return fetch(input, init);
   }

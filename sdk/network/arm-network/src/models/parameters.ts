@@ -26,7 +26,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-04-01',
+    defaultValue: '2020-05-01',
     type: {
       name: "String"
     }
@@ -317,6 +317,16 @@ export const ipAllocationName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "ipAllocationName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const ipConfigName: msRest.OperationURLParameter = {
+  parameterPath: "ipConfigName",
+  mapper: {
+    required: true,
+    serializedName: "ipConfigName",
     type: {
       name: "String"
     }
@@ -684,11 +694,11 @@ export const routeTableName: msRest.OperationURLParameter = {
     }
   }
 };
-export const ruleGroupName: msRest.OperationURLParameter = {
-  parameterPath: "ruleGroupName",
+export const ruleCollectionGroupName: msRest.OperationURLParameter = {
+  parameterPath: "ruleCollectionGroupName",
   mapper: {
     required: true,
-    serializedName: "ruleGroupName",
+    serializedName: "ruleCollectionGroupName",
     type: {
       name: "String"
     }
@@ -754,6 +764,26 @@ export const serviceName: msRest.OperationURLParameter = {
     }
   }
 };
+export const siteName: msRest.OperationURLParameter = {
+  parameterPath: "siteName",
+  mapper: {
+    required: true,
+    serializedName: "siteName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const skuName: msRest.OperationURLParameter = {
+  parameterPath: "skuName",
+  mapper: {
+    required: true,
+    serializedName: "skuName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subnetName: msRest.OperationURLParameter = {
   parameterPath: "subnetName",
   mapper: {
@@ -799,16 +829,6 @@ export const virtualHubName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "virtualHubName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const virtualmachineIndex: msRest.OperationURLParameter = {
-  parameterPath: "virtualmachineIndex",
-  mapper: {
-    required: true,
-    serializedName: "virtualmachineIndex",
     type: {
       name: "String"
     }
@@ -889,6 +909,16 @@ export const virtualWANName1: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "VirtualWANName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const virtualmachineIndex: msRest.OperationURLParameter = {
+  parameterPath: "virtualmachineIndex",
+  mapper: {
+    required: true,
+    serializedName: "virtualmachineIndex",
     type: {
       name: "String"
     }

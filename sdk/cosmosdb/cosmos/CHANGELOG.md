@@ -1,9 +1,13 @@
 # Release History
 
-## 3.7.3 (Unreleased)
+## 3.7.4 (Unreleased)
 
 
-## 3.7.2 (Unreleased)
+## 3.7.3 (2020-6-29)
+
+- BUGFIX: Cannot create item with automatic id generation and a container partitioned on ID (#9734)
+
+## 3.7.2 (2020-6-16)
 
 - BUGFIX: Internal abort signal incorrectly triggered when user passes a custom abort signal. See #9510 for details.
 
@@ -206,14 +210,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key",
-  },
+    masterKey: "your-primary-key"
+  }
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key",
+  key: "your-primary-key"
 });
 ```
 

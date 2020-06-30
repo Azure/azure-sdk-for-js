@@ -76,7 +76,7 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -170,7 +170,7 @@ export interface FileDownloadOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileDownloadOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -227,7 +227,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileUploadRangeOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -331,7 +331,7 @@ export interface FileGetRangeListOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileGetRangeListOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -351,6 +351,23 @@ export interface FileGetRangeListOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link ShareFileClient.exists} operation.
+ *
+ * @export
+ * @interface FileExistsOptions
+ */
+export interface FileExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Options to configure the {@link ShareFileClient.getProperties} operation.
  *
  * @export
@@ -362,7 +379,7 @@ export interface FileGetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -872,6 +889,22 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
 }
 
 /**
+ * Contains response data for the {@link ShareFileClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface FileDeleteIfExistsResponse
+ */
+export interface FileDeleteIfExistsResponse extends FileDeleteResponse {
+  /**
+   * Indicate whether the file is successfully deleted. Is false if the file does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof FileDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
  * A ShareFileClient represents a URL to an Azure Storage file.
  *
  * @export
@@ -1192,6 +1225,46 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
+   * Returns true if the specified file exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing file might be deleted by other clients or
+   * applications. Vice versa new files might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {FileExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof ShareFileClient
+   */
+  public async exists(options: FileExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("ShareFileClient-exists", options.tracingOptions);
+    try {
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: {
+          ...options.tracingOptions,
+          spanOptions
+        }
+      });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking file existence"
+        });
+        return false;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Returns all user-defined metadata, standard HTTP properties, and system properties
    * for the file. It does not return the content of the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
@@ -1296,6 +1369,62 @@ export class ShareFileClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Removes the file from the storage account if it exists.
+   * When a file is successfully deleted, it is immediately removed from the storage
+   * account's index and is no longer accessible to clients. The file's data is later
+   * removed from the service during garbage collection.
+   *
+   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * if the file is open on an SMB client.
+   *
+   * Delete File is not supported on a share snapshot, which is a read-only copy of
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   *
+   * @param {FileDeleteOptions} [options]
+   * @returns {Promise<FileDeleteIfExistsResponse>}
+   * @memberof ShareFileClient
+   */
+  public async deleteIfExists(
+    options: FileDeleteOptions = {}
+  ): Promise<FileDeleteIfExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-deleteIfExists",
+      options.tracingOptions
+    );
+    try {
+      const res = await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "ResourceNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting a file only if it exists."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
