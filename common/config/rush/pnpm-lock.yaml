@@ -33,6 +33,7 @@ dependencies:
   '@rush-temp/storage-queue': 'file:projects/storage-queue.tgz'
   '@rush-temp/tables': 'file:projects/tables.tgz'
   '@rush-temp/template': 'file:projects/template.tgz'
+  '@rush-temp/templates': 'file:projects/templates.tgz'
   '@rush-temp/test-utils-perfstress': 'file:projects/test-utils-perfstress.tgz'
   '@rush-temp/test-utils-recorder': 'file:projects/test-utils-recorder.tgz'
   '@rush-temp/testhub': 'file:projects/testhub.tgz'
@@ -7411,7 +7412,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-form-recognizer'
     resolution:
-      integrity: sha512-p6tvnbTWOCaaGUjs9GPuYnSfHctNcZn8jz0vEVxQzOfW4iZq2PtVHcEAuPZJ3mDB/Ng8M684xZRlPrA+EAVUhw==
+      integrity: sha512-J6oJMlzTfy+mkGykMrSHXdI0Ge3dssflDYu6k4JrlYy87e19yJ+tgMNoEoUFYri95KO2ts34+BM9/sLaAIRV7w==
       tarball: 'file:projects/ai-form-recognizer.tgz'
     version: 0.0.0
   'file:projects/ai-text-analytics.tgz':
@@ -7470,7 +7471,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-text-analytics'
     resolution:
-      integrity: sha512-u5VarX21+pfPW1f/L+TWuXjy+NRw2HhKSzu3j48lQD/Kd6Ez8Q1shynN6IhkBmlB5layYTBq/NJMf9+vi5Jgiw==
+      integrity: sha512-0qtWNE3in6ZnLbonLVPQViYfV5ab8pF9+dZiqta/xszQziRU6maqTTXfHX3H92zfBFLJhkyXuUFp5RRxCRX+yg==
       tarball: 'file:projects/ai-text-analytics.tgz'
     version: 0.0.0
   'file:projects/app-configuration.tgz':
@@ -7593,7 +7594,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-vQuyRkXvsxNXFld08NdABYHJ7GykKzizzfXA/PjeGjlzVQGSkdycxTAG8iu/g+/IAw04CWNIvgo0UODO79lOdQ==
+      integrity: sha512-LsvJAYHJ5hn2n1Cv2+l5OinaagHK8Jo2b9hA3XeUG2+6KNy15LTqmYcbEHkYgfoDHSloa3jFKOUO4+9j01MHnw==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -7810,7 +7811,7 @@ packages:
     dev: false
     name: '@rush-temp/core-http'
     resolution:
-      integrity: sha512-B2ZGxHSjobksvIEc9HpR0NPX6fxxUOVIMKcioUy4z8EfgKCS4SCTWkeHgPPXa7fDG4CHitae+VmTzpnD5q/pWQ==
+      integrity: sha512-yHkPDNijSvmUciUX6ZH6wkusnoZax+p7L/ulARDWd3S8xQ99J7RpzaVwXhY+FdLIAx3SHMq/Z+vugP532dVy7g==
       tarball: 'file:projects/core-http.tgz'
     version: 0.0.0
   'file:projects/core-https.tgz':
@@ -8680,7 +8681,7 @@ packages:
     dev: false
     name: '@rush-temp/search-documents'
     resolution:
-      integrity: sha512-X1vubBGjRFYtweC1QpNiLwgz8Ycjg5ldrp17bvATYUg21f01F4Bus6BZoFsnrD1MhS6fLw0a0CQSQRDTIDV6Lg==
+      integrity: sha512-d2Mn4FQL/FzuxABfvT9scg1+vRrfZ4c66sFtyYjrIybU4B37YLx3bryrj+Ufc8+m+kcZcb+kHzon2Pr41h47fQ==
       tarball: 'file:projects/search-documents.tgz'
     version: 0.0.0
   'file:projects/service-bus.tgz':
@@ -9108,6 +9109,56 @@ packages:
       integrity: sha512-+dvbgqLz+ED05Nx6LQICU3EP+ftI7QEnEKovzKqf4IQgpyf2BKDgaeOv8fPJ4sI3b6/yHAorjffanNoFxf1HrQ==
       tarball: 'file:projects/template.tgz'
     version: 0.0.0
+  'file:projects/templates.tgz':
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@opentelemetry/api': 0.6.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.0.1_rollup@1.32.1
+      '@rollup/plugin-replace': 2.3.3_rollup@1.32.1
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.61
+      '@typescript-eslint/eslint-plugin': 2.34.0_2ce5ff4d4c428c35a55f8b98c167bebb
+      '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.5
+      assert: 1.5.0
+      cross-env: 7.0.2
+      eslint: 6.8.0
+      eslint-config-prettier: 6.11.0_eslint@6.8.0
+      eslint-plugin-no-null: 1.0.2_eslint@6.8.0
+      eslint-plugin-no-only-tests: 2.4.0
+      eslint-plugin-promise: 4.2.1
+      events: 3.1.0
+      inherits: 2.0.4
+      karma: 4.4.1
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.2
+      karma-edge-launcher: 0.4.2_karma@4.4.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@4.4.1
+      karma-junit-reporter: 2.0.1_karma@4.4.1
+      karma-mocha: 1.3.0
+      karma-mocha-reporter: 2.2.5_karma@4.4.1
+      karma-remap-istanbul: 0.6.0_karma@4.4.1
+      mocha: 7.2.0
+      mocha-junit-reporter: 1.23.3_mocha@7.2.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup-plugin-terser: 5.3.0_rollup@1.32.1
+      rollup-plugin-visualizer: 4.0.4_rollup@1.32.1
+      tslib: 2.0.0
+      typescript: 3.9.5
+      util: 0.12.3
+    dev: false
+    name: '@rush-temp/templates'
+    resolution:
+      integrity: sha512-/rksWubGE/TfrmGM0euafEkHVPS9RrcNbrbe1NbT4NoxSBgTNkw8EzoKKzjLvcFNHCULJxLxSFB1aYaOrer5ww==
+      tarball: 'file:projects/templates.tgz'
+    version: 0.0.0
   'file:projects/test-utils-perfstress.tgz':
     dependencies:
       '@opentelemetry/api': 0.6.1
@@ -9252,6 +9303,7 @@ specifiers:
   '@rush-temp/storage-queue': 'file:./projects/storage-queue.tgz'
   '@rush-temp/tables': 'file:./projects/tables.tgz'
   '@rush-temp/template': 'file:./projects/template.tgz'
+  '@rush-temp/templates': 'file:./projects/templates.tgz'
   '@rush-temp/test-utils-perfstress': 'file:./projects/test-utils-perfstress.tgz'
   '@rush-temp/test-utils-recorder': 'file:./projects/test-utils-recorder.tgz'
   '@rush-temp/testhub': 'file:./projects/testhub.tgz'
