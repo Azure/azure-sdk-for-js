@@ -717,20 +717,24 @@ export class MessageReceiver extends LinkEntity {
    * Prevents us from receiving any further messages.
    */
   public stopReceivingMessages(): Promise<void> {
-    log.error(`[${this._receiver?.name}]: User has requested we stop receiving new messages`);
+    log.receiver(`[${this.name}] User has requested we stop receiving new messages.`);
     this._stopReceivingMessages = true;
 
     return this.drainReceiver();
   }
 
-  private drainReceiver() {
+  private drainReceiver(): Promise<void> {
+    log.receiver(`[${this.name}] Receiver is starting drain.`);
+
     const drainPromise = new Promise<void>((resolve) => {
       if (this._receiver == null) {
+        log.receiver(`[${this.name}] Internal receiver has been removed. Not draining.`);
         resolve();
         return;
       }
 
       this._receiver.once(ReceiverEvents.receiverDrained, () => {
+        log.receiver(`[${this.name}] Receiver has been drained.`);
         resolve();
       });
 
