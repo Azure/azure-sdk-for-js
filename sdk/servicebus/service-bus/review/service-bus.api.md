@@ -103,12 +103,12 @@ export { MessagingError }
 
 // @public
 export interface NamespaceProperties {
-    createdOn: Date;
+    createdAt: Date;
     messagingSku: string;
     messagingUnits: number | undefined;
     name: string;
     namespaceType: string;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
@@ -153,13 +153,13 @@ export interface QueueResponse extends QueueDescription, Response {
 
 // @public
 export interface QueueRuntimeInfo {
-    accessedOn: Date;
-    createdOn: Date;
+    accessedAt: Date;
+    createdAt: Date;
     messageCount?: number;
     messageCountDetails?: MessageCountDetails;
     name: string;
     sizeInBytes?: number;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
@@ -427,13 +427,13 @@ export interface SubscriptionResponse extends SubscriptionDescription, Response 
 
 // @public
 export interface SubscriptionRuntimeInfo {
-    accessedOn: Date;
-    createdOn: Date;
+    accessedAt: Date;
+    createdAt: Date;
     messageCount: number;
     messageCountDetails?: MessageCountDetails;
     subscriptionName: string;
     topicName: string;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
@@ -474,12 +474,12 @@ export interface TopicResponse extends TopicDescription, Response {
 
 // @public
 export interface TopicRuntimeInfo {
-    accessedOn: Date;
-    createdOn: Date;
+    accessedAt: Date;
+    createdAt: Date;
     name: string;
     sizeInBytes?: number;
     subscriptionCount?: number;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
