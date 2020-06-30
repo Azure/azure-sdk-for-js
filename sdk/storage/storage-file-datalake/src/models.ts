@@ -37,15 +37,18 @@ export {
   PathSetAccessControlHeaders,
   PathSetAccessControlResponse,
   PathSetAccessControlResponse as PathSetPermissionsResponse,
-  PathResourceType,
+  PathResourceType as PathResourceTypeModel,
   PathUpdateHeaders,
   PathAppendDataHeaders,
   PathFlushDataHeaders,
   PathAppendDataResponse as FileAppendResponse,
   PathFlushDataResponse as FileFlushResponse,
   PathFlushDataResponse as FileUploadResponse,
-  PathGetPropertiesAction,
-  PathRenameMode
+  PathGetPropertiesAction as PathGetPropertiesActionModel,
+  PathRenameMode as PathRenameModeModel,
+  PathExpiryOptions as FileExpiryMode,
+  PathSetExpiryResponse as FileSetExpiryResponse,
+  PathSetExpiryHeaders as FileSetExpiryHeaders
 } from "./generated/src/models";
 
 export { PathCreateResponse };
@@ -262,12 +265,12 @@ export interface SignedIdentifier<T> {
 export type FileSystemGetAccessPolicyResponse = {
   signedIdentifiers: SignedIdentifier<AccessPolicy>[];
 } & FileSystemGetAccessPolicyHeaders & {
-  _response: HttpResponse & {
-    parsedHeaders: FileSystemGetAccessPolicyHeaders;
-    bodyAsText: string;
-    parsedBody: SignedIdentifier<RawAccessPolicy>[];
+    _response: HttpResponse & {
+      parsedHeaders: FileSystemGetAccessPolicyHeaders;
+      bodyAsText: string;
+      parsedBody: SignedIdentifier<RawAccessPolicy>[];
+    };
   };
-};
 
 export interface FileSystemSetAccessPolicyOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
@@ -354,7 +357,7 @@ export interface Metadata {
 
 export interface DataLakeRequestConditions
   extends ModifiedAccessConditions,
-  LeaseAccessConditions { }
+    LeaseAccessConditions {}
 
 export interface RolePermissions {
   read: boolean;
@@ -488,6 +491,11 @@ export interface PathGetPropertiesHeaders {
   accessTierInferred?: boolean;
   archiveStatus?: string;
   accessTierChangedOn?: Date;
+
+  /**
+   * The time the file will expire.
+   */
+  expiresOn?: Date;
 }
 
 export type PathGetPropertiesResponse = PathGetPropertiesHeaders & {
@@ -589,13 +597,45 @@ export interface PathExistsOptions extends CommonOptions {
   // customerProvidedKey?: CpkInfo; not supported yet
 }
 
+// Keeping these for backward compatibility when we changed to use string unions.
+/**
+ * Defines values for PathGetPropertiesAction.
+ * Possible values include: 'getAccessControl', 'getStatus'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathGetPropertiesAction {
+  GetAccessControl = "getAccessControl",
+  GetStatus = "getStatus"
+}
+/**
+ * Defines values for PathRenameMode.
+ * Possible values include: 'legacy', 'posix'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathRenameMode {
+  Legacy = "legacy",
+  Posix = "posix"
+}
+/**
+ * Defines values for PathResourceType.
+ * Possible values include: 'directory', 'file'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathResourceType {
+  Directory = "directory",
+  File = "file"
+}
+
 /****************************************************************/
 /** DataLakeDirectoryClient option and response related models **/
 /****************************************************************/
 
-export interface DirectoryCreateOptions extends PathCreateOptions { }
+export interface DirectoryCreateOptions extends PathCreateOptions {}
 
-export interface DirectoryCreateResponse extends PathCreateResponse { }
+export interface DirectoryCreateResponse extends PathCreateResponse {}
 
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
@@ -667,9 +707,9 @@ export interface FileFlushOptions extends CommonOptions {
   pathHttpHeaders?: PathHttpHeaders;
 }
 
-export interface FileCreateOptions extends PathCreateOptions { }
+export interface FileCreateOptions extends PathCreateOptions {}
 
-export interface FileCreateResponse extends PathCreateResponse { }
+export interface FileCreateResponse extends PathCreateResponse {}
 
 /**
  * Option interface for Data Lake file - Upload operations
@@ -856,6 +896,40 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * @memberof FileReadToBufferOptions
    */
   concurrency?: number;
+}
+
+/**
+ * Option interface for the {@link DataLakeFileClient.setExpiry} operation.
+ *
+ * @export
+ * @interface FileSetExpiryOptions
+ */
+export interface FileSetExpiryOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileSetExpiryOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * The time to set the file to expire on, used in combination with the "Absolute" {@link FileExpiryMode}.
+   * A time in the past is not allowed and milliseconds will be dropped.
+   *
+   * @type {Date}
+   * @memberof FileSetExpiryOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * The number of milliseconds to elapse before the file expires, used in combination with the "RelativeToCreation" or "RelativeToNow" {@link FileExpiryMode}.
+   *
+   * @type {number}
+   * @memberof FileSetExpiryOptions
+   */
+  timeToExpireInMs?: number;
 }
 
 /***********************************************************/
