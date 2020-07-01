@@ -451,7 +451,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MachineLearningComputeCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.MachineLearningServiceError
+      bodyMapper: Mappers.MachineLearningServiceError,
+      headersMapper: Mappers.MachineLearningComputeCreateOrUpdateHeaders
     }
   },
   serializer
@@ -514,7 +515,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.MachineLearningComputeDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.MachineLearningServiceError
+      bodyMapper: Mappers.MachineLearningServiceError,
+      headersMapper: Mappers.MachineLearningComputeDeleteHeaders
     }
   },
   serializer
