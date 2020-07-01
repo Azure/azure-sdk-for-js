@@ -424,6 +424,32 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
+   * Returns a list of objects, each representing a Queue along with its properties.
+   * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeInfo` API instead.
+   * @param options
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  async getQueues2(options?: ListRequestOptions): Promise<QueuesResponse> {
+    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+    const response: HttpOperationResponse = await this.listResources(
+      "$Resources/Queues",
+      options,
+      this.queueResourceSerializer
+    );
+    console.log(response);
+
+    return this.buildListQueuesResponse(response);
+  }
+
+  /**
    * Returns a list of objects, each representing a Queue's runtime info like message count details.
    * @param options
    *
