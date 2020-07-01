@@ -485,7 +485,7 @@ function buildRawKeyValuePairFromSqlParameter(parameter: SqlParameter): RawKeyVa
     Key: parameter.key,
     Value: {
       [Constants.XML_METADATA_MARKER]: {
-        "p4:type": paramType.valueOf(),
+        "p4:type": paramType,
         "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
       },
       [Constants.XML_VALUE_MARKER]: parameter.value
