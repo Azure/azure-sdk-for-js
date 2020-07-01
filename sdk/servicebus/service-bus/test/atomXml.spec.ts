@@ -440,7 +440,7 @@ class MockSerializer implements AtomXmlSerializer {
       action: { sqlExpression: "SET a='b'" }
     },
     output: {
-      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "integer, "string", "long" or "date".`,
+      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "int", "string", "long" or "date".`,
       testErrorType: Error
     }
   },
@@ -490,7 +490,7 @@ class MockSerializer implements AtomXmlSerializer {
       }
     },
     output: {
-      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "integer, "string", "long" or "date".`,
+      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "int", "string", "long" or "date".`,
       testErrorType: Error
     }
   },
