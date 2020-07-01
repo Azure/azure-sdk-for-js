@@ -8,6 +8,9 @@ import * as dotenv from "dotenv";
 import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { AbortController } from "@azure/abort-controller";
+import { WebResource } from "@azure/core-http";
+import { executeAtomXmlOperation } from "../src/util/atomXmlHelper";
+import { NamespaceResourceSerializer } from "../src/serializers/namespaceResourceSerializer";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -246,17 +249,26 @@ describe("Operation Options", () => {
     });
   });
 
-  describe.skip("RequestOptions custom headers", () => {
-    // Response doesn't contain the custom headers,
-    // Custom headers are being plumbed properly at the SDK level, might be a problem at the core-http or at the service
-    // Needs more investigation
-    it("requestOptions.customHeaders should work", async () => {
-      await serviceBusAtomManagementClient.createQueue(enitityName1, {
-        requestOptions: {
-          customHeaders: { state: "WA" }
+  describe("RequestOptions custom headers", () => {
+    it("requestOptions.customHeaders should be populated", async () => {
+      const webResource = new WebResource(
+        `https://${(serviceBusAtomManagementClient as any).endpoint}/`
+      );
+      await executeAtomXmlOperation(
+        serviceBusAtomManagementClient,
+        webResource,
+        new NamespaceResourceSerializer(),
+        {
+          requestOptions: {
+            customHeaders: { state: "WA" }
+          }
         }
-      });
-      await serviceBusAtomManagementClient.deleteQueue(enitityName1);
+      );
+      assert.equal(
+        webResource.headers.get("state"),
+        "WA",
+        "Custom header from the requestOptions is not populated as expected."
+      );
     });
   });
 });
