@@ -577,7 +577,7 @@ class MockSerializer implements AtomXmlSerializer {
     }
   }
 ].forEach((testCase) => {
-  describe.only(`Type validation errors on Correlation user property inputs`, function(): void {
+  describe(`Type validation errors on Correlation user property inputs`, function(): void {
     it(`${testCase.testCaseTitle}`, async () => {
       try {
         const request = new WebResource();
