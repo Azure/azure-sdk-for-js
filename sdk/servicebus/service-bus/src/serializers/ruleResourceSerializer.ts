@@ -452,7 +452,6 @@ export function getRawUserProperties(
       throw new TypeError(
         `Unsupported type for the value in the user property {${key}:${JSON.stringify(value)}}`
       );
-      // TODO: Add more cases if other types are supported.
     }
 
     const rawParameter: RawKeyValuePair = {
