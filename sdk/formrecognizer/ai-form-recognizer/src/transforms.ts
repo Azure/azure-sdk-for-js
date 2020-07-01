@@ -12,8 +12,8 @@ import {
   ReadResult as ReadResultModel,
   TextLine as TextLineModel,
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
-  GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
   GeneratedClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
+  GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse
 } from "./generated/models";
 
@@ -29,14 +29,9 @@ import {
   Point2D,
   FormModelResponse,
   CustomFormField,
-  CustomFormSubmodel,
-  RecognizedReceipt
+  CustomFormSubmodel
 } from "./models";
-import {
-  RecognizeFormResultResponse,
-  RecognizeContentResultResponse,
-  RecognizeReceiptResultResponse
-} from "./internalModels";
+import { RecognizeFormResultResponse, RecognizeContentResultResponse } from "./internalModels";
 
 export function toBoundingBox(original: number[]): Point2D[] {
   return [
@@ -217,7 +212,13 @@ export function toFormFieldFromFieldValueModel(
   key: string,
   readResults: FormPage[]
 ): FormField {
-  let value: string | Date | number | FormField[] | { [propertyName: string] : FormField} | undefined;
+  let value:
+    | string
+    | Date
+    | number
+    | FormField[]
+    | { [propertyName: string]: FormField }
+    | undefined;
   switch (original.type) {
     case "string":
       value = original.valueString;
@@ -238,10 +239,14 @@ export function toFormFieldFromFieldValueModel(
       value = original.valuePhoneNumber;
       break;
     case "array":
-      value = original.valueArray?.map((fieldValueModel) => toFormFieldFromFieldValueModel(fieldValueModel, key, readResults));
+      value = original.valueArray?.map((fieldValueModel) =>
+        toFormFieldFromFieldValueModel(fieldValueModel, key, readResults)
+      );
       break;
     case "object":
-      value = original.valueObject ? toFieldsFromFieldValue(original.valueObject, readResults) : undefined;
+      value = original.valueObject
+        ? toFieldsFromFieldValue(original.valueObject, readResults)
+        : undefined;
       break;
   }
   return {
@@ -350,20 +355,9 @@ export function toRecognizeContentResultResponse(
   }
 }
 
-function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): RecognizedReceipt {
-  if (result.docType !== "prebuilt:receipt") {
-    throw new RangeError("The document type is not 'prebuilt:receipt'");
-  }
-
-  const recognizedForm = toRecognizedForm(result, pages);
-  return {
-    recognizedForm
-  };
-}
-
-export function toReceiptResultResponse(
+export function toRecognizeFormResultResponseFromReceipt(
   original: GetAnalyzeReceiptResultResponse
-): RecognizeReceiptResultResponse {
+): RecognizeFormResultResponse {
   const common = {
     status: original.status,
     createdOn: original.createdOn,
@@ -383,11 +377,16 @@ export function toReceiptResultResponse(
   return {
     ...common,
     version: original.analyzeResult!.version,
-    receipts: original
+    forms: original
       .analyzeResult!.documentResults!.filter((d) => {
         return !!d.fields;
       })
-      .map((d) => toRecognizedReceipt(d, pages))
+      .map((d) => {
+        if (d.docType !== "prebuilt:receipt") {
+          throw new RangeError("The document type is not 'prebuilt:receipt'");
+        }
+        return toRecognizedForm(d, pages);
+      })
   };
 }
 

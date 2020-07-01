@@ -13,9 +13,9 @@ import {
   toFieldsFromFieldValue,
   toFormTable,
   toRecognizeFormResultResponse,
-  toReceiptResultResponse,
   toFormModelResponse,
-  toRecognizedForm
+  toRecognizedForm,
+  toRecognizeFormResultResponseFromReceipt
 } from "../src/transforms";
 import {
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
@@ -26,10 +26,7 @@ import {
   DataTable as DataTableModel,
   DocumentResult as DocumentResultModel
 } from "../src/generated/models";
-import {
-  Point2D,
-  FormField
-} from "../src/models";
+import { Point2D, FormField } from "../src/models";
 
 describe("Transforms", () => {
   function verifyBoundingBox(transformed: Point2D[], original: number[]): void {
@@ -313,10 +310,7 @@ describe("Transforms", () => {
       assert.equal(array![0].value, originalDate.valueDate);
       assert.ok(array![0].valueText, "Expecting valid 'transformed.valueText'");
       assert.equal(array![0].valueText!.text, originalDate.text);
-      assert.deepStrictEqual(
-        array![0].valueText!.textContent![0],
-        formPages[0].lines![0].words[0]
-      );
+      assert.deepStrictEqual(array![0].valueText!.textContent![0], formPages[0].lines![0].words[0]);
       assert.equal(array![1].valueType, "integer");
       assert.equal(array![1].value, originalInteger.valueInteger);
       assert.ok(array![1].valueText, "Expecting valid 'transformed.valueText'");
@@ -346,8 +340,8 @@ describe("Transforms", () => {
 
       assert.equal(transformed.valueType, "object");
 
-      const obj = transformed.value as { [proertyName: string] : FormField};
-      assert.ok(obj, "Expecting valid transformed.value")
+      const obj = transformed.value as { [proertyName: string]: FormField };
+      assert.ok(obj, "Expecting valid transformed.value");
       assert.equal(obj!["dateProperty"].value, originalDate.valueDate);
       assert.equal(obj!["integerProperty"].value, originalInteger.valueInteger);
     });
@@ -560,12 +554,12 @@ describe("Transforms", () => {
     assert.deepStrictEqual(models![0].fields!["field-0"].name, "field-0");
   });
 
-  it("toReceiptResultResponse() converts receipt response", () => {
+  it("toRecognizeFormResultResponseFromReceipt() converts receipt response", () => {
     const original: GetAnalyzeReceiptResultResponse = JSON.parse(receiptResponseString);
-    const transformed = toReceiptResultResponse(original);
+    const transformed = toRecognizeFormResultResponseFromReceipt(original);
 
-    assert.ok(transformed.receipts, "Expecting non-empty recognized receipts");
-    assert.equal(transformed.receipts![0].recognizedForm.formType, "prebuilt:receipt");
+    assert.ok(transformed.forms, "Expecting non-empty recognized receipts");
+    assert.equal(transformed.forms![0].formType, "prebuilt:receipt");
   });
 });
 

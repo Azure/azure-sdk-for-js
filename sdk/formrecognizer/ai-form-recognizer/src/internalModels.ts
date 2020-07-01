@@ -7,9 +7,7 @@ import {
   ErrorInformation,
   OperationStatus
 } from "./generated/models";
-import {
-  RecognizedForm, RecognizedReceipt, FormPage
-} from "./models";
+import { RecognizedForm, FormPage } from "./models";
 
 /**
  * Represents the result from an Recognize Content operation
@@ -39,7 +37,7 @@ export interface RecognizedContent {
    * List of errors reported during the content recognition operation.
    */
   errors?: ErrorInformation[];
-};
+}
 
 /**
  * Contains response data for the Recognize Content operation.
@@ -53,56 +51,6 @@ export type RecognizeContentResultResponse = RecognizedContent & {
      * The response body as text (string format)
      */
     bodyAsText: string;
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AnalyzeOperationResultModel;
-  };
-};
-
-/**
- * Results of a Recognize Receipt operation
- */
-export interface RecognizedReceipts {
-  /**
-   * Version of schema used for this result.
-   */
-  version?: string;
-  /**
-   * List of receipts recognized from input document
-   */
-  receipts?: RecognizedReceipt[];
-  /**
-   * Operation status.
-   */
-  status: OperationStatus; // 'notStarted' | 'running' | 'succeeded' | 'failed';
-  /**
-   * Date and time (UTC) when the receipt recognition operation was submitted.
-   */
-  createdOn: Date;
-  /**
-   * Date and time (UTC) when the status was last updated.
-   */
-  lastModified: Date;
-  /**
-   * List of errors reported during the receipt recognition operation.
-   */
-  errors?: ErrorInformation[];
-};
-
-/**
- * Contains response data for an recognize receipt operation.
- */
-export type RecognizeReceiptResultResponse = RecognizedReceipts & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
     /**
      * The response body as parsed JSON or XML
      */
@@ -139,7 +87,7 @@ export interface RecognizedForms {
    * Date and time (UTC) when the status was last updated.
    */
   lastModified: Date;
-};
+}
 
 /**
  * Contains the response data for recognize form operation using a custom model from training.
@@ -160,4 +108,3 @@ export type RecognizeFormResultResponse = RecognizedForms & {
     parsedBody: AnalyzeOperationResultModel;
   };
 };
-

@@ -240,36 +240,44 @@ export type FormField = {
   valueText?: FieldText;
 } & (
   | {
-    /**
-     * value of the recognized field.
-     */
-    value?: string;
-    /**
-     * Type of the 'value' field
-     */
-    valueType?: "string" }
+      /**
+       * value of the recognized field.
+       */
+      value?: string;
+      /**
+       * Type of the 'value' field
+       */
+      valueType?: "string";
+    }
   | {
-    value?: number;
-    valueType?: "number" }
+      value?: number;
+      valueType?: "number";
+    }
   | {
-    value?: Date;
-    valueType?: "date" }
+      value?: Date;
+      valueType?: "date";
+    }
   | {
-    value?: string;
-    valueType?: "time" }
+      value?: string;
+      valueType?: "time";
+    }
   | {
-    value?: string;
-    valueType?: "phoneNumber" }
+      value?: string;
+      valueType?: "phoneNumber";
+    }
   | {
-    value?: number;
-    valueType?: "integer" }
+      value?: number;
+      valueType?: "integer";
+    }
   | {
-    value?: FormField[];
-    valueType?: "array" }
+      value?: FormField[];
+      valueType?: "array";
+    }
   | {
-    value?: { [propertyName: string]: FormField };
-    valueType?: "object" }
-)
+      value?: { [propertyName: string]: FormField };
+      valueType?: "object";
+    }
+);
 
 /**
  * Represents a Form page range
@@ -387,21 +395,6 @@ export interface CommonFieldValue {
    */
   pageNumber?: number;
 }
-
-/**
- * Recognized Receipt
- */
-export type RecognizedReceipt = {
-  /**
-   * Recognized form
-   */
-  recognizedForm: RecognizedForm;
-}
-
-/*
- * Array of {@link RecognizedReceipt}
- */
-export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {}
 
 /**
  * Report for a custom model training document.
