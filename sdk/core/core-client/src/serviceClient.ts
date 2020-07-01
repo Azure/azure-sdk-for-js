@@ -12,25 +12,20 @@ import {
 } from "@azure/core-https";
 import {
   OperationResponse,
-  OperationParameter,
-  ParameterPath,
   OperationArguments,
   OperationSpec,
-  QueryCollectionFormat,
   ServiceClientCredentials,
   OperationRequest,
   OperationResponseMap,
   FullOperationResponse,
-  Serializer,
-  Mapper,
   DictionaryMapper,
   CompositeMapper
 } from "./interfaces";
 import { getPathStringFromParameter, isStreamOperation } from "./interfaceHelpers";
 import { MapperType } from "./serializer";
-import { URL } from "./url";
-import { appendPath, replaceAll, setQueryParameter } from "./urlHelpers";
+import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
+import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 
 // TODO: bring back signingPolicy / bearerTokenAuthenticationPolicy?
 
@@ -60,6 +55,11 @@ export interface ServiceClientOptions {
    * The HttpClient that will be used to send HTTP requests.
    */
   httpsClient?: HttpsClient;
+
+  /**
+   * A method that is able to turn an XML object model into a string.
+   */
+  stringifyXML?: (obj: any, opts?: { rootName?: string }) => string;
 }
 
 /**
@@ -80,6 +80,11 @@ export class ServiceClient {
   private readonly _requestContentType?: string;
 
   /**
+   * Decoupled method for processing XML into a string.
+   */
+  private readonly _stringifyXML: (obj: any, opts?: { rootName?: string }) => string;
+
+  /**
    * The HTTP client that will be used to send requests.
    */
   private readonly _httpsClient: HttpsClient;
@@ -97,6 +102,11 @@ export class ServiceClient {
     this._baseUri = options.baseUri;
     this._httpsClient = options.httpsClient || new DefaultHttpsClient();
     this._pipeline = options.pipeline || createDefaultPipeline();
+    this._stringifyXML =
+      options.stringifyXML ||
+      function() {
+        throw new Error("XML serialization unsupported!");
+      };
   }
 
   /**
@@ -122,7 +132,10 @@ export class ServiceClient {
       );
     }
 
-    const url = getRequestUrl(baseUri, operationSpec, operationArguments);
+    // Templatized URLs sometimes reference properties on the ServiceClient child class,
+    // so we have to pass `this` below in order to search these properties if they're
+    // not part of OperationArguments
+    const url = getRequestUrl(baseUri, operationSpec, operationArguments, this);
 
     const request: OperationRequest = createPipelineRequest({
       url
@@ -201,7 +214,7 @@ export class ServiceClient {
       }
     }
 
-    serializeRequestBody(request, operationArguments, operationSpec);
+    serializeRequestBody(request, operationArguments, operationSpec, this._stringifyXML);
 
     if (request.streamResponseBody === undefined) {
       request.streamResponseBody = isStreamOperation(operationSpec);
@@ -222,105 +235,11 @@ export class ServiceClient {
   }
 }
 
-function getRequestUrl(
-  baseUri: string,
-  operationSpec: OperationSpec,
-  operationArguments: OperationArguments
-): string {
-  let requestUrl = new URL(baseUri);
-  if (operationSpec.path) {
-    requestUrl = appendPath(requestUrl, operationSpec.path);
-  }
-  if (operationSpec.urlParameters && operationSpec.urlParameters.length > 0) {
-    for (const urlParameter of operationSpec.urlParameters) {
-      let urlParameterValue: string = getOperationArgumentValueFromParameter(
-        operationArguments,
-        urlParameter,
-        operationSpec.serializer
-      );
-      urlParameterValue = operationSpec.serializer.serialize(
-        urlParameter.mapper,
-        urlParameterValue,
-        getPathStringFromParameter(urlParameter)
-      );
-      if (!urlParameter.skipEncoding) {
-        urlParameterValue = encodeURIComponent(urlParameterValue);
-      }
-      requestUrl = replaceAll(
-        requestUrl,
-        `{${urlParameter.mapper.serializedName || getPathStringFromParameter(urlParameter)}}`,
-        urlParameterValue
-      );
-    }
-  }
-  if (operationSpec.queryParameters && operationSpec.queryParameters.length > 0) {
-    for (const queryParameter of operationSpec.queryParameters) {
-      let queryParameterValue = getOperationArgumentValueFromParameter(
-        operationArguments,
-        queryParameter,
-        operationSpec.serializer
-      );
-      if (queryParameterValue !== undefined && queryParameterValue !== null) {
-        queryParameterValue = operationSpec.serializer.serialize(
-          queryParameter.mapper,
-          queryParameterValue,
-          getPathStringFromParameter(queryParameter)
-        );
-        if (queryParameter.collectionFormat) {
-          if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
-            if (queryParameterValue.length === 0) {
-              queryParameterValue = "";
-            } else {
-              for (const index in queryParameterValue) {
-                const item = queryParameterValue[index];
-                if (item === null || item === undefined) {
-                  queryParameterValue[index] = "";
-                } else {
-                  queryParameterValue[index] = item.toString();
-                }
-              }
-            }
-          } else if (
-            queryParameter.collectionFormat === QueryCollectionFormat.Ssv ||
-            queryParameter.collectionFormat === QueryCollectionFormat.Tsv
-          ) {
-            queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
-          }
-        }
-        if (!queryParameter.skipEncoding) {
-          if (Array.isArray(queryParameterValue)) {
-            for (const index in queryParameterValue) {
-              if (queryParameterValue[index] !== undefined && queryParameterValue[index] !== null) {
-                queryParameterValue[index] = encodeURIComponent(queryParameterValue[index]);
-              }
-            }
-          } else {
-            queryParameterValue = encodeURIComponent(queryParameterValue);
-          }
-        }
-        if (
-          queryParameter.collectionFormat &&
-          queryParameter.collectionFormat !== QueryCollectionFormat.Multi &&
-          queryParameter.collectionFormat !== QueryCollectionFormat.Ssv &&
-          queryParameter.collectionFormat !== QueryCollectionFormat.Tsv
-        ) {
-          queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
-        }
-        requestUrl = setQueryParameter(
-          requestUrl,
-          queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
-          queryParameterValue
-        );
-      }
-    }
-  }
-  return requestUrl.toString();
-}
-
-export function serializeRequestBody(
+function serializeRequestBody(
   request: OperationRequest,
   operationArguments: OperationArguments,
-  operationSpec: OperationSpec
+  operationSpec: OperationSpec,
+  stringifyXML: (obj: any, opts?: { rootName?: string }) => string
 ): void {
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     request.body = getOperationArgumentValueFromParameter(
@@ -330,7 +249,7 @@ export function serializeRequestBody(
     );
 
     const bodyMapper = operationSpec.requestBody.mapper;
-    const { required, serializedName } = bodyMapper;
+    const { required, serializedName, xmlName, xmlElementName } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
@@ -346,10 +265,10 @@ export function serializeRequestBody(
 
         const isStream = typeName === MapperType.Stream;
 
-        /* if (operationSpec.isXML) {
+        if (operationSpec.isXML) {
           if (typeName === MapperType.Sequence) {
             request.body = stringifyXML(
-              utils.prepareXMLRootList(request.body, xmlElementName || xmlName || serializedName!),
+              prepareXMLRootList(request.body, xmlElementName || xmlName || serializedName!),
               { rootName: xmlName || serializedName }
             );
           } else if (!isStream) {
@@ -357,9 +276,7 @@ export function serializeRequestBody(
               rootName: xmlName || serializedName
             });
           }
-        } else */
-
-        if (
+        } else if (
           typeName === MapperType.String &&
           (operationSpec.contentType?.match("text/plain") || operationSpec.mediaType === "text")
         ) {
@@ -405,113 +322,14 @@ function createDefaultPipeline(): Pipeline {
   return createDefaultPipeline();
 }
 
-export type PropertyParent = { [propertyName: string]: any };
-
-/**
- * Get the property parent for the property at the provided path when starting with the provided
- * parent object.
- */
-export function getPropertyParent(parent: PropertyParent, propertyPath: string[]): PropertyParent {
-  if (parent && propertyPath) {
-    const propertyPathLength: number = propertyPath.length;
-    for (let i = 0; i < propertyPathLength - 1; ++i) {
-      const propertyName: string = propertyPath[i];
-      if (!parent[propertyName]) {
-        parent[propertyName] = {};
-      }
-      parent = parent[propertyName];
-    }
+function prepareXMLRootList(obj: any, elementName: string) {
+  if (!Array.isArray(obj)) {
+    obj = [obj];
   }
-  return parent;
+  return { [elementName]: obj };
 }
 
-function getOperationArgumentValueFromParameter(
-  operationArguments: OperationArguments,
-  parameter: OperationParameter,
-  serializer: Serializer
-): any {
-  let parameterPath = parameter.parameterPath;
-  const parameterMapper = parameter.mapper;
-  let value: any;
-  if (typeof parameterPath === "string") {
-    parameterPath = [parameterPath];
-  }
-  if (Array.isArray(parameterPath)) {
-    if (parameterPath.length > 0) {
-      if (parameterMapper.isConstant) {
-        value = parameterMapper.defaultValue;
-      } else {
-        const propertySearchResult = getPropertyFromParameterPath(
-          operationArguments,
-          parameterPath
-        );
-
-        let useDefaultValue = false;
-        if (!propertySearchResult.propertyFound) {
-          useDefaultValue =
-            parameterMapper.required ||
-            (parameterPath[0] === "options" && parameterPath.length === 2);
-        }
-        value = useDefaultValue ? parameterMapper.defaultValue : propertySearchResult.propertyValue;
-      }
-    }
-  } else {
-    if (parameterMapper.required) {
-      value = {};
-    }
-
-    for (const propertyName in parameterPath) {
-      const propertyMapper: Mapper = (parameterMapper as CompositeMapper).type.modelProperties![
-        propertyName
-      ];
-      const propertyPath: ParameterPath = parameterPath[propertyName];
-      const propertyValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath: propertyPath,
-          mapper: propertyMapper
-        },
-        serializer
-      );
-      if (propertyValue !== undefined) {
-        if (!value) {
-          value = {};
-        }
-        value[propertyName] = propertyValue;
-      }
-    }
-  }
-  return value;
-}
-
-interface PropertySearchResult {
-  propertyValue?: any;
-  propertyFound: boolean;
-}
-
-function getPropertyFromParameterPath(
-  parent: { [parameterName: string]: any },
-  parameterPath: string[]
-): PropertySearchResult {
-  const result: PropertySearchResult = { propertyFound: false };
-  let i = 0;
-  for (; i < parameterPath.length; ++i) {
-    const parameterPathPart: string = parameterPath[i];
-    // Make sure to check inherited properties too, so don't use hasOwnProperty().
-    if (parent && parameterPathPart in parent) {
-      parent = parent[parameterPathPart];
-    } else {
-      break;
-    }
-  }
-  if (i === parameterPath.length) {
-    result.propertyValue = parent;
-    result.propertyFound = true;
-  }
-  return result;
-}
-
-export function flattenResponse(
+function flattenResponse(
   fullResponse: FullOperationResponse,
   responseSpec: OperationResponseMap | undefined
 ): OperationResponse {

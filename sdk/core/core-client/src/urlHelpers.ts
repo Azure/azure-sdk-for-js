@@ -1,18 +1,184 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { URL } from "./url";
+import { OperationSpec, OperationArguments, QueryCollectionFormat } from "./interfaces";
+import { getOperationArgumentValueFromParameter } from "./operationHelpers";
+import { getPathStringFromParameter } from "./interfaceHelpers";
 
-export function appendPath(url: URL, _path: string): URL {
-  // TODO: implement me
-  return url;
+export function getRequestUrl(
+  baseUri: string,
+  operationSpec: OperationSpec,
+  operationArguments: OperationArguments,
+  fallbackObject: { [parameterName: string]: any }
+): string {
+  const urlReplacements = calculateUrlReplacements(
+    operationSpec,
+    operationArguments,
+    fallbackObject
+  );
+
+  let requestUrl = replaceAll(baseUri, urlReplacements);
+  if (operationSpec.path) {
+    const path = replaceAll(operationSpec.path, urlReplacements);
+    if (isAbsoluteUrl(path)) {
+      requestUrl = path;
+    } else {
+      requestUrl = appendPath(requestUrl, operationSpec.path);
+    }
+  }
+
+  const queryParams = calculateQueryParameters(operationSpec, operationArguments, fallbackObject);
+  appendQueryParams(requestUrl, queryParams);
+
+  return requestUrl;
 }
 
-export function replaceAll(url: URL, _searchValue: string, _replaceValue: string): URL {
-  // TODO: implement me
-  return url;
+function replaceAll(input: string, replacements: Map<string, string>): string {
+  let result = input;
+  for (const [searchValue, replaceValue] of replacements) {
+    result = result.split(searchValue).join(replaceValue);
+  }
+  return result;
 }
 
-export function setQueryParameter(url: URL, _name: string, _value: string): URL {
-  // TODO: implement me
-  return url;
+function calculateUrlReplacements(
+  operationSpec: OperationSpec,
+  operationArguments: OperationArguments,
+  fallbackObject: { [parameterName: string]: any }
+): Map<string, string> {
+  const result = new Map<string, string>();
+  if (operationSpec.urlParameters?.length) {
+    for (const urlParameter of operationSpec.urlParameters) {
+      let urlParameterValue: string = getOperationArgumentValueFromParameter(
+        operationArguments,
+        urlParameter,
+        operationSpec.serializer,
+        fallbackObject
+      );
+      const parameterPathString = getPathStringFromParameter(urlParameter);
+      urlParameterValue = operationSpec.serializer.serialize(
+        urlParameter.mapper,
+        urlParameterValue,
+        parameterPathString
+      );
+      if (!urlParameter.skipEncoding) {
+        urlParameterValue = encodeURIComponent(urlParameterValue);
+      }
+      result.set(
+        `{${urlParameter.mapper.serializedName || parameterPathString}}`,
+        urlParameterValue
+      );
+    }
+  }
+  return result;
+}
+
+function isAbsoluteUrl(url: string): boolean {
+  return url.includes("://");
+}
+
+function appendPath(url: string, path?: string): string {
+  let result = url;
+  let toAppend = path;
+  if (toAppend) {
+    if (!result.endsWith("/")) {
+      result = `${result}/`;
+    }
+
+    if (toAppend.startsWith("/")) {
+      toAppend = toAppend.substring(1);
+    }
+
+    result = result + toAppend;
+  }
+  return result;
+}
+
+function calculateQueryParameters(
+  operationSpec: OperationSpec,
+  operationArguments: OperationArguments,
+  fallbackObject: { [parameterName: string]: any }
+): Map<string, string | string[]> {
+  const result = new Map<string, string | string[]>();
+  if (operationSpec.queryParameters?.length) {
+    for (const queryParameter of operationSpec.queryParameters) {
+      let queryParameterValue = getOperationArgumentValueFromParameter(
+        operationArguments,
+        queryParameter,
+        operationSpec.serializer,
+        fallbackObject
+      );
+      if (queryParameterValue !== undefined && queryParameterValue !== null) {
+        queryParameterValue = operationSpec.serializer.serialize(
+          queryParameter.mapper,
+          queryParameterValue,
+          getPathStringFromParameter(queryParameter)
+        );
+        if (queryParameter.collectionFormat) {
+          if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
+            if (queryParameterValue.length === 0) {
+              queryParameterValue = "";
+            } else {
+              for (const index in queryParameterValue) {
+                const item = queryParameterValue[index];
+                if (item === null || item === undefined) {
+                  queryParameterValue[index] = "";
+                } else {
+                  queryParameterValue[index] = item.toString();
+                }
+              }
+            }
+          } else if (
+            queryParameter.collectionFormat === QueryCollectionFormat.Ssv ||
+            queryParameter.collectionFormat === QueryCollectionFormat.Tsv
+          ) {
+            queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
+          }
+        }
+        if (!queryParameter.skipEncoding) {
+          if (Array.isArray(queryParameterValue)) {
+            for (const index in queryParameterValue) {
+              if (queryParameterValue[index] !== undefined && queryParameterValue[index] !== null) {
+                queryParameterValue[index] = encodeURIComponent(queryParameterValue[index]);
+              }
+            }
+          } else {
+            queryParameterValue = encodeURIComponent(queryParameterValue);
+          }
+        }
+        if (
+          queryParameter.collectionFormat &&
+          queryParameter.collectionFormat !== QueryCollectionFormat.Multi &&
+          queryParameter.collectionFormat !== QueryCollectionFormat.Ssv &&
+          queryParameter.collectionFormat !== QueryCollectionFormat.Tsv
+        ) {
+          queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
+        }
+        queryParameterValue = Array.isArray(queryParameterValue)
+          ? queryParameterValue
+          : queryParameterValue.toString();
+        result.set(
+          queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
+          queryParameterValue
+        );
+      }
+    }
+  }
+  return result;
+}
+
+function appendQueryParams(url: string, queryParams: Map<string, string | string[]>): string {
+  const parsedUrl = new URL(url);
+
+  for (const [name, value] of queryParams) {
+    if (typeof value === "string") {
+      parsedUrl.searchParams.append(name, value);
+    } else {
+      for (const subValue of value) {
+        parsedUrl.searchParams.append(name, subValue);
+      }
+    }
+  }
+
+  return parsedUrl.toString();
 }

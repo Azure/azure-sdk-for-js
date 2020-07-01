@@ -14,10 +14,41 @@ import { PipelineResponse } from '@azure/core-https';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-https';
 
+// Warning: (ae-forgotten-export) The symbol "BaseMapper" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface CompositeMapper extends BaseMapper {
+    // Warning: (ae-forgotten-export) The symbol "CompositeMapperType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    type: CompositeMapperType;
+}
+
 // @public (undocumented)
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
+
+// @public (undocumented)
+export interface DictionaryMapper extends BaseMapper {
+    // (undocumented)
+    headerCollectionPrefix?: string;
+    // Warning: (ae-forgotten-export) The symbol "DictionaryMapperType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    type: DictionaryMapperType;
+}
+
+// @public (undocumented)
+export interface EnumMapper extends BaseMapper {
+    // Warning: (ae-forgotten-export) The symbol "EnumMapperType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    type: EnumMapperType;
+}
+
+// @public (undocumented)
+export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
 // @public
 export interface OperationArguments {
@@ -56,6 +87,14 @@ export interface OperationSpec {
 }
 
 // @public (undocumented)
+export interface SequenceMapper extends BaseMapper {
+    // Warning: (ae-forgotten-export) The symbol "SequenceMapperType" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    type: SequenceMapperType;
+}
+
+// @public (undocumented)
 export interface Serializer {
     // (undocumented)
     deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
@@ -67,8 +106,6 @@ export interface Serializer {
     };
     // (undocumented)
     serialize(mapper: Mapper, object: any, objectName?: string): any;
-    // Warning: (ae-forgotten-export) The symbol "Mapper" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 }
@@ -79,7 +116,7 @@ export class ServiceClient {
     // Warning: (ae-forgotten-export) The symbol "OperationResponse" needs to be exported by the entry point index.d.ts
     sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-}
+    }
 
 // @public
 export interface ServiceClientOptions {
@@ -89,6 +126,9 @@ export interface ServiceClientOptions {
     httpsClient?: HttpsClient;
     pipeline?: Pipeline;
     requestContentType?: string;
+    stringifyXML?: (obj: any, opts?: {
+        rootName?: string;
+    }) => string;
 }
 
 
