@@ -34,7 +34,7 @@
         "${workspaceFolder}/test/node/*.spec.ts"
       ],
       "env": { "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}" },
-      "envFile": "${workspaceFolder}/../.env",
+      "envFile": "${workspaceFolder}/.env",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "protocol": "inspector"

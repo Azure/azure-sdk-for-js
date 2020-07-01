@@ -10,5 +10,6 @@ export {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
   AppendBlobCreateHeaders,
+  AppendBlobSealHeaders,
   StorageError
 } from "../models/mappers";
