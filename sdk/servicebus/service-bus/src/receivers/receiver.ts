@@ -42,14 +42,29 @@ export interface Receiver<ReceivedMessageT> {
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
-   * @param options Options for getMessageIterator.
+   * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
+   *
+   * @param options A set of options to control the receive operation.
+   * - `maxWaitTimeInMs`: The time to wait to receive the message in each iteration.
+   * - `abortSignal`: The signal to use to abort the ongoing operation.
+   *
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws Error if current receiver is already in state of receiving messages.
+   * @throws MessagingError if the service returns an error while receiving messages.
    */
   getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
 
   /**
-   * Receives, at most, `maxMessageCount` worth of messages.
-   * @param maxMessageCount The maximum number of messages to accept.
-   * @param options Options for receiveMessages
+   * Returns a promise that resolves to an array of messages received from Service Bus.
+   *
+   * @param maxMessageCount The maximum number of messages to receive.
+   * @param options A set of options to control the receive operation.
+   * - `maxWaitTimeInMs`: The time to wait to receive the given number of messages.
+   * - `abortSignal`: The signal to use to abort the ongoing operation.
+   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of messages.
+   * @throws Error if the underlying connection, client or receiver is closed.
+   * @throws Error if current receiver is already in state of receiving messages.
+   * @throws MessagingError if the service returns an error while receiving messages.
    */
   receiveMessages(
     maxMessageCount: number,
@@ -104,6 +119,8 @@ export interface Receiver<ReceivedMessageT> {
   isClosed: boolean;
   /**
    * Closes the receiver.
+   * Once closed, the receiver cannot be used for any further operations.
+   * Use the `createReceiver()` method on the ServiceBusClient to create a new Receiver.
    */
   close(): Promise<void>;
 }
@@ -162,11 +179,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     }
   }
 
-  /**
-   * @property Returns `true` if the receiver is closed. This can happen either because the receiver
-   * itself has been closed or the client that created it has been closed.
-   * @readonly
-   */
   public get isClosed(): boolean {
     return this._isClosed || this._context.isClosed;
   }
@@ -243,21 +255,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     return StreamingReceiver.create(context, options);
   }
 
-  /**
-   * Returns a promise that resolves to an array of messages based on given count and timeout over
-   * an AMQP receiver link from a Queue/Subscription.
-   *
-   * The `maxWaitTimeInMs` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
-   * Throws an error if there is another receive operation in progress on the same receiver. If you
-   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
-   * property on the receiver.
-   *
-   * @param maxMessageCount      The maximum number of messages to receive from Queue/Subscription.
-   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of Message objects.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws Error if current receiver is already in state of receiving messages.
-   * @throws MessagingError if the service returns an error while receiving messages.
-   */
   async receiveMessages(
     maxMessageCount: number,
     options?: ReceiveMessagesOptions
@@ -295,33 +292,10 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     return retry<ReceivedMessageT[]>(config);
   }
 
-  /**
-   * Gets an async iterator over messages from the receiver.
-   *
-   * The `maxWaitTimeInMs` provided via the options overrides the `timeoutInMs` provided in the `retryOptions`.
-   * Throws an error if there is another receive operation in progress on the same receiver. If you
-   * are not sure whether there is another receive operation running, check the `isReceivingMessages`
-   * property on the receiver.
-   *
-   * If the iterator is not able to fetch a new message in over a minute, `undefined` will be returned.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws Error if current receiver is already in state of receiving messages.
-   * @throws MessagingError if the service returns an error while receiving messages.
-   */
   getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
     return getMessageIterator(this, options);
   }
 
-  /**
-   * Returns a promise that resolves to an array of deferred messages identified by given `sequenceNumbers`.
-   * @param sequenceNumbers The sequence number or an array of sequence numbers for the messages that need to be received.
-   * @param options - Options bag to pass an abort signal or tracing options.
-   * @returns Promise<ServiceBusMessage[]>
-   * - Returns a list of messages identified by the given sequenceNumbers.
-   * - Returns an empty list if no messages are found.
-   * @throws Error if the underlying connection, client or receiver is closed.
-   * @throws MessagingError if the service returns an error while receiving deferred messages.
-   */
   async receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
     options: OperationOptions = {}
@@ -375,7 +349,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     if (maxMessageCount == undefined) {
       maxMessageCount = 1;
     }
-    
+
     const managementRequestOptions = {
       ...options,
       requestName: "peekMessages",
@@ -421,14 +395,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     );
   }
 
-  /**
-   * Closes the underlying AMQP receiver link.
-   * Once closed, the receiver cannot be used for any further operations.
-   * Use the `createReceiver` function on the QueueClient or SubscriptionClient to instantiate
-   * a new Receiver
-   *
-   * @returns {Promise<void>}
-   */
   async close(): Promise<void> {
     try {
       this._isClosed = true;
