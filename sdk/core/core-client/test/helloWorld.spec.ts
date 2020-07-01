@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { helloWorld } from "../src";
+// import { assert } from "chai";
+// import { createSerializer } from "../src";
 
-describe("helloWorld", () => {
-  it("returns hello world", () => {
-    assert.strictEqual(helloWorld(), "Hello world!");
-  });
-});
+// describe("helloWorld", () => {
+//   it("returns hello world", () => {
+//     assert.strictEqual(helloWorld(), "Hello world!");
+//   });
+// });

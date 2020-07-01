@@ -4,9 +4,97 @@
 
 ```ts
 
-// @public (undocumented)
-export function helloWorld(): string;
+import { AbortSignalLike } from '@azure/abort-controller';
+import { HttpMethods } from '@azure/core-https';
+import { HttpsClient } from '@azure/core-https';
+import { OperationTracingOptions } from '@azure/core-tracing';
+import { Pipeline } from '@azure/core-https';
+import { PipelineRequest } from '@azure/core-https';
+import { PipelineResponse } from '@azure/core-https';
+import { TokenCredential } from '@azure/core-auth';
+import { TransferProgressEvent } from '@azure/core-https';
 
+// @public (undocumented)
+export function createSerializer(modelMappers?: {
+    [key: string]: any;
+}, isXML?: boolean): Serializer;
+
+// @public
+export interface OperationArguments {
+    [parameterName: string]: unknown;
+    options?: OperationOptions;
+}
+
+// @public
+export interface OperationOptions {
+    abortSignal?: AbortSignalLike;
+    // Warning: (ae-forgotten-export) The symbol "OperationRequestOptions" needs to be exported by the entry point index.d.ts
+    requestOptions?: OperationRequestOptions;
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface OperationSpec {
+    readonly baseUrl?: string;
+    readonly contentType?: string;
+    readonly formDataParameters?: ReadonlyArray<OperationParameter>;
+    readonly headerParameters?: ReadonlyArray<OperationParameter>;
+    readonly httpMethod: HttpMethods;
+    readonly isXML?: boolean;
+    readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
+    readonly path?: string;
+    // Warning: (ae-forgotten-export) The symbol "OperationQueryParameter" needs to be exported by the entry point index.d.ts
+    readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
+    // Warning: (ae-forgotten-export) The symbol "OperationParameter" needs to be exported by the entry point index.d.ts
+    readonly requestBody?: OperationParameter;
+    readonly responses: {
+        [responseCode: string]: OperationResponseMap;
+    };
+    readonly serializer: Serializer;
+    // Warning: (ae-forgotten-export) The symbol "OperationURLParameter" needs to be exported by the entry point index.d.ts
+    readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
+}
+
+// @public (undocumented)
+export interface Serializer {
+    // (undocumented)
+    deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
+    // (undocumented)
+    readonly isXML: boolean;
+    // (undocumented)
+    readonly modelMappers: {
+        [key: string]: any;
+    };
+    // (undocumented)
+    serialize(mapper: Mapper, object: any, objectName?: string): any;
+    // Warning: (ae-forgotten-export) The symbol "Mapper" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    validateConstraints(mapper: Mapper, value: any, objectName: string): void;
+}
+
+// @public
+export class ServiceClient {
+    constructor(options?: ServiceClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "OperationResponse" needs to be exported by the entry point index.d.ts
+    sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
+    sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
+}
+
+// @public
+export interface ServiceClientOptions {
+    baseUri?: string;
+    // Warning: (ae-forgotten-export) The symbol "ServiceClientCredentials" needs to be exported by the entry point index.d.ts
+    credentials?: TokenCredential | ServiceClientCredentials;
+    httpsClient?: HttpsClient;
+    pipeline?: Pipeline;
+    requestContentType?: string;
+}
+
+
+// Warnings were encountered during analysis:
+//
+// src/interfaces.ts:260:25 - (ae-forgotten-export) The symbol "OperationResponseMap" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
