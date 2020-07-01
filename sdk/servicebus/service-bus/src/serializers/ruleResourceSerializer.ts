@@ -474,10 +474,8 @@ function buildRawKeyValuePairFromSqlParameter(parameter: SqlParameter): RawKeyVa
     );
   }
 
-  let paramType;
-  try {
-    paramType = TypeMapForRequestSerialization[parameter.type];
-  } catch (err) {
+  let paramType = TypeMapForRequestSerialization[parameter.type];
+  if (!paramType) {
     throw new Error(
       `Invalid type "${parameter.type}" supplied for the SQL Parameter. Must be either of "int", "string", "long" or "date".`
     );
