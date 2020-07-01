@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "typescript/dist"
+  },
+  "include": ["typescript/src/**.ts"],
+  "exclude": ["typescript/*.json", "**/node_modules/", "../node_modules", "../typings"]
+}

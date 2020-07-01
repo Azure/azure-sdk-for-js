@@ -1,7 +1,12 @@
 # Release History
 
-## 12.2.0 (unreleased)
+## 12.2.0-rc.1 (2020.07)
 
+- Updated Azure Storage Service API version to 2019-12-12.
+- Supported quick query. Added a new API `BlockBlobClient.query()`.
+- Supported blob versioning.
+- Supported blob tags.
+- Increased the maximum block size for Block Blob from 100MiB to 4000MiB(~4GB). And thereby supporting ~200TB maximum size for Block Blob.
 - Added convenience method `createIfNotExists` for `ContainerClient`, `AppendBlobClient` and `PageBlobClient`.
 - Added convenience method `deleteIfExists` for `ContainerClient` and `BlobClients`.
 

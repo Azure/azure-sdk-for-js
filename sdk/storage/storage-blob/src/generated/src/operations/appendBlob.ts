@@ -122,6 +122,31 @@ export class AppendBlob {
       appendBlockFromUrlOperationSpec,
       callback) as Promise<Models.AppendBlobAppendBlockFromUrlResponse>;
   }
+
+  /**
+   * The Seal operation seals the Append Blob to make it read-only. Seal is supported only on version
+   * 2019-12-12 version or later.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppendBlobSealResponse>
+   */
+  seal(options?: Models.AppendBlobSealOptionalParams): Promise<Models.AppendBlobSealResponse>;
+  /**
+   * @param callback The callback
+   */
+  seal(callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  seal(options: Models.AppendBlobSealOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  seal(options?: Models.AppendBlobSealOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.AppendBlobSealResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      sealOperationSpec,
+      callback) as Promise<Models.AppendBlobSealResponse>;
+  }
 }
 
 // Operation Specifications
@@ -141,6 +166,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.encryptionScope,
     Parameters.version,
     Parameters.requestId,
+    Parameters.blobTagsString,
     Parameters.blobType1,
     Parameters.blobContentType,
     Parameters.blobContentEncoding,
@@ -155,7 +181,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   responses: {
     201: {
@@ -178,7 +205,7 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp15
+    Parameters.comp19
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -196,7 +223,8 @@ const appendBlockOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifModifiedSince,
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.ifTags
   ],
   requestBody: {
     parameterPath: "body",
@@ -230,7 +258,7 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp15
+    Parameters.comp19
   ],
   headerParameters: [
     Parameters.sourceUrl,
@@ -252,6 +280,7 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
     Parameters.ifUnmodifiedSince,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.ifTags,
     Parameters.sourceIfModifiedSince,
     Parameters.sourceIfUnmodifiedSince,
     Parameters.sourceIfMatch,
@@ -264,6 +293,39 @@ const appendBlockFromUrlOperationSpec: coreHttp.OperationSpec = {
     default: {
       bodyMapper: Mappers.StorageError,
       headersMapper: Mappers.AppendBlobAppendBlockFromUrlHeaders
+    }
+  },
+  isXML: true,
+  serializer
+};
+
+const sealOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{containerName}/{blob}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.comp20
+  ],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.leaseId0,
+    Parameters.ifModifiedSince,
+    Parameters.ifUnmodifiedSince,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+    Parameters.appendPosition
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.AppendBlobSealHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.AppendBlobSealHeaders
     }
   },
   isXML: true,

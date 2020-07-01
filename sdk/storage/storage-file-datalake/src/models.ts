@@ -40,9 +40,11 @@ export {
   PathSetAccessControlResponse as PathSetPermissionsResponse,
   PathResourceType,
   PathUpdateHeaders,
-  PathUpdateResponse as FileAppendResponse,
-  PathUpdateResponse as FileFlushResponse,
-  PathUpdateResponse as FileUploadResponse,
+  PathAppendDataHeaders,
+  PathFlushDataHeaders,
+  PathAppendDataResponse as FileAppendResponse,
+  PathFlushDataResponse as FileFlushResponse,
+  PathFlushDataResponse as FileUploadResponse,
   PathGetPropertiesAction,
   PathRenameMode
 } from "./generated/src/models";

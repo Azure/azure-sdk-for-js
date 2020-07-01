@@ -148,14 +148,30 @@ export async function bodyToString(
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
+  blockContent: Buffer
+): Promise<string>;
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
   blockSize: number
+): Promise<string>;
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSizeOrContent: number | Buffer
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex(len = blockSize) {
+    function randomValueHex() {
+      if (blockSizeOrContent instanceof Buffer) {
+        return blockSizeOrContent;
+      }
+
+      const len = blockSizeOrContent;
+
       return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
         .slice(0, len); // return required number of characters
@@ -163,7 +179,7 @@ export async function createRandomLocalFile(
 
     ws.on("open", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) { }
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -171,7 +187,7 @@ export async function createRandomLocalFile(
 
     ws.on("drain", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) { }
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -215,4 +231,16 @@ export function getSASConnectionStringFromEnvironment(): string {
     ".queue.",
     ".file."
   )}/;TableEndpoint=${blobEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
+}
+
+export function isBlobVersioningDisabled(): boolean {
+  return !process.env.BLOB_VERSIONING_ENABLED;
+}
+
+export function isBlobTagsDisabled(): boolean {
+  return !process.env.BLOB_TAGS_ENABLED;
+}
+
+export function isQuickQueryDisabled(): boolean {
+  return !process.env.QUICK_QUERY_ENABLED;
 }

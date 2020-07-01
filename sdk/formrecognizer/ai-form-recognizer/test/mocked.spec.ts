@@ -3,19 +3,13 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { ServiceClientCredentials, HttpHeaders, WebResource } from "@azure/core-http";
+import { HttpHeaders, WebResource } from "@azure/core-http";
 import { GeneratedClient } from "../src/generated/generatedClient";
 import { FormTrainingClient, AzureKeyCredential, CustomFormModelInfo } from "../src";
 import { GeneratedClientListCustomModelsResponse } from "../src/generated/models";
 
 function getGeneratedClientMock(): GeneratedClient {
-  const dummyCredential: ServiceClientCredentials = {
-    signRequest(r) {
-      return Promise.resolve(r);
-    }
-  };
-
-  const client = new GeneratedClient(dummyCredential, "endpointUrl", undefined);
+  const client = new GeneratedClient("endpointUrl", undefined);
   return client;
 }
 
@@ -24,26 +18,26 @@ describe("Mock tests", function() {
     const modelInfo1: CustomFormModelInfo = {
       modelId: "id1",
       status: "ready",
-      requestedOn: new Date("2020/01/01"),
-      completedOn: new Date("2020/01/02")
+      trainingStartedOn: new Date("2020/01/01"),
+      trainingCompletedOn: new Date("2020/01/02")
     };
     const modelInfo2: CustomFormModelInfo = {
       modelId: "id2",
       status: "ready",
-      requestedOn: new Date("2020/02/01"),
-      completedOn: new Date("2020/02/02")
+      trainingStartedOn: new Date("2020/02/01"),
+      trainingCompletedOn: new Date("2020/02/02")
     };
     const modelInfo3: CustomFormModelInfo = {
       modelId: "id3",
       status: "ready",
-      requestedOn: new Date("2020/03/01"),
-      completedOn: new Date("2020/03/02")
+      trainingStartedOn: new Date("2020/03/01"),
+      trainingCompletedOn: new Date("2020/03/02")
     };
     const modelInfo4: CustomFormModelInfo = {
       modelId: "id4",
       status: "ready",
-      requestedOn: new Date("2020/04/01"),
-      completedOn: new Date("2020/04/02")
+      trainingStartedOn: new Date("2020/04/01"),
+      trainingCompletedOn: new Date("2020/04/02")
     };
     const firstPage: GeneratedClientListCustomModelsResponse = {
       modelList: [modelInfo1, modelInfo2],
@@ -67,7 +61,10 @@ describe("Mock tests", function() {
     };
 
     it("should list models when there are only one page of results", async function() {
-      const trainingClient = new FormTrainingClient("https://endpoint", new AzureKeyCredential("key"));
+      const trainingClient = new FormTrainingClient(
+        "https://endpoint",
+        new AzureKeyCredential("key")
+      );
       const generatedClient = getGeneratedClientMock();
 
       const listStub = sinon.stub(generatedClient, "listCustomModels");
@@ -84,7 +81,10 @@ describe("Mock tests", function() {
     });
 
     it("should list models when there are more than one page of results", async function() {
-      const trainingClient = new FormTrainingClient("https://endpoint", new AzureKeyCredential("key"));
+      const trainingClient = new FormTrainingClient(
+        "https://endpoint",
+        new AzureKeyCredential("key")
+      );
       const generatedClient = getGeneratedClientMock();
 
       const listStub = sinon.stub(generatedClient, "listCustomModels");
@@ -106,7 +106,10 @@ describe("Mock tests", function() {
     });
 
     it("should return the page from continuation token", async function() {
-      const trainingClient = new FormTrainingClient("https://endpoint", new AzureKeyCredential("key"));
+      const trainingClient = new FormTrainingClient(
+        "https://endpoint",
+        new AzureKeyCredential("key")
+      );
       const generatedClient = getGeneratedClientMock();
 
       const listNextStub = sinon.stub(generatedClient, "listCustomModelsNext");

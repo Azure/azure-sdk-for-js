@@ -853,7 +853,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   ): Promise<PathCreateIfNotExistsResponse> {
     if (resourceTypeOrOptions === PathResourceType.File) {
       throw TypeError(
-        `DataLakeDirectoryClient:createIfNotExists() resourceType cannot be ${PathResourceType.File}. Refer to DataLakeFileClient for file creation.`
+        `DataLakeDirectoryClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeFileClient for file creation.`
       );
     }
 
@@ -1090,7 +1090,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<PathCreateIfNotExistsResponse> {
     if (resourceTypeOrOptions === PathResourceType.Directory) {
       throw TypeError(
-        `DataLakeFileClient:createIfNotExists() resourceType cannot be ${PathResourceType.Directory}. Refer to DataLakeDirectoryClient for directory creation.`
+        `DataLakeFileClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeDirectoryClient for directory creation.`
       );
     }
 
