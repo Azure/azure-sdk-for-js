@@ -123,103 +123,38 @@ describe("ServiceClient", function() {
   });
 
   it("should serialize collection:csv query parameters", async function() {
-    await testSendOperationRequest(["1", "2", "3"], QueryCollectionFormat.Csv, false, "?q=1,2,3");
+    await testSendOperationRequest(["1", "2", "3"], "CSV", false, "?q=1,2,3");
   });
 
   it("should serialize collection:csv query parameters with commas & skipEncoding true", async function() {
-    await testSendOperationRequest(
-      ["1,2", "3,4", "5"],
-      QueryCollectionFormat.Csv,
-      true,
-      "?q=1,2,3,4,5"
-    );
+    await testSendOperationRequest(["1,2", "3,4", "5"], "CSV", true, "?q=1,2,3,4,5");
   });
 
   it("should serialize collection:csv query parameters with commas", async function() {
-    await testSendOperationRequest(
-      ["1,2", "3,4", "5"],
-      QueryCollectionFormat.Csv,
-      false,
-      "?q=1%2C2,3%2C4,5"
-    );
+    await testSendOperationRequest(["1,2", "3,4", "5"], "CSV", false, "?q=1%2C2,3%2C4,5");
   });
 
   it("should serialize collection:csv query parameters with undefined and null", async function() {
-    await testSendOperationRequest(
-      ["1,2", undefined, "5"],
-      QueryCollectionFormat.Csv,
-      false,
-      "?q=1%2C2,,5"
-    );
-    await testSendOperationRequest(
-      ["1,2", null, "5"],
-      QueryCollectionFormat.Csv,
-      false,
-      "?q=1%2C2,,5"
-    );
+    await testSendOperationRequest(["1,2", undefined, "5"], "CSV", false, "?q=1%2C2,,5");
+    await testSendOperationRequest(["1,2", null, "5"], "CSV", false, "?q=1%2C2,,5");
   });
 
   it("should serialize collection:tsv query parameters with undefined and null", async function() {
-    await testSendOperationRequest(
-      ["1,2", undefined, "5"],
-      QueryCollectionFormat.Tsv,
-      false,
-      "?q=1%2C2%09%095"
-    );
-    await testSendOperationRequest(
-      ["1,2", null, "5"],
-      QueryCollectionFormat.Tsv,
-      false,
-      "?q=1%2C2%09%095"
-    );
-    await testSendOperationRequest(
-      ["1,2", "3", "5"],
-      QueryCollectionFormat.Tsv,
-      false,
-      "?q=1%2C2%093%095"
-    );
+    await testSendOperationRequest(["1,2", undefined, "5"], "TSV", false, "?q=1%2C2%09%095");
+    await testSendOperationRequest(["1,2", null, "5"], "TSV", false, "?q=1%2C2%09%095");
+    await testSendOperationRequest(["1,2", "3", "5"], "TSV", false, "?q=1%2C2%093%095");
   });
 
   it("should serialize collection:ssv query parameters with undefined and null", async function() {
-    await testSendOperationRequest(
-      ["1,2", undefined, "5"],
-      QueryCollectionFormat.Ssv,
-      false,
-      "?q=1%2C2%20%205"
-    );
-    await testSendOperationRequest(
-      ["1,2", null, "5"],
-      QueryCollectionFormat.Ssv,
-      false,
-      "?q=1%2C2%20%205"
-    );
-    await testSendOperationRequest(
-      ["1,2", "3", "5"],
-      QueryCollectionFormat.Ssv,
-      false,
-      "?q=1%2C2%203%205"
-    );
+    await testSendOperationRequest(["1,2", undefined, "5"], "SSV", false, "?q=1%2C2%20%205");
+    await testSendOperationRequest(["1,2", null, "5"], "SSV", false, "?q=1%2C2%20%205");
+    await testSendOperationRequest(["1,2", "3", "5"], "SSV", false, "?q=1%2C2%203%205");
   });
 
   it("should serialize collection:multi query parameters", async function() {
-    await testSendOperationRequest(
-      ["1", "2", "3"],
-      QueryCollectionFormat.Multi,
-      false,
-      "?q=1&q=2&q=3"
-    );
-    await testSendOperationRequest(
-      ["1,2", "3,4", "5"],
-      QueryCollectionFormat.Multi,
-      false,
-      "?q=1%2C2&q=3%2C4&q=5"
-    );
-    await testSendOperationRequest(
-      ["1,2", "3,4", "5"],
-      QueryCollectionFormat.Multi,
-      true,
-      "?q=1,2&q=3,4&q=5"
-    );
+    await testSendOperationRequest(["1", "2", "3"], "Multi", false, "?q=1&q=2&q=3");
+    await testSendOperationRequest(["1,2", "3,4", "5"], "Multi", false, "?q=1%2C2&q=3%2C4&q=5");
+    await testSendOperationRequest(["1,2", "3,4", "5"], "Multi", true, "?q=1,2&q=3,4&q=5");
   });
 
   it("should deserialize response bodies", async function() {

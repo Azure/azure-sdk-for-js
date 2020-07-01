@@ -5,6 +5,14 @@ import { OperationSpec, OperationArguments, QueryCollectionFormat } from "./inte
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 import { getPathStringFromParameter } from "./interfaceHelpers";
 
+const CollectionFormatToDelimiterMap: { [key in QueryCollectionFormat]: string } = {
+  CSV: ",",
+  SSV: " ",
+  Multi: "Multi",
+  TSV: "\t",
+  Pipes: "|"
+};
+
 export function getRequestUrl(
   baseUri: string,
   operationSpec: OperationSpec,
@@ -105,7 +113,7 @@ function calculateQueryParameters(
   const result = new Map<string, string | string[]>();
   if (operationSpec.queryParameters?.length) {
     for (const queryParameter of operationSpec.queryParameters) {
-      let queryParameterValue = getOperationArgumentValueFromParameter(
+      let queryParameterValue: string | string[] = getOperationArgumentValueFromParameter(
         operationArguments,
         queryParameter,
         operationSpec.serializer,
@@ -117,53 +125,53 @@ function calculateQueryParameters(
           queryParameterValue,
           getPathStringFromParameter(queryParameter)
         );
-        if (queryParameter.collectionFormat) {
-          if (queryParameter.collectionFormat === QueryCollectionFormat.Multi) {
-            if (queryParameterValue.length === 0) {
-              queryParameterValue = "";
-            } else {
-              for (const index in queryParameterValue) {
-                const item = queryParameterValue[index];
-                if (item === null || item === undefined) {
-                  queryParameterValue[index] = "";
-                } else {
-                  queryParameterValue[index] = item.toString();
-                }
-              }
+
+        const delimiter = queryParameter.collectionFormat
+          ? CollectionFormatToDelimiterMap[queryParameter.collectionFormat]
+          : "";
+        if (Array.isArray(queryParameterValue)) {
+          // replace null and undefined
+          queryParameterValue = queryParameterValue.map((item) => {
+            if (item === null || item === undefined) {
+              return "";
             }
-          } else if (
-            queryParameter.collectionFormat === QueryCollectionFormat.Ssv ||
-            queryParameter.collectionFormat === QueryCollectionFormat.Tsv
-          ) {
-            queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
-          }
+
+            return item;
+          });
+        }
+        if (queryParameter.collectionFormat === "Multi" && queryParameterValue.length === 0) {
+          queryParameterValue = "";
+        } else if (
+          Array.isArray(queryParameterValue) &&
+          (queryParameter.collectionFormat === "SSV" || queryParameter.collectionFormat === "TSV")
+        ) {
+          queryParameterValue = queryParameterValue.join(delimiter);
         }
         if (!queryParameter.skipEncoding) {
           if (Array.isArray(queryParameterValue)) {
-            for (const index in queryParameterValue) {
-              if (queryParameterValue[index] !== undefined && queryParameterValue[index] !== null) {
-                queryParameterValue[index] = encodeURIComponent(queryParameterValue[index]);
-              }
-            }
+            queryParameterValue = queryParameterValue.map((item: string) => {
+              return encodeURIComponent(item);
+            });
           } else {
             queryParameterValue = encodeURIComponent(queryParameterValue);
           }
         }
+
+        // Join pipes and CSV *after* encoding, or the server will be upset.
         if (
-          queryParameter.collectionFormat &&
-          queryParameter.collectionFormat !== QueryCollectionFormat.Multi &&
-          queryParameter.collectionFormat !== QueryCollectionFormat.Ssv &&
-          queryParameter.collectionFormat !== QueryCollectionFormat.Tsv
+          Array.isArray(queryParameterValue) &&
+          (queryParameter.collectionFormat === "CSV" || queryParameter.collectionFormat === "Pipes")
         ) {
-          queryParameterValue = queryParameterValue.join(queryParameter.collectionFormat);
+          queryParameterValue = queryParameterValue.join(delimiter);
         }
-        queryParameterValue = Array.isArray(queryParameterValue)
-          ? queryParameterValue
-          : queryParameterValue.toString();
-        result.set(
-          queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
-          queryParameterValue
-        );
+
+        // ignore empty values
+        if (queryParameterValue) {
+          result.set(
+            queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
+            queryParameterValue
+          );
+        }
       }
     }
   }

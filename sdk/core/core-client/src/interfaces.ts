@@ -106,13 +106,7 @@ export interface OperationArguments {
 /**
  * The format that will be used to join an array of values together for a query parameter value.
  */
-export const enum QueryCollectionFormat {
-  Csv = ",",
-  Ssv = " ",
-  Tsv = "\t",
-  Pipes = "|",
-  Multi = "Multi"
-}
+export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 
 export type ParameterPath = string | string[] | { [propertyName: string]: ParameterPath };
 
