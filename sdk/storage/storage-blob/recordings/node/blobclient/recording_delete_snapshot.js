@@ -49,6 +49,8 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'YeJLfssylmU=',
   'x-ms-request-server-encrypted',
   'true',
+  'x-ms-version-id',
+  '2020-06-14T04:17:52.6476838Z',
   'Date',
   'Mon, 29 Jun 2020 07:44:45 GMT'
 ]);
@@ -136,7 +138,7 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-version',
   '2019-07-07',
   'x-ms-delete-type-permanent',
-  'false',
+  'true',
   'Date',
   'Mon, 29 Jun 2020 07:44:46 GMT'
 ]);

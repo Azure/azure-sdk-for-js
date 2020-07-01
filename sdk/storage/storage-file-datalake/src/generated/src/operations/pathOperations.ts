@@ -65,12 +65,13 @@ export class PathOperations {
    * @summary Append Data | Flush Data | Set Properties | Set Access Control
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
-   * directory, or "setAccessControl" to set the owner, group, permissions, or access control list
-   * for a file or directory.  Note that Hierarchical Namespace must be enabled for the account in
-   * order to use access control.  Also note that the Access Control List (ACL) includes permissions
-   * for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers
-   * are mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
-   * 'setAccessControl'
+   * directory, "setAccessControl" to set the owner, group, permissions, or access control list for a
+   * file or directory, or  "setAccessControlRecursive" to set the access control list for a
+   * directory recursively. Note that Hierarchical Namespace must be enabled for the account in order
+   * to use access control.  Also note that the Access Control List (ACL) includes permissions for
+   * the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are
+   * mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
+   * 'setAccessControl', 'setAccessControlRecursive'
    * @param body Initial data
    * @param [options] The optional parameters
    * @returns Promise<Models.PathUpdateResponse>
@@ -79,31 +80,33 @@ export class PathOperations {
   /**
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
-   * directory, or "setAccessControl" to set the owner, group, permissions, or access control list
-   * for a file or directory.  Note that Hierarchical Namespace must be enabled for the account in
-   * order to use access control.  Also note that the Access Control List (ACL) includes permissions
-   * for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers
-   * are mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
-   * 'setAccessControl'
+   * directory, "setAccessControl" to set the owner, group, permissions, or access control list for a
+   * file or directory, or  "setAccessControlRecursive" to set the access control list for a
+   * directory recursively. Note that Hierarchical Namespace must be enabled for the account in order
+   * to use access control.  Also note that the Access Control List (ACL) includes permissions for
+   * the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are
+   * mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
+   * 'setAccessControl', 'setAccessControlRecursive'
    * @param body Initial data
    * @param callback The callback
    */
-  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, callback: coreHttp.ServiceCallback<void>): void;
+  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
   /**
    * @param action The action must be "append" to upload data to be appended to a file, "flush" to
    * flush previously uploaded data to a file, "setProperties" to set the properties of a file or
-   * directory, or "setAccessControl" to set the owner, group, permissions, or access control list
-   * for a file or directory.  Note that Hierarchical Namespace must be enabled for the account in
-   * order to use access control.  Also note that the Access Control List (ACL) includes permissions
-   * for the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers
-   * are mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
-   * 'setAccessControl'
+   * directory, "setAccessControl" to set the owner, group, permissions, or access control list for a
+   * file or directory, or  "setAccessControlRecursive" to set the access control list for a
+   * directory recursively. Note that Hierarchical Namespace must be enabled for the account in order
+   * to use access control.  Also note that the Access Control List (ACL) includes permissions for
+   * the owner, owning group, and others, so the x-ms-permissions and x-ms-acl request headers are
+   * mutually exclusive. Possible values include: 'append', 'flush', 'setProperties',
+   * 'setAccessControl', 'setAccessControlRecursive'
    * @param body Initial data
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, options: Models.PathUpdateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, options?: Models.PathUpdateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathUpdateResponse> {
+  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, options: Models.PathUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
+  update(action: Models.PathUpdateAction, body: coreHttp.HttpRequestBody, options?: Models.PathUpdateOptionalParams | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>, callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): Promise<Models.PathUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         action,
@@ -282,6 +285,30 @@ export class PathOperations {
   }
 
   /**
+   * Set the access control list for a path and subpaths.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PathSetAccessControlRecursiveResponse>
+   */
+  setAccessControlRecursive(options?: Models.PathSetAccessControlRecursiveOptionalParams): Promise<Models.PathSetAccessControlRecursiveResponse>;
+  /**
+   * @param callback The callback
+   */
+  setAccessControlRecursive(callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  setAccessControlRecursive(options: Models.PathSetAccessControlRecursiveOptionalParams, callback: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): void;
+  setAccessControlRecursive(options?: Models.PathSetAccessControlRecursiveOptionalParams | coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>, callback?: coreHttp.ServiceCallback<Models.SetAccessControlRecursiveResponse>): Promise<Models.PathSetAccessControlRecursiveResponse> {
+    return this.client.sendOperationRequest(
+      {
+        options
+      },
+      setAccessControlRecursiveOperationSpec,
+      callback) as Promise<Models.PathSetAccessControlRecursiveResponse>;
+  }
+
+  /**
    * Set the owner, group, permissions, or access control list for a path.
    * @param [options] The optional parameters
    * @returns Promise<Models.PathFlushDataResponse>
@@ -332,6 +359,37 @@ export class PathOperations {
       appendDataOperationSpec,
       callback) as Promise<Models.PathAppendDataResponse>;
   }
+
+  /**
+   * Sets the time a blob will expire and be deleted.
+   * @param expiryOptions Required. Indicates mode of the expiry time. Possible values include:
+   * 'NeverExpire', 'RelativeToCreation', 'RelativeToNow', 'Absolute'
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PathSetExpiryResponse>
+   */
+  setExpiry(expiryOptions: Models.PathExpiryOptions, options?: Models.PathSetExpiryOptionalParams): Promise<Models.PathSetExpiryResponse>;
+  /**
+   * @param expiryOptions Required. Indicates mode of the expiry time. Possible values include:
+   * 'NeverExpire', 'RelativeToCreation', 'RelativeToNow', 'Absolute'
+   * @param callback The callback
+   */
+  setExpiry(expiryOptions: Models.PathExpiryOptions, callback: coreHttp.ServiceCallback<void>): void;
+  /**
+   * @param expiryOptions Required. Indicates mode of the expiry time. Possible values include:
+   * 'NeverExpire', 'RelativeToCreation', 'RelativeToNow', 'Absolute'
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  setExpiry(expiryOptions: Models.PathExpiryOptions, options: Models.PathSetExpiryOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  setExpiry(expiryOptions: Models.PathExpiryOptions, options?: Models.PathSetExpiryOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.PathSetExpiryResponse> {
+    return this.client.sendOperationRequest(
+      {
+        expiryOptions,
+        options
+      },
+      setExpiryOperationSpec,
+      callback) as Promise<Models.PathSetExpiryResponse>;
+  }
 }
 
 // Operation Specifications
@@ -345,7 +403,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.resource2,
     Parameters.continuation,
-    Parameters.mode,
+    Parameters.mode0,
     Parameters.timeout
   ],
   headerParameters: [
@@ -391,6 +449,9 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.action0,
+    Parameters.maxRecords,
+    Parameters.continuation,
+    Parameters.mode1,
     Parameters.position,
     Parameters.retainUncommittedData,
     Parameters.close,
@@ -430,6 +491,7 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   contentType: "application/octet-stream",
   responses: {
     200: {
+      bodyMapper: Mappers.SetAccessControlRecursiveResponse,
       headersMapper: Mappers.PathUpdateHeaders
     },
     202: {
@@ -629,6 +691,37 @@ const setAccessControlOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 
+const setAccessControlRecursiveOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "{filesystem}/{path}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.continuation,
+    Parameters.mode1,
+    Parameters.maxRecords,
+    Parameters.action3
+  ],
+  headerParameters: [
+    Parameters.acl,
+    Parameters.requestId,
+    Parameters.version
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SetAccessControlRecursiveResponse,
+      headersMapper: Mappers.PathSetAccessControlRecursiveHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PathSetAccessControlRecursiveHeaders
+    }
+  },
+  serializer
+};
+
 const flushDataOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "{filesystem}/{path}",
@@ -640,7 +733,7 @@ const flushDataOperationSpec: coreHttp.OperationSpec = {
     Parameters.position,
     Parameters.retainUncommittedData,
     Parameters.close,
-    Parameters.action3
+    Parameters.action4
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -679,7 +772,7 @@ const appendDataOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.position,
     Parameters.timeout,
-    Parameters.action4
+    Parameters.action5
   ],
   headerParameters: [
     Parameters.contentLength,
@@ -705,6 +798,34 @@ const appendDataOperationSpec: coreHttp.OperationSpec = {
     default: {
       bodyMapper: Mappers.StorageError,
       headersMapper: Mappers.PathAppendDataHeaders
+    }
+  },
+  serializer
+};
+
+const setExpiryOperationSpec: coreHttp.OperationSpec = {
+  httpMethod: "PUT",
+  path: "{filesystem}/{path}",
+  urlParameters: [
+    Parameters.url
+  ],
+  queryParameters: [
+    Parameters.timeout,
+    Parameters.comp
+  ],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.expiryOptions,
+    Parameters.expiresOn
+  ],
+  responses: {
+    200: {
+      headersMapper: Mappers.PathSetExpiryHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.PathSetExpiryHeaders
     }
   },
   serializer
