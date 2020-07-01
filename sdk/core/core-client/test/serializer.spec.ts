@@ -12,7 +12,7 @@ import {
 } from "../src";
 import { Mappers } from "./testMappers";
 
-const Serializer = createSerializer();
+const Serializer = createSerializer(Mappers);
 const valid_uuid = "ceaafd1e-f936-429f-bbfc-82ee75dddc33";
 
 function stringToByteArray(str: string): Uint8Array {
@@ -455,7 +455,7 @@ describe("Serializer", function() {
 
     it("should correctly serialize a composite type", function() {
       const mapper = Mappers.Product;
-      const serializer = createSerializer();
+      const serializer = createSerializer(Mappers);
       const productObj = {
         id: 101,
         name: "TestProduct",
@@ -536,7 +536,7 @@ describe("Serializer", function() {
     });
 
     it("should correctly serialize object version of polymorphic discriminator", function() {
-      const serializer = createSerializer();
+      const serializer = createSerializer(Mappers);
       const mapper = Mappers.SawShark;
       const sawshark = {
         fishtype: "sawshark",
@@ -598,7 +598,7 @@ describe("Serializer", function() {
         food: "tikka masala",
         birthdate: "2017-12-13T02:29:51.000Z"
       };
-      const serializer = createSerializer();
+      const serializer = createSerializer(Mappers);
       const mapper = Mappers.PetAP;
       const result = serializer.serialize(mapper, bodyParameter, "bodyParameter");
       assert.equal(result.id, 5);
@@ -859,7 +859,7 @@ describe("Serializer", function() {
       assert.equal(serializedObject, valid_uuid);
     });
     it("should correctly deserialize a composite type", function() {
-      const serializer = createSerializer();
+      const serializer = createSerializer(Mappers);
       const mapper = Mappers.Product;
       const responseBody = {
         id: 101,
@@ -949,7 +949,7 @@ describe("Serializer", function() {
     });
 
     it("should correctly deserialize a pageable type without nextLink", function() {
-      const serializer = createSerializer();
+      const serializer = createSerializer(Mappers);
       const mapper = Mappers.ProductListResult;
       const responseBody = {
         value: [
@@ -986,7 +986,7 @@ describe("Serializer", function() {
     });
 
     it("should correctly deserialize a pageable type with nextLink", function() {
-      const serializer = createSerializer();
+      const serializer = createSerializer(Mappers);
       const mapper = Mappers.ProductListResultNextLink;
       const responseBody = {
         value: [
@@ -1025,7 +1025,7 @@ describe("Serializer", function() {
     });
 
     it("should correctly deserialize object version of polymorphic discriminator", function() {
-      const serializer = createSerializer();
+      const serializer = createSerializer(Mappers);
       const mapper = Mappers.Fish;
       const responseBody = {
         "fish.type": "sawshark",
@@ -1104,7 +1104,7 @@ describe("Serializer", function() {
     });
 
     it("should correctly deserialize without failing when encountering unrecognized discriminator", function() {
-      const serializer = createSerializer();
+      const serializer = createSerializer(Mappers);
       const mapper = Mappers.Fish;
       const responseBody = {
         "fish.type": "sawshark",
@@ -1160,7 +1160,7 @@ describe("Serializer", function() {
         food: "tikka masala",
         birthdate: "2017-12-13T02:29:51Z"
       };
-      const serializer = createSerializer();
+      const serializer = createSerializer(Mappers);
       const mapper = Mappers.PetAP;
       const result = serializer.deserialize(mapper, responseBody, "responseBody");
       assert.equal(result.id, 5);
