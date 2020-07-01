@@ -15,5 +15,12 @@ export {
   CompositeMapper,
   OperationRequest,
   QueryCollectionFormat,
-  ParameterPath
+  ParameterPath,
+  FullOperationResponse
 } from "./interfaces";
+export {
+  deserializationPolicy,
+  deserializationPolicyName,
+  DeserializationPolicyOptions,
+  DeserializationContentTypes
+} from "./deserializationPolicy";

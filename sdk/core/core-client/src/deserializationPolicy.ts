@@ -101,7 +101,7 @@ function shouldDeserializeResponse(parsedResponse: PipelineResponse): boolean {
   return result;
 }
 
-export async function deserializeResponseBody(
+async function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   response: PipelineResponse,
