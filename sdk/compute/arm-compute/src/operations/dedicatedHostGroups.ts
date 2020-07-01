@@ -138,7 +138,7 @@ export class DedicatedHostGroups {
    * @param [options] The optional parameters
    * @returns Promise<Models.DedicatedHostGroupsGetResponse>
    */
-  get(resourceGroupName: string, hostGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DedicatedHostGroupsGetResponse>;
+  get(resourceGroupName: string, hostGroupName: string, options?: Models.DedicatedHostGroupsGetOptionalParams): Promise<Models.DedicatedHostGroupsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
@@ -151,8 +151,8 @@ export class DedicatedHostGroups {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, hostGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DedicatedHostGroup>): void;
-  get(resourceGroupName: string, hostGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DedicatedHostGroup>, callback?: msRest.ServiceCallback<Models.DedicatedHostGroup>): Promise<Models.DedicatedHostGroupsGetResponse> {
+  get(resourceGroupName: string, hostGroupName: string, options: Models.DedicatedHostGroupsGetOptionalParams, callback: msRest.ServiceCallback<Models.DedicatedHostGroup>): void;
+  get(resourceGroupName: string, hostGroupName: string, options?: Models.DedicatedHostGroupsGetOptionalParams | msRest.ServiceCallback<Models.DedicatedHostGroup>, callback?: msRest.ServiceCallback<Models.DedicatedHostGroup>): Promise<Models.DedicatedHostGroupsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -378,6 +378,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.expand1,
     Parameters.apiVersion0
   ],
   headerParameters: [
