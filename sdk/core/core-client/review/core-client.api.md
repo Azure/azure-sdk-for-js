@@ -86,10 +86,10 @@ export interface OperationOptions {
 
 // @public (undocumented)
 export interface OperationRequest extends PipelineRequest {
-    // Warning: (ae-forgotten-export) The symbol "OperationResponse" needs to be exported by the entry point index.d.ts
-    operationResponseGetter?: (operationSpec: OperationSpec, response: OperationResponse) => undefined | OperationResponse;
+    // Warning: (ae-forgotten-export) The symbol "OperationResponseMap" needs to be exported by the entry point index.d.ts
+    operationResponseGetter?: (operationSpec: OperationSpec, response: PipelineResponse) => undefined | OperationResponseMap;
     operationSpec?: OperationSpec;
-    shouldDeserialize?: boolean | ((response: OperationResponse) => boolean);
+    shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
 }
 
 // @public
@@ -160,6 +160,7 @@ export interface Serializer {
 // @public
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "OperationResponse" needs to be exported by the entry point index.d.ts
     sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
     }
@@ -177,10 +178,6 @@ export interface ServiceClientOptions {
     }) => string;
 }
 
-
-// Warnings were encountered during analysis:
-//
-// src/interfaces.ts:260:25 - (ae-forgotten-export) The symbol "OperationResponseMap" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

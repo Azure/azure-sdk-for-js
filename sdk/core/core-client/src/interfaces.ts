@@ -17,20 +17,19 @@ export interface OperationRequest extends PipelineRequest {
   operationSpec?: OperationSpec;
 
   /**
-   * A function that returns the proper OperationResponse for the given OperationSpec and
-   * HttpOperationResponse combination. If this is undefined, then a simple status code lookup will
+   * A function that returns the proper OperationResponseMap for the given OperationSpec and
+   * PipelineResponse combination. If this is undefined, then a simple status code lookup will
    * be used.
    */
   operationResponseGetter?: (
     operationSpec: OperationSpec,
-    response: OperationResponse
-  ) => undefined | OperationResponse;
+    response: PipelineResponse
+  ) => undefined | OperationResponseMap;
 
   /**
-   * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
-   * HttpOperationResponse should be deserialized.
+   * Whether or not the PipelineResponse should be deserialized. Defaults to true.
    */
-  shouldDeserialize?: boolean | ((response: OperationResponse) => boolean);
+  shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
 }
 
 export interface ServiceClientCredentials {
@@ -86,7 +85,7 @@ export interface OperationRequestOptions {
    * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
    * HttpOperationResponse should be deserialized.
    */
-  shouldDeserialize?: boolean | ((response: OperationResponse) => boolean);
+  shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
 }
 
 /**
@@ -271,9 +270,14 @@ export interface FullOperationResponse extends PipelineResponse {
   parsedHeaders?: { [key: string]: unknown };
 
   /**
-   * The response body as parsed JSON or XML
+   * The response body as parsed JSON or XML.
    */
-  parsedBody?: { [key: string]: unknown };
+  parsedBody?: any;
+
+  /**
+   * The request that generated the response.
+   */
+  request: OperationRequest;
 }
 
 /**

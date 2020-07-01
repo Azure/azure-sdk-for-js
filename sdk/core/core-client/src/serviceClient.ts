@@ -321,7 +321,7 @@ function createDefaultPipeline(): Pipeline {
   return createPipelineFromOptions({});
 }
 
-function prepareXMLRootList(obj: any, elementName: string) {
+function prepareXMLRootList(obj: any, elementName: string): { [key: string]: any[] } {
   if (!Array.isArray(obj)) {
     obj = [obj];
   }
