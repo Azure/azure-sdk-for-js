@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /**
  * Performs a query over a public dataset
@@ -62,7 +62,7 @@ export async function main() {
     select: ["HotelId", "HotelName", "Rating"]
   });
   for await (const result of searchResults.results) {
-    console.log(`${result.HotelName}: ${result.Rating} stars`);
+    console.log(`${result.document.HotelName}: ${result.document.Rating} stars`);
   }
 }
 

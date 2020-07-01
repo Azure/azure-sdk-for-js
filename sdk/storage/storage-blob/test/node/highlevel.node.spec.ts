@@ -4,11 +4,19 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
+import {
+  createRandomLocalFile,
+  getBSU,
+  recorderEnvSetup,
+  isBlobVersioningDisabled,
+  isBlobTagsDisabled
+} from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
+import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
+import { Test_CPK_INFO } from "../utils/constants";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -64,6 +72,24 @@ describe("Highlevel", () => {
     recorder.stop();
   });
 
+  it("put blob with maximum size", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const MB = 1024 * 1024;
+    const maxPutBlobSizeLimitInMB = 5000;
+    const tempFile = await createRandomLocalFile(tempFolderPath, maxPutBlobSizeLimitInMB, MB);
+    const inputStream = fs.createReadStream(tempFile);
+
+    try {
+      await blockBlobClient.upload(() => inputStream, maxPutBlobSizeLimitInMB * MB, {
+        abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
+      });
+    } catch (err) {
+      assert.equal(err.name, "AbortError");
+    }
+
+    fs.unlinkSync(tempFile);
+  }).timeout(timeoutForLargeFileUploadingTest);
+
   it("uploadFile should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await blockBlobClient.uploadFile(tempFileLarge, {
@@ -81,6 +107,27 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadedFile);
     assert.ok(downloadedData.equals(uploadedData));
   }).timeout(timeoutForLargeFileUploadingTest);
+
+  it("uploadFile should work with tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    await blockBlobClient.uploadFile(tempFileSmall, {
+      blockSize: 4 * 1024 * 1024,
+      concurrency: 20,
+      tags
+    });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
 
   it("uploadFile should success when blob < BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -193,6 +240,25 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   });
 
+  it("uploadFile should succeed with blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const tempFile = await createRandomLocalFile(
+      tempFolderPath,
+      BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1,
+      1024 * 1024
+    );
+    try {
+      await blockBlobClient.uploadFile(tempFile, {
+        blockSize: BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
+        abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
+      });
+    } catch (err) {
+      assert.equal(err.name, "AbortError");
+    }
+
+    fs.unlinkSync(tempFile);
+  }).timeout(timeoutForLargeFileUploadingTest);
+
   it("uploadStream should success", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
@@ -216,7 +282,8 @@ describe("Highlevel", () => {
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
 
-    await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20);
+    const uploadStreamRes = await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20);
+    assert.ok(isBlobVersioningDisabled() || uploadStreamRes.versionId);
 
     const downloadResponse = await blockBlobClient.download(0);
 
@@ -227,6 +294,27 @@ describe("Highlevel", () => {
     assert.ok(buf.equals(downloadedBuffer));
 
     fs.unlinkSync(downloadFilePath);
+  });
+
+  it("uploadStream should work with tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+
+    const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+    const bufferStream = new PassThrough();
+    bufferStream.end(buf);
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20, { tags });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it("uploadStream should abort", async () => {
@@ -375,6 +463,30 @@ describe("Highlevel", () => {
       });
     } catch (err) {}
     assert.ok(eventTriggered);
+  });
+
+  it("downloadToBuffer with CPK", async () => {
+    const content = "Hello World";
+    const CPKblobName = recorder.getUniqueName("blobCPK");
+    const CPKblobClient = containerClient.getBlobClient(CPKblobName);
+    const CPKblockBlobClient = CPKblobClient.getBlockBlobClient();
+    await CPKblockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+
+    const downloadToBufferRes = await CPKblockBlobClient.downloadToBuffer(undefined, undefined, {
+      customerProvidedKey: Test_CPK_INFO
+    });
+    assert.ok(downloadToBufferRes.equals(Buffer.from(content)));
+
+    let exceptionCaught = false;
+    try {
+      await CPKblobClient.downloadToBuffer();
+    } catch (err) {
+      assert.equal(err.details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
   });
 
   it("blobclient.download should success when internal stream unexpected ends at the stream end", async () => {

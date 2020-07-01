@@ -13,6 +13,7 @@ import {
 } from "../utils/index.browser";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import { isBlobTagsDisabled } from "../utils";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -50,7 +51,7 @@ describe("Highlevel", () => {
   before(async function() {
     recorder = record(this, recorderEnvSetup);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
-    tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile2Length);
+    tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile2"), tempFile2Length);
     recorder.stop();
   });
 
@@ -152,6 +153,27 @@ describe("Highlevel", () => {
     const uploadedString = await blobToString(tempFile2);
 
     assert.equal(uploadedString, downloadedString);
+  });
+
+  it("uploadBrowserDataToBlockBlob should work with tags", async function() {
+    if (isBlobTagsDisabled()) {
+      this.skip();
+    }
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    await blockBlobClient.uploadBrowserData(tempFile2, {
+      blockSize: 512 * 1024,
+      maxSingleShotSize: 0,
+      tags
+    });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {

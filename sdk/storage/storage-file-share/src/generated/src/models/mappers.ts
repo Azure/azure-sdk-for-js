@@ -448,6 +448,20 @@ export const ShareProperties: coreHttp.CompositeMapper = {
         type: {
           name: "DateTimeRfc1123"
         }
+      },
+      deletedTime: {
+        xmlName: "DeletedTime",
+        serializedName: "DeletedTime",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      remainingRetentionDays: {
+        xmlName: "RemainingRetentionDays",
+        serializedName: "RemainingRetentionDays",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -471,6 +485,20 @@ export const ShareItem: coreHttp.CompositeMapper = {
       snapshot: {
         xmlName: "Snapshot",
         serializedName: "Snapshot",
+        type: {
+          name: "String"
+        }
+      },
+      deleted: {
+        xmlName: "Deleted",
+        serializedName: "Deleted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      version: {
+        xmlName: "Version",
+        serializedName: "Version",
         type: {
           name: "String"
         }
@@ -1497,6 +1525,58 @@ export const ShareGetStatisticsHeaders: coreHttp.CompositeMapper = {
       },
       requestId: {
         serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareRestoreHeaders: coreHttp.CompositeMapper = {
+  serializedName: "share-restore-headers",
+  type: {
+    name: "Composite",
+    className: "ShareRestoreHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
         type: {
           name: "String"
         }

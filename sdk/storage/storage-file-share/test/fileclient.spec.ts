@@ -13,6 +13,7 @@ import { Pipeline } from "../src/Pipeline";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
+import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 
 dotenv.config();
 
@@ -145,6 +146,18 @@ describe("FileClient", () => {
     assert.ok(properties.fileChangeOn!);
     assert.ok(properties.fileId!);
     assert.ok(properties.fileParentId!);
+  });
+
+  // need to skip this test in live as it requires Premium_LRS SKU for 2019-12-12.
+  it.skip("create largest file", async () => {
+    const GB = 1024 * 1024 * 1024;
+    await shareClient.setQuota(FILE_MAX_SIZE_BYTES / GB);
+    const cResp = await fileClient.create(FILE_MAX_SIZE_BYTES);
+    assert.equal(cResp.errorCode, undefined);
+
+    await fileClient.resize(FILE_MAX_SIZE_BYTES);
+    const updatedProperties = await fileClient.getProperties();
+    assert.deepStrictEqual(updatedProperties.contentLength, FILE_MAX_SIZE_BYTES);
   });
 
   it("setProperties with default parameters", async () => {
@@ -286,6 +299,22 @@ describe("FileClient", () => {
   it("delete", async () => {
     await fileClient.create(content.length);
     await fileClient.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const res = await fileClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await fileClient.create(content.length);
+    const res2 = await fileClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("exists", async () => {
+    assert.ok(!(await fileClient.exists()));
+    await fileClient.create(content.length);
+    assert.ok(await fileClient.exists());
   });
 
   it("startCopyFromURL", async () => {

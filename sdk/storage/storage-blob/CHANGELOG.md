@@ -1,5 +1,14 @@
 # Release History
 
+## 12.2.0-preview.1 (2020.07)
+
+- Supported quick query. Added a new API `BlockBlobClient.query()`.
+- Increased the maximum block size for Block Blob from 100MiB to 4000MiB(~4GB). And thereby supporting ~200TB maximum size for Block Blob.
+- Added support for blob versioning.
+- Supported blob tags.
+- Added convenience method `createIfNotExists` for `ContainerClient`, `AppendBlobClient` and `PageBlobClient`.
+- Added convenience method `deleteIfExists` for `ContainerClient` and `BlobClients`.
+
 ## 12.1.2 (2020.05)
 
 - Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)

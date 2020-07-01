@@ -121,11 +121,6 @@ export interface SenderOpenOptions {
  */
 export interface PeekMessagesOptions extends OperationOptionsBase {
   /**
-   * @property The maximum number of messages to peek.
-   * Default value is 1
-   */
-  maxMessageCount?: number;
-  /**
    * @property The sequence number to start peeking messages from (inclusive).
    */
   fromSequenceNumber?: Long;

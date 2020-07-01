@@ -16,19 +16,18 @@ Use the client library for App Configuration to:
 
 ## Getting started
 
-### Currently supported environments
-
-- Node.js version 8.x.x or higher
-
-**Prerequisites**: You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) resource to use this package.
-
-### 1. Install the `@azure/app-configuration` package
+### Install the package
 
 ```bash
 npm install @azure/app-configuration
 ```
 
-### 2. Create an App Configuration resource
+### Prerequisites
+
+- You must have an [Azure Subscription](https://azure.microsoft.com) and an [App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/) resource to use this package.
+- Node.js version 8.x.x or higher
+
+### Create an App Configuration resource
 
 You can use the [Azure Portal](https://portal.azure.com) or the [Azure CLI](https://docs.microsoft.com/cli/azure) to create an Azure App Configuration resource.
 
@@ -38,31 +37,32 @@ Example (Azure CLI):
 az appconfig create --name <app-configuration-resource-name> --resource-group <resource-group-name> --location eastus
 ```
 
-### 3. Create and authenticate an `AppConfigurationClient`
+### Authenticate the client
 
 AppConfigurationClient can authenticate using a [service principal](#authenticating-with-a-service-principal) or using a [connection string](#authenticating-with-a-connection-string).
 
-####  Authenticating with a service principal
+#### Authenticating with a service principal
 
 Authentication via service principal is done by:
-* Creating a credential using the `@azure/identity` package.
-* Setting appropriate RBAC rules on your AppConfiguration resource.
-   More information on App Configuration roles can be found [here](https://github.com/Azure/AppConfiguration/blob/master/docs/REST/authorization/aad.md).
+
+- Creating a credential using the `@azure/identity` package.
+- Setting appropriate RBAC rules on your AppConfiguration resource.
+  More information on App Configuration roles can be found [here](https://github.com/Azure/AppConfiguration/blob/master/docs/REST/authorization/aad.md).
 
 Using [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential)
 
 ```javascript
-  const azureIdentity= require("@azure/identity");
-  const appConfig = require("@azure/app-configuration");
+const azureIdentity = require("@azure/identity");
+const appConfig = require("@azure/app-configuration");
 
-  const credential = new azureIdentity.DefaultAzureCredential();
-  const client = new appConfig.AppConfigurationClient(
-      endpoint, // ex: <https://<your appconfig resource>.azconfig.io>
-      credential
-  );
+const credential = new azureIdentity.DefaultAzureCredential();
+const client = new appConfig.AppConfigurationClient(
+  endpoint, // ex: <https://<your appconfig resource>.azconfig.io>
+  credential
+);
 ```
 
- More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
+More information about `@azure/identity` can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md)
 
 #### Authenticating with a connection string
 
