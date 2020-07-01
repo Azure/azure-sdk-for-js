@@ -9,5 +9,5 @@
  */
 
 export * from "./operations";
-export * from "./hanaInstances";
 export * from "./sapMonitors";
+export * from "./providerInstances";

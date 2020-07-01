@@ -7,17 +7,14 @@
  */
 
 export {
+  AzureEntityResource,
   BaseResource,
-  Disk,
   ErrorResponse,
-  HanaInstance,
-  HardwareProfile,
-  IpAddress,
-  NetworkProfile,
-  OSProfile,
+  ProviderInstance,
+  ProxyResource,
   Resource,
   SapMonitor,
   SapMonitorListResult,
-  StorageProfile,
-  Tags
+  Tags,
+  TrackedResource
 } from "../models/mappers";

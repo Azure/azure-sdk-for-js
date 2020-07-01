@@ -45,7 +45,7 @@ export class HanaManagementClientContext extends msRestAzure.AzureServiceClient 
 
     super(credentials, options);
 
-    this.apiVersion = '2017-11-03-preview';
+    this.apiVersion = '2020-02-07-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

@@ -18,8 +18,8 @@ import { HanaManagementClientContext } from "./hanaManagementClientContext";
 class HanaManagementClient extends HanaManagementClientContext {
   // Operation groups
   operations: operations.Operations;
-  hanaInstances: operations.HanaInstances;
   sapMonitors: operations.SapMonitors;
+  providerInstances: operations.ProviderInstances;
 
   /**
    * Initializes a new instance of the HanaManagementClient class.
@@ -31,8 +31,8 @@ class HanaManagementClient extends HanaManagementClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.HanaManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
-    this.hanaInstances = new operations.HanaInstances(this);
     this.sapMonitors = new operations.SapMonitors(this);
+    this.providerInstances = new operations.ProviderInstances(this);
   }
 }
 

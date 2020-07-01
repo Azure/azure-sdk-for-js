@@ -12,298 +12,6 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
-  type: {
-    name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        readOnly: true,
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const HardwareProfile: msRest.CompositeMapper = {
-  serializedName: "HardwareProfile",
-  type: {
-    name: "Composite",
-    className: "HardwareProfile",
-    modelProperties: {
-      hardwareType: {
-        readOnly: true,
-        serializedName: "hardwareType",
-        type: {
-          name: "String"
-        }
-      },
-      hanaInstanceSize: {
-        readOnly: true,
-        serializedName: "hanaInstanceSize",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Disk: msRest.CompositeMapper = {
-  serializedName: "Disk",
-  type: {
-    name: "Composite",
-    className: "Disk",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      diskSizeGB: {
-        serializedName: "diskSizeGB",
-        type: {
-          name: "Number"
-        }
-      },
-      lun: {
-        readOnly: true,
-        serializedName: "lun",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const StorageProfile: msRest.CompositeMapper = {
-  serializedName: "StorageProfile",
-  type: {
-    name: "Composite",
-    className: "StorageProfile",
-    modelProperties: {
-      nfsIpAddress: {
-        readOnly: true,
-        serializedName: "nfsIpAddress",
-        type: {
-          name: "String"
-        }
-      },
-      osDisks: {
-        serializedName: "osDisks",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Disk"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const OSProfile: msRest.CompositeMapper = {
-  serializedName: "OSProfile",
-  type: {
-    name: "Composite",
-    className: "OSProfile",
-    modelProperties: {
-      computerName: {
-        serializedName: "computerName",
-        type: {
-          name: "String"
-        }
-      },
-      osType: {
-        readOnly: true,
-        serializedName: "osType",
-        type: {
-          name: "String"
-        }
-      },
-      version: {
-        readOnly: true,
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      },
-      sshPublicKey: {
-        serializedName: "sshPublicKey",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const IpAddress: msRest.CompositeMapper = {
-  serializedName: "IpAddress",
-  type: {
-    name: "Composite",
-    className: "IpAddress",
-    modelProperties: {
-      ipAddress: {
-        serializedName: "ipAddress",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NetworkProfile: msRest.CompositeMapper = {
-  serializedName: "NetworkProfile",
-  type: {
-    name: "Composite",
-    className: "NetworkProfile",
-    modelProperties: {
-      networkInterfaces: {
-        serializedName: "networkInterfaces",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "IpAddress"
-            }
-          }
-        }
-      },
-      circuitId: {
-        readOnly: true,
-        serializedName: "circuitId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const HanaInstance: msRest.CompositeMapper = {
-  serializedName: "HanaInstance",
-  type: {
-    name: "Composite",
-    className: "HanaInstance",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      hardwareProfile: {
-        serializedName: "properties.hardwareProfile",
-        type: {
-          name: "Composite",
-          className: "HardwareProfile"
-        }
-      },
-      storageProfile: {
-        serializedName: "properties.storageProfile",
-        type: {
-          name: "Composite",
-          className: "StorageProfile"
-        }
-      },
-      osProfile: {
-        serializedName: "properties.osProfile",
-        type: {
-          name: "Composite",
-          className: "OSProfile"
-        }
-      },
-      networkProfile: {
-        serializedName: "properties.networkProfile",
-        type: {
-          name: "Composite",
-          className: "NetworkProfile"
-        }
-      },
-      hanaInstanceId: {
-        readOnly: true,
-        serializedName: "properties.hanaInstanceId",
-        type: {
-          name: "String"
-        }
-      },
-      powerState: {
-        readOnly: true,
-        serializedName: "properties.powerState",
-        type: {
-          name: "String"
-        }
-      },
-      proximityPlacementGroup: {
-        readOnly: true,
-        serializedName: "properties.proximityPlacementGroup",
-        type: {
-          name: "String"
-        }
-      },
-      hwRevision: {
-        readOnly: true,
-        serializedName: "properties.hwRevision",
-        type: {
-          name: "String"
-        }
-      },
-      partnerNodeId: {
-        serializedName: "properties.partnerNodeId",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        readOnly: true,
-        serializedName: "properties.provisioningState",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const Display: msRest.CompositeMapper = {
   serializedName: "Display",
   type: {
@@ -416,44 +124,58 @@ export const Tags: msRest.CompositeMapper = {
   }
 };
 
-export const MonitoringDetails: msRest.CompositeMapper = {
-  serializedName: "MonitoringDetails",
+export const Resource: msRest.CompositeMapper = {
+  serializedName: "Resource",
   type: {
     name: "Composite",
-    className: "MonitoringDetails",
+    className: "Resource",
     modelProperties: {
-      hanaSubnet: {
-        serializedName: "hanaSubnet",
+      id: {
+        readOnly: true,
+        serializedName: "id",
         type: {
           name: "String"
         }
       },
-      hanaHostname: {
-        serializedName: "hanaHostname",
+      name: {
+        readOnly: true,
+        serializedName: "name",
         type: {
           name: "String"
         }
       },
-      hanaDbName: {
-        serializedName: "hanaDbName",
+      type: {
+        readOnly: true,
+        serializedName: "type",
         type: {
           name: "String"
         }
-      },
-      hanaDbSqlPort: {
-        serializedName: "hanaDbSqlPort",
+      }
+    }
+  }
+};
+
+export const TrackedResource: msRest.CompositeMapper = {
+  serializedName: "TrackedResource",
+  type: {
+    name: "Composite",
+    className: "TrackedResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      tags: {
+        serializedName: "tags",
         type: {
-          name: "Number"
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
-      hanaDbUsername: {
-        serializedName: "hanaDbUsername",
-        type: {
-          name: "String"
-        }
-      },
-      hanaDbPassword: {
-        serializedName: "hanaDbPassword",
+      location: {
+        required: true,
+        serializedName: "location",
         type: {
           name: "String"
         }
@@ -468,61 +190,7 @@ export const SapMonitor: msRest.CompositeMapper = {
     name: "Composite",
     className: "SapMonitor",
     modelProperties: {
-      ...Resource.type.modelProperties,
-      hanaSubnet: {
-        serializedName: "properties.hanaSubnet",
-        type: {
-          name: "String"
-        }
-      },
-      hanaHostname: {
-        serializedName: "properties.hanaHostname",
-        type: {
-          name: "String"
-        }
-      },
-      hanaDbName: {
-        serializedName: "properties.hanaDbName",
-        type: {
-          name: "String"
-        }
-      },
-      hanaDbSqlPort: {
-        serializedName: "properties.hanaDbSqlPort",
-        type: {
-          name: "Number"
-        }
-      },
-      hanaDbUsername: {
-        serializedName: "properties.hanaDbUsername",
-        type: {
-          name: "String"
-        }
-      },
-      hanaDbPassword: {
-        serializedName: "properties.hanaDbPassword",
-        type: {
-          name: "String"
-        }
-      },
-      hanaDbPasswordKeyVaultUrl: {
-        serializedName: "properties.hanaDbPasswordKeyVaultUrl",
-        type: {
-          name: "String"
-        }
-      },
-      hanaDbCredentialsMsiId: {
-        serializedName: "properties.hanaDbCredentialsMsiId",
-        type: {
-          name: "String"
-        }
-      },
-      keyVaultId: {
-        serializedName: "properties.keyVaultId",
-        type: {
-          name: "String"
-        }
-      },
+      ...TrackedResource.type.modelProperties,
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
@@ -560,6 +228,84 @@ export const SapMonitor: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sapMonitorCollectorVersion: {
+        readOnly: true,
+        serializedName: "properties.sapMonitorCollectorVersion",
+        type: {
+          name: "String"
+        }
+      },
+      monitorSubnet: {
+        serializedName: "properties.monitorSubnet",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProxyResource: msRest.CompositeMapper = {
+  serializedName: "ProxyResource",
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties
+    }
+  }
+};
+
+export const ProviderInstance: msRest.CompositeMapper = {
+  serializedName: "ProviderInstance",
+  type: {
+    name: "Composite",
+    className: "ProviderInstance",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      providerInstanceType: {
+        serializedName: "properties.type",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties.properties",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "properties.metadata",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureEntityResource: msRest.CompositeMapper = {
+  serializedName: "AzureEntityResource",
+  type: {
+    name: "Composite",
+    className: "AzureEntityResource",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      etag: {
+        readOnly: true,
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -587,34 +333,6 @@ export const OperationList: msRest.CompositeMapper = {
   }
 };
 
-export const HanaInstancesListResult: msRest.CompositeMapper = {
-  serializedName: "HanaInstancesListResult",
-  type: {
-    name: "Composite",
-    className: "HanaInstancesListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HanaInstance"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const SapMonitorListResult: msRest.CompositeMapper = {
   serializedName: "SapMonitorListResult",
   type: {
@@ -629,6 +347,34 @@ export const SapMonitorListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SapMonitor"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProviderInstanceListResult: msRest.CompositeMapper = {
+  serializedName: "ProviderInstanceListResult",
+  type: {
+    name: "Composite",
+    className: "ProviderInstanceListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProviderInstance"
             }
           }
         }
