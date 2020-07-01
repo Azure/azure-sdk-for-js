@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { createSerializer } from "./serializer";
+export { createSerializer, MapperType } from "./serializer";
 export { ServiceClient, ServiceClientOptions } from "./serviceClient";
 export {
   OperationSpec,
@@ -12,5 +12,8 @@ export {
   EnumMapper,
   SequenceMapper,
   DictionaryMapper,
-  CompositeMapper
+  CompositeMapper,
+  OperationRequest,
+  QueryCollectionFormat,
+  ParameterPath
 } from "./interfaces";

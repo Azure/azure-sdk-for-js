@@ -20,6 +20,9 @@ export function getRequestUrl(
   let requestUrl = replaceAll(baseUri, urlReplacements);
   if (operationSpec.path) {
     const path = replaceAll(operationSpec.path, urlReplacements);
+    // QUIRK: sometimes we get a path component like {nextLink}
+    // which may be a fully formed URL. In that case, we should
+    // ignore the baseUri.
     if (isAbsoluteUrl(path)) {
       requestUrl = path;
     } else {

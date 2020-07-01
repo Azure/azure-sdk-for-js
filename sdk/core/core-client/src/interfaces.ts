@@ -288,7 +288,7 @@ export interface OperationResponse {
   /**
    * The response with merged properties of the parsed body and headers.
    */
-  flat: { [key: string]: unknown };
+  flat: { [key: string]: any };
 }
 
 export interface Serializer {

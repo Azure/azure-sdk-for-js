@@ -50,6 +50,26 @@ export interface EnumMapper extends BaseMapper {
 // @public (undocumented)
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
+// @public (undocumented)
+export const MapperType: {
+    readonly Base64Url: "Base64Url";
+    readonly Boolean: "Boolean";
+    readonly ByteArray: "ByteArray";
+    readonly Composite: "Composite";
+    readonly Date: "Date";
+    readonly DateTime: "DateTime";
+    readonly DateTimeRfc1123: "DateTimeRfc1123";
+    readonly Dictionary: "Dictionary";
+    readonly Enum: "Enum";
+    readonly Number: "Number";
+    readonly Object: "Object";
+    readonly Sequence: "Sequence";
+    readonly String: "String";
+    readonly Stream: "Stream";
+    readonly TimeSpan: "TimeSpan";
+    readonly UnixTime: "UnixTime";
+};
+
 // @public
 export interface OperationArguments {
     [parameterName: string]: unknown;
@@ -62,6 +82,14 @@ export interface OperationOptions {
     // Warning: (ae-forgotten-export) The symbol "OperationRequestOptions" needs to be exported by the entry point index.d.ts
     requestOptions?: OperationRequestOptions;
     tracingOptions?: OperationTracingOptions;
+}
+
+// @public (undocumented)
+export interface OperationRequest extends PipelineRequest {
+    // Warning: (ae-forgotten-export) The symbol "OperationResponse" needs to be exported by the entry point index.d.ts
+    operationResponseGetter?: (operationSpec: OperationSpec, response: OperationResponse) => undefined | OperationResponse;
+    operationSpec?: OperationSpec;
+    shouldDeserialize?: boolean | ((response: OperationResponse) => boolean);
 }
 
 // @public
@@ -84,6 +112,25 @@ export interface OperationSpec {
     readonly serializer: Serializer;
     // Warning: (ae-forgotten-export) The symbol "OperationURLParameter" needs to be exported by the entry point index.d.ts
     readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
+}
+
+// @public (undocumented)
+export type ParameterPath = string | string[] | {
+    [propertyName: string]: ParameterPath;
+};
+
+// @public
+export const enum QueryCollectionFormat {
+    // (undocumented)
+    Csv = ",",
+    // (undocumented)
+    Multi = "Multi",
+    // (undocumented)
+    Pipes = "|",
+    // (undocumented)
+    Ssv = " ",
+    // (undocumented)
+    Tsv = "\t"
 }
 
 // @public (undocumented)
@@ -113,7 +160,6 @@ export interface Serializer {
 // @public
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "OperationResponse" needs to be exported by the entry point index.d.ts
     sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
     }

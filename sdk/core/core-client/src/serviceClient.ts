@@ -8,7 +8,8 @@ import {
   PipelineRequest,
   PipelineResponse,
   Pipeline,
-  createPipelineRequest
+  createPipelineRequest,
+  createPipelineFromOptions
 } from "@azure/core-https";
 import {
   OperationResponse,
@@ -82,7 +83,7 @@ export class ServiceClient {
   /**
    * Decoupled method for processing XML into a string.
    */
-  private readonly _stringifyXML: (obj: any, opts?: { rootName?: string }) => string;
+  private readonly _stringifyXML?: (obj: any, opts?: { rootName?: string }) => string;
 
   /**
    * The HTTP client that will be used to send requests.
@@ -102,11 +103,7 @@ export class ServiceClient {
     this._baseUri = options.baseUri;
     this._httpsClient = options.httpsClient || new DefaultHttpsClient();
     this._pipeline = options.pipeline || createDefaultPipeline();
-    this._stringifyXML =
-      options.stringifyXML ||
-      function() {
-        throw new Error("XML serialization unsupported!");
-      };
+    this._stringifyXML = options.stringifyXML;
   }
 
   /**
@@ -235,11 +232,13 @@ export class ServiceClient {
   }
 }
 
-function serializeRequestBody(
+export function serializeRequestBody(
   request: OperationRequest,
   operationArguments: OperationArguments,
   operationSpec: OperationSpec,
-  stringifyXML: (obj: any, opts?: { rootName?: string }) => string
+  stringifyXML: (obj: any, opts?: { rootName?: string }) => string = function() {
+    throw new Error("XML serialization unsupported!");
+  }
 ): void {
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     request.body = getOperationArgumentValueFromParameter(
@@ -319,7 +318,7 @@ function serializeRequestBody(
 
 function createDefaultPipeline(): Pipeline {
   // TODO: mix in auth and deserialization
-  return createDefaultPipeline();
+  return createPipelineFromOptions({});
 }
 
 function prepareXMLRootList(obj: any, elementName: string) {
