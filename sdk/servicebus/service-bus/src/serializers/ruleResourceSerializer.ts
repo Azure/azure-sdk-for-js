@@ -428,7 +428,18 @@ export function getRawUserProperties(
   if (parameters == undefined) {
     return undefined;
   }
-
+  if (
+    Array.isArray(parameters) ||
+    typeof parameters === "string" ||
+    typeof parameters !== "object" ||
+    Object.entries(parameters).length < 1
+  ) {
+    throw new TypeError(
+      `Unsupported value for the userProperties ${JSON.stringify(
+        parameters
+      )}, expected a JSON object with key-value pairs.`
+    );
+  }
   const rawParameters: RawKeyValuePair[] = [];
   for (let [key, value] of Object.entries(parameters)) {
     let type: string | number | boolean;
