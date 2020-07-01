@@ -10,6 +10,11 @@
 
 export * from "./operations";
 export * from "./workspaces";
+export * from "./workspaceFeatures";
+export * from "./notebooks";
 export * from "./usages";
 export * from "./virtualMachineSizes";
+export * from "./quotas";
 export * from "./machineLearningCompute";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
