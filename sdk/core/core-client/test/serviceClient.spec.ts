@@ -346,7 +346,7 @@ describe("ServiceClient", function() {
       assert.strictEqual(httpRequest.body, "body value");
     });
 
-    it("should serialize an XML String request body", () => {
+    it.skip("should serialize an XML String request body", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
         httpRequest,
@@ -376,7 +376,7 @@ describe("ServiceClient", function() {
       );
     });
 
-    it("should serialize an XML ByteArray request body", () => {
+    it.skip("should serialize an XML ByteArray request body", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
         httpRequest,
@@ -406,7 +406,7 @@ describe("ServiceClient", function() {
       );
     });
 
-    it("should serialize an XML Stream request body", () => {
+    it.skip("should serialize an XML Stream request body", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
         httpRequest,
@@ -884,7 +884,8 @@ describe("ServiceClient", function() {
           parameterPath,
           mapper: parameterMapper
         },
-        createSerializer()
+        createSerializer(),
+        serviceClient
       );
 
       assert.strictEqual(parameterValue, 5);

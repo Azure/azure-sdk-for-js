@@ -31,7 +31,7 @@ export function getRequestUrl(
   }
 
   const queryParams = calculateQueryParameters(operationSpec, operationArguments, fallbackObject);
-  appendQueryParams(requestUrl, queryParams);
+  requestUrl = appendQueryParams(requestUrl, queryParams);
 
   return requestUrl;
 }
@@ -173,15 +173,33 @@ function calculateQueryParameters(
 function appendQueryParams(url: string, queryParams: Map<string, string | string[]>): string {
   const parsedUrl = new URL(url);
 
-  for (const [name, value] of queryParams) {
-    if (typeof value === "string") {
-      parsedUrl.searchParams.append(name, value);
+  const combinedParams = new Map<string, string | string[]>(queryParams);
+
+  for (const [name, value] of parsedUrl.searchParams) {
+    const existingValue = combinedParams.get(name);
+    if (Array.isArray(existingValue)) {
+      existingValue.push(value);
+    } else if (existingValue) {
+      combinedParams.set(name, [existingValue, value]);
     } else {
+      combinedParams.set(name, value);
+    }
+  }
+
+  const searchPieces: string[] = [];
+  for (const [name, value] of combinedParams) {
+    if (typeof value === "string") {
+      searchPieces.push(`${name}=${value}`);
+    } else {
+      // QUIRK: If we get an array of values, include multiple key/value pairs
       for (const subValue of value) {
-        parsedUrl.searchParams.append(name, subValue);
+        searchPieces.push(`${name}=${subValue}`);
       }
     }
   }
+
+  // QUIRK: we have to set search manually as searchParams will encode comma when it shouldn't.
+  parsedUrl.search = `?${searchPieces.join("&")}`;
 
   return parsedUrl.toString();
 }
