@@ -5,10 +5,14 @@
 - Adds abortSignal support throughout Sender and non-session Receivers.
   [PR 9233](https://github.com/Azure/azure-sdk-for-js/pull/9233)
   [PR 9284](https://github.com/Azure/azure-sdk-for-js/pull/9284)
+- (Receiver|SessionReceiver).subscribe() now returns a closeable object which will stop new messages from arriving
+  but still leave the receiver open so they can be settled via methods like complete().
+  [PR 9802](https://github.com/Azure/azure-sdk-for-js/pull/9802)
+  [PR 9849](https://github.com/Azure/azure-sdk-for-js/pull/9849)
 - Standardized methods on senders and receivers to use the `Messages` suffix and deal with multiple messages rather than
-have dedicated methods to deal with a single message. [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
-- Standardized methods that peek and receive given number messages to use similar signature. 
-[PR 9798](https://github.com/Azure/azure-sdk-for-js/pull/9798)
+  have dedicated methods to deal with a single message. [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
+- Standardized methods that peek and receive given number messages to use similar signature.
+  [PR 9798](https://github.com/Azure/azure-sdk-for-js/pull/9798)
 - Bug - Messages scheduled in parallel with the `scheduleMessage` method have the same sequence number in response.
   Fixed in [PR 9503](https://github.com/Azure/azure-sdk-for-js/pull/9503)
 - Management api updates (Includes breaking changes)
@@ -21,8 +25,8 @@ have dedicated methods to deal with a single message. [PR 9678](https://github.c
       [PR 9434](https://github.com/Azure/azure-sdk-for-js/pull/9434)
   - The property `top` in the options passed to any of the methods that get information for multiple entities like `getQueues` or `getQueuesRuntimeInfo` is renamed to `maxCount`.
     [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
-  - The "update" methods (`updateQueue`, `updateTopic` and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are actually updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods. [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751). 
-  
+  - The "update" methods (`updateQueue`, `updateTopic` and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are actually updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods. [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751).
+
   See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
 
 ## 7.0.0-preview.3 (2020-06-08)
