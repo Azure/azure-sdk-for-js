@@ -435,7 +435,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     return {
       close: async (): Promise<void> => {
-        return this._context.streamingReceiver?.stopReceivingMessages();
+        return this._context.streamingReceiver?.receiverHelper.stopReceivingMessages();
       }
     };
   }

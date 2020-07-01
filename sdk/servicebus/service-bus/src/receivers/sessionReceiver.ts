@@ -479,8 +479,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     );
 
     return {
-      // TODO: coming in a future PR.
-      close: async (): Promise<void> => {}
+      close: async (): Promise<void> => {
+        return this._messageSession?.receiverHelper.stopReceivingMessages();
+      }
     };
   }
 
