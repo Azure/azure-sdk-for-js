@@ -231,24 +231,22 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
  *
  * @internal
  * @ignore
- * @enum {number}
  */
-enum TypeMapForRequestSerialization {
-  number = "l28:int",
-  string = "l28:string",
-  long = "l28:long",
-  date = "l28:date"
-}
+const TypeMapForRequestSerialization: Record<string, string> = {
+  int: "l28:int",
+  string: "l28:string",
+  long: "l28:long",
+  date: "l28:date"
+};
 
 /**
  * @internal
  * @ignore
- * @enum {number}
  */
-enum TypeMapForResponseDeserialization {
-  number = "d6p1:int",
-  string = "d6p1:string"
-}
+const TypeMapForResponseDeserialization: Record<string, string> = {
+  number: "d6p1:int",
+  string: "d6p1:string"
+};
 
 /**
  * Represents type of SQL `Parameter` in ATOM based management operations
@@ -431,7 +429,7 @@ export function getRawUserProperties(
   for (let [key, value] of Object.entries(parameters)) {
     let type: string | number;
     if (typeof value === "number") {
-      type = TypeMapForRequestSerialization.number;
+      type = TypeMapForRequestSerialization.int;
     } else if (typeof value === "string") {
       type = TypeMapForRequestSerialization.string;
     } else {
@@ -476,32 +474,20 @@ function buildRawKeyValuePairFromSqlParameter(parameter: SqlParameter): RawKeyVa
     );
   }
 
-  let type: TypeMapForRequestSerialization;
-  switch (parameter.type) {
-    case "int":
-      type = TypeMapForRequestSerialization.number;
-      break;
-    case "string":
-      type = TypeMapForRequestSerialization.string;
-      break;
-    case "long":
-      type = TypeMapForRequestSerialization.long;
-      break;
-    case "date":
-      type = TypeMapForRequestSerialization.date;
-      break;
-
-    default:
-      throw new Error(
-        `Invalid type "${parameter.type}" supplied for the SQL Parameter. Must be either of "integer, "string", "long" or "date".`
-      );
+  let paramType;
+  try {
+    paramType = TypeMapForRequestSerialization[parameter.type];
+  } catch (err) {
+    throw new Error(
+      `Invalid type "${parameter.type}" supplied for the SQL Parameter. Must be either of "int", "string", "long" or "date".`
+    );
   }
 
   const rawParameter: RawKeyValuePair = {
     Key: parameter.key,
     Value: {
       [Constants.XML_METADATA_MARKER]: {
-        "p4:type": type.valueOf(),
+        "p4:type": paramType.valueOf(),
         "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
       },
       [Constants.XML_VALUE_MARKER]: parameter.value
