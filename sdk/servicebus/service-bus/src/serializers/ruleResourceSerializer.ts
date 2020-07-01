@@ -337,7 +337,6 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
         throw new TypeError(
           `Unable to parse the user property in the response - ${JSON.stringify(rawProperty)}`
         );
-        // TODO: Add more cases if other types are supported.
       }
     }
   } else {
