@@ -1,18 +1,18 @@
 export function writeNumberForBinaryEncoding(hash: number) {
   let payload: bigint = encodeNumberAsUInt64(hash);
   let outputStream = Buffer.from("05", "hex");
-  const firstChunk = BigInt.asUintN(64, payload >> 56n);
+  const firstChunk = BigInt.asUintN(64, payload >> BigInt(56));
   outputStream = Buffer.concat([outputStream, Buffer.from(firstChunk.toString(16), "hex")]);
-  payload = BigInt.asUintN(64, BigInt(payload) << 0x8n);
+  payload = BigInt.asUintN(64, BigInt(payload) << BigInt(0x8));
 
-  let byteToWrite = 0n;
+  let byteToWrite = BigInt(0);
   let firstIteration = false;
   let shifted: bigint;
   let padded: string;
 
   do {
     if (!firstIteration) {
-      // we pad because after shifting we will produce characters like "f" or similar,
+      // we pad because after shifting because we will produce characters like "f" or similar,
       // which cannot be encoded as hex in a buffer because they are invalid hex
       // https://github.com/nodejs/node/issues/24491
       padded = byteToWrite.toString(16).padStart(2, "0");
@@ -23,13 +23,13 @@ export function writeNumberForBinaryEncoding(hash: number) {
       firstIteration = false;
     }
 
-    shifted = BigInt.asUintN(64, payload >> 56n);
-    byteToWrite = BigInt.asUintN(64, shifted | 0x01n);
-    payload = BigInt.asUintN(64, payload << 7n);
-  } while (payload != 0n);
+    shifted = BigInt.asUintN(64, payload >> BigInt(56));
+    byteToWrite = BigInt.asUintN(64, shifted | BigInt(0x01));
+    payload = BigInt.asUintN(64, payload << BigInt(7));
+  } while (payload != BigInt(0));
 
-  const lastChunk = BigInt.asUintN(64, byteToWrite & 0xfen);
-  // we pad because after shifting we will produce characters like "f" or similar,
+  const lastChunk = BigInt.asUintN(64, byteToWrite & BigInt(0xfe));
+  // we pad because after shifting because we will produce characters like "f" or similar,
   // which cannot be encoded as hex in a buffer because they are invalid hex
   // https://github.com/nodejs/node/issues/24491
   padded = lastChunk.toString(16).padStart(2, "0");
@@ -42,8 +42,8 @@ export function writeNumberForBinaryEncoding(hash: number) {
 
 function encodeNumberAsUInt64(value: number) {
   const rawValueBits = getRawBits(value);
-  const mask = 0x8000000000000000n;
-  const returned = rawValueBits < mask ? rawValueBits ^ mask : ~BigInt(rawValueBits) + 1n;
+  const mask = BigInt(0x8000000000000000);
+  const returned = rawValueBits < mask ? rawValueBits ^ mask : ~BigInt(rawValueBits) + BigInt(1);
   return returned;
 }
 
@@ -51,7 +51,7 @@ export function doubleToByteArray(double: number) {
   const output: Buffer = Buffer.alloc(8);
   const lng = getRawBits(double);
   for (let i = 0; i < 8; i++) {
-    output[i] = Number((lng >> (BigInt(i) * 8n)) & 0xffn);
+    output[i] = Number((lng >> (BigInt(i) * BigInt(8))) & BigInt(0xff));
   }
   return output;
 }
