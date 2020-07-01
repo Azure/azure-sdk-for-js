@@ -562,7 +562,7 @@ class MockSerializer implements AtomXmlSerializer {
 [
   {
     testCaseTitle:
-      "Rule serializer throws Error if rule correlation filter input has user properties that uses an unsupported type",
+      "Rule serializer throws Error if rule correlation filter input has user properties has an array as value",
     input: {
       filter: {
         correlationId: "abcd",
@@ -573,6 +573,94 @@ class MockSerializer implements AtomXmlSerializer {
     },
     output: {
       testErrorMessage: `Unsupported type for the value in the user property {message:["hello"]}`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties has an empty object as value",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: {
+          message: {}
+        }
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported type for the value in the user property {message:{}}`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties that uses an unsupported type",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: {
+          message: undefined
+        }
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported type for the value in the user property {message:undefined}`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties an integer",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: 123
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported value for the userProperties 123, expected a JSON object with key-value pairs.`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties a string",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: "abcd"
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported value for the userProperties "abcd", expected a JSON object with key-value pairs.`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties an array",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: ["abcd"]
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported value for the userProperties ["abcd"], expected a JSON object with key-value pairs.`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties an empty object",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: {}
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported value for the userProperties {}, expected a JSON object with key-value pairs.`,
       testErrorType: Error
     }
   }
