@@ -282,17 +282,15 @@ export interface FullOperationResponse extends PipelineResponse {
 
 /**
  * The processed and flattened response to an operation call.
+ * Contains merged properties of the parsed body and headers.
  */
 export interface OperationResponse {
   /**
    * The underlying HTTP response containing both raw and deserialized response data.
    */
-  full: FullOperationResponse;
+  _response: FullOperationResponse;
 
-  /**
-   * The response with merged properties of the parsed body and headers.
-   */
-  flat: { [key: string]: any };
+  [key: string]: any;
 }
 
 export interface Serializer {

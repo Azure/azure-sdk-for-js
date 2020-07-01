@@ -57,7 +57,7 @@ export interface DeserializationContentTypes {
 /**
  * This policy handles parsing out responses according to OperationSpecs on the request.
  */
-export function deserializationPolicy(options: DeserializationPolicyOptions): PipelinePolicy {
+export function deserializationPolicy(options: DeserializationPolicyOptions = {}): PipelinePolicy {
   const jsonContentTypes = options.expectedContentTypes?.json ?? defaultJsonContentTypes;
   const xmlContentTypes = options.expectedContentTypes?.xml ?? defaultXmlContentTypes;
   const parseXML = options.parseXML;

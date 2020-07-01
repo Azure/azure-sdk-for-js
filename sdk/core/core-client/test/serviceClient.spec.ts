@@ -23,6 +23,7 @@ import {
 } from "@azure/core-https";
 import { serializeRequestBody } from "../src/serviceClient";
 import { getOperationArgumentValueFromParameter } from "../src/operationHelpers";
+import { deserializationPolicy } from "../src/deserializationPolicy";
 
 describe("ServiceClient", function() {
   it("should serialize headerCollectionPrefix", async function() {
@@ -117,7 +118,8 @@ describe("ServiceClient", function() {
     );
 
     assert(request!);
-    assert.strictEqual(JSON.stringify(response.flat), "{}");
+    // _response should be not enumerable
+    assert.strictEqual(JSON.stringify(response), "{}");
   });
 
   it("should serialize collection:csv query parameters", async function() {
@@ -234,10 +236,11 @@ describe("ServiceClient", function() {
       }
     };
 
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy());
     const client1 = new ServiceClient({
       httpsClient,
-      // TODO: make this have deserializationPolicy
-      pipeline: createEmptyPipeline()
+      pipeline
     });
 
     const res = await client1.sendOperationRequest(
@@ -263,8 +266,8 @@ describe("ServiceClient", function() {
       }
     );
 
-    assert.strictEqual(res.full.status, 200);
-    assert.deepStrictEqual(res.flat.slice(), [1, 2, 3]);
+    assert.strictEqual(res._response.status, 200);
+    assert.deepStrictEqual(res.slice(), [1, 2, 3]);
   });
 
   describe("serializeRequestBody()", () => {
@@ -955,10 +958,11 @@ describe("ServiceClient", function() {
       }
     };
 
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(deserializationPolicy());
     const client = new ServiceClient({
       httpsClient,
-      // TODO: make this have deserializationPolicy
-      pipeline: createEmptyPipeline()
+      pipeline
     });
 
     try {

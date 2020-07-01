@@ -335,17 +335,25 @@ function flattenResponse(
   const parsedHeaders = fullResponse.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
+  function addResponse<T extends object>(
+    obj: T
+  ): T & { readonly _response: FullOperationResponse } {
+    return Object.defineProperty(obj, "_response", {
+      configurable: false,
+      enumerable: false,
+      writable: false,
+      value: fullResponse
+    });
+  }
+
   if (bodyMapper) {
     const typeName = bodyMapper.type.name;
     if (typeName === "Stream") {
-      return {
-        full: fullResponse,
-        flat: {
-          ...parsedHeaders,
-          blobBody: fullResponse.blobBody,
-          readableStreamBody: fullResponse.readableStreamBody
-        }
-      };
+      return addResponse({
+        ...parsedHeaders,
+        blobBody: fullResponse.blobBody,
+        readableStreamBody: fullResponse.readableStreamBody
+      });
     }
 
     const modelProperties =
@@ -368,20 +376,14 @@ function flattenResponse(
           arrayResponse[key] = parsedHeaders[key];
         }
       }
-      return {
-        full: fullResponse,
-        flat: arrayResponse
-      };
+      return addResponse(arrayResponse);
     }
 
     if (typeName === "Composite" || typeName === "Dictionary") {
-      return {
-        full: fullResponse,
-        flat: {
-          ...parsedHeaders,
-          ...fullResponse.parsedBody
-        }
-      };
+      return addResponse({
+        ...parsedHeaders,
+        ...fullResponse.parsedBody
+      });
     }
   }
 
@@ -390,20 +392,14 @@ function flattenResponse(
     fullResponse.request.method === "HEAD" ||
     isPrimitiveType(fullResponse.parsedBody)
   ) {
-    return {
-      full: fullResponse,
-      flat: {
-        ...parsedHeaders,
-        body: fullResponse.parsedBody
-      }
-    };
+    return addResponse({
+      ...parsedHeaders,
+      body: fullResponse.parsedBody
+    });
   }
 
-  return {
-    full: fullResponse,
-    flat: {
-      ...parsedHeaders,
-      ...fullResponse.parsedBody
-    }
-  };
+  return addResponse({
+    ...parsedHeaders,
+    ...fullResponse.parsedBody
+  });
 }
