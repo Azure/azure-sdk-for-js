@@ -158,7 +158,7 @@ async function retry(
   retryData = updateRetryData(
     {
       retryInterval: policy.retryInterval,
-      minRetryInterval: 0,
+      minRetryInterval: 50,
       maxRetryInterval: policy.maxRetryInterval
     },
     retryData,
