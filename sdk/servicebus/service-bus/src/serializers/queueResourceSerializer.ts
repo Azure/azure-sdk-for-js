@@ -119,9 +119,9 @@ export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
-    createdOn: getDate(rawQueue[Constants.CREATED_AT], "createdOn"),
-    updatedOn: getDate(rawQueue[Constants.UPDATED_AT], "updatedOn"),
-    accessedOn: getDate(rawQueue[Constants.ACCESSED_AT], "accessedOn")
+    createdAt: getDate(rawQueue[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getDate(rawQueue[Constants.UPDATED_AT], "updatedAt"),
+    accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt")
   };
 }
 
@@ -395,17 +395,17 @@ export interface QueueRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdOn: Date;
+  createdAt: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedOn: Date;
+  updatedAt: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedOn: Date;
+  accessedAt: Date;
 
   /**
    * The entity's message count.

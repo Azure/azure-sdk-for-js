@@ -332,4 +332,33 @@ describe("DataLakePathClient", () => {
     const dirResult = await newDirectoryClient.exists();
     assert.ok(dirResult === false, "exists() should return false for a non-existing directory");
   });
+
+  it("DataLakeDirectoryClient-createIfNotExists", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    const res = await directoryClient.createIfNotExists();
+    assert.ok(res.succeeded);
+
+    const res2 = await directoryClient.createIfNotExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "PathAlreadyExists");
+  });
+
+  it("DataLakeFileClient-createIfNotExists", async () => {
+    const res = await fileClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "PathAlreadyExists");
+  });
+
+  it("DataLakePathClient-deleteIfExists", async () => {
+    const directoryName = recorder.getUniqueName("dir");
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    const res = await directoryClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "PathNotFound");
+
+    await directoryClient.create();
+    const res2 = await directoryClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
 });

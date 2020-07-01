@@ -74,7 +74,7 @@ describe("proxyAgent", () => {
           port: testCase.port
         };
 
-        const fn = function() {
+        const fn = function(): void {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.not.throw();
@@ -93,7 +93,7 @@ describe("proxyAgent", () => {
           port: testCase.port
         };
 
-        const fn = function() {
+        const fn = function(): void {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.throw(

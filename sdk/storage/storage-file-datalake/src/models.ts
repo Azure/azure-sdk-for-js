@@ -12,7 +12,8 @@ import {
   PathCreateResponse,
   PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   FileSystemListPathsHeaders,
-  PathList as PathListModel
+  PathList as PathListModel,
+  PathDeleteResponse
 } from "./generated/src/models";
 import { CommonOptions } from "./StorageClient";
 
@@ -39,9 +40,11 @@ export {
   PathSetAccessControlResponse as PathSetPermissionsResponse,
   PathResourceType,
   PathUpdateHeaders,
-  PathUpdateResponse as FileAppendResponse,
-  PathUpdateResponse as FileFlushResponse,
-  PathUpdateResponse as FileUploadResponse,
+  PathAppendDataHeaders,
+  PathFlushDataHeaders,
+  PathAppendDataResponse as FileAppendResponse,
+  PathFlushDataResponse as FileFlushResponse,
+  PathFlushDataResponse as FileUploadResponse,
   PathGetPropertiesAction,
   PathRenameMode
 } from "./generated/src/models";
@@ -342,6 +345,38 @@ export interface FileSystemExistsOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
+/**
+ * Contains response data for the {@link DataLakeFileSystemClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface FileSystemCreateIfNotExistsResponse
+ */
+export interface FileSystemCreateIfNotExistsResponse extends FileSystemCreateResponse {
+  /**
+   * Indicate whether the file system is successfully created. Is false when the file system is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof FileSystemCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
+ * Contains response data for the {@link DataLakeFileSystemClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface FileSystemDeleteIfExistsResponse
+ */
+export interface FileSystemDeleteIfExistsResponse extends FileSystemDeleteResponse {
+  /**
+   * Indicate whether the file system is successfully deleted. Is false if the file system doesn't exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof FileSystemDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
 /**********************************************************/
 /** DataLakePathClient option and response related models */
 /**********************************************************/
@@ -391,6 +426,14 @@ export interface PathCreateOptions extends CommonOptions {
   permissions?: string; // TODO: model or string?
   umask?: string; // TODO: model or string?
   conditions?: DataLakeRequestConditions;
+  pathHttpHeaders?: PathCreateHttpHeaders;
+}
+
+export interface PathCreateIfNotExistsOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+  metadata?: Metadata;
+  permissions?: string;
+  umask?: string;
   pathHttpHeaders?: PathCreateHttpHeaders;
 }
 
@@ -587,13 +630,49 @@ export interface PathExistsOptions extends CommonOptions {
   // customerProvidedKey?: CpkInfo; not supported yet
 }
 
+/**
+ * Contains response data for the {@link DataLakePathClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface PathCreateIfNotExistsResponse
+ */
+export interface PathCreateIfNotExistsResponse extends PathCreateResponse {
+  /**
+   * Indicate whether the directory/file is successfully created. Is false when the directory/file is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof PathCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
+ * Contains response data for the {@link DataLakePathClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface PathDeleteIfExistsResponse
+ */
+export interface PathDeleteIfExistsResponse extends PathDeleteResponse {
+  /**
+   * Indicate whether the directory/file is successfully deleted. Is false if the directory/file doesn't exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof PathDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
 /****************************************************************/
 /** DataLakeDirectoryClient option and response related models **/
 /****************************************************************/
 
 export interface DirectoryCreateOptions extends PathCreateOptions {}
 
+export interface DirectoryCreateIfNotExistsOptions extends PathCreateIfNotExistsOptions {}
+
 export interface DirectoryCreateResponse extends PathCreateResponse {}
+
+export interface DirectoryCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {}
 
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
@@ -667,7 +746,11 @@ export interface FileFlushOptions extends CommonOptions {
 
 export interface FileCreateOptions extends PathCreateOptions {}
 
+export interface FileCreateIfNotExistsOptions extends PathCreateIfNotExistsOptions {}
+
 export interface FileCreateResponse extends PathCreateResponse {}
+
+export interface FileCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {}
 
 /**
  * Option interface for Data Lake file - Upload operations

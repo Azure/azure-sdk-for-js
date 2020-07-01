@@ -24,6 +24,7 @@ export interface HttpResponse {
   headers: HttpHeadersLike;
 }
 
+// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
 declare global {
   /**
    * Stub declaration of the browser-only Blob type.

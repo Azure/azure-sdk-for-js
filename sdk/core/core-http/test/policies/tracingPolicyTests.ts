@@ -25,11 +25,11 @@ class MockSpan extends NoOpSpan {
     super();
   }
 
-  didEnd() {
+  didEnd(): boolean {
     return this._endCalled;
   }
 
-  end() {
+  end(): void {
     this._endCalled = true;
   }
 
@@ -40,8 +40,12 @@ class MockSpan extends NoOpSpan {
       spanId: this.spanId,
       traceFlags: this.flags,
       traceState: {
-        set(_key: string, _value: string) {},
-        unset(_key: string) {},
+        set(_key: string, _value: string) {
+          // Nothing to do here.
+        },
+        unset(_key: string) {
+          // Nothing to do here.
+        },
         get(_key: string): string | undefined {
           return;
         },
@@ -66,11 +70,11 @@ class MockTracer extends NoOpTracer {
     super();
   }
 
-  getStartedSpans() {
+  getStartedSpans(): MockSpan[] {
     return this.spans;
   }
 
-  startSpanCalled() {
+  startSpanCalled(): boolean {
     return this._startSpanCalled;
   }
 

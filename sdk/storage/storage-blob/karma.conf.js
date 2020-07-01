@@ -1,6 +1,6 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: "./.env" });
 const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
@@ -65,7 +65,10 @@ module.exports = function(config) {
       "MD_ACCOUNT_NAME",
       "MD_ACCOUNT_SAS",
       "ENCRYPTION_SCOPE_1",
-      "ENCRYPTION_SCOPE_2"
+      "ENCRYPTION_SCOPE_2",
+      "BLOB_VERSIONING_ENABLED",
+      "BLOB_TAGS_ENABLED",
+      "QUICK_QUERY_ENABLED"
     ],
 
     // test results reporter to use

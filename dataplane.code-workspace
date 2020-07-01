@@ -105,6 +105,10 @@
       "path": "sdk\\storage\\storage-blob"
     },
     {
+      "name": "storage-blob-changefeed",
+      "path": "sdk\\storage\\storage-blob-changefeed"
+    },
+    {
       "name": "storage-file-datalake",
       "path": "sdk\\storage\\storage-file-datalake"
     },
