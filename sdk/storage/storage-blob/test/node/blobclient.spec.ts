@@ -462,7 +462,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "");
   });
 
-  it.only("query should work with blob properties", async function() {
+  it("query should work with blob properties", async function() {
     if (isQuickQueryDisabled()) {
       this.skip();
     }
@@ -483,7 +483,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(typeof response.date, "object");
   });
 
-  it.only("query should work with large file", async function() {
+  it("query should work with large file", async function() {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     if (isQuickQueryDisabled()) {
       this.skip();
@@ -510,7 +510,7 @@ describe("BlobClient Node.js only", () => {
     assert.ok(downloadedData.equals(uploadedData));
   });
 
-  it.only("query should work with aborter", async function() {
+  it("query should work with aborter", async function() {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     if (isQuickQueryDisabled()) {
       this.skip();
