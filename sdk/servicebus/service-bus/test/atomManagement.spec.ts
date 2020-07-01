@@ -1533,9 +1533,10 @@ describe("Atom management - Authentication", function(): void {
       filter: {
         correlationId: "abcd",
         userProperties: {
-          state: "WA",
-          country: "US",
-          count: 25
+          randomState: "WA",
+          randomCountry: "US",
+          randomCount: 25,
+          randomBool: true
         }
       },
       action: { sqlExpression: "SET sys.label='GREEN'" }
@@ -1551,9 +1552,10 @@ describe("Atom management - Authentication", function(): void {
         sessionId: "",
         to: "",
         userProperties: {
-          state: "WA",
-          country: "US",
-          count: 25
+          randomState: "WA",
+          randomCountry: "US",
+          randomCount: 25,
+          randomBool: true
         }
       },
       action: {
