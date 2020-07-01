@@ -63,6 +63,17 @@ describe("Atom management - Namespace", function(): void {
       ["_response", "createdAt", "updatedAt", "name"]
     );
   });
+
+  it.only("Get queues paging", async () => {
+    const baseQueueName = "random-queue";
+    for (let i = 0; i < 15; i++) {
+      await serviceBusAtomManagementClient.createQueue(baseQueueName + "_" + i);
+    }
+    await serviceBusAtomManagementClient.getQueues2({ maxCount: 2 });
+    for (let i = 0; i < 15; i++) {
+      await serviceBusAtomManagementClient.deleteQueue(baseQueueName + "_" + i);
+    }
+  });
 });
 
 describe("Atom management - Authentication", function(): void {
