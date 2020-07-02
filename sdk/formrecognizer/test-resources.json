@@ -79,7 +79,7 @@
         "name": "S0"
       },
       "kind": "FormRecognizer",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "properties": {
         "customSubDomainName": "[parameters('baseName')]"
       }

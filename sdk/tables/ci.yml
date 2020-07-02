@@ -25,7 +25,8 @@ trigger:
 pr:
   branches:
     include:
-      - master
+      # TODO: re-enable master pr validation after tables tests are ready
+      #- master
       - feature/*
       - release/*
       - hotfix/*

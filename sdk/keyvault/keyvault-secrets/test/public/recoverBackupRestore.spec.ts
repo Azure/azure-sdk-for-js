@@ -12,7 +12,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
 describe("Secret client - restore secrets and recover backups", () => {
-  const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
+  const secretPrefix = `backupRestore${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;

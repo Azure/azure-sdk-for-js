@@ -123,13 +123,13 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.peekMessages();
+        await receiver.peekMessages(1);
       });
     });
 
     it("Unpartitioned Queue: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.peekMessages({ fromSequenceNumber: new Long(0) });
+        await receiver.peekMessages(1, { fromSequenceNumber: new Long(0) });
       });
     });
   });
@@ -147,13 +147,13 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue with Sessions: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.peekMessages();
+        await sessionReceiver.peekMessages(1);
       });
     });
 
     it("Unpartitioned Queue with Sessions: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.peekMessages({ fromSequenceNumber: new Long(0) });
+        await sessionReceiver.peekMessages(1, { fromSequenceNumber: new Long(0) });
       });
     });
 

@@ -243,9 +243,10 @@ export namespace ConnectionContext {
             logger.info("Closed the amqp connection '%s' on the client.", this.connectionId);
           }
         } catch (err) {
-          err = err instanceof Error ? err : JSON.stringify(err);
+          const errorDescription =
+            err instanceof Error ? `${err.name}: ${err.message}` : JSON.stringify(err);
           logger.warning(
-            `An error occurred while closing the connection "${this.connectionId}":\n${err}`
+            `An error occurred while closing the connection "${this.connectionId}":\n${errorDescription}`
           );
           logErrorStackTrace(err);
           throw err;

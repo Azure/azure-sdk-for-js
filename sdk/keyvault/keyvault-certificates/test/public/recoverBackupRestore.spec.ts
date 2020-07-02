@@ -12,7 +12,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
 describe("Certificates client - restore certificates and recover backups", () => {
-  const prefix = `recover${env.CERTIFICATE_NAME || "CertificateName"}`;
+  const prefix = `backupRestore${env.CERTIFICATE_NAME || "CertificateName"}`;
   let suffix: string;
   let client: CertificateClient;
   let testClient: TestClient;

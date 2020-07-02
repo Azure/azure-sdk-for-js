@@ -155,7 +155,7 @@ describe("Streaming", () => {
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
-      const peekedMsgs = await receiver.peekMessages();
+      const peekedMsgs = await receiver.peekMessages(1);
       should.equal(peekedMsgs.length, 0, "Unexpected number of msgs found when peeking");
     }
 

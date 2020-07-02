@@ -160,7 +160,7 @@ export class PartitionPump {
       }
       await this._partitionProcessor.close(reason);
     } catch (err) {
-      logger.warning("An error occurred while closing the receiver.", err);
+      logger.warning(`An error occurred while closing the receiver: ${err?.name}: ${err?.message}`);
       logErrorStackTrace(err);
       this._partitionProcessor.processError(err);
       throw err;

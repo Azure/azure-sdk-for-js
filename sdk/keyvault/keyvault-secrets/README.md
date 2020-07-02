@@ -7,7 +7,7 @@ Azure Key Vault Secrets management allows you to securely store and
 tightly control access to tokens, passwords, certificates, API keys,
 and other secrets.
 
-Use the client library for Azure Key Vault Secrets in your Node.js application to
+Use the client library for Azure Key Vault Secrets in your Node.js application to:
 
 - Get, set and delete secrets.
 - Update a secret and it's attributes.
@@ -16,6 +16,8 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 - Get all the versions of a secret.
 - Get all secrets.
 - Get all deleted secrets.
+
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
@@ -135,6 +137,25 @@ const url = `https://${vaultName}.vault.azure.net`;
 
 // Lastly, create our secrets client and connect to the service
 const client = new SecretClient(url, credential);
+```
+
+## Specifying the Azure Key Vault service API version
+
+By default, this package uses the latest Azure Key Vault service version which is `7.1-preview`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `apiVersion` in the client constructor as shown below:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SecretClient } = require("@azure/keyvault-secrets");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+// Change the Azure Key Vault service API version being used via the `apiVersion` option
+const client = new SecretClient(url, credential, {
+  apiVersion: "7.0"
+});
 ```
 
 ## Examples

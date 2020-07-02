@@ -40,7 +40,7 @@
     "build:test": "npm run clean && tsc -p tsconfig.json",
     "clean": "rimraf dist/",
     "format": "prettier --write \"./**/*.{ts,json,md}\"",
-    "format:check": "prettier --check \"./**/*.{ts,json,md}\"",
+    "check-format": "prettier --check \"./**/*.{ts,json,md}\"",
     "lint": "eslint src tests --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",

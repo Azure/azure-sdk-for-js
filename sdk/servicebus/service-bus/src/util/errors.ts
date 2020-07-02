@@ -42,16 +42,6 @@ export function throwErrorIfClientOrConnectionClosed(
 
 /**
  * @internal
- * Gets the error message when an open receiver exists for a session, but a new one is asked for on the same client
- * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param sessionId id of the session
- */
-export function getOpenSessionReceiverErrorMsg(entityPath: string, sessionId: string): string {
-  return `An open receiver already exists for the session "${sessionId}" for ` + `"${entityPath}".`;
-}
-
-/**
- * @internal
  * Gets the error message when a client is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  */

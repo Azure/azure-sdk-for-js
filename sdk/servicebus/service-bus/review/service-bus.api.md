@@ -73,8 +73,8 @@ export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOpt
 
 // @public
 export interface ListRequestOptions {
+    maxCount?: number;
     skip?: number;
-    top?: number;
 }
 
 // @public
@@ -103,12 +103,12 @@ export { MessagingError }
 
 // @public
 export interface NamespaceProperties {
-    createdOn: Date;
+    createdAt: Date;
     messagingSku: string;
     messagingUnits: number | undefined;
     name: string;
     namespaceType: string;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
@@ -124,7 +124,6 @@ export interface OperationOptions {
 // @public
 export interface PeekMessagesOptions extends OperationOptions {
     fromSequenceNumber?: Long;
-    maxMessageCount?: number;
 }
 
 // @public
@@ -154,13 +153,13 @@ export interface QueueResponse extends QueueDescription, Response {
 
 // @public
 export interface QueueRuntimeInfo {
-    accessedOn: Date;
-    createdOn: Date;
+    accessedAt: Date;
+    createdAt: Date;
     messageCount?: number;
     messageCountDetails?: MessageCountDetails;
     name: string;
     sizeInBytes?: number;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
@@ -214,9 +213,9 @@ export interface Receiver<ReceivedMessageT> {
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isClosed: boolean;
     isReceivingMessages(): boolean;
-    peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
+    peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
-    receiveMessages(maxMessages: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
+    receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
 }
@@ -428,13 +427,13 @@ export interface SubscriptionResponse extends SubscriptionDescription, Response 
 
 // @public
 export interface SubscriptionRuntimeInfo {
-    accessedOn: Date;
-    createdOn: Date;
+    accessedAt: Date;
+    createdAt: Date;
     messageCount: number;
     messageCountDetails?: MessageCountDetails;
     subscriptionName: string;
     topicName: string;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
@@ -475,12 +474,12 @@ export interface TopicResponse extends TopicDescription, Response {
 
 // @public
 export interface TopicRuntimeInfo {
-    accessedOn: Date;
-    createdOn: Date;
+    accessedAt: Date;
+    createdAt: Date;
     name: string;
     sizeInBytes?: number;
     subscriptionCount?: number;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public

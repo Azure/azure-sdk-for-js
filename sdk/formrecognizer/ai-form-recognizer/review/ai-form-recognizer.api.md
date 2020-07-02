@@ -182,21 +182,21 @@ export interface CustomFormField {
 
 // @public
 export interface CustomFormModel {
-    completedOn: Date;
     errors?: FormRecognizerError[];
     modelId: string;
-    requestedOn: Date;
     status: CustomFormModelStatus;
     submodels?: CustomFormSubmodel[];
+    trainingCompletedOn: Date;
     trainingDocuments?: TrainingDocumentInfo[];
+    trainingStartedOn: Date;
 }
 
 // @public
 export interface CustomFormModelInfo {
-    completedOn: Date;
     modelId: string;
-    requestedOn: Date;
     status: CustomFormModelStatus;
+    trainingCompletedOn: Date;
+    trainingStartedOn: Date;
 }
 
 // @public

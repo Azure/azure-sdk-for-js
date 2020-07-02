@@ -28,7 +28,9 @@ async function main() {
   // Connection to Azure Key Vault Cryptography functionality
   let myWorkKey = await client.createKey(keyName, "RSA");
 
-  const cryptoClient = new CryptographyClient(myWorkKey.id, credential);
+  const cryptoClient = new CryptographyClient(
+    myWorkKey // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
+  , credential);
 
   // Sign and Verify
   const signatureValue = "MySignature";

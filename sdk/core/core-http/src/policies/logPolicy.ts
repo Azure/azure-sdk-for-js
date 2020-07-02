@@ -107,7 +107,7 @@ export class LogPolicy extends BaseRequestPolicy {
     return this._nextPolicy.sendRequest(request).then((response) => this.logResponse(response));
   }
 
-  private logRequest(request: WebResourceLike) {
+  private logRequest(request: WebResourceLike): void {
     this.logger(`Request: ${this.sanitizer.sanitize(request)}`);
   }
 

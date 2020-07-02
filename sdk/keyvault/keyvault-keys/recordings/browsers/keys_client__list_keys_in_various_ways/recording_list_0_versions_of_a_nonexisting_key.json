@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-list0versionsofanon-existingkey-/versions",
+   "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-list0versionsofanon-existingkey-/versions",
    "query": {
     "api-version": "7.1-preview"
    },
@@ -13,19 +13,18 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 16:32:10 GMT",
+    "date": "Sat, 27 Jun 2020 00:46:12 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.151.14.88;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "9c24e5f0-80d3-4dc7-b3b6-7f0dc9706a98",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "658bd128-6b7c-4536-9993-722d194f7481",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -40,20 +39,20 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 16:32:10 GMT",
+    "date": "Sat, 27 Jun 2020 00:46:13 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10433.14 - SCUS ProdSlices",
-    "x-ms-request-id": "6b043df6-154a-4ab5-8058-651d2d673400"
+    "x-ms-ests-server": "2.1.10761.12 - NCUS ProdSlices",
+    "x-ms-request-id": "edff8430-1a04-4452-a6a6-2ffa3b380c00"
    }
   },
   {
    "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/keys/recoverKeyName-list0versionsofanon-existingkey-/versions",
+   "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-list0versionsofanon-existingkey-/versions",
    "query": {
     "api-version": "7.1-preview"
    },
@@ -64,18 +63,17 @@
     "cache-control": "no-cache",
     "content-length": "28",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 30 Apr 2020 16:32:10 GMT",
+    "date": "Sat, 27 Jun 2020 00:46:12 GMT",
     "expires": "-1",
     "pragma": "no-cache",
-    "server": "Microsoft-IIS/10.0",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "addr=52.151.14.88;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
     "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.0.898",
-    "x-ms-request-id": "b05deece-1b44-4935-adf6-6de0a003adeb",
+    "x-ms-keyvault-service-version": "1.1.6.0",
+    "x-ms-request-id": "165fc24a-6542-4db8-bd84-390fe2939bba",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -84,5 +82,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "709024e27ae8e59ac8d957293ef21d78"
+ "hash": "afff861b852942c8d454daec6d0fee49"
 }

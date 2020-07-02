@@ -433,6 +433,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/keyvault-admin",
+      "projectFolder": "sdk/keyvault/keyvault-admin",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/keyvault-certificates",
       "projectFolder": "sdk/keyvault/keyvault-certificates",
       "versionPolicyName": "client"
@@ -458,8 +463,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/storage-internal-avro",
+      "projectFolder": "sdk/storage/storage-internal-avro",
+      "versionPolicyName": "utility"
+    },
+    {
       "packageName": "@azure/storage-blob",
       "projectFolder": "sdk/storage/storage-blob",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/storage-blob-changefeed",
+      "projectFolder": "sdk/storage/storage-blob-changefeed",
       "versionPolicyName": "client"
     },
     {

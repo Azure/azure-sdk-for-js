@@ -11,23 +11,21 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/search-documents";
-const packageVersion = "1.0.0-preview.5";
+const packageVersion = "11.0.0";
 
 export class SearchClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
   endpoint: string;
   indexName: string;
-  credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
 
   /**
    * Initializes a new instance of the SearchClientContext class.
    * @param apiVersion Client Api Version.
    * @param endpoint The endpoint URL of the search service.
    * @param indexName The name of the index.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, apiVersion: string, endpoint: string, indexName: string, options?: coreHttp.ServiceClientOptions) {
+  constructor(apiVersion: string, endpoint: string, indexName: string, options?: coreHttp.ServiceClientOptions) {
     if (apiVersion == undefined) {
       throw new Error("'apiVersion' cannot be null.");
     }
@@ -36,9 +34,6 @@ export class SearchClientContext extends coreHttp.ServiceClient {
     }
     if (indexName == undefined) {
       throw new Error("'indexName' cannot be null.");
-    }
-    if (credentials == undefined) {
-      throw new Error("'credentials' cannot be null.");
     }
 
     if (!options) {
@@ -50,13 +45,12 @@ export class SearchClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(credentials, options);
+    super(undefined, options);
 
     this.baseUri = "{endpoint}/indexes('{indexName}')";
     this.requestContentType = "application/json; charset=utf-8";
     this.apiVersion = apiVersion;
     this.endpoint = endpoint;
     this.indexName = indexName;
-    this.credentials = credentials;
   }
 }

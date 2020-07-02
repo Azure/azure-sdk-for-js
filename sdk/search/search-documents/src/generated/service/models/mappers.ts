@@ -4202,14 +4202,6 @@ export const ServiceCounters: coreHttp.CompositeMapper = {
           name: "Composite",
           className: "ResourceCounter"
         }
-      },
-      skillsetCounter: {
-        required: true,
-        serializedName: "skillsetCount",
-        type: {
-          name: "Composite",
-          className: "ResourceCounter"
-        }
       }
     }
   }

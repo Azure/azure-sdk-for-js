@@ -1166,7 +1166,7 @@ async function testSendOperationRequest(
   queryCollectionFormat: QueryCollectionFormat,
   skipEncodingParameter: boolean,
   expected: string
-) {
+): Promise<void> {
   let request: WebResource;
   const client = new ServiceClient(undefined, {
     httpClient: {
