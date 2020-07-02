@@ -141,16 +141,14 @@ async function retry(
   requestError?: RetryError
 ): Promise<HttpOperationResponse> {
   function shouldPolicyRetry(response?: HttpOperationResponse): boolean {
-    if (response) {
-      const statusCode = response.status;
-      if (
-        statusCode === undefined ||
+    const statusCode = response && response.status;
+    if (
+      statusCode === undefined ||
         (statusCode < 500 && statusCode !== 408) ||
         statusCode === 501 ||
         statusCode === 505
-      ) {
-        return false;
-      }
+    ) {
+      return false;
     }
     return true;
   }
@@ -168,9 +166,9 @@ async function retry(
   const isAborted: boolean | undefined = request.abortSignal && request.abortSignal.aborted;
   if (!isAborted && shouldRetry(policy.retryCount, shouldPolicyRetry, retryData, response)) {
     logger.info(`Retrying request in ${retryData.retryInterval}`);
-    await utils.delay(retryData.retryInterval);
-    const res = await policy._nextPolicy.sendRequest(request.clone());
     try {
+      await utils.delay(retryData.retryInterval);
+      const res = await policy._nextPolicy.sendRequest(request.clone());
       return retry(policy, request, res, retryData);
     } catch (err) {
       return retry(policy, request, response, retryData, err);
