@@ -246,6 +246,7 @@ export class MessageReceiver extends LinkEntity {
    * to bring its link back up due to a retryable issue.
    */
   private _isDetaching: boolean = false;
+  private _stopReceivingMessages: boolean = false;
 
   public get receiverHelper(): ReceiverHelper {
     return this._receiverHelper;
@@ -716,6 +717,58 @@ export class MessageReceiver extends LinkEntity {
         );
       }
     };
+  }
+
+  /**
+   * Prevents us from receiving any further messages.
+   */
+  public stopReceivingMessages(): Promise<void> {
+    log.receiver(
+      `[${this.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
+    );
+    this._stopReceivingMessages = true;
+
+    return this.drainReceiver();
+  }
+
+  private drainReceiver(): Promise<void> {
+    log.receiver(`[${this.name}] Receiver is starting drain.`);
+
+    const drainPromise = new Promise<void>((resolve) => {
+      if (this._receiver == null) {
+        log.receiver(`[${this.name}] Internal receiver has been removed. Not draining.`);
+        resolve();
+        return;
+      }
+
+      this._receiver.once(ReceiverEvents.receiverDrained, () => {
+        log.receiver(`[${this.name}] Receiver has been drained.`);
+        resolve();
+      });
+
+      this._receiver.drain = true;
+      // this is not actually adding another credit - it'll just
+      // cause the drain call to start.
+      this._receiver.addCredit(1);
+    });
+
+    return drainPromise;
+  }
+
+  /**
+   * Adds credits to the receiver, respecting any state that
+   * indicates the receiver is closed or should not continue
+   * to receive more messages.
+   *
+   * @param credits Number of credits to add.
+   */
+  protected addCredit(credits: number): boolean {
+    if (this._stopReceivingMessages || this._receiver == null) {
+      return false;
+    }
+
+    this._receiver.addCredit(credits);
+    return true;
   }
 
   /**

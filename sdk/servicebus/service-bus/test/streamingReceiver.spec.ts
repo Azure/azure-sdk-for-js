@@ -1158,6 +1158,35 @@ describe("Streaming", () => {
   });
 });
 
+function singleMessagePromise(
+  receiver: Receiver<ReceivedMessageWithLock>
+): Promise<{
+  subscriber: ReturnType<Receiver<unknown>["subscribe"]>;
+  messages: ReceivedMessageWithLock[];
+}> {
+  const messages: ReceivedMessageWithLock[] = [];
+
+  return new Promise<{
+    subscriber: ReturnType<Receiver<unknown>["subscribe"]>;
+    messages: ReceivedMessageWithLock[];
+  }>((resolve, reject) => {
+    const subscriber = receiver.subscribe(
+      {
+        processMessage: async (message) => {
+          messages.push(message);
+          resolve({ subscriber, messages });
+        },
+        processError: async (err) => {
+          reject(err);
+        }
+      },
+      {
+        autoComplete: false
+      }
+    );
+  });
+}
+
 describe("Streaming - onDetached", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
