@@ -29,7 +29,15 @@ import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { Receiver } from "./receiver";
 import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
+import {
+  Constants,
+  RetryConfig,
+  RetryOperationType,
+  RetryOptions,
+  retry,
+  ErrorNameConditionMapper,
+  translate
+} from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 import { AmqpError } from "rhea-promise";
@@ -505,9 +513,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   async close(): Promise<void> {
     try {
-      if (this._messageSession) {
-        await this._messageSession.close();
-      }
+      await this._messageSession.close();
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the SessionReceiver for session %s in %s: %O",
