@@ -1,4 +1,4 @@
-# Azure Cognitive Search client library for JavaScript
+# Azure Cognitive Search client library for JavaScript 
 
 [Azure Cognitive Search](https://docs.microsoft.com/azure/search/) is a search-as-a-service cloud solution that gives developers APIs and tools for adding a rich search experience over private, heterogeneous content in web, mobile, and enterprise applications.
 
