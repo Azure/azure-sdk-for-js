@@ -3,7 +3,7 @@
 ## 1.0.0-preview.4 (Unreleased)
 
 - [Breaking] Rename the `textContent` field of the `FieldData` and `FormTableCell` types to `fieldElements` to mirror the change in its type.
-- [Breaking] Rename the `FormField` type's `labelText` and `valueText` fields to `labelText` and `valueData` respectively, to mirror the change of their type to `FieldData`;
+- [Breaking] Rename the `FormField` type's `labelText` and `valueText` fields to `labelData` and `valueData` respectively, to mirror the change of their type to `FieldData`;
 - [Breaking] Rename the `includeTextContent` request option to `includeFieldElements` to mirror the change to `FieldData` and `FormElement`.
 - [Breaking] Rename `FieldText` to `FieldData` and `FormContent` to `FormElement` to reflect that fields may contain more than textual information.
 - [Breaking] Rename `includeTextDetails` to `includeTextContent` in custom form and receipt recognition options to be consistent with other languages.

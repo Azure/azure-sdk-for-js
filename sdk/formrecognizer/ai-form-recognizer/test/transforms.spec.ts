@@ -383,7 +383,7 @@ describe("Transforms", () => {
     assert.equal(
       transformed.missingField.labelData,
       undefined,
-      "Expecting missingField has undefined labelText"
+      "Expecting missingField has undefined labelData"
     );
     assert.equal(
       transformed.missingField.value,
@@ -393,7 +393,7 @@ describe("Transforms", () => {
     assert.equal(
       transformed.missingField.valueData,
       undefined,
-      "Expecting missingField has undefined valueText"
+      "Expecting missingField has undefined valueData"
     );
     assert.equal(
       transformed.missingField.valueType,
