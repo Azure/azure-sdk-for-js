@@ -387,6 +387,17 @@ export class MessageSession extends LinkEntity {
           this.name,
           options
         );
+        if (
+          receivedSessionId != undefined &&
+          (this.sessionId === undefined || this.sessionId === receivedSessionId)
+        ) {
+          if (!this._context.messageSessions[this.sessionId!]) {
+            this._context.messageSessions[this.sessionId!] = this;
+          }
+          this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
+          this._ensureTokenRenewal();
+          this._ensureSessionLockRenewal();
+        }
       } else {
         log.error(
           "[%s] The receiver '%s' for sessionId '%s' is open -> %s and is connecting " +

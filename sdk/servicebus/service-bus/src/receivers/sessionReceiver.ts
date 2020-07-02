@@ -146,14 +146,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw error;
     }
 
-    if (!this._context.messageSessions[sessionOptions.sessionId!]) {
-      this._context.messageSessions[sessionOptions.sessionId!] = _messageSession;
-    }
-    _messageSession["_totalAutoLockRenewDuration"] =
-      Date.now() + _messageSession.maxAutoRenewDurationInMs;
-    _messageSession["_ensureTokenRenewal"]();
-    _messageSession["_ensureSessionLockRenewal"]();
-
     this.sessionId = _messageSession.sessionId as "string";
   }
 
