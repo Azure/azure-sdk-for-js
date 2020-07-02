@@ -7,10 +7,21 @@
  */
 
 export {
+  BaseResource,
+  Circuit,
   CloudError,
+  Cluster,
+  ClusterUpdateProperties,
+  Endpoints,
   ErrorAdditionalInfo,
   ErrorResponse,
-  Operation,
-  OperationDisplay,
-  OperationList
+  ExpressRouteAuthorization,
+  ExpressRouteAuthorizationList,
+  HcxEnterpriseSite,
+  IdentitySource,
+  ManagementCluster,
+  PrivateCloud,
+  Resource,
+  Sku,
+  TrackedResource
 } from "../models/mappers";
