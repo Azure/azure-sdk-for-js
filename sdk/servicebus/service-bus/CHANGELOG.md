@@ -5,8 +5,8 @@
 - Adds abortSignal support throughout Sender and non-session Receivers.
   [PR 9233](https://github.com/Azure/azure-sdk-for-js/pull/9233)
   [PR 9284](https://github.com/Azure/azure-sdk-for-js/pull/9284)
-- Standardized methods on senders and receivers to use the `Messages` suffix and deal with multiple messages rather than
-  have dedicated methods to deal with a single message. [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
+- Standardized methods on senders and receivers to use the `Messages` suffix and deal with multiple messages rather than have dedicated methods to deal with a single message.
+  [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
 - Standardized methods that peek and receive given number messages to use similar signature.
   [PR 9798](https://github.com/Azure/azure-sdk-for-js/pull/9798)
 - Bug - Messages scheduled in parallel with the `scheduleMessage` method have the same sequence number in response.
@@ -28,6 +28,8 @@
     [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
     See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
+
+  - Fixed the bug where one cannot set `userProperties` in a correlation filter while using the `createRule()` method. [PR 9794](https://github.com/Azure/azure-sdk-for-js/pull/9794)
 
 ## 7.0.0-preview.3 (2020-06-08)
 
