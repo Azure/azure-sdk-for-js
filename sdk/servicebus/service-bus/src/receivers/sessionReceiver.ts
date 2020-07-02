@@ -201,7 +201,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   }
 
   private _throwIfAlreadyReceiving(): void {
-    if (this.isReceivingMessages()) {
+    if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath, this.sessionId);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
@@ -461,8 +461,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     );
 
     return {
-      // TODO: coming in a future PR.
-      close: async (): Promise<void> => {}
+      close: async (): Promise<void> => {
+        return this._messageSession?.receiverHelper.stopReceivingMessages();
+      }
     };
   }
 
@@ -543,7 +544,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
    */
-  isReceivingMessages(): boolean {
+  private _isReceivingMessages(): boolean {
     return this._messageSession ? this._messageSession.isReceivingMessages : false;
   }
 }

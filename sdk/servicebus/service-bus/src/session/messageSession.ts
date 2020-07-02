@@ -18,7 +18,13 @@ import {
   isAmqpError
 } from "rhea-promise";
 import * as log from "../log";
-import { OnAmqpEventAsPromise, OnError, OnMessage, PromiseLike } from "../core/messageReceiver";
+import {
+  OnAmqpEventAsPromise,
+  OnError,
+  OnMessage,
+  PromiseLike,
+  ReceiverHelper
+} from "../core/messageReceiver";
 import { LinkEntity } from "../core/linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
@@ -250,6 +256,11 @@ export class MessageSession extends LinkEntity {
 
   private _totalAutoLockRenewDuration: number;
 
+  public get receiverHelper(): ReceiverHelper {
+    return this._receiverHelper;
+  }
+  private _receiverHelper: ReceiverHelper;
+
   /**
    * Ensures that the session lock is renewed before it expires. The lock will not be renewed for
    * more than the configured totalAutoLockRenewDuration.
@@ -461,6 +472,7 @@ export class MessageSession extends LinkEntity {
     });
     this._context.isSessionEnabled = true;
     this.isReceivingMessages = false;
+    this._receiverHelper = new ReceiverHelper(() => this._receiver);
     if (!options) options = { sessionId: undefined };
     this.autoComplete = false;
     this.sessionId = options.sessionId;
@@ -831,9 +843,7 @@ export class MessageSession extends LinkEntity {
           }
           return;
         } finally {
-          if (this._receiver) {
-            this._receiver!.addCredit(1);
-          }
+          this._receiverHelper.addCredit(1);
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
@@ -868,7 +878,7 @@ export class MessageSession extends LinkEntity {
       // setting the "message" event listener.
       this._receiver.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      this._receiver!.addCredit(this.maxConcurrentCalls);
+      this._receiverHelper.addCredit(this.maxConcurrentCalls);
     } else {
       this.isReceivingMessages = false;
       const msg =
@@ -1062,7 +1072,7 @@ export class MessageSession extends LinkEntity {
         // number of messages concurrently. We will return the user an array of messages that can
         // be of size upto maxMessageCount. Then the user needs to accordingly dispose
         // (complete,/abandon/defer/deadletter) the messages from the array.
-        this._receiver!.addCredit(maxMessageCount);
+        this._receiverHelper.addCredit(maxMessageCount);
         let msg: string = "[%s] Setting the wait timer for %d milliseconds for receiver '%s'.";
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs, this.name);
