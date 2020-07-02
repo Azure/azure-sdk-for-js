@@ -146,7 +146,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw error;
     }
 
-    this.sessionId = _messageSession.sessionId as "string";
+    this.sessionId = _messageSession.sessionId!;
   }
 
   static async createInitializedSessionReceiver<
