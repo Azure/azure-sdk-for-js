@@ -153,6 +153,7 @@ export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, Fo
 
 // @public
 export interface CopyAuthorization extends CopyAuthorizationResultModel {
+    expiresOn: Date;
     resourceId: string;
     resourceRegion: string;
 }
