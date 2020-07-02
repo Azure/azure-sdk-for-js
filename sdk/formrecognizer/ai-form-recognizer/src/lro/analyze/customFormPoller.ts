@@ -3,13 +3,11 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import {
-  RecognizeFormsOptions,
-} from "../../formRecognizerClient";
+import { RecognizeFormsOptions } from "../../formRecognizerClient";
 
 import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
-  OperationStatus,
+  OperationStatus
 } from "../../generated/models";
 import { FormContentType } from "../../common";
 import { FormRecognizerRequestBody, RecognizedFormArray } from "../../models";
@@ -44,7 +42,10 @@ export type RecognizeCustomFormPollerClient = {
     analyzeOptions?: RecognizeFormsOptions
   ) => Promise<AnalyzeWithCustomModelResponseModel>;
   // retrieves analyze result
-  getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeFormResultResponse>;
+  getRecognizeResult: (
+    resultId: string,
+    options: { abortSignal?: AbortSignalLike }
+  ) => Promise<RecognizeFormResultResponse>;
 };
 
 export interface BeginRecognizeCustomFormPollState extends PollOperationState<RecognizedFormArray> {
@@ -170,9 +171,7 @@ function makeBeginRecognizePollOperation(
 
       state.status = response.status;
       if (!state.isCompleted) {
-        if (
-          typeof options.fireProgress === "function"
-        ) {
+        if (typeof options.fireProgress === "function") {
           options.fireProgress(state);
         }
 
@@ -180,7 +179,9 @@ function makeBeginRecognizePollOperation(
           state.result = response.forms;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          const errors = response.errors?.map((e) => `  code ${e.code}, message: '${e.message}'`).join("\n");
+          const errors = response.errors
+            ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
+            .join("\n");
           const message = `Custom form recognition failed using model ${state.modelId}.
 Error(s):
 ${errors || ""}

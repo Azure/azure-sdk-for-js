@@ -13,7 +13,12 @@ import {
   createRecordedRecognizerClient,
   testEnv
 } from "../util/recordedClients";
-import { FormRecognizerClient, TrainingDocumentInfo, FormTrainingClient, AzureKeyCredential } from "../../src";
+import {
+  FormRecognizerClient,
+  TrainingDocumentInfo,
+  FormTrainingClient,
+  AzureKeyCredential
+} from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
@@ -55,7 +60,10 @@ describe("FormTrainingClient NodeJS only", () => {
     // save the id for recognition tests
     unlabeledModelId = response!.modelId;
 
-    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    assert.ok(
+      response!.submodels && response!.submodels.length > 0,
+      "Expected non empty sub model list"
+    );
     const model = response!.submodels![0];
     assert.equal(model.formType, "form-0");
     assert.equal(model.accuracy, undefined);
@@ -77,7 +85,10 @@ describe("FormTrainingClient NodeJS only", () => {
     // save the id for recognition tests
     labeledModelId = response!.modelId;
 
-    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    assert.ok(
+      response!.submodels && response!.submodels.length > 0,
+      "Expected non empty sub model list"
+    );
     const model = response!.submodels![0];
     assert.equal(model.formType, `form-${response!.modelId}`);
     assert.equal(model.accuracy, 0.973);
@@ -242,10 +253,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     );
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
@@ -267,10 +275,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
@@ -295,10 +300,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     );
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
@@ -322,10 +324,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
@@ -349,10 +348,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {

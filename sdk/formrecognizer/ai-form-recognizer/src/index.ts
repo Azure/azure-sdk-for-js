@@ -8,7 +8,8 @@ export { AzureKeyCredential } from "@azure/core-auth";
 export {
   FormContentType,
   FormRecognizerClientOptions,
-  FormRecognizerOperationOptions } from "./common";
+  FormRecognizerOperationOptions
+} from "./common";
 export * from "./formRecognizerClient";
 export * from "./formTrainingClient";
 export * from "./models";

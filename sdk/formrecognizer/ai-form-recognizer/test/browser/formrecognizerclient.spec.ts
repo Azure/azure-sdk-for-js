@@ -30,10 +30,7 @@ describe("FormRecognizerClient browser only", () => {
     const poller = await client.beginRecognizeContentFromUrl(url);
     const pages = await poller.pollUntilDone();
 
-    assert.ok(
-      pages && pages.length > 0,
-      `Expect non-empty pages but got ${pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect non-empty pages but got ${pages}`);
   });
 
   it("recognizes receipt from a url", async () => {
@@ -44,10 +41,7 @@ describe("FormRecognizerClient browser only", () => {
     const poller = await client.beginRecognizeReceiptsFromUrl(url);
     const receipts = await poller.pollUntilDone();
 
-    assert.ok(
-      receipts && receipts.length > 0,
-      `Expect no-empty pages but got ${receipts}`
-    );
+    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
     const receipt = receipts![0];
     assert.equal(receipt.formType, "prebuilt:receipt");
   });
@@ -70,10 +64,7 @@ describe("FormRecognizerClient browser only", () => {
     const poller = await client.beginRecognizeReceipts(data!);
     const receipts = await poller.pollUntilDone();
 
-    assert.ok(
-      receipts && receipts.length > 0,
-      `Expect no-empty pages but got ${receipts}`
-    );
+    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
     const receipt = receipts![0];
     assert.equal(receipt.formType, "prebuilt:receipt");
   });

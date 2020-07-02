@@ -7,9 +7,9 @@ import { TrainingFileFilter, GetModelOptions } from "../../formTrainingClient";
 
 import {
   ModelStatus,
-  GeneratedClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse,
+  GeneratedClientTrainCustomModelAsyncResponse as TrainCustomModelAsyncResponse
 } from "../../generated/models";
-import { CustomFormModel, FormModelResponse } from '../../models';
+import { CustomFormModel, FormModelResponse } from "../../models";
 export { ModelStatus, TrainCustomModelAsyncResponse };
 
 /**
@@ -55,7 +55,7 @@ export interface BeginTrainingPollState extends PollOperationState<CustomFormMod
 }
 
 export interface BeginTrainingPollerOperation
-extends PollOperation<BeginTrainingPollState, CustomFormModel> {}
+  extends PollOperation<BeginTrainingPollState, CustomFormModel> {}
 
 /**
  * @internal
@@ -72,10 +72,7 @@ export interface BeginTrainingPollerOptions {
 /**
  * Class that represents a poller that waits until a model has been trained.
  */
-export class BeginTrainingPoller extends Poller<
-  BeginTrainingPollState,
-  CustomFormModel
-> {
+export class BeginTrainingPoller extends Poller<BeginTrainingPollState, CustomFormModel> {
   public updateIntervalInMs: number;
 
   constructor(options: BeginTrainingPollerOptions) {
@@ -163,10 +160,20 @@ function makeBeginTrainingPollOperation(
           state.result = model;
           state.isCompleted = true;
         } else if (model.status === "invalid") {
-          const errors = model.errors?.map((e) => `  code ${e.code}, message: '${e.message}'`).join("\n");
-          const additionalInfo = model.trainingDocuments?.map((d) =>
-            `  document: ${d.documentName}, status: ${d.status}, errors: ${d.errors?.map((e) => `code ${e.code}, message: '${e.message}'`).join("\n")}`).join("\n")
-          const message = `Model training failed. Invalid model was created with id '${state.modelId}'.
+          const errors = model.errors
+            ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
+            .join("\n");
+          const additionalInfo = model.trainingDocuments
+            ?.map(
+              (d) =>
+                `  document: ${d.documentName}, status: ${d.status}, errors: ${d.errors
+                  ?.map((e) => `code ${e.code}, message: '${e.message}'`)
+                  .join("\n")}`
+            )
+            .join("\n");
+          const message = `Model training failed. Invalid model was created with id '${
+            state.modelId
+          }'.
 Error(s):
 ${errors || ""}
 Additional information:
