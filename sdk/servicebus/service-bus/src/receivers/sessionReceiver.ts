@@ -21,8 +21,7 @@ import {
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterNotLongArray,
-  getOpenSessionReceiverErrorMsg
+  throwTypeErrorIfParameterNotLongArray
 } from "../util/errors";
 import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
