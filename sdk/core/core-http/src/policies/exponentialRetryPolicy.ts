@@ -141,7 +141,7 @@ async function retry(
   requestError?: RetryError
 ): Promise<HttpOperationResponse> {
   function shouldPolicyRetry(response?: HttpOperationResponse): boolean {
-    const statusCode = response && response.status;
+    const statusCode = response?.status;
     if (
       statusCode === undefined ||
         (statusCode < 500 && statusCode !== 408) ||
