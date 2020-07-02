@@ -22,7 +22,7 @@
   [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
 - Standardized methods that peek and receive given number messages to use similar signature.
   [PR 9798](https://github.com/Azure/azure-sdk-for-js/pull/9798)
-- Removed `isReceivingMessages` method on the `Receiver`.
+- Removed `isReceivingMessages` method on the `Receiver` as per discussions in [Issue 9746](https://github.com/Azure/azure-sdk-for-js/issues/9746)
   [PR 9875](https://github.com/Azure/azure-sdk-for-js/pull/9875)
 
 - Management api updates
