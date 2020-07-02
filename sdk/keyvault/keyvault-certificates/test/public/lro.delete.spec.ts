@@ -10,7 +10,7 @@ import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
-describe.only("Certificates client - lro - delete", () => {
+describe("Certificates client - lro - delete", () => {
   const certificatePrefix = `lroDelete${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;
@@ -31,7 +31,7 @@ describe.only("Certificates client - lro - delete", () => {
 
   // The tests follow
 
-  it.only("can wait until a certificate is deleted", async function() {
+  it("can wait until a certificate is deleted", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -61,7 +61,7 @@ describe.only("Certificates client - lro - delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
-  it.only("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );

@@ -32,7 +32,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
 
   // The tests follow
 
-  it.only("can wait until a certificate is recovered", async function() {
+  it("can wait until a certificate is recovered", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -65,7 +65,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it.only("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -112,7 +112,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it.only("can recover a deleted certificate with requestOptions timeout", async function() {
+  it("can recover a deleted certificate with requestOptions timeout", async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`

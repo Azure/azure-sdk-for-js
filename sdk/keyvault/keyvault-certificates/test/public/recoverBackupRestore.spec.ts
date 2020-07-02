@@ -37,7 +37,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   // The tests follow
 
-  it.only("can recover a deleted certificate", async function() {
+  it("can recover a deleted certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
@@ -81,7 +81,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it.only("can restore a certificate", async function() {
+    it("can restore a certificate", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,
@@ -139,7 +139,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it.only("can restore a key with requestOptions timeout", async function() {
+    it("can restore a key with requestOptions timeout", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,
