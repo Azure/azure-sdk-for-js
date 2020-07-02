@@ -4047,7 +4047,8 @@ export interface SubscriptionContract extends Resource {
    */
   secondaryKey?: string;
   /**
-   * Optional subscription comment added by an administrator.
+   * Optional subscription comment added by an administrator when the state is changed to the
+   * 'rejected'.
    */
   stateComment?: string;
   /**
@@ -4107,6 +4108,20 @@ export interface ProductUpdateParameters {
  * Quota counter value details.
  */
 export interface QuotaCounterValueContractProperties {
+  /**
+   * Number of times Counter was called.
+   */
+  callsCount?: number;
+  /**
+   * Data Transferred in KiloBytes.
+   */
+  kbTransferred?: number;
+}
+
+/**
+ * Quota counter value details.
+ */
+export interface QuotaCounterValueUpdateContract {
   /**
    * Number of times Counter was called.
    */
@@ -4421,7 +4436,8 @@ export interface SubscriptionUpdateParameters {
    */
   state?: SubscriptionState;
   /**
-   * Comments describing subscription state change by the administrator.
+   * Comments describing subscription state change by the administrator when the state is changed
+   * to the 'rejected'.
    */
   stateComment?: string;
   /**
