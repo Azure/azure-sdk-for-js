@@ -1,6 +1,6 @@
 # Release History
 
-## 7.0.0-preview.4 (Unreleased)
+## 7.0.0-preview.4 (2020-07-07)
 
 - Adds abortSignal support throughout Sender and non-session Receivers.
   [PR 9233](https://github.com/Azure/azure-sdk-for-js/pull/9233)
