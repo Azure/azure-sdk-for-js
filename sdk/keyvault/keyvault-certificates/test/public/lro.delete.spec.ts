@@ -10,7 +10,7 @@ import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
-describe("Certificates client - lro - delete", () => {
+describe.only("Certificates client - lro - delete", () => {
   const certificatePrefix = `lroDelete${env.CERTIFICATE_NAME || "CertificateName"}`;
   let certificateSuffix: string;
   let client: CertificateClient;
@@ -31,15 +31,16 @@ describe("Certificates client - lro - delete", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is deleted", async function() {
+  it.only("can wait until a certificate is deleted", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
-    await client.beginCreateCertificate(
+    const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
       testPollerProperties
     );
+    await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
@@ -60,15 +61,16 @@ describe("Certificates client - lro - delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it.only("can resume from a stopped poller", async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
-    await client.beginCreateCertificate(
+    const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
       testPollerProperties
     );
+    await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
@@ -100,4 +102,5 @@ describe("Certificates client - lro - delete", () => {
 
     await testClient.purgeCertificate(certificateName);
   });
+
 });
