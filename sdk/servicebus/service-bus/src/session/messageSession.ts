@@ -381,7 +381,7 @@ export class MessageSession extends LinkEntity {
         } else if (this.sessionId != null && receivedSessionId !== this.sessionId) {
           // This code path is reached if the session is already locked by another receiver.
           // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-          errorMessage = `Failed to get a lock on the session ${this.sessionId};`;
+          errorMessage = `Failed to get a lock on the session ${this.sessionId}`;
         }
 
         if (errorMessage) {
