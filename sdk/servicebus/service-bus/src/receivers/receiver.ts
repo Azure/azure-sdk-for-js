@@ -37,6 +37,8 @@ export interface Receiver<ReceivedMessageT> {
    * Streams messages to message handlers.
    * @param handlers A handler that gets called for messages and errors.
    * @param options Options for subscribe.
+   * @returns An object that can be closed, sending any remaining messages to `handlers` and
+   * stopping new messages from arriving.
    */
   subscribe(
     handlers: MessageHandlers<ReceivedMessageT>,
