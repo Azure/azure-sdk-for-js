@@ -36,7 +36,7 @@ import { getUniqueName, waitForTimeoutOrAbortOrResolve, StandardAbortMessage } f
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateBatchOptions } from "../models";
-import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 /**
@@ -251,7 +251,7 @@ export class MessageSender extends LinkEntity {
   private _trySend(
     encodedMessage: Buffer,
     sendBatch: boolean,
-    options: OperationOptions | undefined
+    options: OperationOptionsBase | undefined
   ): Promise<void> {
     const abortSignal = options?.abortSignal;
     const timeoutInMs =
@@ -593,7 +593,7 @@ export class MessageSender extends LinkEntity {
    * @param {ServiceBusMessage} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<void>}
    */
-  async send(data: ServiceBusMessage, options?: OperationOptions): Promise<void> {
+  async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       const amqpMessage = toAmqpMessage(data);
@@ -643,7 +643,7 @@ export class MessageSender extends LinkEntity {
    */
   async sendMessages(
     inputMessages: ServiceBusMessage[],
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
@@ -731,7 +731,7 @@ export class MessageSender extends LinkEntity {
   async getMaxMessageSize(
     options: {
       retryOptions?: RetryOptions;
-    } & Pick<OperationOptions, "abortSignal"> = {}
+    } & Pick<OperationOptionsBase, "abortSignal"> = {}
   ): Promise<number> {
     const retryOptions = options.retryOptions || {};
     if (this.isOpen()) {
@@ -774,7 +774,10 @@ export class MessageSender extends LinkEntity {
     return new ServiceBusMessageBatchImpl(this._context, maxMessageSize!);
   }
 
-  async sendBatch(batchMessage: ServiceBusMessageBatch, options?: OperationOptions): Promise<void> {
+  async sendBatch(
+    batchMessage: ServiceBusMessageBatch,
+    options?: OperationOptionsBase
+  ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       log.sender(

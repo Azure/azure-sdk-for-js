@@ -88,7 +88,8 @@ describe("atomSerializationPolicy", function() {
       await executeAtomXmlOperation(
         mockServiceBusAtomManagementClient,
         request,
-        new MockSerializer()
+        new MockSerializer(),
+        {}
       );
       assert.fail("Error must be thrown");
     } catch (err) {
@@ -116,7 +117,8 @@ describe("atomSerializationPolicy", function() {
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new MockSerializer()
+      new MockSerializer(),
+      {}
     );
 
     const expectedRequestBody = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-15T19:55:26.821Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry>`;
@@ -237,7 +239,8 @@ describe("Serializer construct requests with properties in specific order", func
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new QueueResourceSerializer()
+      new QueueResourceSerializer(),
+      {}
     );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), queueProperties);
@@ -294,7 +297,8 @@ describe("Serializer construct requests with properties in specific order", func
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new TopicResourceSerializer()
+      new TopicResourceSerializer(),
+      {}
     );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), topicProperties);
@@ -326,7 +330,8 @@ describe("Serializer construct requests with properties in specific order", func
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new SubscriptionResourceSerializer()
+      new SubscriptionResourceSerializer(),
+      {}
     );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), subscriptionProperties);
@@ -358,7 +363,8 @@ describe("Serializer construct requests with properties in specific order", func
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new RuleResourceSerializer()
+      new RuleResourceSerializer(),
+      {}
     );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), ruleProperties);
@@ -539,7 +545,8 @@ class MockSerializer implements AtomXmlSerializer {
         await executeAtomXmlOperation(
           mockServiceBusAtomManagementClient,
           request,
-          new RuleResourceSerializer()
+          new RuleResourceSerializer(),
+          {}
         );
         assert.fail("Error must be thrown");
       } catch (err) {
@@ -681,7 +688,8 @@ class MockSerializer implements AtomXmlSerializer {
         await executeAtomXmlOperation(
           mockServiceBusAtomManagementClient,
           request,
-          new RuleResourceSerializer()
+          new RuleResourceSerializer(),
+          {}
         );
         assert.fail("Error must be thrown");
       } catch (err) {
