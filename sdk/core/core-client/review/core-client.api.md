@@ -326,7 +326,7 @@ export interface ServiceClientCredentials {
 // @public
 export interface ServiceClientOptions {
     baseUri?: string;
-    credentials?: TokenCredential | ServiceClientCredentials;
+    credential?: TokenCredential | ServiceClientCredentials;
     httpsClient?: HttpsClient;
     pipeline?: Pipeline;
     requestContentType?: string;

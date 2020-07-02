@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-auth";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   DefaultHttpsClient,
   HttpsClient,
@@ -9,7 +9,8 @@ import {
   PipelineResponse,
   Pipeline,
   createPipelineRequest,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  bearerTokenAuthenticationPolicy
 } from "@azure/core-https";
 import {
   OperationResponse,
@@ -27,8 +28,8 @@ import { MapperTypeNames } from "./serializer";
 import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
-
-// TODO: bring back signingPolicy / bearerTokenAuthenticationPolicy?
+import { deserializationPolicy } from "./deserializationPolicy";
+import { signingPolicy } from "./signingPolicy";
 
 /**
  * Options to be provided while creating the client.
@@ -45,9 +46,9 @@ export interface ServiceClientOptions {
    */
   requestContentType?: string;
   /**
-   * Credentials used to authenticate the request.
+   * Credential used to authenticate the request.
    */
-  credentials?: TokenCredential | ServiceClientCredentials;
+  credential?: TokenCredential | ServiceClientCredentials;
   /**
    * A customized pipeline to use, otherwise a default one will be created.
    */
@@ -94,14 +95,16 @@ export class ServiceClient {
   /**
    * The ServiceClient constructor
    * @constructor
-   * @param credentials The credentials used for authentication with the service.
+   * @param credential The credentials used for authentication with the service.
    * @param options The service client options that govern the behavior of the client.
    */
   constructor(options: ServiceClientOptions = {}) {
     this._requestContentType = options.requestContentType;
     this._baseUri = options.baseUri;
     this._httpsClient = options.httpsClient || new DefaultHttpsClient();
-    this._pipeline = options.pipeline || createDefaultPipeline();
+    this._pipeline =
+      options.pipeline ||
+      createDefaultPipeline({ baseUri: this._baseUri, credential: options.credential });
     this._stringifyXML = options.stringifyXML;
   }
 
@@ -315,9 +318,27 @@ export function serializeRequestBody(
   }
 }
 
-function createDefaultPipeline(): Pipeline {
-  // TODO: mix in auth and deserialization
-  return createPipelineFromOptions({});
+function createDefaultPipeline(
+  options: { baseUri?: string; credential?: TokenCredential | ServiceClientCredentials } = {}
+): Pipeline {
+  const pipeline = createPipelineFromOptions({});
+
+  const credential = options.credential;
+  if (credential) {
+    if (isTokenCredential(credential)) {
+      pipeline.addPolicy(
+        bearerTokenAuthenticationPolicy({ credential, scopes: `${options.baseUri || ""}/.default` })
+      );
+    } else if (credential && typeof credential.signRequest === "function") {
+      pipeline.addPolicy(signingPolicy(credential));
+    } else {
+      throw new Error("The credential argument must implement the TokenCredential interface");
+    }
+  }
+
+  pipeline.addPolicy(deserializationPolicy(), { phase: "Serialize" });
+
+  return pipeline;
 }
 
 function prepareXMLRootList(obj: any, elementName: string): { [key: string]: any[] } {

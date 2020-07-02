@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { Debugger } from '@azure/logger';
 import { SpanOptions } from '@azure/core-tracing';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AddPipelineOptions {
@@ -14,6 +15,18 @@ export interface AddPipelineOptions {
     afterPolicies?: string[];
     beforePolicies?: string[];
     phase?: PipelinePhase;
+}
+
+// @public
+export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
+
+// @public
+export interface BearerTokenAuthenticationPolicyOptions {
+    credential: TokenCredential;
+    scopes: string | string[];
 }
 
 // @public
