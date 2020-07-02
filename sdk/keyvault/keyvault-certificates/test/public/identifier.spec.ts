@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as chai from "chai";
 import { parseKeyVaultCertificatesIdentifier } from "../../src";
+import * as chai from "chai";
 const { assert } = chai;
 
 describe("Key Vault Certificates Identifier", () => {

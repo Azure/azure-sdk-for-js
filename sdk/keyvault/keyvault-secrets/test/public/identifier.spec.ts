@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
 import { parseKeyVaultSecretsIdentifier } from "../../src";
+import * as chai from "chai";
+const { assert } = chai;
 
 describe("Key Vault Secrets Identifier", () => {
   it("It should work with a URI of a secret before it gets a version", async function() {
