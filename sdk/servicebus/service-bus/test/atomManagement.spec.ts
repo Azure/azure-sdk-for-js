@@ -1493,7 +1493,6 @@ describe("Atom management - Authentication", function(): void {
         sqlParameters: undefined,
         compatibilityLevel: undefined
       },
-
       name: managementRule1
     }
   },
@@ -1525,7 +1524,6 @@ describe("Atom management - Authentication", function(): void {
         sqlParameters: undefined,
         compatibilityLevel: 20
       },
-
       name: managementRule1
     }
   },
@@ -1533,7 +1531,13 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "Correlation Filter rule options",
     input: {
       filter: {
-        correlationId: "abcd"
+        correlationId: "abcd",
+        userProperties: {
+          randomState: "WA",
+          randomCountry: "US",
+          randomCount: 25,
+          randomBool: true
+        }
       },
       action: { sqlExpression: "SET sys.label='GREEN'" }
     },
@@ -1547,7 +1551,12 @@ describe("Atom management - Authentication", function(): void {
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        userProperties: undefined
+        userProperties: {
+          randomState: "WA",
+          randomCountry: "US",
+          randomCount: 25,
+          randomBool: true
+        }
       },
       action: {
         sqlExpression: "SET sys.label='GREEN'",
@@ -1555,7 +1564,6 @@ describe("Atom management - Authentication", function(): void {
         sqlParameters: undefined,
         compatibilityLevel: 20
       },
-
       name: managementRule1
     }
   }
@@ -1581,7 +1589,6 @@ describe("Atom management - Authentication", function(): void {
         undefined,
         testCase.input
       );
-
       should.equal(response.name, managementRule1, "Rule name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
