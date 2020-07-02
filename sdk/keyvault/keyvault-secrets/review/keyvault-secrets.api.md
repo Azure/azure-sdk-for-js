@@ -55,16 +55,6 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export class KeyVaultSecretsIdentifier implements ParsedKeyVaultSecretsIdentifier {
-    constructor(url: string);
-    collection: KeyVaultSecretsIdentifierCollectionName;
-    id: string;
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
 export type KeyVaultSecretsIdentifierCollectionName = "secrets" | "deletedsecrets";
 
 // @public
@@ -94,6 +84,9 @@ export interface ParsedKeyVaultSecretsIdentifier {
     vaultUrl: string;
     version?: string;
 }
+
+// @public
+export function parseKeyVaultSecretsIdentifier(id: string): ParsedKeyVaultSecretsIdentifier;
 
 export { PipelineOptions }
 

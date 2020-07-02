@@ -222,16 +222,6 @@ export interface KeyVaultKey {
 }
 
 // @public
-export class KeyVaultKeysIdentifier implements ParsedKeyVaultKeysIdentifier {
-    constructor(url: string);
-    collection: KeyVaultKeysIdentifierCollectionName;
-    id: string;
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
 export type KeyVaultKeysIdentifierCollectionName = "keys" | "deletedkeys";
 
 // @public
@@ -264,6 +254,9 @@ export interface ParsedKeyVaultKeysIdentifier {
     vaultUrl: string;
     version?: string;
 }
+
+// @public
+export function parseKeyVaultKeysIdentifier(id: string): ParsedKeyVaultKeysIdentifier;
 
 export { PipelineOptions }
 
