@@ -531,12 +531,31 @@ function x64Hash128(bytes, seed) {
   h1 = _x64Add(h1, h2);
   h2 = _x64Add(h2, h1);
 
-  return (
+  // Here we reverse h1 and h2 in Cosmos
+  // This is an implementation detail and not part of the public spec
+  const h1Buff = Buffer.from(
     ("00000000" + (h1[0] >>> 0).toString(16)).slice(-8) +
-    ("00000000" + (h1[1] >>> 0).toString(16)).slice(-8) +
-    ("00000000" + (h2[0] >>> 0).toString(16)).slice(-8) +
-    ("00000000" + (h2[1] >>> 0).toString(16)).slice(-8)
+      ("00000000" + (h1[1] >>> 0).toString(16)).slice(-8),
+    "hex"
   );
+  const h1Reversed = reverse(h1Buff).toString("hex");
+  const h2Buff = Buffer.from(
+    ("00000000" + (h2[0] >>> 0).toString(16)).slice(-8) +
+      ("00000000" + (h2[1] >>> 0).toString(16)).slice(-8),
+    "hex"
+  );
+  const h2Reversed = reverse(h2Buff).toString("hex");
+  return h1Reversed + h2Reversed;
+}
+
+export function reverse(buff) {
+  const buffer = Buffer.allocUnsafe(buff.length);
+
+  for (let i = 0, j = buff.length - 1; i <= j; ++i, --j) {
+    buffer[i] = buff[j];
+    buffer[j] = buff[i];
+  }
+  return buffer;
 }
 
 export default {

@@ -1,6 +1,6 @@
 import { writeNumberForBinaryEncoding, doubleToByteArray } from "./encoding/number";
 import { writeStringForBinaryEncoding } from "./encoding/string";
-const MurmurHash = require("./murmurHashV1").default;
+const MurmurHash = require("./murmurHash").default;
 
 type v1Key = string | number | null | {} | undefined;
 
