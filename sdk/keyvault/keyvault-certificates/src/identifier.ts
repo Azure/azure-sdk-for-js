@@ -23,7 +23,7 @@ export interface ParsedKeyVaultCertificatesIdentifier {
   id: string;
 
   /**
-   * The Key Vault Certificate unique identifier (an URl).
+   * The Key Vault Certificate unique identifier (a URL).
    */
   vaultUrl: string;
 
