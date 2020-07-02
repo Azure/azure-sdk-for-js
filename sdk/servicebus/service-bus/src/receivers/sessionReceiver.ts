@@ -166,7 +166,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     retryOptions: RetryOptions = {}
   ): Promise<SessionReceiver<ReceivedMessageT>> {
     context.isSessionEnabled = true;
-    if (sessionOptions.sessionId) {
+    if (sessionOptions.sessionId != undefined) {
       sessionOptions.sessionId = String(sessionOptions.sessionId);
     }
     const messageSession = await MessageSession.create(context, {
