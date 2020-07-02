@@ -211,7 +211,6 @@ export interface Receiver<ReceivedMessageT> {
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isClosed: boolean;
-    isReceivingMessages(): boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
     receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ReceivedMessageT[]>;
     receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
