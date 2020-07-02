@@ -257,7 +257,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
-    this._throwIfMessageSessionDoesntExist();
     const renewSessionLockOperationPromise = async () => {
       this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
         this.sessionId,
@@ -289,7 +288,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async setState(state: any, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
-    this._throwIfMessageSessionDoesntExist();
 
     const setSessionStateOperationPromise = async () => {
       await this._context.managementClient!.setSessionState(this.sessionId!, state, {
@@ -319,7 +317,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   async getState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
-    this._throwIfMessageSessionDoesntExist();
 
     const getSessionStateOperationPromise = async () => {
       return this._context.managementClient!.getSessionState(this.sessionId, {
@@ -385,7 +382,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     options: OperationOptionsBase = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
-    this._throwIfMessageSessionDoesntExist();
     throwTypeErrorIfParameterMissing(
       this._context.namespace.connectionId,
       "sequenceNumbers",
