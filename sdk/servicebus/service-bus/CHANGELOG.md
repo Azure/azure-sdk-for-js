@@ -9,8 +9,8 @@
   but still leave the receiver open so they can be settled via methods like complete().
   [PR 9802](https://github.com/Azure/azure-sdk-for-js/pull/9802)
   [PR 9849](https://github.com/Azure/azure-sdk-for-js/pull/9849)
-- Standardized methods on senders and receivers to use the `Messages` suffix and deal with multiple messages rather than
-  have dedicated methods to deal with a single message. [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
+- Standardized methods on senders and receivers to use the `Messages` suffix and deal with multiple messages rather than have dedicated methods to deal with a single message.
+  [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
 - Standardized methods that peek and receive given number messages to use similar signature.
   [PR 9798](https://github.com/Azure/azure-sdk-for-js/pull/9798)
 - Bug - Messages scheduled in parallel with the `scheduleMessage` method have the same sequence number in response.
@@ -26,10 +26,14 @@
       [PR 9807](https://github.com/Azure/azure-sdk-for-js/pull/9807)
   - The property `top` in the options passed to any of the methods that get information for multiple entities like `getQueues` or `getQueuesRuntimeInfo` is renamed to `maxCount`.
     [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
+  - `OperationOptions` has been added for all the methods under `ServiceBusManagementClient`, this adds support for abortSignal, requestOptions when creating and sending HTTP requests.
+    [PR 9654](https://github.com/Azure/azure-sdk-for-js/pull/9654)
   - The "update" methods (`updateQueue`, `updateTopic` and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are actually updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
     [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
     See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
+
+  - Fixed the bug where one cannot set `userProperties` in a correlation filter while using the `createRule()` method. [PR 9794](https://github.com/Azure/azure-sdk-for-js/pull/9794)
 
 ## 7.0.0-preview.3 (2020-06-08)
 

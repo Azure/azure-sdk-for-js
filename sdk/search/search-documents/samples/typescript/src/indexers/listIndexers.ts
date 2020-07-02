@@ -16,7 +16,7 @@ async function main(): Promise<void> {
 
   console.log(`\tList of Indexers`);
   console.log(`\t****************`);
-  listOfIndexers.forEach((indexer) => {
+  for (let indexer of listOfIndexers) {
     console.log(`Name: ${indexer.name}`);
     console.log(`Description: ${indexer.description}`);
     console.log(`Data Source Name: ${indexer.dataSourceName}`);
@@ -32,7 +32,7 @@ async function main(): Promise<void> {
     console.log(`\tMax Failed Items: ${indexer.parameters?.maxFailedItems}`);
     console.log(`\tMax Failed Items Per Batch: ${indexer.parameters?.maxFailedItemsPerBatch}`);
     console.log();
-  });
+  }
 }
 
 main();

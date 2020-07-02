@@ -16,9 +16,9 @@ async function main(): Promise<void> {
 
   console.log(`\tNames of Skillsets`);
   console.log(`\t******************`);
-  listOfSkillsetNames.forEach((skName) => {
+  for (let skName of listOfSkillsetNames) {
     console.log(`${skName}`);
-  });
+  }
 }
 
 main();
