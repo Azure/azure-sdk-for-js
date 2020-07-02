@@ -86,5 +86,6 @@ export {
   VoiceReceiver,
   WebhookNotification,
   WebhookReceiver,
+  WebtestLocationAvailabilityCriteria,
   WorkspaceInfo
 } from "../models/mappers";
