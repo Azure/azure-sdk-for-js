@@ -14,7 +14,7 @@ import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
-import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -77,7 +77,7 @@ export class StreamingReceiver extends MessageReceiver {
   static async create(
     context: ClientEntityContext,
     options?: ReceiveOptions &
-      Pick<OperationOptions, "abortSignal"> & {
+      Pick<OperationOptionsBase, "abortSignal"> & {
         _createStreamingReceiver?: (
           context: ClientEntityContext,
           options?: ReceiveOptions

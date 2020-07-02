@@ -12,13 +12,13 @@ async function main(): Promise<void> {
   console.log(`Running List SynonymMap Names Sample....`);
 
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
-  const listOfSynonymMapsNames:string[] = await client.listSynonymMapsNames();
+  const listOfSynonymMapsNames: string[] = await client.listSynonymMapsNames();
 
   console.log(`List of SynonymMap Names`);
   console.log(`************************`);
-  listOfSynonymMapsNames.forEach((smName) => {
+  for (let smName of listOfSynonymMapsNames) {
     console.log(`${smName}`);
-  });
+  }
 }
 
 main();
