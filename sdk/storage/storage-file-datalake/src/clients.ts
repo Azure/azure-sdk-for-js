@@ -61,6 +61,7 @@ import {
   PathSetMetadataResponse,
   PathSetPermissionsOptions,
   PathSetPermissionsResponse,
+  RemovePathAccessControlItem,
   FileQueryOptions
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
@@ -151,11 +152,11 @@ export class DataLakePathClient extends StorageClient {
         changedDirectoriesCount: 0,
         changedFilesCount: 0
       },
-      continuation: undefined
+      continuationToken: undefined
     };
 
     try {
-      let continuation = options.continuation;
+      let continuationToken = options.continuationToken;
       let batchCounter = 0;
       let reachMaxBatches = false;
       do {
@@ -163,14 +164,14 @@ export class DataLakePathClient extends StorageClient {
           ...options,
           acl: toAclString(acl as PathAccessControlItem[]),
           maxRecords: options.batchSize,
-          continuation,
+          continuation: continuationToken,
           spanOptions
         });
         batchCounter++;
-        continuation = response.continuation;
+        continuationToken = response.continuation;
 
         // Update result
-        result.continuation = continuation;
+        result.continuationToken = continuationToken;
         result.counters.failedChangesCount += response.failureCount || 0;
         result.counters.changedDirectoriesCount += response.directoriesSuccessful || 0;
         result.counters.changedFilesCount += response.filesSuccessful || 0;
@@ -185,14 +186,14 @@ export class DataLakePathClient extends StorageClient {
               changedFilesCount: response.filesSuccessful || 0
             },
             aggregateCounters: result.counters,
-            continuation
+            continuationToken: continuationToken
           };
           options.onProgress(progress);
         }
 
         reachMaxBatches =
           options.maxBatches === undefined ? false : batchCounter >= options.maxBatches;
-      } while (continuation && !reachMaxBatches);
+      } while (continuationToken && !reachMaxBatches);
 
       return result;
     } catch (e) {

@@ -410,12 +410,58 @@ export interface PathPermissions {
 export type AccessControlType = "user" | "group" | "mask" | "other";
 
 export interface RemovePathAccessControlItem {
+  /**
+   * Indicates whether this is the default entry for the ACL.
+   *
+   * @type {boolean}
+   * @memberof RemovePathAccessControlItem
+   */
   defaultScope: boolean;
+  /**
+   * Specifies which role this entry targets.
+   *
+   * @type {AccessControlType}
+   * @memberof RemovePathAccessControlItem
+   */
   accessControlType: AccessControlType;
-  entityId: string;
+  /**
+   * Specifies the entity for which this entry applies.
+   * Must be omitted for types mask or other. It must also be omitted when the user or group is the owner.
+   *
+   * @type {string}
+   * @memberof RemovePathAccessControlItem
+   */
+  entityId?: string;
 }
 
-export interface PathAccessControlItem extends RemovePathAccessControlItem {
+export interface PathAccessControlItem {
+  /**
+   * Indicates whether this is the default entry for the ACL.
+   *
+   * @type {boolean}
+   * @memberof PathAccessControlItem
+   */
+  defaultScope: boolean;
+  /**
+   * Specifies which role this entry targets.
+   *
+   * @type {AccessControlType}
+   * @memberof PathAccessControlItem
+   */
+  accessControlType: AccessControlType;
+  /**
+   * Specifies the entity for which this entry applies.
+   *
+   * @type {string}
+   * @memberof PathAccessControlItem
+   */
+  entityId: string;
+  /**
+   * Access control permissions.
+   *
+   * @type {RolePermissions}
+   * @memberof PathAccessControlItem
+   */
   permissions: RolePermissions;
 }
 
@@ -525,7 +571,7 @@ export interface PathChangeAccessControlRecursiveOptions extends CommonOptions {
    * @type {string}
    * @memberof PathChangeAccessControlRecursiveOptions
    */
-  continuation?: string;
+  continuationToken?: string;
   /**
    * Callback where caller can track progress of the operation
    * as well as collect paths that failed to change Access Control.
@@ -600,7 +646,7 @@ export interface AccessControlChanges {
    * @type {string}
    * @memberof AccessControlChanges
    */
-  continuation?: string;
+  continuationToken?: string;
 }
 
 /**
@@ -650,7 +696,7 @@ export interface PathChangeAccessControlRecursiveResponse {
    * @type {string}
    * @memberof PathChangeAccessControlRecursiveResponse
    */
-  continuation?: string;
+  continuationToken?: string;
 }
 
 export interface PathSetPermissionsOptions extends CommonOptions {
