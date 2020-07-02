@@ -688,7 +688,8 @@ class MockSerializer implements AtomXmlSerializer {
         await executeAtomXmlOperation(
           mockServiceBusAtomManagementClient,
           request,
-          new RuleResourceSerializer()
+          new RuleResourceSerializer(),
+          {}
         );
         assert.fail("Error must be thrown");
       } catch (err) {
