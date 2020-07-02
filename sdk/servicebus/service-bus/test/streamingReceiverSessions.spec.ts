@@ -7,7 +7,7 @@ import { ReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
-import { SessionReceiver } from "../src/receivers/sessionReceiver";
+import { SessionReceiver, SessionReceiverImpl } from "../src/receivers/sessionReceiver";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
@@ -343,7 +343,9 @@ describe("Streaming with sessions", () => {
           async processMessage(msg: ReceivedMessageWithLock) {
             return msg.abandon().then(() => {
               abandonFlag = 1;
-              if (receiver.isReceivingMessages()) {
+              if (
+                (receiver as SessionReceiverImpl<ReceivedMessageWithLock>)["_isReceivingMessages"]()
+              ) {
                 return receiver.close();
               }
               return Promise.resolve();
@@ -357,7 +359,7 @@ describe("Streaming with sessions", () => {
       const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
       should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
-      if (receiver.isReceivingMessages()) {
+      if ((receiver as SessionReceiverImpl<ReceivedMessageWithLock>)["_isReceivingMessages"]()) {
         await receiver.close();
       }
 

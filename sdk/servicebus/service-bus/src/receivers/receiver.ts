@@ -93,12 +93,6 @@ export interface Receiver<ReceivedMessageT> {
     sequenceNumbers: Long | Long[],
     options?: OperationOptionsBase
   ): Promise<ReceivedMessageT[]>;
-  /**
-   * Indicates whether the receiver is currently receiving messages or not.
-   * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
-   * @returns {boolean}
-   */
-  isReceivingMessages(): boolean;
 
   /**
    * Peek the next batch of active messages (including deferred but not deadlettered messages) on the
@@ -166,7 +160,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   }
 
   private _throwIfAlreadyReceiving(): void {
-    if (this.isReceivingMessages()) {
+    if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
@@ -446,7 +440,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
    */
-  isReceivingMessages(): boolean {
+  private _isReceivingMessages(): boolean {
     if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
       return true;
     }
