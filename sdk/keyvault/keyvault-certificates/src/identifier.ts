@@ -39,54 +39,26 @@ export interface ParsedKeyVaultCertificatesIdentifier {
 }
 
 /**
- * Parser of the KeyVaultIdentifier for the Key Vault Certificates Client.
+ * Parses a KeyVaultIdentifier from a string URI.
  */
-export class KeyVaultCertificatesIdentifier implements ParsedKeyVaultCertificatesIdentifier {
-  /**
-   * The type of resource under Key Vault that this identifier is referring to.
-   */
-  collection: KeyVaultCertificatesIdentifierCollectionName;
+export function parseKeyVaultCertificatesIdentifier(
+  id: string
+): ParsedKeyVaultCertificatesIdentifier {
+  const urlParts = id.split("/");
+  const collection: KeyVaultCertificatesIdentifierCollectionName = urlParts[3] as KeyVaultCertificatesIdentifierCollectionName;
 
-  /**
-   * The originally received identifier.
-   */
-  public id: string;
+  const collections: KeyVaultCertificatesIdentifierCollectionName[] = [
+    "certificates",
+    "deletedcertificates"
+  ];
 
-  /**
-   * The Key Vault Certificate unique identifier (an URl).
-   */
-  public vaultUrl: string;
-
-  /**
-   * The version of Key Vault Certificate. Might be undefined.
-   */
-  public version?: string;
-
-  /**
-   * The name of the Key Vault Certificate.
-   */
-  public name: string;
-
-  /**
-   * Parses a Key Vault identifier.
-   * @param url Key Vault identifier
-   */
-  constructor(url: string) {
-    const collections: KeyVaultCertificatesIdentifierCollectionName[] = [
-      "certificates",
-      "deletedcertificates"
-    ];
-    const urlParts = url.split("/");
-    const collection: KeyVaultCertificatesIdentifierCollectionName =
-      collections.filter((x) => urlParts.includes(x))[0] || "certificates";
-
-    this.collection = collection;
-    this.id = url;
-
-    const { vaultUrl, name, version } = parseKeyvaultIdentifier(collection, url);
-
-    this.vaultUrl = vaultUrl;
-    this.name = name;
-    this.version = version;
+  if (!collections.includes(collection)) {
+    throw new Error(`The only collections allowed are: ${collections.join(", ")}`);
   }
+
+  return {
+    collection,
+    id,
+    ...parseKeyvaultIdentifier(collection, id)
+  };
 }

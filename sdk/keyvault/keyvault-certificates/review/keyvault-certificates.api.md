@@ -328,16 +328,6 @@ export interface KeyVaultCertificate {
 }
 
 // @public
-export class KeyVaultCertificatesIdentifier implements ParsedKeyVaultCertificatesIdentifier {
-    constructor(url: string);
-    collection: KeyVaultCertificatesIdentifierCollectionName;
-    id: string;
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
 export type KeyVaultCertificatesIdentifierCollectionName = "certificates" | "deletedcertificates";
 
 // @public
@@ -385,6 +375,9 @@ export interface ParsedKeyVaultCertificatesIdentifier {
     vaultUrl: string;
     version?: string;
 }
+
+// @public
+export function parseKeyVaultCertificatesIdentifier(id: string): ParsedKeyVaultCertificatesIdentifier;
 
 export { PipelineOptions }
 

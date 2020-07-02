@@ -64,7 +64,7 @@ import {
   LATEST_API_VERSION
 } from "./secretsModels";
 import {
-  KeyVaultSecretsIdentifier,
+  parseKeyVaultSecretsIdentifier,
   ParsedKeyVaultSecretsIdentifier,
   KeyVaultSecretsIdentifierCollectionName
 } from "./identifier";
@@ -89,7 +89,7 @@ export {
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
-  KeyVaultSecretsIdentifier,
+  parseKeyVaultSecretsIdentifier,
   SecretProperties,
   SecretPollerOptions,
   BeginDeleteSecretOptions,
@@ -190,10 +190,7 @@ export class SecretClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
   }
 
   /**
@@ -952,7 +949,7 @@ export class SecretClient {
   private getSecretFromSecretBundle(bundle: SecretBundle | DeletedSecretBundle): KeyVaultSecret {
     const secretBundle = bundle as SecretBundle;
     const deletedSecretBundle = bundle as DeletedSecretBundle;
-    const parsedId = new KeyVaultSecretsIdentifier(secretBundle.id!);
+    const parsedId = parseKeyVaultSecretsIdentifier(secretBundle.id!);
 
     const attributes = secretBundle.attributes;
     delete secretBundle.attributes;

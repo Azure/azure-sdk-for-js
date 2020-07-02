@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
-import { KeyVaultCertificatesIdentifier } from "../../src";
+import * as chai from "chai";
+import { parseKeyVaultCertificatesIdentifier } from "../../src";
+const { assert } = chai;
 
 describe("Key Vault Certificates Identifier", () => {
   it("It should work with a URI of a certificate before it gets a version", async function() {
     const uri = "https://keyvault-name.vault.azure.net/certificates/certificate-name/pending";
-    const identifier = new KeyVaultCertificatesIdentifier(uri);
+    const identifier = parseKeyVaultCertificatesIdentifier(uri);
 
     assert.deepEqual(identifier, {
       id: "https://keyvault-name.vault.azure.net/certificates/certificate-name/pending",
@@ -20,7 +21,7 @@ describe("Key Vault Certificates Identifier", () => {
 
   it("It should work with a URI of a certificate with a specific version", async function() {
     const uri = "https://keyvault-name.vault.azure.net/certificates/certificate-name/version";
-    const identifier = new KeyVaultCertificatesIdentifier(uri);
+    const identifier = parseKeyVaultCertificatesIdentifier(uri);
 
     assert.deepEqual(identifier, {
       id: "https://keyvault-name.vault.azure.net/certificates/certificate-name/version",
@@ -33,7 +34,7 @@ describe("Key Vault Certificates Identifier", () => {
 
   it("It should work with a deleted certificate recovery ID", async function() {
     const uri = "https://keyvault-name.vault.azure.net/deletedcertificates/deleted-certificate";
-    const identifier = new KeyVaultCertificatesIdentifier(uri);
+    const identifier = parseKeyVaultCertificatesIdentifier(uri);
 
     assert.deepEqual(identifier, {
       id: "https://keyvault-name.vault.azure.net/deletedcertificates/deleted-certificate",
@@ -42,5 +43,10 @@ describe("Key Vault Certificates Identifier", () => {
       name: "deleted-certificate",
       version: undefined
     });
+  });
+
+  it("It throws if an invalid collection is specified", async function() {
+    const uri = "https://keyvault-name.vault.azure.net/bad-name/bad-name";
+    assert.throws(() => parseKeyVaultCertificatesIdentifier(uri));
   });
 });

@@ -97,7 +97,7 @@ import {
 } from "./cryptographyClient";
 
 import {
-  KeyVaultKeysIdentifier,
+  parseKeyVaultKeysIdentifier,
   ParsedKeyVaultKeysIdentifier,
   KeyVaultKeysIdentifierCollectionName
 } from "./identifier";
@@ -126,7 +126,7 @@ export {
   KeyOperation,
   KeyType,
   KeyPollerOptions,
-  KeyVaultKeysIdentifier,
+  parseKeyVaultKeysIdentifier,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -247,10 +247,7 @@ export class KeyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
   }
 
   /**
@@ -1136,7 +1133,7 @@ export class KeyClient {
     const keyBundle = bundle as KeyBundle;
     const deletedKeyBundle = bundle as DeletedKeyBundle;
 
-    const parsedId = new KeyVaultKeysIdentifier(keyBundle.key!.kid!);
+    const parsedId = parseKeyVaultKeysIdentifier(keyBundle.key!.kid!);
 
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
@@ -1185,7 +1182,7 @@ export class KeyClient {
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
-    const parsedId = new KeyVaultKeysIdentifier(keyItem.kid!);
+    const parsedId = parseKeyVaultKeysIdentifier(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
@@ -1228,7 +1225,7 @@ export class KeyClient {
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-    const parsedId = new KeyVaultKeysIdentifier(keyItem.kid!);
+    const parsedId = parseKeyVaultKeysIdentifier(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 

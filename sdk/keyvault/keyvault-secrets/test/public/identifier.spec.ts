@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { KeyVaultSecretsIdentifier } from "../../src";
+import { parseKeyVaultSecretsIdentifier } from "../../src";
 
 describe("Key Vault Secrets Identifier", () => {
   it("It should work with a URI of a secret before it gets a version", async function() {
     const uri = "https://keyvault-name.vault.azure.net/secrets/secret-name/pending";
-    const identifier = new KeyVaultSecretsIdentifier(uri);
+    const identifier = parseKeyVaultSecretsIdentifier(uri);
 
     assert.deepEqual(identifier, {
       id: "https://keyvault-name.vault.azure.net/secrets/secret-name/pending",
@@ -20,7 +20,7 @@ describe("Key Vault Secrets Identifier", () => {
 
   it("It should work with a URI of a secret with a specific version", async function() {
     const uri = "https://keyvault-name.vault.azure.net/secrets/secret-name/version";
-    const identifier = new KeyVaultSecretsIdentifier(uri);
+    const identifier = parseKeyVaultSecretsIdentifier(uri);
 
     assert.deepEqual(identifier, {
       id: "https://keyvault-name.vault.azure.net/secrets/secret-name/version",
@@ -33,7 +33,7 @@ describe("Key Vault Secrets Identifier", () => {
 
   it("It should work with a deleted secret recovery ID", async function() {
     const uri = "https://keyvault-name.vault.azure.net/deletedsecrets/deleted-secret";
-    const identifier = new KeyVaultSecretsIdentifier(uri);
+    const identifier = parseKeyVaultSecretsIdentifier(uri);
 
     assert.deepEqual(identifier, {
       id: "https://keyvault-name.vault.azure.net/deletedsecrets/deleted-secret",
@@ -42,5 +42,10 @@ describe("Key Vault Secrets Identifier", () => {
       name: "deleted-secret",
       version: undefined
     });
+  });
+
+  it("It throws if an invalid collection is specified", async function() {
+    const uri = "https://keyvault-name.vault.azure.net/bad-name/bad-name";
+    assert.throws(() => parseKeyVaultSecretsIdentifier(uri));
   });
 });

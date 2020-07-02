@@ -39,50 +39,21 @@ export interface ParsedKeyVaultSecretsIdentifier {
 }
 
 /**
- * Parser of the KeyVaultIdentifier for the Key Vault Secrets Client.
+ * Parses a KeyVaultIdentifier from a string URI.
  */
-export class KeyVaultSecretsIdentifier implements ParsedKeyVaultSecretsIdentifier {
-  /**
-   * The type of resource under Key Vault that this identifier is referring to.
-   */
-  collection: KeyVaultSecretsIdentifierCollectionName;
+export function parseKeyVaultSecretsIdentifier(id: string): ParsedKeyVaultSecretsIdentifier {
+  const urlParts = id.split("/");
+  const collection: KeyVaultSecretsIdentifierCollectionName = urlParts[3] as KeyVaultSecretsIdentifierCollectionName;
 
-  /**
-   * The originally received identifier.
-   */
-  public id: string;
+  const collections: KeyVaultSecretsIdentifierCollectionName[] = ["secrets", "deletedsecrets"];
 
-  /**
-   * The Key Vault Secret unique identifier (an URl).
-   */
-  public vaultUrl: string;
-
-  /**
-   * The version of Key Vault Secret. Might be undefined.
-   */
-  public version?: string;
-
-  /**
-   * The name of the Key Vault Secret.
-   */
-  public name: string;
-
-  /**
-   * Parses a Key Vault identifier.
-   * @param url Key Vault identifier
-   */
-  constructor(url: string) {
-    const collections: KeyVaultSecretsIdentifierCollectionName[] = ["secrets", "deletedsecrets"];
-    const urlParts = url.split("/");
-    const collection: KeyVaultSecretsIdentifierCollectionName =
-      collections.filter((x) => urlParts.includes(x))[0] || "secrets";
-
-    this.collection = collection;
-    this.id = url;
-
-    const { vaultUrl, name, version } = parseKeyvaultIdentifier(collection, url);
-    this.vaultUrl = vaultUrl;
-    this.name = name;
-    this.version = version;
+  if (!collections.includes(collection)) {
+    throw new Error(`The only collections allowed are: ${collections.join(", ")}`);
   }
+
+  return {
+    collection,
+    id,
+    ...parseKeyvaultIdentifier(collection, id)
+  };
 }
