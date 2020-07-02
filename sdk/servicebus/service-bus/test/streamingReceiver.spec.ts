@@ -1396,7 +1396,7 @@ describe("Streaming - disconnects", function(): void {
 
     // Start the receiver.
     receiver.subscribe({
-      async processMessage(message) {
+      async processMessage(message: ReceivedMessageWithLock) {
         messageHandlerCount++;
         try {
           await message.complete();
