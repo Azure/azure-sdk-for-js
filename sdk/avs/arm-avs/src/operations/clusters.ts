@@ -29,20 +29,20 @@ export class Clusters {
 
   /**
    * @summary List clusters in a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListResponse>
    */
   list(resourceGroupName: string, privateCloudName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersListResponse>;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param callback The callback
    */
   list(resourceGroupName: string, privateCloudName: string, callback: msRest.ServiceCallback<Models.ClusterList>): void;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param options The optional parameters
    * @param callback The callback
@@ -61,7 +61,7 @@ export class Clusters {
 
   /**
    * @summary Get a cluster by name in a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
    * @param [options] The optional parameters
@@ -69,14 +69,14 @@ export class Clusters {
    */
   get(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.ClustersGetResponse>;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
    * @param callback The callback
    */
   get(resourceGroupName: string, privateCloudName: string, clusterName: string, callback: msRest.ServiceCallback<Models.Cluster>): void;
   /**
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
    * @param options The optional parameters
@@ -97,20 +97,21 @@ export class Clusters {
 
   /**
    * @summary Create or update a cluster in a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName The name of the private cloud.
    * @param clusterName Name of the cluster in the private cloud
+   * @param cluster A cluster in the private cloud
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: Models.ClustersCreateOrUpdateOptionalParams): Promise<Models.ClustersCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,privateCloudName,clusterName,options)
+  createOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Models.Cluster, options?: msRest.RequestOptionsBase): Promise<Models.ClustersCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(resourceGroupName,privateCloudName,clusterName,cluster,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ClustersCreateOrUpdateResponse>;
   }
 
   /**
    * @summary Update a cluster in a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
    * @param [options] The optional parameters
@@ -123,7 +124,7 @@ export class Clusters {
 
   /**
    * @summary Delete a cluster in a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
    * @param [options] The optional parameters
@@ -136,18 +137,20 @@ export class Clusters {
 
   /**
    * @summary Create or update a cluster in a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName The name of the private cloud.
    * @param clusterName Name of the cluster in the private cloud
+   * @param cluster A cluster in the private cloud
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, options?: Models.ClustersBeginCreateOrUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(resourceGroupName: string, privateCloudName: string, clusterName: string, cluster: Models.Cluster, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         privateCloudName,
         clusterName,
+        cluster,
         options
       },
       beginCreateOrUpdateOperationSpec,
@@ -156,7 +159,7 @@ export class Clusters {
 
   /**
    * @summary Update a cluster in a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
    * @param [options] The optional parameters
@@ -176,7 +179,7 @@ export class Clusters {
 
   /**
    * @summary Delete a cluster in a private cloud
-   * @param resourceGroupName Name of the resource group within the Azure subscription
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param privateCloudName Name of the private cloud
    * @param clusterName Name of the cluster in the private cloud
    * @param [options] The optional parameters
@@ -244,7 +247,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterList
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -270,7 +273,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Cluster
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -292,12 +295,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: {
-      properties: [
-        "options",
-        "properties"
-      ]
-    },
+    parameterPath: "cluster",
     mapper: {
       ...Mappers.Cluster,
       required: true
@@ -311,7 +309,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Cluster
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -334,13 +332,13 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      properties: [
+      clusterSize: [
         "options",
-        "properties"
+        "clusterSize"
       ]
     },
     mapper: {
-      ...Mappers.Cluster,
+      ...Mappers.ClusterUpdate,
       required: true
     }
   },
@@ -352,7 +350,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Cluster
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -378,7 +376,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -399,7 +397,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ClusterList
     },
     default: {
-      bodyMapper: Mappers.ApiError
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
