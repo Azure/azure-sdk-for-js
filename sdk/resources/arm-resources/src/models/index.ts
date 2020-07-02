@@ -58,9 +58,18 @@ export interface ResourceGroupFilter {
  */
 export interface TemplateLink {
   /**
-   * The URI of the template to deploy.
+   * The URI of the template to deploy. Use either the uri or id property, but not both.
    */
-  uri: string;
+  uri?: string;
+  /**
+   * The resource id of a Template Spec. Use either the id or uri property, but not both.
+   */
+  id?: string;
+  /**
+   * Applicable only if this template link references a Template Spec. This relativePath property
+   * can optionally be used to reference a Template Spec artifact by path.
+   */
+  relativePath?: string;
   /**
    * If included, must match the ContentVersion in the template.
    */
@@ -232,6 +241,20 @@ export interface DeploymentWhatIf {
    * The location to store the deployment data.
    */
   location?: string;
+  /**
+   * The deployment properties.
+   */
+  properties: DeploymentWhatIfProperties;
+}
+
+/**
+ * Deployment What-if operation parameters.
+ */
+export interface ScopedDeploymentWhatIf {
+  /**
+   * The location to store the deployment data.
+   */
+  location: string;
   /**
    * The deployment properties.
    */
@@ -483,10 +506,12 @@ export interface ResourceReference {
  */
 export interface DeploymentPropertiesExtended {
   /**
-   * The state of the provisioning.
+   * Denotes the state of provisioning. Possible values include: 'NotSpecified', 'Accepted',
+   * 'Running', 'Ready', 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
+   * 'Succeeded', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The correlation ID of the deployment.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -988,6 +1013,20 @@ export interface HttpMessage {
 }
 
 /**
+ * Operation status message object.
+ */
+export interface StatusMessage {
+  /**
+   * Status of the deployment operation.
+   */
+  status?: string;
+  /**
+   * The error reported by the operation.
+   */
+  error?: ErrorResponse;
+}
+
+/**
  * Deployment operation properties.
  */
 export interface DeploymentOperationProperties {
@@ -1019,15 +1058,17 @@ export interface DeploymentOperationProperties {
    */
   readonly serviceRequestId?: string;
   /**
-   * Operation status code.
+   * Operation status code from the resource provider. This property may not be set if a response
+   * has not yet been received.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly statusCode?: string;
   /**
-   * Operation status message.
+   * Operation status message from the resource provider. This property is optional.  It will only
+   * be provided if an error was received from the resource provider.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly statusMessage?: any;
+  readonly statusMessage?: StatusMessage;
   /**
    * The target resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1553,6 +1594,34 @@ export interface ResourceManagementClientOptions extends AzureServiceClientOptio
 }
 
 /**
+ * Defines headers for WhatIfAtTenantScope operation.
+ */
+export interface DeploymentsWhatIfAtTenantScopeHeaders {
+  /**
+   * URL to get status of this long-running operation.
+   */
+  location: string;
+  /**
+   * Number of seconds to wait before polling for status.
+   */
+  retryAfter: string;
+}
+
+/**
+ * Defines headers for WhatIfAtManagementGroupScope operation.
+ */
+export interface DeploymentsWhatIfAtManagementGroupScopeHeaders {
+  /**
+   * URL to get status of this long-running operation.
+   */
+  location: string;
+  /**
+   * Number of seconds to wait before polling for status.
+   */
+  retryAfter: string;
+}
+
+/**
  * Defines headers for WhatIfAtSubscriptionScope operation.
  */
 export interface DeploymentsWhatIfAtSubscriptionScopeHeaders {
@@ -1710,6 +1779,15 @@ export type AliasPatternType = 'NotSpecified' | 'Extract';
  * @enum {string}
  */
 export type AliasType = 'NotSpecified' | 'PlainText' | 'Mask';
+
+/**
+ * Defines values for ProvisioningState.
+ * Possible values include: 'NotSpecified', 'Accepted', 'Running', 'Ready', 'Creating', 'Created',
+ * 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Updating'
+ * @readonly
+ * @enum {string}
+ */
+export type ProvisioningState = 'NotSpecified' | 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Updating';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -2005,6 +2083,31 @@ export type DeploymentsValidateAtTenantScopeResponse = DeploymentValidateResult 
 };
 
 /**
+ * Contains response data for the whatIfAtTenantScope operation.
+ */
+export type DeploymentsWhatIfAtTenantScopeResponse = WhatIfOperationResult & DeploymentsWhatIfAtTenantScopeHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DeploymentsWhatIfAtTenantScopeHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WhatIfOperationResult;
+    };
+};
+
+/**
  * Contains response data for the exportTemplateAtTenantScope operation.
  */
 export type DeploymentsExportTemplateAtTenantScopeResponse = DeploymentExportResult & {
@@ -2126,6 +2229,31 @@ export type DeploymentsValidateAtManagementGroupScopeResponse = DeploymentValida
        * The response body as parsed JSON or XML
        */
       parsedBody: DeploymentValidateResult;
+    };
+};
+
+/**
+ * Contains response data for the whatIfAtManagementGroupScope operation.
+ */
+export type DeploymentsWhatIfAtManagementGroupScopeResponse = WhatIfOperationResult & DeploymentsWhatIfAtManagementGroupScopeHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DeploymentsWhatIfAtManagementGroupScopeHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WhatIfOperationResult;
     };
 };
 
