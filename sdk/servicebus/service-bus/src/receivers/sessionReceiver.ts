@@ -433,7 +433,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     return retry<ReceivedMessageT[]>(config);
   }
 
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    close(): Promise<void>;
+  } {
     // TODO - receiverOptions for subscribe??
     assertValidMessageHandlers(handlers);
 
@@ -446,6 +451,11 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       processError,
       options
     );
+
+    return {
+      // TODO: coming in a future PR.
+      close: async (): Promise<void> => {}
+    };
   }
 
   /**

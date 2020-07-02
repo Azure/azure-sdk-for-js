@@ -38,7 +38,15 @@ export interface Receiver<ReceivedMessageT> {
    * @param handlers A handler that gets called for messages and errors.
    * @param options Options for subscribe.
    */
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    /**
+     * Causes the subscriber to stop receiving new messages.
+     */
+    close(): Promise<void>;
+  };
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
@@ -381,7 +389,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     return retry<ReceivedMessage[]>(config);
   }
 
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    close(): Promise<void>;
+  } {
     assertValidMessageHandlers(handlers);
 
     const processError = wrapProcessErrorHandler(handlers);
@@ -393,6 +406,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       processError,
       options
     );
+
+    return {
+      close: async (): Promise<void> => {
+        return this._context.streamingReceiver?.stopReceivingMessages();
+      }
+    };
   }
 
   async close(): Promise<void> {
