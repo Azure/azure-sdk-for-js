@@ -343,7 +343,7 @@ describe("Streaming with sessions", () => {
           async processMessage(msg: ReceivedMessageWithLock) {
             return msg.abandon().then(() => {
               abandonFlag = 1;
-              if (receiver.isReceivingMessages()) {
+              if ((receiver as any)._isReceivingMessages()) {
                 return receiver.close();
               }
               return Promise.resolve();
@@ -357,7 +357,7 @@ describe("Streaming with sessions", () => {
       const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
       should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
-      if (receiver.isReceivingMessages()) {
+      if ((receiver as any)._isReceivingMessages()) {
         await receiver.close();
       }
 
