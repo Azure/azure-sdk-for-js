@@ -518,18 +518,16 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    try {
+    (async () => {
       if (!this._isClosed) {
         this._messageSession.receive(onMessage, onError, options);
       } else {
-        this._messageSession.close().catch((err) => {
-          throw err;
-        });
+        await this._messageSession.close();
       }
       return;
-    } catch (err) {
+    })().catch((err) => {
       onError(err);
-    }
+    });
   }
 
   getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT> {
