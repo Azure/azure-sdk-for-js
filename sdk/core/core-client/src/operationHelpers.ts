@@ -4,16 +4,22 @@
 import {
   OperationArguments,
   OperationParameter,
-  Serializer,
   Mapper,
   CompositeMapper,
   ParameterPath
 } from "./interfaces";
 
+/**
+ * @internal @ignore
+ * Retrieves the value to use for a given operation argument
+ * @param operationArguments The arguments passed from the generated client
+ * @param parameter The parameter description
+ * @param fallbackObject If something isn't found in the arguments bag, look here.
+ *  Generally used to look at the service client properties.
+ */
 export function getOperationArgumentValueFromParameter(
   operationArguments: OperationArguments,
   parameter: OperationParameter,
-  serializer: Serializer,
   fallbackObject?: { [parameterName: string]: any }
 ): any {
   let parameterPath = parameter.parameterPath;
@@ -58,7 +64,6 @@ export function getOperationArgumentValueFromParameter(
           parameterPath: propertyPath,
           mapper: propertyMapper
         },
-        serializer,
         fallbackObject
       );
       if (propertyValue !== undefined) {

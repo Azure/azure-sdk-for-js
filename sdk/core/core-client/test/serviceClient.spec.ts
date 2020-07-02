@@ -9,7 +9,7 @@ import {
   DictionaryMapper,
   QueryCollectionFormat,
   ParameterPath,
-  MapperType,
+  MapperTypeNames,
   OperationArguments,
   Mapper,
   CompositeMapper,
@@ -221,7 +221,7 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.String
+                name: MapperTypeNames.String
               }
             }
           },
@@ -247,7 +247,7 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.ByteArray
+                name: MapperTypeNames.ByteArray
               }
             }
           },
@@ -273,7 +273,7 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.Stream
+                name: MapperTypeNames.Stream
               }
             }
           },
@@ -299,7 +299,7 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.String
+                name: MapperTypeNames.String
               }
             }
           },
@@ -329,7 +329,7 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.ByteArray
+                name: MapperTypeNames.ByteArray
               }
             }
           },
@@ -359,7 +359,7 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.Stream
+                name: MapperTypeNames.Stream
               }
             }
           },
@@ -387,7 +387,7 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.String
+                name: MapperTypeNames.String
               }
             }
           },
@@ -414,7 +414,7 @@ describe("ServiceClient", function() {
               required: true,
               serializedName: "bodyArg",
               type: {
-                name: MapperType.String
+                name: MapperTypeNames.String
               }
             }
           },
@@ -433,17 +433,13 @@ describe("ServiceClient", function() {
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath,
-          mapper: parameterMapper
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        parameterPath,
+        mapper: parameterMapper
+      });
       assert.strictEqual(parameterValue, undefined);
     });
 
@@ -455,17 +451,13 @@ describe("ServiceClient", function() {
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath,
-          mapper: parameterMapper
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        parameterPath,
+        mapper: parameterMapper
+      });
       assert.strictEqual(parameterValue, undefined);
     });
 
@@ -477,17 +469,13 @@ describe("ServiceClient", function() {
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath,
-          mapper: parameterMapper
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        parameterPath,
+        mapper: parameterMapper
+      });
 
       assert.strictEqual(parameterValue, null);
     });
@@ -500,17 +488,13 @@ describe("ServiceClient", function() {
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          mapper: parameterMapper,
-          parameterPath
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        mapper: parameterMapper,
+        parameterPath
+      });
       assert.strictEqual(parameterValue, 20);
     });
 
@@ -525,7 +509,7 @@ describe("ServiceClient", function() {
     //   const parameterMapper: Mapper = {
     //     serializedName: "my-parameter",
     //     type: {
-    //       name: MapperType.Number
+    //       name: MapperTypeNames.Number
     //     }
     //   };
     //   const parameterValue: any = getOperationArgumentValueFromParameter(
@@ -533,8 +517,7 @@ describe("ServiceClient", function() {
     //     {
     //       parameterPath,
     //       mapper: parameterMapper
-    //     },
-    //     createSerializer()
+    //     }
     //   );
     //   assert.strictEqual(parameterValue, 1);
     // });
@@ -547,7 +530,7 @@ describe("ServiceClient", function() {
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
@@ -556,7 +539,7 @@ describe("ServiceClient", function() {
           parameterPath,
           mapper: parameterMapper
         },
-        createSerializer(),
+
         serviceClient
       );
       assert.strictEqual(parameterValue, 21);
@@ -572,7 +555,7 @@ describe("ServiceClient", function() {
       const parameterMapper: Mapper = {
         serializedName: "my-parameter",
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
@@ -581,7 +564,7 @@ describe("ServiceClient", function() {
           parameterPath,
           mapper: parameterMapper
         },
-        createSerializer(),
+
         serviceClient
       );
       assert.strictEqual(parameterValue, 22);
@@ -595,17 +578,13 @@ describe("ServiceClient", function() {
         isConstant: true,
         defaultValue: 1,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath,
-          mapper: parameterMapper
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        parameterPath,
+        mapper: parameterMapper
+      });
       assert.strictEqual(parameterValue, 1);
     });
 
@@ -625,7 +604,7 @@ describe("ServiceClient", function() {
         isConstant: true,
         defaultValue: 4,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
@@ -634,7 +613,6 @@ describe("ServiceClient", function() {
           parameterPath,
           mapper: parameterMapper
         },
-        createSerializer(),
         serviceClient
       );
       assert.strictEqual(parameterValue, 4);
@@ -648,7 +626,7 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 21,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
@@ -657,7 +635,6 @@ describe("ServiceClient", function() {
           parameterPath,
           mapper: parameterMapper
         },
-        createSerializer(),
         serviceClient
       );
       assert.strictEqual(parameterValue, undefined);
@@ -672,7 +649,7 @@ describe("ServiceClient", function() {
         defaultValue: 21,
         required: true,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
@@ -681,7 +658,6 @@ describe("ServiceClient", function() {
           parameterPath,
           mapper: parameterMapper
         },
-        createSerializer(),
         serviceClient
       );
       assert.strictEqual(parameterValue, 21);
@@ -699,17 +675,13 @@ describe("ServiceClient", function() {
         defaultValue: 21,
         required: true,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath,
-          mapper: parameterMapper
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        parameterPath,
+        mapper: parameterMapper
+      });
       assert.strictEqual(parameterValue, 21);
     });
 
@@ -724,17 +696,13 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 21,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath,
-          mapper: parameterMapper
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        parameterPath,
+        mapper: parameterMapper
+      });
       assert.strictEqual(parameterValue, undefined);
     });
 
@@ -745,17 +713,13 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 21,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath,
-          mapper: parameterMapper
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        parameterPath,
+        mapper: parameterMapper
+      });
       assert.strictEqual(parameterValue, 21);
     });
 
@@ -766,17 +730,13 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 21,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath,
-          mapper: parameterMapper
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        parameterPath,
+        mapper: parameterMapper
+      });
       assert.strictEqual(parameterValue, undefined);
     });
 
@@ -789,17 +749,13 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 2,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
-      const parameterValue: any = getOperationArgumentValueFromParameter(
-        operationArguments,
-        {
-          parameterPath,
-          mapper: parameterMapper
-        },
-        createSerializer()
-      );
+      const parameterValue: any = getOperationArgumentValueFromParameter(operationArguments, {
+        parameterPath,
+        mapper: parameterMapper
+      });
 
       assert.strictEqual(parameterValue, null);
     });
@@ -813,7 +769,7 @@ describe("ServiceClient", function() {
         serializedName: "my-parameter",
         defaultValue: 2,
         type: {
-          name: MapperType.Number
+          name: MapperTypeNames.Number
         }
       };
       const parameterValue: any = getOperationArgumentValueFromParameter(
@@ -822,7 +778,6 @@ describe("ServiceClient", function() {
           parameterPath,
           mapper: parameterMapper
         },
-        createSerializer(),
         serviceClient
       );
 

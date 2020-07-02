@@ -9,49 +9,162 @@ import { HttpMethods } from '@azure/core-https';
 import { HttpsClient } from '@azure/core-https';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-https';
+import { PipelinePolicy } from '@azure/core-https';
 import { PipelineRequest } from '@azure/core-https';
 import { PipelineResponse } from '@azure/core-https';
 import { TokenCredential } from '@azure/core-auth';
 import { TransferProgressEvent } from '@azure/core-https';
 
-// Warning: (ae-forgotten-export) The symbol "BaseMapper" needs to be exported by the entry point index.d.ts
-//
+// @public (undocumented)
+export interface BaseMapper {
+    // (undocumented)
+    constraints?: MapperConstraints;
+    // (undocumented)
+    defaultValue?: any;
+    // (undocumented)
+    isConstant?: boolean;
+    // (undocumented)
+    nullable?: boolean;
+    // (undocumented)
+    readOnly?: boolean;
+    // (undocumented)
+    required?: boolean;
+    // (undocumented)
+    serializedName?: string;
+    // (undocumented)
+    type: MapperType;
+    // (undocumented)
+    xmlElementName?: string;
+    // (undocumented)
+    xmlIsAttribute?: boolean;
+    // (undocumented)
+    xmlIsWrapped?: boolean;
+    // (undocumented)
+    xmlName?: string;
+}
+
 // @public (undocumented)
 export interface CompositeMapper extends BaseMapper {
-    // Warning: (ae-forgotten-export) The symbol "CompositeMapperType" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     type: CompositeMapperType;
 }
 
 // @public (undocumented)
+export interface CompositeMapperType {
+    // (undocumented)
+    additionalProperties?: Mapper;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    modelProperties?: {
+        [propertyName: string]: Mapper;
+    };
+    // (undocumented)
+    name: "Composite";
+    // (undocumented)
+    polymorphicDiscriminator?: PolymorphicDiscriminator;
+    // (undocumented)
+    uberParent?: string;
+}
+
+// @public
 export function createSerializer(modelMappers?: {
     [key: string]: any;
 }, isXML?: boolean): Serializer;
+
+// @public
+export interface DeserializationContentTypes {
+    json?: string[];
+    xml?: string[];
+}
+
+// @public
+export function deserializationPolicy(options?: DeserializationPolicyOptions): PipelinePolicy;
+
+// @public
+export const deserializationPolicyName = "deserializationPolicy";
+
+// @public
+export interface DeserializationPolicyOptions {
+    expectedContentTypes?: DeserializationContentTypes;
+    parseXML?: (str: string, opts?: {
+        includeRoot?: boolean;
+    }) => Promise<any>;
+}
 
 // @public (undocumented)
 export interface DictionaryMapper extends BaseMapper {
     // (undocumented)
     headerCollectionPrefix?: string;
-    // Warning: (ae-forgotten-export) The symbol "DictionaryMapperType" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     type: DictionaryMapperType;
 }
 
 // @public (undocumented)
+export interface DictionaryMapperType {
+    // (undocumented)
+    name: "Dictionary";
+    // (undocumented)
+    value: Mapper;
+}
+
+// @public (undocumented)
 export interface EnumMapper extends BaseMapper {
-    // Warning: (ae-forgotten-export) The symbol "EnumMapperType" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     type: EnumMapperType;
+}
+
+// @public (undocumented)
+export interface EnumMapperType {
+    // (undocumented)
+    allowedValues: any[];
+    // (undocumented)
+    name: "Enum";
+}
+
+// @public
+export interface FullOperationResponse extends PipelineResponse {
+    parsedBody?: any;
+    parsedHeaders?: {
+        [key: string]: unknown;
+    };
+    request: OperationRequest;
 }
 
 // @public (undocumented)
 export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
 
 // @public (undocumented)
-export const MapperType: {
+export interface MapperConstraints {
+    // (undocumented)
+    ExclusiveMaximum?: number;
+    // (undocumented)
+    ExclusiveMinimum?: number;
+    // (undocumented)
+    InclusiveMaximum?: number;
+    // (undocumented)
+    InclusiveMinimum?: number;
+    // (undocumented)
+    MaxItems?: number;
+    // (undocumented)
+    MaxLength?: number;
+    // (undocumented)
+    MinItems?: number;
+    // (undocumented)
+    MinLength?: number;
+    // (undocumented)
+    MultipleOf?: number;
+    // (undocumented)
+    Pattern?: RegExp;
+    // (undocumented)
+    UniqueItems?: true;
+}
+
+// @public (undocumented)
+export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
+
+// @public
+export const MapperTypeNames: {
     readonly Base64Url: "Base64Url";
     readonly Boolean: "Boolean";
     readonly ByteArray: "ByteArray";
@@ -79,17 +192,51 @@ export interface OperationArguments {
 // @public
 export interface OperationOptions {
     abortSignal?: AbortSignalLike;
-    // Warning: (ae-forgotten-export) The symbol "OperationRequestOptions" needs to be exported by the entry point index.d.ts
     requestOptions?: OperationRequestOptions;
     tracingOptions?: OperationTracingOptions;
 }
 
+// @public
+export interface OperationParameter {
+    mapper: Mapper;
+    parameterPath: ParameterPath;
+}
+
+// @public
+export interface OperationQueryParameter extends OperationParameter {
+    collectionFormat?: QueryCollectionFormat;
+    skipEncoding?: boolean;
+}
+
 // @public (undocumented)
 export interface OperationRequest extends PipelineRequest {
-    // Warning: (ae-forgotten-export) The symbol "OperationResponseMap" needs to be exported by the entry point index.d.ts
     operationResponseGetter?: (operationSpec: OperationSpec, response: PipelineResponse) => undefined | OperationResponseMap;
     operationSpec?: OperationSpec;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
+}
+
+// @public (undocumented)
+export interface OperationRequestOptions {
+    customHeaders?: {
+        [key: string]: string;
+    };
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
+    timeout?: number;
+}
+
+// @public
+export interface OperationResponse {
+    // (undocumented)
+    [key: string]: any;
+    _response: FullOperationResponse;
+}
+
+// @public
+export interface OperationResponseMap {
+    bodyMapper?: Mapper;
+    headersMapper?: Mapper;
 }
 
 // @public
@@ -102,16 +249,18 @@ export interface OperationSpec {
     readonly isXML?: boolean;
     readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
     readonly path?: string;
-    // Warning: (ae-forgotten-export) The symbol "OperationQueryParameter" needs to be exported by the entry point index.d.ts
     readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
-    // Warning: (ae-forgotten-export) The symbol "OperationParameter" needs to be exported by the entry point index.d.ts
     readonly requestBody?: OperationParameter;
     readonly responses: {
         [responseCode: string]: OperationResponseMap;
     };
     readonly serializer: Serializer;
-    // Warning: (ae-forgotten-export) The symbol "OperationURLParameter" needs to be exported by the entry point index.d.ts
     readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
+}
+
+// @public
+export interface OperationURLParameter extends OperationParameter {
+    skipEncoding?: boolean;
 }
 
 // @public (undocumented)
@@ -119,26 +268,31 @@ export type ParameterPath = string | string[] | {
     [propertyName: string]: ParameterPath;
 };
 
-// @public
-export const enum QueryCollectionFormat {
+// @public (undocumented)
+export interface PolymorphicDiscriminator {
     // (undocumented)
-    Csv = ",",
+    [key: string]: string;
     // (undocumented)
-    Multi = "Multi",
+    clientName: string;
     // (undocumented)
-    Pipes = "|",
-    // (undocumented)
-    Ssv = " ",
-    // (undocumented)
-    Tsv = "\t"
+    serializedName: string;
 }
+
+// @public
+export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 
 // @public (undocumented)
 export interface SequenceMapper extends BaseMapper {
-    // Warning: (ae-forgotten-export) The symbol "SequenceMapperType" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     type: SequenceMapperType;
+}
+
+// @public (undocumented)
+export interface SequenceMapperType {
+    // (undocumented)
+    element: Mapper;
+    // (undocumented)
+    name: "Sequence";
 }
 
 // @public (undocumented)
@@ -160,15 +314,18 @@ export interface Serializer {
 // @public
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
-    // Warning: (ae-forgotten-export) The symbol "OperationResponse" needs to be exported by the entry point index.d.ts
     sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
     }
 
+// @public (undocumented)
+export interface ServiceClientCredentials {
+    signRequest(request: PipelineRequest): Promise<PipelineRequest>;
+}
+
 // @public
 export interface ServiceClientOptions {
     baseUri?: string;
-    // Warning: (ae-forgotten-export) The symbol "ServiceClientCredentials" needs to be exported by the entry point index.d.ts
     credentials?: TokenCredential | ServiceClientCredentials;
     httpsClient?: HttpsClient;
     pipeline?: Pipeline;
@@ -176,6 +333,12 @@ export interface ServiceClientOptions {
     stringifyXML?: (obj: any, opts?: {
         rootName?: string;
     }) => string;
+}
+
+// @public (undocumented)
+export interface SimpleMapperType {
+    // (undocumented)
+    name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
 

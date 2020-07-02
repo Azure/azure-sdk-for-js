@@ -63,7 +63,6 @@ function calculateUrlReplacements(
       let urlParameterValue: string = getOperationArgumentValueFromParameter(
         operationArguments,
         urlParameter,
-        operationSpec.serializer,
         fallbackObject
       );
       const parameterPathString = getPathStringFromParameter(urlParameter);
@@ -116,7 +115,6 @@ function calculateQueryParameters(
       let queryParameterValue: string | string[] = getOperationArgumentValueFromParameter(
         operationArguments,
         queryParameter,
-        operationSpec.serializer,
         fallbackObject
       );
       if (queryParameterValue !== undefined && queryParameterValue !== null) {

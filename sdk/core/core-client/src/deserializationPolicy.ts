@@ -9,7 +9,7 @@ import {
   RestError
 } from "@azure/core-https";
 import { OperationRequest, OperationResponseMap, FullOperationResponse } from "./interfaces";
-import { MapperType } from "./serializer";
+import { MapperTypeNames } from "./serializer";
 import { isStreamOperation } from "./interfaceHelpers";
 
 const defaultJsonContentTypes = ["application/json", "text/json"];
@@ -160,7 +160,7 @@ async function deserializeResponseBody(
 
         if (defaultBodyMapper) {
           let valueToDeserialize: any = parsedBody;
-          if (operationSpec.isXML && defaultBodyMapper.type.name === MapperType.Sequence) {
+          if (operationSpec.isXML && defaultBodyMapper.type.name === MapperTypeNames.Sequence) {
             valueToDeserialize =
               typeof parsedBody === "object" ? parsedBody[defaultBodyMapper.xmlElementName!] : [];
           }
@@ -195,7 +195,7 @@ async function deserializeResponseBody(
   if (responseSpec) {
     if (responseSpec.bodyMapper) {
       let valueToDeserialize: any = parsedResponse.parsedBody;
-      if (operationSpec.isXML && responseSpec.bodyMapper.type.name === MapperType.Sequence) {
+      if (operationSpec.isXML && responseSpec.bodyMapper.type.name === MapperTypeNames.Sequence) {
         valueToDeserialize =
           typeof valueToDeserialize === "object"
             ? valueToDeserialize[responseSpec.bodyMapper.xmlElementName!]

@@ -252,6 +252,11 @@ class SerializerImpl implements Serializer {
   }
 }
 
+/**
+ * Method that creates and returns a Serializer.
+ * @param modelMappers Known models to map
+ * @param isXML If XML shuold be supported
+ */
 export function createSerializer(
   modelMappers: { [key: string]: any } = {},
   isXML: boolean = false
@@ -910,7 +915,10 @@ function getPolymorphicDiscriminatorSafely(
   );
 }
 
-export const MapperType = {
+/**
+ * Known types of Mappers
+ */
+export const MapperTypeNames = {
   Base64Url: "Base64Url",
   Boolean: "Boolean",
   ByteArray: "ByteArray",

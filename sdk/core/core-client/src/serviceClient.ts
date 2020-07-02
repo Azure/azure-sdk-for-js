@@ -23,7 +23,7 @@ import {
   CompositeMapper
 } from "./interfaces";
 import { getPathStringFromParameter, isStreamOperation } from "./interfaceHelpers";
-import { MapperType } from "./serializer";
+import { MapperTypeNames } from "./serializer";
 import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
@@ -64,7 +64,6 @@ export interface ServiceClientOptions {
 }
 
 /**
- * @class
  * Initializes a new instance of the ServiceClient.
  */
 export class ServiceClient {
@@ -149,8 +148,7 @@ export class ServiceClient {
       for (const headerParameter of operationSpec.headerParameters) {
         let headerValue = getOperationArgumentValueFromParameter(
           operationArguments,
-          headerParameter,
-          operationSpec.serializer
+          headerParameter
         );
         if (headerValue !== null && headerValue !== undefined) {
           headerValue = operationSpec.serializer.serialize(
@@ -232,6 +230,9 @@ export class ServiceClient {
   }
 }
 
+/**
+ * @internal @ignore
+ */
 export function serializeRequestBody(
   request: OperationRequest,
   operationArguments: OperationArguments,
@@ -243,8 +244,7 @@ export function serializeRequestBody(
   if (operationSpec.requestBody && operationSpec.requestBody.mapper) {
     request.body = getOperationArgumentValueFromParameter(
       operationArguments,
-      operationSpec.requestBody,
-      operationSpec.serializer
+      operationSpec.requestBody
     );
 
     const bodyMapper = operationSpec.requestBody.mapper;
@@ -262,10 +262,10 @@ export function serializeRequestBody(
           requestBodyParameterPathString
         );
 
-        const isStream = typeName === MapperType.Stream;
+        const isStream = typeName === MapperTypeNames.Stream;
 
         if (operationSpec.isXML) {
-          if (typeName === MapperType.Sequence) {
+          if (typeName === MapperTypeNames.Sequence) {
             request.body = stringifyXML(
               prepareXMLRootList(request.body, xmlElementName || xmlName || serializedName!),
               { rootName: xmlName || serializedName }
@@ -276,7 +276,7 @@ export function serializeRequestBody(
             });
           }
         } else if (
-          typeName === MapperType.String &&
+          typeName === MapperTypeNames.String &&
           (operationSpec.contentType?.match("text/plain") || operationSpec.mediaType === "text")
         ) {
           // the String serializer has validated that request body is a string
@@ -300,8 +300,7 @@ export function serializeRequestBody(
     for (const formDataParameter of operationSpec.formDataParameters) {
       const formDataParameterValue = getOperationArgumentValueFromParameter(
         operationArguments,
-        formDataParameter,
-        operationSpec.serializer
+        formDataParameter
       );
       if (formDataParameterValue !== undefined && formDataParameterValue !== null) {
         const formDataParameterPropertyName: string =
