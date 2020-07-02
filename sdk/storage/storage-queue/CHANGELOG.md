@@ -1,6 +1,6 @@
 # Release History
 
-## 12.1.0-rc.1 (2020.07)
+## 12.1.0-preview.1 (2020.07)
 
 - Updated Azure Storage Service API version to 2019-12-12.
 - Added `exists`, `createIfNotExists` and `deleteIfExists` to `QueueClient`.
