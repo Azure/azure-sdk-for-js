@@ -1,0 +1,165 @@
+{
+  "name": "@azure/storage-blob-changefeed",
+  "sdk-type": "client",
+  "version": "12.0.0-preview.1",
+  "description": "Microsoft Azure Storage SDK for JavaScript - Blob Change Feed",
+  "main": "./dist/index.js",
+  "module": "./dist-esm/storage-blob-changefeed/src/index.js",
+  "browser": {
+    "./dist-esm/storage-blob-changefeed/src/utils/utils.node.js": "./dist-esm/storage-blob-changefeed/src/utils/utils.browser.js",
+    "./dist-esm/storage-blob-changefeed/test/utils/index.js": "./dist-esm/storage-blob-changefeed/test/utils/index.browser.js",
+    "fs": false,
+    "os": false,
+    "process": false
+  },
+  "types": "./typings/latest/storage-blob-changefeed.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "*": [
+        "./typings/3.1/storage-blob-changefeed.d.ts"
+      ]
+    }
+  },
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build:es6": "tsc -p tsconfig.json",
+    "build:nodebrowser": "rollup -c 2>&1",
+    "build:samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run build:prep-samples",
+    "build:prep-samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc",
+    "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
+    "build:types": "downlevel-dts typings/latest typings/3.1",
+    "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
+    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm dist-test typings temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean:samples": "rimraf samples/javascript/node_modules samples/typescript/node_modules samples/typescript/dist samples/typescript/package-lock.json samples/javascript/package-lock.json",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
+    "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/storage-blob-changefeed/samples/typescript/src/",
+    "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
+    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "karma start --single-run",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/storage-blob-changefeed/test/*.spec.js dist-esm/storage-blob-changefeed/test/node/*.spec.js",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint -c ../../.eslintrc.old.json src test samples --ext .ts --fix",
+    "lint": "eslint -c ../../.eslintrc.old.json src test samples --ext .ts -f html -o storage-blob-changefeed-lintReport.html || exit 0",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "echo 'browser not supported yet.'",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "unit-test:browser": "echo 'browser not supported yet.'",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node"
+  },
+  "files": [
+    "BreakingChanges.md",
+    "types/",
+    "dist/",
+    "dist-browser/",
+    "dist-esm/storage-blob-changefeed/src/",
+    "dist-esm/storage-internal-avro/src/",
+    "typings/latest/storage-blob-changefeed.d.ts",
+    "typings/3.1/storage-blob-changefeed.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Storage",
+    "Blob",
+    "Change feed",
+    "Node.js",
+    "TypeScript",
+    "JavaScript",
+    "Browser"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/storage-blob": "^12.2.0-preview.1",
+    "@azure/abort-controller": "^1.0.0",
+    "@azure/core-http": "^1.1.1",
+    "@azure/core-lro": "^1.0.2",
+    "@azure/core-paging": "^1.1.1",
+    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/logger": "^1.0.0",
+    "@opentelemetry/api": "^0.6.1",
+    "events": "^3.0.0",
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@azure/identity": "^1.1.0-preview",
+    "@azure/test-utils-recorder": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
+    "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-replace": "^2.2.0",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^8.0.0",
+    "@types/sinon": "^9.0.4",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "assert": "^1.4.1",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "downlevel-dts": "~0.4.0",
+    "es6-promise": "^4.2.5",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-no-null": "^1.0.2",
+    "eslint-plugin-no-only-tests": "^2.3.0",
+    "eslint-plugin-promise": "^4.1.1",
+    "esm": "^3.2.18",
+    "inherits": "^2.0.3",
+    "karma": "^4.0.1",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^1.3.0",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-remap-istanbul": "^0.6.0",
+    "mocha": "^7.1.1",
+    "mocha-junit-reporter": "^1.18.0",
+    "nyc": "^14.0.0",
+    "prettier": "^1.16.4",
+    "puppeteer": "^3.3.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.16.3",
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "rollup-plugin-shim": "^1.0.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
+    "source-map-support": "^0.5.9",
+    "ts-node": "^8.3.0",
+    "typescript": "~3.9.3",
+    "util": "^0.12.1",
+    "sinon": "^9.0.2"
+  }
+}

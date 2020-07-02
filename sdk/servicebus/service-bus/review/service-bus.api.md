@@ -11,7 +11,7 @@ import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
-import { OperationTracingOptions } from '@azure/core-tracing';
+import { OperationOptions } from '@azure/core-http';
 import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
@@ -46,12 +46,12 @@ export interface CorrelationRuleFilter {
 }
 
 // @public
-export interface CreateBatchOptions extends OperationOptions {
+export interface CreateBatchOptions extends OperationOptionsBase {
     maxSizeInBytes?: number;
 }
 
 // @public
-export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {
+export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptionsBase {
 }
 
 // @public
@@ -68,13 +68,13 @@ export { Delivery }
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
 // @public
-export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {
+export interface GetMessageIteratorOptions extends OperationOptionsBase, WaitTimeOptions {
 }
 
 // @public
 export interface ListRequestOptions {
+    maxCount?: number;
     skip?: number;
-    top?: number;
 }
 
 // @public
@@ -103,28 +103,26 @@ export { MessagingError }
 
 // @public
 export interface NamespaceProperties {
-    createdOn: Date;
+    createdAt: Date;
     messagingSku: string;
     messagingUnits: number | undefined;
     name: string;
     namespaceType: string;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
 export interface NamespacePropertiesResponse extends NamespaceProperties, Response {
 }
 
-// @public
-export interface OperationOptions {
-    abortSignal?: AbortSignalLike;
-    tracingOptions?: OperationTracingOptions;
-}
+export { OperationOptions }
 
 // @public
-export interface PeekMessagesOptions extends OperationOptions {
+export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
+
+// @public
+export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long;
-    maxMessageCount?: number;
 }
 
 // @public
@@ -154,13 +152,13 @@ export interface QueueResponse extends QueueDescription, Response {
 
 // @public
 export interface QueueRuntimeInfo {
-    accessedOn: Date;
-    createdOn: Date;
+    accessedAt: Date;
+    createdAt: Date;
     messageCount?: number;
     messageCountDetails?: MessageCountDetails;
     name: string;
     sizeInBytes?: number;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
@@ -173,10 +171,6 @@ export interface QueuesResponse extends Array<QueueDescription>, Response {
 
 // @public
 export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {
-}
-
-// @public
-export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {
 }
 
 // @public
@@ -208,18 +202,23 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 }
 
 // @public
+export interface ReceiveMessagesOptions extends OperationOptionsBase, WaitTimeOptions {
+}
+
+// @public
 export interface Receiver<ReceivedMessageT> {
     close(): Promise<void>;
     entityPath: string;
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isClosed: boolean;
     isReceivingMessages(): boolean;
-    peekMessages(options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
-    receiveBatch(maxMessages: number, options?: ReceiveBatchOptions): Promise<ReceivedMessageT[]>;
-    receiveDeferredMessage(sequenceNumber: Long, options?: OperationOptions): Promise<ReceivedMessageT | undefined>;
-    receiveDeferredMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<ReceivedMessageT[]>;
+    peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
+    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ReceivedMessageT[]>;
+    receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
     receiveMode: "peekLock" | "receiveAndDelete";
-    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
+    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
+        close(): Promise<void>;
+    };
 }
 
 // @public
@@ -246,18 +245,14 @@ export interface RulesResponse extends Array<RuleDescription>, Response {
 
 // @public
 export interface Sender {
-    cancelScheduledMessage(sequenceNumber: Long, options?: OperationOptions): Promise<void>;
-    cancelScheduledMessages(sequenceNumbers: Long[], options?: OperationOptions): Promise<void>;
+    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
     open(options?: SenderOpenOptions): Promise<void>;
-    scheduleMessage(scheduledEnqueueTimeUtc: Date, message: ServiceBusMessage, options?: OperationOptions): Promise<Long>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage[], options?: OperationOptions): Promise<Long[]>;
-    send(message: ServiceBusMessage, options?: OperationOptions): Promise<void>;
-    send(messages: ServiceBusMessage[], options?: OperationOptions): Promise<void>;
-    send(messageBatch: ServiceBusMessageBatch, options?: OperationOptions): Promise<void>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptionsBase): Promise<Long[]>;
+    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
 }
 
 // @public
@@ -296,39 +291,39 @@ export interface ServiceBusClientOptions {
 export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
-    createQueue(queueName: string): Promise<QueueResponse>;
-    createQueue(queue: QueueDescription): Promise<QueueResponse>;
-    createRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<RuleResponse>;
-    createSubscription(topicName: string, subscriptionName: string): Promise<SubscriptionResponse>;
-    createSubscription(subscription: SubscriptionDescription): Promise<SubscriptionResponse>;
-    createTopic(topicName: string): Promise<TopicResponse>;
-    createTopic(topic: TopicDescription): Promise<TopicResponse>;
-    deleteQueue(queueName: string): Promise<Response>;
-    deleteRule(topicName: string, subscriptionName: string, ruleName: string): Promise<Response>;
-    deleteSubscription(topicName: string, subscriptionName: string): Promise<Response>;
-    deleteTopic(topicName: string): Promise<Response>;
-    getNamespaceProperties(): Promise<NamespacePropertiesResponse>;
-    getQueue(queueName: string): Promise<QueueResponse>;
-    getQueueRuntimeInfo(queueName: string): Promise<QueueRuntimeInfoResponse>;
-    getQueues(options?: ListRequestOptions): Promise<QueuesResponse>;
-    getQueuesRuntimeInfo(options?: ListRequestOptions): Promise<QueuesRuntimeInfoResponse>;
-    getRule(topicName: string, subscriptioName: string, ruleName: string): Promise<RuleResponse>;
-    getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions): Promise<RulesResponse>;
-    getSubscription(topicName: string, subscriptionName: string): Promise<SubscriptionResponse>;
-    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string): Promise<SubscriptionRuntimeInfoResponse>;
-    getSubscriptions(topicName: string, options?: ListRequestOptions): Promise<SubscriptionsResponse>;
-    getSubscriptionsRuntimeInfo(topicName: string, options?: ListRequestOptions): Promise<SubscriptionsRuntimeInfoResponse>;
-    getTopic(topicName: string): Promise<TopicResponse>;
-    getTopicRuntimeInfo(topicName: string): Promise<TopicRuntimeInfoResponse>;
-    getTopics(options?: ListRequestOptions): Promise<TopicsResponse>;
-    getTopicsRuntimeInfo(options?: ListRequestOptions): Promise<TopicsRuntimeInfoResponse>;
-    queueExists(queueName: string): Promise<boolean>;
-    subscriptionExists(topicName: string, subscriptionName: string): Promise<boolean>;
-    topicExists(topicName: string): Promise<boolean>;
-    updateQueue(queue: QueueDescription): Promise<QueueResponse>;
-    updateRule(topicName: string, subscriptionName: string, rule: RuleDescription): Promise<RuleResponse>;
-    updateSubscription(subscription: SubscriptionDescription): Promise<SubscriptionResponse>;
-    updateTopic(topic: TopicDescription): Promise<TopicResponse>;
+    createQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    createQueue(queue: QueueDescription, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    createRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    createSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    createTopic(topic: TopicDescription, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
+    deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
+    deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
+    deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
+    getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
+    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
+    getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse>;
+    getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimeInfoResponse>;
+    getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptions): Promise<RulesResponse>;
+    getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimeInfoResponse>;
+    getSubscriptions(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsResponse>;
+    getSubscriptionsRuntimeInfo(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsRuntimeInfoResponse>;
+    getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    getTopicRuntimeInfo(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimeInfoResponse>;
+    getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse>;
+    getTopicsRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<TopicsRuntimeInfoResponse>;
+    queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
+    subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
+    topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
+    updateQueue(queue: QueueDescription, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    updateRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    updateSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    updateTopic(topic: TopicDescription, operationOptions?: OperationOptions): Promise<TopicResponse>;
 }
 
 // @public
@@ -374,11 +369,11 @@ export interface SessionMessageHandlerOptions {
 
 // @public
 export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
-    getState(options?: OperationOptions): Promise<any>;
-    renewSessionLock(options?: OperationOptions): Promise<Date>;
+    getState(options?: OperationOptionsBase): Promise<any>;
+    renewSessionLock(options?: OperationOptionsBase): Promise<Date>;
     readonly sessionId: string;
     sessionLockedUntilUtc: Date | undefined;
-    setState(state: any, options?: OperationOptions): Promise<void>;
+    setState(state: any, options?: OperationOptionsBase): Promise<void>;
 }
 
 // @public
@@ -406,7 +401,7 @@ export interface SqlRuleFilter {
 }
 
 // @public
-export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {
+export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOptions {
 }
 
 // @public
@@ -433,13 +428,13 @@ export interface SubscriptionResponse extends SubscriptionDescription, Response 
 
 // @public
 export interface SubscriptionRuntimeInfo {
-    accessedOn: Date;
-    createdOn: Date;
+    accessedAt: Date;
+    createdAt: Date;
     messageCount: number;
     messageCountDetails?: MessageCountDetails;
     subscriptionName: string;
     topicName: string;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public
@@ -480,12 +475,12 @@ export interface TopicResponse extends TopicDescription, Response {
 
 // @public
 export interface TopicRuntimeInfo {
-    accessedOn: Date;
-    createdOn: Date;
+    accessedAt: Date;
+    createdAt: Date;
     name: string;
     sizeInBytes?: number;
     subscriptionCount?: number;
-    updatedOn: Date;
+    updatedAt: Date;
 }
 
 // @public

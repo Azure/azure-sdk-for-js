@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-export const SDK_VERSION: string = "12.0.1";
-export const SERVICE_VERSION: string = "2019-07-07";
+export const SDK_VERSION: string = "12.1.0-preview.1";
+export const SERVICE_VERSION: string = "2019-12-12";
 
 export const KB: number = 1024;
 export const MB: number = KB * 1024;
@@ -11,7 +11,7 @@ export const TB: number = GB * 1024;
 
 export const DEFAULT_HIGH_LEVEL_CONCURRENCY: number = 5;
 export const FILE_MAX_SINGLE_UPLOAD_THRESHOLD: number = 100 * MB;
-export const FILE_UPLOAD_MAX_CHUNK_SIZE: number = 100 * MB;
+export const FILE_UPLOAD_MAX_CHUNK_SIZE: number = 4000 * MB;
 export const FILE_UPLOAD_DEFAULT_CHUNK_SIZE: number = 8 * MB;
 export const BLOCK_BLOB_MAX_BLOCKS: number = 50000;
 export const FILE_MAX_SIZE_BYTES: number = BLOCK_BLOB_MAX_BLOCKS * FILE_UPLOAD_MAX_CHUNK_SIZE;
@@ -196,8 +196,26 @@ export const DevelopmentConnectionString = `DefaultEndpointsProtocol=http;Accoun
 
 // Mapping pairs to transform url from dfs endpoint to blob endpoint
 // Customize this value to add more mapping patterns
-export const ToBlobEndpointHostMappings = [["dfs.core.windows.net", "blob.core.windows.net"]];
+export const ToBlobEndpointHostMappings = [
+  ["dfs.preprod.core.windows.net", "blob.preprod.core.windows.net"],
+  ["dfs.core.windows.net", "blob.core.windows.net"],
+  ["dfs.core.chinacloudapi.cn", "blob.core.chinacloudapi.cn"],
+  ["dfs.core.usgovcloudapi.net", "blob.core.usgovcloudapi.net"],
+  ["dfs.core.cloudapi.de", "blob.core.cloudapi.de"],
+  ["dfs.core.microsoft.scloud", "blob.core.microsoft.scloud"],
+  ["dfs.core.eaglex.ic.gov", "blob.core.eaglex.ic.gov"]
+];
 
 // Mapping pairs to transform url from blob endpoint to dfs endpoint
 // Customize this value to add more mapping patterns
-export const ToDfsEndpointHostMappings = [["blob.core.windows.net", "dfs.core.windows.net"]];
+export const ToDfsEndpointHostMappings = [
+  ["blob.preprod.core.windows.net", "dfs.preprod.core.windows.net"],
+  ["blob.core.windows.net", "dfs.core.windows.net"],
+  ["blob.core.chinacloudapi.cn", "dfs.core.chinacloudapi.cn"],
+  ["blob.core.usgovcloudapi.net", "dfs.core.usgovcloudapi.net"],
+  ["blob.core.cloudapi.de", "dfs.core.cloudapi.de"],
+  ["blob.core.microsoft.scloud", "dfs.core.microsoft.scloud"],
+  ["blob.core.eaglex.ic.gov", "dfs.core.eaglex.ic.gov"]
+];
+
+export const ETagAny = "*";

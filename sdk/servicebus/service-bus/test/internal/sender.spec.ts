@@ -20,21 +20,64 @@ describe("sender unit tests", () => {
     assert.isFalse(isServiceBusMessageBatch(({} as any) as ServiceBusMessage));
   });
 
-  ["hello", {}, null, undefined].forEach((invalidValue) => {
-    it(`don't allow Sender.send(${invalidValue})`, async () => {
+  ["hello", {}, 123, null, undefined, ["hello"]].forEach((invalidValue) => {
+    it(`don't allow Sender.sendMessages(${invalidValue})`, async () => {
       const sender = new SenderImpl(createClientEntityContextForTests());
-
+      let expectedErrorMsg =
+        "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
+      if (invalidValue === null || invalidValue === undefined) {
+        expectedErrorMsg = `Missing parameter "messages"`;
+      }
       try {
-        await sender.send(
+        await sender.sendMessages(
           // @ts-expect-error
           invalidValue
         );
       } catch (err) {
         assert.equal(err.name, "TypeError");
-        assert.equal(
-          err.message,
-          "Invalid type for message. Must be a ServiceBusMessage, an array of ServiceBusMessage or a ServiceBusMessageBatch"
+        assert.equal(err.message, expectedErrorMsg);
+      }
+    });
+  });
+
+  ["hello", {}, null, undefined].forEach((invalidValue) => {
+    it(`don't allow tryAdd(${invalidValue})`, async () => {
+      const sender = new SenderImpl(createClientEntityContextForTests());
+      const batch = await sender.createBatch();
+      let expectedErrorMsg = "Provided value for 'message' must be of type ServiceBusMessage.";
+      if (invalidValue === null || invalidValue === undefined) {
+        expectedErrorMsg = `Missing parameter "message"`;
+      }
+      try {
+        batch.tryAdd(
+          // @ts-expect-error
+          invalidValue
         );
+      } catch (err) {
+        assert.equal(err.name, "TypeError");
+        assert.equal(err.message, expectedErrorMsg);
+      }
+    });
+  });
+
+  ["hello", {}, null, undefined, ["hello"]].forEach((invalidValue) => {
+    it(`don't allow Sender.scheduleMessages(${invalidValue})`, async () => {
+      const sender = new SenderImpl(createClientEntityContextForTests());
+      let expectedErrorMsg =
+        "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage.";
+      if (invalidValue === null || invalidValue === undefined) {
+        expectedErrorMsg = `Missing parameter "messages"`;
+      }
+
+      try {
+        await sender.scheduleMessages(
+          new Date(),
+          // @ts-expect-error
+          invalidValue
+        );
+      } catch (err) {
+        assert.equal(err.name, "TypeError");
+        assert.equal(err.message, expectedErrorMsg);
       }
     });
   });
@@ -46,7 +89,10 @@ function createClientEntityContextForTests(): ClientEntityContext & { initWasCal
   const fakeClientEntityContext = {
     entityPath: "queue",
     sender: {
-      credit: 999
+      credit: 999,
+      createBatch: () => {
+        return new ServiceBusMessageBatchImpl(fakeClientEntityContext as any, 100);
+      }
     },
     namespace: {
       config: { endpoint: "my.service.bus" },

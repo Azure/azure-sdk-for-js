@@ -98,6 +98,16 @@ describe("PageBlobClient", () => {
     }
   });
 
+  it("createIfNotExists", async () => {
+    const res = await pageBlobClient.createIfNotExists(512);
+    assert.ok(res.succeeded);
+    assert.ok(res.etag);
+
+    const res2 = await pageBlobClient.createIfNotExists(512);
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "BlobAlreadyExists");
+  });
+
   it("uploadPages", async () => {
     await pageBlobClient.create(1024);
 

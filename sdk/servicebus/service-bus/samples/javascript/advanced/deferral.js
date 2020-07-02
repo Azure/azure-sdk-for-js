@@ -52,7 +52,7 @@ async function sendMessages() {
     promises.push(
       delay(Math.random() * 30).then(async () => {
         try {
-          await sender.send(message);
+          await sender.sendMessages(message);
           console.log("Sent message step:", data[index].step);
         } catch (err) {
           console.log("Error while sending message", err);
@@ -121,7 +121,7 @@ async function receiveMessage() {
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;
       const sequenceNumber = deferredSteps.get(step);
-      const message = await receiver.receiveDeferredMessage(sequenceNumber);
+      const [message] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (message) {
         console.log("Process deferred message:", message.body);
         await message.complete();

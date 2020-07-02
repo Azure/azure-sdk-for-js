@@ -52,26 +52,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '30',
-  'apim-request-id',
-  'b5a3d8be-3b9c-4c98-9bdd-b121f9639185',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Sat, 02 May 2020 20:00:15 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0-preview/custom/models/9fc504f6-293c-4c40-a581-e41ae22b40e5')
-  .query(true)
-  .reply(200, {"modelInfo":{"modelId":"9fc504f6-293c-4c40-a581-e41ae22b40e5","status":"creating","createdDateTime":"2020-05-02T20:00:15Z","lastUpdatedDateTime":"2020-05-02T20:00:15Z"}}, [
-  'Transfer-Encoding',
-  'chunked',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
   '55',
   'apim-request-id',
   '26b71488-cd5e-44de-847b-fb3c17f3cce4',

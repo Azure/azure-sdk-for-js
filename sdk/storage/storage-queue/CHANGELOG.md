@@ -1,5 +1,10 @@
 # Release History
 
+## 12.1.0-preview.1 (2020.07)
+
+- Updated Azure Storage Service API version to 2019-12-12.
+- Added `exists`, `createIfNotExists` and `deleteIfExists` to `QueueClient`.
+
 ## 12.0.5 (2020.05)
 
 - Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)

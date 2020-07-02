@@ -51,7 +51,11 @@
     // ]
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
     "@azure/event-hubs": ["^2.1.4"],
-    // Allow packages to continue to use old eslint-plugin-azure-sdk until they can adapt to 3.0.0
-    "@azure/eslint-plugin-azure-sdk": ["^2.0.1"]
+
+    // Exception for storage before the preview release
+    "@azure/core-http": ["^1.1.1"],
+
+    // Allow storage-blob-changefeed and storage-file-datalake to use the preview version of storage-blob.
+    "@azure/storage-blob": ["^12.2.0-preview.1"]
   }
 }

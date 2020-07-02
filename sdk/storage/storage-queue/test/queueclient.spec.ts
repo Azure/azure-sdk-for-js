@@ -96,6 +96,38 @@ describe("QueueClient", () => {
     );
   });
 
+  it("exists", async () => {
+    assert.ok(await queueClient.exists());
+
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    assert.ok(!(await qClient.exists()));
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await queueClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+
+    const metadata = { key: "value" };
+    const res2 = await queueClient.createIfNotExists({ metadata });
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "QueueAlreadyExists");
+
+    queueClient = queueServiceClient.getQueueClient(recorder.getUniqueName("queue2"));
+    const res3 = await queueClient.createIfNotExists();
+    assert.ok(res3.succeeded);
+  });
+
+  it("deleteIfExists", async () => {
+    const qClient = queueServiceClient.getQueueClient(recorder.getUniqueName(queueName));
+    const res = await qClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "QueueNotFound");
+
+    await qClient.create();
+    const res2 = await qClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
   it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();

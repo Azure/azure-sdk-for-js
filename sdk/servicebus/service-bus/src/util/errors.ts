@@ -42,16 +42,6 @@ export function throwErrorIfClientOrConnectionClosed(
 
 /**
  * @internal
- * Gets the error message when an open receiver exists for a session, but a new one is asked for on the same client
- * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param sessionId id of the session
- */
-export function getOpenSessionReceiverErrorMsg(entityPath: string, sessionId: string): string {
-  return `An open receiver already exists for the session "${sessionId}" for ` + `"${entityPath}".`;
-}
-
-/**
- * @internal
  * Gets the error message when a client is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  */
@@ -160,7 +150,7 @@ export function throwTypeErrorIfParameterTypeMismatch(
 
 /**
  * @internal
- * Logs and Throws TypeError if given parameter is not of type `Long`
+ * Logs and Throws TypeError if given parameter is not of type `Long` or an array of type `Long`
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
  * @param parameterValue Value of the parameter to type check
@@ -170,6 +160,9 @@ export function throwTypeErrorIfParameterNotLong(
   parameterName: string,
   parameterValue: any
 ): TypeError | undefined {
+  if (Array.isArray(parameterValue)) {
+    return throwTypeErrorIfParameterNotLongArray(connectionId, parameterName, parameterValue);
+  }
   if (Long.isLong(parameterValue)) {
     return;
   }

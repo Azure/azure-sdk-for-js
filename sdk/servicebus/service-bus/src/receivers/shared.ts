@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetMessageIteratorOptions } from "../models";
+import { GetMessageIteratorOptions, MessageHandlers } from "../models";
 import { Receiver } from "./receiver";
+import * as log from "../log";
 
 /**
  * @internal
@@ -29,7 +30,7 @@ export async function* getMessageIterator<ReceivedMessageT>(
   options?: GetMessageIteratorOptions
 ): AsyncIterableIterator<ReceivedMessageT> {
   while (true) {
-    const messages = await receiver.receiveBatch(1, options);
+    const messages = await receiver.receiveMessages(1, options);
 
     // In EventHubs we've had a concept of "punctuation" (thanks @jsquire) that
     // allows the user, when working in a model like this, to get a periodic "no message
@@ -42,4 +43,21 @@ export async function* getMessageIterator<ReceivedMessageT>(
 
     yield messages[0];
   }
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function wrapProcessErrorHandler(
+  handlers: Pick<MessageHandlers<unknown>, "processError">,
+  logError: (formatter: any, ...args: any[]) => void = log.error
+): MessageHandlers<unknown>["processError"] {
+  return async (err: Error) => {
+    try {
+      await handlers.processError(err);
+    } catch (err) {
+      logError(`An error was thrown from the user's processError handler: ${err}`);
+    }
+  };
 }

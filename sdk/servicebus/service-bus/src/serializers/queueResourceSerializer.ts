@@ -119,9 +119,9 @@ export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
-    createdOn: getDate(rawQueue[Constants.CREATED_AT], "createdOn"),
-    updatedOn: getDate(rawQueue[Constants.UPDATED_AT], "updatedOn"),
-    accessedOn: getDate(rawQueue[Constants.ACCESSED_AT], "accessedOn")
+    createdAt: getDate(rawQueue[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getDate(rawQueue[Constants.UPDATED_AT], "updatedAt"),
+    accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt")
   };
 }
 
@@ -140,6 +140,8 @@ export interface QueueDescription {
    * for consumption by the next receiver. Settable only at queue creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   lockDuration?: string;
 
@@ -172,6 +174,8 @@ export interface QueueDescription {
    * This value is immutable after the Queue has been created.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   defaultMessageTtl?: string;
 
@@ -187,6 +191,8 @@ export interface QueueDescription {
    * Specifies the time span during which the Service Bus detects message duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   duplicateDetectionHistoryTimeWindow?: string;
 
@@ -230,6 +236,8 @@ export interface QueueDescription {
    * Max idle time before entity is deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   autoDeleteOnIdle?: string;
 
@@ -260,6 +268,8 @@ export interface InternalQueueOptions {
    * Settable only at queue creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   LockDuration?: string;
 
@@ -291,6 +301,8 @@ export interface InternalQueueOptions {
    * This value is immutable after the Queue has been created.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   DefaultMessageTimeToLive?: string;
 
@@ -306,6 +318,8 @@ export interface InternalQueueOptions {
    * Specifies the time span during which the Service Bus detects message duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   DuplicateDetectionHistoryTimeWindow?: string;
 
@@ -350,6 +364,8 @@ export interface InternalQueueOptions {
    * Max idle time before entity is deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   AutoDeleteOnIdle?: string;
 
@@ -379,17 +395,17 @@ export interface QueueRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdOn: Date;
+  createdAt: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedOn: Date;
+  updatedAt: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedOn: Date;
+  accessedAt: Date;
 
   /**
    * The entity's message count.

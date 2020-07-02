@@ -78,10 +78,10 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   });
 
   async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
-    await sender.send(testMessages);
+    await sender.sendMessages(testMessages);
     await testPeekMsgsLength(receiver, 1);
 
-    const msgs = await receiver.receiveBatch(1);
+    const msgs = await receiver.receiveMessages(1);
 
     should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
     should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -145,7 +145,7 @@ describe("Errors with non existing Namespace", function(): void {
     void
   > {
     const receiver = sbClient.createReceiver("some-queue", "peekLock");
-    await receiver.receiveBatch(10).catch(testError);
+    await receiver.receiveMessages(10).catch(testError);
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
@@ -207,7 +207,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
     void
   > {
     const receiver = sbClient.createReceiver("some-name", "peekLock");
-    await receiver.receiveBatch(1).catch((err) => testError(err, "some-name"));
+    await receiver.receiveMessages(1).catch((err) => testError(err, "some-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
   });
@@ -221,7 +221,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
       "peekLock"
     );
     await receiver
-      .receiveBatch(1)
+      .receiveMessages(1)
       .catch((err) => testError(err, "some-topic-name/Subscriptions/some-subscription-name"));
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -363,8 +363,8 @@ describe("Test ServiceBusClient creation", function(): void {
       const sender = sbClient.createSender(entities.queue!);
       const receiver = sbClient.createReceiver(entities.queue!, "peekLock");
       const testMessages = TestMessage.getSample();
-      await sender.send(testMessages);
-      const msgs = await receiver.receiveBatch(1);
+      await sender.sendMessages(testMessages);
+      const msgs = await receiver.receiveMessages(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
@@ -400,8 +400,8 @@ describe("Errors after close()", function(): void {
     const testMessage = entityName.usesSessions
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
-    await sender.send(testMessage);
-    const receivedMsgs = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    await sender.sendMessages(testMessage);
+    const receivedMsgs = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
     receivedMessage = receivedMsgs[0];
 
@@ -475,10 +475,10 @@ describe("Errors after close()", function(): void {
 
     const testMessage = TestMessage.getSample();
     let errorSend: string = "";
-    await sender.send(testMessage).catch((err) => {
+    await sender.sendMessages(testMessage).catch((err) => {
       errorSend = err.message;
     });
-    should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for send()");
+    should.equal(errorSend, expectedErrorMsg, "Expected error not thrown for sendMessages()");
 
     let errorCreateBatch: string = "";
     await sender.createBatch().catch((err) => {
@@ -487,20 +487,10 @@ describe("Errors after close()", function(): void {
     should.equal(errorCreateBatch, expectedErrorMsg, "Expected error not thrown for createBatch()");
 
     let errorSendBatch: string = "";
-    await sender.send(1 as any).catch((err) => {
+    await sender.sendMessages(1 as any).catch((err) => {
       errorSendBatch = err.message;
     });
     should.equal(errorSendBatch, expectedErrorMsg, "Expected error not thrown for sendBatch()");
-
-    let errorScheduleMsg: string = "";
-    await sender.scheduleMessage(new Date(Date.now() + 30000), testMessage).catch((err) => {
-      errorScheduleMsg = err.message;
-    });
-    should.equal(
-      errorScheduleMsg,
-      expectedErrorMsg,
-      "Expected error not thrown for scheduleMessage()"
-    );
 
     let errorScheduleMsgs: string = "";
     await sender.scheduleMessages(new Date(Date.now() + 30000), [testMessage]).catch((err) => {
@@ -510,16 +500,6 @@ describe("Errors after close()", function(): void {
       errorScheduleMsgs,
       expectedErrorMsg,
       "Expected error not thrown for scheduleMessages()"
-    );
-
-    let errorCancelMsg: string = "";
-    await sender.cancelScheduledMessage(Long.ZERO).catch((err) => {
-      errorCancelMsg = err.message;
-    });
-    should.equal(
-      errorCancelMsg,
-      expectedErrorMsg,
-      "Expected error not thrown for cancelScheduledMessage()"
     );
 
     let errorCancelMsgs: string = "";
@@ -553,7 +533,7 @@ describe("Errors after close()", function(): void {
     should.equal(receiver.isClosed, true, "Receiver is not marked as closed.");
 
     let errorReceiveBatch: string = "";
-    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 }).catch((err) => {
+    await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 }).catch((err) => {
       errorReceiveBatch = err.message;
     });
     should.equal(
@@ -579,18 +559,8 @@ describe("Errors after close()", function(): void {
       "Expected error not thrown for registerMessageHandler()"
     );
 
-    let errorDeferredMsg: string = "";
-    await receiver.receiveDeferredMessage(Long.ZERO).catch((err) => {
-      errorDeferredMsg = err.message;
-    });
-    should.equal(
-      errorDeferredMsg,
-      expectedErrorMsg,
-      "Expected error not thrown for receiveDeferredMessage()"
-    );
-
     let errorDeferredMsgs: string = "";
-    await receiver.receiveDeferredMessage(Long.ZERO).catch((err) => {
+    await receiver.receiveDeferredMessages(Long.ZERO).catch((err) => {
       errorDeferredMsgs = err.message;
     });
     should.equal(
@@ -600,7 +570,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorPeek: string = "";
-    await receiver.peekMessages().catch((err) => {
+    await receiver.peekMessages(1).catch((err) => {
       errorPeek = err.message;
     });
     should.equal(
@@ -635,7 +605,7 @@ describe("Errors after close()", function(): void {
     const sessionReceiver = receiver as SessionReceiver<ReceivedMessageWithLock>;
 
     let errorPeek: string = "";
-    await sessionReceiver.peekMessages().catch((err) => {
+    await sessionReceiver.peekMessages(1).catch((err) => {
       errorPeek = err.message;
     });
     should.equal(
@@ -645,7 +615,7 @@ describe("Errors after close()", function(): void {
     );
 
     let errorPeekBySequence: string = "";
-    await sessionReceiver.peekMessages({ fromSequenceNumber: Long.ZERO }).catch((err) => {
+    await sessionReceiver.peekMessages(1, { fromSequenceNumber: Long.ZERO }).catch((err) => {
       errorPeekBySequence = err.message;
     });
     should.equal(

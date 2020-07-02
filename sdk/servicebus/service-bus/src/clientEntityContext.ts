@@ -11,7 +11,6 @@ import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
 import { MessageSession } from "./session/messageSession";
-import { MessagingError } from "@azure/core-amqp";
 
 /**
  * Provides contextual information like the underlying amqp connection, cbs session,
@@ -54,10 +53,6 @@ export interface ClientEntityContextBase {
    * objects associated with this client.
    */
   messageSessions: Dictionary<MessageSession>;
-  /**
-   * @property {Dictionary<MessageSession>} expiredMessageSessions A dictionary that stores expired message sessions IDs.
-   */
-  expiredMessageSessions: Dictionary<boolean>;
   /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
@@ -123,26 +118,10 @@ export namespace ClientEntityContext {
       isClosed: false,
       requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
       isSessionEnabled: !!options.isSessionEnabled,
-      messageSessions: {},
-      expiredMessageSessions: {}
+      messageSessions: {}
     };
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
-      if (sessionId != undefined && entityContext.expiredMessageSessions[sessionId]) {
-        const error = new MessagingError(
-          `The session lock has expired on the session with id ${sessionId}.`
-        );
-        error.code = "SessionLockLostError";
-        error.retryable = false;
-        log.error(
-          "[%s] Failed to find receiver '%s' as the session with id '%s' is expired",
-          entityContext.namespace.connectionId,
-          name,
-          sessionId
-        );
-        throw error;
-      }
-
       if (
         sessionId != null &&
         entityContext.messageSessions[sessionId] &&

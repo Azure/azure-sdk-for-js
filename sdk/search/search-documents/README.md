@@ -154,6 +154,16 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 
 ## Examples
 
+The following examples demonstrate the basics - please [check out our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples) for much more.
+
+* [Creating an index](#create-an-index)
+* [Retrieving a specific document from your index](#retrieve-a-specific-document-from-an-index)
+* [Adding documents to your index](#adding-documents-into-an-index)
+* [Perform a search on documents](#perform-a-search-on-documents)
+  * [Querying with TypeScript](#querying-with-typescript)
+  * [Querying with OData filters](#querying-with-odata-filters)
+  * [Querying with facets](#querying-with-facets)
+
 ### Create an Index
 
 ```js
@@ -279,7 +289,7 @@ async function main() {
 main();
 ```
 
-For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `all`:
+For a more advanced search that uses [Lucene syntax](https://docs.microsoft.com/azure/search/query-lucene-syntax), specify `queryType` to be `full`:
 
 ```js
 const { SearchClient, AzureKeyCredential } = require("@azure/search-documents");

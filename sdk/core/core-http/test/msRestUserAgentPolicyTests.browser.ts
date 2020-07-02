@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-unused-expressions */
+
 import "chai/register-should";
 
 import { HttpOperationResponse } from "../src/httpOperationResponse";
@@ -68,14 +70,14 @@ describe("MsRestUserAgentPolicy (browser)", () => {
 
       it("should contain runtime information", async () => {
         const userAgent = await getUserAgent();
-        userAgent.should.match(/core-http\/[\d\w\.-]+ .+/);
+        userAgent.should.match(/core-http\/[\d\w.-]+ .+/);
       });
 
       it("should have operating system information at the second place", async () => {
         const userAgent = await getUserAgent();
         const userAgentParts = userAgent.split(" ");
         const osInfo = userAgentParts[1];
-        osInfo.should.match(/OS\/[\w\d\.\-]+/);
+        osInfo.should.match(/OS\/[\w\d.-]+/);
       });
     });
   });

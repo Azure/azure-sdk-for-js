@@ -807,7 +807,7 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.duration,
@@ -837,7 +837,7 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -866,7 +866,7 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -896,7 +896,7 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.version,
@@ -925,7 +925,7 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp11
   ],
   headerParameters: [
     Parameters.range1,
@@ -969,7 +969,7 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp11
   ],
   headerParameters: [
     Parameters.range1,
@@ -1005,7 +1005,7 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.shareSnapshot,
     Parameters.timeoutInSeconds,
-    Parameters.comp11
+    Parameters.comp12
   ],
   headerParameters: [
     Parameters.version,
@@ -1083,7 +1083,7 @@ const abortCopyOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.copyId,
     Parameters.timeoutInSeconds,
-    Parameters.comp12
+    Parameters.comp13
   ],
   headerParameters: [
     Parameters.copyActionAbortConstant,
@@ -1114,7 +1114,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxResults,
     Parameters.timeoutInSeconds,
     Parameters.shareSnapshot,
-    Parameters.comp7
+    Parameters.comp8
   ],
   headerParameters: [
     Parameters.version
@@ -1143,7 +1143,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
-    Parameters.comp8
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.handleId,

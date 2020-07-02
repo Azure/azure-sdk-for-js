@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -91,7 +88,8 @@ describe("atomSerializationPolicy", function() {
       await executeAtomXmlOperation(
         mockServiceBusAtomManagementClient,
         request,
-        new MockSerializer()
+        new MockSerializer(),
+        {}
       );
       assert.fail("Error must be thrown");
     } catch (err) {
@@ -119,7 +117,8 @@ describe("atomSerializationPolicy", function() {
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new MockSerializer()
+      new MockSerializer(),
+      {}
     );
 
     const expectedRequestBody = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-15T19:55:26.821Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry>`;
@@ -240,7 +239,8 @@ describe("Serializer construct requests with properties in specific order", func
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new QueueResourceSerializer()
+      new QueueResourceSerializer(),
+      {}
     );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), queueProperties);
@@ -297,7 +297,8 @@ describe("Serializer construct requests with properties in specific order", func
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new TopicResourceSerializer()
+      new TopicResourceSerializer(),
+      {}
     );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), topicProperties);
@@ -329,7 +330,8 @@ describe("Serializer construct requests with properties in specific order", func
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new SubscriptionResourceSerializer()
+      new SubscriptionResourceSerializer(),
+      {}
     );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), subscriptionProperties);
@@ -361,7 +363,8 @@ describe("Serializer construct requests with properties in specific order", func
     await executeAtomXmlOperation(
       mockServiceBusAtomManagementClient,
       request,
-      new RuleResourceSerializer()
+      new RuleResourceSerializer(),
+      {}
     );
 
     checkXmlHasPropertiesInExpectedOrder(request.body.toString(), ruleProperties);
@@ -443,7 +446,7 @@ class MockSerializer implements AtomXmlSerializer {
       action: { sqlExpression: "SET a='b'" }
     },
     output: {
-      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`,
+      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "int", "string", "long" or "date".`,
       testErrorType: Error
     }
   },
@@ -493,7 +496,7 @@ class MockSerializer implements AtomXmlSerializer {
       }
     },
     output: {
-      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`,
+      testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "int", "string", "long" or "date".`,
       testErrorType: Error
     }
   },
@@ -542,7 +545,151 @@ class MockSerializer implements AtomXmlSerializer {
         await executeAtomXmlOperation(
           mockServiceBusAtomManagementClient,
           request,
-          new RuleResourceSerializer()
+          new RuleResourceSerializer(),
+          {}
+        );
+        assert.fail("Error must be thrown");
+      } catch (err) {
+        assert.equal(
+          err.message,
+          testCase.output.testErrorMessage,
+          `Unexpected error message found.`
+        );
+
+        assert.equal(
+          err instanceof testCase.output.testErrorType,
+          true,
+          `Expected error type to be "${testCase.output.testErrorType}"`
+        );
+      }
+    });
+  });
+});
+
+[
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties has an array as value",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: {
+          message: ["hello"]
+        }
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported type for the value in the user property {message:["hello"]}`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties has an empty object as value",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: {
+          message: {}
+        }
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported type for the value in the user property {message:{}}`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties that uses an unsupported type",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: {
+          message: undefined
+        }
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported type for the value in the user property {message:undefined}`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties an integer",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: 123
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported value for the userProperties 123, expected a JSON object with key-value pairs.`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties a string",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: "abcd"
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported value for the userProperties "abcd", expected a JSON object with key-value pairs.`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties an array",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: ["abcd"]
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported value for the userProperties ["abcd"], expected a JSON object with key-value pairs.`,
+      testErrorType: Error
+    }
+  },
+  {
+    testCaseTitle:
+      "Rule serializer throws Error if rule correlation filter input has user properties an empty object",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        userProperties: {}
+      }
+    },
+    output: {
+      testErrorMessage: `Unsupported value for the userProperties {}, expected a JSON object with key-value pairs.`,
+      testErrorType: Error
+    }
+  }
+].forEach((testCase) => {
+  describe(`Type validation errors on Correlation user property inputs`, function(): void {
+    it(`${testCase.testCaseTitle}`, async () => {
+      try {
+        const request = new WebResource();
+        request.body = testCase.input;
+
+        mockServiceBusAtomManagementClient.sendRequest = async () => {
+          return {
+            request: request,
+            status: 200,
+            headers: new HttpHeaders({})
+          };
+        };
+        await executeAtomXmlOperation(
+          mockServiceBusAtomManagementClient,
+          request,
+          new RuleResourceSerializer(),
+          {}
         );
         assert.fail("Error must be thrown");
       } catch (err) {

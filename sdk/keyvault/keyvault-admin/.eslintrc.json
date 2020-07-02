@@ -1,0 +1,11 @@
+{
+  "plugins": ["@azure/azure-sdk"],
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  "ignorePatterns": ["src/generated"],
+  "rules": {
+    "@typescript-eslint/no-this-alias": "off",
+    "no-invalid-this": "off",
+    "@azure/azure-sdk/ts-package-json-module": "warn",
+    "@azure/azure-sdk/ts-package-json-files-required": "warn"
+  }
+}

@@ -134,3 +134,16 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
 
   return true;
 }
+
+/**
+ * Sleep for seconds.
+ *
+ * @export
+ * @param {number} seconds
+ * @returns {Promise<void>}
+ */
+export function sleep(seconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
+}

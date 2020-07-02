@@ -102,7 +102,7 @@ export async function getSinglePackageName(typescriptReadmePath: string): Promis
     const readmeBuffer: Buffer = await fs.readFile(typescriptReadmePath);
     const yamlSectionBuffer = await getYamlSection(readmeBuffer, "``` yaml $(typescript)", "```");
     const yamlSectionText = yamlSectionBuffer.toString();
-    const yamlSection = yaml.safeLoad(yamlSectionText);
+    const yamlSection:any = yaml.safeLoad(yamlSectionText);
     return yamlSection["typescript"]["package-name"];
 }
 

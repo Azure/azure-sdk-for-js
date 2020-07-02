@@ -138,7 +138,7 @@ export function toFormTable(original: DataTableModel, readResults?: FormPage[]):
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
-      confidence: cell.confidence,
+      confidence: cell.confidence || 1,
       textContent: cell.elements?.map((element) => toFormContent(element, readResults!)),
       isFooter: cell.isFooter || false,
       isHeader: cell.isHeader || false,
@@ -245,7 +245,7 @@ export function toFormFieldFromFieldValueModel(
       break;
   }
   return {
-    confidence: original.confidence,
+    confidence: original.confidence || 1,
     name: key,
     valueText: {
       pageNumber: original.pageNumber || 0,
@@ -299,7 +299,7 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
   return {
     formType: `form-${original.clusterId}`,
     pageRange: { firstPageNumber: original.pageNumber, lastPageNumber: original.pageNumber },
-    pages,
+    pages: pages.filter((p) => p.pageNumber === original.pageNumber),
     fields: original.keyValuePairs
       ? toFieldsFromKeyValuePairs(original.pageNumber, original.keyValuePairs, pages)
       : {}
@@ -311,7 +311,9 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
     formType: original.docType,
     pageRange: { firstPageNumber: original.pageRange[0], lastPageNumber: original.pageRange[1] },
     fields: toFieldsFromFieldValue(original.fields, pages),
-    pages
+    pages: pages.filter(
+      (p) => original.pageRange[0] <= p.pageNumber && p.pageNumber <= original.pageRange[1]
+    )
   };
 }
 

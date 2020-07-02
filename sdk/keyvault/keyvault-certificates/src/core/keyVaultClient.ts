@@ -18,15 +18,10 @@ class KeyVaultClient extends KeyVaultClientContext {
   /**
    * Initializes a new instance of the KeyVaultClient class.
    * @param apiVersion Client API version.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    apiVersion: string,
-    options?: coreHttp.ServiceClientOptions
-  ) {
-    super(credentials, apiVersion, options);
+  constructor(apiVersion: string, options?: coreHttp.ServiceClientOptions) {
+    super(apiVersion, options);
   }
 
   /**
@@ -37,43 +32,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificatesResponse>
    */
-  getCertificates(
-    vaultBaseUrl: string,
-    options?: Models.KeyVaultClientGetCertificatesOptionalParams
-  ): Promise<Models.GetCertificatesResponse>;
+  getCertificates(vaultBaseUrl: string, options?: Models.KeyVaultClientGetCertificatesOptionalParams): Promise<Models.GetCertificatesResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getCertificates(
-    vaultBaseUrl: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): void;
+  getCertificates(vaultBaseUrl: string, callback: coreHttp.ServiceCallback<Models.CertificateListResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificates(
-    vaultBaseUrl: string,
-    options: Models.KeyVaultClientGetCertificatesOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): void;
-  getCertificates(
-    vaultBaseUrl: string,
-    options?:
-      | Models.KeyVaultClientGetCertificatesOptionalParams
-      | coreHttp.ServiceCallback<Models.CertificateListResult>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): Promise<Models.GetCertificatesResponse> {
+  getCertificates(vaultBaseUrl: string, options: Models.KeyVaultClientGetCertificatesOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateListResult>): void;
+  getCertificates(vaultBaseUrl: string, options?: Models.KeyVaultClientGetCertificatesOptionalParams | coreHttp.ServiceCallback<Models.CertificateListResult>, callback?: coreHttp.ServiceCallback<Models.CertificateListResult>): Promise<Models.GetCertificatesResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getCertificatesOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificatesResponse>;
+      callback) as Promise<Models.GetCertificatesResponse>;
   }
 
   /**
@@ -86,41 +64,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateResponse>
    */
-  deleteCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.DeleteCertificateResponse>;
+  deleteCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.DeleteCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  deleteCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>
-  ): void;
+  deleteCertificate(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>
-  ): void;
-  deleteCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.DeletedCertificateBundle>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>
-  ): Promise<Models.DeleteCertificateResponse> {
+  deleteCertificate(vaultBaseUrl: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>): void;
+  deleteCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedCertificateBundle>, callback?: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>): Promise<Models.DeleteCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -128,8 +86,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteCertificateOperationSpec,
-      callback
-    ) as Promise<Models.DeleteCertificateResponse>;
+      callback) as Promise<Models.DeleteCertificateResponse>;
   }
 
   /**
@@ -141,39 +98,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetCertificateContactsResponse>
    */
-  setCertificateContacts(
-    vaultBaseUrl: string,
-    contacts: Models.Contacts,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.SetCertificateContactsResponse>;
+  setCertificateContacts(vaultBaseUrl: string, contacts: Models.Contacts, options?: coreHttp.RequestOptionsBase): Promise<Models.SetCertificateContactsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param contacts The contacts for the key vault certificate.
    * @param callback The callback
    */
-  setCertificateContacts(
-    vaultBaseUrl: string,
-    contacts: Models.Contacts,
-    callback: coreHttp.ServiceCallback<Models.Contacts>
-  ): void;
+  setCertificateContacts(vaultBaseUrl: string, contacts: Models.Contacts, callback: coreHttp.ServiceCallback<Models.Contacts>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param contacts The contacts for the key vault certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  setCertificateContacts(
-    vaultBaseUrl: string,
-    contacts: Models.Contacts,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.Contacts>
-  ): void;
-  setCertificateContacts(
-    vaultBaseUrl: string,
-    contacts: Models.Contacts,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Contacts>,
-    callback?: coreHttp.ServiceCallback<Models.Contacts>
-  ): Promise<Models.SetCertificateContactsResponse> {
+  setCertificateContacts(vaultBaseUrl: string, contacts: Models.Contacts, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Contacts>): void;
+  setCertificateContacts(vaultBaseUrl: string, contacts: Models.Contacts, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Contacts>, callback?: coreHttp.ServiceCallback<Models.Contacts>): Promise<Models.SetCertificateContactsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -181,8 +120,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       setCertificateContactsOperationSpec,
-      callback
-    ) as Promise<Models.SetCertificateContactsResponse>;
+      callback) as Promise<Models.SetCertificateContactsResponse>;
   }
 
   /**
@@ -193,41 +131,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateContactsResponse>
    */
-  getCertificateContacts(
-    vaultBaseUrl: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetCertificateContactsResponse>;
+  getCertificateContacts(vaultBaseUrl: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetCertificateContactsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getCertificateContacts(
-    vaultBaseUrl: string,
-    callback: coreHttp.ServiceCallback<Models.Contacts>
-  ): void;
+  getCertificateContacts(vaultBaseUrl: string, callback: coreHttp.ServiceCallback<Models.Contacts>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateContacts(
-    vaultBaseUrl: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.Contacts>
-  ): void;
-  getCertificateContacts(
-    vaultBaseUrl: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Contacts>,
-    callback?: coreHttp.ServiceCallback<Models.Contacts>
-  ): Promise<Models.GetCertificateContactsResponse> {
+  getCertificateContacts(vaultBaseUrl: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Contacts>): void;
+  getCertificateContacts(vaultBaseUrl: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Contacts>, callback?: coreHttp.ServiceCallback<Models.Contacts>): Promise<Models.GetCertificateContactsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getCertificateContactsOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificateContactsResponse>;
+      callback) as Promise<Models.GetCertificateContactsResponse>;
   }
 
   /**
@@ -238,41 +161,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateContactsResponse>
    */
-  deleteCertificateContacts(
-    vaultBaseUrl: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.DeleteCertificateContactsResponse>;
+  deleteCertificateContacts(vaultBaseUrl: string, options?: coreHttp.RequestOptionsBase): Promise<Models.DeleteCertificateContactsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  deleteCertificateContacts(
-    vaultBaseUrl: string,
-    callback: coreHttp.ServiceCallback<Models.Contacts>
-  ): void;
+  deleteCertificateContacts(vaultBaseUrl: string, callback: coreHttp.ServiceCallback<Models.Contacts>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCertificateContacts(
-    vaultBaseUrl: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.Contacts>
-  ): void;
-  deleteCertificateContacts(
-    vaultBaseUrl: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Contacts>,
-    callback?: coreHttp.ServiceCallback<Models.Contacts>
-  ): Promise<Models.DeleteCertificateContactsResponse> {
+  deleteCertificateContacts(vaultBaseUrl: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Contacts>): void;
+  deleteCertificateContacts(vaultBaseUrl: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Contacts>, callback?: coreHttp.ServiceCallback<Models.Contacts>): Promise<Models.DeleteCertificateContactsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       deleteCertificateContactsOperationSpec,
-      callback
-    ) as Promise<Models.DeleteCertificateContactsResponse>;
+      callback) as Promise<Models.DeleteCertificateContactsResponse>;
   }
 
   /**
@@ -284,43 +192,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateIssuersResponse>
    */
-  getCertificateIssuers(
-    vaultBaseUrl: string,
-    options?: Models.KeyVaultClientGetCertificateIssuersOptionalParams
-  ): Promise<Models.GetCertificateIssuersResponse>;
+  getCertificateIssuers(vaultBaseUrl: string, options?: Models.KeyVaultClientGetCertificateIssuersOptionalParams): Promise<Models.GetCertificateIssuersResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getCertificateIssuers(
-    vaultBaseUrl: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateIssuerListResult>
-  ): void;
+  getCertificateIssuers(vaultBaseUrl: string, callback: coreHttp.ServiceCallback<Models.CertificateIssuerListResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateIssuers(
-    vaultBaseUrl: string,
-    options: Models.KeyVaultClientGetCertificateIssuersOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.CertificateIssuerListResult>
-  ): void;
-  getCertificateIssuers(
-    vaultBaseUrl: string,
-    options?:
-      | Models.KeyVaultClientGetCertificateIssuersOptionalParams
-      | coreHttp.ServiceCallback<Models.CertificateIssuerListResult>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateIssuerListResult>
-  ): Promise<Models.GetCertificateIssuersResponse> {
+  getCertificateIssuers(vaultBaseUrl: string, options: Models.KeyVaultClientGetCertificateIssuersOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateIssuerListResult>): void;
+  getCertificateIssuers(vaultBaseUrl: string, options?: Models.KeyVaultClientGetCertificateIssuersOptionalParams | coreHttp.ServiceCallback<Models.CertificateIssuerListResult>, callback?: coreHttp.ServiceCallback<Models.CertificateIssuerListResult>): Promise<Models.GetCertificateIssuersResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getCertificateIssuersOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificateIssuersResponse>;
+      callback) as Promise<Models.GetCertificateIssuersResponse>;
   }
 
   /**
@@ -333,24 +224,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.SetCertificateIssuerResponse>
    */
-  setCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    provider: string,
-    options?: Models.KeyVaultClientSetCertificateIssuerOptionalParams
-  ): Promise<Models.SetCertificateIssuerResponse>;
+  setCertificateIssuer(vaultBaseUrl: string, issuerName: string, provider: string, options?: Models.KeyVaultClientSetCertificateIssuerOptionalParams): Promise<Models.SetCertificateIssuerResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param provider The issuer provider.
    * @param callback The callback
    */
-  setCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    provider: string,
-    callback: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): void;
+  setCertificateIssuer(vaultBaseUrl: string, issuerName: string, provider: string, callback: coreHttp.ServiceCallback<Models.IssuerBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
@@ -358,22 +239,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  setCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    provider: string,
-    options: Models.KeyVaultClientSetCertificateIssuerOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): void;
-  setCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    provider: string,
-    options?:
-      | Models.KeyVaultClientSetCertificateIssuerOptionalParams
-      | coreHttp.ServiceCallback<Models.IssuerBundle>,
-    callback?: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): Promise<Models.SetCertificateIssuerResponse> {
+  setCertificateIssuer(vaultBaseUrl: string, issuerName: string, provider: string, options: Models.KeyVaultClientSetCertificateIssuerOptionalParams, callback: coreHttp.ServiceCallback<Models.IssuerBundle>): void;
+  setCertificateIssuer(vaultBaseUrl: string, issuerName: string, provider: string, options?: Models.KeyVaultClientSetCertificateIssuerOptionalParams | coreHttp.ServiceCallback<Models.IssuerBundle>, callback?: coreHttp.ServiceCallback<Models.IssuerBundle>): Promise<Models.SetCertificateIssuerResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -382,8 +249,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       setCertificateIssuerOperationSpec,
-      callback
-    ) as Promise<Models.SetCertificateIssuerResponse>;
+      callback) as Promise<Models.SetCertificateIssuerResponse>;
   }
 
   /**
@@ -395,41 +261,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateCertificateIssuerResponse>
    */
-  updateCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    options?: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams
-  ): Promise<Models.UpdateCertificateIssuerResponse>;
+  updateCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams): Promise<Models.UpdateCertificateIssuerResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param callback The callback
    */
-  updateCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    callback: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): void;
+  updateCertificateIssuer(vaultBaseUrl: string, issuerName: string, callback: coreHttp.ServiceCallback<Models.IssuerBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    options: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): void;
-  updateCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    options?:
-      | Models.KeyVaultClientUpdateCertificateIssuerOptionalParams
-      | coreHttp.ServiceCallback<Models.IssuerBundle>,
-    callback?: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): Promise<Models.UpdateCertificateIssuerResponse> {
+  updateCertificateIssuer(vaultBaseUrl: string, issuerName: string, options: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams, callback: coreHttp.ServiceCallback<Models.IssuerBundle>): void;
+  updateCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: Models.KeyVaultClientUpdateCertificateIssuerOptionalParams | coreHttp.ServiceCallback<Models.IssuerBundle>, callback?: coreHttp.ServiceCallback<Models.IssuerBundle>): Promise<Models.UpdateCertificateIssuerResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -437,8 +283,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateCertificateIssuerOperationSpec,
-      callback
-    ) as Promise<Models.UpdateCertificateIssuerResponse>;
+      callback) as Promise<Models.UpdateCertificateIssuerResponse>;
   }
 
   /**
@@ -451,39 +296,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateIssuerResponse>
    */
-  getCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetCertificateIssuerResponse>;
+  getCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetCertificateIssuerResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param callback The callback
    */
-  getCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    callback: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): void;
+  getCertificateIssuer(vaultBaseUrl: string, issuerName: string, callback: coreHttp.ServiceCallback<Models.IssuerBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): void;
-  getCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IssuerBundle>,
-    callback?: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): Promise<Models.GetCertificateIssuerResponse> {
+  getCertificateIssuer(vaultBaseUrl: string, issuerName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IssuerBundle>): void;
+  getCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IssuerBundle>, callback?: coreHttp.ServiceCallback<Models.IssuerBundle>): Promise<Models.GetCertificateIssuerResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -491,8 +318,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificateIssuerOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificateIssuerResponse>;
+      callback) as Promise<Models.GetCertificateIssuerResponse>;
   }
 
   /**
@@ -504,39 +330,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateIssuerResponse>
    */
-  deleteCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.DeleteCertificateIssuerResponse>;
+  deleteCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.DeleteCertificateIssuerResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param callback The callback
    */
-  deleteCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    callback: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): void;
+  deleteCertificateIssuer(vaultBaseUrl: string, issuerName: string, callback: coreHttp.ServiceCallback<Models.IssuerBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param issuerName The name of the issuer.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): void;
-  deleteCertificateIssuer(
-    vaultBaseUrl: string,
-    issuerName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IssuerBundle>,
-    callback?: coreHttp.ServiceCallback<Models.IssuerBundle>
-  ): Promise<Models.DeleteCertificateIssuerResponse> {
+  deleteCertificateIssuer(vaultBaseUrl: string, issuerName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IssuerBundle>): void;
+  deleteCertificateIssuer(vaultBaseUrl: string, issuerName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IssuerBundle>, callback?: coreHttp.ServiceCallback<Models.IssuerBundle>): Promise<Models.DeleteCertificateIssuerResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -544,8 +352,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteCertificateIssuerOperationSpec,
-      callback
-    ) as Promise<Models.DeleteCertificateIssuerResponse>;
+      callback) as Promise<Models.DeleteCertificateIssuerResponse>;
   }
 
   /**
@@ -557,41 +364,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateCertificateResponse>
    */
-  createCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: Models.KeyVaultClientCreateCertificateOptionalParams
-  ): Promise<Models.CreateCertificateResponse>;
+  createCertificate(vaultBaseUrl: string, certificateName: string, options?: Models.KeyVaultClientCreateCertificateOptionalParams): Promise<Models.CreateCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  createCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): void;
+  createCertificate(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.CertificateOperation>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: Models.KeyVaultClientCreateCertificateOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): void;
-  createCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?:
-      | Models.KeyVaultClientCreateCertificateOptionalParams
-      | coreHttp.ServiceCallback<Models.CertificateOperation>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): Promise<Models.CreateCertificateResponse> {
+  createCertificate(vaultBaseUrl: string, certificateName: string, options: Models.KeyVaultClientCreateCertificateOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateOperation>): void;
+  createCertificate(vaultBaseUrl: string, certificateName: string, options?: Models.KeyVaultClientCreateCertificateOptionalParams | coreHttp.ServiceCallback<Models.CertificateOperation>, callback?: coreHttp.ServiceCallback<Models.CertificateOperation>): Promise<Models.CreateCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -599,8 +386,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       createCertificateOperationSpec,
-      callback
-    ) as Promise<Models.CreateCertificateResponse>;
+      callback) as Promise<Models.CreateCertificateResponse>;
   }
 
   /**
@@ -616,12 +402,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImportCertificateResponse>
    */
-  importCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    base64EncodedCertificate: string,
-    options?: Models.KeyVaultClientImportCertificateOptionalParams
-  ): Promise<Models.ImportCertificateResponse>;
+  importCertificate(vaultBaseUrl: string, certificateName: string, base64EncodedCertificate: string, options?: Models.KeyVaultClientImportCertificateOptionalParams): Promise<Models.ImportCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -629,12 +410,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * import. This certificate needs to contain the private key.
    * @param callback The callback
    */
-  importCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    base64EncodedCertificate: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
+  importCertificate(vaultBaseUrl: string, certificateName: string, base64EncodedCertificate: string, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -643,22 +419,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  importCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    base64EncodedCertificate: string,
-    options: Models.KeyVaultClientImportCertificateOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
-  importCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    base64EncodedCertificate: string,
-    options?:
-      | Models.KeyVaultClientImportCertificateOptionalParams
-      | coreHttp.ServiceCallback<Models.CertificateBundle>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): Promise<Models.ImportCertificateResponse> {
+  importCertificate(vaultBaseUrl: string, certificateName: string, base64EncodedCertificate: string, options: Models.KeyVaultClientImportCertificateOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
+  importCertificate(vaultBaseUrl: string, certificateName: string, base64EncodedCertificate: string, options?: Models.KeyVaultClientImportCertificateOptionalParams | coreHttp.ServiceCallback<Models.CertificateBundle>, callback?: coreHttp.ServiceCallback<Models.CertificateBundle>): Promise<Models.ImportCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -667,8 +429,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       importCertificateOperationSpec,
-      callback
-    ) as Promise<Models.ImportCertificateResponse>;
+      callback) as Promise<Models.ImportCertificateResponse>;
   }
 
   /**
@@ -680,41 +441,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateVersionsResponse>
    */
-  getCertificateVersions(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: Models.KeyVaultClientGetCertificateVersionsOptionalParams
-  ): Promise<Models.GetCertificateVersionsResponse>;
+  getCertificateVersions(vaultBaseUrl: string, certificateName: string, options?: Models.KeyVaultClientGetCertificateVersionsOptionalParams): Promise<Models.GetCertificateVersionsResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  getCertificateVersions(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): void;
+  getCertificateVersions(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.CertificateListResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateVersions(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: Models.KeyVaultClientGetCertificateVersionsOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): void;
-  getCertificateVersions(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?:
-      | Models.KeyVaultClientGetCertificateVersionsOptionalParams
-      | coreHttp.ServiceCallback<Models.CertificateListResult>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateListResult>
-  ): Promise<Models.GetCertificateVersionsResponse> {
+  getCertificateVersions(vaultBaseUrl: string, certificateName: string, options: Models.KeyVaultClientGetCertificateVersionsOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateListResult>): void;
+  getCertificateVersions(vaultBaseUrl: string, certificateName: string, options?: Models.KeyVaultClientGetCertificateVersionsOptionalParams | coreHttp.ServiceCallback<Models.CertificateListResult>, callback?: coreHttp.ServiceCallback<Models.CertificateListResult>): Promise<Models.GetCertificateVersionsResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -722,8 +463,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificateVersionsOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificateVersionsResponse>;
+      callback) as Promise<Models.GetCertificateVersionsResponse>;
   }
 
   /**
@@ -735,39 +475,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificatePolicyResponse>
    */
-  getCertificatePolicy(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetCertificatePolicyResponse>;
+  getCertificatePolicy(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetCertificatePolicyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in a given key vault.
    * @param callback The callback
    */
-  getCertificatePolicy(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<Models.CertificatePolicy>
-  ): void;
+  getCertificatePolicy(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.CertificatePolicy>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in a given key vault.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificatePolicy(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificatePolicy>
-  ): void;
-  getCertificatePolicy(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificatePolicy>,
-    callback?: coreHttp.ServiceCallback<Models.CertificatePolicy>
-  ): Promise<Models.GetCertificatePolicyResponse> {
+  getCertificatePolicy(vaultBaseUrl: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificatePolicy>): void;
+  getCertificatePolicy(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificatePolicy>, callback?: coreHttp.ServiceCallback<Models.CertificatePolicy>): Promise<Models.GetCertificatePolicyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -775,8 +497,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificatePolicyOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificatePolicyResponse>;
+      callback) as Promise<Models.GetCertificatePolicyResponse>;
   }
 
   /**
@@ -789,24 +510,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateCertificatePolicyResponse>
    */
-  updateCertificatePolicy(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificatePolicy: Models.CertificatePolicy,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.UpdateCertificatePolicyResponse>;
+  updateCertificatePolicy(vaultBaseUrl: string, certificateName: string, certificatePolicy: Models.CertificatePolicy, options?: coreHttp.RequestOptionsBase): Promise<Models.UpdateCertificatePolicyResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given vault.
    * @param certificatePolicy The policy for the certificate.
    * @param callback The callback
    */
-  updateCertificatePolicy(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificatePolicy: Models.CertificatePolicy,
-    callback: coreHttp.ServiceCallback<Models.CertificatePolicy>
-  ): void;
+  updateCertificatePolicy(vaultBaseUrl: string, certificateName: string, certificatePolicy: Models.CertificatePolicy, callback: coreHttp.ServiceCallback<Models.CertificatePolicy>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given vault.
@@ -814,20 +525,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCertificatePolicy(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificatePolicy: Models.CertificatePolicy,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificatePolicy>
-  ): void;
-  updateCertificatePolicy(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificatePolicy: Models.CertificatePolicy,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificatePolicy>,
-    callback?: coreHttp.ServiceCallback<Models.CertificatePolicy>
-  ): Promise<Models.UpdateCertificatePolicyResponse> {
+  updateCertificatePolicy(vaultBaseUrl: string, certificateName: string, certificatePolicy: Models.CertificatePolicy, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificatePolicy>): void;
+  updateCertificatePolicy(vaultBaseUrl: string, certificateName: string, certificatePolicy: Models.CertificatePolicy, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificatePolicy>, callback?: coreHttp.ServiceCallback<Models.CertificatePolicy>): Promise<Models.UpdateCertificatePolicyResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -836,8 +535,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateCertificatePolicyOperationSpec,
-      callback
-    ) as Promise<Models.UpdateCertificatePolicyResponse>;
+      callback) as Promise<Models.UpdateCertificatePolicyResponse>;
   }
 
   /**
@@ -851,24 +549,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateCertificateResponse>
    */
-  updateCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificateVersion: string,
-    options?: Models.KeyVaultClientUpdateCertificateOptionalParams
-  ): Promise<Models.UpdateCertificateResponse>;
+  updateCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options?: Models.KeyVaultClientUpdateCertificateOptionalParams): Promise<Models.UpdateCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given key vault.
    * @param certificateVersion The version of the certificate.
    * @param callback The callback
    */
-  updateCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificateVersion: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
+  updateCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given key vault.
@@ -876,22 +564,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificateVersion: string,
-    options: Models.KeyVaultClientUpdateCertificateOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
-  updateCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificateVersion: string,
-    options?:
-      | Models.KeyVaultClientUpdateCertificateOptionalParams
-      | coreHttp.ServiceCallback<Models.CertificateBundle>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): Promise<Models.UpdateCertificateResponse> {
+  updateCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options: Models.KeyVaultClientUpdateCertificateOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
+  updateCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options?: Models.KeyVaultClientUpdateCertificateOptionalParams | coreHttp.ServiceCallback<Models.CertificateBundle>, callback?: coreHttp.ServiceCallback<Models.CertificateBundle>): Promise<Models.UpdateCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -900,8 +574,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateCertificateOperationSpec,
-      callback
-    ) as Promise<Models.UpdateCertificateResponse>;
+      callback) as Promise<Models.UpdateCertificateResponse>;
   }
 
   /**
@@ -910,49 +583,30 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @summary Gets information about a certificate.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given vault.
-   * @param certificateVersion The version of the certificate.
+   * @param certificateVersion The version of the certificate. This URI fragment is optional. If not
+   * specified, the latest version of the certificate is returned.
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateResponse>
    */
-  getCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificateVersion: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetCertificateResponse>;
+  getCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given vault.
-   * @param certificateVersion The version of the certificate.
+   * @param certificateVersion The version of the certificate. This URI fragment is optional. If not
+   * specified, the latest version of the certificate is returned.
    * @param callback The callback
    */
-  getCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificateVersion: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
+  getCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate in the given vault.
-   * @param certificateVersion The version of the certificate.
+   * @param certificateVersion The version of the certificate. This URI fragment is optional. If not
+   * specified, the latest version of the certificate is returned.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificateVersion: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
-  getCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    certificateVersion: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateBundle>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): Promise<Models.GetCertificateResponse> {
+  getCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
+  getCertificate(vaultBaseUrl: string, certificateName: string, certificateVersion: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateBundle>, callback?: coreHttp.ServiceCallback<Models.CertificateBundle>): Promise<Models.GetCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -961,8 +615,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificateOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificateResponse>;
+      callback) as Promise<Models.GetCertificateResponse>;
   }
 
   /**
@@ -976,12 +629,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.UpdateCertificateOperationResponse>
    */
-  updateCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    cancellationRequested: boolean,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.UpdateCertificateOperationResponse>;
+  updateCertificateOperation(vaultBaseUrl: string, certificateName: string, cancellationRequested: boolean, options?: coreHttp.RequestOptionsBase): Promise<Models.UpdateCertificateOperationResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -989,12 +637,7 @@ class KeyVaultClient extends KeyVaultClientContext {
    * operation.
    * @param callback The callback
    */
-  updateCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    cancellationRequested: boolean,
-    callback: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): void;
+  updateCertificateOperation(vaultBaseUrl: string, certificateName: string, cancellationRequested: boolean, callback: coreHttp.ServiceCallback<Models.CertificateOperation>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -1003,20 +646,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    cancellationRequested: boolean,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): void;
-  updateCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    cancellationRequested: boolean,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateOperation>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): Promise<Models.UpdateCertificateOperationResponse> {
+  updateCertificateOperation(vaultBaseUrl: string, certificateName: string, cancellationRequested: boolean, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificateOperation>): void;
+  updateCertificateOperation(vaultBaseUrl: string, certificateName: string, cancellationRequested: boolean, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateOperation>, callback?: coreHttp.ServiceCallback<Models.CertificateOperation>): Promise<Models.UpdateCertificateOperationResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1025,8 +656,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       updateCertificateOperationOperationSpec,
-      callback
-    ) as Promise<Models.UpdateCertificateOperationResponse>;
+      callback) as Promise<Models.UpdateCertificateOperationResponse>;
   }
 
   /**
@@ -1038,39 +668,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCertificateOperationResponse>
    */
-  getCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetCertificateOperationResponse>;
+  getCertificateOperation(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetCertificateOperationResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  getCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): void;
+  getCertificateOperation(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.CertificateOperation>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): void;
-  getCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateOperation>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): Promise<Models.GetCertificateOperationResponse> {
+  getCertificateOperation(vaultBaseUrl: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificateOperation>): void;
+  getCertificateOperation(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateOperation>, callback?: coreHttp.ServiceCallback<Models.CertificateOperation>): Promise<Models.GetCertificateOperationResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1078,8 +690,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getCertificateOperationOperationSpec,
-      callback
-    ) as Promise<Models.GetCertificateOperationResponse>;
+      callback) as Promise<Models.GetCertificateOperationResponse>;
   }
 
   /**
@@ -1092,39 +703,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DeleteCertificateOperationResponse>
    */
-  deleteCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.DeleteCertificateOperationResponse>;
+  deleteCertificateOperation(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.DeleteCertificateOperationResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  deleteCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): void;
+  deleteCertificateOperation(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.CertificateOperation>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): void;
-  deleteCertificateOperation(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateOperation>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateOperation>
-  ): Promise<Models.DeleteCertificateOperationResponse> {
+  deleteCertificateOperation(vaultBaseUrl: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificateOperation>): void;
+  deleteCertificateOperation(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateOperation>, callback?: coreHttp.ServiceCallback<Models.CertificateOperation>): Promise<Models.DeleteCertificateOperationResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1132,8 +725,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       deleteCertificateOperationOperationSpec,
-      callback
-    ) as Promise<Models.DeleteCertificateOperationResponse>;
+      callback) as Promise<Models.DeleteCertificateOperationResponse>;
   }
 
   /**
@@ -1147,24 +739,14 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.MergeCertificateResponse>
    */
-  mergeCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    x509Certificates: Uint8Array[],
-    options?: Models.KeyVaultClientMergeCertificateOptionalParams
-  ): Promise<Models.MergeCertificateResponse>;
+  mergeCertificate(vaultBaseUrl: string, certificateName: string, x509Certificates: Uint8Array[], options?: Models.KeyVaultClientMergeCertificateOptionalParams): Promise<Models.MergeCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param x509Certificates The certificate or the certificate chain to merge.
    * @param callback The callback
    */
-  mergeCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    x509Certificates: Uint8Array[],
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
+  mergeCertificate(vaultBaseUrl: string, certificateName: string, x509Certificates: Uint8Array[], callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
@@ -1172,22 +754,8 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  mergeCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    x509Certificates: Uint8Array[],
-    options: Models.KeyVaultClientMergeCertificateOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
-  mergeCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    x509Certificates: Uint8Array[],
-    options?:
-      | Models.KeyVaultClientMergeCertificateOptionalParams
-      | coreHttp.ServiceCallback<Models.CertificateBundle>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): Promise<Models.MergeCertificateResponse> {
+  mergeCertificate(vaultBaseUrl: string, certificateName: string, x509Certificates: Uint8Array[], options: Models.KeyVaultClientMergeCertificateOptionalParams, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
+  mergeCertificate(vaultBaseUrl: string, certificateName: string, x509Certificates: Uint8Array[], options?: Models.KeyVaultClientMergeCertificateOptionalParams | coreHttp.ServiceCallback<Models.CertificateBundle>, callback?: coreHttp.ServiceCallback<Models.CertificateBundle>): Promise<Models.MergeCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1196,8 +764,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       mergeCertificateOperationSpec,
-      callback
-    ) as Promise<Models.MergeCertificateResponse>;
+      callback) as Promise<Models.MergeCertificateResponse>;
   }
 
   /**
@@ -1209,41 +776,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupCertificateResponse>
    */
-  backupCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.BackupCertificateResponse>;
+  backupCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.BackupCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param callback The callback
    */
-  backupCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<Models.BackupCertificateResult>
-  ): void;
+  backupCertificate(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.BackupCertificateResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate.
    * @param options The optional parameters
    * @param callback The callback
    */
-  backupCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.BackupCertificateResult>
-  ): void;
-  backupCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.BackupCertificateResult>,
-    callback?: coreHttp.ServiceCallback<Models.BackupCertificateResult>
-  ): Promise<Models.BackupCertificateResponse> {
+  backupCertificate(vaultBaseUrl: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.BackupCertificateResult>): void;
+  backupCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.BackupCertificateResult>, callback?: coreHttp.ServiceCallback<Models.BackupCertificateResult>): Promise<Models.BackupCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1251,8 +798,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       backupCertificateOperationSpec,
-      callback
-    ) as Promise<Models.BackupCertificateResponse>;
+      callback) as Promise<Models.BackupCertificateResponse>;
   }
 
   /**
@@ -1264,39 +810,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RestoreCertificateResponse>
    */
-  restoreCertificate(
-    vaultBaseUrl: string,
-    certificateBundleBackup: Uint8Array,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.RestoreCertificateResponse>;
+  restoreCertificate(vaultBaseUrl: string, certificateBundleBackup: Uint8Array, options?: coreHttp.RequestOptionsBase): Promise<Models.RestoreCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateBundleBackup The backup blob associated with a certificate bundle.
    * @param callback The callback
    */
-  restoreCertificate(
-    vaultBaseUrl: string,
-    certificateBundleBackup: Uint8Array,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
+  restoreCertificate(vaultBaseUrl: string, certificateBundleBackup: Uint8Array, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateBundleBackup The backup blob associated with a certificate bundle.
    * @param options The optional parameters
    * @param callback The callback
    */
-  restoreCertificate(
-    vaultBaseUrl: string,
-    certificateBundleBackup: Uint8Array,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
-  restoreCertificate(
-    vaultBaseUrl: string,
-    certificateBundleBackup: Uint8Array,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateBundle>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): Promise<Models.RestoreCertificateResponse> {
+  restoreCertificate(vaultBaseUrl: string, certificateBundleBackup: Uint8Array, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
+  restoreCertificate(vaultBaseUrl: string, certificateBundleBackup: Uint8Array, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateBundle>, callback?: coreHttp.ServiceCallback<Models.CertificateBundle>): Promise<Models.RestoreCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1304,8 +832,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       restoreCertificateOperationSpec,
-      callback
-    ) as Promise<Models.RestoreCertificateResponse>;
+      callback) as Promise<Models.RestoreCertificateResponse>;
   }
 
   /**
@@ -1318,43 +845,26 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedCertificatesResponse>
    */
-  getDeletedCertificates(
-    vaultBaseUrl: string,
-    options?: Models.KeyVaultClientGetDeletedCertificatesOptionalParams
-  ): Promise<Models.GetDeletedCertificatesResponse>;
+  getDeletedCertificates(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedCertificatesOptionalParams): Promise<Models.GetDeletedCertificatesResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param callback The callback
    */
-  getDeletedCertificates(
-    vaultBaseUrl: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedCertificateListResult>
-  ): void;
+  getDeletedCertificates(vaultBaseUrl: string, callback: coreHttp.ServiceCallback<Models.DeletedCertificateListResult>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedCertificates(
-    vaultBaseUrl: string,
-    options: Models.KeyVaultClientGetDeletedCertificatesOptionalParams,
-    callback: coreHttp.ServiceCallback<Models.DeletedCertificateListResult>
-  ): void;
-  getDeletedCertificates(
-    vaultBaseUrl: string,
-    options?:
-      | Models.KeyVaultClientGetDeletedCertificatesOptionalParams
-      | coreHttp.ServiceCallback<Models.DeletedCertificateListResult>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedCertificateListResult>
-  ): Promise<Models.GetDeletedCertificatesResponse> {
+  getDeletedCertificates(vaultBaseUrl: string, options: Models.KeyVaultClientGetDeletedCertificatesOptionalParams, callback: coreHttp.ServiceCallback<Models.DeletedCertificateListResult>): void;
+  getDeletedCertificates(vaultBaseUrl: string, options?: Models.KeyVaultClientGetDeletedCertificatesOptionalParams | coreHttp.ServiceCallback<Models.DeletedCertificateListResult>, callback?: coreHttp.ServiceCallback<Models.DeletedCertificateListResult>): Promise<Models.GetDeletedCertificatesResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
         options
       },
       getDeletedCertificatesOperationSpec,
-      callback
-    ) as Promise<Models.GetDeletedCertificatesResponse>;
+      callback) as Promise<Models.GetDeletedCertificatesResponse>;
   }
 
   /**
@@ -1367,41 +877,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetDeletedCertificateResponse>
    */
-  getDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.GetDeletedCertificateResponse>;
+  getDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.GetDeletedCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate
    * @param callback The callback
    */
-  getDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>
-  ): void;
+  getDeletedCertificate(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate
    * @param options The optional parameters
    * @param callback The callback
    */
-  getDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>
-  ): void;
-  getDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?:
-      | coreHttp.RequestOptionsBase
-      | coreHttp.ServiceCallback<Models.DeletedCertificateBundle>,
-    callback?: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>
-  ): Promise<Models.GetDeletedCertificateResponse> {
+  getDeletedCertificate(vaultBaseUrl: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>): void;
+  getDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.DeletedCertificateBundle>, callback?: coreHttp.ServiceCallback<Models.DeletedCertificateBundle>): Promise<Models.GetDeletedCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1409,8 +899,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       getDeletedCertificateOperationSpec,
-      callback
-    ) as Promise<Models.GetDeletedCertificateResponse>;
+      callback) as Promise<Models.GetDeletedCertificateResponse>;
   }
 
   /**
@@ -1423,39 +912,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<coreHttp.RestResponse>
    */
-  purgeDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<coreHttp.RestResponse>;
+  purgeDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<coreHttp.RestResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate
    * @param callback The callback
    */
-  purgeDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<void>
-  ): void;
+  purgeDeletedCertificate(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the certificate
    * @param options The optional parameters
    * @param callback The callback
    */
-  purgeDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<void>
-  ): void;
-  purgeDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>,
-    callback?: coreHttp.ServiceCallback<void>
-  ): Promise<coreHttp.RestResponse> {
+  purgeDeletedCertificate(vaultBaseUrl: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
+  purgeDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1463,8 +934,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       purgeDeletedCertificateOperationSpec,
-      callback
-    );
+      callback);
   }
 
   /**
@@ -1478,39 +948,21 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.RecoverDeletedCertificateResponse>
    */
-  recoverDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase
-  ): Promise<Models.RecoverDeletedCertificateResponse>;
+  recoverDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase): Promise<Models.RecoverDeletedCertificateResponse>;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the deleted certificate
    * @param callback The callback
    */
-  recoverDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
+  recoverDeletedCertificate(vaultBaseUrl: string, certificateName: string, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
   /**
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param certificateName The name of the deleted certificate
    * @param options The optional parameters
    * @param callback The callback
    */
-  recoverDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options: coreHttp.RequestOptionsBase,
-    callback: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): void;
-  recoverDeletedCertificate(
-    vaultBaseUrl: string,
-    certificateName: string,
-    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateBundle>,
-    callback?: coreHttp.ServiceCallback<Models.CertificateBundle>
-  ): Promise<Models.RecoverDeletedCertificateResponse> {
+  recoverDeletedCertificate(vaultBaseUrl: string, certificateName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.CertificateBundle>): void;
+  recoverDeletedCertificate(vaultBaseUrl: string, certificateName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.CertificateBundle>, callback?: coreHttp.ServiceCallback<Models.CertificateBundle>): Promise<Models.RecoverDeletedCertificateResponse> {
     return this.sendOperationRequest(
       {
         vaultBaseUrl,
@@ -1518,8 +970,7 @@ class KeyVaultClient extends KeyVaultClientContext {
         options
       },
       recoverDeletedCertificateOperationSpec,
-      callback
-    ) as Promise<Models.RecoverDeletedCertificateResponse>;
+      callback) as Promise<Models.RecoverDeletedCertificateResponse>;
   }
 }
 
@@ -1528,8 +979,14 @@ const serializer = new coreHttp.Serializer(Mappers);
 const getCertificatesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "certificates",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.includePending,
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -1544,8 +1001,13 @@ const getCertificatesOperationSpec: coreHttp.OperationSpec = {
 const deleteCertificateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates/{certificate-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateBundle
@@ -1560,8 +1022,12 @@ const deleteCertificateOperationSpec: coreHttp.OperationSpec = {
 const setCertificateContactsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "certificates/contacts",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: "contacts",
     mapper: {
@@ -1583,8 +1049,12 @@ const setCertificateContactsOperationSpec: coreHttp.OperationSpec = {
 const getCertificateContactsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/contacts",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.Contacts
@@ -1599,8 +1069,12 @@ const getCertificateContactsOperationSpec: coreHttp.OperationSpec = {
 const deleteCertificateContactsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates/contacts",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.Contacts
@@ -1615,8 +1089,13 @@ const deleteCertificateContactsOperationSpec: coreHttp.OperationSpec = {
 const getCertificateIssuersOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/issuers",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateIssuerListResult
@@ -1631,14 +1110,28 @@ const getCertificateIssuersOperationSpec: coreHttp.OperationSpec = {
 const setCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "certificates/issuers/{issuer-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.issuerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       provider: "provider",
-      credentials: ["options", "credentials"],
-      organizationDetails: ["options", "organizationDetails"],
-      attributes: ["options", "attributes"]
+      credentials: [
+        "options",
+        "credentials"
+      ],
+      organizationDetails: [
+        "options",
+        "organizationDetails"
+      ],
+      attributes: [
+        "options",
+        "attributes"
+      ]
     },
     mapper: {
       ...Mappers.CertificateIssuerSetParameters,
@@ -1659,14 +1152,31 @@ const setCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
 const updateCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "certificates/issuers/{issuer-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.issuerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
-      provider: ["options", "provider"],
-      credentials: ["options", "credentials"],
-      organizationDetails: ["options", "organizationDetails"],
-      attributes: ["options", "attributes"]
+      provider: [
+        "options",
+        "provider"
+      ],
+      credentials: [
+        "options",
+        "credentials"
+      ],
+      organizationDetails: [
+        "options",
+        "organizationDetails"
+      ],
+      attributes: [
+        "options",
+        "attributes"
+      ]
     },
     mapper: {
       ...Mappers.CertificateIssuerUpdateParameters,
@@ -1687,8 +1197,13 @@ const updateCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
 const getCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/issuers/{issuer-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.issuerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.IssuerBundle
@@ -1703,8 +1218,13 @@ const getCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
 const deleteCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates/issuers/{issuer-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.issuerName],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.issuerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.IssuerBundle
@@ -1719,13 +1239,27 @@ const deleteCertificateIssuerOperationSpec: coreHttp.OperationSpec = {
 const createCertificateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/{certificate-name}/create",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
-      certificatePolicy: ["options", "certificatePolicy"],
-      certificateAttributes: ["options", "certificateAttributes"],
-      tags: ["options", "tags"]
+      certificatePolicy: [
+        "options",
+        "certificatePolicy"
+      ],
+      certificateAttributes: [
+        "options",
+        "certificateAttributes"
+      ],
+      tags: [
+        "options",
+        "tags"
+      ]
     },
     mapper: {
       ...Mappers.CertificateCreateParameters,
@@ -1746,15 +1280,32 @@ const createCertificateOperationSpec: coreHttp.OperationSpec = {
 const importCertificateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/{certificate-name}/import",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName1],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       base64EncodedCertificate: "base64EncodedCertificate",
-      password: ["options", "password"],
-      certificatePolicy: ["options", "certificatePolicy"],
-      certificateAttributes: ["options", "certificateAttributes"],
-      tags: ["options", "tags"]
+      password: [
+        "options",
+        "password"
+      ],
+      certificatePolicy: [
+        "options",
+        "certificatePolicy"
+      ],
+      certificateAttributes: [
+        "options",
+        "certificateAttributes"
+      ],
+      tags: [
+        "options",
+        "tags"
+      ]
     },
     mapper: {
       ...Mappers.CertificateImportParameters,
@@ -1775,8 +1326,14 @@ const importCertificateOperationSpec: coreHttp.OperationSpec = {
 const getCertificateVersionsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/{certificate-name}/versions",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.maxresults, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateListResult
@@ -1791,8 +1348,13 @@ const getCertificateVersionsOperationSpec: coreHttp.OperationSpec = {
 const getCertificatePolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/{certificate-name}/policy",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificatePolicy
@@ -1807,8 +1369,13 @@ const getCertificatePolicyOperationSpec: coreHttp.OperationSpec = {
 const updateCertificatePolicyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "certificates/{certificate-name}/policy",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: "certificatePolicy",
     mapper: {
@@ -1835,12 +1402,23 @@ const updateCertificateOperationSpec: coreHttp.OperationSpec = {
     Parameters.certificateName0,
     Parameters.certificateVersion
   ],
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
-      certificatePolicy: ["options", "certificatePolicy"],
-      certificateAttributes: ["options", "certificateAttributes"],
-      tags: ["options", "tags"]
+      certificatePolicy: [
+        "options",
+        "certificatePolicy"
+      ],
+      certificateAttributes: [
+        "options",
+        "certificateAttributes"
+      ],
+      tags: [
+        "options",
+        "tags"
+      ]
     },
     mapper: {
       ...Mappers.CertificateUpdateParameters,
@@ -1866,7 +1444,9 @@ const getCertificateOperationSpec: coreHttp.OperationSpec = {
     Parameters.certificateName0,
     Parameters.certificateVersion
   ],
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateBundle
@@ -1881,8 +1461,13 @@ const getCertificateOperationSpec: coreHttp.OperationSpec = {
 const updateCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PATCH",
   path: "certificates/{certificate-name}/pending",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       cancellationRequested: "cancellationRequested"
@@ -1906,8 +1491,13 @@ const updateCertificateOperationOperationSpec: coreHttp.OperationSpec = {
 const getCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "certificates/{certificate-name}/pending",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateOperation
@@ -1922,8 +1512,13 @@ const getCertificateOperationOperationSpec: coreHttp.OperationSpec = {
 const deleteCertificateOperationOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "certificates/{certificate-name}/pending",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateOperation
@@ -1938,13 +1533,24 @@ const deleteCertificateOperationOperationSpec: coreHttp.OperationSpec = {
 const mergeCertificateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/{certificate-name}/pending/merge",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       x509Certificates: "x509Certificates",
-      certificateAttributes: ["options", "certificateAttributes"],
-      tags: ["options", "tags"]
+      certificateAttributes: [
+        "options",
+        "certificateAttributes"
+      ],
+      tags: [
+        "options",
+        "tags"
+      ]
     },
     mapper: {
       ...Mappers.CertificateMergeParameters,
@@ -1965,8 +1571,13 @@ const mergeCertificateOperationSpec: coreHttp.OperationSpec = {
 const backupCertificateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/{certificate-name}/backup",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.BackupCertificateResult
@@ -1981,8 +1592,12 @@ const backupCertificateOperationSpec: coreHttp.OperationSpec = {
 const restoreCertificateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "certificates/restore",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   requestBody: {
     parameterPath: {
       certificateBundleBackup: "certificateBundleBackup"
@@ -2006,8 +1621,14 @@ const restoreCertificateOperationSpec: coreHttp.OperationSpec = {
 const getDeletedCertificatesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "deletedcertificates",
-  urlParameters: [Parameters.vaultBaseUrl],
-  queryParameters: [Parameters.maxresults, Parameters.includePending, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl
+  ],
+  queryParameters: [
+    Parameters.maxresults,
+    Parameters.includePending,
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateListResult
@@ -2022,8 +1643,13 @@ const getDeletedCertificatesOperationSpec: coreHttp.OperationSpec = {
 const getDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "deletedcertificates/{certificate-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.DeletedCertificateBundle
@@ -2038,8 +1664,13 @@ const getDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
 const purgeDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "deletedcertificates/{certificate-name}",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     204: {},
     default: {
@@ -2052,8 +1683,13 @@ const purgeDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
 const recoverDeletedCertificateOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "deletedcertificates/{certificate-name}/recover",
-  urlParameters: [Parameters.vaultBaseUrl, Parameters.certificateName0],
-  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.vaultBaseUrl,
+    Parameters.certificateName0
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
   responses: {
     200: {
       bodyMapper: Mappers.CertificateBundle

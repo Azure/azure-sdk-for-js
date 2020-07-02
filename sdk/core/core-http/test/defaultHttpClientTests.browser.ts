@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-unused-expressions */
+
 import "chai/register-should";
 
 import { DefaultHttpClient } from "../src/defaultHttpClient";
@@ -18,7 +20,7 @@ describe("defaultHttpClient (browser)", function() {
 
   describe("should report upload and download progress", () => {
     type Notified = { notified: boolean };
-    const listener = (operationStatus: Notified, ev: TransferProgressEvent) => {
+    const listener = (operationStatus: Notified, ev: TransferProgressEvent): void => {
       operationStatus.notified = true;
       if (typeof ProgressEvent !== "undefined") {
         ev.should.not.be.instanceof(ProgressEvent);
@@ -62,7 +64,9 @@ describe("defaultHttpClient (browser)", function() {
         await response.blobBody;
       } else if (typeof response.readableStreamBody === "function") {
         const streamBody = (response.readableStreamBody as Function)();
-        streamBody.on("data", () => {});
+        streamBody.on("data", () => {
+          // Nothing to do here.
+        });
         await new Promise((resolve, reject) => {
           streamBody.on("end", resolve);
           streamBody.on("error", reject);
