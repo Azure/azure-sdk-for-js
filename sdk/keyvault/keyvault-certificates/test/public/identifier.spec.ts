@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { parseKeyVaultCertificatesIdentifier } from "../../src";
-import * as chai from "chai";
-const { assert } = chai;
+import * as assert from "assert";
 
 describe("Key Vault Certificates Identifier", () => {
   it("It should work with a URI of a certificate before it gets a version", async function() {
