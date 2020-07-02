@@ -149,21 +149,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       sessionOptions.sessionId = String(sessionOptions.sessionId);
 
       // Check if receiver for given session already exists
-      for (const [, ctx] of Object.entries(context.namespace.clientContexts)) {
-        if (
-          context.entityPath === ctx.entityPath &&
-          ctx.messageSessions[sessionOptions.sessionId] &&
-          ctx.messageSessions[sessionOptions.sessionId].isOpen()
-        ) {
-          const errorMessage = getOpenSessionReceiverErrorMsg(
-            ctx.entityPath,
-            sessionOptions.sessionId
-          );
-          const error = new Error(errorMessage);
-          log.error(`[${ctx.namespace.connectionId}] %O`, error);
-          throw error;
-        }
-      }
     }
     const messageSession = await MessageSession.create(context, {
       sessionId: sessionOptions.sessionId,
