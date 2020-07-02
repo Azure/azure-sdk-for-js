@@ -48,9 +48,9 @@ export interface Point2D {
 }
 
 /**
- * Represents common properties of recognized form contents.
+ * Represents common properties of recognized form elements.
  */
-export interface FormContentCommon {
+export interface FormElementCommon {
   /**
    * The 1-based page number in the input document.
    */
@@ -60,15 +60,15 @@ export interface FormContentCommon {
    */
   text: string;
   /**
-   * Bounding box of an recognized word.
+   * Bounding box of a recognized word.
    */
   boundingBox: Point2D[];
 }
 
 /**
- * Represents an recognized word.
+ * Represents a recognized word.
  */
-export interface FormWord extends FormContentCommon {
+export interface FormWord extends FormElementCommon {
   /**
    * Element kind - "word"
    */
@@ -84,9 +84,9 @@ export interface FormWord extends FormContentCommon {
 }
 
 /**
- * Represents an recognized text line.
+ * Represents a recognized text line.
  */
-export interface FormLine extends FormContentCommon {
+export interface FormLine extends FormElementCommon {
   /**
    * Element kind - "line"
    */
@@ -103,9 +103,9 @@ export interface FormLine extends FormContentCommon {
 }
 
 /**
- * Represents an recognized check box
+ * Represents a recognized check box
  */
-// export interface FormCheckBox extends FormContent {
+// export interface FormCheckBox extends FormElement {
 //   /**
 //    * Element kind - "checkbox"
 //    */
@@ -114,10 +114,10 @@ export interface FormLine extends FormContentCommon {
 // }
 
 /**
- * Information about an recognized element in the form. Examples include
+ * Information about a recognized element in the form. Examples include
  * words, lines, checkbox, etc.
  */
-export type FormContent = FormWord | FormLine; // | FormCheckBox;
+export type FormElement = FormWord | FormLine; // | FormCheckBox;
 
 /**
  * Represents a cell in recognized table
@@ -152,9 +152,9 @@ export interface FormTableCell {
    */
   confidence: number;
   /**
-   * When includeTextContent is set to true, a list of references to the text elements constituting this table cell.
+   * When includeFieldElements is set to true, a list of references to the elements constituting this table cell.
    */
-  textContent?: FormContent[];
+  fieldElements?: FormElement[];
   /**
    * Is the current cell a header cell?
    */
@@ -194,11 +194,11 @@ export interface FormTable {
 }
 
 /**
- * Represents recognized text elements of label-value pairs.
+ * Represents recognized elements of label-value pairs.
  * For example, "Work Address" is the label of
  * "Work Address: One Microsoft Way, Redmond, WA"
  */
-export interface FieldText {
+export interface FieldData {
   /**
    * The 1-based page number in the input document.
    */
@@ -208,9 +208,10 @@ export interface FieldText {
    */
   boundingBox?: Point2D[];
   /**
-   * When includeTextContent is set to true, a list of references to the text elements constituting this name or value.
+   * When includeFieldElements is set to true, a list of references to the
+   * form elements that constitute this label-value pair.
    */
-  textContent?: FormContent[];
+  fieldElements?: FormElement[];
   /**
    * The text content of the recognized label or value
    */
@@ -227,49 +228,57 @@ export type FormField = {
    */
   confidence?: number;
   /**
-   * Text of the recognized label of the field.
+   * Contains the recognized field label's text, bounding box, and field elements.
    */
-  labelText?: FieldText;
+  labelData?: FieldData;
   /**
    * A user defined label for the field.
    */
   name?: string;
   /**
-   * Text of the recognized value of the field.
+   * Contains the recognized field value's text, bounding box, and field elements.
    */
-  valueText?: FieldText;
+  valueData?: FieldData;
 } & (
   | {
-    /**
-     * value of the recognized field.
-     */
-    value?: string;
-    /**
-     * Type of the 'value' field
-     */
-    valueType?: "string" }
+      /**
+       * value of the recognized field.
+       */
+      value?: string;
+      /**
+       * Type of the 'value' field
+       */
+      valueType?: "string";
+    }
   | {
-    value?: number;
-    valueType?: "number" }
+      value?: number;
+      valueType?: "number";
+    }
   | {
-    value?: Date;
-    valueType?: "date" }
+      value?: Date;
+      valueType?: "date";
+    }
   | {
-    value?: string;
-    valueType?: "time" }
+      value?: string;
+      valueType?: "time";
+    }
   | {
-    value?: string;
-    valueType?: "phoneNumber" }
+      value?: string;
+      valueType?: "phoneNumber";
+    }
   | {
-    value?: number;
-    valueType?: "integer" }
+      value?: number;
+      valueType?: "integer";
+    }
   | {
-    value?: FormField[];
-    valueType?: "array" }
+      value?: FormField[];
+      valueType?: "array";
+    }
   | {
-    value?: { [propertyName: string]: FormField };
-    valueType?: "object" }
-)
+      value?: { [propertyName: string]: FormField };
+      valueType?: "object";
+    }
+);
 
 /**
  * Represents a Form page range
@@ -316,7 +325,7 @@ export interface FormPage {
    */
   // language?: Language;
   /**
-   * When includeTextContent is set to true, a list of recognized text lines. The maximum number of
+   * When `includeFieldElements` is set to true, a list of recognized text lines. The maximum number of
    * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
    * certain cases proximity is treated with higher priority. As the sorting order depends on the
    * detected text, it may change across images and OCR version updates. Thus, business logic
@@ -378,10 +387,10 @@ export interface CommonFieldValue {
    */
   confidence?: number;
   /**
-   * When includeTextContent is set to true, a list of references to the text elements constituting
+   * When includeFieldElements is set to true, a list of references to the elements constituting
    * this field.
    */
-  textContent?: FormContent[];
+  fieldElements?: FormElement[];
   /**
    * The 1-based page number in the input document.
    */
@@ -396,7 +405,7 @@ export type RecognizedReceipt = {
    * Recognized form
    */
   recognizedForm: RecognizedForm;
-}
+};
 
 /*
  * Array of {@link RecognizedReceipt}
