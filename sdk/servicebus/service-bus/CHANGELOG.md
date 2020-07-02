@@ -5,6 +5,10 @@
 - Adds abortSignal support throughout Sender and non-session Receivers.
   [PR 9233](https://github.com/Azure/azure-sdk-for-js/pull/9233)
   [PR 9284](https://github.com/Azure/azure-sdk-for-js/pull/9284)
+- (Receiver|SessionReceiver).subscribe() now returns a closeable object which will stop new messages from arriving
+  but still leave the receiver open so they can be settled via methods like complete().
+  [PR 9802](https://github.com/Azure/azure-sdk-for-js/pull/9802)
+  [PR 9849](https://github.com/Azure/azure-sdk-for-js/pull/9849)
 - Bug - Messages scheduled in parallel with the `scheduleMessage` method have the same sequence number in response.
   Fixed in [PR 9503](https://github.com/Azure/azure-sdk-for-js/pull/9503)
 - Management api updates
