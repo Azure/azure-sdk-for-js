@@ -673,5 +673,5 @@ export interface CopyAuthorization extends CopyAuthorizationResultModel {
   /**
    * The time when the access token expires.
    */
-  //expiresOn: Date
+  expiresOn: Date;
 }
