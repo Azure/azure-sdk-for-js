@@ -20,25 +20,25 @@ async function main(): Promise<void> {
 
   console.log(`\tList of Skillsets`);
   console.log(`\t******************`);
-  listOfSkillsets.forEach((skillset) => {
+  for (let skillset of listOfSkillsets) {
     console.log(`Name: ${skillset.name}`);
     console.log(`Description: ${skillset.description}`);
     console.log(`Skills`);
     console.log(`******`);
-    skillset.skills.forEach((skill) => {
+    for (let skill of skillset.skills) {
       console.log(`ODataType: ${skill.odatatype}`);
       console.log(`Inputs`);
-      skill.inputs.forEach((input) => {
+      for (let input of skill.inputs) {
         console.log(`\tName: ${input.name}`);
         console.log(`\tSource: ${input.source}`);
-      });
+      }
       console.log(`Outputs`);
-      skill.outputs.forEach((output) => {
+      for (let output of skill.outputs) {
         console.log(`\tName: ${output.name}`);
         console.log(`\tTarget Name: ${output.targetName}`);
-      });
-    });
-  });
+      }
+    }
+  }
 }
 
 main();

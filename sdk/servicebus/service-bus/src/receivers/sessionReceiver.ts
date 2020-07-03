@@ -30,7 +30,7 @@ import { Receiver } from "./receiver";
 import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
-import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
 
 /**
@@ -58,7 +58,7 @@ export interface SessionReceiver<
   /**
    * Renews the lock on the session.
    */
-  renewSessionLock(options?: OperationOptions): Promise<Date>;
+  renewSessionLock(options?: OperationOptionsBase): Promise<Date>;
 
   /**
    * Gets the state of the Session. For more on session states, see
@@ -68,7 +68,7 @@ export interface SessionReceiver<
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  getState(options?: OperationOptions): Promise<any>;
+  getState(options?: OperationOptionsBase): Promise<any>;
 
   /**
    * Sets the state on the Session. For more on session states, see
@@ -81,7 +81,7 @@ export interface SessionReceiver<
    * @param {*} state
    * @returns {Promise<void>}
    */
-  setState(state: any, options?: OperationOptions): Promise<void>;
+  setState(state: any, options?: OperationOptionsBase): Promise<void>;
 }
 
 /**
@@ -187,7 +187,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   }
 
   private _throwIfAlreadyReceiving(): void {
-    if (this.isReceivingMessages()) {
+    if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath, this.sessionId);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
@@ -233,7 +233,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while renewing session lock.
    */
-  async renewSessionLock(options?: OperationOptions): Promise<Date> {
+  async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
 
     const renewSessionLockOperationPromise = async () => {
@@ -266,7 +266,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while setting the session state.
    */
-  async setState(state: any, options: OperationOptions = {}): Promise<void> {
+  async setState(state: any, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
     const setSessionStateOperationPromise = async () => {
@@ -296,7 +296,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  async getState(options: OperationOptions = {}): Promise<any> {
+  async getState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
 
     const getSessionStateOperationPromise = async () => {
@@ -361,7 +361,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   async receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options: OperationOptions = {}
+    options: OperationOptionsBase = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -433,7 +433,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     return retry<ReceivedMessageT[]>(config);
   }
 
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    close(): Promise<void>;
+  } {
     // TODO - receiverOptions for subscribe??
     assertValidMessageHandlers(handlers);
 
@@ -446,6 +451,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       processError,
       options
     );
+
+    return {
+      close: async (): Promise<void> => {
+        return this._messageSession?.receiverHelper.stopReceivingMessages();
+      }
+    };
   }
 
   /**
@@ -468,7 +479,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @returns void
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if the receiver is already in state of receiving messages.
-   * @throws MessagingErrormif the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
+   * @throws MessagingError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
    */
   private _registerMessageHandler(
     onMessage: OnMessage,
@@ -532,7 +543,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
    */
-  isReceivingMessages(): boolean {
+  private _isReceivingMessages(): boolean {
     return this._messageSession ? this._messageSession.isReceivingMessages : false;
   }
 }

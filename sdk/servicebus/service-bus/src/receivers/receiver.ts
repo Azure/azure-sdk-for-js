@@ -8,7 +8,7 @@ import {
   ReceiveMessagesOptions,
   SubscribeOptions
 } from "../models";
-import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ReceivedMessage } from "..";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
@@ -37,8 +37,18 @@ export interface Receiver<ReceivedMessageT> {
    * Streams messages to message handlers.
    * @param handlers A handler that gets called for messages and errors.
    * @param options Options for subscribe.
+   * @returns An object that can be closed, sending any remaining messages to `handlers` and
+   * stopping new messages from arriving.
    */
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    /**
+     * Causes the subscriber to stop receiving new messages.
+     */
+    close(): Promise<void>;
+  };
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
@@ -83,14 +93,8 @@ export interface Receiver<ReceivedMessageT> {
    */
   receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<ReceivedMessageT[]>;
-  /**
-   * Indicates whether the receiver is currently receiving messages or not.
-   * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
-   * @returns {boolean}
-   */
-  isReceivingMessages(): boolean;
 
   /**
    * Peek the next batch of active messages (including deferred but not deadlettered messages) on the
@@ -158,7 +162,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   }
 
   private _throwIfAlreadyReceiving(): void {
-    if (this.isReceivingMessages()) {
+    if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
@@ -245,7 +249,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _createStreamingReceiver(
     context: ClientEntityContext,
     options?: ReceiveOptions &
-      Pick<OperationOptions, "abortSignal"> & {
+      Pick<OperationOptionsBase, "abortSignal"> & {
         createStreamingReceiver?: (
           context: ClientEntityContext,
           options?: ReceiveOptions
@@ -298,7 +302,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
   async receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options: OperationOptions = {}
+    options: OperationOptionsBase = {}
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -381,7 +385,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     return retry<ReceivedMessage[]>(config);
   }
 
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    close(): Promise<void>;
+  } {
     assertValidMessageHandlers(handlers);
 
     const processError = wrapProcessErrorHandler(handlers);
@@ -393,6 +402,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       processError,
       options
     );
+
+    return {
+      close: async (): Promise<void> => {
+        return this._context.streamingReceiver?.receiverHelper.stopReceivingMessages();
+      }
+    };
   }
 
   async close(): Promise<void> {
@@ -427,7 +442,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
    */
-  isReceivingMessages(): boolean {
+  private _isReceivingMessages(): boolean {
     if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
       return true;
     }
