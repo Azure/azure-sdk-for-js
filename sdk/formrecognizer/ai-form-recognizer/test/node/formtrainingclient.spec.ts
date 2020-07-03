@@ -368,9 +368,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       "Expecting 'Merchant' field has undefined confidence"
     );
     assert.equal(
-      form.fields["Merchant"].labelText,
+      form.fields["Merchant"].labelData,
       undefined,
-      "Expecting 'Merchant' field has undefined labelText"
+      "Expecting 'Merchant' field has undefined labelData"
     );
     assert.equal(
       form.fields["Merchant"].value,
@@ -378,9 +378,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       "Expecting 'Merchant' field has undefined value"
     );
     assert.equal(
-      form.fields["Merchant"].valueText,
+      form.fields["Merchant"].valueData,
       undefined,
-      "Expecting 'Merchant' field has undefined valueText"
+      "Expecting 'Merchant' field has undefined valueData"
     );
     assert.equal(
       form.fields["Merchant"].valueType,
