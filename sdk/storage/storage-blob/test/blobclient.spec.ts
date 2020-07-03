@@ -10,7 +10,8 @@ import {
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
   isBlobVersioningDisabled,
-  isBlobTagsDisabled
+  isBlobTagsDisabled,
+  getGenericBSU
 } from "./utils";
 import { record, delay } from "@azure/test-utils-recorder";
 import {
@@ -22,6 +23,9 @@ import {
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config();
+
+import { setLogLevel } from "@azure/logger";
+setLogLevel("info");
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -819,5 +823,62 @@ describe("BlobClient - Verify Name Properties", () => {
 
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${containerName}/${blobName}`);
+  });
+});
+
+describe.only("BlobClient - Object Replication", () => {
+  const srcContainerName = "orssrc";
+  const destContainerName = "orsdst";
+  const blobName = "orsBlob";
+
+  let srcBlobServiceClient: BlobServiceClient;
+  let destBlobServiceClient: BlobServiceClient;
+  let srcContainerClient: ContainerClient;
+  let destContainerClient: ContainerClient;
+  let srcBlobClient: BlobClient;
+  let destBlobClient: BlobClient;
+  // let recorder: any;
+
+  beforeEach(async function() {
+    // recorder = record(this, recorderEnvSetup);
+    srcBlobServiceClient = getGenericBSU("");
+    destBlobServiceClient = getGenericBSU("ORS_DEST_");
+    srcContainerClient = srcBlobServiceClient.getContainerClient(srcContainerName);
+    destContainerClient = destBlobServiceClient.getContainerClient(destContainerName);
+    srcBlobClient = srcContainerClient.getBlobClient(blobName);
+    destBlobClient = destContainerClient.getBlobClient(blobName);
+  });
+
+  afterEach(async function() {});
+
+  it("source blob get properties", async () => {
+    const getRes = await srcBlobClient.getProperties();
+    console.log(getRes);
+  });
+
+  it("destination blob get properties", async () => {
+    const getRes = await destBlobClient.getProperties();
+    console.log(getRes);
+  });
+
+  it("listBlob", async () => {
+    for await (const blobItem of srcContainerClient.listBlobsFlat()) {
+      console.log(blobItem);
+    }
+
+    for await (const blobItem of destContainerClient.listBlobsFlat()) {
+      console.log(blobItem);
+    }
+  });
+
+  it("download blob", async () => {
+    const res = await srcBlobClient.download();
+    console.log(res.objectReplicationPolicyId);
+    console.log(res.objectReplicationRules);
+    console.log(res._response);
+
+    const res2 = await destBlobClient.download();
+    console.log(res2.objectReplicationPolicyId);
+    console.log(res2.objectReplicationRules);
   });
 });
