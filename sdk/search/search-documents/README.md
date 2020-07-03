@@ -159,7 +159,7 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 
 ## Examples
 
-The following examples demonstrate the basics - please [check out our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples) for much more.
+The following examples demonstrate the basics - please [check out our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples) for much more.
 
 * [Creating an index](#create-an-index)
 * [Retrieving a specific document from your index](#retrieve-a-specific-document-from-an-index)

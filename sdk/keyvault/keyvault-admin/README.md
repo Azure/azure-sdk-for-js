@@ -58,9 +58,9 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Admin Samples (JavaScript)](./samples/javascript)
-- [KeyVault Admin Samples (TypeScript)](./samples/typescript)
-- [KeyVault Admin Test Cases](./test/)
+- [KeyVault Admin Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript)
+- [KeyVault Admin Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)
+- [KeyVault Admin Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/)
 
 ## Contributing
 
