@@ -389,6 +389,61 @@ export interface FormWord extends FormContentCommon {
     kind: "word";
 }
 
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientAnalyzeLayoutAsyncHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientAnalyzeLayoutAsyncResponse = GeneratedClientAnalyzeLayoutAsyncHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientAnalyzeLayoutAsyncHeaders;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientAnalyzeReceiptAsyncHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientAnalyzeReceiptAsyncResponse = GeneratedClientAnalyzeReceiptAsyncHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientAnalyzeReceiptAsyncHeaders;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientAnalyzeWithCustomModelHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientAnalyzeWithCustomModelResponse = GeneratedClientAnalyzeWithCustomModelHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientAnalyzeWithCustomModelHeaders;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientCopyCustomModelHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientCopyCustomModelResponse = GeneratedClientCopyCustomModelHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientCopyCustomModelHeaders;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "CopyOperationResult" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientGetCustomModelCopyResultResponse = CopyOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: CopyOperationResult;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientTrainCustomModelAsyncHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientTrainCustomModelAsyncResponse = GeneratedClientTrainCustomModelAsyncHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientTrainCustomModelAsyncHeaders;
+    };
+};
+
 // @public
 export type GetAccountPropertiesOptions = FormRecognizerOperationOptions;
 
@@ -488,6 +543,16 @@ export type RecognizeContentPollerClient = {
     }) => Promise<RecognizeContentResultResponse>;
 };
 
+// Warning: (ae-forgotten-export) The symbol "RecognizedContent" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type RecognizeContentResultResponse = RecognizedContent & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
+
 // @public
 export type RecognizeCustomFormPollerClient = {
     beginRecognize: (source: FormRecognizerRequestBody | string, modelId: string, contentType?: FormContentType, analyzeOptions?: RecognizeFormsOptions) => Promise<GeneratedClientAnalyzeWithCustomModelResponse>;
@@ -509,6 +574,16 @@ export interface RecognizedForm {
 // @public
 export interface RecognizedFormArray extends Array<RecognizedForm> {
 }
+
+// Warning: (ae-forgotten-export) The symbol "RecognizedForms" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type RecognizeFormResultResponse = RecognizedForms & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
+};
 
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
@@ -561,17 +636,6 @@ export interface TrainResult {
     trainingDocuments: TrainingDocumentInfo[];
 }
 
-
-// Warnings were encountered during analysis:
-//
-// src/lro/analyze/contentPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeLayoutAsyncResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/contentPoller.ts:46:3 - (ae-forgotten-export) The symbol "RecognizeContentResultResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/customFormPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeWithCustomModelResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/customFormPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeFormResultResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/receiptPoller.ts:38:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeReceiptAsyncResponse" needs to be exported by the entry point index.d.ts
-// src/lro/copy/poller.ts:37:3 - (ae-forgotten-export) The symbol "GeneratedClientCopyCustomModelResponse" needs to be exported by the entry point index.d.ts
-// src/lro/copy/poller.ts:43:3 - (ae-forgotten-export) The symbol "GeneratedClientGetCustomModelCopyResultResponse" needs to be exported by the entry point index.d.ts
-// src/lro/train/poller.ts:21:3 - (ae-forgotten-export) The symbol "GeneratedClientTrainCustomModelAsyncResponse" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

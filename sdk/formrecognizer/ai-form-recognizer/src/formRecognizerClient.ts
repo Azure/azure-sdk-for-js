@@ -544,19 +544,19 @@ export class FormRecognizerClient {
    *
    * const receipt = receipts[0];
    * console.log("First receipt:");
-   * const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+   * const receiptTypeField = receipt.fields["ReceiptType"];
    * if (receiptTypeField.valueType === "string") {
    *   console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
    * }
-   * const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+   * const merchantNameField = receipt.fields["MerchantName"];
    * if (merchantNameField.valueType === "string") {
    *   console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
    * }
-   * const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+   * const transactionDate = receipt.fields["TransactionDate"];
    * if (transactionDate.valueType === "date") {
    *   console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
    * }
-   * const itemsField = receipt.recognizedForm.fields["Items"];
+   * const itemsField = receipt.fields["Items"];
    * if (itemsField.valueType === "array") {
    *   for (const itemField of itemsField.value || []) {
    *     if (itemField.valueType === "object") {
@@ -567,7 +567,7 @@ export class FormRecognizerClient {
    *     }
    *  }
    * }
-   * const totalField = receipt.recognizedForm.fields["Total"];
+   * const totalField = receipt.fields["Total"];
    * if (totalField.valueType === "number") {
    *   console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
    * }
@@ -625,19 +625,19 @@ export class FormRecognizerClient {
    *
    * const receipt = receipts[0];
    * console.log("First receipt:");
-   * const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+   * const receiptTypeField = receipt.fields["ReceiptType"];
    * if (receiptTypeField.valueType === "string") {
    *   console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
    * }
-   * const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+   * const merchantNameField = receipt.fields["MerchantName"];
    * if (merchantNameField.valueType === "string") {
    *   console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
    * }
-   * const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+   * const transactionDate = receipt.fields["TransactionDate"];
    * if (transactionDate.valueType === "date") {
    *   console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
    * }
-   * const itemsField = receipt.recognizedForm.fields["Items"];
+   * const itemsField = receipt.fields["Items"];
    * if (itemsField.valueType === "array") {
    *   for (const itemField of itemsField.value || []) {
    *     if (itemField.valueType === "object") {
@@ -648,7 +648,7 @@ export class FormRecognizerClient {
    *     }
    *  }
    * }
-   * const totalField = receipt.recognizedForm.fields["Total"];
+   * const totalField = receipt.fields["Total"];
    * if (totalField.valueType === "number") {
    *   console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
    * }
