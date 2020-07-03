@@ -16,9 +16,9 @@ async function main(): Promise<void> {
 
   console.log(`\tNames of Indexers`);
   console.log(`\t*****************`);
-  listOfIndexerNames.forEach((indexerName) => {
+  for (let indexerName of listOfIndexerNames) {
     console.log(`${indexerName}`);
-  });
+  }
 }
 
 main();

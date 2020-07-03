@@ -20,7 +20,7 @@ async function main() {
     "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
 
   const poller = await client.beginRecognizeReceiptsFromUrl(url, {
-    includeTextContent: true,
+    includeFieldElements: true,
     onProgress: (state) => {
       console.log(`analyzing status: ${state.status}`);
     }

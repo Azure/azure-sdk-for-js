@@ -111,7 +111,7 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
   /**
    * Specifies whether to include text lines and element references in the result
    */
-  includeTextContent?: boolean;
+  includeFieldElements?: boolean;
 };
 
 /**
@@ -152,7 +152,7 @@ export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
   /**
    * Specifies whether to include text lines and element references in the result
    */
-  includeTextContent?: boolean;
+  includeFieldElements?: boolean;
 };
 
 /**
@@ -615,7 +615,7 @@ export class FormRecognizerClient {
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const poller = await client.beginRecognizeReceiptsFromUrl(
    *   url, {
-   *     includeTextContent: true,
+   *     includeFieldElements: true,
    *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
    * });
    * const receipts = await poller.pollUntilDone();
@@ -759,7 +759,7 @@ async function recognizeCustomFormInternal(
 ): Promise<AnalyzeWithCustomModelResponseModel> {
   const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", {
     ...options,
-    includeTextDetails: options.includeTextContent
+    includeTextDetails: options.includeFieldElements
   });
   const requestBody = await toRequestBody(body);
   const requestContentType = contentType ? contentType : await getContentType(requestBody);
@@ -798,10 +798,10 @@ async function recognizeReceiptInternal(
   options?: RecognizeReceiptsOptions,
   _modelId?: string
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
-  const realOptions = options || { includeTextContent: false };
+  const realOptions = options || { includeFieldElements: false };
   const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", {
     ...realOptions,
-    includeTextDetails: realOptions.includeTextContent
+    includeTextDetails: realOptions.includeFieldElements
   });
   const requestBody = await toRequestBody(body);
   const requestContentType =

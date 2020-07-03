@@ -21,7 +21,7 @@ import {
   RetryOptions,
   retry
 } from "@azure/core-amqp";
-import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -48,7 +48,7 @@ export interface Sender {
    */
   sendMessages(
     messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<void>;
 
   /**
@@ -97,7 +97,7 @@ export interface Sender {
   scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage | ServiceBusMessage[],
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<Long[]>;
 
   /**
@@ -110,7 +110,7 @@ export interface Sender {
    */
   cancelScheduledMessages(
     sequenceNumbers: Long | Long[],
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<void>;
   /**
    * Path of the entity for which the sender has been created.
@@ -173,7 +173,7 @@ export class SenderImpl implements Sender {
 
   async sendMessages(
     messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
@@ -214,7 +214,7 @@ export class SenderImpl implements Sender {
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage | ServiceBusMessage[],
-    options: OperationOptions = {}
+    options: OperationOptionsBase = {}
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -256,7 +256,7 @@ export class SenderImpl implements Sender {
 
   async cancelScheduledMessages(
     sequenceNumbers: Long | Long[],
-    options: OperationOptions = {}
+    options: OperationOptionsBase = {}
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(

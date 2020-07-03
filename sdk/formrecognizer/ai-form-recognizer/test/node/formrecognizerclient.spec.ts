@@ -138,7 +138,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const stream = fs.createReadStream(filePath);
 
     const poller = await client.beginRecognizeReceipts(stream, "application/pdf", {
-      includeTextContent: true
+      includeFieldElements: true
     });
     const receipts = await poller.pollUntilDone();
 

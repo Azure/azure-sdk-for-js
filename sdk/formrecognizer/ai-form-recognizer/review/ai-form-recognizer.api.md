@@ -143,9 +143,9 @@ export interface BeginTrainingPollState extends PollOperationState<CustomFormMod
 export interface CommonFieldValue {
     boundingBox?: Point2D[];
     confidence?: number;
+    fieldElements?: FormElement[];
     pageNumber?: number;
     text?: string;
-    textContent?: FormContent[];
 }
 
 // @public
@@ -153,6 +153,7 @@ export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, Fo
 
 // @public
 export interface CopyAuthorization extends CopyAuthorizationResultModel {
+    expiresOn: Date;
     resourceId: string;
     resourceRegion: string;
 }
@@ -215,32 +216,32 @@ export interface CustomFormSubmodel {
 export type DeleteModelOptions = FormRecognizerOperationOptions;
 
 // @public
-export interface FieldText {
+export interface FieldData {
     boundingBox?: Point2D[];
+    fieldElements?: FormElement[];
     pageNumber: number;
     text?: string;
-    textContent?: FormContent[];
-}
-
-// @public
-export type FormContent = FormWord | FormLine;
-
-// @public
-export interface FormContentCommon {
-    boundingBox: Point2D[];
-    pageNumber: number;
-    text: string;
 }
 
 // @public
 export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
+export type FormElement = FormWord | FormLine;
+
+// @public
+export interface FormElementCommon {
+    boundingBox: Point2D[];
+    pageNumber: number;
+    text: string;
+}
+
+// @public
 export type FormField = {
     confidence?: number;
-    labelText?: FieldText;
+    labelData?: FieldData;
     name?: string;
-    valueText?: FieldText;
+    valueData?: FieldData;
 } & ({
     value?: string;
     valueType?: "string";
@@ -276,7 +277,7 @@ export interface FormFieldsReport {
 }
 
 // @public
-export interface FormLine extends FormContentCommon {
+export interface FormLine extends FormElementCommon {
     kind: "line";
     words: FormWord[];
 }
@@ -355,12 +356,12 @@ export interface FormTableCell {
     columnIndex: number;
     columnSpan?: number;
     confidence: number;
+    fieldElements?: FormElement[];
     isFooter?: boolean;
     isHeader?: boolean;
     rowIndex: number;
     rowSpan?: number;
     text: string;
-    textContent?: FormContent[];
 }
 
 // @public
@@ -383,7 +384,7 @@ export class FormTrainingClient {
     }
 
 // @public
-export interface FormWord extends FormContentCommon {
+export interface FormWord extends FormElementCommon {
     confidence?: number;
     containingLine?: FormLine;
     kind: "word";
@@ -587,7 +588,7 @@ export type RecognizeFormResultResponse = RecognizedForms & {
 
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
-    includeTextContent?: boolean;
+    includeFieldElements?: boolean;
 };
 
 // @public
@@ -600,7 +601,7 @@ export type RecognizeReceiptPollerClient = {
 
 // @public
 export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
-    includeTextContent?: boolean;
+    includeFieldElements?: boolean;
 };
 
 export { RestResponse }

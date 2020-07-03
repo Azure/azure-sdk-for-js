@@ -55,7 +55,7 @@ export async function main() {
       // The recognized form fields with an unlabeled custom model will also include data about recognized labels.
       const field = form.fields[fieldName];
       console.log(
-        `  Field ${fieldName} has label '${field.labelText?.text}' with a confidence score of ${field.confidence}`
+        `  Field ${fieldName} has label '${field.labelData?.text}' with a confidence score of ${field.confidence}`
       );
       console.log(
         `  Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`

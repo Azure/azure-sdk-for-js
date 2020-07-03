@@ -526,7 +526,7 @@ export class FormTrainingClient {
       return {
         resourceId: resourceId,
         resourceRegion: resourceRegion,
-        //expiresOn: new Date(response.expirationDateTimeTicks),
+        expiresOn: new Date(response.expirationDateTimeTicks * 1000), // Convert to ms
         ...(response as CopyAuthorizationResultModel)
       };
     } catch (e) {

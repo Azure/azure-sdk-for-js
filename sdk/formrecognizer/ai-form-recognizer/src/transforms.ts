@@ -20,11 +20,11 @@ import {
 import {
   FormPage,
   FormLine,
-  FormContent,
+  FormElement,
   FormTableRow,
   FormTable,
   RecognizedForm,
-  FieldText,
+  FieldData,
   FormField,
   Point2D,
   FormModelResponse,
@@ -79,7 +79,7 @@ export function toFormPage(original: ReadResultModel): FormPage {
 // Note: might need to support other element types in future, e.g., checkbox
 const textPattern = /\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
-export function toFormContent(element: string, readResults: FormPage[]): FormContent {
+export function toFormContent(element: string, readResults: FormPage[]): FormElement {
   const result = textPattern.exec(element);
   if (!result || !result[0] || !result[1] || !result[2]) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
@@ -95,16 +95,16 @@ export function toFormContent(element: string, readResults: FormPage[]): FormCon
   }
 }
 
-export function toFieldText(
+export function toFieldData(
   pageNumber: number,
   original: KeyValueElementModel,
   readResults?: FormPage[]
-): FieldText {
+): FieldData {
   return {
     pageNumber,
     text: original.text,
     boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-    textContent: original.elements?.map((element) => toFormContent(element, readResults!))
+    fieldElements: original.elements?.map((element) => toFormContent(element, readResults!))
   };
 }
 
@@ -116,8 +116,8 @@ export function toFormFieldFromKeyValuePairModel(
   return {
     name: original.label,
     confidence: original.confidence || 1,
-    labelText: toFieldText(pageNumber, original.key, readResults),
-    valueText: toFieldText(pageNumber, original.value, readResults),
+    labelData: toFieldData(pageNumber, original.key, readResults),
+    valueData: toFieldData(pageNumber, original.value, readResults),
     value: original.value.text,
     valueType: "string"
   };
@@ -134,7 +134,7 @@ export function toFormTable(original: DataTableModel, readResults?: FormPage[]):
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
       confidence: cell.confidence || 1,
-      textContent: cell.elements?.map((element) => toFormContent(element, readResults!)),
+      fieldElements: cell.elements?.map((element) => toFormContent(element, readResults!)),
       isFooter: cell.isFooter || false,
       isHeader: cell.isHeader || false,
       rowIndex: cell.rowIndex,
@@ -252,11 +252,11 @@ export function toFormFieldFromFieldValueModel(
   return {
     confidence: original.confidence || 1,
     name: key,
-    valueText: {
-      pageNumber: original.pageNumber || 0,
+    valueData: {
+      pageNumber: original.pageNumber ?? 0,
       text: original.text,
       boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-      textContent: original.elements?.map((element) => toFormContent(element, readResults))
+      fieldElements: original.elements?.map((element) => toFormContent(element, readResults))
     },
     valueType: original.type,
     value
