@@ -689,7 +689,7 @@ describe("Errors after close()", function(): void {
     it("Unpartitioned Queue: errors after close() on receiver", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue, entityToClose);
 
-      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
+      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath));
     });
 
     it("Unpartitioned Queue with sessions: errors after close() on receiver", async function(): Promise<
@@ -697,9 +697,7 @@ describe("Errors after close()", function(): void {
     > {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
 
-      await testReceiver(
-        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
-      );
+      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, TestMessage.sessionId));
     });
 
     it("Unpartitioned Topic/Subscription: errors after close() on receiver", async function(): Promise<
@@ -707,7 +705,7 @@ describe("Errors after close()", function(): void {
     > {
       await beforeEachTest(TestClientType.UnpartitionedSubscription, entityToClose);
 
-      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
+      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath));
     });
 
     it("Unpartitioned Topic/Subscription with sessions: errors after close() on receiver", async function(): Promise<
@@ -716,7 +714,7 @@ describe("Errors after close()", function(): void {
       await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions, entityToClose);
 
       await testSessionReceiver(
-        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
+        getReceiverClosedErrorMsg(receiver.entityPath, TestMessage.sessionId)
       );
     });
   });
@@ -744,7 +742,7 @@ describe("Errors after close()", function(): void {
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions, entityToClose);
 
       await testSessionReceiver(
-        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
+        getReceiverClosedErrorMsg(receiver.entityPath, TestMessage.sessionId)
       );
       await testAllDispositions();
     });

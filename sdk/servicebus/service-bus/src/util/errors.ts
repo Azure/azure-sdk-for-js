@@ -73,24 +73,17 @@ export function getSenderClosedErrorMsg(entityPath: string): string {
  */
 export function getReceiverClosedErrorMsg(
   entityPath: string,
-  isClientClosed: boolean,
   sessionId?: string
 ): string {
-  if (isClientClosed) {
-    return (
-      `The client for "${entityPath}" has been closed. The receiver created by it can no longer be used. ` +
-      `Please create a new client using an instance of ServiceBusClient.`
-    );
-  }
   if (sessionId == undefined) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
-      `Please create a new receiver using the "getReceiver" method on the ServiceBusClient.`
+      `Please create a new receiver using the "createReceiver" method on the ServiceBusClient.`
     );
   }
   return (
     `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no ` +
-    `longer be used. Please create a new receiver using the "getSessionReceiver" method on the ServiceBusClient.`
+    `longer be used. Please create a new receiver using the "createSessionReceiver" method on the ServiceBusClient.`
   );
 }
 
