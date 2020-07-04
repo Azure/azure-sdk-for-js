@@ -901,6 +901,13 @@ export const RoutingRule: msRest.CompositeMapper = {
           className: "SubResource"
         }
       },
+      webApplicationFirewallPolicyLink: {
+        serializedName: "properties.webApplicationFirewallPolicyLink",
+        type: {
+          name: "Composite",
+          className: "RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink"
+        }
+      },
       resourceState: {
         serializedName: "properties.resourceState",
         type: {
@@ -1428,6 +1435,22 @@ export const RouteConfiguration: msRest.CompositeMapper = {
   }
 };
 
+export const RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink: msRest.CompositeMapper = {
+  serializedName: "RoutingRuleUpdateParameters_webApplicationFirewallPolicyLink",
+  type: {
+    name: "Composite",
+    className: "RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RoutingRuleUpdateParameters: msRest.CompositeMapper = {
   serializedName: "RoutingRuleUpdateParameters",
   type: {
@@ -1486,6 +1509,13 @@ export const RoutingRuleUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SubResource"
+        }
+      },
+      webApplicationFirewallPolicyLink: {
+        serializedName: "webApplicationFirewallPolicyLink",
+        type: {
+          name: "Composite",
+          className: "RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink"
         }
       }
     }
@@ -1632,18 +1662,23 @@ export const Backend: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      privateLinkResourceId: {
+        serializedName: "privateLinkResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkLocation: {
+        serializedName: "privateLinkLocation",
+        type: {
+          name: "String"
+        }
+      },
       privateEndpointStatus: {
         readOnly: true,
         serializedName: "privateEndpointStatus",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Pending",
-            "Approved",
-            "Rejected",
-            "Disconnected",
-            "Timeout"
-          ]
+          name: "String"
         }
       },
       privateLinkApprovalMessage: {
@@ -2661,6 +2696,22 @@ export const FrontendEndpointLink: msRest.CompositeMapper = {
   }
 };
 
+export const RoutingRuleLink: msRest.CompositeMapper = {
+  serializedName: "RoutingRuleLink",
+  type: {
+    name: "Composite",
+    className: "RoutingRuleLink",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const WebApplicationFirewallPolicy: msRest.CompositeMapper = {
   serializedName: "WebApplicationFirewallPolicy",
   type: {
@@ -2698,6 +2749,19 @@ export const WebApplicationFirewallPolicy: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "FrontendEndpointLink"
+            }
+          }
+        }
+      },
+      routingRuleLinks: {
+        readOnly: true,
+        serializedName: "properties.routingRuleLinks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RoutingRuleLink"
             }
           }
         }

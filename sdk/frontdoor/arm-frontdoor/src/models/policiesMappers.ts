@@ -47,6 +47,8 @@ export {
   Resource,
   RouteConfiguration,
   RoutingRule,
+  RoutingRuleLink,
+  RoutingRuleUpdateParametersWebApplicationFirewallPolicyLink,
   RulesEngine,
   RulesEngineAction,
   RulesEngineMatchCondition,

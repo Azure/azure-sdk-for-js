@@ -12,6 +12,8 @@ export * from "./networkExperimentProfiles";
 export * from "./preconfiguredEndpoints";
 export * from "./experiments";
 export * from "./reports";
+export * from "./frontDoorNameAvailability";
+export * from "./frontDoorNameAvailabilityWithSubscription";
 export * from "./frontDoors";
 export * from "./frontendEndpoints";
 export * from "./endpoints";
