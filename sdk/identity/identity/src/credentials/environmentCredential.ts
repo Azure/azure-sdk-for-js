@@ -7,7 +7,7 @@ import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
 import { AuthenticationError, AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logger } from "../util/logging";
+import { logger, logEnvVars } from "../util/logging";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 
@@ -40,7 +40,6 @@ export const AllSupportedEnvironmentVariables = [
  * documentation of that class for more details.
  */
 export class EnvironmentCredential implements TokenCredential {
-  private _environmentVarsMissing: string[] = [];
   private _credential?: TokenCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and reads
@@ -52,9 +51,8 @@ export class EnvironmentCredential implements TokenCredential {
    */
   constructor(options?: TokenCredentialOptions) {
     // Keep track of any missing environment variables for error details
-    this._environmentVarsMissing = AllSupportedEnvironmentVariables.filter(
-      (v) => process.env[v] === undefined
-    );
+
+    logEnvVars("EnvironmentCredential", AllSupportedEnvironmentVariables);
 
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
@@ -62,7 +60,7 @@ export class EnvironmentCredential implements TokenCredential {
 
     if (tenantId && clientId && clientSecret) {
       logger.info(
-        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}`
+        `EnvironmentCredential => Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: ${clientSecret}`
       );
       this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, options);
       return;
@@ -71,7 +69,7 @@ export class EnvironmentCredential implements TokenCredential {
     const certificatePath = process.env.AZURE_CLIENT_CERTIFICATE_PATH;
     if (tenantId && clientId && certificatePath) {
       logger.info(
-        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}, certificatePath: ${certificatePath}`
+        `EnvironmentCredential => Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`
       );
       this._credential = new ClientCertificateCredential(
         tenantId,
@@ -86,7 +84,7 @@ export class EnvironmentCredential implements TokenCredential {
     const password = process.env.AZURE_PASSWORD;
     if (tenantId && clientId && username && password) {
       logger.info(
-        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}, username: ${username}`
+        `EnvironmentCredential => Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`
       );
       this._credential = new UsernamePasswordCredential(
         tenantId,

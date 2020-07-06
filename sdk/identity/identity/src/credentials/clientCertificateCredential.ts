@@ -11,6 +11,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
+import { logThrowCredentialError, logThrowGetTokenFailure, logGetTokenSuccess } from '../util/logging';
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -64,7 +65,7 @@ export class ClientCertificateCredential implements TokenCredential {
     const matchCert = this.certificateString.match(certificatePattern);
     const publicKey = matchCert ? matchCert[3] : "";
     if (!publicKey) {
-      throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
+      logThrowCredentialError("ClientCertificateCredential", new Error("The file at the specified path does not contain a PEM-encoded certificate."));
     }
 
     this.certificateThumbprint = createHash("sha1")
@@ -139,6 +140,7 @@ export class ClientCertificateCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      logGetTokenSuccess("ClientCertificateCredential", [...scopes]);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -149,7 +151,7 @@ export class ClientCertificateCredential implements TokenCredential {
         code,
         message: err.message
       });
-      throw err;
+      logThrowGetTokenFailure("ClientCertificateCredential", err);
     } finally {
       span.end();
     }

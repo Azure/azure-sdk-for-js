@@ -5,6 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
+import { logCredentialError, logGetTokenFailure, logGetTokenSuccess } from '../util/logging';
 
 /**
  * Enables multiple `TokenCredential` implementations to be tried in order
@@ -60,6 +61,7 @@ export class ChainedTokenCredential implements TokenCredential {
         if (err instanceof CredentialUnavailable) {
           errors.push(err);
         } else {
+          logGetTokenFailure("ChainedTokenCredential", err);
           throw err;
         }
       }
@@ -71,11 +73,13 @@ export class ChainedTokenCredential implements TokenCredential {
         code: CanonicalCode.UNAUTHENTICATED,
         message: err.message
       });
+      logGetTokenFailure("ChainedTokenCredential", err);
       throw err;
     }
 
     span.end();
 
+    logGetTokenSuccess("ChainedTokenCredential", [...scopes]);
     return token;
   }
 }

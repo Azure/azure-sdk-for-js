@@ -7,6 +7,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
+import { logThrowGetTokenFailure, logGetTokenSuccess } from '../util/logging';
 
 /**
  * Enables authentication to Azure Active Directory using a client secret
@@ -81,6 +82,7 @@ export class ClientSecretCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      logGetTokenSuccess("ClientSecretCredential", [...scopes]);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -91,7 +93,7 @@ export class ClientSecretCredential implements TokenCredential {
         code,
         message: err.message
       });
-      throw err;
+      logThrowGetTokenFailure("ClientSecretCredential", err);
     } finally {
       span.end();
     }
