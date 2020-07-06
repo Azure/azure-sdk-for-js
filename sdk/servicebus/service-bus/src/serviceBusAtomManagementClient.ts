@@ -437,34 +437,66 @@ export class ServiceBusManagementClient extends ServiceClient {
       options,
       this.queueResourceSerializer
     );
-
+    // TODO: Add skip marker as the continuationToken in the response.
     return this.buildListQueuesResponse(response);
   }
 
-  /**
-   * Returns a list of objects, each representing a Queue along with its properties.
-   * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeInfo` API instead.
-   * @param options
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async getQueues2(options?: ListRequestOptions): Promise<QueuesResponse> {
-    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Queues",
-      options,
-      this.queueResourceSerializer
-    );
-    console.log(response);
+  private async *listQueuesSegments(
+    marker?: number,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<QueuesResponse> {
+    let listContainersSegmentResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        listContainersSegmentResponse = await this.getQueues({
+          skip: marker,
+          maxCount: options.maxPageSize,
+          ...options
+        });
+        marker = listContainersSegmentResponse.continuationToken;
+        yield listContainersSegmentResponse;
+      } while (marker);
+    }
+  }
 
-    return this.buildListQueuesResponse(response);
+  private async *listQueueItems(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<QueueDescription> {
+    let marker: number | undefined;
+    for await (const segment of this.listQueuesSegments(marker, options)) {
+      yield* segment;
+    }
+  }
+
+  public getQueues2(
+    options?: ListRequestOptions & OperationOptions
+  ): PagedAsyncIterableIterator<QueueDescription, QueuesResponse, PageSettings> {
+    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+    const iter = this.listQueueItems(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        settings.continuationToken;
+        return this.listQueuesSegments(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
