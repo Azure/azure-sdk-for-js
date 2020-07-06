@@ -177,6 +177,21 @@ export interface RuleResponse extends RuleDescription, Response {}
 export interface RulesResponse extends Array<RuleDescription>, Response {}
 
 /**
+ * @interface
+ * An interface that tracks the settings for paged iteration
+ */
+export interface PageSettings {
+  /**
+   * @member {number} [continuationToken] The token that keeps track of where to continue the iterator
+   */
+  continuationToken?: number;
+  /**
+   * @member {number} [pageSize] The size of the page during paged iteration
+   */
+  maxPageSize?: number;
+}
+
+/**
  * All operations return promises that resolve to an object that has the relevant output.
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
