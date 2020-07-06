@@ -90,6 +90,7 @@
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.1.4",
     "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-paging": "^1.1.1",
     "@opentelemetry/api": "^0.6.1",
     "@types/is-buffer": "^2.0.0",
     "@types/long": "^4.0.0",
