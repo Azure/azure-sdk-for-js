@@ -125,7 +125,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     // SB allows a sessionId with empty string value :)
 
     if (sessionOptions.sessionId == null && _messageSession.sessionId == null) {
-      // Ideally this code path should never be reached as `createReceiver()` should fail instead
+      // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
       // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
       errorMessage = `No unlocked sessions were available`;
     } else if (
