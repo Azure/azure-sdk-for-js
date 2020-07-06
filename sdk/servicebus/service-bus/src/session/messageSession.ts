@@ -400,7 +400,7 @@ export class MessageSession extends LinkEntity {
         );
         if (
           receivedSessionId != undefined &&
-          (this.sessionId === undefined || this.sessionId === receivedSessionId)
+          (this.sessionId == undefined || this.sessionId === receivedSessionId)
         ) {
           if (!this._context.messageSessions[this.sessionId!]) {
             this._context.messageSessions[this.sessionId!] = this;
