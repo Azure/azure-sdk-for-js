@@ -22,6 +22,7 @@ import {
   URLBuilder,
   WebResource
 } from "@azure/core-http";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as log from "./log";
 import {
   buildNamespace,
