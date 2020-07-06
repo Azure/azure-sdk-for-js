@@ -1,5 +1,8 @@
 # Release History
 
+## 11.0.1 (Unreleased)
+
+
 ## 11.0.0 (2020-07-06)
 - Set `ConnectionString` value to `<unchanged>` in `SearchIndexerDataSourceConnection`, if the value is not set by the user. 
 - [Breaking] In Suggest API & Search API return values, a new property called `document` is introduced. All user-defined fields are moved inside this `document` property.

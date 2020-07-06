@@ -1,6 +1,6 @@
 {
   "name": "@azure/search-documents",
-  "version": "11.0.0",
+  "version": "11.0.1",
   "description": "Azure client library to use Cognitive Search for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
