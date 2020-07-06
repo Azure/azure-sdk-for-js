@@ -6827,21 +6827,18 @@ export const SapOpenHubLinkedService: msRest.CompositeMapper = {
     modelProperties: {
       ...LinkedService.type.modelProperties,
       server: {
-        required: true,
         serializedName: "typeProperties.server",
         type: {
           name: "Object"
         }
       },
       systemNumber: {
-        required: true,
         serializedName: "typeProperties.systemNumber",
         type: {
           name: "Object"
         }
       },
       clientId: {
-        required: true,
         serializedName: "typeProperties.clientId",
         type: {
           name: "Object"
@@ -6849,6 +6846,12 @@ export const SapOpenHubLinkedService: msRest.CompositeMapper = {
       },
       language: {
         serializedName: "typeProperties.language",
+        type: {
+          name: "Object"
+        }
+      },
+      systemId: {
+        serializedName: "typeProperties.systemId",
         type: {
           name: "Object"
         }
@@ -6864,6 +6867,24 @@ export const SapOpenHubLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      messageServer: {
+        serializedName: "typeProperties.messageServer",
+        type: {
+          name: "Object"
+        }
+      },
+      messageServerService: {
+        serializedName: "typeProperties.messageServerService",
+        type: {
+          name: "Object"
+        }
+      },
+      logonGroup: {
+        serializedName: "typeProperties.logonGroup",
+        type: {
+          name: "Object"
         }
       },
       encryptedCredential: {
