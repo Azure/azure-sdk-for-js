@@ -398,21 +398,6 @@ export interface CommonFieldValue {
 }
 
 /**
- * Recognized Receipt
- */
-export type RecognizedReceipt = {
-  /**
-   * Recognized form
-   */
-  recognizedForm: RecognizedForm;
-};
-
-/*
- * Array of {@link RecognizedReceipt}
- */
-export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {}
-
-/**
  * Report for a custom model training document.
  */
 export interface TrainingDocumentInfo {
