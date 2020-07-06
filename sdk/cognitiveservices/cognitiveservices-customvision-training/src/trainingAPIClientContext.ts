@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-customvision-training";
-const packageVersion = "6.0.0";
+const packageVersion = "5.1.0";
 
 export class TrainingAPIClientContext extends msRest.ServiceClient {
   endpoint: string;
