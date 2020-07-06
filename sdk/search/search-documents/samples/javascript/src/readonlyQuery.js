@@ -34,7 +34,7 @@ async function main() {
     select: ["HotelId", "HotelName", "Rating"]
   });
   for await (const result of searchResults.results) {
-    console.log(`${result.HotelName}: ${result.Rating} stars`);
+    console.log(`${result.document.HotelName}: ${result.document.Rating} stars`);
   }
 }
 

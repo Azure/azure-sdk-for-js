@@ -29,11 +29,16 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
+                    - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
+                      parameters:
+                        PackageName: ${{artifact.name}}
+                        ServiceName: ${{parameters.ServiceDirectory}}
+                        ForRelease: true
                     - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                       parameters:
                         SourceFolder: ${{parameters.ArtifactName}}
                         TargetFolder: ${{artifact.safeName}}
-                        PackageName: ${{artifact.name}}
+                        PackageName: ${{artifact.name}}-*.tgz
                     - pwsh: |
                         Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                       workingDirectory: $(Pipeline.Workspace)
@@ -93,7 +98,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
-                          PackageName: ${{artifact.name}}
+                          PackageName: ${{artifact.name}}-*.tgz
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
@@ -135,7 +140,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.DocArtifact}}
                           TargetFolder: ${{artifact.safeName}}/${{parameters.DocArtifact}}
-                          PackageName: $(Documentation.Zip)
+                          PackageName: $(Documentation.Zip).zip
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)

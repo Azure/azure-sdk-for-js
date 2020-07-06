@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { getAuthorizationTokenUsingResourceTokens } from "../../src/auth";
 import assert from "assert";
 

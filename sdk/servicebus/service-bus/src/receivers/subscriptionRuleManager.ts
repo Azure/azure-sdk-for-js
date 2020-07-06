@@ -4,7 +4,7 @@
 import { retry, RetryConfig, RetryOperationType, RetryOptions } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import { CorrelationRuleFilter, RuleDescription } from "../core/managementClient";
-import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { throwErrorIfClientOrConnectionClosed } from "../util/errors";
 
 /**
@@ -20,7 +20,7 @@ interface SubscriptionRuleManager {
    * @throws Error if the SubscriptionClient or the underlying connection is closed.
    * @throws MessagingError if the service returns an error while retrieving rules.
    */
-  getRules(options?: OperationOptions): Promise<RuleDescription[]>;
+  getRules(options?: OperationOptionsBase): Promise<RuleDescription[]>;
 
   /**
    * Removes the rule on the subscription identified by the given rule name.
@@ -33,7 +33,7 @@ interface SubscriptionRuleManager {
    * @throws MessagingError if the service returns an error while removing rules.
    */
 
-  removeRule(ruleName: string, options?: OperationOptions): Promise<void>;
+  removeRule(ruleName: string, options?: OperationOptionsBase): Promise<void>;
   /**
    * Adds a rule on the subscription as defined by the given rule name, filter and action.
    *
@@ -53,7 +53,7 @@ interface SubscriptionRuleManager {
     ruleName: string,
     filter: boolean | string | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<void>;
 
   /**
@@ -79,7 +79,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
   }
 
   // #region topic-filters
-  getRules(options: OperationOptions = {}): Promise<RuleDescription[]> {
+  getRules(options: OperationOptionsBase = {}): Promise<RuleDescription[]> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       this._context.entityPath,
@@ -103,7 +103,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
     return retry<RuleDescription[]>(config);
   }
 
-  removeRule(ruleName: string, options: OperationOptions = {}): Promise<void> {
+  removeRule(ruleName: string, options: OperationOptionsBase = {}): Promise<void> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
       this._context.entityPath,
@@ -131,7 +131,7 @@ export class SubscriptionRuleManagerImpl implements SubscriptionRuleManager {
     ruleName: string,
     filter: boolean | string | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
-    options: OperationOptions = {}
+    options: OperationOptionsBase = {}
   ): Promise<void> {
     throwErrorIfClientOrConnectionClosed(
       this._context.namespace,
