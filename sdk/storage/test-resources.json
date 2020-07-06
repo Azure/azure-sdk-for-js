@@ -107,6 +107,7 @@
             "[variables('accountName')]"
           ],
           "properties": {
+            "isVersioningEnabled": true,
             "cors": {
               "corsRules": [
                 {
