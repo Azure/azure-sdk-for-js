@@ -10,6 +10,7 @@ import {
 import {
   bearerTokenAuthenticationPolicy,
   HttpOperationResponse,
+  OperationOptions,
   proxyPolicy,
   ProxySettings,
   RequestPolicyFactory,
