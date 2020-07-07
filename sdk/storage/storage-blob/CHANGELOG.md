@@ -1,6 +1,6 @@
 # Release History
 
-## 12.2.0-preview.2 (Unreleased)
+## 12.2.0 (Unreleased)
 
 
 ## 12.2.0-preview.1 (2020.07)
