@@ -58,20 +58,12 @@ npm install
 npm run build
 ```
 
-3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Not all environment variables are required. Read the relevant sample sources and the `sample.env` file to determine which ones are required. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
 
-4. Add additional environment variables specified in the sample file you wish to run.
-
-5. Change directory to `dist`
+4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-cd dist
-```
-
-6. Run whichever samples you like (note that some samples may require additional setup, see the table above):
-
-```bash
-node recognizeReceipt.js
+node dist/recognizeReceipt.js
 ```
 
 ## Next Steps
