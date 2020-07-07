@@ -71,6 +71,19 @@ export const originName: msRest.OperationURLParameter = {
     }
   }
 };
+export const policyName: msRest.OperationURLParameter = {
+  parameterPath: "policyName",
+  mapper: {
+    required: true,
+    serializedName: "policyName",
+    constraints: {
+      MaxLength: 128
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const profileName: msRest.OperationURLParameter = {
   parameterPath: "profileName",
   mapper: {
@@ -81,7 +94,7 @@ export const profileName: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
+export const resourceGroupName0: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
@@ -90,6 +103,21 @@ export const resourceGroupName: msRest.OperationURLParameter = {
       MaxLength: 90,
       MinLength: 1,
       Pattern: /^[-\w\._\(\)]+$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceGroupName1: msRest.OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    required: true,
+    serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1,
+      Pattern: /^[a-zA-Z0-9_\-\(\)\.]*[^\.]$/
     },
     type: {
       name: "String"
