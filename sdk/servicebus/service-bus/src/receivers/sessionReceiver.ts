@@ -55,7 +55,7 @@ export interface SessionReceiver<
 
   /**
    * @property The time in UTC until which the session is locked.
-   * Everytime `renewSessionLock()` is called, this time gets updated to current time plus the lock
+   * Every time `renewSessionLock()` is called, this time gets updated to current time plus the lock
    * duration as specified during the Queue/Subscription creation.
    *
    * Will return undefined until a AMQP receiver link has been successfully set up for the session.
@@ -178,15 +178,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (this.isClosed) {
+    if (this._isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath, this.sessionId!);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
     }
-  }
-
-  private _throwIfMessageSessionDoesntExist(): void {
     if (!this._context.messageSessions[this.sessionId] || !this._messageSession.isOpen()) {
       const amqpError: AmqpError = {
         condition: ErrorNameConditionMapper.SessionLockLostError,
@@ -411,7 +408,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    this._throwIfMessageSessionDoesntExist();
 
     if (maxMessageCount == undefined) {
       maxMessageCount = 1;
@@ -490,7 +486,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    this._throwIfMessageSessionDoesntExist();
     const connId = this._context.namespace.connectionId;
     throwTypeErrorIfParameterMissing(connId, "onMessage", onMessage);
     throwTypeErrorIfParameterMissing(connId, "onError", onError);
