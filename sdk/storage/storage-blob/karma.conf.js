@@ -68,7 +68,9 @@ module.exports = function(config) {
       "ENCRYPTION_SCOPE_2",
       "BLOB_VERSIONING_ENABLED",
       "BLOB_TAGS_ENABLED",
-      "QUICK_QUERY_ENABLED"
+      "QUICK_QUERY_ENABLED",
+      "ORS_DEST_ACCOUNT_NAME",
+      "ORS_DEST_ACCOUNT_SAS"
     ],
 
     // test results reporter to use

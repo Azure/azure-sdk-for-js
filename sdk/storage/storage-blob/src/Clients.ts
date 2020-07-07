@@ -98,7 +98,8 @@ import {
   Tags,
   PageBlobRequestConditions,
   PremiumPageBlobTier,
-  toAccessTier
+  toAccessTier,
+  ObjectReplicationPolicy
 } from "./models";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
@@ -121,7 +122,8 @@ import {
   toQuerySerialization,
   truncatedISO8061Date,
   toBlobTags,
-  toTags
+  toTags,
+  parseObjectReplicationRecord
 } from "./utils/utils.common";
 import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
 import { Batch } from "./utils/Batch";
@@ -6380,7 +6382,7 @@ export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
   /**
    * An opaque DateTime value that, when present, specifies the version
    * of the blob to delete. It's for service version 2019-10-10 and newer.
-   * 
+   *
    * @type {string}
    * @memberof ContainerDeleteBlobOptions
    */
@@ -6490,7 +6492,7 @@ export interface BlobItem {
   properties: BlobProperties;
   metadata?: { [propertyName: string]: string };
   tags?: Tags;
-  objectReplicationMetadata?: { [propertyName: string]: string };
+  objectReplicationSourceProperties?: ObjectReplicationPolicy[];
 }
 
 /**
@@ -7433,7 +7435,10 @@ export class ContainerClient extends StorageClient {
           blobItems: resposne.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
-              tags: toTags(blobItemInteral.blobTags)
+              tags: toTags(blobItemInteral.blobTags),
+              objectReplicationSourceProperties: parseObjectReplicationRecord(
+                blobItemInteral.objectReplicationMetadata
+              )
             };
             return blobItem;
           })
@@ -7486,7 +7491,10 @@ export class ContainerClient extends StorageClient {
           blobItems: resposne.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
-              tags: toTags(blobItemInteral.blobTags)
+              tags: toTags(blobItemInteral.blobTags),
+              objectReplicationSourceProperties: parseObjectReplicationRecord(
+                blobItemInteral.objectReplicationMetadata
+              )
             };
             return blobItem;
           })
