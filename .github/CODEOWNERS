@@ -9,35 +9,35 @@
 /sdk/ @ramya-rao-a
 
 # Core
-/sdk/core/abort-controller/ @chradek @xirzec @bterlson
-/sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
-/sdk/core/core-auth/ @daviwil @xirzec @bterlson
-/sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
-/sdk/core/core-lro/ @sadasant @xirzec @bterlson
-/sdk/core/core-paging/ @daviwil @xirzec @bterlson
-/sdk/core/core-tracing/ @xirzec @bterlson @chradek
-/sdk/core/logger @xirzec @bterlson @chradek
+/sdk/core/abort-controller/ @chradek @xirzec @bterlson                               %Azure.Core
+/sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru          %Azure.Core
+/sdk/core/core-auth/ @daviwil @xirzec @bterlson                                      %Azure.Core
+/sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng                 %Azure.Core
+/sdk/core/core-lro/ @sadasant @xirzec @bterlson                                      %Azure.Core
+/sdk/core/core-paging/ @daviwil @xirzec @bterlson                                    %Azure.Core
+/sdk/core/core-tracing/ @xirzec @bterlson @chradek                                   %Azure.Core
+/sdk/core/logger @xirzec @bterlson @chradek                                          %Azure.Core
 
 # Service teams
-/sdk/appconfiguration/ @richardpark-msft @chradek
+/sdk/appconfiguration/ @richardpark-msft @chradek                                    %AzConfig
 
-/sdk/batch/ @xingwu1 @matthchr @bgklein
-/sdk/cosmosdb/ @southpolesteve @zfoster
+/sdk/batch/ @xingwu1 @matthchr @bgklein                                              %Batch
+/sdk/cosmosdb/ @southpolesteve @zfoster                                              %Cosmos
 
-/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
-/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru                %Event Hubs
+/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru              %Service Bus
 
-/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
-/sdk/keyvault/ @jonathandturner @sadasant
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
+/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant                          %Azure.Identity
+/sdk/keyvault/ @jonathandturner @sadasant                                            %KeyVault
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377  %Storage
 
-/sdk/tables/ @mahdiva @joheredi
+/sdk/tables/ @mahdiva @joheredi                                                      %Tables
 
 /sdk/test-utils/ @HarshaNalluru @sadasant
-/sdk/textanalytics/ @xirzec @willmtemple
-/sdk/formrecognizer/ @jeremymeng @willmtemple
+/sdk/textanalytics/ @xirzec @willmtemple                                             %Cognitive - Text Analytics
+/sdk/formrecognizer/ @jeremymeng @willmtemple                                        %Cognitive - Form Recognizer
 
-/sdk/search/ @xirzec @sarangan12
+/sdk/search/ @xirzec @sarangan12                                                     %Search
 
 # Smoke Tests
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
