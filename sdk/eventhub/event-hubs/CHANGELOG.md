@@ -1,5 +1,8 @@
 # Release History
 
+## 5.3.0-preview.2 (Unreleased)
+
+
 ## 5.3.0-preview.1 (2020-07-07)
 
 - Adds `loadBalancingOptions` to the `EventHubConsumerClient` to add control around
