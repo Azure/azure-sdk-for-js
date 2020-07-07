@@ -68,7 +68,6 @@ export function getSenderClosedErrorMsg(entityPath: string): string {
  * @internal
  * Gets the error message when a receiver is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param isClientClosed Denotes if the close() was called on the client that created the sender
  * @param sessionId If using session receiver, then the id of the session
  */
 export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string): string {
