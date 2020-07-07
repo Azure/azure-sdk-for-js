@@ -211,7 +211,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   /**
    * @property The time in UTC until which the session is locked.
-   * Everytime `renewSessionLock()` is called, this time gets updated to current time plus the lock
+   * Every time `renewSessionLock()` is called, this time gets updated to current time plus the lock
    * duration as specified during the Queue/Subscription creation.
    *
    * When the lock on the session expires
