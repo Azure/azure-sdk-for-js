@@ -124,7 +124,10 @@ export interface QueueResponse extends QueueDescription, Response {}
 /**
  * Represents result of list operation on queues.
  */
-export interface QueuesResponse extends Array<QueueDescription>, Response {}
+export interface QueuesResponse
+  extends Array<QueueDescription>,
+    Response,
+    Pick<PageSettings, "continuationToken"> {}
 
 /**
  * Represents result of create, get, update and delete operations on topic.
@@ -510,7 +513,6 @@ export class ServiceBusManagementClient extends ServiceClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        settings.continuationToken;
         return this.listQueuesSegments(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...options
