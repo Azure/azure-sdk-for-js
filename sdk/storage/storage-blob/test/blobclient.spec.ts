@@ -839,6 +839,27 @@ describe("BlobClient - Object Replication", () => {
   let destBlobClient: BlobClient;
   let recorder: any;
 
+  const expectedObjectReplicateSourceProperties = [
+    {
+      policyId: "003ca702-58ab-4405-8f52-cb92316babde",
+      rules: [
+        {
+          ruleId: "9a53f315-d56b-44f6-a3e8-1d62c1b7089b",
+          replicationStatus: "complete"
+        }
+      ]
+    },
+    {
+      policyId: "d685bc41-c8ab-4ea5-889c-2503f02954d8",
+      rules: [
+        {
+          ruleId: "671e9447-be18-4632-9eea-a1a29cdae759",
+          replicationStatus: "complete"
+        }
+      ]
+    }
+  ];
+
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     srcBlobServiceClient = getGenericBSU("");
@@ -855,37 +876,24 @@ describe("BlobClient - Object Replication", () => {
 
   it("source blob get properties", async () => {
     const getRes = await srcBlobClient.getProperties();
-    console.log(getRes);
+    assert.deepStrictEqual(
+      getRes.objectReplicationSourceProperties,
+      expectedObjectReplicateSourceProperties
+    );
   });
 
   it("destination blob get properties", async () => {
     const getRes = await destBlobClient.getProperties();
-    console.log(getRes);
+    assert.equal(getRes.objectReplicationSourceProperties, undefined);
   });
 
   it("listBlob", async () => {
     for await (const blobItem of srcContainerClient.listBlobsFlat()) {
       if (blobItem.name === blobName) {
-        assert.deepStrictEqual(blobItem.objectReplicationSourceProperties, [
-          {
-            policyId: "003ca702-58ab-4405-8f52-cb92316babde",
-            rules: [
-              {
-                ruleId: "9a53f315-d56b-44f6-a3e8-1d62c1b7089b",
-                replicationStatus: "complete"
-              }
-            ]
-          },
-          {
-            policyId: "d685bc41-c8ab-4ea5-889c-2503f02954d8",
-            rules: [
-              {
-                ruleId: "671e9447-be18-4632-9eea-a1a29cdae759",
-                replicationStatus: "complete"
-              }
-            ]
-          }
-        ]);
+        assert.deepStrictEqual(
+          blobItem.objectReplicationSourceProperties,
+          expectedObjectReplicateSourceProperties
+        );
       }
     }
 

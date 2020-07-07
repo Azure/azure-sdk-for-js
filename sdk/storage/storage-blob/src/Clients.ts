@@ -41,7 +41,7 @@ import {
   BlobDeleteResponse,
   BlobDownloadOptionalParams,
   BlobDownloadResponseModel,
-  BlobGetPropertiesResponse,
+  BlobGetPropertiesResponseModel,
   BlobHTTPHeaders,
   BlobPrefix,
   BlobSetHTTPHeadersResponse,
@@ -957,6 +957,22 @@ export interface BlobDeleteIfExistsResponse extends BlobDeleteResponse {
 }
 
 /**
+ * Contains response data for the {@link BlobClient.getProperties} operation.
+ *
+ * @export
+ * @interface BlobGetPropertiesResponse
+ */
+export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseModel {
+  /**
+   * Parsed Object Replication Policy Id, Rule Id(s) and status of the source blob.
+   *
+   * @type {ObjectReplicationPolicy[]}
+   * @memberof BlobGetPropertiesResponse
+   */
+  objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  *
@@ -1430,13 +1446,18 @@ export class BlobClient extends StorageClient {
     try {
       options.conditions = options.conditions || {};
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blobContext.getProperties({
+      const res = await this.blobContext.getProperties({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
+
+      return {
+        ...res,
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
