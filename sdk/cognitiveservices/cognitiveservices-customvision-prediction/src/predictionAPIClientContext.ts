@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-customvision-prediction";
-const packageVersion = "5.0.0";
+const packageVersion = "5.1.0";
 
 export class PredictionAPIClientContext extends msRest.ServiceClient {
   endpoint: string;
@@ -42,8 +42,8 @@ export class PredictionAPIClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/customvision/v3.0/prediction";
-    this.requestContentType = "application/json; charset=utf-8";
+    this.baseUri = "{Endpoint}/customvision/v3.1/prediction";
+    this.requestContentType = "multipart/form-data";
     this.endpoint = endpoint;
     this.credentials = credentials;
   }

@@ -39,11 +39,12 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   it("can recover a deleted certificate", async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await client.beginCreateCertificate(
+    const createPoller = await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
       testPollerProperties
     );
+    await createPoller.pollUntilDone();
     const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     const getDeletedResult = await deletePoller.pollUntilDone();
     assert.equal(
@@ -82,11 +83,12 @@ describe("Certificates client - restore certificates and recover backups", () =>
     // since the purge operation currently can't be expected to finish anytime soon.
     it("can restore a certificate", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      await client.beginCreateCertificate(
+      const createPoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
         testPollerProperties
       );
+      await createPoller.pollUntilDone();
       const backup = await client.backupCertificate(certificateName);
       await testClient.flushCertificate(certificateName);
       // eslint-disable-next-line no-constant-condition
@@ -139,11 +141,12 @@ describe("Certificates client - restore certificates and recover backups", () =>
     // On playback mode, the tests happen too fast for the timeout to work
     it("can restore a key with requestOptions timeout", async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-      await client.beginCreateCertificate(
+      const createPoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
         testPollerProperties
       );
+      await createPoller.pollUntilDone();
       const backup = await client.backupCertificate(certificateName);
       await testClient.flushCertificate(certificateName);
 

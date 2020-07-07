@@ -13,9 +13,9 @@ import {
   toFieldsFromFieldValue,
   toFormTable,
   toRecognizeFormResultResponse,
-  toReceiptResultResponse,
   toFormModelResponse,
-  toRecognizedForm
+  toRecognizedForm,
+  toRecognizeFormResultResponseFromReceipt
 } from "../src/transforms";
 import {
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
@@ -563,12 +563,12 @@ describe("Transforms", () => {
     assert.deepStrictEqual(models![0].fields!["field-0"].name, "field-0");
   });
 
-  it("toReceiptResultResponse() converts receipt response", () => {
+  it("toRecognizeFormResultResponseFromReceipt() converts receipt response", () => {
     const original: GetAnalyzeReceiptResultResponse = JSON.parse(receiptResponseString);
-    const transformed = toReceiptResultResponse(original);
+    const transformed = toRecognizeFormResultResponseFromReceipt(original);
 
-    assert.ok(transformed.receipts, "Expecting non-empty recognized receipts");
-    assert.equal(transformed.receipts![0].recognizedForm.formType, "prebuilt:receipt");
+    assert.ok(transformed.forms, "Expecting non-empty recognized receipts");
+    assert.equal(transformed.forms![0].formType, "prebuilt:receipt");
   });
 });
 
