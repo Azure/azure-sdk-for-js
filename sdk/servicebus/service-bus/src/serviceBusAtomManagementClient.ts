@@ -492,7 +492,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   public getQueues2(
-    options?: ListRequestOptions & OperationOptions
+    options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueDescription, QueuesResponse, PageSettings> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const iter = this.listQueueItems(options);
