@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-
+import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
@@ -905,13 +905,42 @@ describe("BlobClient - Object Replication", () => {
   });
 
   it("download blob", async () => {
-    const res = await srcBlobClient.download();
-    console.log(res.objectReplicationPolicyId);
-    console.log(res.objectReplicationRules);
-    console.log(res._response);
+    const srcRes = await srcBlobClient.download();
+    assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
+    assert.deepStrictEqual(
+      srcRes.objectReplicationSourceProperties,
+      expectedObjectReplicateSourceProperties
+    );
 
-    const res2 = await destBlobClient.download();
-    console.log(res2.objectReplicationPolicyId);
-    console.log(res2.objectReplicationRules);
+    const destRes = await destBlobClient.download();
+    assert.equal(
+      destRes.objectReplicationDestinationPolicyId,
+      "d685bc41-c8ab-4ea5-889c-2503f02954d8"
+    );
+    assert.equal(destRes.objectReplicationSourceProperties, undefined);
+  });
+
+  it("download to file", async function() {
+    if (!isNode) {
+      this.skip();
+    }
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const srcDownloadedFilePath = recorder.getUniqueName("srcdownloadedfile");
+    const srcRes = await srcBlobClient.downloadToFile(srcDownloadedFilePath);
+    assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
+    assert.deepStrictEqual(
+      srcRes.objectReplicationSourceProperties,
+      expectedObjectReplicateSourceProperties
+    );
+    fs.unlinkSync(srcDownloadedFilePath);
+
+    const dstDownloadedFilePath = recorder.getUniqueName("dstdownloadedfile");
+    const destRes = await destBlobClient.downloadToFile(dstDownloadedFilePath);
+    assert.equal(
+      destRes.objectReplicationDestinationPolicyId,
+      "d685bc41-c8ab-4ea5-889c-2503f02954d8"
+    );
+    assert.equal(destRes.objectReplicationSourceProperties, undefined);
+    fs.unlinkSync(dstDownloadedFilePath);
   });
 });

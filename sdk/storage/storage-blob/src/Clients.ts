@@ -40,7 +40,6 @@ import {
   BlobCreateSnapshotResponse,
   BlobDeleteResponse,
   BlobDownloadOptionalParams,
-  BlobDownloadResponseModel,
   BlobGetPropertiesResponseModel,
   BlobHTTPHeaders,
   BlobPrefix,
@@ -99,7 +98,8 @@ import {
   PageBlobRequestConditions,
   PremiumPageBlobTier,
   toAccessTier,
-  ObjectReplicationPolicy
+  ObjectReplicationPolicy,
+  BlobDownloadResponseParsed
 } from "./models";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
@@ -1232,7 +1232,7 @@ export class BlobClient extends StorageClient {
    * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
-   * @returns {Promise<BlobDownloadResponseModel>}
+   * @returns {Promise<BlobDownloadResponseParsed>}
    * @memberof BlobClient
    *
    * Example usage (Node.js):
@@ -1284,7 +1284,7 @@ export class BlobClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
-  ): Promise<BlobDownloadResponseModel> {
+  ): Promise<BlobDownloadResponseParsed> {
     options.conditions = options.conditions || {};
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -1305,9 +1305,14 @@ export class BlobClient extends StorageClient {
         spanOptions
       });
 
+      const wrappedRes = {
+        ...res,
+        objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+      };
       // Return browser response immediately
       if (!isNode) {
-        return res;
+        return wrappedRes;
       }
 
       // We support retrying when download stream unexpected ends in Node.js runtime
@@ -1329,7 +1334,7 @@ export class BlobClient extends StorageClient {
       }
 
       return new BlobDownloadResponse(
-        res,
+        wrappedRes,
         async (start: number): Promise<NodeJS.ReadableStream> => {
           const updatedOptions: BlobDownloadOptionalParams = {
             leaseAccessConditions: options.conditions,
@@ -2156,7 +2161,7 @@ export class BlobClient extends StorageClient {
    * @param {number} [offset] From which position of the block blob to download.
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
    * @param {BlobDownloadOptions} [options] Options to Blob download options.
-   * @returns {Promise<BlobDownloadResponseModel>} The response data for blob download operation,
+   * @returns {Promise<BlobDownloadResponseParsed>} The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
@@ -2167,7 +2172,7 @@ export class BlobClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
-  ): Promise<BlobDownloadResponseModel> {
+  ): Promise<BlobDownloadResponseParsed> {
     const { span, spanOptions } = createSpan("BlobClient-downloadToFile", options.tracingOptions);
     try {
       const response = await this.download(offset, count, {
@@ -3847,13 +3852,13 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param {string} query
    * @param {BlockBlobQueryOptions} [options={}]
-   * @returns {Promise<BlobDownloadResponseModel>}
+   * @returns {Promise<BlobQueryResponse>}
    * @memberof BlockBlobClient
    */
   public async query(
     query: string,
     options: BlockBlobQueryOptions = {}
-  ): Promise<BlobDownloadResponseModel> {
+  ): Promise<BlobQueryResponse> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     const { span, spanOptions } = createSpan("BlockBlobClient-query", options.tracingOptions);

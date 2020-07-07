@@ -7,7 +7,8 @@ import {
   SequenceNumberAccessConditions,
   AppendPositionAccessConditions,
   AccessTier,
-  CpkInfo
+  CpkInfo,
+  BlobDownloadResponseModel
 } from "./generatedModels";
 import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
@@ -187,4 +188,28 @@ export interface ObjectReplicationPolicy {
    * @memberof ObjectReplicationPolicy
    */
   rules: ObjectReplicationRule[];
+}
+
+/**
+ * Contains response data for the {@link BlobClient.download} operation.
+ *
+ * @export
+ * @interface BlobDownloadResponseParsed
+ */
+export interface BlobDownloadResponseParsed extends BlobDownloadResponseModel {
+  /**
+   * Parsed Object Replication Policy Id, Rule Id(s) and status of the source blob.
+   *
+   * @type {ObjectReplicationPolicy[]}
+   * @memberof BlobDownloadResponseParsed
+   */
+  objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+
+  /**
+   * Object Replication Policy Id of the destination blob.
+   *
+   * @type {string}
+   * @memberof BlobDownloadResponseParsed
+   */
+  objectReplicationDestinationPolicyId?: string;
 }
