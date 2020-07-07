@@ -206,9 +206,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   }
 
   public get isClosed(): boolean {
-    return (
-      this._isClosed || (this.sessionId ? !this._context.messageSessions[this.sessionId] : false)
-    );
+    return this._isClosed || !this._context.messageSessions[this.sessionId];
   }
 
   /**
