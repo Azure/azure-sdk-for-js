@@ -13,7 +13,7 @@ import {
   isBlobTagsDisabled,
   getGenericBSU
 } from "./utils";
-import { record, delay } from "@azure/test-utils-recorder";
+import { record, delay, isPlaybackMode } from "@azure/test-utils-recorder";
 import {
   BlobClient,
   BlockBlobClient,
@@ -23,9 +23,6 @@ import {
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config();
-
-import { setLogLevel } from "@azure/logger";
-setLogLevel("info");
 
 describe("BlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -860,6 +857,12 @@ describe("BlobClient - Object Replication", () => {
     }
   ];
 
+  before(async function() {
+    if (!isPlaybackMode()) {
+      this.skip();
+    }
+  });
+
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     srcBlobServiceClient = getGenericBSU("");
@@ -880,11 +883,16 @@ describe("BlobClient - Object Replication", () => {
       getRes.objectReplicationSourceProperties,
       expectedObjectReplicateSourceProperties
     );
+    assert.equal(getRes.objectReplicationDestinationPolicyId, undefined);
   });
 
   it("destination blob get properties", async () => {
     const getRes = await destBlobClient.getProperties();
     assert.equal(getRes.objectReplicationSourceProperties, undefined);
+    assert.equal(
+      getRes.objectReplicationDestinationPolicyId,
+      "d685bc41-c8ab-4ea5-889c-2503f02954d8"
+    );
   });
 
   it("listBlob", async () => {

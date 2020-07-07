@@ -86,7 +86,8 @@ import {
   ContainerListBlobFlatSegmentHeaders,
   BlobProperties,
   ContainerListBlobHierarchySegmentHeaders,
-  ListBlobsHierarchySegmentResponseModel
+  ListBlobsHierarchySegmentResponseModel,
+  BlobQueryResponseModel
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -970,6 +971,14 @@ export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseMode
    * @memberof BlobGetPropertiesResponse
    */
   objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+
+  /**
+   * Object Replication Policy Id of the destination blob.
+   *
+   * @type {string}
+   * @memberof BlobGetPropertiesResponse
+   */
+  objectReplicationDestinationPolicyId?: string;
 }
 
 /**
@@ -1461,6 +1470,7 @@ export class BlobClient extends StorageClient {
 
       return {
         ...res,
+        objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
       };
     } catch (e) {
@@ -3852,13 +3862,13 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param {string} query
    * @param {BlockBlobQueryOptions} [options={}]
-   * @returns {Promise<BlobQueryResponse>}
+   * @returns {Promise<BlobQueryResponseModel>}
    * @memberof BlockBlobClient
    */
   public async query(
     query: string,
     options: BlockBlobQueryOptions = {}
-  ): Promise<BlobQueryResponse> {
+  ): Promise<BlobQueryResponseModel> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     const { span, spanOptions } = createSpan("BlockBlobClient-query", options.tracingOptions);

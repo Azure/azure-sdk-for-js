@@ -4,7 +4,6 @@
 import { HttpResponse, isNode } from "@azure/core-http";
 
 import {
-  BlobDownloadResponseModel,
   BlobType,
   CopyStatusType,
   LeaseDurationType,
@@ -19,14 +18,14 @@ import { BlobQuickQueryStream, BlobQuickQueryStreamOptions } from "./utils/BlobQ
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * BlobQueryResponse implements BlobDownloadResponseModel interface, and in Node.js runtime it will
+ * BlobQueryResponse implements BlobQueryResponseModel interface, and in Node.js runtime it will
  * parse avor data returned by blob query.
  *
  * @export
  * @class BlobQueryResponse
- * @implements {BlobDownloadResponseModel}
+ * @implements {BlobQueryResponseModel}
  */
-export class BlobQueryResponse implements BlobDownloadResponseModel {
+export class BlobQueryResponse implements BlobQueryResponseModel {
   /**
    * Indicates that the service supports
    * requests for partial file content.

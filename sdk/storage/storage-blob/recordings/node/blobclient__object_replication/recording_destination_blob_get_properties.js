@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "79c582588b1b5dbc66dbb788af1ae2b7";
+module.exports.hash = "fbd6612459fb168ba6b96b02dc7103f8";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,9 +22,9 @@ nock('https://fakestorageaccount1.blob.core.windows.net:443', {"encodedQueryPara
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5a8cafd6-901e-008a-7242-547e18000000',
+  'c9f7f353-c01e-003e-3d55-54b2d6000000',
   'x-ms-client-request-id',
-  'be2bafee-1380-4edb-af05-3286000c92c9',
+  '013d4d84-185b-4b07-9852-ccf58e3b7efb',
   'x-ms-version',
   '2019-12-12',
   'x-ms-version-id',
@@ -62,5 +62,5 @@ nock('https://fakestorageaccount1.blob.core.windows.net:443', {"encodedQueryPara
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Tue, 07 Jul 2020 09:39:03 GMT'
+  'Tue, 07 Jul 2020 11:55:30 GMT'
 ]);
