@@ -15,7 +15,6 @@ export {
   BaseResource,
   BillingAccount,
   BillingPeriod,
-  BillingPeriodsListResult,
   BillingPermissionsProperties,
   BillingProfile,
   BillingProfilesOnExpand,

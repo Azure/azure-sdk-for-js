@@ -15,7 +15,6 @@ export {
   BaseResource,
   BillingAccount,
   BillingPeriod,
-  BillingPeriodsListResult,
   BillingPermissionsProperties,
   BillingProfile,
   BillingProfilesOnExpand,
@@ -23,6 +22,8 @@ export {
   BillingRoleAssignment,
   BillingRoleDefinition,
   BillingSubscription,
+  BillingSubscriptionsListResult,
+  BillingSubscriptionsMoveHeaders,
   Customer,
   CustomerPolicy,
   Department,
@@ -43,5 +44,8 @@ export {
   Product,
   Reseller,
   Resource,
-  Transaction
+  Transaction,
+  TransferBillingSubscriptionRequestProperties,
+  ValidateSubscriptionTransferEligibilityError,
+  ValidateSubscriptionTransferEligibilityResult
 } from "../models/mappers";
