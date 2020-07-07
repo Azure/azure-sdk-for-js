@@ -9,7 +9,8 @@
 import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values

@@ -12,21 +12,21 @@ urlFragment: ai-form-recognizer-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cognitive Services Text Analytics in some common scenarios.
 
-
-|**File Name**|**Description**|
-|----------------|-------------|
-|[recognizeContent.ts][recognizeContent]|Recognize text and table structures of a document|
-|[recognizeReceipt.ts][recognizeReceipt]|Recognize data from a file of a US sales receipt using a prebuilt model|
-|[recognizeReceiptFromUrl.ts][recognizeReceiptFromUrl]|Recognize data from a URL of a US sales receipt using a prebuilt model|
-|[recognizeCustomForm.ts][recognizeCustomForm]|Recognize forms with your custom model|
-|[trainLabeledModel.ts][trainLabeledModel]|Train a custom model with labeled data|
-|[trainUnlabeledModel.ts][trainUnlabeledModel]|Train a custom model with unlabeled data|
-|[customModelManagement.ts][customModelManagement]|Manage the custom models in your account|
-|[iteratorModels.ts][iteratorModels]|List custom models using different ways|
-|[getBoundingBoxes.ts][getBoundingBoxes]|Get information to to visualize outlines of form content and field.|
-|[differentiateLabeledUnlabeled.ts][differentiateLabeledUnlabeled]|See the differences in output when using a custom model trained with labeled data and one trained with unlabeled data|                 |
-|[copyModel.ts][copyModel]|Copy a custom model from one Form Recognizer resource to another|
-|[stronglyTypingRecognizedForm.ts][stronglyTypingRecognizedForm]|Create a strongly-typed interface representing a receipt, or any model with a known structure, and use it to refine the output type of model recognition|
+| **File Name**                                                     | **Description**                                                                                                                                          |
+| ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [recognizeContent.ts][recognizecontent]                           | Recognize text and table structures of a document                                                                                                        |
+| [recognizeReceipt.ts][recognizereceipt]                           | Recognize data from a file of a US sales receipt using a prebuilt model                                                                                  |
+| [recognizeReceiptFromUrl.ts][recognizereceiptfromurl]             | Recognize data from a URL of a US sales receipt using a prebuilt model                                                                                   |
+| [recognizeCustomForm.ts][recognizecustomform]                     | Recognize forms with your custom model                                                                                                                   |
+| [trainLabeledModel.ts][trainlabeledmodel]                         | Train a custom model with labeled data                                                                                                                   |
+| [trainUnlabeledModel.ts][trainunlabeledmodel]                     | Train a custom model with unlabeled data                                                                                                                 |
+| [customModelManagement.ts][custommodelmanagement]                 | Manage the custom models in your account                                                                                                                 |
+| [iteratorModels.ts][iteratormodels]                               | List custom models using different ways                                                                                                                  |
+| [getBoundingBoxes.ts][getboundingboxes]                           | Get information to to visualize outlines of form content and field.                                                                                      |
+| [differentiateLabeledUnlabeled.ts][differentiatelabeledunlabeled] | See the differences in output when using a custom model trained with labeled data and one trained with unlabeled data                                    |
+| [copyModel.ts][copymodel]                                         | Copy a custom model from one Form Recognizer resource to another                                                                                         |
+| [stronglyTypingRecognizedForm.ts][stronglytypingrecognizedform]   | Create a strongly-typed interface representing a receipt, or any model with a known structure, and use it to refine the output type of model recognition |
+| [authenticationMethods.ts][authenticationmethods]                 | authenticates a service client using both Azure Active Directory and an API key                                                                          |
 
 ## Prerequisites
 
@@ -78,18 +78,19 @@ node recognizeReceipt.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[recognizeReceipt]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeReceipt.ts
-[recognizeReceiptFromUrl]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeReceiptFromUrl.ts
-[recognizeContent]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeContent.ts
-[recognizeCustomForm]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeCustomForm.ts
-[trainLabeledModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainLabeledModel.ts
-[trainUnlabeledModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainUnlabeledModel.ts
-[customModelManagement]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/customModelManagement.ts
-[iteratorModels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/iteratorModels.ts
-[getBoundingBoxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/getBoundingBoxes.ts
-[differentiateLabeledUnlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/differentiateLabeledUnlabeled.ts
-[copyModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/copyModel.ts
-[stronglyTypingRecognizedForm]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/stronglyTypingRecognizedForm.ts
+[recognizereceipt]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeReceipt.ts
+[recognizereceiptfromurl]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeReceiptFromUrl.ts
+[recognizecontent]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeContent.ts
+[recognizecustomform]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/recognizeCustomForm.ts
+[trainlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainLabeledModel.ts
+[trainunlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainUnlabeledModel.ts
+[custommodelmanagement]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/customModelManagement.ts
+[iteratormodels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/iteratorModels.ts
+[getboundingboxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/getBoundingBoxes.ts
+[differentiatelabeledunlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/differentiateLabeledUnlabeled.ts
+[copymodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/copyModel.ts
+[stronglytypingrecognizedform]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/stronglyTypingRecognizedForm.ts
+[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/authenticationMethods.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/

@@ -2,26 +2,29 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to extact text and layout information from a document
+ * This sample demonstrates how to extract text and layout information from a document
  */
 
 import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+
 import * as fs from "fs";
+import * as path from "path";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const path = "../assets/Invoice_6.pdf";
+  const fileName = path.join(__dirname, "../assets/Invoice_6.pdf");
 
-  if (!fs.existsSync(path)) {
-    throw new Error(`Expecting file ${path} exists`);
+  if (!fs.existsSync(fileName)) {
+    throw new Error(`Expecting file ${fileName} exists`);
   }
 
-  const readStream = fs.createReadStream(path);
+  const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeContent(readStream);
