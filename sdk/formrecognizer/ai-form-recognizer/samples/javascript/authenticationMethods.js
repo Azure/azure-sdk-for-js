@@ -13,13 +13,12 @@ const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-rec
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const fs = require("fs");
-const path = require("path");
 
 // Load the .env file if it exists
 require("dotenv").config();
 
 // You will need to set this environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
+const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
 
 /**
  * Create a client using Azure Active Directory to authenticate
@@ -59,7 +58,7 @@ async function useApiKey() {
  * for content recognition and print its output.
  */
 async function recognizeContentWithClient(client) {
-  const fileName = path.join(__dirname, "../assets/Invoice_6.pdf");
+  const fileName = "assets/Invoice_6.pdf";
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);
@@ -88,7 +87,7 @@ async function recognizeContentWithClient(client) {
   }
 }
 
-export async function main() {
+async function main() {
   console.log("== Client Authentication Methods Sample ==");
 
   await useAad();
