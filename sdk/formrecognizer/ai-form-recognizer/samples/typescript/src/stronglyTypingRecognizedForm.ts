@@ -15,10 +15,11 @@ import {
   AzureKeyCredential,
   BeginRecognizeReceiptPollState,
   FormField,
-  RecognizedForm,
+  RecognizedForm
 } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
+import * as path from "path";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -75,31 +76,27 @@ function toTypedUSReceipt(original: RecognizedForm): USReceipt {
       }
 
       return v.value;
-    }) as ReceiptItem[],
+    }) as ReceiptItem[]
   };
 }
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint =
-    process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const path = "../assets/contoso-allinone.jpg";
+  const fileName = path.join(__dirname, "../assets/contoso-allinone.jpg");
 
-  if (!fs.existsSync(path)) {
-    throw new Error(`Expecting file ${path} exists`);
+  if (!fs.existsSync(fileName)) {
+    throw new Error(`Expecting file ${fileName} exists`);
   }
 
-  const readStream = fs.createReadStream(path);
+  const readStream = fs.createReadStream(fileName);
 
-  const client = new FormRecognizerClient(
-    endpoint,
-    new AzureKeyCredential(apiKey)
-  );
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
     onProgress: (state: BeginRecognizeReceiptPollState) => {
       console.log(`status: ${state.status}`);
-    },
+    }
   });
 
   const receiptResponse = await poller.pollUntilDone();
@@ -139,9 +136,7 @@ export async function main() {
     console.log("Items:");
     for (const item of receipt.Items) {
       console.log(item);
-      console.log(
-        `  - Name: "${item.Name?.value}" has confidence ${item.Name?.confidence}`
-      );
+      console.log(`  - Name: "${item.Name?.value}" has confidence ${item.Name?.confidence}`);
       console.log(
         `    Quantity: ${item.Quantity?.value} has confidence ${item.Quantity?.confidence}`
       );
@@ -157,15 +152,9 @@ export async function main() {
   console.log(
     `Subtotal: ${receipt.Subtotal?.value} has confidence ${receipt.Subtotal?.confidence}`
   );
-  console.log(
-    `Tax: ${receipt.Tax?.value} has confidence ${receipt.Tax?.confidence}`
-  );
-  console.log(
-    `Tip: ${receipt.Tip?.value} has confidence ${receipt.Tip?.confidence}`
-  );
-  console.log(
-    `Total: ${receipt.Total?.value} has confidence ${receipt.Total?.confidence}`
-  );
+  console.log(`Tax: ${receipt.Tax?.value} has confidence ${receipt.Tax?.confidence}`);
+  console.log(`Tip: ${receipt.Tip?.value} has confidence ${receipt.Tip?.confidence}`);
+  console.log(`Total: ${receipt.Total?.value} has confidence ${receipt.Total?.confidence}`);
 }
 
 main().catch((err) => {
