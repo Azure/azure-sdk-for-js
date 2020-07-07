@@ -1,5 +1,9 @@
 # Release History
 
+## 12.2.0 (Unreleased)
+
+- Added support for Object Replication Service.
+
 ## 12.2.0-preview.1 (2020.07)
 
 - Updated Azure Storage Service API version to 2019-12-12.
