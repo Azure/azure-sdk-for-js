@@ -45,7 +45,7 @@ async function useApiKey() {
   console.log("-- API Key --");
 
   // If using an API Key, you will need to set this environment variable
-  const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
 
   const credential = new AzureKeyCredential(apiKey);
 
