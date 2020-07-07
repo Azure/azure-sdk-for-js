@@ -3,17 +3,15 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import {
-  RecognizeReceiptsOptions,
-} from "../../formRecognizerClient";
+import { RecognizeReceiptsOptions } from "../../formRecognizerClient";
 
 import {
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
   OperationStatus
 } from "../../generated/models";
 import { FormContentType } from "../../common";
-import { FormRecognizerRequestBody, RecognizedReceiptArray } from "../../models";
-import { RecognizeReceiptResultResponse } from "../../internalModels";
+import { FormRecognizerRequestBody, RecognizedFormArray } from "../../models";
+import { RecognizeFormResultResponse } from "../../internalModels";
 export { OperationStatus };
 
 export interface ReceiptPollerOperationOptions {
@@ -43,10 +41,13 @@ export type RecognizeReceiptPollerClient = {
     analyzeOptions?: RecognizeReceiptsOptions
   ) => Promise<AnalyzeReceiptAsyncResponseModel>;
   // retrieves analyze result
-  getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeReceiptResultResponse>;
+  getRecognizeResult: (
+    resultId: string,
+    options: { abortSignal?: AbortSignalLike }
+  ) => Promise<RecognizeFormResultResponse>;
 };
 
-export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedReceiptArray> {
+export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedFormArray> {
   readonly client: RecognizeReceiptPollerClient;
   source?: FormRecognizerRequestBody | string;
   contentType?: FormContentType;
@@ -56,7 +57,7 @@ export interface BeginRecognizeReceiptPollState extends PollOperationState<Recog
 }
 
 export interface BeginRecognizeReceiptPollerOperation
-extends PollOperation<BeginRecognizeReceiptPollState, RecognizedReceiptArray> {}
+  extends PollOperation<BeginRecognizeReceiptPollState, RecognizedFormArray> {}
 
 /**
  * @internal
@@ -76,7 +77,7 @@ export type BeginRecognizeReceiptPollerOptions = {
  */
 export class BeginRecognizeReceiptPoller extends Poller<
   BeginRecognizeReceiptPollState,
-  RecognizedReceiptArray
+  RecognizedFormArray
 > {
   public updateIntervalInMs: number;
 
@@ -144,11 +145,7 @@ function makeBeginRecognizePollOperation(
         }
 
         state.isStarted = true;
-        const result = await client.beginRecognize(
-          source,
-          contentType,
-          analyzeOptions || {}
-        );
+        const result = await client.beginRecognize(source, contentType, analyzeOptions || {});
         if (!result.operationLocation) {
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
         }
@@ -164,17 +161,17 @@ function makeBeginRecognizePollOperation(
 
       state.status = response.status;
       if (!state.isCompleted) {
-        if (
-          typeof options.fireProgress === "function"
-        ) {
+        if (typeof options.fireProgress === "function") {
           options.fireProgress(state);
         }
 
         if (response.status === "succeeded") {
-          state.result = response.receipts;
+          state.result = response.forms;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          const errors = response.errors?.map((e) => `  code ${e.code}, message: '${e.message}'`).join("\n");
+          const errors = response.errors
+            ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
+            .join("\n");
           const message = `Receipt recognition failed.
 Error(s):
 ${errors || ""}

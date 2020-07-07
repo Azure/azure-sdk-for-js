@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
 import { Readable } from "stream";
 
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -123,7 +122,12 @@ import {
   toBlobTags,
   toTags
 } from "./utils/utils.common";
-import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
+import {
+  fsStat,
+  readStreamToLocalFile,
+  streamToBuffer,
+  fsCreateReadStream
+} from "./utils/utils.node";
 import { Batch } from "./utils/Batch";
 import { createSpan } from "./utils/tracing";
 import { CommonOptions, StorageClient } from "./StorageClient";
@@ -4314,7 +4318,7 @@ export class BlockBlobClient extends BlobClient {
       const size = (await fsStat(filePath)).size;
       return await this.uploadResetableStream(
         (offset, count) =>
-          fs.createReadStream(filePath, {
+          fsCreateReadStream(filePath, {
             autoClose: true,
             end: count ? offset + count - 1 : Infinity,
             start: offset
@@ -6380,7 +6384,7 @@ export interface ContainerDeleteBlobOptions extends BlobDeleteOptions {
   /**
    * An opaque DateTime value that, when present, specifies the version
    * of the blob to delete. It's for service version 2019-10-10 and newer.
-   * 
+   *
    * @type {string}
    * @memberof ContainerDeleteBlobOptions
    */

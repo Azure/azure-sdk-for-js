@@ -6,25 +6,38 @@
  * to a target Form Recognizer resource.
  */
 
-import { FormTrainingClient, AzureKeyCredential, BeginCopyModelPollState } from "@azure/ai-form-recognizer";
+import {
+  FormTrainingClient,
+  AzureKeyCredential,
+  BeginCopyModelPollState
+} from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
   // information about the source Form Recognizer resource
-  const endpoint = process.env["FORM_RECOGNIZER_SOURCE_ENDPOINT"] || "<source cognitive services endpoint>";
+  const endpoint =
+    process.env["FORM_RECOGNIZER_SOURCE_ENDPOINT"] || "<source cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_SOURCE_API_KEY"] || "<source resource api key>";
-  const sourceModelId = process.env["FORM_RECOGNIZER_SOURCE_MODEL_ID"] || "<source custom model id>"
+  const sourceModelId =
+    process.env["FORM_RECOGNIZER_SOURCE_MODEL_ID"] || "<source custom model id>";
   // information about the target Form Recognizer resource
-  const targetEndpoint = process.env["FORM_RECOGNIZER_TARGET_ENDPOINT"] || "<target cognitive services endpoint>";
+  const targetEndpoint =
+    process.env["FORM_RECOGNIZER_TARGET_ENDPOINT"] || "<target cognitive services endpoint>";
   const targetApiKey = process.env["FORM_RECOGNIZER_TARGET_API_KEY"] || "<target resource api key>";
-  const targetResourceRegion = process.env["FORM_RECOGNIZER_TARGET_REGION"] || "<target resource region>"
-  const targetResourceId = process.env["FORM_RECOGNIZER_TARGET_RESOURCE_ID"] || "<target resource resource id>"
+  const targetResourceRegion =
+    process.env["FORM_RECOGNIZER_TARGET_REGION"] || "<target resource region>";
+  const targetResourceId =
+    process.env["FORM_RECOGNIZER_TARGET_RESOURCE_ID"] || "<target resource resource id>";
 
   const targetClient = new FormTrainingClient(targetEndpoint, new AzureKeyCredential(targetApiKey));
-  const authorization = await targetClient.getCopyAuthorization(targetResourceId, targetResourceRegion);
+  const authorization = await targetClient.getCopyAuthorization(
+    targetResourceId,
+    targetResourceRegion
+  );
 
   const sourceClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await sourceClient.beginCopyModel(sourceModelId, authorization, {
@@ -35,7 +48,7 @@ export async function main() {
   const result = await poller.pollUntilDone();
 
   if (!result) {
-      throw new Error("Expecting valid result from copy model operation");
+    throw new Error("Expecting valid result from copy model operation");
   }
 
   // now verify that the copy in the target Form Recognizer resource

@@ -11,10 +11,13 @@ import {
   AzureKeyCredential,
   RecognizedForm
 } from "@azure/ai-form-recognizer";
+
 import * as fs from "fs";
+import * as path from "path";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
@@ -24,14 +27,14 @@ export async function main() {
   const unlabeledModelId =
     process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const path = "../assets/Invoice_6.pdf";
+  const fileName = path.join(__dirname, "../assets/Invoice_6.pdf");
 
-  if (!fs.existsSync(path)) {
-    throw new Error(`Expecting file ${path} exists`);
+  if (!fs.existsSync(fileName)) {
+    throw new Error(`Expecting file ${fileName} exists`);
   }
 
-  const formsWithLabels = await recognizeCustomForm(path, endpoint, apiKey, labeledModelId);
-  const forms = await recognizeCustomForm(path, endpoint, apiKey, unlabeledModelId);
+  const formsWithLabels = await recognizeCustomForm(fileName, endpoint, apiKey, labeledModelId);
+  const forms = await recognizeCustomForm(fileName, endpoint, apiKey, unlabeledModelId);
 
   // The main difference is found in the labels of its fields
   // The form recognized with a labeled model will have the labels it was trained with,
@@ -65,19 +68,24 @@ export async function main() {
 }
 
 async function recognizeCustomForm(
-  path: string,
+  fileName: string,
   endpoint: string,
   apiKey: string,
   labeledModelId: string
 ): Promise<RecognizedForm[] | undefined> {
   console.log("# Recognizing...");
-  const readStream = fs.createReadStream(path);
+  const readStream = fs.createReadStream(fileName);
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeCustomForms(labeledModelId, readStream, "application/pdf", {
-    onProgress: (state) => {
-      console.log(`  status: ${state.status}`);
+  const poller = await client.beginRecognizeCustomForms(
+    labeledModelId,
+    readStream,
+    "application/pdf",
+    {
+      onProgress: (state) => {
+        console.log(`  status: ${state.status}`);
+      }
     }
-  });
+  );
   const forms = await poller.pollUntilDone();
   if (!forms || forms?.length <= 0) {
     throw new Error("Expecting valid response!");
