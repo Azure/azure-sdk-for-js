@@ -214,32 +214,6 @@ export interface ErrorResponse {
 }
 
 /**
- * Health Details for backup items.
- */
-export interface HealthDetails {
-  /**
-   * Health Code
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: number;
-  /**
-   * Health Title
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly title?: string;
-  /**
-   * Health Message
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * Health Recommended Actions
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly recommendations?: string[];
-}
-
-/**
  * Additional information about Azure File Share backup item.
  */
 export interface AzureFileshareProtectedItemExtendedInfo {
@@ -418,16 +392,6 @@ export interface AzureFileshareProtectedItem {
    * 'Protected', 'ProtectionError', 'ProtectionStopped', 'ProtectionPaused'
    */
   protectionState?: ProtectionState;
-  /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
   /**
    * Last backup operation status. Possible values: Healthy, Unhealthy.
    */
@@ -813,8 +777,7 @@ export interface AzureIaaSVMProtectedItem {
   protectionState?: ProtectionState;
   /**
    * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
+   * 'ActionSuggested', 'Invalid'
    */
   healthStatus?: HealthStatus;
   /**
@@ -924,8 +887,7 @@ export interface AzureIaaSClassicComputeVMProtectedItem {
   protectionState?: ProtectionState;
   /**
    * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
+   * 'ActionSuggested', 'Invalid'
    */
   healthStatus?: HealthStatus;
   /**
@@ -1035,8 +997,7 @@ export interface AzureIaaSComputeVMProtectedItem {
   protectionState?: ProtectionState;
   /**
    * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
+   * 'ActionSuggested', 'Invalid'
    */
   healthStatus?: HealthStatus;
   /**
@@ -1089,9 +1050,35 @@ export interface AzureIaaSVMErrorInfo {
 }
 
 /**
+ * Health Details for backup items.
+ */
+export interface ResourceHealthDetails {
+  /**
+   * Health Code
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: number;
+  /**
+   * Health Title
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly title?: string;
+  /**
+   * Health Message
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * Health Recommended Actions
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendations?: string[];
+}
+
+/**
  * Azure IaaS VM workload-specific Health Details.
  */
-export interface AzureIaaSVMHealthDetails extends HealthDetails {
+export interface AzureIaaSVMHealthDetails extends ResourceHealthDetails {
 }
 
 /**
@@ -1737,16 +1724,6 @@ export interface AzureVmWorkloadProtectedItem {
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
   /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
-  /**
    * Additional information for this backup item.
    */
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
@@ -1864,16 +1841,6 @@ export interface AzureVmWorkloadSAPAseDatabaseProtectedItem {
    * include: 'Invalid', 'Healthy', 'Unhealthy', 'NotReachable', 'IRPending'
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
-  /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
   /**
    * Additional information for this backup item.
    */
@@ -1993,16 +1960,6 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem {
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
   /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
-  /**
    * Additional information for this backup item.
    */
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
@@ -2120,16 +2077,6 @@ export interface AzureVmWorkloadSQLDatabaseProtectedItem {
    * include: 'Invalid', 'Healthy', 'Unhealthy', 'NotReachable', 'IRPending'
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
-  /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
   /**
    * Additional information for this backup item.
    */
@@ -7798,16 +7745,6 @@ export type PrivateEndpointConnectionStatus = 'Pending' | 'Approved' | 'Rejected
 export type ProtectionState = 'Invalid' | 'IRPending' | 'Protected' | 'ProtectionError' | 'ProtectionStopped' | 'ProtectionPaused';
 
 /**
- * Defines values for HealthStatus.
- * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested', 'Healthy',
- * 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy', 'PersistentUnhealthy',
- * 'Invalid'
- * @readonly
- * @enum {string}
- */
-export type HealthStatus = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Healthy' | 'TransientDegraded' | 'PersistentDegraded' | 'TransientUnhealthy' | 'PersistentUnhealthy' | 'Invalid';
-
-/**
  * Defines values for RecoveryType.
  * Possible values include: 'Invalid', 'OriginalLocation', 'AlternateLocation', 'RestoreDisks',
  * 'Offline'
@@ -7857,6 +7794,14 @@ export type PolicyType = 'Invalid' | 'Full' | 'Differential' | 'Log' | 'CopyOnly
  * @enum {string}
  */
 export type JobSupportedAction = 'Invalid' | 'Cancellable' | 'Retriable';
+
+/**
+ * Defines values for HealthStatus.
+ * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested', 'Invalid'
+ * @readonly
+ * @enum {string}
+ */
+export type HealthStatus = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Invalid';
 
 /**
  * Defines values for ProtectedItemState.
