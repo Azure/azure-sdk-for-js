@@ -12,6 +12,7 @@ import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
@@ -165,8 +166,10 @@ export interface QueueRuntimeInfo {
 export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {
 }
 
+// Warning: (ae-forgotten-export) The symbol "PageSettings" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface QueuesResponse extends Array<QueueDescription>, Response {
+export interface QueuesResponse extends Array<QueueDescription>, Response, Pick<PageSettings, "continuationToken"> {
 }
 
 // @public
@@ -305,6 +308,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
     getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
     getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse>;
+    // (undocumented)
+    getQueues2(options?: ListRequestOptions & OperationOptions): PagedAsyncIterableIterator<QueueDescription, QueuesResponse, PageSettings>;
     getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimeInfoResponse>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
     getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptions): Promise<RulesResponse>;
