@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -56,7 +55,12 @@ import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { readStreamToLocalFile, streamToBuffer, fsStat } from "./utils/utils.node";
+import {
+  readStreamToLocalFile,
+  streamToBuffer,
+  fsStat,
+  fsCreateReadStream
+} from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
@@ -2004,7 +2008,7 @@ export class ShareFileClient extends StorageClient {
       const size = (await fsStat(filePath)).size;
       return await this.uploadResetableStream(
         (offset, count) =>
-          fs.createReadStream(filePath, {
+          fsCreateReadStream(filePath, {
             autoClose: true,
             end: count ? offset + count - 1 : Infinity,
             start: offset
