@@ -63,8 +63,8 @@ export async function getHeaders({
   partitionKey
 }: GetHeadersOptions): Promise<CosmosHeaders> {
   const headers: CosmosHeaders = {
-    [Constants.HttpHeaders.ResponseContinuationTokenLimitInKB]: 1,
-    [Constants.HttpHeaders.EnableCrossPartitionQuery]: true,
+    // [Constants.HttpHeaders.ResponseContinuationTokenLimitInKB]: 1,
+    // [Constants.HttpHeaders.EnableCrossPartitionQuery]: true,
     ...defaultHeaders
   };
 
