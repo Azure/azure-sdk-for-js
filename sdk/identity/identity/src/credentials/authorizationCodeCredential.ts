@@ -7,6 +7,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { CanonicalCode } from "@opentelemetry/api";
+import { credentialLogger, CredentialLogger } from '../util/logging';
 
 /**
  * Enables authentication to Azure Active Directory using an authorization code
@@ -22,6 +23,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private clientSecret: string | undefined;
   private authorizationCode: string;
   private redirectUri: string;
+  private logger: CredentialLogger;
 
   private lastTokenResponse: TokenResponse | null = null;
 
@@ -113,6 +115,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     }
 
     this.identityClient = new IdentityClient(options);
+    this.logger = credentialLogger(this.constructor.name);
   }
 
   /**
@@ -179,6 +182,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       this.lastTokenResponse = tokenResponse;
+      this.logger.getToken.success(scopes);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -189,7 +193,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      throw err;
+      this.logger.getToken.throwError(err);
     } finally {
       span.end();
     }

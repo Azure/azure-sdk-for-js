@@ -33,5 +33,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     credentials.push(new VSCodeCredential(tokenCredentialOptions));
 
     super(...credentials);
+    this.credentialName = "DefaultAzureCredential";
   }
 }

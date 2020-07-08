@@ -8,7 +8,7 @@ import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logger } from "../util/logging";
+import { credentialLogger, CredentialLogger } from '../util/logging';
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -65,6 +65,7 @@ export class DeviceCodeCredential implements TokenCredential {
   private clientId: string;
   private userPromptCallback: DeviceCodePromptCallback;
   private lastTokenResponse: TokenResponse | null = null;
+  private logger: CredentialLogger;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
@@ -87,6 +88,7 @@ export class DeviceCodeCredential implements TokenCredential {
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.userPromptCallback = userPromptCallback;
+    this.logger = credentialLogger(this.constructor.name);
   }
 
   private async sendDeviceCodeRequest(
@@ -115,7 +117,7 @@ export class DeviceCodeCredential implements TokenCredential {
         spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
       });
 
-      logger.info("DeviceCodeCredential: sending devicecode request");
+      this.logger.info("Sending devicecode request");
 
       const response = await this.identityClient.sendRequest(webResource);
       if (!(response.status === 200 || response.status === 201)) {
@@ -130,13 +132,13 @@ export class DeviceCodeCredential implements TokenCredential {
           : CanonicalCode.UNKNOWN;
 
       if (err.name === AuthenticationErrorName) {
-        logger.warning(
-          `DeviceCodeCredential: failed to authenticate ${
+        this.logger.warning(
+          `Failed to authenticate ${
             (err as AuthenticationError).errorResponse.errorDescription
           }`
         );
       } else {
-        logger.warning(`DeviceCodeCredential: failed to authenticate ${err}`);
+        this.logger.warning(`FFailed to authenticate ${err}`);
       }
 
       span.setStatus({
@@ -270,6 +272,7 @@ export class DeviceCodeCredential implements TokenCredential {
       }
 
       this.lastTokenResponse = tokenResponse;
+      this.logger.getToken.success(scopes);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -280,7 +283,7 @@ export class DeviceCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      throw err;
+      this.logger.getToken.throwError(err);
     } finally {
       span.end();
     }

@@ -11,7 +11,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logThrowCredentialError, logThrowGetTokenFailure, logGetTokenSuccess } from '../util/logging';
+import { credentialLogger, CredentialLogger } from '../util/logging';
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -39,6 +39,7 @@ export class ClientCertificateCredential implements TokenCredential {
   private certificateString: string;
   private certificateThumbprint: string;
   private certificateX5t: string;
+  private logger: CredentialLogger;
 
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -58,14 +59,14 @@ export class ClientCertificateCredential implements TokenCredential {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.clientId = clientId;
-
     this.certificateString = readFileSync(certificatePath, "utf8");
+    this.logger = credentialLogger(this.constructor.name);
 
     const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/;
     const matchCert = this.certificateString.match(certificatePattern);
     const publicKey = matchCert ? matchCert[3] : "";
     if (!publicKey) {
-      logThrowCredentialError("ClientCertificateCredential", new Error("The file at the specified path does not contain a PEM-encoded certificate."));
+      this.logger.throwError(new Error("The file at the specified path does not contain a PEM-encoded certificate."));
     }
 
     this.certificateThumbprint = createHash("sha1")
@@ -140,7 +141,7 @@ export class ClientCertificateCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      logGetTokenSuccess("ClientCertificateCredential", [...scopes]);
+      this.logger.getToken.success(scopes);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -151,7 +152,7 @@ export class ClientCertificateCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logThrowGetTokenFailure("ClientCertificateCredential", err);
+      this.logger.getToken.throwError(err);
     } finally {
       span.end();
     }

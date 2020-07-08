@@ -53,52 +53,56 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
     )}`
   );
 }
-
-/**
- * Common logs to emit when a credential has any form of error
- * @param credentialName Name of the credential
- * @param err Error
- */
-export function logCredentialError(credentialName: string, err: Error): void {
-	logger.error(`${credentialName} => ERROR:`, err);
+export interface NestedLogger {
+  title: string;
+  fullTitle: string;
+  info(message: string): void;
+  warning(message: string): void;
+  success(scopes: string | string[]): void;
+  error(err: Error): void;
+  throwError(err: Error): never;
 }
 
-/**
- * Common logs to emit when a getToken call fails
- * @param credentialName Name of the credential
- * @param err Error
- */
-export function logGetTokenFailure(credentialName: string, err: Error): void {
-	logger.error(`${credentialName} => ERROR in GetToken()`);
-  logCredentialError(credentialName, err);
+export function nestedLogger(title: string, parent?: NestedLogger): NestedLogger {
+  const fullTitle = parent ? `${parent.fullTitle} ${title}` : title;
+
+  function info(message: string): void {
+  	logger.info(`${fullTitle} =>`, message);
+  }
+  function warning(message: string): void {
+  	logger.warning(`${fullTitle} =>`, message);
+  }
+  function success(message: string): void {
+    // let arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+    logger.info(`${fullTitle} => SUCCESS:`, message);
+  }
+  function error(err: Error): void {
+    logger.error(`${fullTitle} => ERROR:`, err);
+  }
+  function throwError(err: Error | CredentialUnavailable): never {
+    error(err);
+    throw err;
+  }
+
+  return {
+    title,
+    fullTitle,
+    info,
+    warning,
+    success,
+    error,
+    throwError
+  }
 }
 
-/**
- * Logs the common logs when a getToken call fails, and then throws the same received error.
- * TODO: Is it worth making a more abstract and curried version of this `logThrow` idea?
- * @param err Error
- */
-export function logThrowGetTokenFailure(credentialName: string, error: Error | CredentialUnavailable) {
-  logGetTokenFailure(credentialName, error);
-  throw error;
+export interface CredentialLogger extends NestedLogger {
+  getToken: NestedLogger;
 }
 
-/**
- * Logs the common logs when a credential fails, and then throws the same received error.
- * TODO: Is it worth making a more abstract and curried version of this `logThrow` idea?
- * @param err Error
- */
-export function logThrowCredentialError(credentialName: string, error: Error | CredentialUnavailable) {
-  logCredentialError(credentialName, error);
-  throw error;
-}
-
-/**
- * Common logs to emit when a getToken succeeds
- * @param credentialName Name of the credential
- * @param scopes Authenticated scopes
- */
-export function logGetTokenSuccess(credentialName: string, scopes: string[]): void {
-  logger.info(`${credentialName} => GetToken() SUCCESS`);
-  logger.info(`${credentialName} => Scopes: ${scopes.join(", ")}`);
+export function credentialLogger(title: string, parent?: CredentialLogger): CredentialLogger {
+  const logger = nestedLogger(title);
+  return {
+    ...logger,
+    getToken: nestedLogger("getToken", logger)
+  };
 }

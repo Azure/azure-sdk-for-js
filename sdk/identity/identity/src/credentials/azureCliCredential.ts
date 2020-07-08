@@ -5,7 +5,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logger, logGetTokenFailure, logThrowGetTokenFailure, logGetTokenSuccess } from "../util/logging";
+import { credentialLogger, CredentialLogger } from '../util/logging';
 
 import * as child_process from "child_process";
 
@@ -25,10 +25,14 @@ function getSafeWorkingDir(): string {
  * with Azure CLI command "az account get-access-token".
  */
 export class AzureCliCredential implements TokenCredential {
+  private logger: CredentialLogger;
+
   /**
    * Creates an instance of the AzureCliCredential class.
    */
-  constructor() {}
+  constructor() {
+    this.logger = credentialLogger(this.constructor.name);
+  }
 
   /**
    * Gets the access token from Azure CLI
@@ -67,13 +71,13 @@ export class AzureCliCredential implements TokenCredential {
     return new Promise((resolve, reject) => {
       let scope: string;
       scope = typeof scopes === "string" ? scopes : scopes[0];
-      logger.info(`AzureCliCredential => use the scope ${scope}`);
+      this.logger.getToken.info(`use the scope ${scope}`);
 
       const resource = scope.replace(/\/.default$/, "");
 
       // Check to make sure the scope we get back is a valid scope
       if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        logThrowGetTokenFailure("AzureCliCredential", new Error("Invalid scope was specified by the user or calling client"));
+        this.logger.getToken.throwError(new Error("Invalid scope was specified by the user or calling client"));
       }
 
       let responseData = "";
@@ -87,19 +91,19 @@ export class AzureCliCredential implements TokenCredential {
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
-              logThrowGetTokenFailure("AzureCliCredential", new CredentialUnavailable(
+              this.logger.getToken.throwError(new CredentialUnavailable(
                 "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
               ));
             } else if (isLoginError) {
-              logThrowGetTokenFailure("AzureCliCredential", new CredentialUnavailable(
+              this.logger.getToken.throwError(new CredentialUnavailable(
                 "Please run 'az login' from a command prompt to authenticate before using this credential."
               ));
             }
-            logThrowGetTokenFailure("AzureCliCredential", new CredentialUnavailable(obj.stderr));
+            this.logger.getToken.throwError(new CredentialUnavailable(obj.stderr));
           } else {
             responseData = obj.stdout;
             const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
-            logGetTokenSuccess("AzureCliCredential", [...scopes]);
+            this.logger.getToken.success(scopes);
             resolve({
               token: response.accessToken,
               expiresOnTimestamp: new Date(response.expiresOn).getTime()
@@ -115,6 +119,7 @@ export class AzureCliCredential implements TokenCredential {
             code,
             message: err.message
           });
+          this.logger.getToken.throwError(err);
           reject(err);
         });
     });
