@@ -463,7 +463,6 @@ export class ServiceBusManagementClient extends ServiceClient {
       options,
       this.queueResourceSerializer
     );
-    // TODO: Add skip marker as the continuationToken in the response.
     return this.buildListQueuesResponse(response);
   }
 
