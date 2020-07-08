@@ -307,9 +307,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
     getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
-    getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse>;
     // (undocumented)
-    getQueues2(options?: ListRequestOptions & OperationOptions): PagedAsyncIterableIterator<QueueDescription, QueuesResponse, PageSettings>;
+    getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueDescription, QueuesResponse, PageSettings>;
     getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimeInfoResponse>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
     getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptions): Promise<RulesResponse>;
