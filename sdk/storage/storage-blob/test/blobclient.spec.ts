@@ -859,7 +859,7 @@ describe("BlobClient - Object Replication", () => {
 
   before(async function() {
     if (!isPlaybackMode()) {
-      this.skip();
+      // this.skip();
     }
   });
 
@@ -912,7 +912,7 @@ describe("BlobClient - Object Replication", () => {
     }
   });
 
-  it("download blob", async () => {
+  it.only("download blob", async () => {
     const srcRes = await srcBlobClient.download();
     assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
     assert.deepStrictEqual(
