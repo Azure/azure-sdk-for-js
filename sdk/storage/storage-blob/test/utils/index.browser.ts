@@ -174,18 +174,3 @@ export function getSASConnectionStringFromEnvironment(): string {
   const env = (window as any).__env__;
   return `BlobEndpoint=https://${env.ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.ACCOUNT_SAS}`;
 }
-
-export function isBlobVersioningDisabled(): boolean {
-  const env = (window as any).__env__;
-  return !env["BLOB_VERSIONING_ENABLED"];
-}
-
-export function isBlobTagsDisabled(): boolean {
-  const env = (window as any).__env__;
-  return !env["BLOB_TAGS_ENABLED"];
-}
-
-export function isQuickQueryDisabled(): boolean {
-  const env = (window as any).__env__;
-  return !env["QUICK_QUERY_ENABLED"];
-}

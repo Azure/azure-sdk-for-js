@@ -18,14 +18,7 @@ import {
   Tags
 } from "../../src";
 import { SASProtocol } from "../../src/SASQueryParameters";
-import {
-  getBSU,
-  getTokenBSU,
-  recorderEnvSetup,
-  isBlobVersioningDisabled,
-  sleep,
-  isBlobTagsDisabled
-} from "../utils";
+import { getBSU, getTokenBSU, recorderEnvSetup, sleep } from "../utils";
 import { delay, record } from "@azure/test-utils-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
 
@@ -333,9 +326,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob tags", async function() {
-    if (isBlobTagsDisabled()) {
-      this.skip();
-    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -396,9 +386,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for container for blob tags", async function() {
-    if (isBlobTagsDisabled()) {
-      this.skip();
-    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
 
@@ -936,10 +923,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateAccountSASQueryParameters should work for blob version delete", async function() {
-    if (isBlobVersioningDisabled()) {
-      this.skip();
-    }
-
     // create versions
     const containerName = recorder.getUniqueName("container");
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -982,10 +965,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob version delete", async function() {
-    if (isBlobVersioningDisabled()) {
-      this.skip();
-    }
-
     // create versions
     const containerName = recorder.getUniqueName("container");
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1030,10 +1009,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it.skip("GenerateUserDelegationSAS should work for blob version delete", async function() {
-    if (isBlobVersioningDisabled()) {
-      this.skip();
-    }
-
     // Try to get blobServiceClient object with TokenCredential
     // when ACCOUNT_TOKEN environment variable is set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
@@ -1094,13 +1069,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("generateBlobSASQueryParameters should work for blob version delete and blob tags", async function() {
-    if (isBlobTagsDisabled()) {
-      this.skip();
-    }
-    if (isBlobVersioningDisabled()) {
-      this.skip();
-    }
-
     // create versions
     const containerName = recorder.getUniqueName("container");
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -1152,9 +1120,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("account SAS permission f, t for blob tags should work", async function() {
-    if (isBlobTagsDisabled()) {
-      this.skip();
-    }
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
     const tmr = recorder.newDate("tmr");
@@ -1218,10 +1183,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   });
 
   it("account SAS permission x for blob version delete should work", async function() {
-    if (isBlobVersioningDisabled()) {
-      this.skip();
-    }
-
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
     const tmr = recorder.newDate("tmr");
@@ -1263,7 +1224,6 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await blockBlobClient.upload("", 0);
 
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
-    console.log(blobVersionClient.url);
     await blobVersionClient.delete();
     assert.ok(!(await blobVersionClient.exists()));
 
