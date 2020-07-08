@@ -24,7 +24,9 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     MD_ACCOUNT_KEY: `${mockAccountKey}`,
     MD_ACCOUNT_SAS: `${mockAccountKey}`,
-    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    ENCRYPTION_SCOPE_1: "antjoscope1",
+    ENCRYPTION_SCOPE_2: "antjoscope2"
   },
   customizationsOnRecordings: [
     // Used in record mode

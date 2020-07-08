@@ -61,8 +61,8 @@ describe("PageBlobClient Node.js only", () => {
     const destPageBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("page"));
 
     await containerClient.setAccessPolicy("container");
-
-    await delay(5 * 1000);
+    // Container cache may take up to 30 seconds to take effect.
+    await delay(30 * 1000);
 
     let copySource = pageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
     let copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
