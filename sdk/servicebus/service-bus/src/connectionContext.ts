@@ -9,7 +9,6 @@ import {
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  Dictionary,
   SharedKeyCredential,
   TokenCredential,
   delay
@@ -28,7 +27,7 @@ export interface ConnectionContext extends ConnectionContextBase {
    * @property A dictionary of ClientEntityContext
    * objects for each of the client in the `clients` dictionary
    */
-  clientContexts: Dictionary<ClientEntityContext>;
+  clientContexts: { [name: string]: ClientEntityContext }
 }
 
 /**
