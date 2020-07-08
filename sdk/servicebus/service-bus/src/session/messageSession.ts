@@ -393,7 +393,7 @@ export class MessageSession extends LinkEntity {
           log.error("[%s] %O", this._context.namespace.connectionId, error);
           throw error;
         }
-        if (this.sessionId == undefined) this.sessionId = receivedSessionId;
+        if (this.sessionId == null) this.sessionId = receivedSessionId;
         this.sessionLockedUntilUtc = convertTicksToDate(
           this._receiver.properties["com.microsoft:locked-until-utc"]
         );
