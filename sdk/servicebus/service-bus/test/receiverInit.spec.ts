@@ -19,7 +19,7 @@ describe("init() and close() interactions", () => {
     } as unknown) as ClientEntityContext;
   }
 
-  it("close() called just after init() but before the next step", async () => {
+  it.only("close() called just after init() but before the next step", async () => {
     const batchingReceiver = new BatchingReceiver(fakeContext());
 
     let initWasCalled = false;
@@ -31,7 +31,7 @@ describe("init() and close() interactions", () => {
     };
 
     // make an init() happen internally.
-    const emptyArrayOfMessages = await batchingReceiver.receive(1, 1);
+    const emptyArrayOfMessages = await batchingReceiver.receive(1, 1, 1);
 
     assert.isEmpty(emptyArrayOfMessages);
     assert.isTrue(initWasCalled);

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as log from "../log";
-import { Constants, MessagingError, translate } from "@azure/core-amqp";
+import { MessagingError, translate } from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
@@ -45,7 +45,6 @@ export class BatchingReceiver extends MessageReceiver {
    * @param error The error on the AMQP connection.
    */
   private _connectionErrorHandler: ((error: AmqpError | Error) => void) | undefined;
-
   /**
    * Instantiate a new BatchingReceiver.
    *
@@ -55,7 +54,6 @@ export class BatchingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.batching, options);
-    this.newMessageWaitTimeoutInMs = 1000;
   }
 
   /**
@@ -88,24 +86,27 @@ export class BatchingReceiver extends MessageReceiver {
    * @param maxMessageCount The maximum number of messages to receive.
    * In Peeklock mode, this number is capped at 2047 due to constraints of the underlying buffer.
    * @param maxWaitTimeInMs The total wait time in milliseconds until which the receiver will attempt to receive specified number of messages.
+   * @param maxTimeAfterFirstMessageMs The total amount of time to wait after the first message
+   * has been received. Defaults to 1 second.
    * If this time elapses before the `maxMessageCount` is reached, then messages collected till then will be returned to the user.
    * @returns {Promise<ServiceBusMessageImpl[]>} A promise that resolves with an array of Message objects.
    */
   async receive(
     maxMessageCount: number,
-    maxWaitTimeInMs?: number,
+    maxWaitTimeInMs: number,
+    maxTimeAfterFirstMessageMs: number,
     abortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-
-    if (maxWaitTimeInMs == null) {
-      maxWaitTimeInMs = Constants.defaultOperationTimeoutInMs;
-    }
-
     this.isReceivingMessages = true;
 
     try {
-      return await this._receiveImpl(maxMessageCount, maxWaitTimeInMs, abortSignal);
+      return await this._receiveImpl(
+        maxMessageCount,
+        maxWaitTimeInMs,
+        maxTimeAfterFirstMessageMs,
+        abortSignal
+      );
     } catch (error) {
       log.error(
         "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
@@ -123,6 +124,7 @@ export class BatchingReceiver extends MessageReceiver {
   private _receiveImpl(
     maxMessageCount: number,
     maxWaitTimeInMs: number,
+    maxTimeAfterFirstMessageMs: number,
     abortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
     const brokeredMessages: ServiceBusMessageImpl[] = [];
@@ -211,14 +213,13 @@ export class BatchingReceiver extends MessageReceiver {
 
       // Action to be performed on the "message" event.
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
-        this.resetTimerOnNewMessageReceived();
+        if (brokeredMessages.length === 0) {
+          if (totalWaitTimer) clearTimeout(totalWaitTimer);
+          totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxTimeAfterFirstMessageMs);
+        }
+
         try {
-          const data: ServiceBusMessageImpl = new ServiceBusMessageImpl(
-            this._context,
-            context.message!,
-            context.delivery!,
-            true
-          );
+          const data: ServiceBusMessageImpl = this._getServiceBusMessage(context);
           if (brokeredMessages.length < maxMessageCount) {
             brokeredMessages.push(data);
           }
@@ -335,9 +336,6 @@ export class BatchingReceiver extends MessageReceiver {
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
         }
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
 
         if (removeAbortSignalListenersFn) {
           removeAbortSignalListenersFn();
@@ -349,28 +347,6 @@ export class BatchingReceiver extends MessageReceiver {
         cleanupBeforeResolveOrReject(this._receiver, "removeDrainHandler");
         reject(err);
       }, abortSignal);
-
-      // Use new message wait timer only in peekLock mode
-      if (this.receiveMode === ReceiveMode.peekLock) {
-        /**
-         * Resets the timer when a new message is received. If no messages were received for
-         * `newMessageWaitTimeoutInMs`, the messages received till now are returned. The
-         * receiver link stays open for the next receive call, but doesn't receive messages until then.
-         */
-        this.resetTimerOnNewMessageReceived = () => {
-          if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-          if (this.newMessageWaitTimeoutInMs) {
-            this._newMessageReceivedTimer = setTimeout(async () => {
-              const msg =
-                `BatchingReceiver '${this.name}' did not receive any messages in the last ` +
-                `${this.newMessageWaitTimeoutInMs} milliseconds. ` +
-                `Hence ending this batch receive operation.`;
-              log.error("[%s] %s", this._context.namespace.connectionId, msg);
-              finalAction();
-            }, this.newMessageWaitTimeoutInMs);
-          }
-        };
-      }
 
       // Action to be performed after the max wait time is over.
       const actionAfterWaitTimeout = (): void => {
@@ -439,17 +415,6 @@ export class BatchingReceiver extends MessageReceiver {
         if (reuse) msg += " Receiver link already present, hence reusing it.";
         log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs, this.name);
         totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs);
-        // TODO: Disabling this for now. We would want to give the user a decent chance to receive
-        // the first message and only timeout faster if successive messages from there onwards are
-        // not received quickly. However, it may be possible that there are no pending messages
-        // currently on the queue. In that case waiting for idleTimeoutInMs would be
-        // unnecessary.
-        // There is a management plane API to get runtimeInfo of the Queue which provides
-        // information about active messages on the Queue and it's sub Queues. However, this adds
-        // a little complexity. If the first message was delayed due to network latency then there
-        // are bright chances that the management plane api would receive the same fate.
-        // It would be better to weigh all the options before making a decision.
-        // resetTimerOnNewMessageReceived();
       };
 
       if (!this.isOpen()) {
@@ -495,6 +460,10 @@ export class BatchingReceiver extends MessageReceiver {
         this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
       }
     });
+  }
+
+  private _getServiceBusMessage(context: EventContext): ServiceBusMessageImpl {
+    return new ServiceBusMessageImpl(this._context, context.message!, context.delivery!, true);
   }
 
   /**
