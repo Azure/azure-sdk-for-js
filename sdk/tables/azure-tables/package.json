@@ -66,6 +66,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/azure-tables/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "private": true,
   "dependencies": {
     "@azure/core-http": "^1.1.4",
     "@opentelemetry/api": "^0.6.1",
@@ -113,6 +114,6 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "~3.9.3",
-    "util": "^0.12.1"   
+    "util": "^0.12.1"
   }
 }

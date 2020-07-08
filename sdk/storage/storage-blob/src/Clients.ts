@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
 import { Readable } from "stream";
 
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -126,7 +125,12 @@ import {
   toTags,
   parseObjectReplicationRecord
 } from "./utils/utils.common";
-import { fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
+import {
+  fsStat,
+  readStreamToLocalFile,
+  streamToBuffer,
+  fsCreateReadStream
+} from "./utils/utils.node";
 import { Batch } from "./utils/Batch";
 import { createSpan } from "./utils/tracing";
 import { CommonOptions, StorageClient } from "./StorageClient";
@@ -4352,7 +4356,7 @@ export class BlockBlobClient extends BlobClient {
       const size = (await fsStat(filePath)).size;
       return await this.uploadResetableStream(
         (offset, count) =>
-          fs.createReadStream(filePath, {
+          fsCreateReadStream(filePath, {
             autoClose: true,
             end: count ? offset + count - 1 : Infinity,
             start: offset

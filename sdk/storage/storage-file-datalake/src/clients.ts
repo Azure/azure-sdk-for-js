@@ -78,8 +78,7 @@ import {
 } from "./utils/constants";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Batch } from "./utils/Batch";
-import { fsStat } from "./utils/utils.node";
-import * as fs from "fs";
+import { fsStat, fsCreateReadStream } from "./utils/utils.node";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -1316,7 +1315,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       return await this.uploadData(
         (offset: number, size: number) => {
           return () =>
-            fs.createReadStream(filePath, {
+            fsCreateReadStream(filePath, {
               autoClose: true,
               end: offset + size - 1,
               start: offset
