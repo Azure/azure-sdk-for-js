@@ -372,16 +372,28 @@ export class MessageSession extends LinkEntity {
           this._receiver.source.filter &&
           this._receiver.source.filter[Constants.sessionFilterName];
 
-        if (this.sessionId == null) this.sessionId = receivedSessionId;
-        this.sessionLockedUntilUtc = convertTicksToDate(
-          this._receiver.properties["com.microsoft:locked-until-utc"]
-        );
-        log.messageSession(
-          "[%s] Session with id '%s' is locked until: '%s'.",
-          connectionId,
-          this.sessionId,
-          this.sessionLockedUntilUtc.toISOString()
-        );
+        if (
+          receivedSessionId != undefined &&
+          (this.sessionId == undefined || this.sessionId === receivedSessionId)
+        ) {
+          this.sessionLockedUntilUtc = convertTicksToDate(
+            this._receiver.properties["com.microsoft:locked-until-utc"]
+          );
+          log.messageSession(
+            "[%s] Session with id '%s' is locked until: '%s'.",
+            connectionId,
+            this.sessionId,
+            this.sessionLockedUntilUtc.toISOString()
+          );
+          if (!this._context.messageSessions[this.sessionId!]) {
+            this._context.messageSessions[this.sessionId!] = this;
+          }
+          this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
+          this._ensureTokenRenewal();
+          this._ensureSessionLockRenewal();
+        }
+        this.sessionId = receivedSessionId;
+
         log.error(
           "[%s] Receiver '%s' for sessionId '%s' has established itself.",
           connectionId,
@@ -398,17 +410,6 @@ export class MessageSession extends LinkEntity {
           this.name,
           options
         );
-        if (
-          receivedSessionId != undefined &&
-          (this.sessionId == undefined || this.sessionId === receivedSessionId)
-        ) {
-          if (!this._context.messageSessions[this.sessionId!]) {
-            this._context.messageSessions[this.sessionId!] = this;
-          }
-          this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-          this._ensureTokenRenewal();
-          this._ensureSessionLockRenewal();
-        }
       } else {
         log.error(
           "[%s] The receiver '%s' for sessionId '%s' is open -> %s and is connecting " +
