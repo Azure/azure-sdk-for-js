@@ -907,7 +907,7 @@ describe("BlobClient - Object Replication", () => {
     }
   });
 
-  it.only("download blob", async () => {
+  it("download blob", async () => {
     const srcRes = await srcBlobClient.download();
     assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
     assert.deepStrictEqual(
