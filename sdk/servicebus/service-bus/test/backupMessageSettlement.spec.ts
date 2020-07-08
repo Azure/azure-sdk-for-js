@@ -12,7 +12,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomeReceiverTestClientType
+  getRandomReceiverTestClientType
 } from "./utils/testutils2";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
@@ -26,8 +26,8 @@ describe("Backup message settlement - Through ManagementLink", () => {
   let receiver: Receiver<ReceivedMessageWithLock>;
   let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
   let entityNames: EntityName;
-  let noSessionTestClientType = getRandomeReceiverTestClientType(false);
-  let withSessionTestClientType = getRandomeReceiverTestClientType(true);
+  let noSessionTestClientType = getRandomReceiverTestClientType(false);
+  let withSessionTestClientType = getRandomReceiverTestClientType(true);
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
