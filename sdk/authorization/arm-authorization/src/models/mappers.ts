@@ -190,125 +190,6 @@ export const ProviderOperationsMetadata: msRest.CompositeMapper = {
   }
 };
 
-export const RoleAssignmentFilter: msRest.CompositeMapper = {
-  serializedName: "RoleAssignmentFilter",
-  type: {
-    name: "Composite",
-    className: "RoleAssignmentFilter",
-    modelProperties: {
-      principalId: {
-        serializedName: "principalId",
-        type: {
-          name: "String"
-        }
-      },
-      canDelegate: {
-        serializedName: "canDelegate",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const RoleAssignment: msRest.CompositeMapper = {
-  serializedName: "RoleAssignment",
-  type: {
-    name: "Composite",
-    className: "RoleAssignment",
-    modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      scope: {
-        serializedName: "properties.scope",
-        type: {
-          name: "String"
-        }
-      },
-      roleDefinitionId: {
-        serializedName: "properties.roleDefinitionId",
-        type: {
-          name: "String"
-        }
-      },
-      principalId: {
-        serializedName: "properties.principalId",
-        type: {
-          name: "String"
-        }
-      },
-      principalType: {
-        serializedName: "properties.principalType",
-        type: {
-          name: "String"
-        }
-      },
-      canDelegate: {
-        serializedName: "properties.canDelegate",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const RoleAssignmentCreateParameters: msRest.CompositeMapper = {
-  serializedName: "RoleAssignmentCreateParameters",
-  type: {
-    name: "Composite",
-    className: "RoleAssignmentCreateParameters",
-    modelProperties: {
-      roleDefinitionId: {
-        required: true,
-        serializedName: "properties.roleDefinitionId",
-        type: {
-          name: "String"
-        }
-      },
-      principalId: {
-        required: true,
-        serializedName: "properties.principalId",
-        type: {
-          name: "String"
-        }
-      },
-      principalType: {
-        serializedName: "properties.principalType",
-        type: {
-          name: "String"
-        }
-      },
-      canDelegate: {
-        serializedName: "properties.canDelegate",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const RoleDefinitionFilter: msRest.CompositeMapper = {
   serializedName: "RoleDefinitionFilter",
   type: {
@@ -660,6 +541,161 @@ export const DenyAssignment: msRest.CompositeMapper = {
   }
 };
 
+export const RoleAssignmentFilter: msRest.CompositeMapper = {
+  serializedName: "RoleAssignmentFilter",
+  type: {
+    name: "Composite",
+    className: "RoleAssignmentFilter",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      canDelegate: {
+        serializedName: "canDelegate",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const RoleAssignment: msRest.CompositeMapper = {
+  serializedName: "RoleAssignment",
+  type: {
+    name: "Composite",
+    className: "RoleAssignment",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "properties.scope",
+        type: {
+          name: "String"
+        }
+      },
+      roleDefinitionId: {
+        serializedName: "properties.roleDefinitionId",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "properties.principalId",
+        type: {
+          name: "String"
+        }
+      },
+      principalType: {
+        serializedName: "properties.principalType",
+        type: {
+          name: "String"
+        }
+      },
+      canDelegate: {
+        serializedName: "properties.canDelegate",
+        type: {
+          name: "Boolean"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      condition: {
+        serializedName: "properties.condition",
+        type: {
+          name: "String"
+        }
+      },
+      conditionVersion: {
+        serializedName: "properties.conditionVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoleAssignmentCreateParameters: msRest.CompositeMapper = {
+  serializedName: "RoleAssignmentCreateParameters",
+  type: {
+    name: "Composite",
+    className: "RoleAssignmentCreateParameters",
+    modelProperties: {
+      roleDefinitionId: {
+        required: true,
+        serializedName: "properties.roleDefinitionId",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        required: true,
+        serializedName: "properties.principalId",
+        type: {
+          name: "String"
+        }
+      },
+      principalType: {
+        serializedName: "properties.principalType",
+        type: {
+          name: "String"
+        }
+      },
+      canDelegate: {
+        serializedName: "properties.canDelegate",
+        type: {
+          name: "Boolean"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      condition: {
+        serializedName: "properties.condition",
+        type: {
+          name: "String"
+        }
+      },
+      conditionVersion: {
+        serializedName: "properties.conditionVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ClassicAdministratorListResult: msRest.CompositeMapper = {
   serializedName: "ClassicAdministratorListResult",
   type: {
@@ -702,34 +738,6 @@ export const ProviderOperationsMetadataListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ProviderOperationsMetadata"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RoleAssignmentListResult: msRest.CompositeMapper = {
-  serializedName: "RoleAssignmentListResult",
-  type: {
-    name: "Composite",
-    className: "RoleAssignmentListResult",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "RoleAssignment"
             }
           }
         }
@@ -814,6 +822,34 @@ export const DenyAssignmentListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DenyAssignment"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RoleAssignmentListResult: msRest.CompositeMapper = {
+  serializedName: "RoleAssignmentListResult",
+  type: {
+    name: "Composite",
+    className: "RoleAssignmentListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RoleAssignment"
             }
           }
         }

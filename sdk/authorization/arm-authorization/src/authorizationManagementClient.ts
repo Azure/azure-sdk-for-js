@@ -20,10 +20,10 @@ class AuthorizationManagementClient extends AuthorizationManagementClientContext
   classicAdministrators: operations.ClassicAdministrators;
   globalAdministrator: operations.GlobalAdministrator;
   providerOperationsMetadata: operations.ProviderOperationsMetadataOperations;
-  roleAssignments: operations.RoleAssignments;
   permissions: operations.Permissions;
   roleDefinitions: operations.RoleDefinitions;
   denyAssignments: operations.DenyAssignments;
+  roleAssignments: operations.RoleAssignments;
 
   /**
    * Initializes a new instance of the AuthorizationManagementClient class.
@@ -36,10 +36,10 @@ class AuthorizationManagementClient extends AuthorizationManagementClientContext
     this.classicAdministrators = new operations.ClassicAdministrators(this);
     this.globalAdministrator = new operations.GlobalAdministrator(this);
     this.providerOperationsMetadata = new operations.ProviderOperationsMetadataOperations(this);
-    this.roleAssignments = new operations.RoleAssignments(this);
     this.permissions = new operations.Permissions(this);
     this.roleDefinitions = new operations.RoleDefinitions(this);
     this.denyAssignments = new operations.DenyAssignments(this);
+    this.roleAssignments = new operations.RoleAssignments(this);
   }
 }
 

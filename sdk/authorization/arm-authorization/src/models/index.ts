@@ -116,88 +116,6 @@ export interface ProviderOperationsMetadata {
 }
 
 /**
- * Role Assignments filter
- */
-export interface RoleAssignmentFilter {
-  /**
-   * Returns role assignment of the specific principal.
-   */
-  principalId?: string;
-  /**
-   * The Delegation flag for the role assignment
-   */
-  canDelegate?: boolean;
-}
-
-/**
- * Role Assignments
- */
-export interface RoleAssignment {
-  /**
-   * The role assignment ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The role assignment name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The role assignment type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The role assignment scope.
-   */
-  scope?: string;
-  /**
-   * The role definition ID.
-   */
-  roleDefinitionId?: string;
-  /**
-   * The principal ID.
-   */
-  principalId?: string;
-  /**
-   * The principal type of the assigned principal ID. Possible values include: 'User', 'Group',
-   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
-   * 'DirectoryObjectOrGroup', 'Everyone'
-   */
-  principalType?: PrincipalType;
-  /**
-   * The Delegation flag for the role assignment
-   */
-  canDelegate?: boolean;
-}
-
-/**
- * Role assignment create parameters.
- */
-export interface RoleAssignmentCreateParameters {
-  /**
-   * The role definition ID used in the role assignment.
-   */
-  roleDefinitionId: string;
-  /**
-   * The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can
-   * point to a user, service principal, or security group.
-   */
-  principalId: string;
-  /**
-   * The principal type of the assigned principal ID. Possible values include: 'User', 'Group',
-   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
-   * 'DirectoryObjectOrGroup', 'Everyone'
-   */
-  principalType?: PrincipalType;
-  /**
-   * The delegation flag used for creating a role assignment
-   */
-  canDelegate?: boolean;
-}
-
-/**
  * Role Definitions filter
  */
 export interface RoleDefinitionFilter {
@@ -390,6 +308,114 @@ export interface DenyAssignment {
 }
 
 /**
+ * Role Assignments filter
+ */
+export interface RoleAssignmentFilter {
+  /**
+   * Returns role assignment of the specific principal.
+   */
+  principalId?: string;
+  /**
+   * The Delegation flag for the role assignment
+   */
+  canDelegate?: boolean;
+}
+
+/**
+ * Role Assignments
+ */
+export interface RoleAssignment {
+  /**
+   * The role assignment ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The role assignment name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The role assignment type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The role assignment scope.
+   */
+  scope?: string;
+  /**
+   * The role definition ID.
+   */
+  roleDefinitionId?: string;
+  /**
+   * The principal ID.
+   */
+  principalId?: string;
+  /**
+   * The principal type of the assigned principal ID. Possible values include: 'User', 'Group',
+   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
+   * 'DirectoryObjectOrGroup', 'Everyone'
+   */
+  principalType?: PrincipalType;
+  /**
+   * The Delegation flag for the role assignment
+   */
+  canDelegate?: boolean;
+  /**
+   * Description of role assignment
+   */
+  description?: string;
+  /**
+   * The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
+   * @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName]
+   * StringEqualsIgnoreCase 'foo_storage_container'
+   */
+  condition?: string;
+  /**
+   * Version of the condition. Currently accepted values are '1.0' or '2.0'
+   */
+  conditionVersion?: string;
+}
+
+/**
+ * Role assignment create parameters.
+ */
+export interface RoleAssignmentCreateParameters {
+  /**
+   * The role definition ID used in the role assignment.
+   */
+  roleDefinitionId: string;
+  /**
+   * The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can
+   * point to a user, service principal, or security group.
+   */
+  principalId: string;
+  /**
+   * The principal type of the assigned principal ID. Possible values include: 'User', 'Group',
+   * 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
+   * 'DirectoryObjectOrGroup', 'Everyone'
+   */
+  principalType?: PrincipalType;
+  /**
+   * The delegation flag used for creating a role assignment
+   */
+  canDelegate?: boolean;
+  /**
+   * Description of role assignment
+   */
+  description?: string;
+  /**
+   * The conditions on the role assignment
+   */
+  condition?: string;
+  /**
+   * Version of the condition
+   */
+  conditionVersion?: string;
+}
+
+/**
  * Optional Parameters.
  */
 export interface ProviderOperationsMetadataGetOptionalParams extends msRest.RequestOptionsBase {
@@ -407,54 +433,6 @@ export interface ProviderOperationsMetadataListOptionalParams extends msRest.Req
    * Specifies whether to expand the values. Default value: 'resourceTypes'.
    */
   expand?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface RoleAssignmentsListForResourceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at
-   * or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above
-   * or below the scope for the specified principal.
-   */
-  filter?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface RoleAssignmentsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at
-   * or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above
-   * or below the scope for the specified principal.
-   */
-  filter?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface RoleAssignmentsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at
-   * or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above
-   * or below the scope for the specified principal.
-   */
-  filter?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface RoleAssignmentsListForScopeOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at
-   * or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above
-   * or below the scope for the specified principal.
-   */
-  filter?: string;
 }
 
 /**
@@ -545,6 +523,54 @@ export interface DenyAssignmentsListForScopeOptionalParams extends msRest.Reques
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface RoleAssignmentsListForResourceOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at
+   * or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above
+   * or below the scope for the specified principal.
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RoleAssignmentsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at
+   * or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above
+   * or below the scope for the specified principal.
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RoleAssignmentsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at
+   * or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above
+   * or below the scope for the specified principal.
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface RoleAssignmentsListForScopeOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at
+   * or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above
+   * or below the scope for the specified principal.
+   */
+  filter?: string;
+}
+
+/**
  * An interface representing AuthorizationManagementClientOptions.
  */
 export interface AuthorizationManagementClientOptions extends AzureServiceClientOptions {
@@ -569,18 +595,6 @@ export interface ClassicAdministratorListResult extends Array<ClassicAdministrat
  * @extends Array<ProviderOperationsMetadata>
  */
 export interface ProviderOperationsMetadataListResult extends Array<ProviderOperationsMetadata> {
-  /**
-   * The URL to use for getting the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Role assignment list operation result.
- * @extends Array<RoleAssignment>
- */
-export interface RoleAssignmentListResult extends Array<RoleAssignment> {
   /**
    * The URL to use for getting the next set of results.
    */
@@ -617,6 +631,18 @@ export interface RoleDefinitionListResult extends Array<RoleDefinition> {
  * @extends Array<DenyAssignment>
  */
 export interface DenyAssignmentListResult extends Array<DenyAssignment> {
+  /**
+   * The URL to use for getting the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * Role assignment list operation result.
+ * @extends Array<RoleAssignment>
+ */
+export interface RoleAssignmentListResult extends Array<RoleAssignment> {
   /**
    * The URL to use for getting the next set of results.
    */
@@ -730,286 +756,6 @@ export type ProviderOperationsMetadataListNextResponse = ProviderOperationsMetad
        * The response body as parsed JSON or XML
        */
       parsedBody: ProviderOperationsMetadataListResult;
-    };
-};
-
-/**
- * Contains response data for the listForResource operation.
- */
-export type RoleAssignmentsListForResourceResponse = RoleAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
-};
-
-/**
- * Contains response data for the listForResourceGroup operation.
- */
-export type RoleAssignmentsListForResourceGroupResponse = RoleAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type RoleAssignmentsDeleteMethodResponse = RoleAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type RoleAssignmentsCreateResponse = RoleAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type RoleAssignmentsGetResponse = RoleAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
-};
-
-/**
- * Contains response data for the deleteById operation.
- */
-export type RoleAssignmentsDeleteByIdResponse = RoleAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
-};
-
-/**
- * Contains response data for the createById operation.
- */
-export type RoleAssignmentsCreateByIdResponse = RoleAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
-};
-
-/**
- * Contains response data for the getById operation.
- */
-export type RoleAssignmentsGetByIdResponse = RoleAssignment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignment;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type RoleAssignmentsListResponse = RoleAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
-};
-
-/**
- * Contains response data for the listForScope operation.
- */
-export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
-};
-
-/**
- * Contains response data for the listForResourceNext operation.
- */
-export type RoleAssignmentsListForResourceNextResponse = RoleAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
-};
-
-/**
- * Contains response data for the listForResourceGroupNext operation.
- */
-export type RoleAssignmentsListForResourceGroupNextResponse = RoleAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type RoleAssignmentsListNextResponse = RoleAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
-    };
-};
-
-/**
- * Contains response data for the listForScopeNext operation.
- */
-export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RoleAssignmentListResult;
     };
 };
 
@@ -1410,5 +1156,285 @@ export type DenyAssignmentsListForScopeNextResponse = DenyAssignmentListResult &
        * The response body as parsed JSON or XML
        */
       parsedBody: DenyAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResource operation.
+ */
+export type RoleAssignmentsListForResourceResponse = RoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroup operation.
+ */
+export type RoleAssignmentsListForResourceGroupResponse = RoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type RoleAssignmentsDeleteMethodResponse = RoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type RoleAssignmentsCreateResponse = RoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RoleAssignmentsGetResponse = RoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the deleteById operation.
+ */
+export type RoleAssignmentsDeleteByIdResponse = RoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the createById operation.
+ */
+export type RoleAssignmentsCreateByIdResponse = RoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the getById operation.
+ */
+export type RoleAssignmentsGetByIdResponse = RoleAssignment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignment;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RoleAssignmentsListResponse = RoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForScope operation.
+ */
+export type RoleAssignmentsListForScopeResponse = RoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceNext operation.
+ */
+export type RoleAssignmentsListForResourceNextResponse = RoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForResourceGroupNext operation.
+ */
+export type RoleAssignmentsListForResourceGroupNextResponse = RoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type RoleAssignmentsListNextResponse = RoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listForScopeNext operation.
+ */
+export type RoleAssignmentsListForScopeNextResponse = RoleAssignmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleAssignmentListResult;
     };
 };
