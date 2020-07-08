@@ -12,13 +12,15 @@ import { credentialLogger, CredentialLogger } from '../util/logging';
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
+  /**
+   * The name to use during logging
+   */
   protected credentialName = "ChainedTokenCredential";
+
   /**
    * The message to use when the chained token fails to get a token
    */
-  protected get UnavailableMessage(): string {
-    return `${this.credentialName} failed to retrieve a token from the included credentials`;
-  }
+  protected UnavailableMessage = "ChainedTokenCredential => failed to retrieve a token from the included credentials";
 
   private _logger?: CredentialLogger;
   private get logger(): CredentialLogger {
