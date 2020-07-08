@@ -116,36 +116,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     private _messageSession: MessageSession,
     private _context: ClientEntityContext,
     public receiveMode: "peekLock" | "receiveAndDelete",
-    sessionOptions: CreateSessionReceiverOptions,
     private _retryOptions: RetryOptions = {}
   ) {
     throwErrorIfConnectionClosed(this._context.namespace);
     this.entityPath = this._context.entityPath;
-    let errorMessage: string = "";
-    // SB allows a sessionId with empty string value :)
-
-    if (sessionOptions.sessionId == null && _messageSession.sessionId == null) {
-      // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
-      // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
-      errorMessage = `No unlocked sessions were available`;
-    } else if (
-      sessionOptions.sessionId != null &&
-      _messageSession.sessionId !== sessionOptions.sessionId
-    ) {
-      // This code path is reached if the session is already locked by another receiver.
-      // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-      errorMessage = `Failed to get a lock on the session ${sessionOptions.sessionId};`;
-    }
-
-    if (errorMessage) {
-      const error = translate({
-        description: errorMessage,
-        condition: ErrorNameConditionMapper.SessionCannotBeLockedError
-      });
-      log.error("[%s] %O", this._context.namespace.connectionId, error);
-      throw error;
-    }
-
     this.sessionId = _messageSession.sessionId!;
   }
 
@@ -170,7 +144,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       messageSession,
       context,
       receiveMode,
-      sessionOptions,
       retryOptions
     );
     return sessionReceiver;
