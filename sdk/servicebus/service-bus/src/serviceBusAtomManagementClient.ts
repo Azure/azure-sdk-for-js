@@ -844,7 +844,9 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse> {
+  private async listTopics(
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<TopicsResponse> {
     log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
@@ -853,6 +855,63 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListTopicsResponse(response);
+  }
+
+  private async *listTopicsPage(
+    marker?: number,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<TopicsResponse> {
+    let listResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        listResponse = await this.listTopics({
+          skip: marker,
+          maxCount: options.maxPageSize,
+          ...options
+        });
+        marker = listResponse.continuationToken;
+        yield listResponse;
+      } while (marker);
+    }
+  }
+
+  private async *listTopicsAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<TopicDescription> {
+    let marker: number | undefined;
+    for await (const segment of this.listTopicsPage(marker, options)) {
+      yield* segment;
+    }
+  }
+
+  public getTopics(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<TopicDescription, TopicsResponse, PageSettings> {
+    log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
+    const iter = this.listTopicsAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listTopicsPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -868,7 +927,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopicsRuntimeInfo(
+  private async listTopicsRuntimeInfo(
     options?: ListRequestOptions & OperationOptions
   ): Promise<TopicsRuntimeInfoResponse> {
     log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
@@ -879,6 +938,65 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListTopicsRuntimeInfoResponse(response);
+  }
+
+  private async *listTopicsRuntimeInfoPage(
+    marker?: number,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<TopicsRuntimeInfoResponse> {
+    let listResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        listResponse = await this.listTopicsRuntimeInfo({
+          skip: marker,
+          maxCount: options.maxPageSize,
+          ...options
+        });
+        marker = listResponse.continuationToken;
+        yield listResponse;
+      } while (marker);
+    }
+  }
+
+  private async *listTopicsRuntimeInfoAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<TopicRuntimeInfo> {
+    let marker: number | undefined;
+    for await (const segment of this.listTopicsRuntimeInfoPage(marker, options)) {
+      yield* segment;
+    }
+  }
+
+  public getTopicsRuntimeInfo(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<TopicRuntimeInfo, TopicsRuntimeInfoResponse, PageSettings> {
+    log.httpAtomXml(
+      `Performing management operation - getTopicsRuntimeInfo() with options: ${options}`
+    );
+    const iter = this.listTopicsRuntimeInfoAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listTopicsRuntimeInfoPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -1142,7 +1260,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getSubscriptions(
+  private async listSubscriptions(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<SubscriptionsResponse> {
@@ -1156,6 +1274,68 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListSubscriptionsResponse(response);
+  }
+
+  private async *listSubscriptionsPage(
+    topicName: string,
+    marker?: number,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<SubscriptionsResponse> {
+    let listResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        listResponse = await this.listSubscriptions(topicName, {
+          skip: marker,
+          maxCount: options.maxPageSize,
+          ...options
+        });
+        marker = listResponse.continuationToken;
+        yield listResponse;
+      } while (marker);
+    }
+  }
+
+  private async *listSubscriptionsAll(
+    topicName: string,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<SubscriptionDescription> {
+    let marker: number | undefined;
+    for await (const segment of this.listSubscriptionsPage(topicName, marker, options)) {
+      yield* segment;
+    }
+  }
+
+  public getSubscriptions(
+    topicName: string,
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<SubscriptionDescription, SubscriptionsResponse, PageSettings> {
+    log.httpAtomXml(
+      `Performing management operation - getSubscriptions() with options: ${options}`
+    );
+    const iter = this.listSubscriptionsAll(topicName, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSubscriptionsPage(topicName, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -1172,12 +1352,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getSubscriptionsRuntimeInfo(
+  private async listSubscriptionsRuntimeInfo(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<SubscriptionsRuntimeInfoResponse> {
     log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${options}`
+      `Performing management operation - listSubscriptionsRuntimeInfo() with options: ${options}`
     );
     const response: HttpOperationResponse = await this.listResources(
       topicName + "/Subscriptions/",
@@ -1186,6 +1366,72 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListSubscriptionsRuntimeInfoResponse(response);
+  }
+
+  private async *listSubscriptionsRuntimeInfoPage(
+    topicName: string,
+    marker?: number,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<SubscriptionsRuntimeInfoResponse> {
+    let listResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        listResponse = await this.listSubscriptionsRuntimeInfo(topicName, {
+          skip: marker,
+          maxCount: options.maxPageSize,
+          ...options
+        });
+        marker = listResponse.continuationToken;
+        yield listResponse;
+      } while (marker);
+    }
+  }
+
+  private async *listSubscriptionsRuntimeInfoAll(
+    topicName: string,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<SubscriptionRuntimeInfo> {
+    let marker: number | undefined;
+    for await (const segment of this.listSubscriptionsRuntimeInfoPage(topicName, marker, options)) {
+      yield* segment;
+    }
+  }
+
+  public getSubscriptionsRuntimeInfo(
+    topicName: string,
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<
+    SubscriptionRuntimeInfo,
+    SubscriptionsRuntimeInfoResponse,
+    PageSettings
+  > {
+    log.httpAtomXml(
+      `Performing management operation - getSubscriptionsRuntimeInfo() with options: ${options}`
+    );
+    const iter = this.listSubscriptionsRuntimeInfoAll(topicName, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listSubscriptionsRuntimeInfoPage(topicName, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -1393,7 +1639,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getRules(
+  private async listRules(
     topicName: string,
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
@@ -1407,6 +1653,69 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListRulesResponse(response);
+  }
+
+  private async *listRulesPage(
+    topicName: string,
+    subscriptionName: string,
+    marker?: number,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<RulesResponse> {
+    let listResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        listResponse = await this.listRules(topicName, subscriptionName, {
+          skip: marker,
+          maxCount: options.maxPageSize,
+          ...options
+        });
+        marker = listResponse.continuationToken;
+        yield listResponse;
+      } while (marker);
+    }
+  }
+
+  private async *listRulesAll(
+    topicName: string,
+    subscriptionName: string,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<RuleDescription> {
+    let marker: number | undefined;
+    for await (const segment of this.listRulesPage(topicName, subscriptionName, marker, options)) {
+      yield* segment;
+    }
+  }
+
+  public getRules(
+    topicName: string,
+    subscriptionName: string,
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<RuleDescription, RulesResponse, PageSettings> {
+    log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
+    const iter = this.listRulesAll(topicName, subscriptionName, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listRulesPage(topicName, subscriptionName, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
