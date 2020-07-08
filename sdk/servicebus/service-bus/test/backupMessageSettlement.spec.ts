@@ -66,41 +66,40 @@ describe("Backup message settlement - Through ManagementLink", () => {
   }
 
   [noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
-    it(testClientType + ": complete() removes message", async function(): Promise<void> {
-      await beforeEachTest(testClientType);
-      const testMessages = entityNames.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      const msg = await sendReceiveMsg(testMessages);
-      await receiver.close();
-      let errorWasThrown = false;
-      try {
-        await msg.complete();
-      } catch (err) {
-        should.equal(
-          err.message,
-          `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
-          "Unexpected error thrown"
-        );
-        errorWasThrown = true;
-      }
+    describe(testClientType, () => {
+      it("complete() removes message", async function(): Promise<void> {
+        await beforeEachTest(testClientType);
+        const testMessages = entityNames.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        const msg = await sendReceiveMsg(testMessages);
+        await receiver.close();
+        let errorWasThrown = false;
+        try {
+          await msg.complete();
+        } catch (err) {
+          should.equal(
+            err.message,
+            `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
+            "Unexpected error thrown"
+          );
+          errorWasThrown = true;
+        }
 
-      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-      if (entityNames.usesSessions) {
-        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-        const msgBatch = await receiver.receiveMessages(1);
-        await msgBatch[0].complete();
-      } else {
-        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
-      }
-      await testPeekMsgsLength(receiver, 0);
-    });
-  });
+        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        if (entityNames.usesSessions) {
+          should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+          const msgBatch = await receiver.receiveMessages(1);
+          await msgBatch[0].complete();
+        } else {
+          should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+        }
+        await testPeekMsgsLength(receiver, 0);
+      });
 
-  [noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
-    it(
-      testClientType + ": abandon() retains message with incremented deliveryCount",
-      async function(): Promise<void> {
+      it("abandon() retains message with incremented deliveryCount", async function(): Promise<
+        void
+      > {
         await beforeEachTest(testClientType);
         const testMessages = entityNames.usesSessions
           ? TestMessage.getSessionSample()
@@ -132,61 +131,52 @@ describe("Backup message settlement - Through ManagementLink", () => {
         await messageBatch[0].complete();
 
         await testPeekMsgsLength(receiver, 0);
-      }
-    );
-  });
+      });
 
-  [noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
-    it(testClientType + ": defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(testClientType);
-      const testMessages = entityNames.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      const msg = await sendReceiveMsg(testMessages);
+      it("defer() moves message to deferred queue", async function(): Promise<void> {
+        await beforeEachTest(testClientType);
+        const testMessages = entityNames.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        const msg = await sendReceiveMsg(testMessages);
 
-      if (!msg.sequenceNumber) {
-        throw "Sequence Number can not be null";
-      }
-      const sequenceNumber = msg.sequenceNumber;
-      await receiver.close();
-      let errorWasThrown = false;
-      try {
-        await msg.defer();
-      } catch (err) {
-        should.equal(
-          err.message,
-          `Failed to ${DispositionType.defer} the message as the AMQP link with which the message was received is no longer alive.`,
-          "Unexpected error thrown"
-        );
-        errorWasThrown = true;
-      }
-
-      if (entityNames.usesSessions) {
-        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-      } else {
-        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
-      }
-      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-      if (!entityNames.usesSessions) {
-        const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
-        if (!deferredMsg) {
-          throw "No message received for sequence number";
+        if (!msg.sequenceNumber) {
+          throw "Sequence Number can not be null";
         }
-        await deferredMsg.complete();
-      } else {
-        const messageBatch = await receiver.receiveMessages(1);
-        await messageBatch[0].complete();
-      }
-      await testPeekMsgsLength(receiver, 0);
-    });
-  });
+        const sequenceNumber = msg.sequenceNumber;
+        await receiver.close();
+        let errorWasThrown = false;
+        try {
+          await msg.defer();
+        } catch (err) {
+          should.equal(
+            err.message,
+            `Failed to ${DispositionType.defer} the message as the AMQP link with which the message was received is no longer alive.`,
+            "Unexpected error thrown"
+          );
+          errorWasThrown = true;
+        }
 
-  [noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
-    it(
-      testClientType + ": deadLetter() moves message to deadletter queue",
-      async function(): Promise<void> {
+        if (entityNames.usesSessions) {
+          should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+        } else {
+          should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+        }
+        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        if (!entityNames.usesSessions) {
+          const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
+          if (!deferredMsg) {
+            throw "No message received for sequence number";
+          }
+          await deferredMsg.complete();
+        } else {
+          const messageBatch = await receiver.receiveMessages(1);
+          await messageBatch[0].complete();
+        }
+        await testPeekMsgsLength(receiver, 0);
+      });
+
+      it("deadLetter() moves message to deadletter queue", async function(): Promise<void> {
         await beforeEachTest(testClientType);
         const testMessages = entityNames.usesSessions
           ? TestMessage.getSessionSample()
@@ -242,46 +232,44 @@ describe("Backup message settlement - Through ManagementLink", () => {
 
           await testPeekMsgsLength(receiver, 0);
         }
-      }
-    );
-  });
+      });
 
-  [noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
-    it(testClientType + ": renew lock", async function(): Promise<void> {
-      await beforeEachTest(testClientType);
-      const testMessages = entityNames.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      const msg = await sendReceiveMsg(testMessages);
-      await receiver.close();
-      let errorWasThrown = false;
-      try {
-        const lockedUntilBeforeRenewlock = msg.lockedUntilUtc;
-        const lockedUntilAfterRenewlock = await msg.renewLock();
-        should.equal(
-          lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
-          true,
-          "MessageLock did not get renewed!"
-        );
-        await msg.complete();
-      } catch (err) {
-        should.equal(
-          err.message,
-          `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
-          "Unexpected error thrown"
-        );
-        errorWasThrown = true;
-      }
+      it("renew lock", async function(): Promise<void> {
+        await beforeEachTest(testClientType);
+        const testMessages = entityNames.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+        const msg = await sendReceiveMsg(testMessages);
+        await receiver.close();
+        let errorWasThrown = false;
+        try {
+          const lockedUntilBeforeRenewlock = msg.lockedUntilUtc;
+          const lockedUntilAfterRenewlock = await msg.renewLock();
+          should.equal(
+            lockedUntilAfterRenewlock > lockedUntilBeforeRenewlock!,
+            true,
+            "MessageLock did not get renewed!"
+          );
+          await msg.complete();
+        } catch (err) {
+          should.equal(
+            err.message,
+            `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
+            "Unexpected error thrown"
+          );
+          errorWasThrown = true;
+        }
 
-      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-      if (entityNames.usesSessions) {
-        should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
-        const msgBatch = await receiver.receiveMessages(1);
-        await msgBatch[0].complete();
-      } else {
-        should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
-      }
-      await testPeekMsgsLength(receiver, 0);
+        receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+        if (entityNames.usesSessions) {
+          should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
+          const msgBatch = await receiver.receiveMessages(1);
+          await msgBatch[0].complete();
+        } else {
+          should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+        }
+        await testPeekMsgsLength(receiver, 0);
+      });
     });
   });
 });
