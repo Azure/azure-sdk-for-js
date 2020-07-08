@@ -65,9 +65,9 @@ describe("Atom management - Namespace", function(): void {
   });
 });
 
-describe("GetQueues paging", function(): void {
+describe.only("GetQueues paging", function(): void {
   const baseQueueName = "random-queue";
-  const numberOfQueues = 6;
+  const numberOfQueues = 7;
 
   beforeEach(async () => {
     for (let i = 0; i < numberOfQueues; i++) {
@@ -123,12 +123,12 @@ describe("GetQueues paging", function(): void {
     }
   });
 
-  it.only("Get queues paging - 5", async () => {
+  it("Get queues paging - 5", async () => {
     // 5. Same as the previous example - passing maxPageSize in the page settings
     let i = 1;
     for await (const response of serviceBusAtomManagementClient
       .getQueues2()
-      .byPage({ maxPageSize: 3 })) {
+      .byPage({ maxPageSize: 2 })) {
       for (const queue of response) {
         console.log(`Queue ${i++}: ${queue.name}`);
       }
