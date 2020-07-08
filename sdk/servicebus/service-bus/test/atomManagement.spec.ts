@@ -11,7 +11,7 @@ import { QueueDescription } from "../src/serializers/queueResourceSerializer";
 import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
 import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
 import { TopicDescription } from "../src/serializers/topicResourceSerializer";
-import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
+import { ServiceBusManagementClient, PageSettings } from "../src/serviceBusAtomManagementClient";
 import { EntityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
@@ -65,7 +65,7 @@ describe("Atom management - Namespace", function(): void {
   });
 });
 
-describe.only("Listing methods - PagedAsyncIterableIterator", function(): void {
+describe("Listing methods - PagedAsyncIterableIterator", function(): void {
   const baseName = "random";
   const queueNames: string[] = [];
   const topicNames: string[] = [];
@@ -126,7 +126,6 @@ describe.only("Listing methods - PagedAsyncIterableIterator", function(): void {
     createdNames.forEach((createdName) => {
       receivedNames = receivedNames.filter((receivedName) => createdName !== receivedName);
     });
-    console.log(numberOfReceived);
     should.equal(
       numberOfReceived,
       receivedNames.length + createdNames.length,
@@ -156,7 +155,9 @@ describe.only("Listing methods - PagedAsyncIterableIterator", function(): void {
           );
         }
         for await (const entity of iter) {
-          receivedEntities.push(entity.name);
+          receivedEntities.push(
+            methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+          );
         }
         verifyEntities(methodName, receivedEntities);
       });
@@ -164,9 +165,21 @@ describe.only("Listing methods - PagedAsyncIterableIterator", function(): void {
       it("Verify PagedAsyncIterableIterator(generator .next() syntax)", async () => {
         const receivedEntities = [];
         let iter = (serviceBusAtomManagementClient as any)[methodName]();
+        if (methodName.includes("Subscription")) {
+          iter = (serviceBusAtomManagementClient as any)[methodName](managementTopic1);
+        } else if (methodName.includes("Rule")) {
+          iter = (serviceBusAtomManagementClient as any)[methodName](
+            managementTopic1,
+            managementSubscription1
+          );
+        }
         let entityItem = await iter.next();
         while (!entityItem.done) {
-          receivedEntities.push(entityItem.value.name);
+          receivedEntities.push(
+            methodName.includes("Subscription")
+              ? entityItem.value.subscriptionName
+              : entityItem.value.name
+          );
           entityItem = await iter.next();
         }
         verifyEntities(methodName, receivedEntities);
@@ -174,11 +187,25 @@ describe.only("Listing methods - PagedAsyncIterableIterator", function(): void {
 
       it("Verify PagedAsyncIterableIterator(byPage())", async () => {
         const receivedEntities = [];
-        for await (const response of (serviceBusAtomManagementClient as any)[methodName]().byPage({
+        let iter = (serviceBusAtomManagementClient as any)[methodName]().byPage({
           maxPageSize: 2
-        })) {
+        });
+        if (methodName.includes("Subscription")) {
+          iter = (serviceBusAtomManagementClient as any)[methodName](managementTopic1).byPage({
+            maxPageSize: 2
+          });
+        } else if (methodName.includes("Rule")) {
+          iter = (serviceBusAtomManagementClient as any)
+            [methodName](managementTopic1, managementSubscription1)
+            .byPage({
+              maxPageSize: 2
+            });
+        }
+        for await (const response of iter) {
           for (const entity of response) {
-            receivedEntities.push(entity.name);
+            receivedEntities.push(
+              methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+            );
           }
         }
         verifyEntities(methodName, receivedEntities);
@@ -186,21 +213,35 @@ describe.only("Listing methods - PagedAsyncIterableIterator", function(): void {
 
       it("Verify PagedAsyncIterableIterator(byPage() - continuationToken)", async () => {
         const receivedEntities = [];
-        let iterator = (serviceBusAtomManagementClient as any)[methodName]().byPage({
-          maxPageSize: 2
-        });
+        function getIter(options?: PageSettings) {
+          let iterator = (serviceBusAtomManagementClient as any)[methodName]().byPage(options);
+          if (methodName.includes("Subscription")) {
+            iterator = (serviceBusAtomManagementClient as any)
+              [methodName](managementTopic1)
+              .byPage(options);
+          } else if (methodName.includes("Rule")) {
+            iterator = (serviceBusAtomManagementClient as any)
+              [methodName](managementTopic1, managementSubscription1)
+              .byPage(options);
+          }
+          return iterator;
+        }
+
+        let iterator = getIter({ maxPageSize: 2 });
         let response = await iterator.next();
         // Prints 2 entity names
         if (!response.done) {
           for (const entity of response.value) {
-            receivedEntities.push(entity.name);
+            receivedEntities.push(
+              methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+            );
           }
         }
 
         // Gets next marker
         let marker = response.value.continuationToken;
         // Passing next marker as continuationToken
-        iterator = (serviceBusAtomManagementClient as any)[methodName]().byPage({
+        iterator = getIter({
           continuationToken: marker,
           maxPageSize: 5
         });
@@ -208,17 +249,23 @@ describe.only("Listing methods - PagedAsyncIterableIterator", function(): void {
         // Gets up to 5 entity names
         if (!response.done) {
           for (const entity of response.value) {
-            receivedEntities.push(entity.name);
+            receivedEntities.push(
+              methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+            );
           }
         }
         marker = response.value.continuationToken;
 
         // In case the namespace has too many entities and the newly created entities were not recovered
-        for await (const response of (serviceBusAtomManagementClient as any)[methodName]().byPage({
-          continuationToken: marker
-        })) {
-          for (const entity of response) {
-            receivedEntities.push(entity.name);
+        if (marker) {
+          for await (const response of getIter({
+            continuationToken: marker
+          })) {
+            for (const entity of response) {
+              receivedEntities.push(
+                methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+              );
+            }
           }
         }
         verifyEntities(methodName, receivedEntities);
