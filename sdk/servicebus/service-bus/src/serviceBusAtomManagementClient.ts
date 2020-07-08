@@ -1127,7 +1127,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     let subscription: SubscriptionDescription;
     let operOptions: OperationOptions | undefined;
     if (typeof subscriptionNameOrOperationOptions === "string") {
-      if (topicNameOrSubscriptionOptions !== "string") {
+      if (typeof topicNameOrSubscriptionOptions !== "string") {
         throw new Error("Topic name provided is invalid");
       }
       subscription = {
