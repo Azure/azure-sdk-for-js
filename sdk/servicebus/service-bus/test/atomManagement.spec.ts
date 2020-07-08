@@ -2666,7 +2666,7 @@ async function listEntities(
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopics({
+      const topicResponse = await serviceBusAtomManagementClient["listTopics"]({
         skip,
         maxCount
       });
@@ -2677,10 +2677,9 @@ async function listEntities(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptions(
-        topicPath,
-        { skip, maxCount }
-      );
+      const subscriptionResponse = await serviceBusAtomManagementClient[
+        "listSubscriptions"
+      ](topicPath, { skip, maxCount });
       return subscriptionResponse;
     case EntityType.RULE:
       if (!topicPath || !subscriptionPath) {
@@ -2688,7 +2687,7 @@ async function listEntities(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      const ruleResponse = await serviceBusAtomManagementClient.getRules(
+      const ruleResponse = await serviceBusAtomManagementClient["listRules"](
         topicPath,
         subscriptionPath,
         { skip, maxCount }
