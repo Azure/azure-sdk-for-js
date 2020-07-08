@@ -371,7 +371,6 @@ export class MessageSession extends LinkEntity {
           this._receiver.source &&
           this._receiver.source.filter &&
           this._receiver.source.filter[Constants.sessionFilterName];
-
         if (
           receivedSessionId != undefined &&
           (this.sessionId == undefined || this.sessionId === receivedSessionId)
@@ -379,6 +378,7 @@ export class MessageSession extends LinkEntity {
           this.sessionLockedUntilUtc = convertTicksToDate(
             this._receiver.properties["com.microsoft:locked-until-utc"]
           );
+          if (this.sessionId == undefined) this.sessionId = receivedSessionId;
           log.messageSession(
             "[%s] Session with id '%s' is locked until: '%s'.",
             connectionId,
