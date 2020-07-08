@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createClientLogger } from "@azure/logger";
+import { createClientLogger, AzureLogger } from "@azure/logger";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { CredentialUnavailable } from "../client/errors";
 
@@ -51,7 +51,11 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
     `${credentialName} => Found the following environment variables: ${assigned.join(", ")}`
   );
 }
-export interface NestedLogger {
+
+/**
+ * A CredentialLoggerInstance represents a logger used either at a credentials' constructor, or at its methods.
+ */
+export interface CredentialLoggerInstance {
   title: string;
   fullTitle: string;
   info(message: string): void;
@@ -61,24 +65,34 @@ export interface NestedLogger {
   throwError(err: Error): never;
 }
 
-// TODO:
-// - Add documentation.
-// - Does something like this exists already?
-// - Should we move this to core-logger?
-export function nestedLogger(title: string, parent?: NestedLogger): NestedLogger {
+/**
+ * A CredentialLoggerInstance represents a logger used either at a credentials' constructor, or at its methods.
+ *
+ * It logs with the formats:
+ *
+ *   [title] => [message]
+ *   [title] => Success: [message]
+ *   [title] => Error: [message]
+ *
+ */
+export function credentialFlatLogger(
+  title: string,
+  parent?: CredentialLoggerInstance,
+  log: AzureLogger = logger
+): CredentialLoggerInstance {
   const fullTitle = parent ? `${parent.fullTitle} ${title}` : title;
 
   function info(message: string): void {
-    logger.info(`${fullTitle} =>`, message);
+    log.info(`${fullTitle} =>`, message);
   }
   function warning(message: string): void {
-    logger.warning(`${fullTitle} =>`, message);
+    log.warning(`${fullTitle} =>`, message);
   }
   function success(message: string): void {
-    logger.info(`${fullTitle} => SUCCESS:`, message);
+    log.info(`${fullTitle} => Success:`, message);
   }
   function error(err: Error): void {
-    logger.error(`${fullTitle} => ERROR:`, err);
+    log.error(`${fullTitle} =>`, err);
   }
   function throwError(err: Error | CredentialUnavailable): never {
     error(err);
@@ -96,14 +110,29 @@ export function nestedLogger(title: string, parent?: NestedLogger): NestedLogger
   };
 }
 
-export interface CredentialLogger extends NestedLogger {
-  getToken: NestedLogger;
+/**
+ * A CredentialLogger is a logger declared at the credential's constructor, and used at any point in the credential.
+ * It has all the properties of a CredentialLoggerInstance, plus other logger instances, one per method.
+ */
+export interface CredentialLogger extends CredentialLoggerInstance {
+  getToken: CredentialLoggerInstance;
 }
 
-export function credentialLogger(title: string, parent?: CredentialLogger): CredentialLogger {
-  const logger = nestedLogger(title);
+/**
+ * A CredentialLogger is a logger declared at the credential's constructor, and used at any point in the credential.
+ * It has all the properties of a CredentialLoggerInstance, plus other logger instances, one per method.
+ *
+ * At the getToken method level, it logs with the formats:
+ *
+ *   [title] => getToken => [message]
+ *   [title] => getToken => Success: [message]
+ *   [title] => getToken => Error: [message]
+ *
+ */
+export function credentialLogger(title: string, log: AzureLogger = logger): CredentialLogger {
+  const logger = credentialFlatLogger(title, undefined, log);
   return {
     ...logger,
-    getToken: nestedLogger("getToken", logger)
+    getToken: credentialFlatLogger("=> getToken", logger, log)
   };
 }
