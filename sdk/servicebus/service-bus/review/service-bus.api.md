@@ -66,6 +66,10 @@ export { delay }
 export { Delivery }
 
 // @public
+export interface EntitiesResponse<T> extends Array<T>, Pick<PageSettings, "continuationToken">, Response {
+}
+
+// @public
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
 // @public
@@ -122,6 +126,12 @@ export { OperationOptions }
 export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
 
 // @public
+export interface PageSettings {
+    continuationToken?: number;
+    maxPageSize?: number;
+}
+
+// @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long;
 }
@@ -166,15 +176,11 @@ export interface QueueRuntimeInfo {
 export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {
 }
 
-// Warning: (ae-forgotten-export) The symbol "PageSettings" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface QueuesResponse extends Array<QueueDescription>, Response, Pick<PageSettings, "continuationToken"> {
-}
+export type QueuesResponse = EntitiesResponse<QueueDescription>;
 
 // @public
-export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {
-}
+export type QueuesRuntimeInfoResponse = EntitiesResponse<QueueRuntimeInfo>;
 
 // @public
 export interface ReceivedMessage extends ServiceBusMessage {
@@ -242,8 +248,7 @@ export interface RuleResponse extends RuleDescription, Response {
 }
 
 // @public
-export interface RulesResponse extends Array<RuleDescription>, Response {
-}
+export type RulesResponse = EntitiesResponse<RuleDescription>;
 
 // @public
 export interface Sender {
@@ -309,7 +314,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
     // (undocumented)
     getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueDescription, QueuesResponse, PageSettings>;
-    getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimeInfoResponse>;
+    // (undocumented)
+    getQueuesRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeInfo, QueuesRuntimeInfoResponse, PageSettings>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
     getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptions): Promise<RulesResponse>;
     getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
@@ -445,12 +451,10 @@ export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo
 }
 
 // @public
-export interface SubscriptionsResponse extends Array<SubscriptionDescription>, Response {
-}
+export type SubscriptionsResponse = EntitiesResponse<SubscriptionDescription>;
 
 // @public
-export interface SubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo>, Response {
-}
+export type SubscriptionsRuntimeInfoResponse = EntitiesResponse<SubscriptionRuntimeInfo>;
 
 export { TokenCredential }
 
@@ -491,12 +495,10 @@ export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {
 }
 
 // @public
-export interface TopicsResponse extends Array<TopicDescription>, Response {
-}
+export type TopicsResponse = EntitiesResponse<TopicDescription>;
 
 // @public
-export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo>, Response {
-}
+export type TopicsRuntimeInfoResponse = EntitiesResponse<TopicRuntimeInfo>;
 
 // @public
 export interface WaitTimeOptions {
