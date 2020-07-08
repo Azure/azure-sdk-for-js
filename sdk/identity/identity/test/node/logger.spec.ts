@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import { credentialFlatLogger, credentialLogger, CredentialLogger } from "../../src/util/logging";
+import {
+  credentialLoggerInstance,
+  credentialLogger,
+  CredentialLogger
+} from "../../src/util/logging";
 import { TokenCredential, GetTokenOptions, AccessToken } from "../../src";
 
 describe.only("Identity logging utilities", function() {
@@ -12,7 +16,7 @@ describe.only("Identity logging utilities", function() {
       const fakeLogger = {
         info: (...params: any) => allParams.push(params)
       };
-      const logger = credentialFlatLogger("title", undefined, fakeLogger as any);
+      const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.info("message");
       assert.equal(allParams[0].join(" "), "title => message");
     });
@@ -22,7 +26,7 @@ describe.only("Identity logging utilities", function() {
       const fakeLogger = {
         warning: (...params: any) => allParams.push(params)
       };
-      const logger = credentialFlatLogger("title", undefined, fakeLogger as any);
+      const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.warning("message");
       assert.equal(allParams[0].join(" "), "title => message");
     });
@@ -32,7 +36,7 @@ describe.only("Identity logging utilities", function() {
       const fakeLogger = {
         info: (...params: any) => allParams.push(params)
       };
-      const logger = credentialFlatLogger("title", undefined, fakeLogger as any);
+      const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.success("message");
       assert.equal(allParams[0].join(" "), "title => Success: message");
     });
@@ -42,7 +46,7 @@ describe.only("Identity logging utilities", function() {
       const fakeLogger = {
         error: (...params: any) => allParams.push(params)
       };
-      const logger = credentialFlatLogger("title", undefined, fakeLogger as any);
+      const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.error(new Error("message"));
       assert.equal(allParams[0].join(" "), "title => Error: message");
     });
@@ -52,7 +56,7 @@ describe.only("Identity logging utilities", function() {
       const fakeLogger = {
         error: (...params: any) => allParams.push(params)
       };
-      const logger = credentialFlatLogger("title", undefined, fakeLogger as any);
+      const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       let error: Error | undefined;
       try {
         logger.throwError(new Error("message"));

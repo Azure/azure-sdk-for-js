@@ -66,7 +66,7 @@ export interface CredentialLoggerInstance {
 }
 
 /**
- * A CredentialLoggerInstance represents a logger used either at a credentials' constructor, or at its methods.
+ * Generates a CredentialLoggerInstance, which represents a logger used either at a credentials' constructor, or at its methods.
  *
  * It logs with the formats:
  *
@@ -75,7 +75,7 @@ export interface CredentialLoggerInstance {
  *   [title] => Error: [message]
  *
  */
-export function credentialFlatLogger(
+export function credentialLoggerInstance(
   title: string,
   parent?: CredentialLoggerInstance,
   log: AzureLogger = logger
@@ -119,7 +119,7 @@ export interface CredentialLogger extends CredentialLoggerInstance {
 }
 
 /**
- * A CredentialLogger is a logger declared at the credential's constructor, and used at any point in the credential.
+ * Generates a CredentialLogger, which is a logger declared at the credential's constructor, and used at any point in the credential.
  * It has all the properties of a CredentialLoggerInstance, plus other logger instances, one per method.
  *
  * At the getToken method level, it logs with the formats:
@@ -130,9 +130,9 @@ export interface CredentialLogger extends CredentialLoggerInstance {
  *
  */
 export function credentialLogger(title: string, log: AzureLogger = logger): CredentialLogger {
-  const logger = credentialFlatLogger(title, undefined, log);
+  const logger = credentialLoggerInstance(title, undefined, log);
   return {
     ...logger,
-    getToken: credentialFlatLogger("=> getToken()", logger, log)
+    getToken: credentialLoggerInstance("=> getToken()", logger, log)
   };
 }
