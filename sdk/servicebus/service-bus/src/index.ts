@@ -46,8 +46,10 @@ export {
 } from "./serializers/subscriptionResourceSerializer";
 export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
 export {
+  EntitiesResponse,
   ListRequestOptions,
   NamespacePropertiesResponse,
+  PageSettings,
   QueueResponse,
   QueueRuntimeInfoResponse,
   QueuesResponse,
