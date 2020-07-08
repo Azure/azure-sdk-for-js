@@ -71,7 +71,7 @@ export interface Receiver<ReceivedMessageT> {
    * @param options A set of options to control the receive operation.
    * - `maxWaitTimeInMs`: The time to wait to receive the given number of messages.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
-   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of messages.
+   * @returns Promise<ReceivedMessageT[]> A promise that resolves with an array of messages.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
