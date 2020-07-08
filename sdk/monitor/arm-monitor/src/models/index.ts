@@ -61,6 +61,26 @@ export interface ScaleCapacity {
 }
 
 /**
+ * Specifies an auto scale rule metric dimension.
+ */
+export interface ScaleRuleMetricDimension {
+  /**
+   * Name of the dimension.
+   */
+  dimensionName: string;
+  /**
+   * the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to
+   * any of the values. 'NotEquals' being not equal to all of the values. Possible values include:
+   * 'Equals', 'NotEquals'
+   */
+  operator: ScaleRuleMetricDimensionOperationType;
+  /**
+   * list of dimension values. For example: ["App1","App2"].
+   */
+  values: string[];
+}
+
+/**
  * The trigger that results in a scaling action.
  */
 export interface MetricTrigger {
@@ -68,6 +88,10 @@ export interface MetricTrigger {
    * the name of the metric that defines what the rule monitors.
    */
   metricName: string;
+  /**
+   * the namespace of the metric that defines what the rule monitors.
+   */
+  metricNamespace?: string;
   /**
    * the resource identifier of the resource the rule monitors.
    */
@@ -104,6 +128,11 @@ export interface MetricTrigger {
    * the threshold of the metric that triggers the scale action.
    */
   threshold: number;
+  /**
+   * List of dimension conditions. For example:
+   * [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].
+   */
+  dimensions?: ScaleRuleMetricDimension[];
 }
 
 /**
@@ -2113,13 +2142,13 @@ export interface MetricAlertAction {
   /**
    * The properties of a webhook object.
    */
-  webhookProperties?: { [propertyName: string]: string };
+  webHookProperties?: { [propertyName: string]: string };
 }
 
 /**
  * Contains the possible cases for MetricAlertCriteria.
  */
-export type MetricAlertCriteriaUnion = MetricAlertCriteria | MetricAlertSingleResourceMultipleMetricCriteria | MetricAlertMultipleResourceMultipleMetricCriteria;
+export type MetricAlertCriteriaUnion = MetricAlertCriteria | MetricAlertSingleResourceMultipleMetricCriteria | WebtestLocationAvailabilityCriteria | MetricAlertMultipleResourceMultipleMetricCriteria;
 
 /**
  * The rule criteria that defines the conditions of the alert rule.
@@ -2179,7 +2208,7 @@ export interface MetricAlertResource extends Resource {
    */
   criteria: MetricAlertCriteriaUnion;
   /**
-   * the flag that indicates whether the alert should be auto resolved or not.
+   * the flag that indicates whether the alert should be auto resolved or not. The default is true.
    */
   autoMitigate?: boolean;
   /**
@@ -2242,7 +2271,7 @@ export interface MetricAlertResourcePatch {
    */
   criteria: MetricAlertCriteriaUnion;
   /**
-   * the flag that indicates whether the alert should be auto resolved or not.
+   * the flag that indicates whether the alert should be auto resolved or not. The default is true.
    */
   autoMitigate?: boolean;
   /**
@@ -2375,9 +2404,10 @@ export interface MetricCriteria {
    */
   dimensions?: MetricDimension[];
   /**
-   * the criteria operator.
+   * the criteria operator. Possible values include: 'Equals', 'NotEquals', 'GreaterThan',
+   * 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'
    */
-  operator: any;
+  operator: Operator;
   /**
    * the criteria threshold value that activates the alert.
    */
@@ -2396,6 +2426,28 @@ export interface MetricAlertSingleResourceMultipleMetricCriteria {
    * The list of metric criteria for this 'all of' operation.
    */
   allOf?: MetricCriteria[];
+}
+
+/**
+ * Specifies the metric alert rule criteria for a web test resource.
+ */
+export interface WebtestLocationAvailabilityCriteria {
+  /**
+   * Polymorphic Discriminator
+   */
+  odatatype: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";
+  /**
+   * The Application Insights web test Id.
+   */
+  webTestId: string;
+  /**
+   * The Application Insights resource Id.
+   */
+  componentId: string;
+  /**
+   * The number of failed locations.
+   */
+  failedLocationCount: number;
 }
 
 /**
@@ -2476,14 +2528,15 @@ export interface DynamicMetricCriteria {
    */
   dimensions?: MetricDimension[];
   /**
-   * The operator used to compare the metric value against the threshold.
+   * The operator used to compare the metric value against the threshold. Possible values include:
+   * 'GreaterThan', 'LessThan', 'GreaterOrLessThan'
    */
-  operator: any;
+  operator: DynamicThresholdOperator;
   /**
    * The extent of deviation required to trigger an alert. This will affect how tight the threshold
-   * is to the metric series pattern.
+   * is to the metric series pattern. Possible values include: 'Low', 'Medium', 'High'
    */
-  alertSensitivity: any;
+  alertSensitivity: DynamicThresholdSensitivity;
   /**
    * The minimum number of violations required within the selected lookback time window required to
    * raise an alert.
@@ -3234,6 +3287,14 @@ export type TimeAggregationType = 'Average' | 'Minimum' | 'Maximum' | 'Total' | 
 export type ComparisonOperationType = 'Equals' | 'NotEquals' | 'GreaterThan' | 'GreaterThanOrEqual' | 'LessThan' | 'LessThanOrEqual';
 
 /**
+ * Defines values for ScaleRuleMetricDimensionOperationType.
+ * Possible values include: 'Equals', 'NotEquals'
+ * @readonly
+ * @enum {string}
+ */
+export type ScaleRuleMetricDimensionOperationType = 'Equals' | 'NotEquals';
+
+/**
  * Defines values for ScaleDirection.
  * Possible values include: 'None', 'Increase', 'Decrease'
  * @readonly
@@ -3330,6 +3391,31 @@ export type Sensitivity = 'Low' | 'Medium' | 'High';
  * @enum {string}
  */
 export type BaselineSensitivity = 'Low' | 'Medium' | 'High';
+
+/**
+ * Defines values for Operator.
+ * Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan',
+ * 'LessThanOrEqual'
+ * @readonly
+ * @enum {string}
+ */
+export type Operator = 'Equals' | 'NotEquals' | 'GreaterThan' | 'GreaterThanOrEqual' | 'LessThan' | 'LessThanOrEqual';
+
+/**
+ * Defines values for DynamicThresholdOperator.
+ * Possible values include: 'GreaterThan', 'LessThan', 'GreaterOrLessThan'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicThresholdOperator = 'GreaterThan' | 'LessThan' | 'GreaterOrLessThan';
+
+/**
+ * Defines values for DynamicThresholdSensitivity.
+ * Possible values include: 'Low', 'Medium', 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type DynamicThresholdSensitivity = 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for Enabled.
