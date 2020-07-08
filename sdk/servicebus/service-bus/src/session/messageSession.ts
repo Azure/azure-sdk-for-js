@@ -371,29 +371,39 @@ export class MessageSession extends LinkEntity {
           this._receiver.source &&
           this._receiver.source.filter &&
           this._receiver.source.filter[Constants.sessionFilterName];
-        if (
-          receivedSessionId != undefined &&
-          (this.sessionId == undefined || this.sessionId === receivedSessionId)
-        ) {
-          this.sessionLockedUntilUtc = convertTicksToDate(
-            this._receiver.properties["com.microsoft:locked-until-utc"]
-          );
-          if (this.sessionId == undefined) this.sessionId = receivedSessionId;
-          log.messageSession(
-            "[%s] Session with id '%s' is locked until: '%s'.",
-            connectionId,
-            this.sessionId,
-            this.sessionLockedUntilUtc.toISOString()
-          );
-          if (!this._context.messageSessions[this.sessionId!]) {
-            this._context.messageSessions[this.sessionId!] = this;
-          }
-          this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-          this._ensureTokenRenewal();
-          this._ensureSessionLockRenewal();
-        }
-        this.sessionId = receivedSessionId;
 
+        let errorMessage: string = "";
+        // SB allows a sessionId with empty string value :)
+
+        if (this.sessionId == null && receivedSessionId == null) {
+          // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
+          // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
+          errorMessage = `No unlocked sessions were available`;
+        } else if (this.sessionId != null && receivedSessionId !== this.sessionId) {
+          // This code path is reached if the session is already locked by another receiver.
+          // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
+          errorMessage = `Failed to get a lock on the session ${this.sessionId};`;
+        }
+
+        if (errorMessage) {
+          const error = translate({
+            description: errorMessage,
+            condition: ErrorNameConditionMapper.SessionCannotBeLockedError
+          });
+          log.error("[%s] %O", this._context.namespace.connectionId, error);
+          throw error;
+        }
+
+        if (this.sessionId == undefined) this.sessionId = receivedSessionId;
+        this.sessionLockedUntilUtc = convertTicksToDate(
+          this._receiver.properties["com.microsoft:locked-until-utc"]
+        );
+        log.messageSession(
+          "[%s] Session with id '%s' is locked until: '%s'.",
+          connectionId,
+          this.sessionId,
+          this.sessionLockedUntilUtc.toISOString()
+        );
         log.error(
           "[%s] Receiver '%s' for sessionId '%s' has established itself.",
           connectionId,
@@ -410,6 +420,12 @@ export class MessageSession extends LinkEntity {
           this.name,
           options
         );
+        if (!this._context.messageSessions[this.sessionId!]) {
+          this._context.messageSessions[this.sessionId!] = this;
+        }
+        this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
+        this._ensureTokenRenewal();
+        this._ensureSessionLockRenewal();
       } else {
         log.error(
           "[%s] The receiver '%s' for sessionId '%s' is open -> %s and is connecting " +
