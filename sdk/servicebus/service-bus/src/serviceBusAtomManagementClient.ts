@@ -66,6 +66,7 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
+import { parseURL } from "./util/parseUrl";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -1577,6 +1578,19 @@ export class ServiceBusManagementClient extends ServiceClient {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
   }
 
+  private getMarkerFromNextLinkUrl(url: string): number | undefined {
+    if (!url) {
+      return undefined;
+    }
+    try {
+      return parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+    } catch (error) {
+      throw new Error(
+        `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the response ` + error
+      );
+    }
+  }
+
   private buildNamespacePropertiesResponse(
     response: HttpOperationResponse
   ): NamespacePropertiesResponse {
@@ -1601,6 +1615,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private buildListQueuesResponse(response: HttpOperationResponse): QueuesResponse {
     try {
       const queues: QueueDescription[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1614,6 +1629,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       const listQueuesResponse: QueuesResponse = Object.assign(queues, {
         _response: response
       });
+      listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
