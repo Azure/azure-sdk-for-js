@@ -84,7 +84,7 @@ describe.only("GetQueues paging", function(): void {
   it("Get queues paging - 1", async () => {
     // 1. List Queues
     let i = 1;
-    let iter = serviceBusAtomManagementClient.getQueues2();
+    let iter = serviceBusAtomManagementClient.getQueues();
     for await (const queue of iter) {
       console.log(`Queue ${i++}: ${queue.name}`);
     }
@@ -93,7 +93,7 @@ describe.only("GetQueues paging", function(): void {
   it("Get queues paging - 2", async () => {
     // 2. Same as the previous example
     let i = 1;
-    for await (const queue of serviceBusAtomManagementClient.getQueues2()) {
+    for await (const queue of serviceBusAtomManagementClient.getQueues()) {
       console.log(`Queue ${i++}: ${queue.name}`);
     }
   });
@@ -101,7 +101,7 @@ describe.only("GetQueues paging", function(): void {
   it("Get queues paging - 3", async () => {
     // 3. Generator syntax .next()
     let i = 1;
-    let iter = serviceBusAtomManagementClient.getQueues2();
+    let iter = serviceBusAtomManagementClient.getQueues();
     let queueItem = await iter.next();
     while (!queueItem.done) {
       console.log(`Queue ${i++}: ${queueItem.value.name}`);
@@ -116,7 +116,7 @@ describe.only("GetQueues paging", function(): void {
 
     // 4. list queues by page
     let i = 1;
-    for await (const response of serviceBusAtomManagementClient.getQueues2().byPage()) {
+    for await (const response of serviceBusAtomManagementClient.getQueues().byPage()) {
       for (const queue of response) {
         console.log(`Queue ${i++}: ${queue.name}`);
       }
@@ -127,7 +127,7 @@ describe.only("GetQueues paging", function(): void {
     // 5. Same as the previous example - passing maxPageSize in the page settings
     let i = 1;
     for await (const response of serviceBusAtomManagementClient
-      .getQueues2()
+      .getQueues()
       .byPage({ maxPageSize: 2 })) {
       for (const queue of response) {
         console.log(`Queue ${i++}: ${queue.name}`);
@@ -138,7 +138,7 @@ describe.only("GetQueues paging", function(): void {
   it("Get queues paging - 6", async () => {
     // 6. Generator syntax .next()
     let i = 1;
-    let iterator = serviceBusAtomManagementClient.getQueues2().byPage({ maxPageSize: 3 });
+    let iterator = serviceBusAtomManagementClient.getQueues().byPage({ maxPageSize: 3 });
     let response = await iterator.next();
     while (!response.done) {
       if (response.value) {
@@ -153,7 +153,7 @@ describe.only("GetQueues paging", function(): void {
   it("Get queues paging - 7", async () => {
     // 7. Passing marker as an argument (similar to the previous example)
     let i = 1;
-    let iterator = serviceBusAtomManagementClient.getQueues2().byPage({ maxPageSize: 2 });
+    let iterator = serviceBusAtomManagementClient.getQueues().byPage({ maxPageSize: 2 });
     let response = await iterator.next();
     // Prints 2 queue names
     if (!response.done) {
@@ -165,7 +165,7 @@ describe.only("GetQueues paging", function(): void {
     // Gets next marker
     let marker = response.value.continuationToken;
     // Passing next marker as continuationToken
-    iterator = serviceBusAtomManagementClient.getQueues2().byPage({
+    iterator = serviceBusAtomManagementClient.getQueues().byPage({
       continuationToken: marker,
       maxPageSize: 10
     });
@@ -2660,7 +2660,7 @@ async function listEntities(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueues({
+      const queueResponse = await serviceBusAtomManagementClient["listQueues"]({
         skip,
         maxCount
       });
