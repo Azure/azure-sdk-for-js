@@ -63,6 +63,10 @@ export interface NestedLogger {
   throwError(err: Error): never;
 }
 
+// TODO:
+// - Add documentation.
+// - Does something like this exists already?
+// - Should we move this to core-logger?
 export function nestedLogger(title: string, parent?: NestedLogger): NestedLogger {
   const fullTitle = parent ? `${parent.fullTitle} ${title}` : title;
 
@@ -73,7 +77,6 @@ export function nestedLogger(title: string, parent?: NestedLogger): NestedLogger
   	logger.warning(`${fullTitle} =>`, message);
   }
   function success(message: string): void {
-    // let arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
     logger.info(`${fullTitle} => SUCCESS:`, message);
   }
   function error(err: Error): void {
