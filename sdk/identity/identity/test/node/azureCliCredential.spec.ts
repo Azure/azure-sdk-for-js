@@ -26,7 +26,7 @@ describe("AzureCliCredential", function() {
       } catch (error) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
         );
       }
     } else {

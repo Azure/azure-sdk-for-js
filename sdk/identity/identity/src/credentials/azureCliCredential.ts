@@ -92,7 +92,7 @@ export class AzureCliCredential implements TokenCredential {
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
               this.logger.getToken.throwError(new CredentialUnavailable(
-                "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+                "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
               ));
             } else if (isLoginError) {
               this.logger.getToken.throwError(new CredentialUnavailable(
@@ -119,7 +119,7 @@ export class AzureCliCredential implements TokenCredential {
             code,
             message: err.message
           });
-          this.logger.getToken.throwError(err);
+          this.logger.getToken.error(err);
           reject(err);
         });
     });

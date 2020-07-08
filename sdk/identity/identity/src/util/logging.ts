@@ -8,7 +8,7 @@ import { CredentialUnavailable } from '../client/errors';
 /**
  * The AzureLogger used for all clients within the identity package
  */
-export const logger = createClientLogger("Azure Identity");
+export const logger = createClientLogger("identity");
 
 interface EnvironmentAccumulator {
   missing: string[];
