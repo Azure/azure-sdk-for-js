@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger } from '../util/logging';
+import { credentialLogger, CredentialLogger } from "../util/logging";
 
 /**
  * Enables multiple `TokenCredential` implementations to be tried in order
@@ -20,7 +20,8 @@ export class ChainedTokenCredential implements TokenCredential {
   /**
    * The message to use when the chained token fails to get a token
    */
-  protected UnavailableMessage = "ChainedTokenCredential => failed to retrieve a token from the included credentials";
+  protected UnavailableMessage =
+    "ChainedTokenCredential => failed to retrieve a token from the included credentials";
 
   private _logger?: CredentialLogger;
   private get logger(): CredentialLogger {
@@ -29,7 +30,7 @@ export class ChainedTokenCredential implements TokenCredential {
     }
     this._logger = credentialLogger(this.credentialName);
     return this._logger;
-  };
+  }
 
   private _sources: TokenCredential[] = [];
 

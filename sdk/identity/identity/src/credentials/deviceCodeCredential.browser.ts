@@ -6,7 +6,7 @@
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { DeviceCodePromptCallback } from "./deviceCodeCredential";
 import { TokenCredentialOptions } from "../client/identityClient";
-import { credentialLogger, CredentialLogger } from '../util/logging';
+import { credentialLogger, CredentialLogger } from "../util/logging";
 
 const BrowserNotSupportedError = new Error("DeviceCodeCredential is not supported in the browser.");
 

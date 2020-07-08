@@ -7,7 +7,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger } from '../util/logging';
+import { credentialLogger, CredentialLogger } from "../util/logging";
 
 /**
  * Enables authentication to Azure Active Directory using a client secret

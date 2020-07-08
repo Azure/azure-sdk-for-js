@@ -36,10 +36,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
         new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions)
       );
     }
-    credentials.push(
-      new AzureCliCredential(),
-      new VSCodeCredential(tokenCredentialOptions)
-    );
+    credentials.push(new AzureCliCredential(), new VSCodeCredential(tokenCredentialOptions));
     return credentials;
   }
   /**
@@ -49,10 +46,9 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    */
   constructor(tokenCredentialOptions?: TokenCredentialOptions) {
     let credentials = DefaultAzureCredential.credentials(tokenCredentialOptions);
-    super(
-      ...credentials
-    );
+    super(...credentials);
     this.credentialName = "DefaultAzureCredential";
-    this.UnavailableMessage = "DefaultAzureCredential => failed to retrieve a token from the included credentials";
+    this.UnavailableMessage =
+      "DefaultAzureCredential => failed to retrieve a token from the included credentials";
   }
 }

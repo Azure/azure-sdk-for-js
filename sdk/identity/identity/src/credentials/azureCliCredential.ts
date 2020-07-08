@@ -5,7 +5,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger } from '../util/logging';
+import { credentialLogger, CredentialLogger } from "../util/logging";
 
 import * as child_process from "child_process";
 
@@ -77,7 +77,9 @@ export class AzureCliCredential implements TokenCredential {
 
       // Check to make sure the scope we get back is a valid scope
       if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        this.logger.getToken.throwError(new Error("Invalid scope was specified by the user or calling client"));
+        this.logger.getToken.throwError(
+          new Error("Invalid scope was specified by the user or calling client")
+        );
       }
 
       let responseData = "";
@@ -91,13 +93,17 @@ export class AzureCliCredential implements TokenCredential {
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
-              this.logger.getToken.throwError(new CredentialUnavailable(
-                "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
-              ));
+              this.logger.getToken.throwError(
+                new CredentialUnavailable(
+                  "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+                )
+              );
             } else if (isLoginError) {
-              this.logger.getToken.throwError(new CredentialUnavailable(
-                "Please run 'az login' from a command prompt to authenticate before using this credential."
-              ));
+              this.logger.getToken.throwError(
+                new CredentialUnavailable(
+                  "Please run 'az login' from a command prompt to authenticate before using this credential."
+                )
+              );
             }
             this.logger.getToken.throwError(new CredentialUnavailable(obj.stderr));
           } else {

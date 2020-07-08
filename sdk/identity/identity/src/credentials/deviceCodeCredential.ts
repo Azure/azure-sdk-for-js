@@ -8,7 +8,7 @@ import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger } from '../util/logging';
+import { credentialLogger, CredentialLogger } from "../util/logging";
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -133,9 +133,7 @@ export class DeviceCodeCredential implements TokenCredential {
 
       if (err.name === AuthenticationErrorName) {
         this.logger.warning(
-          `Failed to authenticate ${
-            (err as AuthenticationError).errorResponse.errorDescription
-          }`
+          `Failed to authenticate ${(err as AuthenticationError).errorResponse.errorDescription}`
         );
       } else {
         this.logger.warning(`FFailed to authenticate ${err}`);

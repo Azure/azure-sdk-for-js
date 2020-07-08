@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { createClientLogger } from "@azure/logger";
-import { TokenCredentialOptions } from '../client/identityClient';
-import { CredentialUnavailable } from '../client/errors';
+import { TokenCredentialOptions } from "../client/identityClient";
+import { CredentialUnavailable } from "../client/errors";
 
 /**
  * The AzureLogger used for all clients within the identity package
@@ -42,15 +42,13 @@ export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulat
  */
 export function logEnvVars(credentialName: string, supportedEnvVars: string[]): void {
   // Logs nothing if the log level is "warning" or "error".
-  const logLevel = process.env.AZURE_LOG_LEVEL
+  const logLevel = process.env.AZURE_LOG_LEVEL;
   if (logLevel === "warning" || logLevel === "error") {
     return;
   }
   const { assigned } = processEnvVars(supportedEnvVars);
   logger.info(
-    `${credentialName} => Found the following environment variables: ${assigned.join(
-      ", "
-    )}`
+    `${credentialName} => Found the following environment variables: ${assigned.join(", ")}`
   );
 }
 export interface NestedLogger {
@@ -71,10 +69,10 @@ export function nestedLogger(title: string, parent?: NestedLogger): NestedLogger
   const fullTitle = parent ? `${parent.fullTitle} ${title}` : title;
 
   function info(message: string): void {
-  	logger.info(`${fullTitle} =>`, message);
+    logger.info(`${fullTitle} =>`, message);
   }
   function warning(message: string): void {
-  	logger.warning(`${fullTitle} =>`, message);
+    logger.warning(`${fullTitle} =>`, message);
   }
   function success(message: string): void {
     logger.info(`${fullTitle} => SUCCESS:`, message);
@@ -95,7 +93,7 @@ export function nestedLogger(title: string, parent?: NestedLogger): NestedLogger
     success,
     error,
     throwError
-  }
+  };
 }
 
 export interface CredentialLogger extends NestedLogger {

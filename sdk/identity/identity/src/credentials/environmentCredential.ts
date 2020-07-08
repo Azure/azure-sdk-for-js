@@ -5,11 +5,15 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
-import { AuthenticationError, AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
+import {
+  AuthenticationError,
+  AuthenticationErrorName,
+  CredentialUnavailable
+} from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { credentialLogger, CredentialLogger, processEnvVars } from '../util/logging';
+import { credentialLogger, CredentialLogger, processEnvVars } from "../util/logging";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -63,14 +67,18 @@ export class EnvironmentCredential implements TokenCredential {
       clientSecret = process.env.AZURE_CLIENT_SECRET;
 
     if (tenantId && clientId && clientSecret) {
-      this.logger.info(`Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: ${clientSecret}`);
+      this.logger.info(
+        `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: ${clientSecret}`
+      );
       this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, options);
       return;
     }
 
     const certificatePath = process.env.AZURE_CLIENT_CERTIFICATE_PATH;
     if (tenantId && clientId && certificatePath) {
-      this.logger.info(`Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`);
+      this.logger.info(
+        `Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`
+      );
       this._credential = new ClientCertificateCredential(
         tenantId,
         clientId,
@@ -83,7 +91,9 @@ export class EnvironmentCredential implements TokenCredential {
     const username = process.env.AZURE_USERNAME;
     const password = process.env.AZURE_PASSWORD;
     if (tenantId && clientId && username && password) {
-      this.logger.info(`Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`);
+      this.logger.info(
+        `Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`
+      );
       this._credential = new UsernamePasswordCredential(
         tenantId,
         clientId,
@@ -140,6 +150,10 @@ export class EnvironmentCredential implements TokenCredential {
     // the user knows the credential was not configured appropriately
     span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
     span.end();
-    this.logger.getToken.throwError(new CredentialUnavailable("EnvironmentCredential is unavailable. Environment variables are not fully configured."));
+    this.logger.getToken.throwError(
+      new CredentialUnavailable(
+        "EnvironmentCredential is unavailable. Environment variables are not fully configured."
+      )
+    );
   }
 }

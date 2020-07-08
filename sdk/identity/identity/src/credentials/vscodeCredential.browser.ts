@@ -4,17 +4,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenCredentialOptions } from '../client/identityClient';
-import { credentialLogger, CredentialLogger } from '../util/logging';
+import { TokenCredentialOptions } from "../client/identityClient";
+import { credentialLogger, CredentialLogger } from "../util/logging";
 
 const BrowserNotSupportedError = new Error("VSCodeCredential is not supported in the browser.");
 
 export class VSCodeCredential implements TokenCredential {
   private logger: CredentialLogger;
 
-  constructor(
-    options?: TokenCredentialOptions
-  ) {
+  constructor(options?: TokenCredentialOptions) {
     this.logger = credentialLogger(this.constructor.name);
     this.logger.throwError(BrowserNotSupportedError);
   }

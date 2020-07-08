@@ -11,7 +11,7 @@ import {
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
-import { credentialLogger, CredentialLogger } from '../util/logging';
+import { credentialLogger, CredentialLogger } from "../util/logging";
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -105,7 +105,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     let authPromise: Promise<msal.AuthResponse> | undefined;
     if (authResponse === undefined) {
-      this.logger.warning(`Silent authentication failed, falling back to interactive method ${this.loginStyle}`);
+      this.logger.warning(
+        `Silent authentication failed, falling back to interactive method ${this.loginStyle}`
+      );
       switch (this.loginStyle) {
         case "redirect":
           authPromise = new Promise((resolve, reject) => {

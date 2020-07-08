@@ -11,9 +11,13 @@ import {
 } from "@azure/core-http";
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName, AuthenticationError, CredentialUnavailable } from "../client/errors";
+import {
+  AuthenticationErrorName,
+  AuthenticationError,
+  CredentialUnavailable
+} from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger } from '../util/logging';
+import { credentialLogger, CredentialLogger } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -72,7 +76,9 @@ export class ManagedIdentityCredential implements TokenCredential {
     let scope = "";
     if (Array.isArray(scopes)) {
       if (scopes.length !== 1) {
-        throw new Error("To convert to a resource string the specified array must be exactly length 1");
+        throw new Error(
+          "To convert to a resource string the specified array must be exactly length 1"
+        );
       }
 
       scope = scopes[0];
@@ -251,12 +257,16 @@ export class ManagedIdentityCredential implements TokenCredential {
           if (requestBody.expires_on) {
             // Use the expires_on timestamp if it's available
             const expires = +requestBody.expires_on * 1000;
-            this.logger.info(`IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`);
+            this.logger.info(
+              `IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`
+            );
             return expires;
           } else {
             // If these aren't possible, use expires_in and calculate a timestamp
             const expires = Date.now() + requestBody.expires_in * 1000;
-            this.logger.info(`IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`);
+            this.logger.info(
+              `IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`
+            );
             return expires;
           }
         };
@@ -337,7 +347,9 @@ export class ManagedIdentityCredential implements TokenCredential {
         // requests.
         this.isEndpointUnavailable = result === null;
       } else {
-        this.logger.getToken.throwError(new CredentialUnavailable("The managed identity endpoint is not currently available"));
+        this.logger.getToken.throwError(
+          new CredentialUnavailable("The managed identity endpoint is not currently available")
+        );
       }
       this.logger.getToken.success(scopes);
       return result;
@@ -348,7 +360,11 @@ export class ManagedIdentityCredential implements TokenCredential {
       });
 
       if (err.code == "ENETUNREACH") {
-        this.logger.getToken.throwError(new CredentialUnavailable("ManagedIdentityCredential is unavailable. No managed identity endpoint found."));
+        this.logger.getToken.throwError(
+          new CredentialUnavailable(
+            "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
+          )
+        );
       }
       throw new AuthenticationError(400, {
         error: "ManagedIdentityCredential authentication failed.",
@@ -356,7 +372,11 @@ export class ManagedIdentityCredential implements TokenCredential {
       });
     } finally {
       if (this.isEndpointUnavailable) {
-        this.logger.getToken.throwError(new CredentialUnavailable("ManagedIdentityCredential is unavailable. No managed identity endpoint found."));
+        this.logger.getToken.throwError(
+          new CredentialUnavailable(
+            "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
+          )
+        );
       }
       span.end();
     }
