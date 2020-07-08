@@ -51,21 +51,12 @@ import {
   BeginRecognizeReceiptPoller,
   BeginRecognizeReceiptPollState
 } from "./lro/analyze/receiptPoller";
-import {
-  FormRecognizerRequestBody,
-  RecognizedFormArray,
-  FormPageArray,
-  RecognizedReceiptArray
-} from "./models";
-import {
-  RecognizeContentResultResponse,
-  RecognizeFormResultResponse,
-  RecognizeReceiptResultResponse
-} from "./internalModels";
+import { FormRecognizerRequestBody, RecognizedFormArray, FormPageArray } from "./models";
+import { RecognizeContentResultResponse, RecognizeFormResultResponse } from "./internalModels";
 import {
   toRecognizeFormResultResponse,
   toRecognizeContentResultResponse,
-  toReceiptResultResponse
+  toRecognizeFormResultResponseFromReceipt
 } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
@@ -191,8 +182,8 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
  * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are recognized.
  */
 export type ReceiptPollerLike = PollerLike<
-  PollOperationState<RecognizedReceiptArray>,
-  RecognizedReceiptArray
+  PollOperationState<RecognizedFormArray>,
+  RecognizedFormArray
 >;
 
 /**
@@ -553,19 +544,19 @@ export class FormRecognizerClient {
    *
    * const receipt = receipts[0];
    * console.log("First receipt:");
-   * const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+   * const receiptTypeField = receipt.fields["ReceiptType"];
    * if (receiptTypeField.valueType === "string") {
    *   console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
    * }
-   * const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+   * const merchantNameField = receipt.fields["MerchantName"];
    * if (merchantNameField.valueType === "string") {
    *   console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
    * }
-   * const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+   * const transactionDate = receipt.fields["TransactionDate"];
    * if (transactionDate.valueType === "date") {
    *   console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
    * }
-   * const itemsField = receipt.recognizedForm.fields["Items"];
+   * const itemsField = receipt.fields["Items"];
    * if (itemsField.valueType === "array") {
    *   for (const itemField of itemsField.value || []) {
    *     if (itemField.valueType === "object") {
@@ -576,7 +567,7 @@ export class FormRecognizerClient {
    *     }
    *  }
    * }
-   * const totalField = receipt.recognizedForm.fields["Total"];
+   * const totalField = receipt.fields["Total"];
    * if (totalField.valueType === "number") {
    *   console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
    * }
@@ -634,19 +625,19 @@ export class FormRecognizerClient {
    *
    * const receipt = receipts[0];
    * console.log("First receipt:");
-   * const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+   * const receiptTypeField = receipt.fields["ReceiptType"];
    * if (receiptTypeField.valueType === "string") {
    *   console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
    * }
-   * const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+   * const merchantNameField = receipt.fields["MerchantName"];
    * if (merchantNameField.valueType === "string") {
    *   console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
    * }
-   * const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+   * const transactionDate = receipt.fields["TransactionDate"];
    * if (transactionDate.valueType === "date") {
    *   console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
    * }
-   * const itemsField = receipt.recognizedForm.fields["Items"];
+   * const itemsField = receipt.fields["Items"];
    * if (itemsField.valueType === "array") {
    *   for (const itemField of itemsField.value || []) {
    *     if (itemField.valueType === "object") {
@@ -657,7 +648,7 @@ export class FormRecognizerClient {
    *     }
    *  }
    * }
-   * const totalField = receipt.recognizedForm.fields["Total"];
+   * const totalField = receipt.fields["Total"];
    * if (totalField.valueType === "number") {
    *   console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
    * }
@@ -693,7 +684,7 @@ export class FormRecognizerClient {
   private async getReceipts(
     resultId: string,
     options?: GetReceiptsOptions
-  ): Promise<RecognizeReceiptResultResponse> {
+  ): Promise<RecognizeFormResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormRecognizerClient-getRecognizedReceipt",
@@ -705,7 +696,7 @@ export class FormRecognizerClient {
         resultId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      return toReceiptResultResponse(result);
+      return toRecognizeFormResultResponseFromReceipt(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

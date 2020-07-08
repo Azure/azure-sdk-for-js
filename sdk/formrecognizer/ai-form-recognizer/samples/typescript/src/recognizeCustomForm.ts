@@ -8,11 +8,18 @@
  * trainUnlabeledModel.ts or trainLabeledModel.ts
  */
 
-import { FormRecognizerClient, AzureKeyCredential, BeginRecognizeCustomFormPollState } from "@azure/ai-form-recognizer";
+import {
+  FormRecognizerClient,
+  AzureKeyCredential,
+  BeginRecognizeCustomFormPollState
+} from "@azure/ai-form-recognizer";
+
 import * as fs from "fs";
+import * as path from "path";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
@@ -20,13 +27,13 @@ export async function main() {
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
   const modelId = process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const path = "../assets/Invoice_6.pdf";
+  const fileName = path.join(__dirname, "../assets/Invoice_6.pdf");
 
-  if (!fs.existsSync(path)) {
-    throw new Error(`Expecting file ${path} exists`);
+  if (!fs.existsSync(fileName)) {
+    throw new Error(`Expecting file ${fileName} exists`);
   }
 
-  const readStream = fs.createReadStream(path);
+  const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {

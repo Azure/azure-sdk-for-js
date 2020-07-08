@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-customvision-training",
   "author": "Microsoft Corporation",
   "description": "TrainingAPIClient Library with typescript type definitions for node.js and browser.",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "dependencies": {
     "@azure/ms-rest-js": "^2.0.4",
     "tslib": "^1.10.0"
