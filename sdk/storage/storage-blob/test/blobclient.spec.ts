@@ -854,7 +854,7 @@ describe("BlobClient - Object Replication", () => {
 
   before(async function() {
     if (!isPlaybackMode()) {
-      // this.skip();
+      this.skip();
     }
   });
 
