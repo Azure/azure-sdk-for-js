@@ -65,117 +65,165 @@ describe("Atom management - Namespace", function(): void {
   });
 });
 
-describe.only("GetQueues paging", function(): void {
-  const baseQueueName = "random-queue";
-  const numberOfQueues = 7;
+describe.only("Listing methods - PagedAsyncIterableIterator", function(): void {
+  const baseName = "random";
+  const queueNames: string[] = [];
+  const topicNames: string[] = [];
+  const subscriptionNames: string[] = [];
+  const ruleNames: string[] = [];
+  const numberOfEntities = 5;
 
-  beforeEach(async () => {
-    for (let i = 0; i < numberOfQueues; i++) {
-      await serviceBusAtomManagementClient.createQueue(baseQueueName + "_" + i);
+  before(async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+    for (let i = 0; i < numberOfEntities; i++) {
+      queueNames.push(
+        (await serviceBusAtomManagementClient.createQueue(baseName + "_queue_" + i)).name
+      );
+      topicNames.push(
+        (await serviceBusAtomManagementClient.createTopic(baseName + "_topic_" + i)).name
+      );
+      subscriptionNames.push(
+        (
+          await serviceBusAtomManagementClient.createSubscription(
+            managementTopic1,
+            baseName + "_subscription_" + i
+          )
+        ).subscriptionName
+      );
+      ruleNames.push(
+        (
+          await serviceBusAtomManagementClient.createRule(
+            managementTopic1,
+            managementSubscription1,
+            { name: baseName + "_rule_" + i }
+          )
+        ).name
+      );
     }
   });
 
-  afterEach(async () => {
-    for (let i = 0; i < numberOfQueues; i++) {
-      await serviceBusAtomManagementClient.deleteQueue(baseQueueName + "_" + i);
+  after(async () => {
+    for (let i = 0; i < numberOfEntities; i++) {
+      await serviceBusAtomManagementClient.deleteQueue(baseName + "_queue_" + i);
+      await serviceBusAtomManagementClient.deleteTopic(baseName + "_topic_" + i);
     }
+    await serviceBusAtomManagementClient.deleteTopic(managementTopic1);
   });
 
-  it("Get queues paging - 1", async () => {
-    // 1. List Queues
-    let i = 1;
-    let iter = serviceBusAtomManagementClient.getQueues();
-    for await (const queue of iter) {
-      console.log(`Queue ${i++}: ${queue.name}`);
+  function verifyEntities(methodName: string, receivedNames: string[]) {
+    let createdNames: string[];
+    if (methodName.includes("Queue")) {
+      createdNames = queueNames;
+    } else if (methodName.includes("Topic")) {
+      createdNames = topicNames;
+    } else if (methodName.includes("Subscription")) {
+      createdNames = subscriptionNames;
+    } else {
+      createdNames = ruleNames;
     }
-  });
-
-  it("Get queues paging - 2", async () => {
-    // 2. Same as the previous example
-    let i = 1;
-    for await (const queue of serviceBusAtomManagementClient.getQueues()) {
-      console.log(`Queue ${i++}: ${queue.name}`);
-    }
-  });
-
-  it("Get queues paging - 3", async () => {
-    // 3. Generator syntax .next()
-    let i = 1;
-    let iter = serviceBusAtomManagementClient.getQueues();
-    let queueItem = await iter.next();
-    while (!queueItem.done) {
-      console.log(`Queue ${i++}: ${queueItem.value.name}`);
-      queueItem = await iter.next();
-    }
-  });
-
-  it("Get queues paging - 4", async () => {
-    ////////////////////////////////////////////////////////
-    ///////////////  Examples for .byPage()  ///////////////
-    ////////////////////////////////////////////////////////
-
-    // 4. list queues by page
-    let i = 1;
-    for await (const response of serviceBusAtomManagementClient.getQueues().byPage()) {
-      for (const queue of response) {
-        console.log(`Queue ${i++}: ${queue.name}`);
-      }
-    }
-  });
-
-  it("Get queues paging - 5", async () => {
-    // 5. Same as the previous example - passing maxPageSize in the page settings
-    let i = 1;
-    for await (const response of serviceBusAtomManagementClient
-      .getQueues()
-      .byPage({ maxPageSize: 2 })) {
-      for (const queue of response) {
-        console.log(`Queue ${i++}: ${queue.name}`);
-      }
-    }
-  });
-
-  it("Get queues paging - 6", async () => {
-    // 6. Generator syntax .next()
-    let i = 1;
-    let iterator = serviceBusAtomManagementClient.getQueues().byPage({ maxPageSize: 3 });
-    let response = await iterator.next();
-    while (!response.done) {
-      if (response.value) {
-        for (const queue of response.value) {
-          console.log(`Queue ${i++}: ${queue.name}`);
-        }
-      }
-      response = await iterator.next();
-    }
-  });
-
-  it("Get queues paging - 7", async () => {
-    // 7. Passing marker as an argument (similar to the previous example)
-    let i = 1;
-    let iterator = serviceBusAtomManagementClient.getQueues().byPage({ maxPageSize: 2 });
-    let response = await iterator.next();
-    // Prints 2 queue names
-    if (!response.done) {
-      for (const queue of response.value) {
-        console.log(`Queue ${i++}: ${queue.name}`);
-      }
-    }
-
-    // Gets next marker
-    let marker = response.value.continuationToken;
-    // Passing next marker as continuationToken
-    iterator = serviceBusAtomManagementClient.getQueues().byPage({
-      continuationToken: marker,
-      maxPageSize: 10
+    const numberOfReceived = receivedNames.length;
+    createdNames.forEach((createdName) => {
+      receivedNames = receivedNames.filter((receivedName) => createdName !== receivedName);
     });
-    response = await iterator.next();
-    // Prints 10 queue names
-    if (!response.done) {
-      for (const queue of response.value) {
-        console.log(`Queue ${i++}: ${queue.name}`);
-      }
-    }
+    console.log(numberOfReceived);
+    should.equal(
+      numberOfReceived,
+      receivedNames.length + createdNames.length,
+      "Unexpected number of entities received"
+    );
+  }
+
+  [
+    "getQueues",
+    "getQueuesRuntimeInfo",
+    "getTopics",
+    "getTopicsRuntimeInfo",
+    "getSubscriptions",
+    "getSubscriptionsRuntimeInfo",
+    "getRules"
+  ].forEach((methodName) => {
+    describe(`${methodName}`, () => {
+      it("Verify PagedAsyncIterableIterator", async () => {
+        const receivedEntities = [];
+        let iter = (serviceBusAtomManagementClient as any)[methodName]();
+        if (methodName.includes("Subscription")) {
+          iter = (serviceBusAtomManagementClient as any)[methodName](managementTopic1);
+        } else if (methodName.includes("Rule")) {
+          iter = (serviceBusAtomManagementClient as any)[methodName](
+            managementTopic1,
+            managementSubscription1
+          );
+        }
+        for await (const entity of iter) {
+          receivedEntities.push(entity.name);
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+
+      it("Verify PagedAsyncIterableIterator(generator .next() syntax)", async () => {
+        const receivedEntities = [];
+        let iter = (serviceBusAtomManagementClient as any)[methodName]();
+        let entityItem = await iter.next();
+        while (!entityItem.done) {
+          receivedEntities.push(entityItem.value.name);
+          entityItem = await iter.next();
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+
+      it("Verify PagedAsyncIterableIterator(byPage())", async () => {
+        const receivedEntities = [];
+        for await (const response of (serviceBusAtomManagementClient as any)[methodName]().byPage({
+          maxPageSize: 2
+        })) {
+          for (const entity of response) {
+            receivedEntities.push(entity.name);
+          }
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+
+      it("Verify PagedAsyncIterableIterator(byPage() - continuationToken)", async () => {
+        const receivedEntities = [];
+        let iterator = (serviceBusAtomManagementClient as any)[methodName]().byPage({
+          maxPageSize: 2
+        });
+        let response = await iterator.next();
+        // Prints 2 entity names
+        if (!response.done) {
+          for (const entity of response.value) {
+            receivedEntities.push(entity.name);
+          }
+        }
+
+        // Gets next marker
+        let marker = response.value.continuationToken;
+        // Passing next marker as continuationToken
+        iterator = (serviceBusAtomManagementClient as any)[methodName]().byPage({
+          continuationToken: marker,
+          maxPageSize: 5
+        });
+        response = await iterator.next();
+        // Gets up to 5 entity names
+        if (!response.done) {
+          for (const entity of response.value) {
+            receivedEntities.push(entity.name);
+          }
+        }
+        marker = response.value.continuationToken;
+
+        // In case the namespace has too many entities and the newly created entities were not recovered
+        for await (const response of (serviceBusAtomManagementClient as any)[methodName]().byPage({
+          continuationToken: marker
+        })) {
+          for (const entity of response) {
+            receivedEntities.push(entity.name);
+          }
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+    });
   });
 });
 
