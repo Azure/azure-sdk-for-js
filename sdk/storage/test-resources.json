@@ -32,7 +32,11 @@
       "metadata": {
         "description": "The application client secret used to run tests."
       }
-    }
+    }, 
+    "enableVersioning": { 
+      "type": "boolean",
+      "defaultValue": false
+    }                                                     
   },
   "variables": {
     "storageApiVersion": "2019-04-01",
@@ -107,7 +111,7 @@
             "[variables('accountName')]"
           ],
           "properties": {
-            "isVersioningEnabled": true,
+            "isVersioningEnabled": "[parameters('enableVersioning')]",
             "cors": {
               "corsRules": [
                 {
