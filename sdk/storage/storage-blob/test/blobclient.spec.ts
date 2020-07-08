@@ -9,8 +9,6 @@ import {
   getBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
-  isBlobVersioningDisabled,
-  isBlobTagsDisabled,
   getGenericBSU
 } from "./utils";
 import { record, delay, isPlaybackMode } from "@azure/test-utils-recorder";
@@ -55,9 +53,11 @@ describe("BlobClient", () => {
   });
 
   it("Set blob tags should work", async function() {
-    if (isBlobTagsDisabled()) {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
       this.skip();
     }
+
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -83,9 +83,11 @@ describe("BlobClient", () => {
   });
 
   it("Get blob tags should work with a snapshot", async function() {
-    if (isBlobTagsDisabled()) {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
       this.skip();
     }
+
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -100,9 +102,11 @@ describe("BlobClient", () => {
   });
 
   it("Create block blob should work with tags", async function() {
-    if (isBlobTagsDisabled()) {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
       this.skip();
     }
+
     await blockBlobClient.delete();
 
     const tags = {
@@ -116,9 +120,11 @@ describe("BlobClient", () => {
   });
 
   it("Create append blob should work with tags", async function() {
-    if (isBlobTagsDisabled()) {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
       this.skip();
     }
+
     await blockBlobClient.delete();
 
     const tags = {
@@ -134,9 +140,11 @@ describe("BlobClient", () => {
   });
 
   it("Create page blob should work with tags", async function() {
-    if (isBlobTagsDisabled()) {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
       this.skip();
     }
+
     await blockBlobClient.delete();
 
     const tags = {
@@ -366,16 +374,10 @@ describe("BlobClient", () => {
 
     await blobClient.delete();
 
-    let includeVersionOption = {};
-    if (!isBlobVersioningDisabled()) {
-      // Need this when blob versioning is turned on.
-      includeVersionOption = { includeVersions: true };
-    }
-
     const iter = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        ...includeVersionOption
+        includeVersions: true
       })
       .byPage({ maxPageSize: 1 });
 
@@ -413,19 +415,12 @@ describe("BlobClient", () => {
       "Expect a valid element in result array from list blobs({ includeDeleted: true }) with page size of 1."
     );
 
-    if (isBlobVersioningDisabled()) {
-      assert.ok(
-        result.segment.blobItems![0].deleted,
-        "Expect that the blob is marked for deletion"
-      );
-    }
-
     await blobClient.undelete();
 
     const iter2 = containerClient
       .listBlobsFlat({
         includeDeleted: true,
-        ...includeVersionOption
+        includeVersions: true
       })
       .byPage();
 

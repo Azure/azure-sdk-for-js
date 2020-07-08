@@ -66,9 +66,6 @@ module.exports = function(config) {
       "MD_ACCOUNT_SAS",
       "ENCRYPTION_SCOPE_1",
       "ENCRYPTION_SCOPE_2",
-      "BLOB_VERSIONING_ENABLED",
-      "BLOB_TAGS_ENABLED",
-      "QUICK_QUERY_ENABLED",
       "ORS_DEST_ACCOUNT_NAME",
       "ORS_DEST_ACCOUNT_SAS"
     ],
