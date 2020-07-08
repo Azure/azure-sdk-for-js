@@ -380,7 +380,6 @@ describe("Errors after close()", function(): void {
   let receiver: Receiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
   let entityName: EntityName;
-  // let subscriptionClient: SubscriptionRuleManager;
 
   afterEach(async () => {
     await sbClient.test.afterEach();
@@ -404,10 +403,6 @@ describe("Errors after close()", function(): void {
     const receivedMsgs = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
     should.equal(receivedMsgs.length, 1, "Unexpected number of messages received");
     receivedMessage = receivedMsgs[0];
-
-    // subscriptionClient = sbClient.test.addToCleanup(
-    //   sbClient.getSubscriptionRuleManager(entityName.topic!, entityName.subscription!)
-    // );
 
     // close(), so that we can then test the resulting error.
     switch (entityToClose) {
