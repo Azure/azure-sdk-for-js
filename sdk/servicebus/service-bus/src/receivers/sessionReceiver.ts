@@ -152,7 +152,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this._isClosed) {
-      const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath, this.sessionId!);
+      const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath, this.sessionId);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
