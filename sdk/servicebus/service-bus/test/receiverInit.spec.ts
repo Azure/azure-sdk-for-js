@@ -19,7 +19,7 @@ describe("init() and close() interactions", () => {
     } as unknown) as ClientEntityContext;
   }
 
-  it.only("close() called just after init() but before the next step", async () => {
+  it("close() called just after init() but before the next step", async () => {
     const batchingReceiver = new BatchingReceiver(fakeContext());
 
     let initWasCalled = false;
