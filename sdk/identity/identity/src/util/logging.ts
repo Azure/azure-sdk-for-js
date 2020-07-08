@@ -133,6 +133,6 @@ export function credentialLogger(title: string, log: AzureLogger = logger): Cred
   const logger = credentialFlatLogger(title, undefined, log);
   return {
     ...logger,
-    getToken: credentialFlatLogger("=> getToken", logger, log)
+    getToken: credentialFlatLogger("=> getToken()", logger, log)
   };
 }
