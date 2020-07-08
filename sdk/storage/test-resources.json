@@ -34,9 +34,9 @@
       }
     }, 
     "enableVersioning": { 
-      "type": "boolean",
+      "type": "bool",
       "defaultValue": false
-    }                                                     
+    }
   },
   "variables": {
     "storageApiVersion": "2019-04-01",
