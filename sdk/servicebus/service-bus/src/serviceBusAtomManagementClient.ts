@@ -454,7 +454,9 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse> {
+  private async listQueues(
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<QueuesResponse> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
@@ -465,14 +467,14 @@ export class ServiceBusManagementClient extends ServiceClient {
     return this.buildListQueuesResponse(response);
   }
 
-  private async *listQueuesSegments(
+  private async *listQueuesPage(
     marker?: number,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<QueuesResponse> {
     let listContainersSegmentResponse;
     if (!!marker || marker === undefined) {
       do {
-        listContainersSegmentResponse = await this.getQueues({
+        listContainersSegmentResponse = await this.listQueues({
           skip: marker,
           maxCount: options.maxPageSize,
           ...options
@@ -483,20 +485,20 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private async *listQueueItems(
+  private async *listQueuesAll(
     options: OperationOptions = {}
   ): AsyncIterableIterator<QueueDescription> {
     let marker: number | undefined;
-    for await (const segment of this.listQueuesSegments(marker, options)) {
+    for await (const segment of this.listQueuesPage(marker, options)) {
       yield* segment;
     }
   }
 
-  public getQueues2(
+  public getQueues(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueDescription, QueuesResponse, PageSettings> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
-    const iter = this.listQueueItems(options);
+    const iter = this.listQueuesAll(options);
     return {
       /**
        * @member {Promise} [next] The next method, part of the iteration protocol
@@ -514,7 +516,7 @@ export class ServiceBusManagementClient extends ServiceClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listQueuesSegments(settings.continuationToken, {
+        return this.listQueuesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...options
         });
