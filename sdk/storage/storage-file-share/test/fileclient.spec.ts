@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -14,6 +14,7 @@ import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
+import { isIE } from "./utils/index.browser";
 
 dotenv.config();
 
@@ -149,7 +150,12 @@ describe("FileClient", () => {
   });
 
   // need to skip this test in live as it requires Premium_LRS SKU for 2019-12-12.
-  it.skip("create largest file", async () => {
+  it("create largest file", async function() {
+    // IE complains about "Arithmetic result exceeded 32 bits".
+    if (!isPlaybackMode() || (!isNode && isIE())) {
+      this.skip();
+    }
+
     const GB = 1024 * 1024 * 1024;
     await shareClient.setQuota(FILE_MAX_SIZE_BYTES / GB);
     const cResp = await fileClient.create(FILE_MAX_SIZE_BYTES);

@@ -1,7 +1,7 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import { getBSU, recorderEnvSetup } from "./utils";
-import { record } from "@azure/test-utils-recorder";
+import { record, isPlaybackMode } from "@azure/test-utils-recorder";
 import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { isNode } from "@azure/core-http";
@@ -21,24 +21,23 @@ describe("Encryption Scope", function() {
   const encryptionScopeEnvVar2 = "ENCRYPTION_SCOPE_2";
   let encryptionScopeName1: string | undefined;
   let encryptionScopeName2: string | undefined;
-  if (isNode) {
-    encryptionScopeName1 = process.env[encryptionScopeEnvVar1];
-    encryptionScopeName2 = process.env[encryptionScopeEnvVar2];
-  } else {
-    encryptionScopeName1 = (window as any).__env__[encryptionScopeEnvVar1];
-    encryptionScopeName2 = (window as any).__env__[encryptionScopeEnvVar2];
-  }
-
   let recorder: any;
-
-  before(async function() {
-    if (!encryptionScopeName1 || !encryptionScopeName2) {
-      this.skip();
-    }
-  });
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
+
+    if (isNode) {
+      encryptionScopeName1 = process.env[encryptionScopeEnvVar1];
+      encryptionScopeName2 = process.env[encryptionScopeEnvVar2];
+    } else {
+      encryptionScopeName1 = (window as any).__env__[encryptionScopeEnvVar1];
+      encryptionScopeName2 = (window as any).__env__[encryptionScopeEnvVar2];
+    }
+
+    if ((!encryptionScopeName1 || !encryptionScopeName2) && !isPlaybackMode()) {
+      this.skip();
+    }
+
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -48,7 +47,9 @@ describe("Encryption Scope", function() {
   });
 
   afterEach(async function() {
-    await containerClient.delete();
+    if (containerClient) {
+      await containerClient.delete();
+    }
     recorder.stop();
   });
 

@@ -10,14 +10,14 @@ import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   executeAtomXmlOperation
-} from "../src/util/atomXmlHelper";
-import * as Constants from "../src/util/constants";
-import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
-import { QueueResourceSerializer } from "../src/serializers/queueResourceSerializer";
+} from "../../src/util/atomXmlHelper";
+import * as Constants from "../../src/util/constants";
+import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
+import { QueueResourceSerializer } from "../../src/serializers/queueResourceSerializer";
 import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-http";
-import { TopicResourceSerializer } from "../src/serializers/topicResourceSerializer";
-import { SubscriptionResourceSerializer } from "../src/serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer } from "../src/serializers/ruleResourceSerializer";
+import { TopicResourceSerializer } from "../../src/serializers/topicResourceSerializer";
+import { SubscriptionResourceSerializer } from "../../src/serializers/subscriptionResourceSerializer";
+import { RuleResourceSerializer } from "../../src/serializers/ruleResourceSerializer";
 
 const queueProperties = [
   Constants.LOCK_DURATION,

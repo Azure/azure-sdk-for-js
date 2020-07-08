@@ -106,8 +106,7 @@ describe("invalid parameters", () => {
 
   describe("Invalid parameters in Sender/ReceiverClients for PartitionedSubscription", function(): void {
     let subscriptionReceiverClient: Receiver<ReceivedMessageWithLock>;
-    // let subscriptionRuleManager: SubscriptionRuleManager;
-
+  
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.
     before(async () => {
@@ -116,10 +115,6 @@ describe("invalid parameters", () => {
       );
 
       subscriptionReceiverClient = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-
-      // subscriptionRuleManager = serviceBusClient.test.addToCleanup(
-      //   serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
-      // );
     });
 
     after(() => {
@@ -191,108 +186,6 @@ describe("invalid parameters", () => {
         `The parameter "fromSequenceNumber" should be of type "Long"`
       );
     });
-
-    // it("AddRule: Missing ruleName", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await subscriptionRuleManager.addRule(undefined as any, undefined as any);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
-    // });
-
-    // it("AddRule: Empty string as ruleName", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await subscriptionRuleManager.addRule("", false);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(
-    //     caughtError && caughtError.message,
-    //     `Empty string not allowed in parameter "ruleName"`
-    //   );
-    // });
-
-    // it("AddRule: Missing filter", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await subscriptionRuleManager.addRule("myrule", undefined as any);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(caughtError && caughtError.message, `Missing parameter "filter"`);
-    // });
-
-    // it("AddRule: Invalid filter", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await subscriptionRuleManager.addRule("myrule", { random: "value" } as any);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(
-    //     caughtError && caughtError.message,
-    //     `The parameter "filter" should be either a boolean, string or implement the CorrelationFilter interface.`
-    //   );
-    // });
-
-    // it("RemoveRule: Missing ruleName", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await subscriptionRuleManager.removeRule(undefined as any);
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(caughtError && caughtError.message, `Missing parameter "ruleName"`);
-    // });
-
-    // it("RemoveRule: Empty string as ruleName", async function(): Promise<void> {
-    //   let caughtError: Error | undefined;
-    //   try {
-    //     await subscriptionRuleManager.removeRule("");
-    //   } catch (error) {
-    //     caughtError = error;
-    //   }
-    //   should.equal(caughtError && caughtError.name, "TypeError");
-    //   should.equal(
-    //     caughtError && caughtError.message,
-    //     `Empty string not allowed in parameter "ruleName"`
-    //   );
-    // });
-
-    // it("Add and Remove Rule: Coerce RuleName into string", async function(): Promise<void> {
-    //   // Clean up existing rules
-    //   let rules = await subscriptionRuleManager.getRules();
-    //   await Promise.all(rules.map((rule) => subscriptionRuleManager.removeRule(rule.name)));
-
-    //   // Add rule with number as name
-    //   await subscriptionRuleManager.addRule(123 as any, true);
-    //   rules = await subscriptionRuleManager.getRules();
-    //   should.equal(
-    //     rules.some((rule) => rule.name === "123"),
-    //     true,
-    //     "Added rule not found"
-    //   );
-
-    //   // Remove rule with number as name
-    //   await subscriptionRuleManager.removeRule(123 as any);
-    //   rules = await subscriptionRuleManager.getRules();
-    //   should.equal(
-    //     rules.some((rule) => rule.name === "123"),
-    //     false,
-    //     "Removed rule still found"
-    //   );
-
-    //   // Add default rule so that other tests are not affected
-    //   await subscriptionRuleManager.addRule(subscriptionRuleManager.defaultRuleName, true);
-    // });
   });
 
   describe("Invalid parameters in SessionReceiver", function(): void {
