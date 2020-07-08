@@ -29,5 +29,3 @@ extends:
     Artifacts:
       - name: azure-template
         safeName: azuretemplate
-        options:
-          skipPublishDevFeed: true
