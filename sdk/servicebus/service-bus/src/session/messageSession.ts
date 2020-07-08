@@ -394,7 +394,6 @@ export class MessageSession extends LinkEntity {
           throw error;
         }
         if (this.sessionId == undefined) this.sessionId = receivedSessionId;
-
         this.sessionLockedUntilUtc = convertTicksToDate(
           this._receiver.properties["com.microsoft:locked-until-utc"]
         );
