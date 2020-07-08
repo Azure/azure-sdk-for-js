@@ -151,13 +151,13 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
-    if (this._isClosed) {
-      const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath, this.sessionId);
-      const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
-      throw error;
-    }
-    if (!this._context.messageSessions[this.sessionId] || !this._messageSession.isOpen()) {
+    if (this.isClosed) {
+      if (this._isClosed) {
+        const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath, this.sessionId);
+        const error = new Error(errorMessage);
+        log.error(`[${this._context.namespace.connectionId}] %O`, error);
+        throw error;
+      }
       const amqpError: AmqpError = {
         condition: ErrorNameConditionMapper.SessionLockLostError,
         description: `The session lock has expired on the session with id ${this.sessionId}`
