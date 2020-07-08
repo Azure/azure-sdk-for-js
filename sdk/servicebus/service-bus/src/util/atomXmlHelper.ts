@@ -263,9 +263,11 @@ function parseLinkInfo(
   if (!feedLink) {
     return undefined;
   }
-  for (const linkInfo of feedLink) {
-    if (linkInfo[Constants.XML_METADATA_MARKER].rel === relationship) {
-      return linkInfo[Constants.XML_METADATA_MARKER].href;
+  if (Array.isArray(feedLink)) {
+    for (const linkInfo of feedLink) {
+      if (linkInfo[Constants.XML_METADATA_MARKER].rel === relationship) {
+        return linkInfo[Constants.XML_METADATA_MARKER].href;
+      }
     }
   }
   return undefined;
@@ -277,8 +279,8 @@ function parseLinkInfo(
  * Utility to help parse given `feed` result
  * @param feed
  */
-function parseFeedResult(feed: any): object[] {
-  const result = [];
+function parseFeedResult(feed: any): object[] & { nextLink?: string } {
+  const result: object[] & { nextLink?: string } = [];
   if (typeof feed === "object" && feed != null && feed.entry) {
     if (Array.isArray(feed.entry)) {
       feed.entry.forEach((entry: any) => {
@@ -293,6 +295,7 @@ function parseFeedResult(feed: any): object[] {
         result.push(parsedEntryResult);
       }
     }
+    result.nextLink = parseLinkInfo(feed.link, "next");
   }
   return result;
 }
