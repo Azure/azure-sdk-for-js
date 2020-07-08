@@ -137,12 +137,12 @@ export interface NamespacePropertiesResponse extends NamespaceProperties, Respon
 export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
 
 /**
- * Represents result of create, get, update and delete operations on queue.
+ * Represents result of create, get, and update operations on queue.
  */
 export interface QueueResponse extends QueueDescription, Response {}
 
 /**
- * Represents result of create, get, update and delete operations on topic.
+ * Represents result of create, get, and update operations on topic.
  */
 export interface TopicResponse extends TopicDescription, Response {}
 
@@ -152,7 +152,7 @@ export interface TopicResponse extends TopicDescription, Response {}
 export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {}
 
 /**
- * Represents result of create, get, update and delete operations on subscription.
+ * Represents result of create, get, and update operations on subscription.
  */
 export interface SubscriptionResponse extends SubscriptionDescription, Response {}
 
@@ -162,7 +162,7 @@ export interface SubscriptionResponse extends SubscriptionDescription, Response 
 export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo, Response {}
 
 /**
- * Represents result of create, get, update and delete operations on rule.
+ * Represents result of create, get, and update operations on rule.
  */
 export interface RuleResponse extends RuleDescription, Response {}
 
