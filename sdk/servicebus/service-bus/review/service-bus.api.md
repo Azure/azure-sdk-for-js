@@ -177,12 +177,6 @@ export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {
 }
 
 // @public
-export type QueuesResponse = EntitiesResponse<QueueDescription>;
-
-// @public
-export type QueuesRuntimeInfoResponse = EntitiesResponse<QueueRuntimeInfo>;
-
-// @public
 export interface ReceivedMessage extends ServiceBusMessage {
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterSource?: string;
@@ -248,9 +242,6 @@ export interface RuleResponse extends RuleDescription, Response {
 }
 
 // @public
-export type RulesResponse = EntitiesResponse<RuleDescription>;
-
-// @public
 export interface Sender {
     cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
@@ -313,24 +304,24 @@ export class ServiceBusManagementClient extends ServiceClient {
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
     getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
     // (undocumented)
-    getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueDescription, QueuesResponse, PageSettings>;
+    getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueDescription, EntitiesResponse<QueueDescription>, PageSettings>;
     // (undocumented)
-    getQueuesRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeInfo, QueuesRuntimeInfoResponse, PageSettings>;
+    getQueuesRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeInfo, EntitiesResponse<QueueRuntimeInfo>, PageSettings>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
     // (undocumented)
-    getRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleDescription, RulesResponse, PageSettings>;
+    getRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>, PageSettings>;
     getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimeInfoResponse>;
     // (undocumented)
-    getSubscriptions(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionDescription, SubscriptionsResponse, PageSettings>;
+    getSubscriptions(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionDescription, EntitiesResponse<SubscriptionDescription>, PageSettings>;
     // (undocumented)
-    getSubscriptionsRuntimeInfo(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionRuntimeInfo, SubscriptionsRuntimeInfoResponse, PageSettings>;
+    getSubscriptionsRuntimeInfo(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionRuntimeInfo, EntitiesResponse<SubscriptionRuntimeInfo>, PageSettings>;
     getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
     getTopicRuntimeInfo(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimeInfoResponse>;
     // (undocumented)
-    getTopics(options?: OperationOptions): PagedAsyncIterableIterator<TopicDescription, TopicsResponse, PageSettings>;
+    getTopics(options?: OperationOptions): PagedAsyncIterableIterator<TopicDescription, EntitiesResponse<TopicDescription>, PageSettings>;
     // (undocumented)
-    getTopicsRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<TopicRuntimeInfo, TopicsRuntimeInfoResponse, PageSettings>;
+    getTopicsRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<TopicRuntimeInfo, EntitiesResponse<TopicRuntimeInfo>, PageSettings>;
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
@@ -455,12 +446,6 @@ export interface SubscriptionRuntimeInfo {
 export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo, Response {
 }
 
-// @public
-export type SubscriptionsResponse = EntitiesResponse<SubscriptionDescription>;
-
-// @public
-export type SubscriptionsRuntimeInfoResponse = EntitiesResponse<SubscriptionRuntimeInfo>;
-
 export { TokenCredential }
 
 export { TokenType }
@@ -498,12 +483,6 @@ export interface TopicRuntimeInfo {
 // @public
 export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {
 }
-
-// @public
-export type TopicsResponse = EntitiesResponse<TopicDescription>;
-
-// @public
-export type TopicsRuntimeInfoResponse = EntitiesResponse<TopicRuntimeInfo>;
 
 // @public
 export interface WaitTimeOptions {

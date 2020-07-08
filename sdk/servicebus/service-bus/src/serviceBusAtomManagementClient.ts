@@ -104,89 +104,6 @@ export interface Response {
 }
 
 /**
- * Represents properties of the namespace.
- */
-export interface NamespacePropertiesResponse extends NamespaceProperties, Response {}
-
-/**
- * Represents runtime info of a queue.
- */
-export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
-
-/**
- * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
- */
-export interface EntitiesResponse<T>
-  extends Array<T>,
-    Pick<PageSettings, "continuationToken">,
-    Response {}
-
-/**
- * Array of objects representing runtime info for multiple queues.
- */
-export type QueuesRuntimeInfoResponse = EntitiesResponse<QueueRuntimeInfo>;
-
-/**
- * Represents result of create, get, update and delete operations on queue.
- */
-export interface QueueResponse extends QueueDescription, Response {}
-
-/**
- * Represents result of list operation on queues.
- */
-export type QueuesResponse = EntitiesResponse<QueueDescription>;
-
-/**
- * Represents result of create, get, update and delete operations on topic.
- */
-export interface TopicResponse extends TopicDescription, Response {}
-
-/**
- * Represents result of list operation on topics.
- */
-export type TopicsResponse = EntitiesResponse<TopicDescription>;
-
-/**
- * Represents runtime info of a topic.
- */
-export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {}
-
-/**
- * Array of objects representing runtime info for multiple topics.
- */
-export type TopicsRuntimeInfoResponse = EntitiesResponse<TopicRuntimeInfo>;
-
-/**
- * Represents result of create, get, update and delete operations on subscription.
- */
-export interface SubscriptionResponse extends SubscriptionDescription, Response {}
-
-/**
- * Represents result of list operation on subscriptions.
- */
-export type SubscriptionsResponse = EntitiesResponse<SubscriptionDescription>;
-
-/**
- * Represents runtime info of a subscription.
- */
-export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo, Response {}
-
-/**
- * Array of objects representing runtime info for multiple subscriptions.
- */
-export type SubscriptionsRuntimeInfoResponse = EntitiesResponse<SubscriptionRuntimeInfo>;
-
-/**
- * Represents result of create, get, update and delete operations on rule.
- */
-export interface RuleResponse extends RuleDescription, Response {}
-
-/**
- * Represents result of list operation on rules.
- */
-export type RulesResponse = EntitiesResponse<RuleDescription>;
-
-/**
  * @interface
  * An interface that tracks the settings for paged iteration
  */
@@ -200,6 +117,54 @@ export interface PageSettings {
    */
   maxPageSize?: number;
 }
+
+/**
+ * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
+ */
+export interface EntitiesResponse<T>
+  extends Array<T>,
+    Pick<PageSettings, "continuationToken">,
+    Response {}
+
+/**
+ * Represents properties of the namespace.
+ */
+export interface NamespacePropertiesResponse extends NamespaceProperties, Response {}
+
+/**
+ * Represents runtime info of a queue.
+ */
+export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
+
+/**
+ * Represents result of create, get, update and delete operations on queue.
+ */
+export interface QueueResponse extends QueueDescription, Response {}
+
+/**
+ * Represents result of create, get, update and delete operations on topic.
+ */
+export interface TopicResponse extends TopicDescription, Response {}
+
+/**
+ * Represents runtime info of a topic.
+ */
+export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {}
+
+/**
+ * Represents result of create, get, update and delete operations on subscription.
+ */
+export interface SubscriptionResponse extends SubscriptionDescription, Response {}
+
+/**
+ * Represents runtime info of a subscription.
+ */
+export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo, Response {}
+
+/**
+ * Represents result of create, get, update and delete operations on rule.
+ */
+export interface RuleResponse extends RuleDescription, Response {}
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
@@ -460,7 +425,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   private async listQueues(
     options?: ListRequestOptions & OperationOptions
-  ): Promise<QueuesResponse> {
+  ): Promise<EntitiesResponse<QueueDescription>> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
@@ -473,7 +438,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listQueuesPage(
     marker?: number,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<QueuesResponse> {
+  ): AsyncIterableIterator<EntitiesResponse<QueueDescription>> {
     let listResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -499,7 +464,11 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   public getQueues(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<QueueDescription, QueuesResponse, PageSettings> {
+  ): PagedAsyncIterableIterator<
+    QueueDescription,
+    EntitiesResponse<QueueDescription>,
+    PageSettings
+  > {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const iter = this.listQueuesAll(options);
     return {
@@ -542,7 +511,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   private async listQueuesRuntimeInfo(
     options?: ListRequestOptions & OperationOptions
-  ): Promise<QueuesRuntimeInfoResponse> {
+  ): Promise<EntitiesResponse<QueueRuntimeInfo>> {
     log.httpAtomXml(
       `Performing management operation - listQueuesRuntimeInfo() with options: ${options}`
     );
@@ -558,7 +527,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listQueuesRuntimeInfoPage(
     marker?: number,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<QueuesRuntimeInfoResponse> {
+  ): AsyncIterableIterator<EntitiesResponse<QueueRuntimeInfo>> {
     let listResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -584,7 +553,11 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   public getQueuesRuntimeInfo(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<QueueRuntimeInfo, QueuesRuntimeInfoResponse, PageSettings> {
+  ): PagedAsyncIterableIterator<
+    QueueRuntimeInfo,
+    EntitiesResponse<QueueRuntimeInfo>,
+    PageSettings
+  > {
     log.httpAtomXml(
       `Performing management operation - getQueuesRuntimeInfo() with options: ${options}`
     );
@@ -846,7 +819,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   private async listTopics(
     options?: ListRequestOptions & OperationOptions
-  ): Promise<TopicsResponse> {
+  ): Promise<EntitiesResponse<TopicDescription>> {
     log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
@@ -860,7 +833,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listTopicsPage(
     marker?: number,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<TopicsResponse> {
+  ): AsyncIterableIterator<EntitiesResponse<TopicDescription>> {
     let listResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -886,7 +859,11 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   public getTopics(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<TopicDescription, TopicsResponse, PageSettings> {
+  ): PagedAsyncIterableIterator<
+    TopicDescription,
+    EntitiesResponse<TopicDescription>,
+    PageSettings
+  > {
     log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
     const iter = this.listTopicsAll(options);
     return {
@@ -929,7 +906,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   private async listTopicsRuntimeInfo(
     options?: ListRequestOptions & OperationOptions
-  ): Promise<TopicsRuntimeInfoResponse> {
+  ): Promise<EntitiesResponse<TopicRuntimeInfo>> {
     log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
@@ -943,7 +920,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listTopicsRuntimeInfoPage(
     marker?: number,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<TopicsRuntimeInfoResponse> {
+  ): AsyncIterableIterator<EntitiesResponse<TopicRuntimeInfo>> {
     let listResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -969,7 +946,11 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   public getTopicsRuntimeInfo(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<TopicRuntimeInfo, TopicsRuntimeInfoResponse, PageSettings> {
+  ): PagedAsyncIterableIterator<
+    TopicRuntimeInfo,
+    EntitiesResponse<TopicRuntimeInfo>,
+    PageSettings
+  > {
     log.httpAtomXml(
       `Performing management operation - getTopicsRuntimeInfo() with options: ${options}`
     );
@@ -1263,7 +1244,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async listSubscriptions(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
-  ): Promise<SubscriptionsResponse> {
+  ): Promise<EntitiesResponse<SubscriptionDescription>> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptions() with options: ${options}`
     );
@@ -1280,7 +1261,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     marker?: number,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<SubscriptionsResponse> {
+  ): AsyncIterableIterator<EntitiesResponse<SubscriptionDescription>> {
     let listResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -1308,7 +1289,11 @@ export class ServiceBusManagementClient extends ServiceClient {
   public getSubscriptions(
     topicName: string,
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<SubscriptionDescription, SubscriptionsResponse, PageSettings> {
+  ): PagedAsyncIterableIterator<
+    SubscriptionDescription,
+    EntitiesResponse<SubscriptionDescription>,
+    PageSettings
+  > {
     log.httpAtomXml(
       `Performing management operation - getSubscriptions() with options: ${options}`
     );
@@ -1355,7 +1340,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async listSubscriptionsRuntimeInfo(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
-  ): Promise<SubscriptionsRuntimeInfoResponse> {
+  ): Promise<EntitiesResponse<SubscriptionRuntimeInfo>> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptionsRuntimeInfo() with options: ${options}`
     );
@@ -1372,7 +1357,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     marker?: number,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<SubscriptionsRuntimeInfoResponse> {
+  ): AsyncIterableIterator<EntitiesResponse<SubscriptionRuntimeInfo>> {
     let listResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -1402,7 +1387,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
     SubscriptionRuntimeInfo,
-    SubscriptionsRuntimeInfoResponse,
+    EntitiesResponse<SubscriptionRuntimeInfo>,
     PageSettings
   > {
     log.httpAtomXml(
@@ -1643,7 +1628,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
-  ): Promise<RulesResponse> {
+  ): Promise<EntitiesResponse<RuleDescription>> {
     log.httpAtomXml(`Performing management operation - listRules() with options: ${options}`);
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
     const response: HttpOperationResponse = await this.listResources(
@@ -1660,7 +1645,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     marker?: number,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<RulesResponse> {
+  ): AsyncIterableIterator<EntitiesResponse<RuleDescription>> {
     let listResponse;
     if (!!marker || marker === undefined) {
       do {
@@ -1690,7 +1675,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<RuleDescription, RulesResponse, PageSettings> {
+  ): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>, PageSettings> {
     log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
@@ -1988,7 +1973,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListQueuesResponse(response: HttpOperationResponse): QueuesResponse {
+  private buildListQueuesResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<QueueDescription> {
     try {
       const queues: QueueDescription[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
@@ -2002,7 +1989,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: QueuesResponse = Object.assign(queues, {
+      const listQueuesResponse: EntitiesResponse<QueueDescription> = Object.assign(queues, {
         _response: response
       });
       listQueuesResponse.continuationToken = nextMarker;
@@ -2021,7 +2008,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListQueuesRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): QueuesRuntimeInfoResponse {
+  ): EntitiesResponse<QueueRuntimeInfo> {
     try {
       const queues: QueueRuntimeInfo[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
@@ -2035,7 +2022,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: QueuesRuntimeInfoResponse = Object.assign(queues, {
+      const listQueuesResponse: EntitiesResponse<QueueRuntimeInfo> = Object.assign(queues, {
         _response: response
       });
       listQueuesResponse.continuationToken = nextMarker;
@@ -2090,7 +2077,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListTopicsResponse(response: HttpOperationResponse): TopicsResponse {
+  private buildListTopicsResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<TopicDescription> {
     try {
       const topics: TopicDescription[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
@@ -2104,7 +2093,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: TopicsResponse = Object.assign(topics, {
+      const listTopicsResponse: EntitiesResponse<TopicDescription> = Object.assign(topics, {
         _response: response
       });
       listTopicsResponse.continuationToken = nextMarker;
@@ -2123,7 +2112,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListTopicsRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): TopicsRuntimeInfoResponse {
+  ): EntitiesResponse<TopicRuntimeInfo> {
     try {
       const topics: TopicRuntimeInfo[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
@@ -2137,7 +2126,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: TopicsRuntimeInfoResponse = Object.assign(topics, {
+      const listTopicsResponse: EntitiesResponse<TopicRuntimeInfo> = Object.assign(topics, {
         _response: response
       });
       listTopicsResponse.continuationToken = nextMarker;
@@ -2191,7 +2180,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListSubscriptionsResponse(response: HttpOperationResponse): SubscriptionsResponse {
+  private buildListSubscriptionsResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<SubscriptionDescription> {
     try {
       const subscriptions: SubscriptionDescription[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
@@ -2205,9 +2196,12 @@ export class ServiceBusManagementClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: SubscriptionsResponse = Object.assign(subscriptions, {
-        _response: response
-      });
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionDescription> = Object.assign(
+        subscriptions,
+        {
+          _response: response
+        }
+      );
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
@@ -2224,7 +2218,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListSubscriptionsRuntimeInfoResponse(
     response: HttpOperationResponse
-  ): SubscriptionsRuntimeInfoResponse {
+  ): EntitiesResponse<SubscriptionRuntimeInfo> {
     try {
       const subscriptions: SubscriptionRuntimeInfo[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
@@ -2238,7 +2232,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: SubscriptionsRuntimeInfoResponse = Object.assign(
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeInfo> = Object.assign(
         subscriptions,
         {
           _response: response
@@ -2301,7 +2295,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListRulesResponse(response: HttpOperationResponse): RulesResponse {
+  private buildListRulesResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<RuleDescription> {
     try {
       const rules: RuleDescription[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
@@ -2315,7 +2311,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: RulesResponse = Object.assign(rules, {
+      const listRulesResponse: EntitiesResponse<RuleDescription> = Object.assign(rules, {
         _response: response
       });
       listRulesResponse.continuationToken = nextMarker;
