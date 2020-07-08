@@ -368,10 +368,13 @@ describe("Retries - Receive methods", () => {
     const batchingReceiver = BatchingReceiver.create((receiver as any)._context);
     batchingReceiver.isOpen = () => true;
     batchingReceiver.receive = fakeFunction;
-    // Mocking `_messageSession.receiveMessages()` to throw the error and fail
-    (receiver as SessionReceiverImpl<ReceivedMessageWithLock>)[
-      "_messageSession"
-    ].receiveMessages = fakeFunction;
+
+    if (receiver instanceof SessionReceiverImpl) {
+      // Mocking `_messageSession.receiveMessages()` to throw the error and fail
+      (receiver as SessionReceiverImpl<ReceivedMessageWithLock>)[
+        "_messageSession"
+      ].receiveMessages = fakeFunction;
+    }
   }
 
   async function mockReceiveAndVerifyRetries(func: Function) {
