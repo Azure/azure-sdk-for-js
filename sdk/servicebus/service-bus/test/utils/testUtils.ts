@@ -125,21 +125,18 @@ export class TestMessage {
 }
 
 export enum TestClientType {
-  PartitionedQueue,
-  PartitionedTopic,
-  PartitionedSubscription,
-  UnpartitionedQueue,
-  UnpartitionedTopic,
-  UnpartitionedSubscription,
-  PartitionedQueueWithSessions,
-  PartitionedTopicWithSessions,
-  PartitionedSubscriptionWithSessions,
-  UnpartitionedQueueWithSessions,
-  UnpartitionedTopicWithSessions,
-  UnpartitionedSubscriptionWithSessions,
-  TopicFilterTestTopic,
-  TopicFilterTestDefaultSubscription,
-  TopicFilterTestSubscription
+  PartitionedQueue = "PartitionedQueue",
+  PartitionedTopic = "PartitionedTopic",
+  PartitionedSubscription = "PartitionedSubscription",
+  UnpartitionedQueue = "UnpartitionedQueue",
+  UnpartitionedTopic = "UnpartitionedTopic",
+  UnpartitionedSubscription = "UnpartitionedSubscription",
+  PartitionedQueueWithSessions = "PartitionedQueueWithSessions",
+  PartitionedTopicWithSessions = "PartitionedTopicWithSessions",
+  PartitionedSubscriptionWithSessions = "PartitionedSubscriptionWithSessions",
+  UnpartitionedQueueWithSessions = "UnpartitionedQueueWithSessions",
+  UnpartitionedTopicWithSessions = "UnpartitionedTopicWithSessions",
+  UnpartitionedSubscriptionWithSessions = "UnpartitionedSubscriptionWithSessions"
 }
 
 /**

@@ -42,7 +42,7 @@ function getEntityNames(
   usesSessions: boolean;
   isPartitioned: boolean;
 } {
-  const name = TestClientType[testClientType];
+  const name = testClientType;
   let prefix = "";
   let isPartitioned = false;
 
@@ -131,6 +131,18 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
 
   await receiver.close();
 }
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription
+ * @param useSessions 
+ */
+export  function getRandomeReceiverTestClientType(useSessions: boolean): TestClientType {
+  const noSessionRecieverClientTypes = [TestClientType.PartitionedQueue, TestClientType.PartitionedSubscription, TestClientType.UnpartitionedQueue, TestClientType.UnpartitionedSubscription];
+  const withSessionRecieverClientTypes = [TestClientType.PartitionedQueueWithSessions, TestClientType.PartitionedSubscriptionWithSessions, TestClientType.UnpartitionedQueueWithSessions, TestClientType.UnpartitionedSubscriptionWithSessions];
+
+  const index = Math.floor(Math.random() * noSessionRecieverClientTypes.length);
+  return useSessions ? withSessionRecieverClientTypes[index] : noSessionRecieverClientTypes[index];
+ }
 
 export type EntityName = ReturnType<typeof getEntityNames>;
 
