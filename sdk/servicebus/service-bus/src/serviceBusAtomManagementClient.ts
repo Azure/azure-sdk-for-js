@@ -462,6 +462,19 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
+  /**
+   * Returns an async iterable iterator to list all the queues.
+   *
+   * .byPage() returns an async iterable iterator to list the queues in pages.
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     QueueDescription,
+   *     EntitiesResponse<QueueDescription>,
+   *     PageSettings
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
   public getQueues(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
@@ -551,6 +564,20 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
+  /**
+   * Returns an async iterable iterator to list runtime info of the queues.
+   *
+   * .byPage() returns an async iterable iterator to list runtime info of the queues in pages.
+   *
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     QueueRuntimeInfo,
+   *     EntitiesResponse<QueueRuntimeInfo>,
+   *     PageSettings
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
   public getQueuesRuntimeInfo(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
@@ -857,6 +884,20 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
+  /**
+   * Returns an async iterable iterator to list all the topics.
+   *
+   * .byPage() returns an async iterable iterator to list the topics in pages.
+   *
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     TopicDescription,
+   *     EntitiesResponse<TopicDescription>,
+   *     PageSettings
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
   public getTopics(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
@@ -944,6 +985,20 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
+  /**
+   * Returns an async iterable iterator to list runtime info of the topics.
+   *
+   * .byPage() returns an async iterable iterator to list runtime info of the topics in pages.
+   *
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     TopicRuntimeInfo,
+   *     EntitiesResponse<TopicRuntimeInfo>,
+   *     PageSettings
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
   public getTopicsRuntimeInfo(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
@@ -1286,6 +1341,23 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
+  /**
+   *
+   * Returns an async iterable iterator to list all the subscriptions
+   * under the specified topic.
+   *
+   * .byPage() returns an async iterable iterator to list the subscriptions in pages.
+   *
+   * @memberof ServiceBusManagementClient
+   * @param {string} topicName
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     SubscriptionDescription,
+   *     EntitiesResponse<SubscriptionDescription>,
+   *     PageSettings
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
   public getSubscriptions(
     topicName: string,
     options?: OperationOptions
@@ -1382,6 +1454,21 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
+  /**
+   * Returns an async iterable iterator to list runtime info of the subscriptions
+   * under the specified topic.
+   *
+   * .byPage() returns an async iterable iterator to list runtime info of subscriptions in pages.
+   *
+   * @param {string} topicName
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     SubscriptionRuntimeInfo,
+   *     EntitiesResponse<SubscriptionRuntimeInfo>,
+   *     PageSettings
+   *   >}  An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
   public getSubscriptionsRuntimeInfo(
     topicName: string,
     options?: OperationOptions
@@ -1671,6 +1758,18 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
+  /**
+   * Returns an async iterable iterator to list all the rules
+   * under the specified subscription.
+   *
+   * .byPage() returns an async iterable iterator to list the rules in pages.
+   *
+   * @param {string} topicName
+   * @param {string} subscriptionName
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>, PageSettings>} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
   public getRules(
     topicName: string,
     subscriptionName: string,
