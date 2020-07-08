@@ -303,24 +303,17 @@ export class ServiceBusManagementClient extends ServiceClient {
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
     getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
-    // (undocumented)
     getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueDescription, EntitiesResponse<QueueDescription>, PageSettings>;
-    // (undocumented)
     getQueuesRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeInfo, EntitiesResponse<QueueRuntimeInfo>, PageSettings>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    // (undocumented)
     getRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>, PageSettings>;
     getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimeInfoResponse>;
-    // (undocumented)
     getSubscriptions(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionDescription, EntitiesResponse<SubscriptionDescription>, PageSettings>;
-    // (undocumented)
     getSubscriptionsRuntimeInfo(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionRuntimeInfo, EntitiesResponse<SubscriptionRuntimeInfo>, PageSettings>;
     getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
     getTopicRuntimeInfo(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimeInfoResponse>;
-    // (undocumented)
     getTopics(options?: OperationOptions): PagedAsyncIterableIterator<TopicDescription, EntitiesResponse<TopicDescription>, PageSettings>;
-    // (undocumented)
     getTopicsRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<TopicRuntimeInfo, EntitiesResponse<TopicRuntimeInfo>, PageSettings>;
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
