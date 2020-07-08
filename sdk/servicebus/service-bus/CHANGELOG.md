@@ -2,6 +2,10 @@
 
 ## 7.0.0-preview.5 (Unreleased)
 
+### Breaking Changes
+
+- Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`,`getQueuesRuntimeInfo()`, etc.
+  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts)
 
 ## 7.0.0-preview.4 (2020-07-07)
 
