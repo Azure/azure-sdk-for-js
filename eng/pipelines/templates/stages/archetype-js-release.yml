@@ -189,7 +189,7 @@ stages:
     dependsOn: ${{parameters.DependsOn}}
     jobs:
     - job: PublishPackages
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),ne(variables['Skip.PublishDevFeed'], 'true')))
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
       displayName: Publish package to daily feed
       pool:
         vmImage: ubuntu-18.04
