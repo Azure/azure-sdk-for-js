@@ -65,6 +65,8 @@ import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 import { OperationOptions } from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "./util/tracing";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -293,13 +295,30 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<NamespacePropertiesResponse> {
     log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
-    const response: HttpOperationResponse = await this.getResource(
-      "$namespaceinfo",
-      this.namespaceResourceSerializer,
-      operationOptions
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getNamespaceProperties",
+      operationOptions?.tracingOptions
     );
+    try {
+      const response: HttpOperationResponse = await this.getResource(
+        "$namespaceinfo",
+        this.namespaceResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildNamespacePropertiesResponse(response);
+      return this.buildNamespacePropertiesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -344,24 +363,41 @@ export class ServiceBusManagementClient extends ServiceClient {
     queueNameOrOptions: string | QueueDescription,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
-    let queue: QueueDescription;
-    if (typeof queueNameOrOptions === "string") {
-      queue = { name: queueNameOrOptions };
-    } else {
-      queue = queueNameOrOptions;
-    }
-    log.httpAtomXml(
-      `Performing management operation - createQueue() for "${queue.name}" with options: ${queue}`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getNamespaceProperties",
+      operationOptions?.tracingOptions
     );
-    const response: HttpOperationResponse = await this.putResource(
-      queue.name,
-      buildQueueOptions(queue),
-      this.queueResourceSerializer,
-      false,
-      operationOptions
-    );
+    try {
+      let queue: QueueDescription;
+      if (typeof queueNameOrOptions === "string") {
+        queue = { name: queueNameOrOptions };
+      } else {
+        queue = queueNameOrOptions;
+      }
+      log.httpAtomXml(
+        `Performing management operation - createQueue() for "${queue.name}" with options: ${queue}`
+      );
+      const response: HttpOperationResponse = await this.putResource(
+        queue.name,
+        buildQueueOptions(queue),
+        this.queueResourceSerializer,
+        false,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildQueueResponse(response);
+      return this.buildQueueResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -381,14 +417,31 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse> {
-    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      queueName,
-      this.queueResourceSerializer,
-      operationOptions
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getNamespaceProperties",
+      operationOptions?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
+      const response: HttpOperationResponse = await this.getResource(
+        queueName,
+        this.queueResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildQueueResponse(response);
+      return this.buildQueueResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -410,14 +463,31 @@ export class ServiceBusManagementClient extends ServiceClient {
     queueName: string,
     operationOptions?: OperationOptions
   ): Promise<QueueRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      queueName,
-      this.queueResourceSerializer,
-      operationOptions
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getNamespaceProperties",
+      operationOptions?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
+      const response: HttpOperationResponse = await this.getResource(
+        queueName,
+        this.queueResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildQueueRuntimeInfoResponse(response);
+      return this.buildQueueRuntimeInfoResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -435,14 +505,31 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse> {
-    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Queues",
-      options,
-      this.queueResourceSerializer
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getNamespaceProperties",
+      options?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+      const response: HttpOperationResponse = await this.listResources(
+        "$Resources/Queues",
+        {
+          ...options,
+          tracingOptions: { ...options?.tracingOptions, spanOptions }
+        },
+        this.queueResourceSerializer
+      );
 
-    return this.buildListQueuesResponse(response);
+      return this.buildListQueuesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -461,14 +548,31 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getQueuesRuntimeInfo(
     options?: ListRequestOptions & OperationOptions
   ): Promise<QueuesRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Queues",
-      options,
-      this.queueResourceSerializer
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getNamespaceProperties",
+      options?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+      const response: HttpOperationResponse = await this.listResources(
+        "$Resources/Queues",
+        {
+          ...options,
+          tracingOptions: { ...options?.tracingOptions, spanOptions }
+        },
+        this.queueResourceSerializer
+      );
 
-    return this.buildListQueuesRuntimeInfoResponse(response);
+      return this.buildListQueuesRuntimeInfoResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -500,29 +604,46 @@ export class ServiceBusManagementClient extends ServiceClient {
     queue: QueueDescription,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
-    log.httpAtomXml(
-      `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getNamespaceProperties",
+      operationOptions?.tracingOptions
     );
-
-    if (!isJSONLikeObject(queue) || queue == null) {
-      throw new TypeError(
-        `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
+    try {
+      log.httpAtomXml(
+        `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
       );
+
+      if (!isJSONLikeObject(queue) || queue == null) {
+        throw new TypeError(
+          `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
+        );
+      }
+
+      if (!queue.name) {
+        throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
+      }
+
+      const response: HttpOperationResponse = await this.putResource(
+        queue.name,
+        buildQueueOptions(queue),
+        this.queueResourceSerializer,
+        true,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
+
+      return this.buildQueueResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    if (!queue.name) {
-      throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
-    }
-
-    const response: HttpOperationResponse = await this.putResource(
-      queue.name,
-      buildQueueOptions(queue),
-      this.queueResourceSerializer,
-      true,
-      operationOptions
-    );
-
-    return this.buildQueueResponse(response);
   }
 
   /**
@@ -541,14 +662,31 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
-    log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
-    const response: HttpOperationResponse = await this.deleteResource(
-      queueName,
-      this.queueResourceSerializer,
-      operationOptions
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getNamespaceProperties",
+      operationOptions?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
+      const response: HttpOperationResponse = await this.deleteResource(
+        queueName,
+        this.queueResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return { _response: response };
+      return { _response: response };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -557,16 +695,33 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getNamespaceProperties",
+      operationOptions?.tracingOptions
+    );
     try {
-      await this.getQueue(queueName, operationOptions);
-    } catch (error) {
-      if (error.code == "MessageEntityNotFoundError") {
-        return false;
+      log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
+      try {
+        await this.getQueue(queueName, {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        });
+      } catch (error) {
+        if (error.code == "MessageEntityNotFoundError") {
+          return false;
+        }
+        throw error;
       }
-      throw error;
+      return true;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return true;
   }
 
   /**
