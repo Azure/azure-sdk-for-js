@@ -22,6 +22,7 @@ import {
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
+import JSBI from "jsbi";
 
 /**
  * @ignore
@@ -408,19 +409,19 @@ export class Items {
             .replace('"', "");
       const key = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
       let batchForKey = batches.find((batch: Batch) => {
-        let minInt: bigint;
-        let maxInt: bigint;
+        let minInt: JSBI;
+        let maxInt: JSBI;
         if (batch.min === "") {
-          minInt = 0n;
+          minInt = JSBI.BigInt(0);
         } else {
-          minInt = BigInt(`0x${batch.min}`);
+          minInt = JSBI.BigInt(`0x${batch.min}`);
         }
         if (batch.max === "FF") {
           maxInt = MAX_128_BIT_INTEGER;
         } else {
-          maxInt = BigInt(`0x${batch.max}`);
+          maxInt = JSBI.BigInt(`0x${batch.max}`);
         }
-        return isKeyInRange(minInt, maxInt, BigInt(`0x${key}`));
+        return isKeyInRange(minInt, maxInt, JSBI.BigInt(`0x${key}`));
       });
       if (!batchForKey) {
         // this would mean our partitionKey isn't in any of the existing ranges

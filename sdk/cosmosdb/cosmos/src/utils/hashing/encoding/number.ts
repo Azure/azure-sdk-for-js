@@ -1,13 +1,16 @@
-export function writeNumberForBinaryEncoding(hash: number) {
-  let payload: bigint = encodeNumberAsUInt64(hash);
-  let outputStream = Buffer.from("05", "hex");
-  const firstChunk = BigInt.asUintN(64, payload >> BigInt(56));
-  outputStream = Buffer.concat([outputStream, Buffer.from(firstChunk.toString(16), "hex")]);
-  payload = BigInt.asUintN(64, BigInt(payload) << BigInt(0x8));
+import JSBI from "jsbi";
 
-  let byteToWrite = BigInt(0);
+export function writeNumberForBinaryEncodingJSBI(hash: number) {
+  let payload = encodeNumberAsUInt64JSBI(hash);
+  let outputStream = Buffer.from("05", "hex");
+  const firstChunk = JSBI.asUintN(64, JSBI.signedRightShift(payload, JSBI.BigInt(56)));
+
+  outputStream = Buffer.concat([outputStream, Buffer.from(firstChunk.toString(16), "hex")]);
+  payload = JSBI.asUintN(64, JSBI.leftShift(JSBI.BigInt(payload), JSBI.BigInt(0x8)));
+
+  let byteToWrite = JSBI.BigInt(0);
   let firstIteration = false;
-  let shifted: bigint;
+  let shifted: JSBI;
   let padded: string;
 
   do {
@@ -23,12 +26,12 @@ export function writeNumberForBinaryEncoding(hash: number) {
       firstIteration = false;
     }
 
-    shifted = BigInt.asUintN(64, payload >> BigInt(56));
-    byteToWrite = BigInt.asUintN(64, shifted | BigInt(0x01));
-    payload = BigInt.asUintN(64, payload << BigInt(7));
-  } while (payload != BigInt(0));
+    shifted = JSBI.asUintN(64, JSBI.signedRightShift(payload, JSBI.BigInt(56)));
+    byteToWrite = JSBI.asUintN(64, JSBI.bitwiseOr(shifted, JSBI.BigInt(0x01)));
+    payload = JSBI.asUintN(64, JSBI.leftShift(payload, JSBI.BigInt(7)));
+  } while (JSBI.notEqual(payload, JSBI.BigInt(0)));
 
-  const lastChunk = BigInt.asUintN(64, byteToWrite & BigInt(0xfe));
+  const lastChunk = JSBI.asUintN(64, JSBI.bitwiseAnd(byteToWrite, JSBI.BigInt(0xfe)));
   // we pad because after shifting because we will produce characters like "f" or similar,
   // which cannot be encoded as hex in a buffer because they are invalid hex
   // https://github.com/nodejs/node/issues/24491
@@ -40,24 +43,39 @@ export function writeNumberForBinaryEncoding(hash: number) {
   return outputStream;
 }
 
-function encodeNumberAsUInt64(value: number) {
-  const rawValueBits = getRawBits(value);
-  const mask = BigInt(0x8000000000000000);
-  const returned = rawValueBits < mask ? rawValueBits ^ mask : ~BigInt(rawValueBits) + BigInt(1);
+function encodeNumberAsUInt64JSBI(value: number) {
+  const rawValueBits = getRawBitsJSBI(value);
+  const mask = JSBI.BigInt(0x8000000000000000);
+  const returned =
+    rawValueBits < mask
+      ? JSBI.bitwiseXor(rawValueBits, mask)
+      : JSBI.add(JSBI.bitwiseNot(rawValueBits), JSBI.BigInt(1));
   return returned;
 }
 
-export function doubleToByteArray(double: number) {
+export function doubleToByteArrayJSBI(double: number) {
   const output: Buffer = Buffer.alloc(8);
-  const lng = getRawBits(double);
+  const otherOutput: Buffer = Buffer.alloc(8);
+  const lng = getRawBitsJSBI(double);
   for (let i = 0; i < 8; i++) {
-    output[i] = Number((lng >> (BigInt(i) * BigInt(8))) & BigInt(0xff));
+    otherOutput[i] = JSBI.toNumber(
+      JSBI.bitwiseAnd(
+        JSBI.signedRightShift(lng, JSBI.multiply(JSBI.BigInt(i), JSBI.BigInt(8))),
+        JSBI.BigInt(0xff)
+      )
+    );
   }
   return output;
 }
 
-function getRawBits(value: number) {
+function getRawBitsJSBI(value: number) {
   const view = new DataView(new ArrayBuffer(8));
   view.setFloat64(0, value);
-  return view.getBigInt64(0);
+  return JSBI.BigInt(`0x${buf2hex(view.buffer)}`);
+}
+
+function buf2hex(buffer: ArrayBuffer) {
+  return Array.prototype.map
+    .call(new Uint8Array(buffer), (x: number) => ("00" + x.toString(16)).slice(-2))
+    .join("");
 }

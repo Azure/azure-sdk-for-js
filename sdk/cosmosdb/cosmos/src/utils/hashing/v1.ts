@@ -1,4 +1,8 @@
-import { writeNumberForBinaryEncoding, doubleToByteArray } from "./encoding/number";
+import {
+  // writeNumberForBinaryEncoding,
+  doubleToByteArray,
+  writeNumberForBinaryEncodingJSBI
+} from "./encoding/number";
 import { writeStringForBinaryEncoding } from "./encoding/string";
 const MurmurHash = require("./murmurHash").default;
 
@@ -7,9 +11,10 @@ type v1Key = string | number | null | {} | undefined;
 export function hashV1PartitionKey(partitionKey: v1Key): string {
   const toHash = prefixKeyByType(partitionKey);
   const hash = MurmurHash.x86.hash32(toHash);
-  const encodedHash = writeNumberForBinaryEncoding(hash);
+  const encodedJSBI = writeNumberForBinaryEncodingJSBI(hash);
+  // const encodedHash = writeNumberForBinaryEncoding(hash);
   const encodedValue = encodeByType(partitionKey);
-  return Buffer.concat([encodedHash, encodedValue])
+  return Buffer.concat([encodedJSBI, encodedValue])
     .toString("hex")
     .toUpperCase();
 }
@@ -48,7 +53,10 @@ function encodeByType(key: v1Key) {
       const truncated = key.substr(0, 100);
       return writeStringForBinaryEncoding(truncated);
     case "number":
-      return writeNumberForBinaryEncoding(key);
+      const encodedJSBI = writeNumberForBinaryEncodingJSBI(key);
+      // const encoded = writeNumberForBinaryEncoding(key);
+      return encodedJSBI;
+    // return encoded;
     case "boolean":
       const prefix = key ? "03" : "02";
       return Buffer.from(prefix, "hex");

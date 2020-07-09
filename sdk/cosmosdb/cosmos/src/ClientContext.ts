@@ -584,7 +584,6 @@ export class ClientContext {
         request.operationType
       );
       const response = await executePlugins(request, executeRequest, PluginOn.operation);
-      console.log(response);
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
       return response;
     } catch (err) {
