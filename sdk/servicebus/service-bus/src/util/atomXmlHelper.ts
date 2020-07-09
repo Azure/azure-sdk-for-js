@@ -47,7 +47,7 @@ export async function executeAtomXmlOperation(
   operationOptions: OperationOptions
 ): Promise<HttpOperationResponse> {
   const { span, spanOptions } = createSpan(
-    "ServiceBusManagementClient-getResource",
+    "ServiceBusManagementClient-executeAtomXmlOperation",
     operationOptions?.tracingOptions
   );
   try {
