@@ -101,7 +101,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [readonly]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples/typescript/src/readonlyQuery.ts
 [apiref]: https://aka.ms/azsdk/js/search/docs
-[search_resource]: https://docs.microsoft.com/azure/search/search-documents-create-service-portal
+[search_resource]: https://docs.microsoft.com/azure/search/search-create-service-portal
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
