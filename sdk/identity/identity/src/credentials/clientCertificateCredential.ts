@@ -38,6 +38,7 @@ export class ClientCertificateCredential implements TokenCredential {
   private certificateString: string;
   private certificateThumbprint: string;
   private certificateX5t: string;
+  private certificateX5c?: Array<string>;
 
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -47,12 +48,14 @@ export class ClientCertificateCredential implements TokenCredential {
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param certificatePath The path to a PEM-encoded public/private key certificate on the filesystem.
    * @param options Options for configuring the client which makes the authentication request.
+   * @param sendX5c Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
    */
   constructor(
     tenantId: string,
     clientId: string,
     certificatePath: string,
-    options?: TokenCredentialOptions
+    options?: TokenCredentialOptions,
+    sendX5c?: boolean
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
@@ -73,6 +76,9 @@ export class ClientCertificateCredential implements TokenCredential {
       .toUpperCase();
 
     this.certificateX5t = Buffer.from(this.certificateThumbprint, "hex").toString("base64");
+    if (sendX5c) {
+      this.certificateX5c = [publicKey];
+    }
   }
 
   /**
@@ -99,7 +105,8 @@ export class ClientCertificateCredential implements TokenCredential {
       const header: jws.Header = {
         typ: "JWT",
         alg: "RS256",
-        x5t: this.certificateX5t
+        x5t: this.certificateX5t,
+        x5c: this.certificateX5c
       };
 
       const payload = {
