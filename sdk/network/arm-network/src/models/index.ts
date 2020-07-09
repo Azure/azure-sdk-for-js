@@ -4977,53 +4977,6 @@ export interface FirewallPolicyThreatIntelWhitelist {
 }
 
 /**
- * Trusted Root certificates properties for tls.
- */
-export interface FirewallPolicyCertificateAuthority {
-  /**
-   * Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in
-   * KeyVault.
-   */
-  keyVaultSecretId?: string;
-  /**
-   * Name of the CA certificate.
-   */
-  name?: string;
-}
-
-/**
- * Trusted Root certificates of a firewall policy.
- */
-export interface FirewallPolicyTrustedRootCertificate {
-  /**
-   * Secret Id of (base-64 encoded unencrypted pfx) the public certificate data stored in KeyVault.
-   */
-  keyVaultSecretId?: string;
-  /**
-   * Name of the trusted root certificate that is unique within a firewall policy.
-   */
-  name?: string;
-}
-
-/**
- * Configuration needed to perform TLS termination & initiation.
- */
-export interface FirewallPolicyTransportSecurity {
-  /**
-   * The CA used for intermediate CA generation.
-   */
-  certificateAuthority?: FirewallPolicyCertificateAuthority;
-  /**
-   * List of domains which are excluded from TLS termination.
-   */
-  excludedDomains?: string[];
-  /**
-   * Certificates which are to be trusted by the firewall.
-   */
-  trustedRootCertificates?: FirewallPolicyTrustedRootCertificate[];
-}
-
-/**
  * DNS Proxy Settings in Firewall Policy.
  */
 export interface DnsSettings {
@@ -5079,14 +5032,6 @@ export interface FirewallPolicy extends Resource {
    */
   threatIntelWhitelist?: FirewallPolicyThreatIntelWhitelist;
   /**
-   * The operation mode for Intrusion system. Possible values include: 'Enabled', 'Disabled'
-   */
-  intrusionSystemMode?: FirewallPolicyIntrusionSystemMode;
-  /**
-   * TLS Configuration definition.
-   */
-  transportSecurity?: FirewallPolicyTransportSecurity;
-  /**
    * DNS Proxy Settings definition.
    */
   dnsSettings?: DnsSettings;
@@ -5095,10 +5040,6 @@ export interface FirewallPolicy extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
-  /**
-   * The identity of the firewall policy.
-   */
-  identity?: ManagedServiceIdentity;
 }
 
 /**
@@ -5297,10 +5238,6 @@ export interface ApplicationRule {
    */
   protocols?: FirewallPolicyRuleApplicationProtocol[];
   /**
-   * List of Urls for this rule condition.
-   */
-  targetUrls?: string[];
-  /**
    * List of FQDNs for this rule.
    */
   targetFqdns?: string[];
@@ -5312,10 +5249,6 @@ export interface ApplicationRule {
    * List of source IpGroups for this rule.
    */
   sourceIpGroups?: string[];
-  /**
-   * Terminate TLS connections for this rule.
-   */
-  terminateTLS?: boolean;
 }
 
 /**
@@ -11737,242 +11670,6 @@ export interface EffectiveRoutesParameters {
 }
 
 /**
- * Defines contents of a web application firewall global configuration.
- */
-export interface PolicySettings {
-  /**
-   * The state of the policy. Possible values include: 'Disabled', 'Enabled'
-   */
-  state?: WebApplicationFirewallEnabledState;
-  /**
-   * The mode of the policy. Possible values include: 'Prevention', 'Detection'
-   */
-  mode?: WebApplicationFirewallMode;
-  /**
-   * Whether to allow WAF to check request Body.
-   */
-  requestBodyCheck?: boolean;
-  /**
-   * Maximum request body size in Kb for WAF.
-   */
-  maxRequestBodySizeInKb?: number;
-  /**
-   * Maximum file upload size in Mb for WAF.
-   */
-  fileUploadLimitInMb?: number;
-}
-
-/**
- * Define match variables.
- */
-export interface MatchVariable {
-  /**
-   * Match Variable. Possible values include: 'RemoteAddr', 'RequestMethod', 'QueryString',
-   * 'PostArgs', 'RequestUri', 'RequestHeaders', 'RequestBody', 'RequestCookies'
-   */
-  variableName: WebApplicationFirewallMatchVariable;
-  /**
-   * The selector of match variable.
-   */
-  selector?: string;
-}
-
-/**
- * Define match conditions.
- */
-export interface MatchCondition {
-  /**
-   * List of match variables.
-   */
-  matchVariables: MatchVariable[];
-  /**
-   * The operator to be matched. Possible values include: 'IPMatch', 'Equal', 'Contains',
-   * 'LessThan', 'GreaterThan', 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith',
-   * 'Regex', 'GeoMatch'
-   */
-  operator: WebApplicationFirewallOperator;
-  /**
-   * Whether this is negate condition or not.
-   */
-  negationConditon?: boolean;
-  /**
-   * Match value.
-   */
-  matchValues: string[];
-  /**
-   * List of transforms.
-   */
-  transforms?: WebApplicationFirewallTransform[];
-}
-
-/**
- * Defines contents of a web application rule.
- */
-export interface WebApplicationFirewallCustomRule {
-  /**
-   * The name of the resource that is unique within a policy. This name can be used to access the
-   * resource.
-   */
-  name?: string;
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-  /**
-   * Priority of the rule. Rules with a lower value will be evaluated before rules with a higher
-   * value.
-   */
-  priority: number;
-  /**
-   * The rule type. Possible values include: 'MatchRule', 'Invalid'
-   */
-  ruleType: WebApplicationFirewallRuleType;
-  /**
-   * List of match conditions.
-   */
-  matchConditions: MatchCondition[];
-  /**
-   * Type of Actions. Possible values include: 'Allow', 'Block', 'Log'
-   */
-  action: WebApplicationFirewallAction;
-}
-
-/**
- * Allow to exclude some variable satisfy the condition for the WAF check.
- */
-export interface OwaspCrsExclusionEntry {
-  /**
-   * The variable to be excluded. Possible values include: 'RequestHeaderNames',
-   * 'RequestCookieNames', 'RequestArgNames'
-   */
-  matchVariable: OwaspCrsExclusionEntryMatchVariable;
-  /**
-   * When matchVariable is a collection, operate on the selector to specify which elements in the
-   * collection this exclusion applies to. Possible values include: 'Equals', 'Contains',
-   * 'StartsWith', 'EndsWith', 'EqualsAny'
-   */
-  selectorMatchOperator: OwaspCrsExclusionEntrySelectorMatchOperator;
-  /**
-   * When matchVariable is a collection, operator used to specify which elements in the collection
-   * this exclusion applies to.
-   */
-  selector: string;
-}
-
-/**
- * Defines a managed rule group override setting.
- */
-export interface ManagedRuleOverride {
-  /**
-   * Identifier for the managed rule.
-   */
-  ruleId: string;
-  /**
-   * The state of the managed rule. Defaults to Disabled if not specified. Possible values include:
-   * 'Disabled'
-   */
-  state?: ManagedRuleEnabledState;
-}
-
-/**
- * Defines a managed rule group override setting.
- */
-export interface ManagedRuleGroupOverride {
-  /**
-   * The managed rule group to override.
-   */
-  ruleGroupName: string;
-  /**
-   * List of rules that will be disabled. If none specified, all rules in the group will be
-   * disabled.
-   */
-  rules?: ManagedRuleOverride[];
-}
-
-/**
- * Defines a managed rule set.
- */
-export interface ManagedRuleSet {
-  /**
-   * Defines the rule set type to use.
-   */
-  ruleSetType: string;
-  /**
-   * Defines the version of the rule set to use.
-   */
-  ruleSetVersion: string;
-  /**
-   * Defines the rule group overrides to apply to the rule set.
-   */
-  ruleGroupOverrides?: ManagedRuleGroupOverride[];
-}
-
-/**
- * Allow to exclude some variable satisfy the condition for the WAF check.
- */
-export interface ManagedRulesDefinition {
-  /**
-   * The Exclusions that are applied on the policy.
-   */
-  exclusions?: OwaspCrsExclusionEntry[];
-  /**
-   * The managed rule sets that are associated with the policy.
-   */
-  managedRuleSets: ManagedRuleSet[];
-}
-
-/**
- * Defines web application firewall policy.
- */
-export interface WebApplicationFirewallPolicy extends Resource {
-  /**
-   * The PolicySettings for policy.
-   */
-  policySettings?: PolicySettings;
-  /**
-   * The custom rules inside the policy.
-   */
-  customRules?: WebApplicationFirewallCustomRule[];
-  /**
-   * A collection of references to application gateways.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly applicationGateways?: ApplicationGateway[];
-  /**
-   * The provisioning state of the web application firewall policy resource. Possible values
-   * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * Resource status of the policy. Resource status of the policy. Possible values include:
-   * 'Creating', 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Deleting'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceState?: WebApplicationFirewallPolicyResourceState;
-  /**
-   * Describes the managedRules structure.
-   */
-  managedRules: ManagedRulesDefinition;
-  /**
-   * A collection of references to application gateway http listeners.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly httpListeners?: SubResource[];
-  /**
-   * A collection of references to application gateway path rules.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly pathBasedRules?: SubResource[];
-  /**
-   * A unique read-only string that changes whenever the resource is updated.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
-
-/**
  * Optional Parameters.
  */
 export interface ApplicationGatewaysBackendHealthOptionalParams extends msRest.RequestOptionsBase {
@@ -13556,20 +13253,6 @@ export interface ListHubRouteTablesResult extends Array<HubRouteTable> {
 }
 
 /**
- * @interface
- * Result of the request to list WebApplicationFirewallPolicies. It contains a list of
- * WebApplicationFirewallPolicy objects and a URL link to get the next set of results.
- * @extends Array<WebApplicationFirewallPolicy>
- */
-export interface WebApplicationFirewallPolicyListResult extends Array<WebApplicationFirewallPolicy> {
-  /**
-   * URL to get the next set of WebApplicationFirewallPolicy objects if there are any.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
  * Defines values for ApplicationGatewayProtocol.
  * Possible values include: 'Http', 'Https'
  * @readonly
@@ -13978,14 +13661,6 @@ export type ExpressRouteLinkAdminState = 'Enabled' | 'Disabled';
  * @enum {string}
  */
 export type ExpressRoutePortsEncapsulation = 'Dot1Q' | 'QinQ';
-
-/**
- * Defines values for FirewallPolicyIntrusionSystemMode.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type FirewallPolicyIntrusionSystemMode = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for FirewallPolicyNatRuleCollectionActionType.
@@ -14556,97 +14231,6 @@ export type VpnGatewayTunnelingProtocol = 'IkeV2' | 'OpenVPN';
  * @enum {string}
  */
 export type VpnAuthenticationType = 'Certificate' | 'Radius' | 'AAD';
-
-/**
- * Defines values for WebApplicationFirewallEnabledState.
- * Possible values include: 'Disabled', 'Enabled'
- * @readonly
- * @enum {string}
- */
-export type WebApplicationFirewallEnabledState = 'Disabled' | 'Enabled';
-
-/**
- * Defines values for WebApplicationFirewallMode.
- * Possible values include: 'Prevention', 'Detection'
- * @readonly
- * @enum {string}
- */
-export type WebApplicationFirewallMode = 'Prevention' | 'Detection';
-
-/**
- * Defines values for WebApplicationFirewallRuleType.
- * Possible values include: 'MatchRule', 'Invalid'
- * @readonly
- * @enum {string}
- */
-export type WebApplicationFirewallRuleType = 'MatchRule' | 'Invalid';
-
-/**
- * Defines values for WebApplicationFirewallMatchVariable.
- * Possible values include: 'RemoteAddr', 'RequestMethod', 'QueryString', 'PostArgs', 'RequestUri',
- * 'RequestHeaders', 'RequestBody', 'RequestCookies'
- * @readonly
- * @enum {string}
- */
-export type WebApplicationFirewallMatchVariable = 'RemoteAddr' | 'RequestMethod' | 'QueryString' | 'PostArgs' | 'RequestUri' | 'RequestHeaders' | 'RequestBody' | 'RequestCookies';
-
-/**
- * Defines values for WebApplicationFirewallOperator.
- * Possible values include: 'IPMatch', 'Equal', 'Contains', 'LessThan', 'GreaterThan',
- * 'LessThanOrEqual', 'GreaterThanOrEqual', 'BeginsWith', 'EndsWith', 'Regex', 'GeoMatch'
- * @readonly
- * @enum {string}
- */
-export type WebApplicationFirewallOperator = 'IPMatch' | 'Equal' | 'Contains' | 'LessThan' | 'GreaterThan' | 'LessThanOrEqual' | 'GreaterThanOrEqual' | 'BeginsWith' | 'EndsWith' | 'Regex' | 'GeoMatch';
-
-/**
- * Defines values for WebApplicationFirewallTransform.
- * Possible values include: 'Lowercase', 'Trim', 'UrlDecode', 'UrlEncode', 'RemoveNulls',
- * 'HtmlEntityDecode'
- * @readonly
- * @enum {string}
- */
-export type WebApplicationFirewallTransform = 'Lowercase' | 'Trim' | 'UrlDecode' | 'UrlEncode' | 'RemoveNulls' | 'HtmlEntityDecode';
-
-/**
- * Defines values for WebApplicationFirewallAction.
- * Possible values include: 'Allow', 'Block', 'Log'
- * @readonly
- * @enum {string}
- */
-export type WebApplicationFirewallAction = 'Allow' | 'Block' | 'Log';
-
-/**
- * Defines values for WebApplicationFirewallPolicyResourceState.
- * Possible values include: 'Creating', 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Deleting'
- * @readonly
- * @enum {string}
- */
-export type WebApplicationFirewallPolicyResourceState = 'Creating' | 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Deleting';
-
-/**
- * Defines values for OwaspCrsExclusionEntryMatchVariable.
- * Possible values include: 'RequestHeaderNames', 'RequestCookieNames', 'RequestArgNames'
- * @readonly
- * @enum {string}
- */
-export type OwaspCrsExclusionEntryMatchVariable = 'RequestHeaderNames' | 'RequestCookieNames' | 'RequestArgNames';
-
-/**
- * Defines values for OwaspCrsExclusionEntrySelectorMatchOperator.
- * Possible values include: 'Equals', 'Contains', 'StartsWith', 'EndsWith', 'EqualsAny'
- * @readonly
- * @enum {string}
- */
-export type OwaspCrsExclusionEntrySelectorMatchOperator = 'Equals' | 'Contains' | 'StartsWith' | 'EndsWith' | 'EqualsAny';
-
-/**
- * Defines values for ManagedRuleEnabledState.
- * Possible values include: 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type ManagedRuleEnabledState = 'Disabled';
 
 /**
  * Contains response data for the get operation.
@@ -27846,125 +27430,5 @@ export type HubRouteTablesListNextResponse = ListHubRouteTablesResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ListHubRouteTablesResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WebApplicationFirewallPoliciesListResponse = WebApplicationFirewallPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the listAll operation.
- */
-export type WebApplicationFirewallPoliciesListAllResponse = WebApplicationFirewallPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WebApplicationFirewallPoliciesGetResponse = WebApplicationFirewallPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicy;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type WebApplicationFirewallPoliciesCreateOrUpdateResponse = WebApplicationFirewallPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicy;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type WebApplicationFirewallPoliciesListNextResponse = WebApplicationFirewallPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the listAllNext operation.
- */
-export type WebApplicationFirewallPoliciesListAllNextResponse = WebApplicationFirewallPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WebApplicationFirewallPolicyListResult;
     };
 };

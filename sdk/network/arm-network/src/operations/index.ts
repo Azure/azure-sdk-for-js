@@ -108,4 +108,3 @@ export * from "./virtualHubBgpConnection";
 export * from "./virtualHubBgpConnections";
 export * from "./virtualHubIpConfiguration";
 export * from "./hubRouteTables";
-export * from "./webApplicationFirewallPolicies";
