@@ -11,6 +11,7 @@ import { AbortController } from "@azure/abort-controller";
 import { WebResource } from "@azure/core-http";
 import { executeAtomXmlOperation } from "../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../src/serializers/namespaceResourceSerializer";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -269,6 +270,49 @@ describe("Operation Options", () => {
         "WA",
         "Custom header from the requestOptions is not populated as expected."
       );
+    });
+  });
+
+  describe("Tracing", () => {
+    it("getNamespaceProperties with tracing", async () => {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+      const rootSpan = tracer.startSpan("root");
+      await serviceBusAtomManagementClient.getNamespaceProperties({
+        tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+      });
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+      assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.ServiceBus.ServiceBusManagementClient-getNamespaceProperties",
+                children: [
+                  {
+                    children: [
+                      {
+                        children: [],
+                        name: "Azure.ServiceBus.ServiceBusManagementClient-executeAtomXmlOperation"
+                      }
+                    ],
+                    name: "Azure.ServiceBus.ServiceBusManagementClient-getResource"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+
+      assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+      assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
     });
   });
 });
