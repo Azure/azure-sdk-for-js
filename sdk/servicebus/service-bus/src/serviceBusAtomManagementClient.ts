@@ -364,7 +364,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     const { span, spanOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusManagementClient-createQueue",
       operationOptions?.tracingOptions
     );
     try {
@@ -418,7 +418,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse> {
     const { span, spanOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusManagementClient-getQueue",
       operationOptions?.tracingOptions
     );
     try {
@@ -464,11 +464,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<QueueRuntimeInfoResponse> {
     const { span, spanOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusManagementClient-getQueueRuntimeInfo",
       operationOptions?.tracingOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
+      log.httpAtomXml(`Performing management operation - getQueueRuntimeInfo() for "${queueName}"`);
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
@@ -506,11 +506,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse> {
     const { span, spanOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusManagementClient-getQueues",
       options?.tracingOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+      log.httpAtomXml(`Performing management operation - getQueues() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
         {
@@ -549,11 +549,13 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: ListRequestOptions & OperationOptions
   ): Promise<QueuesRuntimeInfoResponse> {
     const { span, spanOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusManagementClient-getQueuesRuntimeInfo",
       options?.tracingOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+      log.httpAtomXml(
+        `Performing management operation - getQueuesRuntimeInfo() with options: ${options}`
+      );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
         {
@@ -605,7 +607,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     const { span, spanOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusManagementClient-updateQueue",
       operationOptions?.tracingOptions
     );
     try {
@@ -663,7 +665,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
     const { span, spanOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusManagementClient-deleteQueue",
       operationOptions?.tracingOptions
     );
     try {
@@ -696,7 +698,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
     const { span, spanOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusManagementClient-queueExists",
       operationOptions?.tracingOptions
     );
     try {
@@ -766,24 +768,41 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicNameOrOptions: string | TopicDescription,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
-    let topic: TopicDescription;
-    if (typeof topicNameOrOptions === "string") {
-      topic = { name: topicNameOrOptions };
-    } else {
-      topic = topicNameOrOptions;
-    }
-    log.httpAtomXml(
-      `Performing management operation - createTopic() for "${topic.name}" with options: ${topic}`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-createTopic",
+      operationOptions?.tracingOptions
     );
-    const response: HttpOperationResponse = await this.putResource(
-      topic.name,
-      buildTopicOptions(topic),
-      this.topicResourceSerializer,
-      false,
-      operationOptions
-    );
+    try {
+      let topic: TopicDescription;
+      if (typeof topicNameOrOptions === "string") {
+        topic = { name: topicNameOrOptions };
+      } else {
+        topic = topicNameOrOptions;
+      }
+      log.httpAtomXml(
+        `Performing management operation - createTopic() for "${topic.name}" with options: ${topic}`
+      );
+      const response: HttpOperationResponse = await this.putResource(
+        topic.name,
+        buildTopicOptions(topic),
+        this.topicResourceSerializer,
+        false,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildTopicResponse(response);
+      return this.buildTopicResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -803,14 +822,31 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse> {
-    log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      topicName,
-      this.topicResourceSerializer,
-      operationOptions
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getTopic",
+      operationOptions?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
+      const response: HttpOperationResponse = await this.getResource(
+        topicName,
+        this.topicResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildTopicResponse(response);
+      return this.buildTopicResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -832,14 +868,31 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     operationOptions?: OperationOptions
   ): Promise<TopicRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - getTopicRuntimeInfo() for "${topicName}"`);
-    const response: HttpOperationResponse = await this.getResource(
-      topicName,
-      this.topicResourceSerializer,
-      operationOptions
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getTopicRuntimeInfo",
+      operationOptions?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - getTopicRuntimeInfo() for "${topicName}"`);
+      const response: HttpOperationResponse = await this.getResource(
+        topicName,
+        this.topicResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildTopicRuntimeInfoResponse(response);
+      return this.buildTopicRuntimeInfoResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -857,14 +910,31 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse> {
-    log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Topics",
-      options,
-      this.topicResourceSerializer
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getTopics",
+      options?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
+      const response: HttpOperationResponse = await this.listResources(
+        "$Resources/Topics",
+        {
+          ...options,
+          tracingOptions: { ...options?.tracingOptions, spanOptions }
+        },
+        this.topicResourceSerializer
+      );
 
-    return this.buildListTopicsResponse(response);
+      return this.buildListTopicsResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -883,14 +953,33 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getTopicsRuntimeInfo(
     options?: ListRequestOptions & OperationOptions
   ): Promise<TopicsRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
-    const response: HttpOperationResponse = await this.listResources(
-      "$Resources/Topics",
-      options,
-      this.topicResourceSerializer
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getTopicsRuntimeInfo",
+      options?.tracingOptions
     );
+    try {
+      log.httpAtomXml(
+        `Performing management operation - getTopicsRuntimeInfo() with options: ${options}`
+      );
+      const response: HttpOperationResponse = await this.listResources(
+        "$Resources/Topics",
+        {
+          ...options,
+          tracingOptions: { ...options?.tracingOptions, spanOptions }
+        },
+        this.topicResourceSerializer
+      );
 
-    return this.buildListTopicsRuntimeInfoResponse(response);
+      return this.buildListTopicsRuntimeInfoResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -919,29 +1008,46 @@ export class ServiceBusManagementClient extends ServiceClient {
     topic: TopicDescription,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
-    log.httpAtomXml(
-      `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-updateTopic",
+      operationOptions?.tracingOptions
     );
-
-    if (!isJSONLikeObject(topic) || topic == null) {
-      throw new TypeError(
-        `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
+    try {
+      log.httpAtomXml(
+        `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
       );
+
+      if (!isJSONLikeObject(topic) || topic == null) {
+        throw new TypeError(
+          `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
+        );
+      }
+
+      if (!topic.name) {
+        throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
+      }
+
+      const response: HttpOperationResponse = await this.putResource(
+        topic.name,
+        buildTopicOptions(topic),
+        this.topicResourceSerializer,
+        true,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
+
+      return this.buildTopicResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    if (!topic.name) {
-      throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
-    }
-
-    const response: HttpOperationResponse = await this.putResource(
-      topic.name,
-      buildTopicOptions(topic),
-      this.topicResourceSerializer,
-      true,
-      operationOptions
-    );
-
-    return this.buildTopicResponse(response);
   }
 
   /**
@@ -960,14 +1066,31 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response> {
-    log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
-    const response: HttpOperationResponse = await this.deleteResource(
-      topicName,
-      this.topicResourceSerializer,
-      operationOptions
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-deleteTopic",
+      operationOptions?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
+      const response: HttpOperationResponse = await this.deleteResource(
+        topicName,
+        this.topicResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return { _response: response };
+      return { _response: response };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -976,16 +1099,33 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-topicExists",
+      operationOptions?.tracingOptions
+    );
     try {
-      await this.getTopic(topicName, operationOptions);
-    } catch (error) {
-      if (error.code == "MessageEntityNotFoundError") {
-        return false;
+      log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
+      try {
+        await this.getTopic(topicName, {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        });
+      } catch (error) {
+        if (error.code == "MessageEntityNotFoundError") {
+          return false;
+        }
+        throw error;
       }
-      throw error;
+      return true;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return true;
   }
 
   /**
@@ -1052,22 +1192,39 @@ export class ServiceBusManagementClient extends ServiceClient {
       subscription = topicNameOrSubscriptionOptions as SubscriptionDescription;
       operOptions = subscriptionNameOrOperationOptions;
     }
-    log.httpAtomXml(
-      `Performing management operation - createSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-createSubscription",
+      operOptions?.tracingOptions
     );
-    const fullPath = this.getSubscriptionPath(
-      subscription.topicName,
-      subscription.subscriptionName
-    );
-    const response: HttpOperationResponse = await this.putResource(
-      fullPath,
-      buildSubscriptionOptions(subscription),
-      this.subscriptionResourceSerializer,
-      false,
-      operOptions
-    );
+    try {
+      log.httpAtomXml(
+        `Performing management operation - createSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
+      );
+      const fullPath = this.getSubscriptionPath(
+        subscription.topicName,
+        subscription.subscriptionName
+      );
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        buildSubscriptionOptions(subscription),
+        this.subscriptionResourceSerializer,
+        false,
+        {
+          ...operOptions,
+          tracingOptions: { ...operOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildSubscriptionResponse(response);
+      return this.buildSubscriptionResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1092,17 +1249,34 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
-    log.httpAtomXml(
-      `Performing management operation - getSubscription() for "${subscriptionName}"`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getSubscription",
+      operationOptions?.tracingOptions
     );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this.getResource(
-      fullPath,
-      this.subscriptionResourceSerializer,
-      operationOptions
-    );
+    try {
+      log.httpAtomXml(
+        `Performing management operation - getSubscription() for "${subscriptionName}"`
+      );
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+      const response: HttpOperationResponse = await this.getResource(
+        fullPath,
+        this.subscriptionResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildSubscriptionRuntimeInfoResponse(response);
+      return this.buildSubscriptionRuntimeInfoResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1126,17 +1300,34 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - getSubscription() for "${subscriptionName}"`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getSubscriptionRuntimeInfo",
+      operationOptions?.tracingOptions
     );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this.getResource(
-      fullPath,
-      this.subscriptionResourceSerializer,
-      operationOptions
-    );
+    try {
+      log.httpAtomXml(
+        `Performing management operation - getSubscriptionRuntimeInfo() for "${subscriptionName}"`
+      );
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+      const response: HttpOperationResponse = await this.getResource(
+        fullPath,
+        this.subscriptionResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildSubscriptionRuntimeInfoResponse(response);
+      return this.buildSubscriptionRuntimeInfoResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1158,16 +1349,33 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<SubscriptionsResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${options}`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getSubscriptions",
+      options?.tracingOptions
     );
-    const response: HttpOperationResponse = await this.listResources(
-      topicName + "/Subscriptions/",
-      options,
-      this.subscriptionResourceSerializer
-    );
+    try {
+      log.httpAtomXml(
+        `Performing management operation - getSubscriptions() with options: ${options}`
+      );
+      const response: HttpOperationResponse = await this.listResources(
+        topicName + "/Subscriptions/",
+        {
+          ...options,
+          tracingOptions: { ...options?.tracingOptions, spanOptions }
+        },
+        this.subscriptionResourceSerializer
+      );
 
-    return this.buildListSubscriptionsResponse(response);
+      return this.buildListSubscriptionsResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1188,16 +1396,33 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<SubscriptionsRuntimeInfoResponse> {
-    log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${options}`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getSubscriptionsRuntimeInfo",
+      options?.tracingOptions
     );
-    const response: HttpOperationResponse = await this.listResources(
-      topicName + "/Subscriptions/",
-      options,
-      this.subscriptionResourceSerializer
-    );
+    try {
+      log.httpAtomXml(
+        `Performing management operation - getSubscriptionsRuntimeInfo() with options: ${options}`
+      );
+      const response: HttpOperationResponse = await this.listResources(
+        topicName + "/Subscriptions/",
+        {
+          ...options,
+          tracingOptions: { ...options?.tracingOptions, spanOptions }
+        },
+        this.subscriptionResourceSerializer
+      );
 
-    return this.buildListSubscriptionsRuntimeInfoResponse(response);
+      return this.buildListSubscriptionsRuntimeInfoResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1226,36 +1451,53 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscription: SubscriptionDescription,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
-    log.httpAtomXml(
-      `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-updateSubscription",
+      operationOptions?.tracingOptions
     );
-
-    if (!isJSONLikeObject(subscription) || subscription == null) {
-      throw new TypeError(
-        `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
+    try {
+      log.httpAtomXml(
+        `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
       );
-    }
 
-    if (!subscription.topicName || !subscription.subscriptionName) {
-      throw new TypeError(
-        `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
+      if (!isJSONLikeObject(subscription) || subscription == null) {
+        throw new TypeError(
+          `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
+        );
+      }
+
+      if (!subscription.topicName || !subscription.subscriptionName) {
+        throw new TypeError(
+          `The attributes "topicName" and "subscriptionName" of the parameter "subscription" cannot be undefined.`
+        );
+      }
+
+      const fullPath = this.getSubscriptionPath(
+        subscription.topicName,
+        subscription.subscriptionName
       );
+
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        buildSubscriptionOptions(subscription),
+        this.subscriptionResourceSerializer,
+        true,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
+
+      return this.buildSubscriptionResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    const fullPath = this.getSubscriptionPath(
-      subscription.topicName,
-      subscription.subscriptionName
-    );
-
-    const response: HttpOperationResponse = await this.putResource(
-      fullPath,
-      buildSubscriptionOptions(subscription),
-      this.subscriptionResourceSerializer,
-      true,
-      operationOptions
-    );
-
-    return this.buildSubscriptionResponse(response);
   }
 
   /**
@@ -1279,17 +1521,34 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<Response> {
-    log.httpAtomXml(
-      `Performing management operation - deleteSubscription() for "${subscriptionName}"`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-deleteSubscription",
+      operationOptions?.tracingOptions
     );
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-    const response: HttpOperationResponse = await this.deleteResource(
-      fullPath,
-      this.subscriptionResourceSerializer,
-      operationOptions
-    );
+    try {
+      log.httpAtomXml(
+        `Performing management operation - deleteSubscription() for "${subscriptionName}"`
+      );
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
+      const response: HttpOperationResponse = await this.deleteResource(
+        fullPath,
+        this.subscriptionResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return { _response: response };
+      return { _response: response };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1304,18 +1563,35 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<boolean> {
-    log.httpAtomXml(
-      `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-subscriptionExists",
+      operationOptions?.tracingOptions
     );
     try {
-      await this.getSubscription(topicName, subscriptionName, operationOptions);
-    } catch (error) {
-      if (error.code == "MessageEntityNotFoundError") {
-        return false;
+      log.httpAtomXml(
+        `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
+      );
+      try {
+        await this.getSubscription(topicName, subscriptionName, {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        });
+      } catch (error) {
+        if (error.code == "MessageEntityNotFoundError") {
+          return false;
+        }
+        throw error;
       }
-      throw error;
+      return true;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return true;
   }
 
   /**
@@ -1342,18 +1618,35 @@ export class ServiceBusManagementClient extends ServiceClient {
     rule: RuleDescription,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
-    log.httpAtomXml(
-      `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-createRule",
+      operationOptions?.tracingOptions
     );
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
-    const response: HttpOperationResponse = await this.putResource(
-      fullPath,
-      rule,
-      this.ruleResourceSerializer,
-      false,
-      operationOptions
-    );
-    return this.buildRuleResponse(response);
+    try {
+      log.httpAtomXml(
+        `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
+      );
+      const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        rule,
+        this.ruleResourceSerializer,
+        false,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
+      return this.buildRuleResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1379,15 +1672,32 @@ export class ServiceBusManagementClient extends ServiceClient {
     ruleName: string,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
-    log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
-    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-    const response: HttpOperationResponse = await this.getResource(
-      fullPath,
-      this.ruleResourceSerializer,
-      operationOptions
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getRule",
+      operationOptions?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
+      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+      const response: HttpOperationResponse = await this.getResource(
+        fullPath,
+        this.ruleResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return this.buildRuleResponse(response);
+      return this.buildRuleResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1410,15 +1720,32 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<RulesResponse> {
-    log.httpAtomXml(`Performing management operation - listRules() with options: ${options}`);
-    const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
-    const response: HttpOperationResponse = await this.listResources(
-      fullPath,
-      options,
-      this.ruleResourceSerializer
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getRules",
+      options?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
+      const response: HttpOperationResponse = await this.listResources(
+        fullPath,
+        {
+          ...options,
+          tracingOptions: { ...options?.tracingOptions, spanOptions }
+        },
+        this.ruleResourceSerializer
+      );
 
-    return this.buildListRulesResponse(response);
+      return this.buildListRulesResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1445,30 +1772,47 @@ export class ServiceBusManagementClient extends ServiceClient {
     rule: RuleDescription,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
-    log.httpAtomXml(
-      `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-updateRule",
+      operationOptions?.tracingOptions
     );
-
-    if (!isJSONLikeObject(rule) || rule === null) {
-      throw new TypeError(
-        `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
+    try {
+      log.httpAtomXml(
+        `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
       );
+
+      if (!isJSONLikeObject(rule) || rule === null) {
+        throw new TypeError(
+          `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
+        );
+      }
+
+      if (!rule.name) {
+        throw new TypeError(`"name" attribute of the parameter "rule" cannot be undefined.`);
+      }
+
+      const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
+      const response: HttpOperationResponse = await this.putResource(
+        fullPath,
+        rule,
+        this.ruleResourceSerializer,
+        true,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
+
+      return this.buildRuleResponse(response);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    if (!rule.name) {
-      throw new TypeError(`"name" attribute of the parameter "rule" cannot be undefined.`);
-    }
-
-    const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
-    const response: HttpOperationResponse = await this.putResource(
-      fullPath,
-      rule,
-      this.ruleResourceSerializer,
-      true,
-      operationOptions
-    );
-
-    return this.buildRuleResponse(response);
   }
 
   /**
@@ -1494,15 +1838,32 @@ export class ServiceBusManagementClient extends ServiceClient {
     ruleName: string,
     operationOptions?: OperationOptions
   ): Promise<Response> {
-    log.httpAtomXml(`Performing management operation - deleteRule() for "${ruleName}"`);
-    const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-    const response: HttpOperationResponse = await this.deleteResource(
-      fullPath,
-      this.ruleResourceSerializer,
-      operationOptions
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-deleteRule",
+      operationOptions?.tracingOptions
     );
+    try {
+      log.httpAtomXml(`Performing management operation - deleteRule() for "${ruleName}"`);
+      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
+      const response: HttpOperationResponse = await this.deleteResource(
+        fullPath,
+        this.ruleResourceSerializer,
+        {
+          ...operationOptions,
+          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+        }
+      );
 
-    return { _response: response };
+      return { _response: response };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -1523,45 +1884,62 @@ export class ServiceBusManagementClient extends ServiceClient {
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
-    webResource.body = entityFields;
-    if (isUpdate) {
-      webResource.headers.set("If-Match", "*");
-    }
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-putResource",
+      operationOptions?.tracingOptions
+    );
+    try {
+      const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
+      webResource.body = entityFields;
+      if (isUpdate) {
+        webResource.headers.set("If-Match", "*");
+      }
 
-    const queueOrSubscriptionFields = entityFields as
-      | InternalQueueOptions
-      | InternalSubscriptionOptions;
-    if (
-      queueOrSubscriptionFields.ForwardTo ||
-      queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-    ) {
-      const token =
-        this.credentials instanceof SasServiceClientCredentials
-          ? this.credentials.getToken(this.endpoint).token
-          : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
+      const queueOrSubscriptionFields = entityFields as
+        | InternalQueueOptions
+        | InternalSubscriptionOptions;
+      if (
+        queueOrSubscriptionFields.ForwardTo ||
+        queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+      ) {
+        const token =
+          this.credentials instanceof SasServiceClientCredentials
+            ? this.credentials.getToken(this.endpoint).token
+            : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
 
-      if (queueOrSubscriptionFields.ForwardTo) {
-        webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
-        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
-          queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
-            queueOrSubscriptionFields.ForwardTo
-          );
+        if (queueOrSubscriptionFields.ForwardTo) {
+          webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
+          if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
+            queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
+              queueOrSubscriptionFields.ForwardTo
+            );
+          }
+        }
+        if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
+          webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
+          if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
+            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
+              queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+            );
+          }
         }
       }
-      if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
-        webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
-        if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
-          queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
-            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-          );
-        }
-      }
+
+      webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
+
+      return executeAtomXmlOperation(this, webResource, serializer, {
+        ...operationOptions,
+        tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
-
-    return executeAtomXmlOperation(this, webResource, serializer, operationOptions);
   }
 
   /**
@@ -1574,49 +1952,83 @@ export class ServiceBusManagementClient extends ServiceClient {
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-getResource",
+      operationOptions?.tracingOptions
+    );
+    try {
+      const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-    const response = await executeAtomXmlOperation(this, webResource, serializer, operationOptions);
-    if (
-      response.parsedBody == undefined ||
-      (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
-    ) {
-      const err = new RestError(
-        `The messaging entity "${name}" being requested cannot be found.`,
-        "MessageEntityNotFoundError",
-        404,
-        stripRequest(webResource),
-        stripResponse(response)
-      );
-      throw err;
+      const response = await executeAtomXmlOperation(this, webResource, serializer, {
+        ...operationOptions,
+        tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+      });
+      if (
+        response.parsedBody == undefined ||
+        (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
+      ) {
+        const err = new RestError(
+          `The messaging entity "${name}" being requested cannot be found.`,
+          "MessageEntityNotFoundError",
+          404,
+          stripRequest(webResource),
+          stripResponse(response)
+        );
+        throw err;
+      }
+      return response;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return response;
   }
 
   /**
    * Lists existing resources
    * @param name
-   * @param listRequestOptions
+   * @param options
    * @param serializer
    */
   private async listResources(
     name: string,
-    listRequestOptions: ListRequestOptions & OperationOptions = {},
+    options: ListRequestOptions & OperationOptions = {},
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    const queryParams: { [key: string]: string } = {};
-    if (listRequestOptions) {
-      if (listRequestOptions.skip) {
-        queryParams["$skip"] = listRequestOptions.skip.toString();
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-listResources",
+      options?.tracingOptions
+    );
+    try {
+      const queryParams: { [key: string]: string } = {};
+      if (options) {
+        if (options.skip) {
+          queryParams["$skip"] = options.skip.toString();
+        }
+        if (options.maxCount) {
+          queryParams["$top"] = options.maxCount.toString();
+        }
       }
-      if (listRequestOptions.maxCount) {
-        queryParams["$top"] = listRequestOptions.maxCount.toString();
-      }
+
+      const webResource: WebResource = new WebResource(this.getUrl(name, queryParams), "GET");
+
+      return executeAtomXmlOperation(this, webResource, serializer, {
+        ...options,
+        tracingOptions: { ...options?.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    const webResource: WebResource = new WebResource(this.getUrl(name, queryParams), "GET");
-
-    return executeAtomXmlOperation(this, webResource, serializer, listRequestOptions);
   }
 
   /**
@@ -1628,9 +2040,26 @@ export class ServiceBusManagementClient extends ServiceClient {
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
+    const { span, spanOptions } = createSpan(
+      "ServiceBusManagementClient-deleteResource",
+      operationOptions?.tracingOptions
+    );
+    try {
+      const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
 
-    return executeAtomXmlOperation(this, webResource, serializer, operationOptions);
+      return executeAtomXmlOperation(this, webResource, serializer, {
+        ...operationOptions,
+        tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   private getUrl(path: string, queryParams?: { [key: string]: string }): string {
