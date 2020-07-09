@@ -2,3 +2,4 @@ https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admi
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test
+https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
