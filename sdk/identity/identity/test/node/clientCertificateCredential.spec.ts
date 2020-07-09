@@ -82,13 +82,14 @@ describe("ClientCertificateCredential", function () {
     const tenantId = "tenantId";
     const clientId = "clientId";
     const mockHttpClient = new MockAuthHttpClient();
+    const sendX5c = true;
 
     const credential = new ClientCertificateCredential(
       tenantId,
       clientId,
       path.resolve(__dirname, "../test/azure-identity-test.crt"),
       mockHttpClient.tokenCredentialOptions,
-      true
+      sendX5c
     );
 
     await credential.getToken("scope");
