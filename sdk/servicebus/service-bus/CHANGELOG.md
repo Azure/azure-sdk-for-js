@@ -2,6 +2,8 @@
 
 ## 7.0.0-preview.5 (Unreleased)
 
+- Adds tracing support to the methods under `ServiceBusManagementClient`.
+  [PR 9987](https://github.com/Azure/azure-sdk-for-js/pull/9987)
 
 ## 7.0.0-preview.4 (2020-07-07)
 
