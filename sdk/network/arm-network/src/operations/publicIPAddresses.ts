@@ -30,7 +30,7 @@ export class PublicIPAddresses {
   /**
    * Deletes the specified public IP address.
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpAddressName The name of the subnet.
+   * @param publicIpAddressName The name of the public IP address.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -42,20 +42,20 @@ export class PublicIPAddresses {
   /**
    * Gets the specified public IP address in a specified resource group.
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpAddressName The name of the subnet.
+   * @param publicIpAddressName The name of the public IP address.
    * @param [options] The optional parameters
    * @returns Promise<Models.PublicIPAddressesGetResponse>
    */
   get(resourceGroupName: string, publicIpAddressName: string, options?: Models.PublicIPAddressesGetOptionalParams): Promise<Models.PublicIPAddressesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpAddressName The name of the subnet.
+   * @param publicIpAddressName The name of the public IP address.
    * @param callback The callback
    */
   get(resourceGroupName: string, publicIpAddressName: string, callback: msRest.ServiceCallback<Models.PublicIPAddress>): void;
   /**
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpAddressName The name of the subnet.
+   * @param publicIpAddressName The name of the public IP address.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -300,7 +300,7 @@ export class PublicIPAddresses {
   /**
    * Deletes the specified public IP address.
    * @param resourceGroupName The name of the resource group.
-   * @param publicIpAddressName The name of the subnet.
+   * @param publicIpAddressName The name of the public IP address.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

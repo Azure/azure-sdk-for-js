@@ -169,14 +169,8 @@ export {
   LoadBalancerSku,
   LoadBalancingRule,
   LocalNetworkGateway,
-  ManagedRuleGroupOverride,
-  ManagedRuleOverride,
-  ManagedRulesDefinition,
-  ManagedRuleSet,
   ManagedServiceIdentity,
   ManagedServiceIdentityUserAssignedIdentitiesValue,
-  MatchCondition,
-  MatchVariable,
   NatGateway,
   NatGatewaySku,
   NatRule,
@@ -195,7 +189,6 @@ export {
   NetworkWatcher,
   Office365PolicyProperties,
   OutboundRule,
-  OwaspCrsExclusionEntry,
   P2SConnectionConfiguration,
   P2SVpnConnectionHealth,
   P2SVpnConnectionHealthRequest,
@@ -205,7 +198,6 @@ export {
   PatchRouteFilter,
   PatchRouteFilterRule,
   PeerExpressRouteCircuitConnection,
-  PolicySettings,
   PrivateDnsZoneConfig,
   PrivateDnsZoneGroup,
   PrivateEndpoint,
@@ -290,7 +282,5 @@ export {
   VpnServerConfigVpnClientRootCertificate,
   VpnSite,
   VpnSiteLink,
-  VpnSiteLinkConnection,
-  WebApplicationFirewallCustomRule,
-  WebApplicationFirewallPolicy
-} from "./mappers";
+  VpnSiteLinkConnection
+} from "../models/mappers";
