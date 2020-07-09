@@ -394,5 +394,18 @@ directive:
 
 ```
 
+### Use string union instead of string for RehydratePriority in getProperties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["head"]["responses"]["200"]["headers"]["x-ms-rehydrate-priority"]
+    transform: >
+      $["enum"] =  ["High", "Standard"];
+      $["x-ms-enum"] =  {};
+      $["x-ms-enum"]["name"] = "RehydratePriority";
+      $["x-ms-enum"]["modelAsString"] = true;      
+
+```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

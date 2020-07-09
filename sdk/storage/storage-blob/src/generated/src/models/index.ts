@@ -4768,9 +4768,9 @@ export interface BlobGetPropertiesHeaders {
   isSealed?: boolean;
   /**
    * If an object is in rehydrate pending state then this header is returned with priority of
-   * rehydrate. Valid values are High and Standard.
+   * rehydrate. Valid values are High and Standard. Possible values include: 'High', 'Standard'
    */
-  rehydratePriority?: string;
+  rehydratePriority?: RehydratePriority;
   errorCode?: string;
 }
 
