@@ -2556,10 +2556,10 @@ async function getEntitiesRuntimeInfo(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueuesRuntimeInfo();
+      const queueResponse = await serviceBusAtomManagementClient["listQueuesRuntimeInfo"]();
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopicsRuntimeInfo();
+      const topicResponse = await serviceBusAtomManagementClient["listTopicsRuntimeInfo"]();
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2567,7 +2567,7 @@ async function getEntitiesRuntimeInfo(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionsRuntimeInfo(
+      const subscriptionResponse = await serviceBusAtomManagementClient["listSubscriptionsRuntimeInfo"](
         topicPath
       );
       return subscriptionResponse;
