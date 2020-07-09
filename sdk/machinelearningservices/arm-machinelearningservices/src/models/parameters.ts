@@ -30,11 +30,33 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const category: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "category"
+  ],
+  mapper: {
+    serializedName: "category",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const computeName: msRest.OperationURLParameter = {
   parameterPath: "computeName",
   mapper: {
     required: true,
     serializedName: "computeName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const connectionName: msRest.OperationURLParameter = {
+  parameterPath: "connectionName",
+  mapper: {
+    required: true,
+    serializedName: "connectionName",
     type: {
       name: "String"
     }
@@ -64,6 +86,16 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -91,6 +123,18 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const target: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "target"
+  ],
+  mapper: {
+    serializedName: "target",
     type: {
       name: "String"
     }
