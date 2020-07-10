@@ -2,6 +2,8 @@
 
 ## 7.0.0-preview.5 (Unreleased)
 
+- `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
+  [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
 
 ## 7.0.0-preview.4 (2020-07-07)
 
