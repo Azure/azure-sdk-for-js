@@ -4,7 +4,7 @@
 
 ## 2020-07-10
 
-- [Bug Fix] Fixed an issue in browser recording where some recorded requests are not saved.
+- [Bug Fix] Fixed an issue where the browser-recording file is saved before all the recorded requests are pushed to the array of recordings(request-response pairs).
 
 ## 2020-04-30
 
