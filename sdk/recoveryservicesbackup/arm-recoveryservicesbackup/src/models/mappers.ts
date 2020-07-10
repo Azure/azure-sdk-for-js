@@ -337,11 +337,11 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const HealthDetails: msRest.CompositeMapper = {
-  serializedName: "HealthDetails",
+export const ResourceHealthDetails: msRest.CompositeMapper = {
+  serializedName: "ResourceHealthDetails",
   type: {
     name: "Composite",
-    className: "HealthDetails",
+    className: "ResourceHealthDetails",
     modelProperties: {
       code: {
         readOnly: true,
@@ -372,6 +372,34 @@ export const HealthDetails: msRest.CompositeMapper = {
           element: {
             type: {
               name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KPIResourceHealthDetails: msRest.CompositeMapper = {
+  serializedName: "KPIResourceHealthDetails",
+  type: {
+    name: "Composite",
+    className: "KPIResourceHealthDetails",
+    modelProperties: {
+      resourceHealthStatus: {
+        serializedName: "resourceHealthStatus",
+        type: {
+          name: "String"
+        }
+      },
+      resourceHealthDetails: {
+        serializedName: "resourceHealthDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceHealthDetails"
             }
           }
         }
@@ -549,24 +577,6 @@ export const AzureFileshareProtectedItem: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      healthStatus: {
-        serializedName: "healthStatus",
-        type: {
-          name: "String"
-        }
-      },
-      healthDetails: {
-        serializedName: "healthDetails",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HealthDetails"
-            }
-          }
-        }
-      },
       lastBackupStatus: {
         serializedName: "lastBackupStatus",
         type: {
@@ -577,6 +587,18 @@ export const AzureFileshareProtectedItem: msRest.CompositeMapper = {
         serializedName: "lastBackupTime",
         type: {
           name: "DateTime"
+        }
+      },
+      kpisHealths: {
+        serializedName: "kpisHealths",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "KPIResourceHealthDetails"
+            }
+          }
         }
       },
       extendedInfo: {
@@ -1045,6 +1067,18 @@ export const AzureIaaSVMProtectedItem: msRest.CompositeMapper = {
           }
         }
       },
+      kpisHealths: {
+        serializedName: "kpisHealths",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "KPIResourceHealthDetails"
+            }
+          }
+        }
+      },
       lastBackupStatus: {
         serializedName: "lastBackupStatus",
         type: {
@@ -1156,7 +1190,7 @@ export const AzureIaaSVMHealthDetails: msRest.CompositeMapper = {
     name: "Composite",
     className: "AzureIaaSVMHealthDetails",
     modelProperties: {
-      ...HealthDetails.type.modelProperties
+      ...ResourceHealthDetails.type.modelProperties
     }
   }
 };
@@ -1925,29 +1959,23 @@ export const AzureVmWorkloadProtectedItem: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      healthStatus: {
-        serializedName: "healthStatus",
-        type: {
-          name: "String"
-        }
-      },
-      healthDetails: {
-        serializedName: "healthDetails",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HealthDetails"
-            }
-          }
-        }
-      },
       extendedInfo: {
         serializedName: "extendedInfo",
         type: {
           name: "Composite",
           className: "AzureVmWorkloadProtectedItemExtendedInfo"
+        }
+      },
+      kpisHealths: {
+        serializedName: "kpisHealths",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "KPIResourceHealthDetails"
+            }
+          }
         }
       }
     }
