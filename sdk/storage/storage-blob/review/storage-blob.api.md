@@ -654,7 +654,7 @@ export interface BlobGetPropertiesHeaders {
     objectReplicationRules?: {
         [propertyName: string]: string;
     };
-    rehydratePriority?: string;
+    rehydratePriority?: RehydratePriority;
     requestId?: string;
     tagCount?: number;
     version?: string;

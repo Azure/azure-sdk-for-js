@@ -401,6 +401,7 @@ directive:
   - from: swagger-document
     where: $["x-ms-paths"]["/{containerName}/{blob}"]["head"]["responses"]["200"]["headers"]["x-ms-rehydrate-priority"]
     transform: >
+      $["description"] = "If an object is in rehydrate pending state then this header is returned with priority of rehydrate.";
       $["enum"] =  ["High", "Standard"];
       $["x-ms-enum"] =  {};
       $["x-ms-enum"]["name"] = "RehydratePriority";
