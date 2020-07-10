@@ -35,9 +35,9 @@ describe("FormTrainingClient NodeJS only", () => {
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -237,9 +237,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -396,9 +396,9 @@ describe("[AAD] FormTrainingClient NodeJS only", () => {
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 

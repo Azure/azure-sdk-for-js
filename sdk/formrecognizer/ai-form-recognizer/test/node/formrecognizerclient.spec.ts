@@ -19,9 +19,9 @@ describe("FormRecognizerClient NodeJS only", () => {
     ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -157,9 +157,9 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
     ({ recorder, client } = createRecordedRecognizerClient(this));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 

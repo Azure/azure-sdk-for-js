@@ -36,7 +36,7 @@ describe("Certificates client - merge and import certificates", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

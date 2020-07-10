@@ -30,8 +30,8 @@ describe("[API Key] TextAnalyticsClient", function() {
     ({ client, recorder } = createRecordedClient(this, apiKey));
   });
 
-  afterEach(() => {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("#analyzeSentiment", async () => {
