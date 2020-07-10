@@ -148,8 +148,6 @@ export interface QueueDescription {
 
 // @public
 export interface QueueResponse extends QueueDescription, Response {
-    // (undocumented)
-    eTag: string;
 }
 
 // @public
@@ -304,7 +302,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
-    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetQueueResponse" needs to be exported by the entry point index.d.ts
+    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<GetQueueResponse>;
     getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
     getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse>;
     getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimeInfoResponse>;
@@ -321,7 +320,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    updateQueue(queue: QueueDescription & Pick<QueueResponse, "eTag">, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    // Warning: (ae-forgotten-export) The symbol "ETag" needs to be exported by the entry point index.d.ts
+    updateQueue(queue: QueueDescription & ETag, operationOptions?: OperationOptions): Promise<QueueResponse>;
     updateRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
     updateSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     updateTopic(topic: TopicDescription, operationOptions?: OperationOptions): Promise<TopicResponse>;
