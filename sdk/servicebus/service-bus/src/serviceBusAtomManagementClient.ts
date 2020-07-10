@@ -116,14 +116,23 @@ export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
  */
 export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {}
 /**
- * Represents result of create, get, and update operations on queue.
+ * Represents result of create, and update operations on queue.
  */
-export interface QueueResponse extends QueueDescription, Response {
+export interface QueueResponse extends QueueDescription, Response {}
+/**
+ * eTag is returned as part of the response for get requests and is sent as part of the update requests.
+ */
+export interface ETag {
   /**
-   *
+   * eTag represents the resource state and an error is thrown for the update request if there is a
+   * mismatch in the eTag since that refers to the updated state of the resource.
    */
   eTag: string;
 }
+/**
+ * Represents result of get operation on queue.
+ */
+export interface GetQueueResponse extends QueueResponse, ETag {}
 /**
  * Represents result of list operation on queues.
  */
@@ -384,7 +393,10 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse> {
+  async getQueue(
+    queueName: string,
+    operationOptions?: OperationOptions
+  ): Promise<GetQueueResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
       queueName,
@@ -392,7 +404,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       operationOptions
     );
 
-    return this.buildQueueResponse(response);
+    return this.appendETag<QueueDescription>(this.buildQueueResponse(response));
   }
 
   /**
@@ -488,6 +500,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * - deadLetteringOnMessageExpiration
    * - duplicateDetectionHistoryTimeWindow
    * - maxDeliveryCount
+   * If there is an `eTag` mismatch for the update request, it means that the entity has been updated meanwhile
+   * and is advised to perform a get request to obtain the latest `eTag`.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -501,7 +515,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateQueue(
-    queue: QueueDescription & Pick<QueueResponse, "eTag">,
+    queue: QueueDescription & ETag,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     log.httpAtomXml(
@@ -519,7 +533,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
     if (!operationOptions) operationOptions = {};
     if (!operationOptions.requestOptions) operationOptions.requestOptions = {};
-    operationOptions.requestOptions.customHeaders = { "If-Match": queue.eTag };
+    operationOptions.requestOptions.customHeaders = { "If-Match": `'${queue.eTag}'` };
     const response: HttpOperationResponse = await this.putResource(
       queue.name,
       buildQueueOptions(queue),
@@ -1592,8 +1606,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     try {
       const queue = buildQueue(response.parsedBody);
       const queueResponse: QueueResponse = Object.assign(queue || {}, {
-        _response: response,
-        eTag: response.headers.get("etag")!
+        _response: response
       });
       return queueResponse;
     } catch (err) {
@@ -1606,6 +1619,10 @@ export class ServiceBusManagementClient extends ServiceClient {
         stripResponse(response)
       );
     }
+  }
+
+  private appendETag<T>(response: Response & T): Response & T & ETag {
+    return { ...response, eTag: response._response.headers.get("etag")! };
   }
 
   private buildQueueRuntimeInfoResponse(response: HttpOperationResponse): QueueRuntimeInfoResponse {
