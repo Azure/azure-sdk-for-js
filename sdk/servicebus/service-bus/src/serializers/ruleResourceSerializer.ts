@@ -417,7 +417,7 @@ export function getRawSqlParameters(
 /**
  * @internal
  * @ignore
- * Helper utility to extract array of userProperties key-value instances from given input,
+ * Helper utility to extract array of user properties key-value instances from given input,
  * or undefined if not passed in.
  * @param value
  */
@@ -434,7 +434,7 @@ export function getRawUserProperties(
     Object.entries(parameters).length < 1
   ) {
     throw new TypeError(
-      `Unsupported value for the userProperties ${JSON.stringify(
+      `Unsupported value for the properties ${JSON.stringify(
         parameters
       )}, expected a JSON object with key-value pairs.`
     );
