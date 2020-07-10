@@ -6,6 +6,8 @@ import { assert } from "chai";
 import { parseOptions } from "../src/framework/parseOptions";
 import { makeCommandInfo, subCommand, leafCommand } from "../src/framework/command";
 
+import { updateBackend } from "../src/util/printer";
+
 const simpleCommandInfo = makeCommandInfo("simple", "a simple command", {
   simpleArg: {
     kind: "string",
@@ -21,8 +23,18 @@ interface SimpleExpectedOptionsType {
   args?: string[];
 }
 
-describe("Command Framework", async () => {
-  describe("subCommand", async () => {
+describe("Command Framework", () => {
+  before(() => {
+    // Silence the logger
+    updateBackend({
+      error: () => {},
+      warn: () => {},
+      info: () => {},
+      log: () => {}
+    });
+  });
+
+  describe("subCommand", () => {
     it("simple dispatcher", async () => {
       const dispatcher = subCommand(
         { name: "test", description: "a sub-command dispatcher" },
@@ -46,10 +58,23 @@ describe("Command Framework", async () => {
     });
   });
 
-  describe("leafCommand", async () => {});
+  describe("leafCommand", () => {
+    it("simple leaf command with argument", async () => {
+      const command = leafCommand(simpleCommandInfo, (opts: SimpleExpectedOptionsType) => {
+        if (opts.simpleArg === "yes") {
+          return Promise.resolve(true);
+        } else {
+          return Promise.resolve(false);
+        }
+      });
 
-  describe("parseOptions", async () => {
-    it("simple", async () => {
+      assert.isTrue(await command("--simpleArg", "yes"));
+      assert.isFalse(await command("--simpleArg", "no"));
+    });
+  });
+
+  describe("parseOptions", () => {
+    it("simple", () => {
       const opts: SimpleExpectedOptionsType = parseOptions(
         ["--simpleArg", "test"],
         simpleCommandInfo.options

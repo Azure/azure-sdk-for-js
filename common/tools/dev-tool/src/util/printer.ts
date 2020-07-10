@@ -18,6 +18,39 @@ export interface Printer extends ModeMap<Fn> {
   (...values: any[]): void;
 }
 
+export interface PrinterBackend {
+  error: Fn;
+  log: Fn;
+  info: Fn;
+  warn: Fn;
+  trace: Fn;
+}
+
+/**
+ * The object that is used to write output.
+ */
+let backend: PrinterBackend = {
+  error: console.error,
+  log: console.log,
+  info: console.info,
+  warn: console.warn,
+  trace: console.trace
+};
+
+/**
+ * Change the backend used to print output. This function will
+ * replace the methods of the existing backend with those specified
+ * in `update`, but will leave unspecified methods intact.
+ *
+ * @param backend partial specification of a PrinterBackend
+ */
+export function updateBackend(update: Partial<PrinterBackend>): void {
+  backend = {
+    ...backend,
+    ...update
+  };
+}
+
 /**
  * Gets the filename of the calling function
  */
@@ -26,7 +59,7 @@ function getCaller(): NodeJS.CallSite | undefined {
 
   let caller: NodeJS.CallSite | undefined = undefined;
   try {
-    const error = new Error() as any as { stack: NodeJS.CallSite[] };
+    const error = (new Error() as any) as { stack: NodeJS.CallSite[] };
 
     Error.prepareStackTrace = (_, stack) => stack;
 
@@ -54,16 +87,24 @@ const colors: ModeMap<Fn<string>> = {
 };
 
 const finalLogger: ModeMap<Fn> = {
-  info: console.info,
-  warn: console.warn,
-  error: console.error,
+  info(...values) {
+    backend.info(...values);
+  },
+  warn(...values) {
+    backend.warn(...values);
+  },
+  error(...values) {
+    backend.error(...values);
+  },
   debug(...values: string[]) {
     if (process.env.DEBUG) {
       const caller = getCaller();
-      const fileName = caller?.getFileName()?.split(path.join("azure-sdk-for-js", "common", "tools", "dev-tool"));
+      const fileName = caller
+        ?.getFileName()
+        ?.split(path.join("azure-sdk-for-js", "common", "tools", "dev-tool"));
       const callerInfo = `(@ ${fileName ? fileName : "<unknown>"}#${caller?.getFunctionName() ??
         "<unknown>"}:${caller?.getLineNumber()}:${caller?.getColumnNumber()})`;
-      console.log(values[0], colors.debug(callerInfo), ...values.slice(1));
+      backend.error(values[0], colors.debug(callerInfo), ...values.slice(1));
     }
   },
   success: console.info
