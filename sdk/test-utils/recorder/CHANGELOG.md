@@ -2,6 +2,10 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2020-07-10
+
+- [Bug Fix] Fixed an issue in browser recording where some recorded requests are not saved.
+
 ## 2020-04-30
 
 - Since Mocha 7.0.0, Mocha behaves as follows: "When conditionally skipping in the `it` test, related afterEach hooks are now executed"
