@@ -306,7 +306,6 @@ export namespace ClientEntityContext {
   }
 }
 
-// 
 /**
  * Gets the management client for given entity path as 
  * multiple clients for the same Service Bus entity use the same management client.
