@@ -19,6 +19,8 @@ class StorageSyncManagementClient extends StorageSyncManagementClientContext {
   // Operation groups
   operations: operations.Operations;
   storageSyncServices: operations.StorageSyncServices;
+  privateLinkResources: operations.PrivateLinkResources;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
   syncGroups: operations.SyncGroups;
   cloudEndpoints: operations.CloudEndpoints;
   serverEndpoints: operations.ServerEndpoints;
@@ -36,6 +38,8 @@ class StorageSyncManagementClient extends StorageSyncManagementClientContext {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.storageSyncServices = new operations.StorageSyncServices(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
     this.syncGroups = new operations.SyncGroups(this);
     this.cloudEndpoints = new operations.CloudEndpoints(this);
     this.serverEndpoints = new operations.ServerEndpoints(this);

@@ -10,6 +10,8 @@
 
 export * from "./operations";
 export * from "./storageSyncServices";
+export * from "./privateLinkResources";
+export * from "./privateEndpointConnections";
 export * from "./syncGroups";
 export * from "./cloudEndpoints";
 export * from "./serverEndpoints";
