@@ -161,8 +161,11 @@ async function deserializeResponseBody(
         if (defaultBodyMapper) {
           let valueToDeserialize: any = parsedBody;
           if (operationSpec.isXML && defaultBodyMapper.type.name === MapperTypeNames.Sequence) {
-            valueToDeserialize =
-              typeof parsedBody === "object" ? parsedBody[defaultBodyMapper.xmlElementName!] : [];
+            valueToDeserialize = [];
+            const elementName = defaultBodyMapper.xmlElementName;
+            if (typeof parsedBody === "object" && elementName) {
+              valueToDeserialize = parsedBody[elementName];
+            }
           }
           if (error.response) {
             const errorResponse: FullOperationResponse = error.response;
