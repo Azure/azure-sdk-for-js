@@ -148,6 +148,8 @@ export interface QueueDescription {
 
 // @public
 export interface QueueResponse extends QueueDescription, Response {
+    // (undocumented)
+    eTag: string;
 }
 
 // @public
@@ -319,7 +321,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    updateQueue(queue: QueueDescription, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    updateQueue(queue: QueueDescription & Pick<QueueResponse, "eTag">, operationOptions?: OperationOptions): Promise<QueueResponse>;
     updateRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
     updateSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     updateTopic(topic: TopicDescription, operationOptions?: OperationOptions): Promise<TopicResponse>;
