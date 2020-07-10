@@ -4422,8 +4422,13 @@ export const SalesforceMarketingCloudLinkedService: msRest.CompositeMapper = {
     className: "SalesforceMarketingCloudLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "Object"
+        }
+      },
       clientId: {
-        required: true,
         serializedName: "typeProperties.clientId",
         type: {
           name: "Object"
@@ -4949,29 +4954,31 @@ export const QuickBooksLinkedService: msRest.CompositeMapper = {
     className: "QuickBooksLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "Object"
+        }
+      },
       endpoint: {
-        required: true,
         serializedName: "typeProperties.endpoint",
         type: {
           name: "Object"
         }
       },
       companyId: {
-        required: true,
         serializedName: "typeProperties.companyId",
         type: {
           name: "Object"
         }
       },
       consumerKey: {
-        required: true,
         serializedName: "typeProperties.consumerKey",
         type: {
           name: "Object"
         }
       },
       consumerSecret: {
-        required: true,
         serializedName: "typeProperties.consumerSecret",
         type: {
           name: "Composite",
@@ -4979,7 +4986,6 @@ export const QuickBooksLinkedService: msRest.CompositeMapper = {
         }
       },
       accessToken: {
-        required: true,
         serializedName: "typeProperties.accessToken",
         type: {
           name: "Composite",
@@ -4987,7 +4993,6 @@ export const QuickBooksLinkedService: msRest.CompositeMapper = {
         }
       },
       accessTokenSecret: {
-        required: true,
         serializedName: "typeProperties.accessTokenSecret",
         type: {
           name: "Composite",
@@ -6827,21 +6832,18 @@ export const SapOpenHubLinkedService: msRest.CompositeMapper = {
     modelProperties: {
       ...LinkedService.type.modelProperties,
       server: {
-        required: true,
         serializedName: "typeProperties.server",
         type: {
           name: "Object"
         }
       },
       systemNumber: {
-        required: true,
         serializedName: "typeProperties.systemNumber",
         type: {
           name: "Object"
         }
       },
       clientId: {
-        required: true,
         serializedName: "typeProperties.clientId",
         type: {
           name: "Object"
@@ -6849,6 +6851,12 @@ export const SapOpenHubLinkedService: msRest.CompositeMapper = {
       },
       language: {
         serializedName: "typeProperties.language",
+        type: {
+          name: "Object"
+        }
+      },
+      systemId: {
+        serializedName: "typeProperties.systemId",
         type: {
           name: "Object"
         }
@@ -6864,6 +6872,24 @@ export const SapOpenHubLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      messageServer: {
+        serializedName: "typeProperties.messageServer",
+        type: {
+          name: "Object"
+        }
+      },
+      messageServerService: {
+        serializedName: "typeProperties.messageServerService",
+        type: {
+          name: "Object"
+        }
+      },
+      logonGroup: {
+        serializedName: "typeProperties.logonGroup",
+        type: {
+          name: "Object"
         }
       },
       encryptedCredential: {
