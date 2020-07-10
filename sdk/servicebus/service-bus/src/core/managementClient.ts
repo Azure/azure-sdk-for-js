@@ -46,7 +46,7 @@ import {
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
-import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortError } from "@azure/abort-controller";
 
 /**
@@ -137,7 +137,7 @@ const correlationProperties = [
  * @ignore
  * Options to set when updating the disposition status
  */
-export interface DispositionStatusOptions extends OperationOptions {
+export interface DispositionStatusOptions extends OperationOptionsBase {
   /**
    * @property [propertiesToModify] A dictionary of Service Bus brokered message properties
    * to modify.
@@ -350,6 +350,7 @@ export class ManagementClient extends LinkEntity {
     sendRequestOptions.timeoutInMs = retryTimeoutInMs - timeTakenByInit;
 
     try {
+      if (!request.message_id) request.message_id = generate_uuid();
       return await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
     } catch (err) {
       err = translate(err);
@@ -426,7 +427,7 @@ export class ManagementClient extends LinkEntity {
    */
   async peek(
     messageCount?: number,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
@@ -452,7 +453,7 @@ export class ManagementClient extends LinkEntity {
   async peekMessagesBySession(
     sessionId: string,
     messageCount?: number,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
@@ -474,7 +475,7 @@ export class ManagementClient extends LinkEntity {
     fromSequenceNumber: Long,
     maxMessageCount?: number,
     sessionId?: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const connId = this._context.namespace.connectionId;
@@ -505,7 +506,6 @@ export class ManagementClient extends LinkEntity {
       }
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.peekMessage
@@ -618,7 +618,7 @@ export class ManagementClient extends LinkEntity {
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage[],
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];
@@ -711,7 +711,7 @@ export class ManagementClient extends LinkEntity {
    */
   async cancelScheduledMessages(
     sequenceNumbers: Long[],
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any = {};
@@ -740,7 +740,6 @@ export class ManagementClient extends LinkEntity {
       );
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.cancelScheduledMessage
@@ -783,7 +782,7 @@ export class ManagementClient extends LinkEntity {
     sequenceNumbers: Long[],
     receiveMode: ReceiveMode,
     sessionId?: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
@@ -819,7 +818,6 @@ export class ManagementClient extends LinkEntity {
       }
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.receiveBySequenceNumber
@@ -913,7 +911,6 @@ export class ManagementClient extends LinkEntity {
       }
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.updateDisposition
@@ -949,7 +946,7 @@ export class ManagementClient extends LinkEntity {
    */
   async renewSessionLock(
     sessionId: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
@@ -1000,7 +997,7 @@ export class ManagementClient extends LinkEntity {
   async setSessionState(
     sessionId: string,
     state: any,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
@@ -1043,7 +1040,7 @@ export class ManagementClient extends LinkEntity {
    */
   async getSessionState(
     sessionId: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<any> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
@@ -1091,7 +1088,7 @@ export class ManagementClient extends LinkEntity {
     skip: number,
     top: number,
     lastUpdatedTime?: Date,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<string[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
@@ -1143,7 +1140,7 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<RuleDescription[]> A list of rules.
    */
   async getRules(
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<RuleDescription[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
@@ -1254,7 +1251,7 @@ export class ManagementClient extends LinkEntity {
    */
   async removeRule(
     ruleName: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
@@ -1303,7 +1300,7 @@ export class ManagementClient extends LinkEntity {
     ruleName: string,
     filter: boolean | string | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
 

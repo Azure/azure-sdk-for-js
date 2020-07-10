@@ -24,7 +24,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
-import { MessagingError, isNode, translate } from "@azure/core-amqp";
+import { MessagingError, translate } from "@azure/core-amqp";
 import { verifyMessageCount } from "./utils/managementUtils";
 
 const should = chai.should();
@@ -83,7 +83,7 @@ describe("Streaming", () => {
 
     async function testAutoComplete(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
@@ -121,7 +121,7 @@ describe("Streaming", () => {
     }
     async function testAutoCompleteWithSenderAndReceiver(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
@@ -155,7 +155,7 @@ describe("Streaming", () => {
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
 
-      const peekedMsgs = await receiver.peekMessages();
+      const peekedMsgs = await receiver.peekMessages(1);
       should.equal(peekedMsgs.length, 0, "Unexpected number of msgs found when peeking");
     }
 
@@ -185,7 +185,7 @@ describe("Streaming", () => {
 
     async function testManualComplete(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
@@ -295,7 +295,7 @@ describe("Streaming", () => {
 
     async function testComplete(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
@@ -378,7 +378,7 @@ describe("Streaming", () => {
 
     async function testMultipleAbandons(): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       let checkDeliveryCount = 0;
 
@@ -407,7 +407,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiver, 0); // No messages in the queue
 
-      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -462,7 +462,7 @@ describe("Streaming", () => {
 
     async function testDefer(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
       let sequenceNum: any = 0;
 
       receiver.subscribe(
@@ -568,7 +568,7 @@ describe("Streaming", () => {
 
     async function testDeadletter(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
 
@@ -590,7 +590,7 @@ describe("Streaming", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -695,7 +695,7 @@ describe("Streaming", () => {
 
       errorMessage = "";
       try {
-        await receiver.receiveBatch(1);
+        await receiver.receiveMessages(1);
       } catch (err) {
         errorMessage = err && err.message;
       }
@@ -730,7 +730,7 @@ describe("Streaming", () => {
 
     async function testSettlement(operation: DispositionType): Promise<void> {
       const testMessage = TestMessage.getSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe({
         async processMessage(msg: ReceivedMessageWithLock) {
@@ -828,7 +828,7 @@ describe("Streaming", () => {
     });
 
     async function testUserError(): Promise<void> {
-      await sender.send(TestMessage.getSample());
+      await sender.sendMessages(TestMessage.getSample());
       const errorMessage = "Will we see this error message?";
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
@@ -954,7 +954,7 @@ describe("Streaming", () => {
       testMessages.forEach((message) => {
         batchMessageToSend.tryAdd(message);
       });
-      await sender.send(batchMessageToSend);
+      await sender.sendMessages(batchMessageToSend);
 
       const settledMsgs: ReceivedMessage[] = [];
       const receivedMsgs: ReceivedMessage[] = [];
@@ -1073,7 +1073,7 @@ describe("Streaming", () => {
         messages.push(message);
         batch.tryAdd(message);
       }
-      await sender.send(batch);
+      await sender.sendMessages(batch);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
 
@@ -1116,6 +1116,45 @@ describe("Streaming", () => {
       await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
       await testReceiveMessages();
     });
+  });
+
+  it("Streaming - user can stop a message subscription without closing the receiver", async () => {
+    const entities = await serviceBusClient.test.createTestEntities(
+      TestClientType.UnpartitionedQueue
+    );
+
+    const actualReceiver = await serviceBusClient.test.getPeekLockReceiver(entities);
+    const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+    const sender = await serviceBusClient.test.createSender(entities);
+
+    await sender.sendMessages({ body: ".close() test - first message" });
+
+    const { subscriber, messages } = await singleMessagePromise(actualReceiver);
+
+    messages.map((m) => m.body).should.deep.equal([".close() test - first message"]);
+
+    // now we're going to shut down the closeable (ie, subscription). This leaves
+    // the receiver open but it does drain it (so any remaining messages are delivered
+    // and will still be settleable).
+    await subscriber.close();
+
+    await messages[0].complete();
+    messages.pop();
+
+    await sender.sendMessages({
+      body: ".close test - second message, after closing"
+    });
+
+    // the subscription is closed so no messages should be received here.
+    await delay(2000);
+
+    messages.map((m) => m.body).should.deep.equal([]);
+
+    // clean out the remaining message that never arrived.
+    const [finalMessage] = await receiver2.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+    finalMessage.body.should.equal(".close test - second message, after closing");
+
+    await serviceBusClient.test.afterEach();
   });
 });
 
@@ -1164,7 +1203,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1199,7 +1238,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1234,7 +1273,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1272,7 +1311,7 @@ describe("Streaming - onDetached", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
 
     let receiverIsActiveResolver: Function;
@@ -1328,14 +1367,6 @@ describe("Streaming - disconnects", function(): void {
     );
   }
 
-  beforeEach(function() {
-    if (!isNode) {
-      // Skipping the "disconnect" tests in the browser since they fail.
-      // More info - https://github.com/Azure/azure-sdk-for-js/pull/8664#issuecomment-622651713
-      this.skip();
-    }
-  });
-
   afterEach(async () => {
     await serviceBusClient.test.afterEach();
   });
@@ -1349,7 +1380,7 @@ describe("Streaming - disconnects", function(): void {
     // Create the sender and receiver.
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
     let settledMessageCount = 0;
 
@@ -1365,7 +1396,7 @@ describe("Streaming - disconnects", function(): void {
 
     // Start the receiver.
     receiver.subscribe({
-      async processMessage(message) {
+      async processMessage(message: ReceivedMessageWithLock) {
         messageHandlerCount++;
         try {
           await message.complete();
@@ -1407,7 +1438,7 @@ describe("Streaming - disconnects", function(): void {
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
     await delay(2000);
     // send a second message to trigger the message handler again.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
     await receiverSecondMessage;
@@ -1416,3 +1447,32 @@ describe("Streaming - disconnects", function(): void {
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
   });
 });
+
+export function singleMessagePromise(
+  receiver: Receiver<ReceivedMessageWithLock>
+): Promise<{
+  subscriber: ReturnType<Receiver<unknown>["subscribe"]>;
+  messages: ReceivedMessageWithLock[];
+}> {
+  const messages: ReceivedMessageWithLock[] = [];
+
+  return new Promise<{
+    subscriber: ReturnType<Receiver<unknown>["subscribe"]>;
+    messages: ReceivedMessageWithLock[];
+  }>((resolve, reject) => {
+    const subscriber = receiver.subscribe(
+      {
+        processMessage: async (message) => {
+          messages.push(message);
+          resolve({ subscriber, messages });
+        },
+        processError: async (err) => {
+          reject(err);
+        }
+      },
+      {
+        autoComplete: false
+      }
+    );
+  });
+}

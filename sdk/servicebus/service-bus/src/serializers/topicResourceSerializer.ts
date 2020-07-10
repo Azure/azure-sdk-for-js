@@ -17,7 +17,8 @@ import {
   getIntegerOrUndefined,
   getRawAuthorizationRules,
   getString,
-  getStringOrUndefined
+  getStringOrUndefined,
+  getDate
 } from "../util/utils";
 
 /**
@@ -97,9 +98,9 @@ export function buildTopicRuntimeInfo(rawTopic: any): TopicRuntimeInfo {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
-    createdOn: rawTopic[Constants.CREATED_AT],
-    updatedOn: rawTopic[Constants.UPDATED_AT],
-    accessedOn: rawTopic[Constants.ACCESSED_AT]
+    createdAt: getDate(rawTopic[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getDate(rawTopic[Constants.UPDATED_AT], "updatedAt"),
+    accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt")
   };
 }
 
@@ -120,6 +121,8 @@ export interface TopicDescription {
    * sub-queue or will be permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   defaultMessageTtl?: string;
 
@@ -144,6 +147,8 @@ export interface TopicDescription {
    * Specifies the time span during which the Service Bus will detect message duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   duplicateDetectionHistoryTimeWindow?: string;
 
@@ -178,6 +183,8 @@ export interface TopicDescription {
    * Max idle time before entity is deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   autoDeleteOnIdle?: string;
 
@@ -201,6 +208,8 @@ export interface InternalTopicOptions {
    * permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   DefaultMessageTimeToLive?: string;
 
@@ -226,6 +235,8 @@ export interface InternalTopicOptions {
    * duplication.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   DuplicateDetectionHistoryTimeWindow?: string;
 
@@ -260,6 +271,8 @@ export interface InternalTopicOptions {
    * Max idle time before entity is deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   AutoDeleteOnIdle?: string;
 
@@ -292,17 +305,17 @@ export interface TopicRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdOn?: string;
+  createdAt: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedOn?: string;
+  updatedAt: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedOn?: string;
+  accessedAt: Date;
 }
 
 /**

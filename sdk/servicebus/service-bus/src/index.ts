@@ -12,22 +12,23 @@ export {
   TokenType,
   WebSocketOptions
 } from "@azure/core-amqp";
+export { OperationOptions } from "@azure/core-http";
 export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
-  PeekMessagesOptions,
   CreateBatchOptions,
-  SenderOpenOptions,
   CreateSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
   MessageHandlers,
-  ReceiveBatchOptions,
+  PeekMessagesOptions,
+  ReceiveMessagesOptions,
+  SenderOpenOptions,
   SubscribeOptions,
   WaitTimeOptions
 } from "./models";
-export { OperationOptions } from "./modelsToBeSharedWithEventHubs";
+export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
@@ -45,41 +46,25 @@ export {
 } from "./serializers/subscriptionResourceSerializer";
 export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
 export {
-  CreateQueueResponse,
-  CreateRuleResponse,
-  CreateSubscriptionResponse,
-  CreateTopicResponse,
-  DeleteQueueResponse,
-  DeleteRuleResponse,
-  DeleteSubscriptionResponse,
-  DeleteTopicResponse,
-  GetNamespaceResponse,
-  GetQueueResponse,
-  GetQueueRuntimeInfoResponse,
-  GetQueuesResponse,
-  GetQueuesRuntimeInfoResponse,
-  GetRuleResponse,
-  GetRulesResponse,
-  GetSubscriptionResponse,
-  GetSubscriptionRuntimeInfoResponse,
-  GetSubscriptionsResponse,
-  GetSubscriptionsRuntimeInfoResponse,
-  GetTopicResponse,
-  GetTopicRuntimeInfoResponse,
-  GetTopicsResponse,
-  GetTopicsRuntimeInfoResponse,
   ListRequestOptions,
-  NamespaceResponse,
+  NamespacePropertiesResponse,
   QueueResponse,
+  QueueRuntimeInfoResponse,
+  QueuesResponse,
+  QueuesRuntimeInfoResponse,
+  Response,
   RuleResponse,
+  RulesResponse,
   ServiceBusManagementClient,
   ServiceBusManagementClientOptions,
   SubscriptionResponse,
+  SubscriptionRuntimeInfoResponse,
+  SubscriptionsResponse,
+  SubscriptionsRuntimeInfoResponse,
   TopicResponse,
-  UpdateQueueResponse,
-  UpdateRuleResponse,
-  UpdateSubscriptionResponse,
-  UpdateTopicResponse
+  TopicRuntimeInfoResponse,
+  TopicsResponse,
+  TopicsRuntimeInfoResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {

@@ -220,9 +220,7 @@ export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
 }
 
 // @public
-export function disableResponseDecompressionPolicy(): {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => DisableResponseDecompressionPolicy;
-};
+export function disableResponseDecompressionPolicy(): RequestPolicyFactory;
 
 // @public
 export function encodeUri(uri: string): string;
@@ -382,9 +380,7 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
 }
 
 // @public (undocumented)
-export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => KeepAlivePolicy;
-};
+export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPolicyFactory;
 
 // @public (undocumented)
 export function logPolicy(loggingOptions?: LogPolicyOptions): RequestPolicyFactory;

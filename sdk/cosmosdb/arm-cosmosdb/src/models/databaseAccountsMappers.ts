@@ -7,8 +7,11 @@
  */
 
 export {
+  ApiProperties,
   ARMProxyResource,
   ARMResourceProperties,
+  AutoscaleSettings,
+  AutoscaleSettingsResource,
   AutoUpgradePolicyResource,
   AzureEntityResource,
   BaseResource,
@@ -59,6 +62,7 @@ export {
   IncludedPath,
   Indexes,
   IndexingPolicy,
+  IpAddressOrRange,
   Location,
   Metric,
   MetricAvailability,
@@ -90,7 +94,6 @@ export {
   PrivateEndpointProperty,
   PrivateLinkResource,
   PrivateLinkServiceConnectionStateProperty,
-  ProvisionedThroughputSettingsResource,
   ProxyResource,
   RegionForOnlineOffline,
   Resource,

@@ -6,7 +6,6 @@ import chaiAsPromised from "chai-as-promised";
 import { ReceivedMessageWithLock, Receiver, Sender, delay } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { isNode } from "@azure/core-amqp";
 chai.should();
 chai.use(chaiAsPromised);
 
@@ -31,14 +30,6 @@ describe("ManagementClient - disconnects", function(): void {
     return serviceBusClient.test.after();
   });
 
-  beforeEach(function() {
-    if (!isNode) {
-      // Skipping the "disconnect" tests in the browser since they fail.
-      // More info - https://github.com/Azure/azure-sdk-for-js/pull/8664#issuecomment-622651713
-      this.skip();
-    }
-  });
-
   function afterEachTest(): Promise<void> {
     return serviceBusClient.test.afterEach();
   }
@@ -51,11 +42,11 @@ describe("ManagementClient - disconnects", function(): void {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we have something to peek.
 
-    await sender.send(TestMessage.getSample());
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     let peekedMessageCount = 0;
-    let messages = await receiver.peekMessages({ maxMessageCount: 1 });
+    let messages = await receiver.peekMessages(1);
     peekedMessageCount += messages.length;
 
     peekedMessageCount.should.equal(1, "Unexpected number of peeked messages.");
@@ -76,7 +67,7 @@ describe("ManagementClient - disconnects", function(): void {
     await delay(2000);
 
     // peek additional messages
-    messages = await receiver.peekMessages({ maxMessageCount: 1 });
+    messages = await receiver.peekMessages(1);
     peekedMessageCount += messages.length;
     peekedMessageCount.should.equal(2, "Unexpected number of peeked messages.");
 
@@ -90,12 +81,10 @@ describe("ManagementClient - disconnects", function(): void {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     // Send a message so we have something to peek.
 
-    const deliveryIds = [];
-    let deliveryId = await sender.scheduleMessage(
+    const deliveryIds = await sender.scheduleMessages(
       new Date("2020-04-25T12:00:00Z"),
       TestMessage.getSample()
     );
-    deliveryIds.push(deliveryId);
 
     deliveryIds.length.should.equal(1, "Unexpected number of scheduled messages.");
 
@@ -115,7 +104,7 @@ describe("ManagementClient - disconnects", function(): void {
     await delay(2000);
 
     // peek additional messages
-    deliveryId = await sender.scheduleMessage(
+    const [deliveryId] = await sender.scheduleMessages(
       new Date("2020-04-25T12:00:00Z"),
       TestMessage.getSample()
     );

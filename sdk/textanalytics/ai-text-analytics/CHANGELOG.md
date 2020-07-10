@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.1 (Unreleased)
+
+
 ## 1.0.0 (2020-06-09)
 
 - This release marks the general availability of the `@azure/ai-text-analytics` package.

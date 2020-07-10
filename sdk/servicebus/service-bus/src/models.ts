@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import { SessionReceiverOptions } from "./session/messageSession";
 import Long from "long";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -45,7 +45,7 @@ export interface WaitTimeOptions {
  * }
  * ```
  */
-export interface CreateBatchOptions extends OperationOptions {
+export interface CreateBatchOptions extends OperationOptionsBase {
   /**
    * @property
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
@@ -56,17 +56,17 @@ export interface CreateBatchOptions extends OperationOptions {
 /**
  * Options when receiving a batch of messages from Service Bus.
  */
-export interface ReceiveBatchOptions extends OperationOptions, WaitTimeOptions {}
+export interface ReceiveMessagesOptions extends OperationOptionsBase, WaitTimeOptions {}
 
 /**
  * Options when getting an iterable iterator from Service Bus.
  */
-export interface GetMessageIteratorOptions extends OperationOptions, WaitTimeOptions {}
+export interface GetMessageIteratorOptions extends OperationOptionsBase, WaitTimeOptions {}
 
 /**
  * Options used when subscribing to a Service Bus queue or subscription.
  */
-export interface SubscribeOptions extends OperationOptions, MessageHandlerOptions {}
+export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOptions {}
 
 /**
  * Describes the options passed to `registerMessageHandler` method when receiving messages from a
@@ -102,7 +102,9 @@ export interface MessageHandlerOptions {
  * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
  */
-export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptions {}
+export interface CreateSessionReceiverOptions
+  extends SessionReceiverOptions,
+    OperationOptionsBase {}
 
 /**
  * Describes the options passed to the `open` method on a `Sender`.
@@ -117,12 +119,7 @@ export interface SenderOpenOptions {
 /**
  * Describes the options passed to the `peekMessages` method on a receiver.
  */
-export interface PeekMessagesOptions extends OperationOptions {
-  /**
-   * @property The maximum number of messages to peek.
-   * Default value is 1
-   */
-  maxMessageCount?: number;
+export interface PeekMessagesOptions extends OperationOptionsBase {
   /**
    * @property The sequence number to start peeking messages from (inclusive).
    */

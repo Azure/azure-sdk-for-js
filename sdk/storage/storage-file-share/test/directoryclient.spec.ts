@@ -152,6 +152,35 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileParentId!);
   });
 
+  it("createIfNotExists", async () => {
+    const res = await dirClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceAlreadyExists");
+
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res2 = await dirClient2.createIfNotExists();
+    assert.ok(res2.succeeded);
+
+    await dirClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res = await dirClient2.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await dirClient2.create();
+    const res2 = await dirClient2.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("exists", async () => {
+    assert.ok(await dirClient.exists());
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    assert.ok(!(await dirClient2.exists()));
+  });
+
   it("setProperties with default parameters", async () => {
     await dirClient.setProperties();
 
@@ -449,7 +478,7 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const iter = await rootDirClient.listFilesAndDirectories({ prefix });
+    const iter = rootDirClient.listFilesAndDirectories({ prefix });
     let entity = (await iter.next()).value;
     assert.ok(entity.name.startsWith(prefix));
     if (entity.kind == "file") {

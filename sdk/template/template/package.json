@@ -61,10 +61,10 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-http": "^1.1.1",
+    "@azure/core-http": "^1.1.4",
     "@opentelemetry/api": "^0.6.1",
     "events": "^3.0.0",
-    "tslib": "^1.10.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.7.11",
@@ -104,7 +104,7 @@
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "rollup-plugin-visualizer": "^3.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "~3.9.3",
     "util": "^0.12.1"
   }

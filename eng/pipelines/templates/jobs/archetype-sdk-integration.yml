@@ -1,15 +1,52 @@
 parameters:
-  PackageName: ""
-  PreIntegrationSteps: ""
-  PostIntegrationSteps: ""
-  ResourceServiceDirectory: ""
-  EnvVars: {}
-  MaxParallel: 0
-  TimeoutInMinutes: 60
-  PublishCodeCoverage: false
-  TestBrowser: true
-  TestSamples: true
-  Matrix:
+- name: PackageName
+  type: string
+  default: ""
+- name: PreIntegrationSteps
+  type: string
+  default: ""
+- name: PostIntegrationSteps
+  type: string
+  default: ""
+- name: ResourceServiceDirectory
+  type: string
+  default: ""
+- name: EnvVars
+  type: object
+  default: {}
+- name: MaxParallel
+  type: number
+  default: 0
+- name: TimeoutInMinutes
+  type: number
+  default: 0
+- name: PublishCodeCoverage
+  type: boolean
+  default: false
+- name: SubscriptionConfiguration
+  type: string
+  default: $(sub-config-azure-cloud-test-resources)
+- name: ResourceGroupLocation
+  type: string
+  default: ""
+- name: ArmTemplateParameters
+  type: string
+  default: "@{}"
+- name: TestBrowser
+  type: boolean
+  default: true
+- name: TestSamples
+  type: boolean
+  default: true
+- name: TestMinMax
+  type: boolean
+  default: false
+- name: TestSame
+  type: boolean
+  default: false
+- name: Matrix
+  type: object
+  default:
     Linux Node 8:
       OSVmImage: "ubuntu-18.04"
       TestType: "node"
@@ -29,31 +66,36 @@ jobs:
 
     variables:
       - template: ../variables/globals.yml
+      - name: SubscriptionConfiguration
+        value: ${{ parameters.SubscriptionConfiguration }}
+      - name: ResourceGroupLocation
+        value: ${{ parameters.ResourceGroupLocation }}
+      - name: ArmTemplateParameters
+        value: ${{ parameters.ArmTemplateParameters }}
+
 
     strategy:
       maxParallel: ${{ parameters.MaxParallel }}
       matrix:
         ${{ each matrixEntry in parameters.Matrix }}:
-          ${{ matrixEntry.key }}:
-            # If no CloudType, use "AzureCloud"
-            ${{ if eq(matrixEntry.value.CloudType, '') }}:
-              SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ${{ matrixEntry.key }}:         
             # TestResultsFiles
             ${{ if eq(matrixEntry.value.TestType, 'browser' )}}:
               TestResultsFiles: "**/test-results.browser.xml"
             ${{ if eq(matrixEntry.value.TestType, 'node') }}:
               TestResultsFiles: "**/test-results.xml"
-
             # Remaining entries from the matrix object
             ${{ insert }}: ${{ matrixEntry.value }}
+            # Include these entries in all test matrices. Note that TestResultsFile
+            # is specified because the template logic above is not running in this
+            # context.
 
         # Add matrix entry for browser testing
         ${{ if eq(parameters.TestBrowser, 'true') }}:
           Windows Browser:
             OSVmImage: "windows-2019"
             TestType: "browser"
-            NodeTestVersion: "12.x"
-            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+            NodeTestVersion: "12.x"            
             TestResultsFiles: "**/test-results.browser.xml"
 
         # Add matrix entry for sample testing
@@ -61,9 +103,31 @@ jobs:
           Samples Linux Node 10:
             OSVmImage: "ubuntu-18.04"
             TestType: "sample"
-            NodeTestVersion: "10.x"
-            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+            NodeTestVersion: "10.x"            
+        
+        # Add matrix entry for min-max testing
+        ${{ if eq(parameters.TestMinMax, 'true') }}:
+          MaxVersion_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            DependencyVersion: max
+            NodeTestVersion: "12.x"
+            TestResultsFiles: "**/test-results.xml"            
+          MinVersion_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            DependencyVersion: min
+            NodeTestVersion: "12.x"
+            TestResultsFiles: "**/test-results.xml"                  
 
+        # Add matrix entry for same dep testing
+        ${{ if eq(parameters.TestSame, 'true') }}:
+          SameVersion_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            DependencyVersion: same
+            NodeTestVersion: "12.x"
+            TestResultsFiles: "**/test-results.xml"            
     pool:
       vmImage: "$(OSVmImage)"
 
@@ -77,6 +141,8 @@ jobs:
           parameters:
             ServiceDirectory: "${{ parameters.ResourceServiceDirectory }}"
             SubscriptionConfiguration: $(SubscriptionConfiguration)
+            Location: $(ResourceGroupLocation)
+            ArmTemplateParameters: $(ArmTemplateParameters)
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -93,6 +159,26 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build test assets"
+        condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
+      
+      - script: |
+          npm install
+          node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)" --test-folder "test/public"
+        displayName: "Convert tests to run against package references"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/dependency-testing
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+
+      - script: |
+          node common/scripts/install-run-rush.js update
+        displayName: "Rush update"
+        workingDirectory: $(Build.SourcesDirectory)
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+
+      - script: |
+          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js build
+        displayName: "Build test package"
+        workingDirectory: $(PackageTestPath)
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
 
       - ${{if ne(parameters.PreIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PreIntegrationSteps}}.yml
@@ -111,10 +197,19 @@ jobs:
           node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
         displayName: "Integration test libraries"
         workingDirectory: $(PackagePath)
+        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
-        condition: and(succeeded(),ne(variables['TestType'],'sample'))
+
+      - script: |
+          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
+        displayName: "Integration test libraries"
+        workingDirectory: $(PackageTestPath)
+        condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
+        env:
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
 
       - ${{if ne(parameters.PostIntegrationSteps, '')}}:
           - template: ../steps/${{parameters.PostIntegrationSteps}}.yml

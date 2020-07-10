@@ -8,7 +8,8 @@
 import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
@@ -20,13 +21,12 @@ export async function main() {
     "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-REST-api-samples/master/curl/form-recognizer/contoso-allinone.jpg";
 
   const poller = await client.beginRecognizeReceiptsFromUrl(url, {
-    includeTextDetails: true,
+    includeFieldElements: true,
     onProgress: (state) => {
       console.log(`analyzing status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const receipts = poller.getResult();
+  const receipts = await poller.pollUntilDone();
 
   if (!receipts || receipts.length <= 0) {
     throw new Error("Expecting at lease one receipt in analysis result");
@@ -35,32 +35,50 @@ export async function main() {
   const receipt = receipts[0];
   console.log("First receipt:");
   // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
-  const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+  const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
-    console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
+    console.log(
+      `  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${
+        receiptTypeField.confidence
+      }`
+    );
   }
-  const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+  const merchantNameField = receipt.fields["MerchantName"];
   if (merchantNameField.valueType === "string") {
-    console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
+    console.log(
+      `  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${
+        merchantNameField.confidence
+      }`
+    );
   }
-  const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+  const transactionDate = receipt.fields["TransactionDate"];
   if (transactionDate.valueType === "date") {
-    console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
+    console.log(
+      `  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${
+        transactionDate.confidence
+      }`
+    );
   }
-  const itemsField = receipt.recognizedForm.fields["Items"];
+  const itemsField = receipt.fields["Items"];
   if (itemsField.valueType === "array") {
     for (const itemField of itemsField.value || []) {
       if (itemField.valueType === "object") {
         const itemNameField = itemField.value!["Name"];
         if (itemNameField.valueType === "string") {
-          console.log(`    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${itemNameField.confidence}`);
+          console.log(
+            `    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${
+              itemNameField.confidence
+            }`
+          );
         }
       }
     }
   }
-  const totalField = receipt.recognizedForm.fields["Total"];
+  const totalField = receipt.fields["Total"];
   if (totalField.valueType === "number") {
-    console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
+    console.log(
+      `  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`
+    );
   }
 }
 

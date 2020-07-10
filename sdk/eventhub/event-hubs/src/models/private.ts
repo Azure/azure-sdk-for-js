@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PartitionLoadBalancer } from "../partitionLoadBalancer";
 import { RetryOptions } from "@azure/core-amqp";
 import { SubscribeOptions } from "../eventHubConsumerClientModels";
+import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy";
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -40,7 +40,7 @@ export type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getP
  * @internal
  * @ignore
  */
-export interface CommonEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends // for our internal classes (these are optional for external users)
+export interface CommonEventProcessorOptions
   extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
     Pick<
       SubscribeOptions,
@@ -51,14 +51,9 @@ export interface CommonEventProcessorOptions  // make the 'maxBatchSize', 'maxWa
       >
     > {
   /**
-   * The amount of time to wait between each attempt at claiming partitions.
+   * A load balancing strategy that determines how to claim partitions.
    */
-  loopIntervalInMs?: number;
-
-  /**
-   * A load balancer to use to find targets or a specific partition to target.
-   */
-  processingTarget?: PartitionLoadBalancer | string;
+  loadBalancingStrategy: LoadBalancingStrategy;
 
   /**
    * An optional ownerId to use rather than using an internally generated ID
@@ -73,4 +68,58 @@ export interface CommonEventProcessorOptions  // make the 'maxBatchSize', 'maxWa
    * Setting this value to 0 will cause the default value to be used.
    */
   inactiveTimeLimitInMs?: number;
+  /**
+   * Retry Options to be used when receiving events
+   */
+  retryOptions?: RetryOptions;
+}
+
+/**
+ * The set of options to configure the behavior of an `EventHubConsumer`.
+ * These can be specified when creating the consumer using the `createConsumer` method.
+ * - `ownerLevel`  : A number indicating that the consumer intends to be an exclusive consumer of events resulting in other
+ * consumers to fail if their `ownerLevel` is lower or doesn't exist.
+ * - `retryOptions`: The retry options used to govern retry attempts when an issue is encountered while receiving events.
+ * A simple usage can be `{ "maxRetries": 4 }`.
+ *
+ * Example usage:
+ * ```js
+ * {
+ *     retryOptions: {
+ *         maxRetries: 4
+ *     },
+ *     trackLastEnqueuedEventProperties: false
+ * }
+ * ```
+ * @internal
+ * @ignore
+ */
+export interface EventHubConsumerOptions {
+  /**
+   * @property
+   * The owner level associated with an exclusive consumer.
+   *
+   * When provided, the owner level indicates that a consumer is intended to be the exclusive receiver of events for the
+   * requested partition and the associated consumer group.
+   * When multiple consumers exist for the same partition/consumer group pair, then the ones with lower or no
+   * `ownerLevel` will get a `ReceiverDisconnectedError` during the next attempted receive operation.
+   */
+  ownerLevel?: number;
+  /**
+   * @property
+   * The retry options used to govern retry attempts when an issue is encountered while receiving events.
+   * If no value is provided here, the retry options set when creating the `EventHubClient` is used.
+   */
+  retryOptions?: RetryOptions;
+  /**
+   * @property
+   * Indicates whether or not the consumer should request information on the last enqueued event on its
+   * associated partition, and track that information as events are received.
+
+   * When information about the partition's last enqueued event is being tracked, each event received 
+   * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
+   * additional network bandwidth consumption that is generally a favorable trade-off when considered
+   * against periodically making requests for partition properties using the Event Hub client.
+   */
+  trackLastEnqueuedEventProperties?: boolean;
 }

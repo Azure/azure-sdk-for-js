@@ -70,7 +70,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       useSessionId: boolean
     ): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
@@ -81,7 +81,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
 
       // At this point AMQP receiver link has not been established.
       // peekMessages() will not establish the link if sessionId was provided
-      const peekedMsgs = await receiver.peekMessages();
+      const peekedMsgs = await receiver.peekMessages(1);
       should.equal(peekedMsgs.length, 1, "Unexpected number of messages browsed");
       should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
       should.equal(
@@ -95,7 +95,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         "SessionId is different than expected"
       );
 
-      const msgs = await receiver.receiveBatch(1);
+      const msgs = await receiver.receiveMessages(1);
       should.equal(msgs.length, 1, "Unexpected number of messages received");
       should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
       should.equal(
@@ -163,13 +163,13 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     ];
 
     async function testComplete_batching(testClientType: TestClientType): Promise<void> {
-      await sender.send(testMessagesWithDifferentSessionIds[0]);
-      await sender.send(testMessagesWithDifferentSessionIds[1]);
+      await sender.sendMessages(testMessagesWithDifferentSessionIds[0]);
+      await sender.sendMessages(testMessagesWithDifferentSessionIds[1]);
 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
       receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
-      let msgs = await receiver.receiveBatch(2);
+      let msgs = await receiver.receiveMessages(2);
 
       should.equal(msgs.length, 1, "Unexpected number of messages received");
       should.equal(receiver.sessionId, msgs[0].sessionId, "Unexpected sessionId in receiver");
@@ -189,7 +189,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       // get the next available session ID rather than specifying one
       receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames);
 
-      msgs = await receiver.receiveBatch(2);
+      msgs = await receiver.receiveMessages(2);
 
       should.equal(msgs.length, 1, "Unexpected number of messages received");
       should.equal(receiver.sessionId, msgs[0].sessionId, "Unexpected sessionId in receiver");
@@ -257,8 +257,8 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     ];
 
     async function testComplete_batching(testClientType: TestClientType): Promise<void> {
-      await sender.send(testMessagesWithDifferentSessionIds[0]);
-      await sender.send(testMessagesWithDifferentSessionIds[1]);
+      await sender.sendMessages(testMessagesWithDifferentSessionIds[0]);
+      await sender.sendMessages(testMessagesWithDifferentSessionIds[1]);
 
       const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
@@ -267,7 +267,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         sessionId: ""
       });
 
-      const msgs = await receiver.receiveBatch(2);
+      const msgs = await receiver.receiveMessages(2);
 
       should.equal(msgs.length, 1, "Unexpected number of messages received");
 
@@ -281,7 +281,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       );
       await msgs[0].complete();
 
-      const peekedMsgsInSession = await receiver.peekMessages();
+      const peekedMsgsInSession = await receiver.peekMessages(1);
       should.equal(peekedMsgsInSession.length, 0, "Unexpected number of messages peeked");
 
       await receiver.close();

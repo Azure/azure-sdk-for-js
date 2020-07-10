@@ -60,7 +60,7 @@ describe("Atom management - Namespace", function(): void {
     assert.deepEqualExcluding(
       namespaceProperties,
       { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
-      ["_response", "createdOn", "updatedOn", "name"]
+      ["_response", "createdAt", "updatedAt", "name"]
     );
   });
 });
@@ -415,9 +415,9 @@ describe("Atom management - Authentication", function(): void {
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
+        "createdAt",
+        "updatedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -558,7 +558,7 @@ describe("Atom management - Authentication", function(): void {
     it(`Gets runtime info for existing ${testCase.entityType} entities(multiple) successfully`, async () => {
       const response = await getEntitiesRuntimeInfo(testCase.entityType, managementTopic1);
       const name = testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name";
-      const paramsToExclude = ["createdOn", "accessedOn", "updatedOn"];
+      const paramsToExclude = ["createdAt", "accessedAt", "updatedAt"];
       for (const info of response) {
         if (info[name] == testCase[1].alwaysBeExistingEntity) {
           assert.deepEqualExcluding(info, testCase[1].output, paramsToExclude);
@@ -1101,9 +1101,9 @@ describe("Atom management - Authentication", function(): void {
       should.equal(response.name, managementTopic1, "Topic name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
+        "createdAt",
+        "updatedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -1193,9 +1193,9 @@ describe("Atom management - Authentication", function(): void {
       );
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
+        "createdAt",
+        "updatedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -1413,9 +1413,9 @@ describe("Atom management - Authentication", function(): void {
 
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
+        "createdAt",
+        "updatedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -1493,7 +1493,6 @@ describe("Atom management - Authentication", function(): void {
         sqlParameters: undefined,
         compatibilityLevel: undefined
       },
-
       name: managementRule1
     }
   },
@@ -1525,7 +1524,6 @@ describe("Atom management - Authentication", function(): void {
         sqlParameters: undefined,
         compatibilityLevel: 20
       },
-
       name: managementRule1
     }
   },
@@ -1533,7 +1531,13 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "Correlation Filter rule options",
     input: {
       filter: {
-        correlationId: "abcd"
+        correlationId: "abcd",
+        userProperties: {
+          randomState: "WA",
+          randomCountry: "US",
+          randomCount: 25,
+          randomBool: true
+        }
       },
       action: { sqlExpression: "SET sys.label='GREEN'" }
     },
@@ -1547,7 +1551,12 @@ describe("Atom management - Authentication", function(): void {
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        userProperties: undefined
+        userProperties: {
+          randomState: "WA",
+          randomCountry: "US",
+          randomCount: 25,
+          randomBool: true
+        }
       },
       action: {
         sqlExpression: "SET sys.label='GREEN'",
@@ -1555,7 +1564,6 @@ describe("Atom management - Authentication", function(): void {
         sqlParameters: undefined,
         compatibilityLevel: 20
       },
-
       name: managementRule1
     }
   }
@@ -1581,13 +1589,12 @@ describe("Atom management - Authentication", function(): void {
         undefined,
         testCase.input
       );
-
       should.equal(response.name, managementRule1, "Rule name mismatch");
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
-        "createdOn",
-        "updatedOn",
-        "accessedOn"
+        "createdAt",
+        "updatedAt",
+        "accessedAt"
       ]);
     });
   });
@@ -1728,9 +1735,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdOn",
-          "updatedOn",
-          "accessedOn"
+          "createdAt",
+          "updatedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1899,9 +1906,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdOn",
-          "updatedOn",
-          "accessedOn"
+          "createdAt",
+          "updatedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -1946,14 +1953,12 @@ describe("Atom management - Authentication", function(): void {
 ].forEach((testCase) => {
   describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
-      await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
     });
 
     afterEach(async () => {
       await deleteEntity(EntityType.TOPIC, managementTopic1);
-      await deleteEntity(EntityType.QUEUE, managementQueue1);
     });
 
     it(`${testCase.testCaseTitle}`, async () => {
@@ -1971,9 +1976,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdOn",
-          "updatedOn",
-          "accessedOn"
+          "createdAt",
+          "updatedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -2135,9 +2140,9 @@ describe("Atom management - Authentication", function(): void {
 
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
-          "createdOn",
-          "updatedOn",
-          "accessedOn"
+          "createdAt",
+          "updatedAt",
+          "accessedAt"
         ]);
       } catch (err) {
         checkForValidErrorScenario(err, testCase.output);
@@ -2446,14 +2451,16 @@ async function updateEntity(
 
   switch (testEntityType) {
     case EntityType.QUEUE:
+      const getQueueResponse = await serviceBusAtomManagementClient.getQueue(entityPath);
       const queueResponse = await serviceBusAtomManagementClient.updateQueue({
-        name: entityPath,
+        ...getQueueResponse,
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
+      const getTopicResponse = await serviceBusAtomManagementClient.getTopic(entityPath);
       const topicResponse = await serviceBusAtomManagementClient.updateTopic({
-        name: entityPath,
+        ...getTopicResponse,
         ...topicOptions
       });
       return topicResponse;
@@ -2463,9 +2470,12 @@ async function updateEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
+      const getSubscriptionResponse = await serviceBusAtomManagementClient.getSubscription(
+        topicPath,
+        entityPath
+      );
       const subscriptionResponse = await serviceBusAtomManagementClient.updateSubscription({
-        topicName: topicPath,
-        subscriptionName: entityPath,
+        ...getSubscriptionResponse,
         ...subscriptionOptions
       });
       return subscriptionResponse;
@@ -2485,7 +2495,6 @@ async function updateEntity(
       );
       return ruleResponse;
   }
-  throw new Error("TestError: Unrecognized EntityType");
 }
 
 async function deleteEntity(
@@ -2533,19 +2542,19 @@ async function listEntities(
   topicPath?: string,
   subscriptionPath?: string,
   skip?: number,
-  top?: number
+  maxCount?: number
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
       const queueResponse = await serviceBusAtomManagementClient.getQueues({
-        skip: skip,
-        top: top
+        skip,
+        maxCount
       });
       return queueResponse;
     case EntityType.TOPIC:
       const topicResponse = await serviceBusAtomManagementClient.getTopics({
-        skip: skip,
-        top: top
+        skip,
+        maxCount
       });
       return topicResponse;
     case EntityType.SUBSCRIPTION:
@@ -2556,7 +2565,7 @@ async function listEntities(
       }
       const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptions(
         topicPath,
-        { skip: skip, top: top }
+        { skip, maxCount }
       );
       return subscriptionResponse;
     case EntityType.RULE:
@@ -2568,7 +2577,7 @@ async function listEntities(
       const ruleResponse = await serviceBusAtomManagementClient.getRules(
         topicPath,
         subscriptionPath,
-        { skip: skip, top: top }
+        { skip, maxCount }
       );
       return ruleResponse;
   }

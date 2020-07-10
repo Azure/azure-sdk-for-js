@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { v4 as uuidv4 } from "uuid";
 import { HttpOperationResponse } from "../httpOperationResponse";
@@ -106,7 +106,10 @@ export function generateUuid(): string {
  *
  * @return A chain of resolved or rejected promises
  */
-export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: any) {
+export function executePromisesSequentially(
+  promiseFactories: Array<any>,
+  kickstart: any
+): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {
     result = result.then(promiseFactory);
@@ -154,14 +157,15 @@ export function promiseToCallback(promise: Promise<any>): Function {
     throw new Error("The provided input is not a Promise.");
   }
   return (cb: Function): void => {
-    promise.then(
-      (data: any) => {
-        cb(undefined, data);
-      },
-      (err: Error) => {
+    promise
+      .then((data: any) => {
+        // eslint-disable-next-line promise/no-callback-in-promise
+        return cb(undefined, data);
+      })
+      .catch((err: Error) => {
+        // eslint-disable-next-line promise/no-callback-in-promise
         cb(err);
-      }
-    );
+      });
   };
 }
 
@@ -175,18 +179,17 @@ export function promiseToServiceCallback<T>(promise: Promise<HttpOperationRespon
     throw new Error("The provided input is not a Promise.");
   }
   return (cb: ServiceCallback<T>): void => {
-    promise.then(
-      (data: HttpOperationResponse) => {
-        process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
-      },
-      (err: Error) => {
+    promise
+      .then((data: HttpOperationResponse) => {
+        return process.nextTick(cb, undefined, data.parsedBody as T, data.request, data);
+      })
+      .catch((err: Error) => {
         process.nextTick(cb, err);
-      }
-    );
+      });
   };
 }
 
-export function prepareXMLRootList(obj: any, elementName: string) {
+export function prepareXMLRootList(obj: any, elementName: string): { [s: string]: any } {
   if (!Array.isArray(obj)) {
     obj = [obj];
   }

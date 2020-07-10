@@ -1479,16 +1479,6 @@ export interface HostInfo {
 }
 
 /**
- * Result of the request to list cluster hosts
- */
-export interface HostInfoListResult {
-  /**
-   * The list of cluster hosts.
-   */
-  value?: HostInfo[];
-}
-
-/**
  * An interface representing HDInsightManagementClientOptions.
  */
 export interface HDInsightManagementClientOptions extends AzureServiceClientOptions {
@@ -2203,7 +2193,7 @@ export type OperationsListNextResponse = OperationListResult & {
 /**
  * Contains response data for the listHosts operation.
  */
-export type VirtualMachinesListHostsResponse = HostInfoListResult & {
+export type VirtualMachinesListHostsResponse = Array<HostInfo> & {
   /**
    * The underlying HTTP response.
    */
@@ -2216,6 +2206,6 @@ export type VirtualMachinesListHostsResponse = HostInfoListResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: HostInfoListResult;
+      parsedBody: HostInfo[];
     };
 };

@@ -54,7 +54,7 @@ export interface DirectoryCreateOptions extends FileAndDirectoryCreateCommonOpti
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectoryCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -95,7 +95,7 @@ interface DirectoryListFilesAndDirectoriesSegmentOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectoryListFilesAndDirectoriesSegmentOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -155,7 +155,24 @@ export interface DirectoryDeleteOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectoryDeleteOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Options to configure the {@link ShareDirectoryClient.exists} operation.
+ *
+ * @export
+ * @interface DirectoryExistsOptions
+ */
+export interface DirectoryExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof DirectoryExistsOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -172,7 +189,7 @@ export interface DirectoryGetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectoryGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -189,7 +206,7 @@ export interface DirectorySetMetadataOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof DirectorySetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -346,6 +363,38 @@ export interface DirectoryForceCloseHandlesOptions extends CommonOptions {
 }
 
 /**
+ * Contains response data for the {@link DirectoryClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface DirectoryCreateIfNotExistsResponse
+ */
+export interface DirectoryCreateIfNotExistsResponse extends DirectoryCreateResponse {
+  /**
+   * Indicate whether the directory is successfully created. Is false when the directory is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof DirectoryCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
+ * Contains response data for the {@link DirectoryClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface DirectoryDeleteIfExistsResponse
+ */
+export interface DirectoryDeleteIfExistsResponse extends DirectoryDeleteResponse {
+  /**
+   * Indicate whether the directory is successfully deleted. Is false if the directory does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof DirectoryDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
  * A ShareDirectoryClient represents a URL to the Azure Storage directory allowing you to manipulate its files and directories.
  *
  * @export
@@ -484,6 +533,53 @@ export class ShareDirectoryClient extends StorageClient {
         }
       );
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new directory under the specified share or parent directory if it does not already exists.
+   * If the directory already exists, it is not modified.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
+   *
+   * @param {DirectoryCreateOptions} [options]
+   * @returns {Promise<DirectoryCreateIfNotExistsResponse>}
+   * @memberof ShareDirectoryClient
+   */
+  public async createIfNotExists(
+    options: DirectoryCreateOptions = {}
+  ): Promise<DirectoryCreateIfNotExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "ShareDirectoryClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      const res = await this.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "ResourceAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating a directory only if it does not already exist."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -746,6 +842,46 @@ export class ShareDirectoryClient extends StorageClient {
   }
 
   /**
+   * Returns true if the specified directory exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing directory might be deleted by other clients or
+   * applications. Vice versa new directories might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {DirectoryExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof ShareDirectoryClient
+   */
+  public async exists(options: DirectoryExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("ShareDirectoryClient-exists", options.tracingOptions);
+    try {
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: {
+          ...options.tracingOptions,
+          spanOptions
+        }
+      });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking directory existence"
+        });
+        return false;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Returns all system properties for the specified directory, and can also be used to check the
    * existence of a directory. The data returned does not include the files in the directory or any
    * subdirectories.
@@ -795,6 +931,53 @@ export class ShareDirectoryClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Removes the specified empty directory if it exists. Note that the directory must be empty before it can be
+   * deleted.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
+   *
+   * @param {DirectoryDeleteOptions} [options]
+   * @returns {Promise<DirectoryDeleteIfExistsResponse>}
+   * @memberof ShareDirectoryClient
+   */
+  public async deleteIfExists(
+    options: DirectoryDeleteOptions = {}
+  ): Promise<DirectoryDeleteIfExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "ShareDirectoryClient-deleteIfExists",
+      options.tracingOptions
+    );
+    try {
+      const res = await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "ResourceNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting a directory only if it exists."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -924,7 +1107,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * ```js
    * let i = 1;
-   * let iter = await directoryClient.listFilesAndDirectories();
+   * let iter = directoryClient.listFilesAndDirectories();
    * let entity = await iter.next();
    * while (!entity.done) {
    *   if (entity.value.kind === "directory") {
@@ -1138,7 +1321,7 @@ export class ShareDirectoryClient extends StorageClient {
    *
    * ```js
    * let i = 1;
-   * let iter = await dirClient.listHandles();
+   * let iter = dirClient.listHandles();
    * let handleItem = await iter.next();
    * while (!handleItem.done) {
    *   console.log(`Handle ${i++}: ${handleItem.value.path}, opened time ${handleItem.value.openTime}, clientIp ${handleItem.value.clientIp}`);

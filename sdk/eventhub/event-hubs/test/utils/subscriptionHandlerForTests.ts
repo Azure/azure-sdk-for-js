@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { delay } from "@azure/core-amqp";
+import chai from "chai";
+import {
+  CloseReason,
+  EventHubConsumerClient,
+  EventHubProducerClient,
+  EventPosition,
+  ReceivedEventData
+} from "../../src";
 import {
   PartitionContext,
   SubscriptionEventHandlers
 } from "../../src/eventHubConsumerClientModels";
-import { EventHubConsumerClient } from "../../src/eventHubConsumerClient";
-import { EventHubProducerClient } from "../../src/eventHubProducerClient";
-import { EventHubClient } from "../../src/impl/eventHubClient";
-import { CloseReason, EventPosition, ReceivedEventData } from "../../src";
 import { loggerForTest } from "./logHelpers";
 import { loopUntil } from "./testUtils";
-import { delay } from "@azure/core-amqp";
-import chai from "chai";
 const should = chai.should();
 
 export interface HandlerAndPositions {
@@ -25,7 +28,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
   private _timeBetweenChecksMs = 1000;
 
   static async startingFromHere(
-    client: EventHubClient | EventHubProducerClient | EventHubConsumerClient
+    client: EventHubProducerClient | EventHubConsumerClient
   ): Promise<HandlerAndPositions> {
     const partitionIds = await client.getPartitionIds({});
     const startPosition: { [partitionId: string]: EventPosition } = {};

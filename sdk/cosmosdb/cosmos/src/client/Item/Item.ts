@@ -7,7 +7,7 @@ import {
   getPathFromLink,
   isResourceValid,
   ResourceType,
-  StatusCodes
+  StatusCodes,
 } from "../../common";
 import { PartitionKey } from "../../documents";
 import { extractPartitionKey, undefinedPartitionKey } from "../../extractPartitionKey";
@@ -56,8 +56,7 @@ export class Item {
    *
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
-   * @param options Additional options for the request, such as the partition key.
-   * Note, if you provide a partition key on the options object, it will override the primary key on `this.partitionKey`.
+   * @param options Additional options for the request
    *
    * @example Using custom type for response
    * ```typescript
@@ -76,7 +75,7 @@ export class Item {
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
       const {
-        resource: partitionKeyDefinition
+        resource: partitionKeyDefinition,
       } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
@@ -89,7 +88,7 @@ export class Item {
         resourceType: ResourceType.item,
         resourceId: id,
         options,
-        partitionKey: this.partitionKey
+        partitionKey: this.partitionKey,
       });
     } catch (error) {
       if (error.code !== StatusCodes.NotFound) {
@@ -113,7 +112,7 @@ export class Item {
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
    * @param body The definition to replace the existing {@link Item}'s definition with.
-   * @param options Additional options for the request, such as the partition key.
+   * @param options Additional options for the request
    */
   public replace(
     body: ItemDefinition,
@@ -128,7 +127,7 @@ export class Item {
    * There is no set schema for JSON items. They may contain any number of custom properties.
    *
    * @param body The definition to replace the existing {@link Item}'s definition with.
-   * @param options Additional options for the request, such as the partition key.
+   * @param options Additional options for the request
    */
   public replace<T extends ItemDefinition>(
     body: T,
@@ -140,7 +139,7 @@ export class Item {
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
       const {
-        resource: partitionKeyDefinition
+        resource: partitionKeyDefinition,
       } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = extractPartitionKey(body, partitionKeyDefinition);
     }
@@ -159,7 +158,7 @@ export class Item {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey: this.partitionKey
+      partitionKey: this.partitionKey,
     });
     return new ItemResponse(
       response.result,
@@ -176,14 +175,14 @@ export class Item {
    * Any provided type, T, is not necessarily enforced by the SDK.
    * You may get more or less properties and it's up to your logic to enforce it.
    *
-   * @param options Additional options for the request, such as the partition key.
+   * @param options Additional options for the request
    */
   public async delete<T extends ItemDefinition = any>(
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     if (this.partitionKey === undefined) {
       const {
-        resource: partitionKeyDefinition
+        resource: partitionKeyDefinition,
       } = await this.container.readPartitionKeyDefinition();
       this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
     }
@@ -196,7 +195,7 @@ export class Item {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey: this.partitionKey
+      partitionKey: this.partitionKey,
     });
     return new ItemResponse(
       response.result,

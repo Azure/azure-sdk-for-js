@@ -50,7 +50,7 @@ async function main() {
       // The recognized form fields with a custom model from training without labels will also include data about recognized labels.
       const field = form.fields[fieldName];
       console.log(
-        `\tField ${fieldName} has label '${field.labelText.text}' with a confidence score of ${field.confidence}`
+        `\tField ${fieldName} has label '${field.labelData.text}' with a confidence score of ${field.confidence}`
       );
       console.log(
         `\tField ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
@@ -68,8 +68,7 @@ async function recognizeCustomForm(path, endpoint, apiKey, labeledModelId) {
       console.log(`\tstatus: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const forms  = poller.getResult();
+  const forms = await poller.pollUntilDone();
   if (!forms || forms.length <= 0) {
     throw new Error("Expecting valid response!");
   }

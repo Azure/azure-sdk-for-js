@@ -14,7 +14,8 @@ import {
   ReqResLink,
   Sender,
   SenderOptions,
-  Session
+  Session,
+  generate_uuid
 } from "rhea-promise";
 import { ConditionStatusMapper, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
@@ -84,6 +85,12 @@ export class RequestResponseLink implements ReqResLink {
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 
+    // If message_id is not already set on the request, set it to a unique value
+    // This helps in determining the right response for current request among multiple incoming messages
+    if (!request.message_id) {
+      request.message_id = generate_uuid();
+    }
+
     return new Promise<AmqpMessage>((resolve: any, reject: any) => {
       let waitTimer: any = null;
       let timeOver: boolean = false;
@@ -152,10 +159,7 @@ export class RequestResponseLink implements ReqResLink {
           request.to || "$management",
           context.message
         );
-        if (
-          request.message_id !== responseCorrelationId &&
-          request.correlation_id !== responseCorrelationId
-        ) {
+        if (request.message_id !== responseCorrelationId) {
           // do not remove message listener.
           // parallel requests listen on the same receiver, so continue waiting until response that matches
           // request via correlationId is found.
@@ -171,10 +175,10 @@ export class RequestResponseLink implements ReqResLink {
 
         // remove the event listeners as they will be registered next time when someone makes a request.
         this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+        if (!timeOver) {
+          clearTimeout(waitTimer);
+        }
         if (info.statusCode > 199 && info.statusCode < 300) {
-          if (!timeOver) {
-            clearTimeout(waitTimer);
-          }
           logger.verbose(
             "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
             this.connection.id,
@@ -190,7 +194,7 @@ export class RequestResponseLink implements ReqResLink {
             description: info.statusDescription
           };
           const error = translate(e);
-          logger.warning(error);
+          logger.warning(`${error?.name}: ${error?.message}`);
           logErrorStackTrace(error);
           return reject(error);
         }
@@ -231,8 +235,8 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
-    await this.sender.close();
-    await this.receiver.close();
+    await this.sender.close({ closeSession: false });
+    await this.receiver.close({ closeSession: false });
     await this.session.close();
   }
 

@@ -7,7 +7,7 @@ import {
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest
 } from "../util/atomXmlHelper";
-import { getInteger, getString } from "../util/utils";
+import { getInteger, getString, getDate } from "../util/utils";
 
 /**
  * Represents the metadata related to a service bus namespace.
@@ -19,7 +19,7 @@ export interface NamespaceProperties {
   /**
    * The time at which the namespace was created.
    */
-  createdOn: string;
+  createdAt: Date;
   /**
    * The SKU/tier of the namespace.
    * "Basic", "Standard" and "Premium"
@@ -28,7 +28,7 @@ export interface NamespaceProperties {
   /**
    * The last time at which the namespace was modified.
    */
-  updatedOn: string;
+  updatedAt: Date;
   /**
    * Name of the namespace.
    */
@@ -55,9 +55,9 @@ export interface NamespaceProperties {
 export function buildNamespace(rawNamespace: any): NamespaceProperties {
   const messagingSku = getString(rawNamespace["MessagingSKU"], "messagingSku");
   return {
-    createdOn: getString(rawNamespace["CreatedTime"], "createdOn"),
+    createdAt: getDate(rawNamespace["CreatedTime"], "createdAt"),
     messagingSku: messagingSku,
-    updatedOn: getString(rawNamespace["ModifiedTime"], "updatedOn"),
+    updatedAt: getDate(rawNamespace["ModifiedTime"], "updatedAt"),
     name: getString(rawNamespace["Name"], "name"),
     namespaceType: getString(rawNamespace["NamespaceType"], "namespaceType"),
     messagingUnits:

@@ -6,7 +6,7 @@
   For samples using the current stable version of the package, please use the link below:
   https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
   
-  This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
+  This sample demonstrates how the scheduleMessages() function can be used to schedule messages to
   appear on a Service Bus Queue/Subscription at a later time.
 
   See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sequencing#scheduled-messages

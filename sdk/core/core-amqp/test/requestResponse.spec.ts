@@ -11,9 +11,19 @@ import {
   retry
 } from "../src";
 import { Connection, Message } from "rhea-promise";
-import { stub } from "sinon";
+import { stub, fake, SinonSpy } from "sinon";
 import EventEmitter from "events";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+interface Window {}
+declare let self: Window & typeof globalThis;
+
+function getGlobal() {
+  if (typeof global !== "undefined") {
+    return global;
+  } else {
+    return self;
+  }
+}
 
 describe("RequestResponseLink", function() {
   it("should send a request and receive a response correctly", async function() {
@@ -124,6 +134,48 @@ describe("RequestResponseLink", function() {
 
     assert.equal(responses[0].correlation_id, reqs[0].message_id);
     assert.equal(responses[1].correlation_id, reqs[1].message_id);
+  });
+
+  it("request without `message_id` gets a new `message_id`", async function() {
+    const connectionStub = stub(new Connection());
+    const rcvr = new EventEmitter();
+    const reqs: AmqpMessage[] = [];
+    connectionStub.createSession.resolves({
+      connection: {
+        id: "connection-1"
+      },
+      createSender: () => {
+        return Promise.resolve({
+          send: (request: AmqpMessage) => {
+            reqs.push(request);
+          }
+        });
+      },
+      createReceiver: () => {
+        return Promise.resolve(rcvr);
+      }
+    } as any);
+    const sessionStub = await connectionStub.createSession();
+    const senderStub = await sessionStub.createSender();
+    const receiverStub = await sessionStub.createReceiver();
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+    const request1: AmqpMessage = {
+      body: "Hello World!!"
+    };
+    let errorWasThrown = false;
+    try {
+      await link.sendRequest(request1, {
+        timeoutInMs: 2000
+      });
+    } catch (error) {
+      assert.equal(
+        request1.message_id == undefined,
+        false,
+        "`message_id` on the request is undefined."
+      );
+      errorWasThrown = true;
+    }
+    assert.equal(errorWasThrown, true, "Error was not thrown");
   });
 
   it("should send parallel requests and receive responses correctly (one failure)", async function() {
@@ -398,5 +450,167 @@ describe("RequestResponseLink", function() {
         `Incorrect error received "${err.message}"`
       );
     }
+  });
+
+  describe("sendRequest clears timeout", () => {
+    const _global = getGlobal();
+    const originalClearTimeout = clearTimeout;
+    let clearTimeoutCalledCount = 0;
+
+    beforeEach(() => {
+      clearTimeoutCalledCount = 0;
+      _global.clearTimeout = (tid) => {
+        clearTimeoutCalledCount++;
+        return originalClearTimeout(tid);
+      };
+    });
+
+    afterEach(() => {
+      _global.clearTimeout = originalClearTimeout;
+    });
+
+    it("sendRequest clears timeout after error message", async function() {
+      const connectionStub = stub(new Connection());
+      const rcvr = new EventEmitter();
+      let req: any = {};
+      connectionStub.createSession.resolves({
+        connection: {
+          id: "connection-1"
+        },
+        createSender: () => {
+          return Promise.resolve({
+            send: (request: any) => {
+              req = request;
+            }
+          });
+        },
+        createReceiver: () => {
+          return Promise.resolve(rcvr);
+        }
+      } as any);
+      const sessionStub = await connectionStub.createSession();
+      const senderStub = await sessionStub.createSender();
+      const receiverStub = await sessionStub.createReceiver();
+      const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+      const request: AmqpMessage = {
+        body: "Hello World!!"
+      };
+      const testFailureMessage = "Test failure";
+      setTimeout(() => {
+        rcvr.emit("message", {
+          message: {
+            correlation_id: req.message_id,
+            application_properties: {
+              statusCode: 400,
+              errorCondition: null,
+              statusDescription: null,
+              "com.microsoft:tracking-id": null
+            },
+            body: "I should throw an error!"
+          }
+        });
+      }, 0);
+      try {
+        await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
+        throw new Error(testFailureMessage);
+      } catch (err) {
+        assert.notEqual(err.message, testFailureMessage);
+      }
+      assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
+    });
+
+    it("sendRequest clears timeout after successful message", async function() {
+      const connectionStub = stub(new Connection());
+      const rcvr = new EventEmitter();
+      let req: any = {};
+      connectionStub.createSession.resolves({
+        connection: {
+          id: "connection-1"
+        },
+        createSender: () => {
+          return Promise.resolve({
+            send: (request: any) => {
+              req = request;
+            }
+          });
+        },
+        createReceiver: () => {
+          return Promise.resolve(rcvr);
+        }
+      } as any);
+      const sessionStub = await connectionStub.createSession();
+      const senderStub = await sessionStub.createSender();
+      const receiverStub = await sessionStub.createReceiver();
+      const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
+      const request: AmqpMessage = {
+        body: "Hello World!!"
+      };
+      setTimeout(() => {
+        rcvr.emit("message", {
+          message: {
+            correlation_id: req.message_id,
+            application_properties: {
+              statusCode: 200,
+              errorCondition: null,
+              statusDescription: null,
+              "com.microsoft:tracking-id": null
+            },
+            body: "I work!"
+          }
+        });
+      }, 0);
+
+      await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
+      assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
+    });
+  });
+
+  describe("close", () => {
+    it("signals receiver and sender to now close the session", async () => {
+      const connectionStub = stub(new Connection());
+
+      connectionStub.createSession.resolves({
+        connection: {
+          id: "connection-1"
+        },
+        close: fake(),
+        createSender: () => {
+          return Promise.resolve({
+            send: () => {
+              /* no op */
+            },
+            close: fake()
+          });
+        },
+        createReceiver: () => {
+          return Promise.resolve({
+            close: fake()
+          });
+        }
+      } as any);
+      const sessionStub = await connectionStub.createSession();
+      const senderStub = await sessionStub.createSender();
+      const receiverStub = await sessionStub.createReceiver();
+      const link = new RequestResponseLink(
+        sessionStub as any,
+        senderStub as any,
+        receiverStub as any
+      );
+
+      await link.close();
+
+      assert(
+        (senderStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
+        "Sender.close() should have been called once."
+      );
+      assert(
+        (receiverStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
+        "Receiver.close() should have been called once."
+      );
+      assert(
+        (sessionStub.close as SinonSpy).calledOnceWithExactly(),
+        "Session.close() should have been called once."
+      );
+    });
   });
 });

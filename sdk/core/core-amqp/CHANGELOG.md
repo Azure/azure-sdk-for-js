@@ -1,7 +1,19 @@
 # Release History
 
-## 1.1.4 (Unreleased)
+## 1.1.5 (Unreleased)
 
+- Fixes issue [9615](https://github.com/Azure/azure-sdk-for-js/issues/9615)
+  where closing the `RequestResponseLink` session before closing the receiver
+  could cause the service to report a missing session channel.
+
+## 1.1.4 (2020-06-30)
+
+- Fixes issue [9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
+  where operations that used the `RequestResponseLink` and encountered an error
+  would fail to cleanup their internal timer.
+  This caused exiting the process to be delayed until the timer reached its timeout.
+- If none is present, add a unique id to `message_id` on the request to be sent when using the `RequestResponseLink`. This helps in determining the right response for the request when multiple send requests are made in parallel.
+  [PR 9503](https://github.com/Azure/azure-sdk-for-js/pull/9503)
 
 ## 1.1.3 (2020-06-02)
 

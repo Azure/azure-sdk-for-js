@@ -81,22 +81,27 @@ export interface EventHubClientOptions {
 
 // @public
 export class EventHubConsumerClient {
-    constructor(consumerGroup: string, connectionString: string, options?: EventHubClientOptions);
-    constructor(consumerGroup: string, connectionString: string, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
-    constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(consumerGroup: string, connectionString: string, eventHubName: string, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
-    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
-    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubClientOptions);
+    constructor(consumerGroup: string, connectionString: string, options?: EventHubConsumerClientOptions);
+    constructor(consumerGroup: string, connectionString: string, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
+    constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubConsumerClientOptions);
+    constructor(consumerGroup: string, connectionString: string, eventHubName: string, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
+    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubConsumerClientOptions);
+    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
     get eventHubName(): string;
     get fullyQualifiedNamespace(): string;
     getEventHubProperties(options?: GetEventHubPropertiesOptions): Promise<EventHubProperties>;
-    getPartitionIds(options?: GetPartitionIdsOptions): Promise<string[]>;
+    getPartitionIds(options?: GetPartitionIdsOptions): Promise<Array<string>>;
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
     subscribe(partitionId: string, handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription;
     }
+
+// @public
+export interface EventHubConsumerClientOptions extends EventHubClientOptions {
+    loadBalancingOptions?: LoadBalancingOptions;
+}
 
 // @public
 export class EventHubProducerClient {
@@ -112,7 +117,7 @@ export class EventHubProducerClient {
     getPartitionProperties(partitionId: string, options?: GetPartitionPropertiesOptions): Promise<PartitionProperties>;
     sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
     sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>;
-}
+    }
 
 // @public
 export interface EventHubProperties {
@@ -151,6 +156,13 @@ export interface LastEnqueuedEventProperties {
 
 // @public
 export const latestEventPosition: EventPosition;
+
+// @public
+export interface LoadBalancingOptions {
+    partitionOwnershipExpirationIntervalInMs?: number;
+    strategy?: "balanced" | "greedy";
+    updateIntervalInMs?: number;
+}
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;

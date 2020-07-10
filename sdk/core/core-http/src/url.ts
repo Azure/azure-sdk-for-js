@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { replaceAll } from "./util/utils";
 
@@ -32,7 +32,7 @@ export class URLQuery {
    */
   public set(parameterName: string, parameterValue: any): void {
     if (parameterName) {
-      if (parameterValue != undefined) {
+      if (parameterValue !== undefined && parameterValue !== null) {
         const newValue = Array.isArray(parameterValue) ? parameterValue : parameterValue.toString();
         this._rawQuery[parameterName] = newValue;
       } else {
@@ -200,7 +200,7 @@ export class URLBuilder {
    * path or query), those parts will be added to this URL as well.
    */
   public setPort(port: number | string | undefined): void {
-    if (port == undefined || port === "") {
+    if (port === undefined || port === null || port === "") {
       this._port = undefined;
     } else {
       this.set(port.toString(), "PORT");
@@ -311,6 +311,7 @@ export class URLBuilder {
 
     while (tokenizer.next()) {
       const token: URLToken | undefined = tokenizer.current();
+      let tokenPath: string | undefined;
       if (token) {
         switch (token.type) {
           case "SCHEME":
@@ -326,7 +327,7 @@ export class URLBuilder {
             break;
 
           case "PATH":
-            const tokenPath: string | undefined = token.text || undefined;
+            tokenPath = token.text || undefined;
             if (!this._path || this._path === "/" || tokenPath !== "/") {
               this._path = tokenPath;
             }
@@ -445,7 +446,7 @@ export class URLTokenizer {
 
   public constructor(readonly _text: string, state?: URLTokenizerState) {
     this._textLength = _text ? _text.length : 0;
-    this._currentState = state != undefined ? state : "SCHEME_OR_HOST";
+    this._currentState = state !== undefined && state !== null ? state : "SCHEME_OR_HOST";
     this._currentIndex = 0;
   }
 

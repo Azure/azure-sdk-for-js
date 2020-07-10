@@ -18,7 +18,6 @@ describe("Retries - ManagementClient", () => {
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
-  // let subscriptionRuleManager: SubscriptionRuleManager;
   const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
 
@@ -44,15 +43,11 @@ describe("Retries - ManagementClient", () => {
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-    // subscriptionRuleManager = serviceBusClient.test.addToCleanup(
-    //   serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
-    // );
   }
 
   async function afterEachTest(): Promise<void> {
     await sender.close();
     await receiver.close();
-    // await subscriptionRuleManager.close();
   }
 
   function mockManagementClientToThrowError() {
@@ -90,24 +85,10 @@ describe("Retries - ManagementClient", () => {
       await afterEachTest();
     });
 
-    it("Unpartitioned Queue: scheduleMessage", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await mockManagementClientAndVerifyRetries(async () => {
-        await sender.scheduleMessage(new Date(), TestMessage.getSample());
-      });
-    });
-
     it("Unpartitioned Queue: scheduleMessages", async function(): Promise<void> {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       await mockManagementClientAndVerifyRetries(async () => {
         await sender.scheduleMessages(new Date(), [TestMessage.getSample()]);
-      });
-    });
-
-    it("Unpartitioned Queue with Sessions: scheduleMessage", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await mockManagementClientAndVerifyRetries(async () => {
-        await sender.cancelScheduledMessage(new Long(0));
       });
     });
 
@@ -131,19 +112,19 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue: receiveDeferredMessage", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.receiveDeferredMessage(new Long(0));
+        await receiver.receiveDeferredMessages(new Long(0));
       });
     });
 
     it("Unpartitioned Queue: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.peekMessages();
+        await receiver.peekMessages(1);
       });
     });
 
     it("Unpartitioned Queue: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.peekMessages({ fromSequenceNumber: new Long(0) });
+        await receiver.peekMessages(1, { fromSequenceNumber: new Long(0) });
       });
     });
   });
@@ -161,13 +142,13 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue with Sessions: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.peekMessages();
+        await sessionReceiver.peekMessages(1);
       });
     });
 
     it("Unpartitioned Queue with Sessions: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.peekMessages({ fromSequenceNumber: new Long(0) });
+        await sessionReceiver.peekMessages(1, { fromSequenceNumber: new Long(0) });
       });
     });
 
@@ -175,7 +156,7 @@ describe("Retries - ManagementClient", () => {
       void
     > {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.receiveDeferredMessage(new Long(0));
+        await sessionReceiver.receiveDeferredMessages(new Long(0));
       });
     });
 
@@ -197,35 +178,6 @@ describe("Retries - ManagementClient", () => {
       });
     });
   });
-
-  // describe("SubscriptionRuleManager Retries", function(): void {
-  //   beforeEach(async () => {
-  //     numberOfTimesManagementClientInvoked = 0;
-  //     await beforeEachTest(TestClientType.UnpartitionedSubscription);
-  //   });
-
-  //   afterEach(async () => {
-  //     await afterEachTest();
-  //   });
-
-  //   it("Unpartitioned Subscription: getRules", async function(): Promise<void> {
-  //     await mockManagementClientAndVerifyRetries(async () => {
-  //       await subscriptionRuleManager.getRules();
-  //     });
-  //   });
-
-  //   it("Unpartitioned Subscription: addRule", async function(): Promise<void> {
-  //     await mockManagementClientAndVerifyRetries(async () => {
-  //       await subscriptionRuleManager.addRule("new-rule", "1=2");
-  //     });
-  //   });
-
-  //   it("Unpartitioned Subscription: removeRule", async function(): Promise<void> {
-  //     await mockManagementClientAndVerifyRetries(async () => {
-  //       await subscriptionRuleManager.removeRule("new-rule");
-  //     });
-  //   });
-  // });
 });
 
 describe("Retries - MessageSender", () => {
@@ -294,7 +246,7 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue: send", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.send(TestMessage.getSample());
+      await sender.sendMessages(TestMessage.getSample());
     });
   });
 
@@ -308,14 +260,18 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.send(1 as any);
+      const batch = await sender.createBatch();
+      batch.tryAdd({
+        body: "hello"
+      });
+      await sender.sendMessages(batch);
     });
   });
 
   it("Unpartitioned Queue with Sessions: send", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.send(TestMessage.getSample());
+      await sender.sendMessages(TestMessage.getSample());
     });
   });
 
@@ -329,7 +285,11 @@ describe("Retries - MessageSender", () => {
   it("Unpartitioned Queue with Sessions: sendBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockInitAndVerifyRetries(async () => {
-      await sender.send(1 as any);
+      const batch = await sender.createBatch();
+      batch.tryAdd({
+        body: "hello"
+      });
+      await sender.sendMessages(batch);
     });
   });
 });
@@ -401,14 +361,14 @@ describe("Retries - Receive methods", () => {
   it("Unpartitioned Queue: receiveBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockReceiveAndVerifyRetries(async () => {
-      await receiver.receiveBatch(1);
+      await receiver.receiveMessages(1);
     });
   });
 
   it("Unpartitioned Queue with Sessions: receiveBatch", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     await mockReceiveAndVerifyRetries(async () => {
-      await receiver.receiveBatch(1);
+      await receiver.receiveMessages(1);
     });
   });
 

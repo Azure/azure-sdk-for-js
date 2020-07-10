@@ -122,6 +122,30 @@ describe("DataLakeFileSystemClient", () => {
     assert.deepEqual(result.metadata, metadata);
   });
 
+  it("createIfNotExists", async () => {
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    const metadata = { key: "value" };
+    const access = "filesystem";
+    const createRes = await cClient.createIfNotExists({ metadata, access });
+    assert.ok(createRes.succeeded);
+    assert.ok(createRes.etag);
+
+    const createRes2 = await cClient.createIfNotExists({ metadata, access });
+    assert.ok(!createRes2.succeeded);
+
+    await cClient.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const cClient = serviceClient.getFileSystemClient(recorder.getUniqueName(fileSystemName));
+    const res = await cClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+
+    await cClient.create();
+    const res2 = await cClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
   it("delete", (done) => {
     // delete() with default parameters has been tested in afterEach
     done();
@@ -271,7 +295,7 @@ describe("DataLakeFileSystemClient", () => {
       fileClients.push(fileClient);
     }
 
-    const iterator = await fileSystemClient.listPaths({
+    const iterator = fileSystemClient.listPaths({
       userPrincipalName: true,
       recursive: true,
       path: ""

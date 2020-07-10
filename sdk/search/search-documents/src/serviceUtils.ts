@@ -48,6 +48,11 @@ import {
   SimilarityAlgorithm,
   SearchResourceEncryptionKey
 } from "./serviceModels";
+import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
+import {
+  SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
+  SearchResult as GeneratedSearchResult
+} from "./generated/data/models";
 
 export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): SearchIndexerSkill[] {
   if (!skills) {
@@ -112,7 +117,6 @@ export function convertAnalyzersToGenerated(
   const result: LexicalAnalyzerUnion[] = [];
   for (const analyzer of analyzers) {
     switch (analyzer.odatatype) {
-      case "#Microsoft.Azure.Search.CustomAnalyzer":
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
         result.push(analyzer);
@@ -122,6 +126,13 @@ export function convertAnalyzersToGenerated(
           ...analyzer,
           flags: analyzer.flags ? analyzer.flags.join("|") : undefined
         });
+        break;
+      case "#Microsoft.Azure.Search.CustomAnalyzer":
+        result.push({
+          ...analyzer,
+          tokenizer: analyzer.tokenizerName
+        });
+        break;
     }
   }
   return result;
@@ -137,7 +148,6 @@ export function convertAnalyzersToPublic(
   const result: LexicalAnalyzer[] = [];
   for (const analyzer of analyzers) {
     switch (analyzer.odatatype) {
-      case "#Microsoft.Azure.Search.CustomAnalyzer":
       case "#Microsoft.Azure.Search.StandardAnalyzer":
       case "#Microsoft.Azure.Search.StopAnalyzer":
         result.push(analyzer);
@@ -147,6 +157,13 @@ export function convertAnalyzersToPublic(
           ...analyzer,
           flags: analyzer.flags ? (analyzer.flags.split("|") as RegexFlags[]) : undefined
         });
+        break;
+      case "#Microsoft.Azure.Search.CustomAnalyzer":
+        result.push({
+          ...analyzer,
+          tokenizerName: analyzer.tokenizer
+        });
+        break;
     }
   }
   return result;
@@ -351,6 +368,48 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity)
   };
+}
+
+export function generatedSearchResultToPublicSearchResult<T>(results: GeneratedSearchResult[]) {
+  const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
+    const { _score, _highlights, ...restProps } = result;
+    const doc: { [key: string]: any } = {
+      ...restProps
+    };
+    const obj = {
+      score: _score,
+      highlights: _highlights,
+      document: doc
+    };
+    return obj as SearchResult<T>;
+  });
+  return returnValues;
+}
+
+export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
+  searchDocumentsResult: GeneratedSuggestDocumentsResult
+): SuggestDocumentsResult<T> {
+  const results = searchDocumentsResult.results.map<SuggestResult<T>>((element) => {
+    const { _text, ...restProps } = element;
+
+    const doc: { [key: string]: any } = {
+      ...restProps
+    };
+
+    const obj = {
+      text: _text,
+      document: doc
+    };
+
+    return obj as SuggestResult<T>;
+  });
+
+  const result: SuggestDocumentsResult<T> = {
+    results: results,
+    coverage: searchDocumentsResult.coverage
+  };
+
+  return result;
 }
 
 export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {

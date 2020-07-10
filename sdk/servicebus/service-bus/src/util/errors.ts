@@ -21,49 +21,6 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
 
 /**
  * @internal
- * Logs and throws error if the underlying AMQP connection or if the client is closed
- * @param context The ConnectionContext associated with the current AMQP connection.
- * @param entityPath Entity Path of the client which denotes the name of the Queue/Topic/Subscription
- * @param isClientClosed Boolean denoting if the client is closed or not
- */
-export function throwErrorIfClientOrConnectionClosed(
-  context: ConnectionContext,
-  entityPath: string,
-  isClientClosed: boolean
-): void {
-  throwErrorIfConnectionClosed(context);
-  if (context && isClientClosed) {
-    const errorMessage = getClientClosedErrorMsg(entityPath);
-    const error = new Error(errorMessage);
-    log.error(`[${context.connectionId}] %O`, error);
-    throw error;
-  }
-}
-
-/**
- * @internal
- * Gets the error message when an open receiver exists for a session, but a new one is asked for on the same client
- * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param sessionId id of the session
- */
-export function getOpenSessionReceiverErrorMsg(entityPath: string, sessionId: string): string {
-  return `An open receiver already exists for the session "${sessionId}" for ` + `"${entityPath}".`;
-}
-
-/**
- * @internal
- * Gets the error message when a client is used when its already closed
- * @param entityPath Value of the `entityPath` property on the client which denotes its name
- */
-export function getClientClosedErrorMsg(entityPath: string): string {
-  return (
-    `The client for "${entityPath}" has been closed and can no longer be used. ` +
-    `Please create a new client using an instance of ServiceBusClient.`
-  );
-}
-
-/**
- * @internal
  * Gets the error message when a sender is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  */
@@ -160,7 +117,7 @@ export function throwTypeErrorIfParameterTypeMismatch(
 
 /**
  * @internal
- * Logs and Throws TypeError if given parameter is not of type `Long`
+ * Logs and Throws TypeError if given parameter is not of type `Long` or an array of type `Long`
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
  * @param parameterValue Value of the parameter to type check
@@ -170,6 +127,9 @@ export function throwTypeErrorIfParameterNotLong(
   parameterName: string,
   parameterValue: any
 ): TypeError | undefined {
+  if (Array.isArray(parameterValue)) {
+    return throwTypeErrorIfParameterNotLongArray(connectionId, parameterName, parameterValue);
+  }
   if (Long.isLong(parameterValue)) {
     return;
   }

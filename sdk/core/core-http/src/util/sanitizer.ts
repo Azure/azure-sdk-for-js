@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { URLBuilder, URLQuery } from "../url";
 
@@ -81,11 +81,11 @@ export class Sanitizer {
     this.allowedQueryParameters = new Set(allowedQueryParameters.map((p) => p.toLowerCase()));
   }
 
-  public sanitize(obj: object) {
+  public sanitize(obj: object): string {
     return JSON.stringify(obj, this.replacer.bind(this), 2);
   }
 
-  private replacer(key: string, value: unknown) {
+  private replacer(key: string, value: unknown): any {
     // Ensure Errors include their interesting non-enumerable members
     if (value instanceof Error) {
       return {
@@ -115,11 +115,11 @@ export class Sanitizer {
     return value;
   }
 
-  private sanitizeHeaders(_: string, value: { [s: string]: any }) {
+  private sanitizeHeaders(_: string, value: { [s: string]: any }): { [s: string]: string } {
     return this.sanitizeObject(value, this.allowedHeaderNames, (v, k) => v[k].value);
   }
 
-  private sanitizeQuery(value: { [s: string]: string }) {
+  private sanitizeQuery(value: { [s: string]: string }): { [s: string]: string } {
     return this.sanitizeObject(value, this.allowedQueryParameters, (v, k) => v[k]);
   }
 
@@ -127,7 +127,7 @@ export class Sanitizer {
     value: { [s: string]: any },
     allowedKeys: Set<string>,
     accessor: (value: any, key: string) => any
-  ) {
+  ): { [s: string]: string } {
     if (typeof value !== "object" || value === null) {
       return value;
     }

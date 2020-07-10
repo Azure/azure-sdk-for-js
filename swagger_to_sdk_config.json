@@ -6,7 +6,7 @@
       "typescript": "",
       "license-header": "MICROSOFT_MIT_NO_VERSION",
       "sdkrel:typescript-sdks-folder": ".",
-      "use": "@microsoft.azure/autorest.typescript@4.2.2"
+      "use": "@microsoft.azure/autorest.typescript@4.4.1"
     },
     "advanced_options": {
       "clone_dir": "./azure-sdk-for-js",

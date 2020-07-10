@@ -154,8 +154,7 @@ async function main() {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
 
-  await poller.pollUntilDone();
-  const receipts = poller.getResult();
+  const receipts = await poller.pollUntilDone();
 
   if (!receipts || receipts.length <= 0) {
     throw new Error("Expecting at lease one receipt in analysis result");
@@ -164,19 +163,19 @@ async function main() {
   const receipt = receipts[0];
   console.log("First receipt:");
   // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
-  const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+  const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
   }
-  const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+  const merchantNameField = receipt.fields["MerchantName"];
   if (merchantNameField.valueType === "string") {
     console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
   }
-  const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+  const transactionDate = receipt.fields["TransactionDate"];
   if (transactionDate.valueType === "date") {
     console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
   }
-  const itemsField = receipt.recognizedForm.fields["Items"];
+  const itemsField = receipt.fields["Items"];
   if (itemsField.valueType === "array") {
     for (const itemField of itemsField.value || []) {
       if (itemField.valueType === "object") {
@@ -187,7 +186,7 @@ async function main() {
       }
     }
   }
-  const totalField = receipt.recognizedForm.fields["Total"];
+  const totalField = receipt.fields["Total"];
   if (totalField.valueType === "number") {
     console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
   }
@@ -208,15 +207,14 @@ const fs = require("fs");
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
-  const apiKey = || "<api key>";
+  const apiKey = "<api key>";
   const path = "<path to your receipt document>"; // pdf/jpeg/png/tiff formats
 
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeContent(readStream);
-  await poller.pollUntilDone();
-  const pages = poller.getResult();
+  const pages = await poller.pollUntilDone();
 
   if (!pages || pages.length === 0) {
     throw new Error("Expecting non-empty list of pages!");
@@ -258,21 +256,19 @@ async function main() {
   const poller = await trainingClient.beginTraining(containerSasUrl, false, {
     onProgress: (state) => { console.log(`training status: ${state.status}`); }
   });
+  const model = await poller.pollUntilDone();
 
-  await poller.pollUntilDone();
-  const response = poller.getResult();
-
-  if (!response) {
-    throw new Error("Expecting valid response!");
+  if (!model) {
+    throw new Error("Expecting valid training result!");
   }
 
-  console.log(`Model ID: ${response.modelId}`);
-  console.log(`Status: ${response.status}`);
-  console.log(`Requested on: ${response.requestedOn}`);
-  console.log(`Completed on: ${response.completedOn}`);
+  console.log(`Model ID: ${model.modelId}`);
+  console.log(`Status: ${model.status}`);
+  console.log(`Training started on: ${model.trainingStartedOn}`);
+  console.log(`Training completed on: ${model.trainingCompletedOn}`);
 
-  if (response.submodels) {
-    for (const submodel of response.submodels) {
+  if (model.submodels) {
+    for (const submodel of model.submodels) {
       // since the training data is unlabeled, we are unable to return the accuracy of this model
       console.log("We have recognized the following fields");
       for (const key in submodel.fields) {
@@ -282,8 +278,8 @@ async function main() {
     }
   }
   // Training document information
-  if (response.trainingDocuments) {
-    for (const doc of response.trainingDocuments) {
+  if (model.trainingDocuments) {
+    for (const doc of model.trainingDocuments) {
       console.log(`Document name: ${doc.documentName}`);
       console.log(`Document status: ${doc.status}`);
       console.log(`Document page count: ${doc.pageCount}`);
@@ -314,8 +310,7 @@ async function main() {
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
-  await poller.pollUntilDone();
-  const forms = poller.getResult();
+  const forms = await poller.pollUntilDone();
 
   console.log("Forms:");
   for (const form of forms || []) {
@@ -361,7 +356,8 @@ async function main() {
   const apiKey = "<api key>";
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const result = await client.listCustomModels();
+  // returns an async iteratable iterator that supports paging
+  const result = client.listCustomModels();
   let i = 0;
   for await (const modelInfo of result) {
     console.log(`model ${i++}:`);

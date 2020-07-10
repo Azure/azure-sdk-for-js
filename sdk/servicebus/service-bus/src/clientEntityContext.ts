@@ -6,12 +6,11 @@ import { StreamingReceiver } from "./core/streamingReceiver";
 import { MessageSender } from "./core/messageSender";
 import { ManagementClient, ManagementClientOptions } from "./core/managementClient";
 import { ConnectionContext } from "./connectionContext";
-import { AmqpError, Dictionary } from "rhea-promise";
+import { AmqpError } from "rhea-promise";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
 import { MessageSession } from "./session/messageSession";
-import { MessagingError } from "@azure/core-amqp";
 
 /**
  * Provides contextual information like the underlying amqp connection, cbs session,
@@ -50,14 +49,10 @@ export interface ClientEntityContextBase {
    */
   batchingReceiver?: BatchingReceiver;
   /**
-   * @property {Dictionary<MessageSession>} messageSessions A dictionary of the MessageSession
+   * @property messageSessions A dictionary of the MessageSession
    * objects associated with this client.
    */
-  messageSessions: Dictionary<MessageSession>;
-  /**
-   * @property {Dictionary<MessageSession>} expiredMessageSessions A dictionary that stores expired message sessions IDs.
-   */
-  expiredMessageSessions: Dictionary<boolean>;
+  messageSessions: { [name: string]: MessageSession }
   /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
@@ -123,26 +118,10 @@ export namespace ClientEntityContext {
       isClosed: false,
       requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
       isSessionEnabled: !!options.isSessionEnabled,
-      messageSessions: {},
-      expiredMessageSessions: {}
+      messageSessions: {}
     };
 
     (entityContext as ClientEntityContext).getReceiver = (name: string, sessionId?: string) => {
-      if (sessionId != undefined && entityContext.expiredMessageSessions[sessionId]) {
-        const error = new MessagingError(
-          `The session lock has expired on the session with id ${sessionId}.`
-        );
-        error.code = "SessionLockLostError";
-        error.retryable = false;
-        log.error(
-          "[%s] Failed to find receiver '%s' as the session with id '%s' is expired",
-          entityContext.namespace.connectionId,
-          name,
-          sessionId
-        );
-        throw error;
-      }
-
       if (
         sessionId != null &&
         entityContext.messageSessions[sessionId] &&
@@ -327,16 +306,15 @@ export namespace ClientEntityContext {
   }
 }
 
-// Multiple clients for the same Service Bus entity should be using the same management client.
 /**
+ * Gets the management client for given entity path as 
+ * multiple clients for the same Service Bus entity use the same management client.
+ * 
  * @internal
  * @ignore
- * @param {Dictionary<ClientEntityContext>} clients
- * @param {string} entityPath
- * @returns {(ManagementClient | undefined)}
  */
 function getManagementClient(
-  clients: Dictionary<ClientEntityContext>,
+  clients: { [name: string]: ClientEntityContext },
   entityPath: string
 ): ManagementClient | undefined {
   let result: ManagementClient | undefined;

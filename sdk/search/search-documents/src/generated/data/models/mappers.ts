@@ -15,7 +15,7 @@ export const SuggestResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "SuggestResult",
     modelProperties: {
-      text: {
+      _text: {
         required: true,
         readOnly: true,
         serializedName: "@search\\.text",
@@ -226,7 +226,7 @@ export const SearchResult: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "SearchResult",
     modelProperties: {
-      score: {
+      _score: {
         required: true,
         nullable: false,
         readOnly: true,
@@ -235,7 +235,7 @@ export const SearchResult: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      highlights: {
+      _highlights: {
         readOnly: true,
         serializedName: "@search\\.highlights",
         type: {

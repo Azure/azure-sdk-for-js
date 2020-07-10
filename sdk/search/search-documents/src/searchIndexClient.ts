@@ -8,8 +8,7 @@ import {
   createPipelineFromOptions,
   InternalPipelineOptions,
   operationOptionsToRequestOptionsBase,
-  PipelineOptions,
-  ServiceClientCredentials
+  PipelineOptions
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { SDK_VERSION } from "./constants";
@@ -57,7 +56,7 @@ export class SearchIndexClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2019-05-06-Preview";
+  public readonly apiVersion: string = "2020-06-30";
 
   /**
    * The endpoint of the search service
@@ -129,17 +128,6 @@ export class SearchIndexClient {
       }
     };
 
-    // The contract with the generated client requires a credential, even though it is never used
-    // when a pipeline is provided. Until that contract can be changed, this dummy credential will
-    // throw an error if the client ever attempts to use it.
-    const dummyCredential: ServiceClientCredentials = {
-      signRequest() {
-        throw new Error(
-          "Internal error: Attempted to use credential from service client, but a pipeline was provided."
-        );
-      }
-    };
-
     const pipeline = createPipelineFromOptions(
       internalPipelineOptions,
       createSearchApiKeyCredentialPolicy(credential)
@@ -149,7 +137,7 @@ export class SearchIndexClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(dummyCredential, this.apiVersion, this.endpoint, pipeline);
+    this.client = new GeneratedClient(this.apiVersion, this.endpoint, pipeline);
   }
 
   private async *listIndexesPage(
@@ -568,11 +556,7 @@ export class SearchIndexClient {
    * @param text The text to break into tokens.
    * @param options Additional arguments
    */
-  public async analyzeText(
-    indexName: string,
-    text: string,
-    options: AnalyzeTextOptions
-  ): Promise<AnalyzeResult> {
+  public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
     const { operationOptions, restOptions } = utils.extractOperationOptions(options);
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
@@ -581,7 +565,8 @@ export class SearchIndexClient {
         indexName,
         {
           ...restOptions,
-          text
+          analyzer: restOptions.analyzerName,
+          tokenizer: restOptions.tokenizerName
         },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );

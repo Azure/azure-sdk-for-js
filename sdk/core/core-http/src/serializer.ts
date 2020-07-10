@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+/* eslint-disable eqeqeq */
 
 import * as base64 from "./util/base64";
 import * as utils from "./util/utils";
@@ -11,7 +12,10 @@ export class Serializer {
   ) {}
 
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
-    const failValidation = (constraintName: keyof MapperConstraints, constraintValue: any) => {
+    const failValidation = (
+      constraintName: keyof MapperConstraints,
+      constraintValue: any
+    ): Error => {
       throw new Error(
         `"${objectName}" with value "${value}" should satisfy the constraint "${constraintName}": ${constraintValue}.`
       );
@@ -239,7 +243,7 @@ export class Serializer {
   }
 }
 
-function trimEnd(str: string, ch: string) {
+function trimEnd(str: string, ch: string): string {
   let len = str.length;
   while (len - 1 >= 0 && str[len - 1] === ch) {
     --len;
@@ -270,7 +274,7 @@ function base64UrlToByteArray(str: string): Uint8Array | undefined {
     throw new Error("Please provide an input of type string for converting to Uint8Array");
   }
   // Base64Url to Base64.
-  str = str.replace(/\-/g, "+").replace(/\_/g, "/");
+  str = str.replace(/-/g, "+").replace(/_/g, "/");
   // Base64 to Uint8Array.
   return base64.decodeString(str);
 }
@@ -373,27 +377,29 @@ function serializeEnumType(objectName: string, allowedValues: Array<any>, value:
   return value;
 }
 
-function serializeByteArrayType(objectName: string, value: any): any {
+function serializeByteArrayType(objectName: string, value: Uint8Array): string {
+  let returnValue: string = "";
   if (value != undefined) {
     if (!(value instanceof Uint8Array)) {
       throw new Error(`${objectName} must be of type Uint8Array.`);
     }
-    value = base64.encodeByteArray(value);
+    returnValue = base64.encodeByteArray(value);
   }
-  return value;
+  return returnValue;
 }
 
-function serializeBase64UrlType(objectName: string, value: any): any {
+function serializeBase64UrlType(objectName: string, value: Uint8Array): string {
+  let returnValue: string = "";
   if (value != undefined) {
     if (!(value instanceof Uint8Array)) {
       throw new Error(`${objectName} must be of type Uint8Array.`);
     }
-    value = bufferToBase64Url(value);
+    returnValue = bufferToBase64Url(value) || "";
   }
-  return value;
+  return returnValue;
 }
 
-function serializeDateTypes(typeName: string, value: any, objectName: string) {
+function serializeDateTypes(typeName: string, value: any, objectName: string): any {
   if (value != undefined) {
     if (typeName.match(/^Date$/i) !== null) {
       if (
@@ -447,7 +453,6 @@ function serializeDateTypes(typeName: string, value: any, objectName: string) {
           `${objectName} must be a string in ISO 8601 format. Instead was "${value}".`
         );
       }
-      value = value;
     }
   }
   return value;
@@ -458,7 +463,7 @@ function serializeSequenceType(
   mapper: SequenceMapper,
   object: any,
   objectName: string
-) {
+): any[] {
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
   }
@@ -481,7 +486,7 @@ function serializeDictionaryType(
   mapper: DictionaryMapper,
   object: any,
   objectName: string
-) {
+): { [key: string]: any } {
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
   }
@@ -545,7 +550,7 @@ function serializeCompositeType(
   mapper: CompositeMapper,
   object: any,
   objectName: string
-) {
+): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, object, "clientName");
   }
@@ -754,7 +759,7 @@ function deserializeCompositeType(
 
   const additionalPropertiesMapper = mapper.type.additionalProperties;
   if (additionalPropertiesMapper) {
-    const isAdditionalProperty = (responsePropName: string) => {
+    const isAdditionalProperty = (responsePropName: string): boolean => {
       for (const clientPropName in modelProps) {
         const paths = splitSerializeName(modelProps[clientPropName].serializedName);
         if (paths[0] === responsePropName) {
@@ -793,8 +798,7 @@ function deserializeDictionaryType(
   mapper: DictionaryMapper,
   responseBody: any,
   objectName: string
-): any {
-  /*jshint validthis: true */
+): { [key: string]: any } {
   const value = mapper.type.value;
   if (!value || typeof value !== "object") {
     throw new Error(
@@ -817,8 +821,7 @@ function deserializeSequenceType(
   mapper: SequenceMapper,
   responseBody: any,
   objectName: string
-): any {
-  /*jshint validthis: true */
+): any[] {
   const element = mapper.type.element;
   if (!element || typeof element !== "object") {
     throw new Error(
@@ -879,7 +882,7 @@ function getPolymorphicDiscriminatorRecursively(
   );
 }
 
-function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: string) {
+function getPolymorphicDiscriminatorSafely(serializer: Serializer, typeName?: string): any {
   return (
     typeName &&
     serializer.modelMappers[typeName] &&

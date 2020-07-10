@@ -1,0 +1,32 @@
+{
+  "extends": "../../tsconfig.package",
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "newLine": "LF",
+    "target": "es5",
+    "moduleResolution": "node",
+    "strict": true,
+    "module": "esNext",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "importHelpers": true,
+    "declarationDir": "./types",
+    "lib": [
+      "dom",
+      "es5",
+      "es6",
+      "es7",
+      "esnext"
+    ],
+    "esModuleInterop": true,
+    "resolveJsonModule": true
+  },
+  "compileOnSave": true,
+  "include": [
+    "./test/**/*.ts"
+  ]
+}

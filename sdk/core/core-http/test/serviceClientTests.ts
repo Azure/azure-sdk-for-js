@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
 import { HttpClient } from "../src/httpClient";
@@ -389,7 +389,7 @@ describe("ServiceClient", function() {
 
     assert.strictEqual(response._response.status, 200);
     assert.strictEqual(
-      response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name"),
+      response._response.request.headers.get(isNode ? "user-agent" : "x-ms-useragent"),
       "blah blah"
     );
   });
@@ -418,7 +418,7 @@ describe("ServiceClient", function() {
 
     assert.strictEqual(response._response.status, 200);
     const userAgentHeaderValue: string | undefined = response._response.request.headers.get(
-      isNode ? "user-agent" : "x-ms-command-name"
+      isNode ? "user-agent" : "x-ms-useragent"
     );
     assert(userAgentHeaderValue);
     assert(userAgentHeaderValue!.startsWith("core-http/"));
@@ -449,7 +449,7 @@ describe("ServiceClient", function() {
 
     assert.strictEqual(response._response.status, 200);
     assert.strictEqual(
-      response._response.request.headers.get(isNode ? "user-agent" : "x-ms-command-name"),
+      response._response.request.headers.get(isNode ? "user-agent" : "x-ms-useragent"),
       "blah blah 2"
     );
   });
@@ -1166,7 +1166,7 @@ async function testSendOperationRequest(
   queryCollectionFormat: QueryCollectionFormat,
   skipEncodingParameter: boolean,
   expected: string
-) {
+): Promise<void> {
   let request: WebResource;
   const client = new ServiceClient(undefined, {
     httpClient: {

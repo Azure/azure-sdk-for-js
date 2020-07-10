@@ -7,7 +7,7 @@ import { ReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
-import { SessionReceiver } from "../src/receivers/sessionReceiver";
+import { SessionReceiver, SessionReceiverImpl } from "../src/receivers/sessionReceiver";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
@@ -17,6 +17,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
+import { singleMessagePromise } from "./streamingReceiver.spec";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -99,6 +100,53 @@ describe("Streaming with sessions", () => {
     return entityNames;
   }
 
+  it("Streaming - user can stop a message subscription without closing the receiver", async () => {
+    const entities = await serviceBusClient.test.createTestEntities(
+      TestClientType.UnpartitionedQueueWithSessions
+    );
+
+    const sender = await serviceBusClient.test.createSender(entities);
+    await sender.sendMessages({
+      body: ".close() test - first message",
+      sessionId: TestMessage.sessionId
+    });
+
+    const actualReceiver = await serviceBusClient.test.getSessionPeekLockReceiver(entities, {
+      sessionId: TestMessage.sessionId
+    });
+    const { subscriber, messages } = await singleMessagePromise(actualReceiver);
+
+    messages.map((m) => m.body).should.deep.equal([".close() test - first message"]);
+
+    // now we're going to shut down the closeable (ie, subscription). This leaves
+    // the receiver open but it does drain it (so any remaining messages are delivered
+    // and will still be settleable).
+    await subscriber.close();
+
+    await messages[0].complete();
+    messages.pop();
+
+    await sender.sendMessages({
+      body: ".close test - second message, after closing",
+      sessionId: TestMessage.sessionId
+    });
+
+    // the subscription is closed so no messages should be received here.
+    await delay(2000);
+
+    messages.map((m) => m.body).should.deep.equal([]);
+
+    await actualReceiver.close(); // release the session lock
+
+    const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+
+    // clean out the remaining message that never arrived.
+    const [finalMessage] = await receiver2.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+    finalMessage.body.should.equal(".close test - second message, after closing");
+
+    await serviceBusClient.test.afterEach();
+  });
+
   describe("Sessions Streaming - Misc Tests", function(): void {
     afterEach(async () => {
       await afterEachTest();
@@ -106,7 +154,7 @@ describe("Streaming with sessions", () => {
 
     async function testAutoComplete(): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessage[] = [];
       receiver.subscribe({
@@ -170,7 +218,7 @@ describe("Streaming with sessions", () => {
 
     async function testManualComplete(): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
         {
@@ -237,7 +285,7 @@ describe("Streaming with sessions", () => {
 
     async function testComplete(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe(
@@ -335,7 +383,7 @@ describe("Streaming with sessions", () => {
       autoComplete: boolean
     ): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
       let abandonFlag = 0;
 
       receiver.subscribe(
@@ -343,7 +391,9 @@ describe("Streaming with sessions", () => {
           async processMessage(msg: ReceivedMessageWithLock) {
             return msg.abandon().then(() => {
               abandonFlag = 1;
-              if (receiver.isReceivingMessages()) {
+              if (
+                (receiver as SessionReceiverImpl<ReceivedMessageWithLock>)["_isReceivingMessages"]()
+              ) {
                 return receiver.close();
               }
               return Promise.resolve();
@@ -357,7 +407,7 @@ describe("Streaming with sessions", () => {
       const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
       should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
-      if (receiver.isReceivingMessages()) {
+      if ((receiver as SessionReceiverImpl<ReceivedMessageWithLock>)["_isReceivingMessages"]()) {
         await receiver.close();
       }
 
@@ -365,7 +415,7 @@ describe("Streaming with sessions", () => {
 
       await createReceiverForTests(testClientType);
 
-      const receivedMsgs = await receiver.receiveBatch(1);
+      const receivedMsgs = await receiver.receiveMessages(1);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
       should.equal(
         receivedMsgs[0].messageId,
@@ -432,7 +482,7 @@ describe("Streaming with sessions", () => {
 
     async function testDefer(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       let sequenceNum: any = 0;
       receiver.subscribe(
@@ -455,7 +505,7 @@ describe("Streaming with sessions", () => {
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
-      const deferredMsg = await receiver.receiveDeferredMessage(sequenceNum);
+      const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNum);
       if (!deferredMsg) {
         throw "No message received for sequence number";
       }
@@ -535,7 +585,7 @@ describe("Streaming with sessions", () => {
 
     async function testDeadletter(autoComplete: boolean): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       let msgCount = 0;
       receiver.subscribe(
@@ -556,7 +606,7 @@ describe("Streaming with sessions", () => {
       should.equal(msgCount, 1, "Unexpected number of messages");
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgs = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
       should.equal(Array.isArray(deadLetterMsgs), true, "`ReceivedMessages` is not an array");
       should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
       should.equal(
@@ -663,7 +713,7 @@ describe("Streaming with sessions", () => {
 
       errorMessage = "";
       try {
-        await receiver.receiveBatch(1);
+        await receiver.receiveMessages(1);
       } catch (err) {
         errorMessage = err && err.message;
       }
@@ -698,7 +748,7 @@ describe("Streaming with sessions", () => {
 
     async function testSettlement(operation: DispositionType): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe({
@@ -811,7 +861,7 @@ describe("Streaming with sessions", () => {
 
     async function testUserError(): Promise<void> {
       const testMessage = TestMessage.getSessionSample();
-      await sender.send(testMessage);
+      await sender.sendMessages(testMessage);
       const errorMessage = "Will we see this error message?";
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
@@ -865,7 +915,7 @@ describe("Streaming with sessions", () => {
       for (const message of testMessages) {
         batchMessageToSend.tryAdd(message);
       }
-      await sender.send(batchMessageToSend);
+      await sender.sendMessages(batchMessageToSend);
 
       const settledMsgs: ReceivedMessageWithLock[] = [];
       const receivedMsgs: ReceivedMessageWithLock[] = [];
@@ -1015,7 +1065,7 @@ describe("Streaming with sessions", () => {
         messages.push(message);
         batch.tryAdd(message);
       }
-      await sender.send(batch);
+      await sender.sendMessages(batch);
 
       const receivedMsgs: ReceivedMessageWithLock[] = [];
 

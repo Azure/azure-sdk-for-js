@@ -18,15 +18,18 @@ import {
   OnAmqpEvent,
   Receiver,
   ReceiverOptions,
-  isAmqpError
+  isAmqpError,
+  ReceiverEvents
 } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { calculateRenewAfterDuration, getUniqueName } from "../util/utils";
+import { calculateRenewAfterDuration, getUniqueName, StandardAbortMessage } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
+import { AbortSignalLike } from "@azure/core-http";
+import { AbortError } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -243,17 +246,26 @@ export class MessageReceiver extends LinkEntity {
    * to bring its link back up due to a retryable issue.
    */
   private _isDetaching: boolean = false;
+  private _stopReceivingMessages: boolean = false;
+
+  public get receiverHelper(): ReceiverHelper {
+    return this._receiverHelper;
+  }
+  private _receiverHelper: ReceiverHelper;
 
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
+
     if (!options) options = {};
     this._retryOptions = options.retryOptions || {};
     this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
+    this._receiverHelper = new ReceiverHelper(() => this._receiver);
+
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
@@ -511,9 +523,7 @@ export class MessageReceiver extends LinkEntity {
         }
         return;
       } finally {
-        if (this._receiver) {
-          this._receiver.addCredit(1);
-        }
+        this._receiverHelper.addCredit(1);
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -710,6 +720,58 @@ export class MessageReceiver extends LinkEntity {
   }
 
   /**
+   * Prevents us from receiving any further messages.
+   */
+  public stopReceivingMessages(): Promise<void> {
+    log.receiver(
+      `[${this.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
+    );
+    this._stopReceivingMessages = true;
+
+    return this.drainReceiver();
+  }
+
+  private drainReceiver(): Promise<void> {
+    log.receiver(`[${this.name}] Receiver is starting drain.`);
+
+    const drainPromise = new Promise<void>((resolve) => {
+      if (this._receiver == null) {
+        log.receiver(`[${this.name}] Internal receiver has been removed. Not draining.`);
+        resolve();
+        return;
+      }
+
+      this._receiver.once(ReceiverEvents.receiverDrained, () => {
+        log.receiver(`[${this.name}] Receiver has been drained.`);
+        resolve();
+      });
+
+      this._receiver.drain = true;
+      // this is not actually adding another credit - it'll just
+      // cause the drain call to start.
+      this._receiver.addCredit(1);
+    });
+
+    return drainPromise;
+  }
+
+  /**
+   * Adds credits to the receiver, respecting any state that
+   * indicates the receiver is closed or should not continue
+   * to receive more messages.
+   *
+   * @param credits Number of credits to add.
+   */
+  protected addCredit(credits: number): boolean {
+    if (this._stopReceivingMessages || this._receiver == null) {
+      return false;
+    }
+
+    this._receiver.addCredit(credits);
+    return true;
+  }
+
+  /**
    * Creates the options that need to be specified while creating an AMQP receiver link.
    */
   protected _createReceiverOptions(
@@ -757,8 +819,17 @@ export class MessageReceiver extends LinkEntity {
    *
    * @returns {Promise<void>} Promise<void>.
    */
-  protected async _init(options?: ReceiverOptions): Promise<void> {
+  protected async _init(options?: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
+    const checkAborted = (): void => {
+      if (abortSignal?.aborted) {
+        throw new AbortError(StandardAbortMessage);
+      }
+    };
+
     const connectionId = this._context.namespace.connectionId;
+
+    checkAborted();
+
     try {
       if (!this.isOpen() && !this.isConnecting) {
         if (this.wasCloseInitiated) {
@@ -781,7 +852,10 @@ export class MessageReceiver extends LinkEntity {
         }
 
         this.isConnecting = true;
+
         await this._negotiateClaim();
+        checkAborted();
+
         if (!options) {
           options = this._createReceiverOptions();
         }
@@ -794,6 +868,8 @@ export class MessageReceiver extends LinkEntity {
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
         this.isConnecting = false;
+        checkAborted();
+
         log.error(
           "[%s] Receiver '%s' with address '%s' has established itself.",
           connectionId,
@@ -966,7 +1042,7 @@ export class MessageReceiver extends LinkEntity {
               await this.close();
             } else {
               if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                this._receiver.addCredit(this.maxConcurrentCalls);
+                this._receiverHelper.addCredit(this.maxConcurrentCalls);
               }
             }
             return;
@@ -1120,5 +1196,85 @@ export class MessageReceiver extends LinkEntity {
       result
     );
     return result;
+  }
+}
+
+/**
+ * Wraps the receiver with some higher level operations for managing state
+ * like credits, draining, etc...
+ *
+ * @internal
+ * @ignore
+ */
+export class ReceiverHelper {
+  private _stopReceivingMessages: boolean = false;
+
+  constructor(private _getCurrentReceiver: () => Receiver | undefined) {}
+
+  /**
+   * Adds credits to the receiver, respecting any state that
+   * indicates the receiver is closed or should not continue
+   * to receive more messages.
+   *
+   * @param credits Number of credits to add.
+   * @returns true if credits were added, false if there is no current receiver instance
+   * or `stopReceivingMessages` has been called.
+   */
+  public addCredit(credits: number): boolean {
+    const receiver = this._getCurrentReceiver();
+
+    if (this._stopReceivingMessages || receiver == null) {
+      return false;
+    }
+
+    receiver.addCredit(credits);
+    return true;
+  }
+
+  /**
+   * Prevents us from receiving any further messages.
+   */
+  public async stopReceivingMessages(): Promise<void> {
+    const receiver = this._getCurrentReceiver();
+
+    if (receiver == null) {
+      return;
+    }
+
+    log.receiver(
+      `[${receiver.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
+    );
+    this._stopReceivingMessages = true;
+
+    return this.drain();
+  }
+
+  /**
+   * Initiates a drain for the current receiver and resolves when
+   * the drain has completed.
+   */
+  public async drain(): Promise<void> {
+    const receiver = this._getCurrentReceiver();
+
+    if (receiver == null) {
+      return;
+    }
+
+    log.receiver(`[${receiver.name}] Receiver is starting drain.`);
+
+    const drainPromise = new Promise<void>((resolve) => {
+      receiver.once(ReceiverEvents.receiverDrained, () => {
+        log.receiver(`[${receiver.name}] Receiver has been drained.`);
+        receiver.drain = false;
+        resolve();
+      });
+
+      receiver.drain = true;
+      // this is not actually adding another credit - it'll just
+      // cause the drain call to start.
+      receiver.addCredit(1);
+    });
+
+    return drainPromise;
   }
 }

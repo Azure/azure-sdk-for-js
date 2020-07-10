@@ -3,6 +3,7 @@ parameters:
   ArtifactName: 'not-specified'
   DependsOn: Build
   Registry: 'https://registry.npmjs.org/'
+  PrivateRegistry: 'https://pkgs.dev.azure.com/azure-sdk/internal/_packaging/azure-sdk-for-js-pr/npm/registry/'
   DocArtifact: 'documentation'
   TargetDocRepoOwner: ''
   TargetDocRepoName: ''
@@ -28,11 +29,16 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
+                    - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
+                      parameters:
+                        PackageName: ${{artifact.name}}
+                        ServiceName: ${{parameters.ServiceDirectory}}
+                        ForRelease: true
                     - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                       parameters:
                         SourceFolder: ${{parameters.ArtifactName}}
                         TargetFolder: ${{artifact.safeName}}
-                        PackageName: ${{artifact.name}}
+                        PackageName: ${{artifact.name}}-*.tgz
                     - pwsh: |
                         Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                       workingDirectory: $(Pipeline.Workspace)
@@ -92,7 +98,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.ArtifactName}}
                           TargetFolder: ${{artifact.safeName}}
-                          PackageName: ${{artifact.name}}
+                          PackageName: ${{artifact.name}}-*.tgz
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
@@ -134,7 +140,7 @@ stages:
                         parameters:
                           SourceFolder: ${{parameters.DocArtifact}}
                           TargetFolder: ${{artifact.safeName}}/${{parameters.DocArtifact}}
-                          PackageName: $(Documentation.Zip)
+                          PackageName: $(Documentation.Zip).zip
                       - pwsh: |
                           Get-ChildItem -Recurse $(Pipeline.Workspace)/${{artifact.safeName}}
                         workingDirectory: $(Pipeline.Workspace)
@@ -193,14 +199,24 @@ stages:
           artifact: ${{parameters.ArtifactName}}
           timeoutInMinutes: 5
         - ${{ each artifact in parameters.Artifacts }}:
-            - script: |
-                export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*-dev*.tgz`
-                echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
+            - pwsh: |
+                $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*-dev*.tgz
+                echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
+                if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
+                  $npmToken="$(azure-sdk-npm-token)"
+                  $registry="${{parameters.Registry}}"
+                }         
+                else {
+                  $npmToken="$(azure-sdk-devops-npm-token)"
+                  $registry="${{parameters.PrivateRegistry}}"
+                }
+                echo "##vso[task.setvariable variable=NpmToken]$npmToken"
+                echo "##vso[task.setvariable variable=Registry]$registry"
               displayName: Detecting package archive_${{artifact.safeName}}
 
             - task: PowerShell@2
-              displayName: "Publish_${{artifact.safeName}} to npmjs.org"
+              displayName: "Publish_${{artifact.safeName}} to dev feed"
               inputs:
                 targetType: filePath
                 filePath: "eng/tools/publish-to-npm.ps1"
-                arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
+                arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'

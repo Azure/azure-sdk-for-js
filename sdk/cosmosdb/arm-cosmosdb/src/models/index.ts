@@ -12,6 +12,19 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * IpAddressOrRange object
+ */
+export interface IpAddressOrRange {
+  /**
+   * A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
+   * well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8,
+   * 100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16, since these are not enforceable by the IP
+   * address filter. Example of valid inputs: “23.40.210.245” or “23.40.210.0/8”.
+   */
+  ipAddressOrRange?: string;
+}
+
+/**
  * The consistency policy for the Cosmos DB database account.
  */
 export interface ConsistencyPolicy {
@@ -197,6 +210,16 @@ export interface PrivateEndpointConnection extends ProxyResource {
 }
 
 /**
+ * An interface representing ApiProperties.
+ */
+export interface ApiProperties {
+  /**
+   * Describes the ServerVersion of an a MongoDB account. Possible values include: '3.2', '3.6'
+   */
+  serverVersion?: ServerVersion;
+}
+
+/**
  * The core properties of ARM resources.
  */
 export interface ARMResourceProperties extends BaseResource {
@@ -245,11 +268,9 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    */
   readonly databaseAccountOfferType?: DatabaseAccountOfferType;
   /**
-   * Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges
-   * in CIDR form to be included as the allowed list of client IPs for a given database account. IP
-   * addresses/ranges must be comma separated and must not contain any spaces.
+   * List of IpRules.
    */
-  ipRangeFilter?: string;
+  ipRules?: IpAddressOrRange[];
   /**
    * Flag to indicate whether to enable/disable Virtual Network ACL rules.
    */
@@ -324,6 +345,18 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * 'Disabled'
    */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Flag to indicate whether Free Tier is enabled.
+   */
+  enableFreeTier?: boolean;
+  /**
+   * API specific properties.
+   */
+  apiProperties?: ApiProperties;
+  /**
+   * Flag to indicate whether to enable storage analytics.
+   */
+  enableAnalyticalStorage?: boolean;
 }
 
 /**
@@ -365,10 +398,14 @@ export interface SqlDatabaseGetPropertiesResource {
  */
 export interface OptionsResource {
   /**
-   * Value of the Cosmos DB resource throughput. Use the ThroughputSetting resource when retrieving
-   * offer details.
+   * Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting
+   * resource when retrieving offer details.
    */
   throughput?: number;
+  /**
+   * Specifies the Autoscale settings.
+   */
+  autoscaleSettings?: AutoscaleSettings;
 }
 
 /**
@@ -831,6 +868,10 @@ export interface MongoDBCollectionGetPropertiesResource {
    */
   indexes?: MongoIndex[];
   /**
+   * Analytical TTL.
+   */
+  analyticalStorageTtl?: number;
+  /**
    * A system generated property. A unique identifier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1014,6 +1055,10 @@ export interface CassandraTableGetPropertiesResource {
    * Schema of the Cosmos DB Cassandra table
    */
   schema?: CassandraSchema;
+  /**
+   * Analytical TTL.
+   */
+  analyticalStorageTtl?: number;
   /**
    * A system generated property. A unique identifier.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1256,7 +1301,7 @@ export interface AutoUpgradePolicyResource {
 /**
  * Cosmos DB provisioned throughput settings object
  */
-export interface ProvisionedThroughputSettingsResource {
+export interface AutoscaleSettingsResource {
   /**
    * Represents maximum throughput container can scale up to.
    */
@@ -1278,15 +1323,15 @@ export interface ProvisionedThroughputSettingsResource {
  */
 export interface ThroughputSettingsGetPropertiesResource {
   /**
-   * Value of the Cosmos DB resource throughput. Either throughput is required or
-   * provisionedThroughputSettings is required, but not both.
+   * Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings
+   * is required, but not both.
    */
   throughput?: number;
   /**
-   * Cosmos DB resource for provisioned throughput settings. Either throughput is required or
-   * provisionedThroughputSettings is required, but not both.
+   * Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings
+   * is required, but not both.
    */
-  provisionedThroughputSettings?: ProvisionedThroughputSettingsResource;
+  autoscaleSettings?: AutoscaleSettingsResource;
   /**
    * The minimum throughput of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1341,11 +1386,9 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    */
   locations: Location[];
   /**
-   * Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges
-   * in CIDR form to be included as the allowed list of client IPs for a given database account. IP
-   * addresses/ranges must be comma separated and must not contain any spaces.
+   * List of IpRules.
    */
-  ipRangeFilter?: string;
+  ipRules?: IpAddressOrRange[];
   /**
    * Flag to indicate whether to enable/disable Virtual Network ACL rules.
    */
@@ -1391,6 +1434,18 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * 'Disabled'
    */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Flag to indicate whether Free Tier is enabled.
+   */
+  enableFreeTier?: boolean;
+  /**
+   * API specific properties. Currently, supported only for MongoDB API.
+   */
+  apiProperties?: ApiProperties;
+  /**
+   * Flag to indicate whether to enable storage analytics.
+   */
+  enableAnalyticalStorage?: boolean;
 }
 
 /**
@@ -1411,11 +1466,9 @@ export interface DatabaseAccountUpdateParameters {
    */
   locations?: Location[];
   /**
-   * Cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges
-   * in CIDR form to be included as the allowed list of client IPs for a given database account. IP
-   * addresses/ranges must be comma separated and must not contain any spaces.
+   * List of IpRules.
    */
-  ipRangeFilter?: string;
+  ipRules?: IpAddressOrRange[];
   /**
    * Flag to indicate whether to enable/disable Virtual Network ACL rules.
    */
@@ -1461,6 +1514,18 @@ export interface DatabaseAccountUpdateParameters {
    * 'Disabled'
    */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Flag to indicate whether Free Tier is enabled.
+   */
+  enableFreeTier?: boolean;
+  /**
+   * API specific properties. Currently, supported only for MongoDB API.
+   */
+  apiProperties?: ApiProperties;
+  /**
+   * Flag to indicate whether to enable storage analytics.
+   */
+  enableAnalyticalStorage?: boolean;
 }
 
 /**
@@ -1533,20 +1598,20 @@ export interface DatabaseAccountRegenerateKeyParameters {
 }
 
 /**
- * Cosmos DB resource throughput object. Either throughput is required or
- * provisionedThroughputSettings is required, but not both.
+ * Cosmos DB resource throughput object. Either throughput is required or autoscaleSettings is
+ * required, but not both.
  */
 export interface ThroughputSettingsResource {
   /**
-   * Value of the Cosmos DB resource throughput. Either throughput is required or
-   * provisionedThroughputSettings is required, but not both.
+   * Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings
+   * is required, but not both.
    */
   throughput?: number;
   /**
-   * Cosmos DB resource for provisioned throughput settings. Either throughput is required or
-   * provisionedThroughputSettings is required, but not both.
+   * Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings
+   * is required, but not both.
    */
-  provisionedThroughputSettings?: ProvisionedThroughputSettingsResource;
+  autoscaleSettings?: AutoscaleSettingsResource;
   /**
    * The minimum throughput of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1580,19 +1645,28 @@ export interface SqlDatabaseResource {
 }
 
 /**
+ * An interface representing AutoscaleSettings.
+ */
+export interface AutoscaleSettings {
+  /**
+   * Represents maximum throughput, the resource can scale up to.
+   */
+  maxThroughput?: number;
+}
+
+/**
  * CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are
  * "If-Match", "If-None-Match", "Session-Token" and "Throughput"
  */
 export interface CreateUpdateOptions {
   /**
-   * Request Units per second. For example, "throughput": "10000".
+   * Request Units per second. For example, "throughput": 10000.
    */
-  throughput?: string;
+  throughput?: number;
   /**
-   * Describes unknown properties. The value of an unknown property MUST be of type "string". Due
-   * to valid TS constraints we have modeled this as a union of `string | any`.
+   * Specifies the Autoscale settings.
    */
-  [property: string]: string | any;
+  autoscaleSettings?: AutoscaleSettings;
 }
 
 /**
@@ -1795,6 +1869,10 @@ export interface MongoDBCollectionResource {
    * List of index keys
    */
   indexes?: MongoIndex[];
+  /**
+   * Analytical TTL.
+   */
+  analyticalStorageTtl?: number;
 }
 
 /**
@@ -1878,6 +1956,10 @@ export interface CassandraTableResource {
    * Schema of the Cosmos DB Cassandra table
    */
   schema?: CassandraSchema;
+  /**
+   * Analytical TTL.
+   */
+  analyticalStorageTtl?: number;
 }
 
 /**
@@ -2644,6 +2726,14 @@ export type ConnectorOffer = 'Small';
  * @enum {string}
  */
 export type PublicNetworkAccess = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for ServerVersion.
+ * Possible values include: '3.2', '3.6'
+ * @readonly
+ * @enum {string}
+ */
+export type ServerVersion = '3.2' | '3.6';
 
 /**
  * Defines values for IndexingMode.

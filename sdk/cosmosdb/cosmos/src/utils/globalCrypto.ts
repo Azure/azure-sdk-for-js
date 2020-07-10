@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 const globalRef: any = typeof self === "undefined" ? window : self;
 
-if (!globalThis) {
+if (!globalRef) {
   throw new Error("Could not find global");
 }
 

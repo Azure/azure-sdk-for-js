@@ -3,7 +3,8 @@
 
 import {
   checkAndRegisterWithAbortSignal,
-  waitForTimeoutOrAbortOrResolve
+  waitForTimeoutOrAbortOrResolve,
+  StandardAbortMessage
 } from "../../src/util/utils";
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
@@ -70,7 +71,6 @@ describe("utils", () => {
         timeoutMessage: "the message for the timeout",
         timeoutMs: neverFireMs,
         abortSignal,
-        abortMessage: "the message for aborting",
         timeoutFunctions
       });
 
@@ -81,7 +81,7 @@ describe("utils", () => {
         await prm;
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
-        assert.equal(err.message, "the message for aborting");
+        assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
 
@@ -103,13 +103,12 @@ describe("utils", () => {
           timeoutMessage: "the message for the timeout",
           timeoutMs: neverFireMs,
           abortSignal,
-          abortMessage: "the message for aborting",
           timeoutFunctions
         });
 
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
-        assert.equal(err.message, "the message for aborting");
+        assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
 
@@ -129,7 +128,6 @@ describe("utils", () => {
           },
           timeoutMs: 500,
           timeoutMessage: "the message for the timeout",
-          abortMessage: "ignored for this test since we don't have an abort signal",
           timeoutFunctions
         });
 
@@ -151,7 +149,6 @@ describe("utils", () => {
           timeoutMessage: "the message for the timeout",
           timeoutMs: 500,
           abortSignal,
-          abortMessage: "the message for aborting",
           timeoutFunctions
         });
 
@@ -177,7 +174,6 @@ describe("utils", () => {
         timeoutMessage: "the message for the timeout",
         timeoutMs: neverFireMs,
         abortSignal,
-        abortMessage: "the message for aborting",
         timeoutFunctions
       });
 
@@ -198,7 +194,6 @@ describe("utils", () => {
           timeoutMessage: "the message for the timeout",
           timeoutMs: neverFireMs,
           abortSignal,
-          abortMessage: "the message for aborting",
           timeoutFunctions
         });
 
@@ -222,8 +217,7 @@ describe("utils", () => {
           },
           timeoutMessage: "the message for the timeout",
           timeoutMs: 1,
-          abortSignal,
-          abortMessage: "the message for aborting"
+          abortSignal
         });
       } catch (err) {
         assert.equal(err.message, "the message for the timeout");
@@ -238,11 +232,10 @@ describe("utils", () => {
           },
           timeoutMessage: "the message for the timeout",
           timeoutMs: neverFireMs,
-          abortSignal,
-          abortMessage: "the message for aborting"
+          abortSignal
         });
       } catch (err) {
-        assert.equal(err.message, "the message for aborting");
+        assert.equal(err.message, StandardAbortMessage);
       }
     });
   });
@@ -257,13 +250,9 @@ describe("utils", () => {
     });
 
     it("abortSignal is undefined", () => {
-      const cleanupFn = checkAndRegisterWithAbortSignal(
-        () => {
-          throw new Error("Will never be called");
-        },
-        "the message for aborting",
-        undefined
-      );
+      const cleanupFn = checkAndRegisterWithAbortSignal(() => {
+        throw new Error("Will never be called");
+      }, undefined);
 
       // we just return a no-op function in this case.
       assert.exists(cleanupFn);
@@ -274,17 +263,13 @@ describe("utils", () => {
       abortController.abort();
 
       try {
-        checkAndRegisterWithAbortSignal(
-          () => {
-            throw new Error("Will never be called");
-          },
-          "the message for aborting",
-          abortSignal
-        );
+        checkAndRegisterWithAbortSignal(() => {
+          throw new Error("Will never be called");
+        }, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.name, "AbortError");
-        assert.equal(err.message, "the message for aborting");
+        assert.equal(err.message, StandardAbortMessage);
       }
 
       assert.isTrue(abortSignal.ourListenersWereRemoved());
@@ -292,14 +277,10 @@ describe("utils", () => {
 
     it("abortSignal abort calls handlers", async () => {
       let callbackWasCalled = false;
-      const cleanupFn = checkAndRegisterWithAbortSignal(
-        (abortError: AbortError) => {
-          callbackWasCalled = true;
-          assert.equal(abortError.message, "the message for aborting");
-        },
-        "the message for aborting",
-        abortSignal
-      );
+      const cleanupFn = checkAndRegisterWithAbortSignal((abortError: AbortError) => {
+        callbackWasCalled = true;
+        assert.equal(abortError.message, StandardAbortMessage);
+      }, abortSignal);
       assert.exists(cleanupFn);
 
       assert.isFalse(abortSignal.ourListenersWereRemoved());
@@ -317,13 +298,9 @@ describe("utils", () => {
 
     it("calling cleanup removes handlers from abortSignal", async () => {
       let callbackWasCalled = false;
-      const cleanupFn = checkAndRegisterWithAbortSignal(
-        () => {
-          callbackWasCalled = true;
-        },
-        "the message for aborting",
-        abortSignal
-      );
+      const cleanupFn = checkAndRegisterWithAbortSignal(() => {
+        callbackWasCalled = true;
+      }, abortSignal);
       assert.exists(cleanupFn);
 
       assert.isFalse(abortSignal.ourListenersWereRemoved());

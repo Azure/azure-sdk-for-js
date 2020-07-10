@@ -3,17 +3,19 @@
 
 import * as assert from "assert";
 import chai from "chai";
-import { SecretClient } from "../../src";
-import { testPollerProperties } from "../utils/recorderUtils";
 import { env, Recorder, isRecordMode } from "@azure/test-utils-recorder";
+
+import { SecretClient } from "../../src";
+import { assertThrowsAbortError } from "../utils/utils.common";
+import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { assertThrowsAbortError } from "../utils/utils.common";
+
 const { expect } = chai;
 
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
-  const secretPrefix = `CRUD${env.SECRET_NAME || "SecretName"}`;
+  const secretPrefix = `list${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
   let client: SecretClient;
   let testClient: TestClient;

@@ -46,10 +46,7 @@ jobs:
         value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; azureCloud = 'AzureChinaCloud'; }"
 
     steps:
-      - task: NodeTool@0
-        displayName: Use Node $(NodeVersion)
-        inputs:
-          versionSpec: $(NodeVersion)
+      - template: ../../eng/pipelines/templates/steps/common.yml
 
       - task: Npm@1
         inputs:

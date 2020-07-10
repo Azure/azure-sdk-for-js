@@ -20,10 +20,11 @@ export interface AnalyzedTokenInfo {
 
 // @public
 export interface AnalyzeRequest {
-    analyzer?: string;
+    analyzerName?: string;
     charFilters?: string[];
+    text: string;
     tokenFilters?: string[];
-    tokenizer?: string;
+    tokenizerName?: string;
 }
 
 // @public
@@ -207,7 +208,7 @@ export interface CustomAnalyzer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
     tokenFilters?: string[];
-    tokenizer: string;
+    tokenizerName: string;
 }
 
 // @public
@@ -948,27 +949,6 @@ export interface PhoneticTokenFilter {
 export type QueryType = 'simple' | 'full';
 
 // @public
-export interface RawSearchRequest {
-    facets?: string[];
-    filter?: string;
-    highlightFields?: string;
-    highlightPostTag?: string;
-    highlightPreTag?: string;
-    includeTotalResultCount?: boolean;
-    minimumCoverage?: number;
-    orderBy?: string;
-    queryType?: QueryType;
-    scoringParameters?: string[];
-    scoringProfile?: string;
-    searchFields?: string;
-    searchMode?: SearchMode;
-    searchText?: string;
-    select?: string;
-    skip?: number;
-    top?: number;
-}
-
-// @public
 export type RegexFlags = 'CANON_EQ' | 'CASE_INSENSITIVE' | 'COMMENTS' | 'DOTALL' | 'LITERAL' | 'MULTILINE' | 'UNICODE_CASE' | 'UNIX_LINES';
 
 // @public
@@ -1004,7 +984,7 @@ export interface ScoringProfile {
 export class SearchClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
-    autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
+    autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     deleteDocuments(keyName: keyof T, keyValues: string[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly endpoint: string;
@@ -1015,7 +995,7 @@ export class SearchClient<T> {
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: T[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
     search<Fields extends keyof T>(searchText?: string, options?: SearchOptions<Fields>): Promise<SearchDocumentsResult<Pick<T, Fields>>>;
-    suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
+    suggest<Fields extends keyof T = never>(searchText: string, suggesterName: string, options?: SuggestOptions<Fields>): Promise<SuggestDocumentsResult<Pick<T, Fields>>>;
     uploadDocuments(documents: T[], options?: UploadDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
@@ -1068,7 +1048,7 @@ export interface SearchIndex {
 // @public
 export class SearchIndexClient {
     constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexClientOptions);
-    analyzeText(indexName: string, text: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
+    analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
     createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
     createOrUpdateIndex(index: SearchIndex, options?: CreateOrUpdateIndexOptions): Promise<SearchIndex>;
@@ -1217,16 +1197,37 @@ export type SearchIterator<Fields> = PagedAsyncIterableIterator<SearchResult<Fie
 export type SearchMode = 'any' | 'all';
 
 // @public
-export type SearchOptions<Fields> = OperationOptions & SearchRequest<Fields>;
+export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fields>;
 
 // @public
-export interface SearchRequest<Fields> {
+export interface SearchRequest {
     facets?: string[];
     filter?: string;
     highlightFields?: string;
     highlightPostTag?: string;
     highlightPreTag?: string;
-    includeTotalResultCount?: boolean;
+    includeTotalCount?: boolean;
+    minimumCoverage?: number;
+    orderBy?: string;
+    queryType?: QueryType;
+    scoringParameters?: string[];
+    scoringProfile?: string;
+    searchFields?: string;
+    searchMode?: SearchMode;
+    searchText?: string;
+    select?: string;
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface SearchRequestOptions<Fields> {
+    facets?: string[];
+    filter?: string;
+    highlightFields?: string;
+    highlightPostTag?: string;
+    highlightPreTag?: string;
+    includeTotalCount?: boolean;
     minimumCoverage?: number;
     orderBy?: string[];
     queryType?: QueryType;
@@ -1254,7 +1255,8 @@ export type SearchResult<T> = {
     readonly highlights?: {
         [propertyName: string]: string[];
     };
-} & T;
+    document: T;
+};
 
 // @public
 export interface SearchServiceStatistics {
@@ -1288,7 +1290,6 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
-    skillsetCounter: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
 }
@@ -1442,7 +1443,8 @@ export interface SuggestRequest<Fields> {
 // @public
 export type SuggestResult<T> = {
     readonly text: string;
-} & T;
+    document: T;
+};
 
 // @public
 export interface SynonymMap {

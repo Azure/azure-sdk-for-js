@@ -33,7 +33,7 @@ export function nodeConfig(test = false) {
   const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
   const additionalExternals = ["keytar"];
   const baseConfig = {
-    input: "dist-esm/src/index.js",
+    input: "dist-esm/keyvault-certificates/src/index.js",
     external: depNames.concat(externalNodeBuiltins, additionalExternals),
     output: {
       file: "dist/index.js",
@@ -57,7 +57,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/test/*.test.js"];
+    baseConfig.input = ["dist-esm/**/*.spec.js"];
     baseConfig.plugins.unshift(
       multiEntry({ exports: false }),
       json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
@@ -83,7 +83,7 @@ export function nodeConfig(test = false) {
 
 export function browserConfig(test = false) {
   const baseConfig = {
-    input: "dist-esm/src/index.js",
+    input: "dist-esm/keyvault-certificates/src/index.js",
     output: {
       file: "dist-browser/azure-keyvault-certificates.js",
       banner: banner,
@@ -131,7 +131,7 @@ export function browserConfig(test = false) {
   baseConfig.external = ["fs", "fs-extra", "child_process", "path", "crypto", "constants"];
   if (test) {
     baseConfig.external.push("os");
-    baseConfig.input = ["dist-esm/test/*.test.js"];
+    baseConfig.input = ["dist-esm/**/*.spec.js"];
     baseConfig.plugins.unshift(
       multiEntry({ exports: false }),
       json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.

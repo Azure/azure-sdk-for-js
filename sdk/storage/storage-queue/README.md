@@ -251,7 +251,7 @@ const queueServiceClient = new QueueServiceClient(
 );
 
 async function main() {
-  let iter2 = await queueServiceClient.listQueues();
+  let iter2 = queueServiceClient.listQueues();
   let i = 1;
   let item = await iter2.next();
   while (!item.done) {

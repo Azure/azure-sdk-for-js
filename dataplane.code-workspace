@@ -25,6 +25,10 @@
       "path": "sdk\\core\\core-auth"
     },
     {
+      "name": "core-client",
+      "path": "sdk\\core\\core-client"
+    },
+    {
       "name": "core-http",
       "path": "sdk\\core\\core-http"
     },
@@ -101,6 +105,10 @@
       "path": "sdk\\storage\\storage-blob"
     },
     {
+      "name": "storage-blob-changefeed",
+      "path": "sdk\\storage\\storage-blob-changefeed"
+    },
+    {
       "name": "storage-file-datalake",
       "path": "sdk\\storage\\storage-file-datalake"
     },
@@ -111,6 +119,10 @@
     {
       "name": "storage-queue",
       "path": "sdk\\storage\\storage-queue"
+    },
+    {
+      "name": "tables",
+      "path": "sdk\\tables\\azure-tables"
     },
     {
       "name": "text analytics",
@@ -158,9 +170,11 @@
       "**/test-browser/*": true
     },
     "typescript.tsdk": "core-http\\node_modules\\typescript\\lib",
-    
   },
   "extensions": {
-    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode"
+    ]
   }
 }

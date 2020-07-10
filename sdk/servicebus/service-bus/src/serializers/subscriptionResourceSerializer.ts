@@ -15,7 +15,8 @@ import {
   getInteger,
   getString,
   getStringOrUndefined,
-  MessageCountDetails
+  MessageCountDetails,
+  getDate
 } from "../util/utils";
 
 /**
@@ -108,9 +109,9 @@ export function buildSubscriptionRuntimeInfo(rawSubscription: any): Subscription
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
     messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
     messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
-    createdOn: getString(rawSubscription[Constants.CREATED_AT], "createdOn"),
-    updatedOn: getString(rawSubscription[Constants.UPDATED_AT], "updatedOn"),
-    accessedOn: rawSubscription[Constants.ACCESSED_AT]
+    createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
+    accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
   };
 }
 
@@ -133,6 +134,8 @@ export interface SubscriptionDescription {
    * duration. Settable only at subscription creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   lockDuration?: string;
 
@@ -149,6 +152,8 @@ export interface SubscriptionDescription {
    * to the subscription’s associated DeadLtterQueue or permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   defaultMessageTtl?: string;
 
@@ -215,6 +220,8 @@ export interface SubscriptionDescription {
    * Max idle time before entity is deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   autoDeleteOnIdle?: string;
 }
@@ -230,6 +237,8 @@ export interface InternalSubscriptionOptions {
    * duration. Settable only at subscription creation time.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   LockDuration?: string;
 
@@ -246,6 +255,8 @@ export interface InternalSubscriptionOptions {
    * to the subscription’s associated DeadLtterQueue or permanently deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   DefaultMessageTimeToLive?: string;
 
@@ -312,6 +323,8 @@ export interface InternalSubscriptionOptions {
    * Max idle time before entity is deleted.
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   AutoDeleteOnIdle?: string;
 }
@@ -344,17 +357,17 @@ export interface SubscriptionRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdOn: string;
+  createdAt: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedOn: string;
+  updatedAt: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedOn?: string;
+  accessedAt: Date;
 }
 
 /**

@@ -16,7 +16,6 @@ import {
 } from "./utils/testutils2";
 import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-amqp";
 import { ReceiverEvents } from "rhea-promise";
 
 const should = chai.should();
@@ -54,6 +53,58 @@ describe("batchReceiver", () => {
     return serviceBusClient.test.afterEach();
   }
 
+  it("Partitioned Queue: - maxMessageCount defaults to 1", async function(): Promise<void> {
+    await beforeEachTest(TestClientType.PartitionedQueue);
+    const testMessage = TestMessage.getSample();
+    await sender.sendMessages(testMessage);
+
+    // @ts-expect-error
+    const peekedMsgs = await receiver.peekMessages();
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked.");
+    should.equal(
+      peekedMsgs[0].body,
+      testMessage.body,
+      "Peeked message body is different than expected"
+    );
+
+    // @ts-expect-error
+    const msgs = await receiver.receiveMessages();
+    should.equal(msgs.length, 1, "Unexpected number of messages received.");
+    should.equal(
+      msgs[0].body,
+      testMessage.body,
+      "Received message body is different than expected"
+    );
+    await msgs[0].complete();
+  });
+
+  it("Partitioned Queue with Sessions- maxMessageCount defaults to 1", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
+    const testMessage = TestMessage.getSessionSample();
+    await sender.sendMessages(testMessage);
+
+    // @ts-expect-error
+    const peekedMsgs = await receiver.peekMessages();
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked.");
+    should.equal(
+      peekedMsgs[0].body,
+      testMessage.body,
+      "Peeked message body is different than expected"
+    );
+
+    // @ts-expect-error
+    const msgs = await receiver.receiveMessages();
+    should.equal(msgs.length, 1, "Unexpected number of messages received.");
+    should.equal(
+      msgs[0].body,
+      testMessage.body,
+      "Received message body is different than expected"
+    );
+    await msgs[0].complete();
+  });
+
   describe("Batch Receiver - Settle message", function(): void {
     afterEach(async () => {
       await afterEachTest();
@@ -62,8 +113,8 @@ describe("batchReceiver", () => {
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage
     ): Promise<ReceivedMessageWithLock> {
-      await sender.send(testMessages);
-      const msgs = await receiver.receiveBatch(1);
+      await sender.sendMessages(testMessages);
+      const msgs = await receiver.receiveMessages(1);
 
       should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
       should.equal(msgs.length, 1, "Unexpected number of messages");
@@ -142,7 +193,7 @@ describe("batchReceiver", () => {
 
       await testPeekMsgsLength(receiver, 1);
 
-      const messageBatch = await receiver.receiveBatch(1);
+      const messageBatch = await receiver.receiveMessages(1);
 
       should.equal(messageBatch.length, 1, "Unexpected number of messages");
       should.equal(messageBatch[0].deliveryCount, 1, "DeliveryCount is different than expected");
@@ -215,11 +266,11 @@ describe("batchReceiver", () => {
 
     async function testAbandonMsgsTillMaxDeliveryCount(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await sender.send(testMessages);
+      await sender.sendMessages(testMessages);
       let abandonMsgCount = 0;
 
       while (abandonMsgCount < maxDeliveryCount) {
-        const batch = await receiver.receiveBatch(1);
+        const batch = await receiver.receiveMessages(1);
 
         should.equal(batch.length, 1, "Unexpected number of messages");
         should.equal(
@@ -239,7 +290,7 @@ describe("batchReceiver", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
 
       should.equal(
         Array.isArray(deadLetterMsgsBatch),
@@ -329,19 +380,19 @@ describe("batchReceiver", () => {
       const sequenceNumber = msg.sequenceNumber;
       await msg.defer();
 
-      const deferredMsgs = await receiver.receiveDeferredMessage(sequenceNumber);
-      if (!deferredMsgs) {
+      const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
+      if (!deferredMsg) {
         throw "No message received for sequence number";
       }
-      should.equal(deferredMsgs.body, testMessages.body, "MessageBody is different than expected");
+      should.equal(deferredMsg.body, testMessages.body, "MessageBody is different than expected");
       should.equal(
-        deferredMsgs.messageId,
+        deferredMsg.messageId,
         testMessages.messageId,
         "MessageId is different than expected"
       );
-      should.equal(deferredMsgs.deliveryCount, 1, "DeliveryCount is different than expected");
+      should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
 
-      await deferredMsgs.complete();
+      await deferredMsg.complete();
 
       await testPeekMsgsLength(receiver, 0);
     }
@@ -409,7 +460,7 @@ describe("batchReceiver", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
 
       should.equal(
         Array.isArray(deadLetterMsgsBatch),
@@ -498,8 +549,8 @@ describe("batchReceiver", () => {
     async function deadLetterMessage(
       testMessage: ServiceBusMessage
     ): Promise<ReceivedMessageWithLock> {
-      await sender.send(testMessage);
-      const batch = await receiver.receiveBatch(1);
+      await sender.sendMessages(testMessage);
+      const batch = await receiver.receiveMessages(1);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
       should.equal(batch[0].body, testMessage.body, "MessageBody is different than expected");
@@ -514,7 +565,7 @@ describe("batchReceiver", () => {
 
       await testPeekMsgsLength(receiver, 0);
 
-      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
 
       should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
       should.equal(
@@ -541,7 +592,7 @@ describe("batchReceiver", () => {
       deadletterClient: Receiver<ReceivedMessageWithLock>,
       expectedDeliverCount: number
     ): Promise<void> {
-      const deadLetterMsgsBatch = await deadLetterReceiver.receiveBatch(1);
+      const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
 
       should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
       should.equal(
@@ -651,18 +702,18 @@ describe("batchReceiver", () => {
       const sequenceNumber = deadLetterMsg.sequenceNumber;
       await deadLetterMsg.defer();
 
-      const deferredMsgs = await deadLetterReceiver.receiveDeferredMessage(sequenceNumber);
-      if (!deferredMsgs) {
+      const [deferredMsg] = await deadLetterReceiver.receiveDeferredMessages(sequenceNumber);
+      if (!deferredMsg) {
         throw "No message received for sequence number";
       }
-      should.equal(deferredMsgs.body, testMessage.body, "MessageBody is different than expected");
+      should.equal(deferredMsg.body, testMessage.body, "MessageBody is different than expected");
       should.equal(
-        deferredMsgs.messageId,
+        deferredMsg.messageId,
         testMessage.messageId,
         "MessageId is different than expected"
       );
 
-      await deferredMsgs.complete();
+      await deferredMsg.complete();
 
       await testPeekMsgsLength(receiver, 0);
 
@@ -705,7 +756,7 @@ describe("batchReceiver", () => {
 
     // We use an empty queue/topic here so that the first receiveMessages call takes time to return
     async function testParallelReceiveCalls(useSessions?: boolean): Promise<void> {
-      const firstBatchPromise = receiver.receiveBatch(1, { maxWaitTimeInMs: 10000 });
+      const firstBatchPromise = receiver.receiveMessages(1, { maxWaitTimeInMs: 10000 });
       await delay(5000);
 
       let errorMessage;
@@ -715,7 +766,7 @@ describe("batchReceiver", () => {
       );
 
       try {
-        await receiver.receiveBatch(1);
+        await receiver.receiveMessages(1);
       } catch (err) {
         errorMessage = err && err.message;
       }
@@ -799,9 +850,9 @@ describe("batchReceiver", () => {
       for (const message of testMessages) {
         batchMessageToSend.tryAdd(message);
       }
-      await sender.send(batchMessageToSend);
-      const msgs1 = await receiver.receiveBatch(1);
-      const msgs2 = await receiver.receiveBatch(1);
+      await sender.sendMessages(batchMessageToSend);
+      const msgs1 = await receiver.receiveMessages(1);
+      const msgs2 = await receiver.receiveMessages(1);
 
       // Results are checked after both receiveMessages are done to ensure that the second call doesnt
       // affect the result from the first one.
@@ -848,9 +899,9 @@ describe("batchReceiver", () => {
 
     async function testNoSettlement(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await sender.send(testMessages);
+      await sender.sendMessages(testMessages);
 
-      let batch = await receiver.receiveBatch(1);
+      let batch = await receiver.receiveMessages(1);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
       should.equal(batch[0].deliveryCount, 0, "DeliveryCount is different than expected");
@@ -862,7 +913,7 @@ describe("batchReceiver", () => {
 
       await testPeekMsgsLength(receiver, 1);
 
-      batch = await receiver.receiveBatch(1);
+      batch = await receiver.receiveMessages(1);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
       should.equal(batch[0].deliveryCount, 1, "DeliveryCount is different than expected");
@@ -905,8 +956,8 @@ describe("batchReceiver", () => {
 
     async function testAskForMore(useSessions?: boolean): Promise<void> {
       const testMessages = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
-      await sender.send(testMessages);
-      const batch = await receiver.receiveBatch(2);
+      await sender.sendMessages(testMessages);
+      const batch = await receiver.receiveMessages(2);
 
       should.equal(batch.length, 1, "Unexpected number of messages");
       should.equal(batch[0].body, testMessages.body, "MessageBody is different than expected");
@@ -983,20 +1034,6 @@ describe("batchReceiver", () => {
   });
 
   describe("Cancel operations on the receiver", function(): void {
-    it("Abort receiveDeferredMessage request on the receiver", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      const controller = new AbortController();
-      setTimeout(() => controller.abort(), 1);
-      try {
-        await receiver.receiveDeferredMessage(Long.ZERO, { abortSignal: controller.signal });
-        throw new Error(`Test failure`);
-      } catch (err) {
-        err.message.should.equal(
-          "The receiveDeferredMessage operation has been cancelled by the user."
-        );
-      }
-    });
-
     it("Abort receiveDeferredMessages request on the receiver", async function(): Promise<void> {
       await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
       const controller = new AbortController();
@@ -1037,14 +1074,6 @@ describe("Batching - disconnects", function(): void {
     );
   }
 
-  beforeEach(function() {
-    if (!isNode) {
-      // Skipping the "disconnect" tests in the browser since they fail.
-      // More info - https://github.com/Azure/azure-sdk-for-js/pull/8664#issuecomment-622651713
-      this.skip();
-    }
-  });
-
   afterEach(async () => {
     if (serviceBusClient) {
       await serviceBusClient.test.afterEach();
@@ -1057,11 +1086,11 @@ describe("Batching - disconnects", function(): void {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
 
     // Send a message so we can be sure when the receiver is open and active.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     let settledMessageCount = 0;
 
-    const messages1 = await (receiver as Receiver<ReceivedMessageWithLock>).receiveBatch(1, {
+    const messages1 = await (receiver as Receiver<ReceivedMessageWithLock>).receiveMessages(1, {
       maxWaitTimeInMs: 5000
     });
     for (const message of messages1) {
@@ -1080,16 +1109,18 @@ describe("Batching - disconnects", function(): void {
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    (receiver as any)["_context"].namespace.connection["_connection"].idle();
+    (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"].namespace.connection[
+      "_connection"
+    ].idle();
 
     // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
     // Otherwise, it will get into a bad internal state with uncaught exceptions.
     await delay(2000);
     // send a second message to trigger the message handler again.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
-    const messages2 = await (receiver as Receiver<ReceivedMessageWithLock>).receiveBatch(1, {
+    const messages2 = await (receiver as Receiver<ReceivedMessageWithLock>).receiveMessages(1, {
       maxWaitTimeInMs: 5000
     });
     for (const message of messages2) {
@@ -1109,14 +1140,14 @@ describe("Batching - disconnects", function(): void {
     // The first time `receiveMessages` is called the receiver link is created.
     // The `receiver_drained` handler is only added after the link is created,
     // which is a non-blocking task.
-    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
     const receiverContext = (receiver as ReceiverImpl<ReceivedMessage>)["_context"];
     if (!receiverContext.batchingReceiver!.isOpen()) {
       throw new Error(`Unable to initialize receiver link.`);
     }
 
     // Send a message so we have something to receive.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // Since the receiver has already been initialized,
     // the `receiver_drained` handler is attached as soon
@@ -1148,17 +1179,17 @@ describe("Batching - disconnects", function(): void {
 
     // Purposefully request more messages than what's available
     // so that the receiver will have to drain.
-    const messages1 = await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+    const messages1 = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
 
     didRequestDrain.should.equal(true, "Drain was not requested.");
     messages1.length.should.equal(1, "Unexpected number of messages received.");
 
     // Make sure that a 2nd receiveMessages call still works
     // by sending and receiving a single message again.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
-    const messages2 = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    const messages2 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
     messages2.length.should.equal(1, "Unexpected number of messages received.");
   });
@@ -1170,7 +1201,7 @@ describe("Batching - disconnects", function(): void {
     // The first time `receiveMessages` is called the receiver link is created.
     // The `receiver_drained` handler is only added after the link is created,
     // which is a non-blocking task.
-    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
     const receiverContext = (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
 
     if (!receiverContext.batchingReceiver!.isOpen()) {
@@ -1178,7 +1209,7 @@ describe("Batching - disconnects", function(): void {
     }
 
     // Send a message so we have something to receive.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // Since the receiver has already been initialized,
     // the `receiver_drained` handler is attached as soon
@@ -1212,20 +1243,20 @@ describe("Batching - disconnects", function(): void {
     // so that the receiver will have to drain.
     const testFailureMessage = "Test failure";
     try {
-      await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+      await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
       throw new Error(testFailureMessage);
     } catch (err) {
-      err.message.should.not.equal(testFailureMessage);
+      err.message && err.message.should.not.equal(testFailureMessage);
     }
 
     didRequestDrain.should.equal(true, "Drain was not requested.");
 
     // Make sure that a 2nd receiveMessages call still works
     // by sending and receiving a single message again.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
-    const messages = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    const messages = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
     messages.length.should.equal(1, "Unexpected number of messages received.");
   });
@@ -1237,7 +1268,7 @@ describe("Batching - disconnects", function(): void {
     // The first time `receiveMessages` is called the receiver link is created.
     // The `receiver_drained` handler is only added after the link is created,
     // which is a non-blocking task.
-    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
     const receiverContext = (receiver as ReceiverImpl<ReceivedMessage>)["_context"];
 
     if (!receiverContext.batchingReceiver!.isOpen()) {
@@ -1245,7 +1276,7 @@ describe("Batching - disconnects", function(): void {
     }
 
     // Send a message so we have something to receive.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // Simulate a disconnect after a message has been received.
     receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
@@ -1257,16 +1288,16 @@ describe("Batching - disconnects", function(): void {
 
     // Purposefully request more messages than what's available
     // so that the receiver will have to drain.
-    const messages1 = await receiver.receiveBatch(10, { maxWaitTimeInMs: 10000 });
+    const messages1 = await receiver.receiveMessages(10, { maxWaitTimeInMs: 10000 });
 
     messages1.length.should.equal(1, "Unexpected number of messages received.");
 
     // Make sure that a 2nd receiveMessages call still works
     // by sending and receiving a single message again.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
-    const messages2 = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    const messages2 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
     messages2.length.should.equal(1, "Unexpected number of messages received.");
   });
@@ -1278,7 +1309,7 @@ describe("Batching - disconnects", function(): void {
     // The first time `receiveMessages` is called the receiver link is created.
     // The `receiver_drained` handler is only added after the link is created,
     // which is a non-blocking task.
-    await receiver.receiveBatch(1, { maxWaitTimeInMs: 1000 });
+    await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
     const receiverContext = (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
 
     if (!receiverContext.batchingReceiver!.isOpen()) {
@@ -1295,19 +1326,19 @@ describe("Batching - disconnects", function(): void {
     // so that the receiver will have to drain.
     const testFailureMessage = "Test failure";
     try {
-      const msgs = await receiver.receiveBatch(10, { maxWaitTimeInMs: 10000 });
+      const msgs = await receiver.receiveMessages(10, { maxWaitTimeInMs: 10000 });
       console.log(msgs.length);
       throw new Error(testFailureMessage);
     } catch (err) {
-      err.message.should.not.equal(testFailureMessage);
+      err.message && err.message.should.not.equal(testFailureMessage);
     }
 
     // Make sure that a 2nd receiveMessages call still works
     // by sending and receiving a single message again.
-    await sender.send(TestMessage.getSample());
+    await sender.sendMessages(TestMessage.getSample());
 
     // wait for the 2nd message to be received.
-    const messages = await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 });
+    const messages = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
 
     messages.length.should.equal(1, "Unexpected number of messages received.");
   });

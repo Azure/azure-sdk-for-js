@@ -22,8 +22,6 @@ export class PartitionGate {
    * @param partitionId A partition ID or the constant "all"
    */
   add(partitionId: string | "all") {
-    this._validatePartitionId(partitionId);
-
     if (
       (partitionId === "all" && this._partitions.size > 0) ||
       this._partitions.has(partitionId) ||
@@ -42,17 +40,5 @@ export class PartitionGate {
    */
   remove(partitionId: string | "all") {
     this._partitions.delete(partitionId);
-  }
-
-  private _validatePartitionId(partitionId: string) {
-    if (partitionId === "all") {
-      return;
-    }
-
-    const partitionNumber = parseInt(partitionId, 10);
-
-    if (isNaN(partitionNumber)) {
-      throw new TypeError(`Invalid partition number ${partitionId}`);
-    }
   }
 }

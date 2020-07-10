@@ -1,7 +1,8 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.1.0 (2020-07-07)
 
+- Adding browser support for the latest versions of Chrome, Edge and Firefox.
 
 ## 1.0.1 (2020-02-19)
 
@@ -18,6 +19,7 @@ This release marks the general availability of the `@azure/app-configuration` pa
 - Allow developers to prepend additional information to the user agent header.
 
   Example:
+
   ```typescript
   new AppConfigurationClient(connectionString, {
     userAgentOptions: {
@@ -27,7 +29,6 @@ This release marks the general availability of the `@azure/app-configuration` pa
   ```
 
 ## 1.0.0-preview.10 (2019-12-10)
-
 
 - Specifying filters for listConfigurationSettings() or listRevisions() is
   now done with the `keyFilter` or `labelFilter` strings rather than `keys`

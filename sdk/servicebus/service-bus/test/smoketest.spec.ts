@@ -47,7 +47,7 @@ describe("Sample scenarios for track 2", () => {
         serviceBusClient.createReceiver(queueName, "peekLock")
       );
 
-      await sendSampleMessage(sender, "Queue, peek/lock");
+      await sendSampleMessage(sender, "Queue, peek/lock", undefined, "single");
 
       const errors: string[] = [];
       const receivedBodies: string[] = [];
@@ -70,11 +70,11 @@ describe("Sample scenarios for track 2", () => {
         serviceBusClient.createReceiver(queueName, "receiveAndDelete")
       );
 
-      await sendSampleMessage(sender, "Queue, peek/lock, receiveBatch");
+      await sendSampleMessage(sender, "Queue, peek/lock, receiveBatch", undefined, "array");
 
       const receivedBodies: string[] = [];
 
-      for (const message of await receiver.receiveBatch(1, { maxWaitTimeInMs: 5000 })) {
+      for (const message of await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 })) {
         receivedBodies.push(message.body);
       }
 
@@ -87,7 +87,7 @@ describe("Sample scenarios for track 2", () => {
         serviceBusClient.createReceiver(queueName, "peekLock")
       );
 
-      await sendSampleMessage(sender, "Queue, peek/lock, iterate messages");
+      await sendSampleMessage(sender, "Queue, peek/lock, iterate messages", undefined, "batch");
 
       // etc...
       // receiver.getRules();
@@ -160,12 +160,8 @@ describe("Sample scenarios for track 2", () => {
           continue;
         }
 
-        try {
-          receivedBodies.push(message.body);
-          break;
-        } catch (err) {
-          throw err;
-        }
+        receivedBodies.push(message.body);
+        break;
       }
 
       await waitAndValidate(
@@ -306,12 +302,8 @@ describe("Sample scenarios for track 2", () => {
           continue;
         }
 
-        try {
-          receivedBodies.push(message.body);
-          break;
-        } catch (err) {
-          throw err;
-        }
+        receivedBodies.push(message.body);
+        break;
       }
 
       await waitAndValidate(
@@ -430,7 +422,12 @@ describe("Sample scenarios for track 2", () => {
     });
   });
 
-  async function sendSampleMessage(sender: Sender, body: string, sessionId?: string) {
+  async function sendSampleMessage(
+    sender: Sender,
+    body: string,
+    sessionId?: string,
+    method: "single" | "array" | "batch" = "single"
+  ): Promise<void> {
     const message: ServiceBusMessage = {
       body
     };
@@ -439,7 +436,22 @@ describe("Sample scenarios for track 2", () => {
       message.sessionId = sessionId;
     }
 
-    await sender.send(message);
+    switch (method) {
+      case "single": {
+        await sender.sendMessages(message);
+        break;
+      }
+      case "array": {
+        await sender.sendMessages([message]);
+        break;
+      }
+      case "batch": {
+        const batch = await sender.createBatch();
+        assert.isTrue(batch.tryAdd(message));
+        await sender.sendMessages(batch);
+        break;
+      }
+    }
   }
 });
 
@@ -461,7 +473,7 @@ async function waitAndValidate(
   receivedBodies: string[],
   errors: string[],
   receiver: Receiver<ReceivedMessage>
-) {
+): Promise<void> {
   const maxChecks = 20;
   let numChecks = 0;
 
@@ -472,7 +484,7 @@ async function waitAndValidate(
     await delay(500);
   }
 
-  const remainingMessages = (await receiver.peekMessages()).map((m) => m.body);
+  const remainingMessages = (await receiver.peekMessages(1)).map((m) => m.body);
   assert.isEmpty(errors);
   assert.isEmpty(remainingMessages);
   assert.deepEqual([expectedMessage], receivedBodies);

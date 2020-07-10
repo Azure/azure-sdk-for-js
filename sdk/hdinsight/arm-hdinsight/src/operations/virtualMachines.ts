@@ -40,15 +40,15 @@ export class VirtualMachines {
    * @param clusterName The name of the cluster.
    * @param callback The callback
    */
-  listHosts(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.HostInfoListResult>): void;
+  listHosts(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.HostInfo[]>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param clusterName The name of the cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listHosts(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostInfoListResult>): void;
-  listHosts(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostInfoListResult>, callback?: msRest.ServiceCallback<Models.HostInfoListResult>): Promise<Models.VirtualMachinesListHostsResponse> {
+  listHosts(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.HostInfo[]>): void;
+  listHosts(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.HostInfo[]>, callback?: msRest.ServiceCallback<Models.HostInfo[]>): Promise<Models.VirtualMachinesListHostsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -111,7 +111,18 @@ const listHostsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.HostInfoListResult
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HostInfo"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

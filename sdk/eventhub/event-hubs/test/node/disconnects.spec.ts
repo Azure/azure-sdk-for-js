@@ -6,12 +6,10 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
-import { EventHubClient } from "../../src/impl/eventHubClient";
-import { EventHubConsumerClient, EventHubProducerClient } from "../../src/index";
+import { EventHubConsumerClient, EventHubProducerClient, Subscription } from "../../src";
 const env = getEnvVars();
 
 describe("disconnected", function() {
-  let client: EventHubClient;
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME]
@@ -27,15 +25,13 @@ describe("disconnected", function() {
     );
   });
 
-  afterEach("close the connection", async function(): Promise<void> {
-    if (client) {
-      await client.close();
-    }
-  });
-
-  describe("HubRuntime", function() {
-    it("operations work after disconnect", async () => {
-      client = new EventHubClient(service.connectionString, service.path);
+  describe("EventHubConsumerClient", function() {
+    it("runtimeInfo work after disconnect", async () => {
+      const client = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
       const clientConnectionContext = client["_context"];
 
       await client.getPartitionIds({});
@@ -49,38 +45,78 @@ describe("disconnected", function() {
 
       should.not.equal(originalConnectionId, newConnectionId);
       partitionIds.length.should.greaterThan(0, "Invalid number of partition ids returned.");
+
+      await client.close();
+    });
+
+    it("should receive after a disconnect", async () => {
+      const client = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        service.connectionString,
+        service.path
+      );
+      const partitionId = "0";
+      const partitionProperties = await client.getPartitionProperties(partitionId);
+      const clientConnectionContext = client["_context"];
+
+      let subscription: Subscription | undefined;
+      let originalConnectionId: string;
+
+      await new Promise((resolve, reject) => {
+        subscription = client.subscribe(
+          partitionId,
+          {
+            processEvents: async (data) => {
+              should.exist(data);
+              should.equal(data.length, 0);
+              if (!originalConnectionId) {
+                originalConnectionId = clientConnectionContext.connectionId;
+                // Trigger a disconnect on the underlying connection.
+                clientConnectionContext.connection["_connection"].idle();
+              } else {
+                const newConnectionId = clientConnectionContext.connectionId;
+                should.not.equal(originalConnectionId, newConnectionId);
+                resolve();
+              }
+            },
+            processError: async (err) => {
+              reject(err);
+            }
+          },
+          {
+            startPosition: { sequenceNumber: partitionProperties.lastEnqueuedSequenceNumber },
+            maxWaitTimeInSeconds: 2
+          }
+        );
+      });
+      await subscription!.close();
+      await client.close();
     });
   });
 
-  describe("Receiver", function() {
-    it("should receive after a disconnect", async () => {
-      client = new EventHubClient(service.connectionString, service.path);
-      const partitionId = "0";
-      const partitionProperties = await client.getPartitionProperties(partitionId);
-      const receiver = client.createConsumer(EventHubConsumerClient.defaultConsumerGroupName, "0", {
-        sequenceNumber: partitionProperties.lastEnqueuedSequenceNumber
-      });
-      const clientConnectionContext = receiver["_context"];
+  describe("EventHubProducerClient", function() {
+    it("runtimeInfo work after disconnect", async () => {
+      const client = new EventHubProducerClient(service.connectionString, service.path);
+      const clientConnectionContext = client["_context"];
 
-      await receiver.receiveBatch(1, 1);
+      await client.getPartitionIds({});
       const originalConnectionId = clientConnectionContext.connectionId;
 
       // Trigger a disconnect on the underlying connection.
       clientConnectionContext.connection["_connection"].idle();
 
-      await receiver.receiveBatch(1, 2);
+      const partitionIds = await client.getPartitionIds({});
       const newConnectionId = clientConnectionContext.connectionId;
 
       should.not.equal(originalConnectionId, newConnectionId);
+      partitionIds.length.should.greaterThan(0, "Invalid number of partition ids returned.");
 
-      await receiver.close();
+      await client.close();
     });
-  });
 
-  describe("Sender", function() {
     it("should send after a disconnect", async () => {
       const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
+      const clientConnectionContext = client["_context"];
 
       await client.sendBatch([{ body: "test" }]);
       const originalConnectionId = clientConnectionContext.connectionId;
@@ -98,14 +134,14 @@ describe("disconnected", function() {
 
     it("should not throw an uncaught exception", async () => {
       const client = new EventHubProducerClient(service.connectionString, service.path);
-      const clientConnectionContext = client["_client"]["_context"];
+      const clientConnectionContext = client["_context"];
 
       // Send an event to open the connection.
       await client.sendBatch([{ body: "test" }]);
       const originalConnectionId = clientConnectionContext.connectionId;
 
       // We need to dig deep into the internals to get the awaitable sender so that .
-      const awaitableSender = client["_producersMap"].get("")!["_eventHubSender"]!["_sender"]!;
+      const awaitableSender = client["_sendersMap"].get("")!["_sender"]!;
 
       let thirdSend: Promise<void>;
       // Change the timeout on the awaitableSender so it forces an OperationTimeoutError

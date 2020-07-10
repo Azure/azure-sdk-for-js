@@ -176,7 +176,7 @@ const listByDatabaseAccountOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -202,7 +202,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointConnectionName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -228,7 +228,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointConnectionName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -262,7 +262,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointConnectionName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
