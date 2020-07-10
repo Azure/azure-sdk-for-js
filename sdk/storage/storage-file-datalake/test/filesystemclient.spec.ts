@@ -30,7 +30,7 @@ describe("DataLakeFileSystemClient", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {

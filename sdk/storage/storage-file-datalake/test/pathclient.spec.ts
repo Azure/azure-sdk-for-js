@@ -35,7 +35,7 @@ describe("DataLakePathClient", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("read with with default parameters", async () => {
