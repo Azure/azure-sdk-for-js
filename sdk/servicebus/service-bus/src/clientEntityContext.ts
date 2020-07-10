@@ -6,7 +6,7 @@ import { StreamingReceiver } from "./core/streamingReceiver";
 import { MessageSender } from "./core/messageSender";
 import { ManagementClient, ManagementClientOptions } from "./core/managementClient";
 import { ConnectionContext } from "./connectionContext";
-import { AmqpError, Dictionary } from "rhea-promise";
+import { AmqpError } from "rhea-promise";
 import { BatchingReceiver } from "./core/batchingReceiver";
 import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
@@ -49,10 +49,10 @@ export interface ClientEntityContextBase {
    */
   batchingReceiver?: BatchingReceiver;
   /**
-   * @property {Dictionary<MessageSession>} messageSessions A dictionary of the MessageSession
+   * @property messageSessions A dictionary of the MessageSession
    * objects associated with this client.
    */
-  messageSessions: Dictionary<MessageSession>;
+  messageSessions: { [name: string]: MessageSession }
   /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
@@ -306,16 +306,15 @@ export namespace ClientEntityContext {
   }
 }
 
-// Multiple clients for the same Service Bus entity should be using the same management client.
 /**
+ * Gets the management client for given entity path as 
+ * multiple clients for the same Service Bus entity use the same management client.
+ * 
  * @internal
  * @ignore
- * @param {Dictionary<ClientEntityContext>} clients
- * @param {string} entityPath
- * @returns {(ManagementClient | undefined)}
  */
 function getManagementClient(
-  clients: Dictionary<ClientEntityContext>,
+  clients: { [name: string]: ClientEntityContext },
   entityPath: string
 ): ManagementClient | undefined {
   let result: ManagementClient | undefined;
