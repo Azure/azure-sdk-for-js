@@ -26,10 +26,14 @@ import { isBrowser } from "./utils";
 // - Example - console.warn("hello"); -> console.log({ warn: "hello" });
 // - Example - console.log("hello"); -> console.log({ log: "hello" });
 
-let consoleLog: (msg: any, ...args: any[]) => void;
+export let consoleLog: (msg: any, ...args: any[]) => void;
 
 if (isBrowser()) {
   consoleLog = window.console.log;
+}
+
+export function setConsoleLogForTesting(func: (msg: any, ...args: any[]) => void) {
+  consoleLog = func;
 }
 
 /**
