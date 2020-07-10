@@ -6,7 +6,7 @@ const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { delay } from "rhea-promise";
-import { TestClientType, TestMessage } from "./utils/testUtils";
+import { TestMessage } from "./utils/testUtils";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -66,61 +66,41 @@ describe("Message Lock Renewal", () => {
     it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function(): Promise<
       void
     > {
-      await testAutoLockRenewalConfigBehavior(
-        sender,
-        receiver,
-        {
-          maxAutoRenewDurationInMs: 0,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          willCompleteFail: true
-        },
-        TestClientType.UnpartitionedQueue
-      );
+      await testAutoLockRenewalConfigBehavior(sender, receiver, {
+        maxAutoRenewDurationInMs: 0,
+        delayBeforeAttemptingToCompleteMessageInSeconds: 31,
+        willCompleteFail: true
+      });
     });
 
     it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
       void
     > {
-      await testAutoLockRenewalConfigBehavior(
-        sender,
-        receiver,
-        {
-          maxAutoRenewDurationInMs: 38 * 1000,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 35,
-          willCompleteFail: false
-        },
-        TestClientType.UnpartitionedQueue
-      );
+      await testAutoLockRenewalConfigBehavior(sender, receiver, {
+        maxAutoRenewDurationInMs: 38 * 1000,
+        delayBeforeAttemptingToCompleteMessageInSeconds: 35,
+        willCompleteFail: false
+      });
     });
 
     it("Streaming Receiver: lock expires sometime after configured time", async function(): Promise<
       void
     > {
-      await testAutoLockRenewalConfigBehavior(
-        sender,
-        receiver,
-        {
-          maxAutoRenewDurationInMs: 35 * 1000,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 55,
-          willCompleteFail: true
-        },
-        TestClientType.UnpartitionedQueue
-      );
+      await testAutoLockRenewalConfigBehavior(sender, receiver, {
+        maxAutoRenewDurationInMs: 35 * 1000,
+        delayBeforeAttemptingToCompleteMessageInSeconds: 55,
+        willCompleteFail: true
+      });
     }).timeout(95000 + 30000);
 
     it("Streaming Receiver: No lock renewal when config value is less than lock duration", async function(): Promise<
       void
     > {
-      await testAutoLockRenewalConfigBehavior(
-        sender,
-        receiver,
-        {
-          maxAutoRenewDurationInMs: 15 * 1000,
-          delayBeforeAttemptingToCompleteMessageInSeconds: 31,
-          willCompleteFail: true
-        },
-        TestClientType.UnpartitionedQueue
-      );
+      await testAutoLockRenewalConfigBehavior(sender, receiver, {
+        maxAutoRenewDurationInMs: 15 * 1000,
+        delayBeforeAttemptingToCompleteMessageInSeconds: 31,
+        willCompleteFail: true
+      });
     });
   });
 
@@ -295,8 +275,7 @@ describe("Message Lock Renewal", () => {
   async function testAutoLockRenewalConfigBehavior(
     sender: Sender,
     receiver: Receiver<ReceivedMessageWithLock>,
-    options: AutoLockRenewalTestOptions,
-    entityType: TestClientType
+    options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = TestMessage.getSample();
@@ -350,7 +329,7 @@ describe("Message Lock Renewal", () => {
       await receiver.close();
 
       receiver = await serviceBusClient.test.getPeekLockReceiver(
-        await serviceBusClient.test.createTestEntities(entityType)
+        await serviceBusClient.test.createTestEntities(testClientType)
       );
 
       const unprocessedMsgsBatch = await receiver.receiveMessages(1);
