@@ -547,7 +547,7 @@ export class ClientContext {
     body,
     path,
     resourceId,
-    partitionKeyRange,
+    // partitionKeyRange,
     options = {}
   }: {
     body: T;
@@ -574,7 +574,7 @@ export class ClientContext {
 
       request.headers = await this.buildHeaders(request);
       request.headers[Constants.HttpHeaders.IsBatchRequest] = "True";
-      request.headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRange;
+      request.headers[Constants.HttpHeaders.PartitionKeyRangeID] = "3";
       request.headers[Constants.HttpHeaders.IsBatchAtomic] = false;
 
       this.applySessionToken(request);

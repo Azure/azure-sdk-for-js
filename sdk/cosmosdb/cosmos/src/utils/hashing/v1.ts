@@ -1,6 +1,6 @@
 import {
   // writeNumberForBinaryEncoding,
-  doubleToByteArray,
+  doubleToByteArrayJSBI,
   writeNumberForBinaryEncodingJSBI
 } from "./encoding/number";
 import { writeStringForBinaryEncoding } from "./encoding/string";
@@ -31,7 +31,7 @@ function prefixKeyByType(key: v1Key) {
       ]);
       return bytes;
     case "number":
-      const numberBytes = doubleToByteArray(key);
+      const numberBytes = doubleToByteArrayJSBI(key);
       bytes = Buffer.concat([Buffer.from("05", "hex"), numberBytes]);
       return bytes;
     case "boolean":

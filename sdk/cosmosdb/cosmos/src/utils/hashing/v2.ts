@@ -1,4 +1,4 @@
-import { doubleToByteArray } from "./encoding/number";
+import { doubleToByteArrayJSBI } from "./encoding/number";
 const MurmurHash = require("./murmurHash").default;
 
 type v1Key = string | number | null | {} | undefined;
@@ -18,7 +18,7 @@ function prefixKeyByType(key: v1Key) {
       bytes = Buffer.concat([Buffer.from("08", "hex"), Buffer.from(key), Buffer.from("FF", "hex")]);
       return bytes;
     case "number":
-      const numberBytes = doubleToByteArray(key);
+      const numberBytes = doubleToByteArrayJSBI(key);
       bytes = Buffer.concat([Buffer.from("05", "hex"), numberBytes]);
       return bytes;
     case "boolean":

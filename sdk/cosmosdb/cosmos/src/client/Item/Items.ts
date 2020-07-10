@@ -13,16 +13,9 @@ import { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
-import {
-  Batch,
-  isKeyInRange,
-  MAX_128_BIT_INTEGER,
-  Operation,
-  hasResource
-} from "../../utils/batch";
+import { Batch, isKeyInRange, Operation, hasResource } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
-import JSBI from "jsbi";
 
 /**
  * @ignore
@@ -406,26 +399,13 @@ export class Items {
             .replace("[", "")
             .replace("]", "")
             .replace("'", "")
+            .replace('"', "")
             .replace('"', "");
-      const key = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
+
+      const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
       let batchForKey = batches.find((batch: Batch) => {
-        let minInt: JSBI;
-        let maxInt: JSBI;
-        if (batch.min === "") {
-          minInt = JSBI.BigInt(0);
-        } else {
-          minInt = JSBI.BigInt(`0x${batch.min}`);
-        }
-        if (batch.max === "FF") {
-          maxInt = MAX_128_BIT_INTEGER;
-        } else {
-          maxInt = JSBI.BigInt(`0x${batch.max}`);
-        }
-        return isKeyInRange(minInt, maxInt, JSBI.BigInt(`0x${key}`));
+        return isKeyInRange(batch.min, batch.max, hashed);
       });
-      if (!batchForKey) {
-        // this would mean our partitionKey isn't in any of the existing ranges
-      }
       batchForKey.operations.push(operation);
     });
 
@@ -435,13 +415,19 @@ export class Items {
       batches
         .filter((batch: Batch) => batch.operations.length)
         .map(async (batch: Batch) => {
-          return this.clientContext.bulk({
-            body: batch.operations,
-            partitionKeyRange: batch.rangeId,
-            path,
-            resourceId: this.container.url,
-            options
-          });
+          console.log({ batch });
+          try {
+            const response = await this.clientContext.bulk({
+              body: batch.operations,
+              partitionKeyRange: batch.rangeId,
+              path,
+              resourceId: this.container.url,
+              options
+            });
+            return response;
+          } catch (e) {
+            console.log({ e });
+          }
         })
     );
   }

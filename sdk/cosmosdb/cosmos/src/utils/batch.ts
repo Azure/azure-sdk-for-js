@@ -1,4 +1,4 @@
-import JSBI from "jsbi";
+import { JSONObject } from "../queryExecutionContext";
 
 export type Operation =
   | CreateOperation
@@ -14,13 +14,9 @@ export interface Batch {
   operations: Operation[];
 }
 
-export const MAX_128_BIT_INTEGER = JSBI.BigInt(
-  "0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
-);
-
-export function isKeyInRange(min: JSBI, max: JSBI, key: JSBI) {
-  const isAfterMinInclusive = JSBI.lessThanOrEqual(min, key);
-  const isBeforeMax = JSBI.greaterThan(max, key);
+export function isKeyInRange(min: string, max: string, key: string) {
+  const isAfterMinInclusive = key.localeCompare(min) >= 0;
+  const isBeforeMax = key.localeCompare(max) < 0;
   return isAfterMinInclusive && isBeforeMax;
 }
 
@@ -31,7 +27,7 @@ interface OperationBase {
 }
 
 type OperationWithItem = OperationBase & {
-  resourceBody: { [key: string]: string };
+  resourceBody: JSONObject;
 };
 
 type CreateOperation = OperationWithItem & {
