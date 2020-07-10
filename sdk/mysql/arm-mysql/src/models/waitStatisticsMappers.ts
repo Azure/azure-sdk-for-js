@@ -14,7 +14,6 @@ export {
   CloudError,
   Configuration,
   Database,
-  DatabaseListResult,
   FirewallRule,
   LogFile,
   PrivateEndpointConnection,
@@ -40,5 +39,7 @@ export {
   SystemData,
   TrackedResource,
   VirtualNetworkRule,
-  WaitStatistic
+  WaitStatistic,
+  WaitStatisticsInput,
+  WaitStatisticsResultList
 } from "../models/mappers";
