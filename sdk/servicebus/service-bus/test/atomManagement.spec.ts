@@ -63,6 +63,23 @@ describe("Atom management - Namespace", function(): void {
       ["_response", "createdAt", "updatedAt", "name"]
     );
   });
+
+  it.only("Get Queue - eTag", async () => {
+    await recreateQueue(managementQueue1);
+    let getResponse = await serviceBusAtomManagementClient.getQueue(managementQueue1);
+    console.log(getResponse.eTag, getResponse.maxDeliveryCount);
+    // console.log(getResponse._response.headers);
+
+    getResponse.maxDeliveryCount = getResponse.maxDeliveryCount
+      ? getResponse.maxDeliveryCount + 1
+      : 10;
+    const updateResponse = await serviceBusAtomManagementClient.updateQueue(getResponse);
+    console.log(updateResponse.eTag, updateResponse.maxDeliveryCount);
+
+    const getResponse2 = await serviceBusAtomManagementClient.getQueue(managementQueue1);
+    console.log(getResponse2.eTag, getResponse2.maxDeliveryCount);
+    // await serviceBusAtomManagementClient.deleteQueue(managementQueue1);
+  });
 });
 
 describe("Atom management - Authentication", function(): void {
