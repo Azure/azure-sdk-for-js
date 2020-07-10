@@ -2,13 +2,7 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
 import { isNode, delay } from "@azure/core-http";
-import {
-  getBSU,
-  recorderEnvSetup,
-  bodyToString,
-  getGenericCredential,
-  isBlobVersioningDisabled
-} from "./utils";
+import { getBSU, recorderEnvSetup, bodyToString, getGenericCredential } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import {
   ContainerClient,
@@ -33,12 +27,6 @@ describe("Blob versioning", () => {
   const content = "Hello World";
 
   let recorder: Recorder;
-
-  before(async function() {
-    if (isBlobVersioningDisabled()) {
-      this.skip();
-    }
-  });
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -103,6 +91,7 @@ describe("Blob versioning", () => {
 
   it("download a version to file", async function() {
     if (!isNode) {
+      // downloadToFile only available in Node.js
       this.skip();
     }
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
@@ -140,7 +129,12 @@ describe("Blob versioning", () => {
     assert.ok(existRes);
   });
 
-  it("delete a version", async () => {
+  it("delete a version", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.delete();
 
@@ -151,7 +145,12 @@ describe("Blob versioning", () => {
     assert.ok(rootExists);
   });
 
-  it("deleteBlobs should work for batch delete", async () => {
+  it("deleteBlobs should work for batch delete", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
     recorder.skip(
       undefined,
       "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
@@ -212,7 +211,12 @@ describe("Blob versioning", () => {
     assert.equal(resp2.segment.blobItems.length, 2 + blockBlobCount);
   });
 
-  it("deleting root blob with versionId should fail", async () => {
+  it("deleting root blob with versionId should fail", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
     await containerClient.deleteBlob(blobName, {
       versionId: uploadRes.versionId
     });
@@ -245,7 +249,12 @@ describe("Blob versioning", () => {
     assert.ok(rootExists);
   });
 
-  it("deleting a blob that has snapshots needs deleteSnapshots option", async () => {
+  it("deleting a blob that has snapshots needs deleteSnapshots option", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
     const result = await blobClient.createSnapshot();
     assert.ok(result.snapshot);
 
@@ -300,7 +309,12 @@ describe("Blob versioning", () => {
     assert.ok(versionExists);
   });
 
-  it("promote a version: as the copy source", async () => {
+  it("promote a version: as the copy source", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     await blobVersionClient.getProperties();
 
@@ -367,7 +381,12 @@ describe("Blob versioning", () => {
     assert.ok(setMetaRes.versionId);
   });
 
-  it("undelete a soft-deleted version", async () => {
+  it("undelete a soft-deleted version", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
     let properties = await blobServiceClient.getProperties();
     if (!properties.deleteRetentionPolicy!.enabled) {
       await blobServiceClient.setProperties({
