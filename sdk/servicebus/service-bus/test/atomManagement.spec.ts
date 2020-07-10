@@ -16,6 +16,7 @@ import { EntityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames } from "./utils/testUtils";
+import { delay } from "rhea-promise";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -73,8 +74,10 @@ describe("Atom management - Namespace", function(): void {
     getResponse.maxDeliveryCount = getResponse.maxDeliveryCount
       ? getResponse.maxDeliveryCount + 1
       : 10;
+    // getResponse.eTag = "637289999931570000";
     const updateResponse = await serviceBusAtomManagementClient.updateQueue(getResponse);
     console.log(updateResponse.eTag, updateResponse.maxDeliveryCount);
+    await delay(2000);
 
     const getResponse2 = await serviceBusAtomManagementClient.getQueue(managementQueue1);
     console.log(getResponse2.eTag, getResponse2.maxDeliveryCount);
