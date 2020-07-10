@@ -116,10 +116,14 @@ export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
  */
 export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {}
 /**
- * Represents result of create, get, update and delete operations on queue.
+ * Represents result of create, get, and update operations on queue.
  */
-export interface QueueResponse extends QueueDescription, Response {}
-
+export interface QueueResponse extends QueueDescription, Response {
+  /**
+   *
+   */
+  eTag: string;
+}
 /**
  * Represents result of list operation on queues.
  */
@@ -497,7 +501,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateQueue(
-    queue: QueueDescription,
+    queue: QueueDescription & Pick<QueueResponse, "eTag">,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     log.httpAtomXml(
@@ -513,7 +517,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     if (!queue.name) {
       throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
     }
-
+    if (!operationOptions) operationOptions = {};
+    if (!operationOptions.requestOptions) operationOptions.requestOptions = {};
+    operationOptions.requestOptions.customHeaders = { "If-Match": queue.eTag };
     const response: HttpOperationResponse = await this.putResource(
       queue.name,
       buildQueueOptions(queue),
@@ -1586,7 +1592,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     try {
       const queue = buildQueue(response.parsedBody);
       const queueResponse: QueueResponse = Object.assign(queue || {}, {
-        _response: response
+        _response: response,
+        eTag: response.headers.get("etag")!
       });
       return queueResponse;
     } catch (err) {
