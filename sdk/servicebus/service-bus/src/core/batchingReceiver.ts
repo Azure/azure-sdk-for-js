@@ -94,7 +94,7 @@ export class BatchingReceiver extends MessageReceiver {
   async receive(
     maxMessageCount: number,
     maxWaitTimeInMs: number,
-    maxTimeAfterFirstMessageMs: number,
+    maxTimeAfterFirstMessageInMs: number,
     abortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
