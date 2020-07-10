@@ -59,7 +59,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
       sessionId: getStringOrUndefined(value["SessionId"]),
       messageId: getStringOrUndefined(value["MessageId"]),
       contentType: getStringOrUndefined(value["ContentType"]),
-      userProperties: getUserPropertiesOrUndefined(value["Properties"])
+      properties: getUserPropertiesOrUndefined(value["Properties"])
     };
   }
   return result;
