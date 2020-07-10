@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "PUT",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container157003454521103336",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container159440316860703642",
    "query": {
     "restype": "container"
    },
@@ -10,19 +10,19 @@
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 02 Oct 2019 16:42:24 GMT",
-    "last-modified": "Wed, 02 Oct 2019 16:42:24 GMT",
+    "content-length": "0",
+    "date": "Fri, 10 Jul 2020 17:46:08 GMT",
+    "etag": "\"0x8D824F920C173A1\"",
+    "last-modified": "Fri, 10 Jul 2020 17:46:08 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "etag": "\"0x8D74757810F2CED\"",
-    "x-ms-request-id": "215efc39-201e-0080-4240-7993dc000000",
-    "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "83fc6574-3912-4bb3-a742-646a883bbc22",
-    "content-length": "0"
+    "x-ms-client-request-id": "7407d0a0-830d-4460-9243-225b613ace42",
+    "x-ms-request-id": "34b1a302-d01e-006b-0fe1-562ecd000000",
+    "x-ms-version": "2019-12-12"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://fakestorageaccount.blob.core.windows.net/container157003454521103336",
+   "url": "https://fakestorageaccount.blob.core.windows.net/container159440316860703642",
    "query": {
     "restype": "container"
    },
@@ -30,17 +30,21 @@
    "status": 202,
    "response": "",
    "responseHeaders": {
-    "date": "Wed, 02 Oct 2019 16:42:24 GMT",
+    "content-length": "0",
+    "date": "Fri, 10 Jul 2020 17:46:08 GMT",
     "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
-    "x-ms-request-id": "215efc70-201e-0080-7440-7993dc000000",
-    "x-ms-version": "2019-02-02",
-    "x-ms-client-request-id": "acde239c-fe02-4cee-a4c8-a85ee7fa8856",
-    "content-length": "0"
+    "x-ms-client-request-id": "4905fa28-abb8-4126-81c7-c280ddb7c383",
+    "x-ms-request-id": "34b1a370-d01e-006b-78e1-562ecd000000",
+    "x-ms-version": "2019-12-12"
    }
   }
  ],
  "uniqueTestInfo": {
-  "container": "container157003454521103336",
-  "blob": "blob157003454528205493"
- }
+  "uniqueName": {
+   "container": "container159440316860703642",
+   "blob": "blob159440316873005603"
+  },
+  "newDate": {}
+ },
+ "hash": "ba46d7c6a90ceacd273413236bc5f769"
 }
