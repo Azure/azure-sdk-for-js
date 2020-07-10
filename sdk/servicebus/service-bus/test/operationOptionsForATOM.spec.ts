@@ -68,7 +68,7 @@ describe("Operation Options", () => {
       await verifyAbortError(
         async () =>
           await serviceBusAtomManagementClient.updateQueue(
-            { name: enitityName1 },
+            { name: enitityName1, eTag: "" },
             {
               abortSignal: AbortController.timeout(1)
             }
