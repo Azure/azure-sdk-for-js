@@ -446,7 +446,9 @@ async function getDeserializedResponse(
 ): Promise<FullOperationResponse> {
   const policy = deserializationPolicy({ expectedContentTypes: { xml: options.xmlContentTypes } });
   const request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
-  request.operationSpec = options.operationSpec;
+  request.additionalInfo = {
+    operationSpec: options.operationSpec
+  };
   request.body = options.requestBody;
 
   const res: PipelineResponse = {

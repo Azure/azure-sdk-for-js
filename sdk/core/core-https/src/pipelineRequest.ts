@@ -19,11 +19,17 @@ import { SpanOptions } from "@azure/core-tracing";
  * Settings to initialize a request.
  * Almost equivalent to Partial<PipelineRequest>, but url is mandatory.
  */
-export interface PipelineRequestOptions {
+export interface PipelineRequestOptions<AdditionalInfo = any> {
   /**
    * The URL to make the request to.
    */
   url: string;
+
+  /**
+   * Any additional information on the request that
+   * is policy or client specific.
+   */
+  additionalInfo?: AdditionalInfo;
 
   /**
    * The HTTP method to use when making the request.
@@ -102,7 +108,7 @@ export interface PipelineRequestOptions {
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
 }
 
-class PipelineRequestImpl implements PipelineRequest {
+class PipelineRequestImpl<AdditionalInfo = any> implements PipelineRequest<AdditionalInfo> {
   public url: string;
   public method: HttpMethods;
   public headers: HttpHeaders;
@@ -119,6 +125,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public spanOptions?: SpanOptions;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
+  public additionalInfo?: AdditionalInfo;
 
   constructor(options: PipelineRequestOptions) {
     this.url = options.url;
@@ -137,6 +144,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.onUploadProgress = options.onUploadProgress;
     this.onDownloadProgress = options.onDownloadProgress;
     this.requestId = options.requestId || generateUuid();
+    this.additionalInfo = options.additionalInfo;
   }
 
   public clone(): PipelineRequest {
@@ -156,7 +164,8 @@ class PipelineRequestImpl implements PipelineRequest {
       timeout: this.timeout,
       withCredentials: this.withCredentials,
       spanOptions: this.spanOptions,
-      requestId: this.requestId
+      requestId: this.requestId,
+      additionalInfo: this.additionalInfo
     });
   }
 }

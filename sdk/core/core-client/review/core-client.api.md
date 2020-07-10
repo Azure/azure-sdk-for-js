@@ -208,8 +208,11 @@ export interface OperationQueryParameter extends OperationParameter {
     skipEncoding?: boolean;
 }
 
+// @public
+export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+
 // @public (undocumented)
-export interface OperationRequest extends PipelineRequest {
+export interface OperationRequestInfo {
     operationResponseGetter?: (operationSpec: OperationSpec, response: PipelineResponse) => undefined | OperationResponseMap;
     operationSpec?: OperationSpec;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);

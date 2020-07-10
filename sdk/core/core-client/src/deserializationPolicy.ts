@@ -76,12 +76,12 @@ function getOperationResponseMap(
 ): undefined | OperationResponseMap {
   let result: OperationResponseMap | undefined;
   const request: OperationRequest = parsedResponse.request;
-  const operationSpec = request.operationSpec;
+  const operationSpec = request.additionalInfo?.operationSpec;
   if (operationSpec) {
-    if (!request.operationResponseGetter) {
+    if (!request.additionalInfo?.operationResponseGetter) {
       result = operationSpec.responses[parsedResponse.status];
     } else {
-      result = request.operationResponseGetter(operationSpec, parsedResponse);
+      result = request.additionalInfo?.operationResponseGetter(operationSpec, parsedResponse);
     }
   }
   return result;
@@ -89,7 +89,7 @@ function getOperationResponseMap(
 
 function shouldDeserializeResponse(parsedResponse: PipelineResponse): boolean {
   const request: OperationRequest = parsedResponse.request;
-  const shouldDeserialize = request.shouldDeserialize;
+  const shouldDeserialize = request.additionalInfo?.shouldDeserialize;
   let result: boolean;
   if (shouldDeserialize === undefined) {
     result = true;
@@ -112,7 +112,7 @@ async function deserializeResponseBody(
     return parsedResponse;
   }
 
-  const operationSpec = parsedResponse.request.operationSpec;
+  const operationSpec = parsedResponse.request.additionalInfo?.operationSpec;
   if (!operationSpec || !operationSpec.responses) {
     return parsedResponse;
   }

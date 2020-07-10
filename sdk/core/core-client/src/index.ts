@@ -27,6 +27,7 @@ export {
   MapperConstraints,
   OperationRequest,
   OperationRequestOptions,
+  OperationRequestInfo,
   QueryCollectionFormat,
   ParameterPath,
   OperationResponse,

@@ -10,7 +10,13 @@ import {
   PipelineRequest
 } from "@azure/core-https";
 
-export interface OperationRequest extends PipelineRequest {
+/**
+ * This interface extends a generic `PipelineRequest` to include
+ * additional metadata about the request.
+ */
+export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+
+export interface OperationRequestInfo {
   /**
    * Used to parse the response.
    */

@@ -140,7 +140,8 @@ export class ServiceClient {
       url
     });
     request.method = operationSpec.httpMethod;
-    request.operationSpec = operationSpec;
+    request.additionalInfo = {};
+    request.additionalInfo.operationSpec = operationSpec;
 
     const contentType = operationSpec.contentType || this._requestContentType;
     if (contentType) {
@@ -199,7 +200,7 @@ export class ServiceClient {
         }
 
         if (requestOptions.shouldDeserialize !== undefined) {
-          request.shouldDeserialize = requestOptions.shouldDeserialize;
+          request.additionalInfo.shouldDeserialize = requestOptions.shouldDeserialize;
         }
       }
 

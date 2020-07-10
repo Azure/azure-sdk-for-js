@@ -832,7 +832,9 @@ describe("ServiceClient", function() {
     };
 
     let request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
-    request.operationSpec = operationSpec;
+    request.additionalInfo = {
+      operationSpec
+    };
 
     const httpsClient: HttpsClient = {
       sendRequest: (req) => {

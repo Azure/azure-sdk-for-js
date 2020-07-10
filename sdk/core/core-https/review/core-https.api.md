@@ -167,8 +167,9 @@ export interface PipelineRedirectOptions extends RedirectPolicyOptions {
 }
 
 // @public
-export interface PipelineRequest {
+export interface PipelineRequest<AdditionalInfo = any> {
     abortSignal?: AbortSignalLike;
+    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
     clone(): PipelineRequest;
     formData?: FormDataMap;
@@ -188,8 +189,9 @@ export interface PipelineRequest {
 }
 
 // @public
-export interface PipelineRequestOptions {
+export interface PipelineRequestOptions<AdditionalInfo = any> {
     abortSignal?: AbortSignalLike;
+    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
     formData?: FormDataMap;
     headers?: HttpHeaders;
