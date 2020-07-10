@@ -211,14 +211,14 @@ export interface OperationQueryParameter extends OperationParameter {
 // @public
 export type OperationRequest = PipelineRequest<OperationRequestInfo>;
 
-// @public (undocumented)
+// @public
 export interface OperationRequestInfo {
     operationResponseGetter?: (operationSpec: OperationSpec, response: PipelineResponse) => undefined | OperationResponseMap;
     operationSpec?: OperationSpec;
     shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
 }
 
-// @public (undocumented)
+// @public
 export interface OperationRequestOptions {
     customHeaders?: {
         [key: string]: string;
@@ -266,7 +266,7 @@ export interface OperationURLParameter extends OperationParameter {
     skipEncoding?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export type ParameterPath = string | string[] | {
     [propertyName: string]: ParameterPath;
 };
@@ -298,7 +298,7 @@ export interface SequenceMapperType {
     name: "Sequence";
 }
 
-// @public (undocumented)
+// @public
 export interface Serializer {
     // (undocumented)
     deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
@@ -321,7 +321,7 @@ export class ServiceClient {
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
     }
 
-// @public (undocumented)
+// @public @deprecated
 export interface ServiceClientCredentials {
     signRequest(request: PipelineRequest): Promise<PipelineRequest>;
 }

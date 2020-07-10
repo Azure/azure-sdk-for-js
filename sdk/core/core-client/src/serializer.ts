@@ -272,7 +272,7 @@ function trimEnd(str: string, ch: string): string {
   return str.substr(0, len);
 }
 
-function bufferToBase64Url(buffer: any): string | undefined {
+function bufferToBase64Url(buffer: Uint8Array): string | undefined {
   if (!buffer) {
     return undefined;
   }

@@ -16,6 +16,9 @@ import {
  */
 export type OperationRequest = PipelineRequest<OperationRequestInfo>;
 
+/**
+ * Metadata that is used to properly parse a response.
+ */
 export interface OperationRequestInfo {
   /**
    * Used to parse the response.
@@ -38,6 +41,11 @@ export interface OperationRequestInfo {
   shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
 }
 
+/**
+ * Old legacy interface for signing requests.
+ * New clients should use tokens or their own custom credential policy.
+ * @deprecated
+ */
 export interface ServiceClientCredentials {
   /**
    * Signs a request with the Authentication header.
@@ -66,6 +74,9 @@ export interface OperationOptions {
   tracingOptions?: OperationTracingOptions;
 }
 
+/**
+ * Options used when creating and sending HTTP requests for this operation.
+ */
 export interface OperationRequestOptions {
   /**
    * @property {object} [customHeaders] User defined custom request headers that
@@ -114,6 +125,9 @@ export interface OperationArguments {
  */
 export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
 
+/**
+ * Encodes how to reach a particular property on an object.
+ */
 export type ParameterPath = string | string[] | { [propertyName: string]: ParameterPath };
 
 /**
@@ -293,6 +307,11 @@ export interface OperationResponse {
   [key: string]: any;
 }
 
+/**
+ * Used to map raw response objects to final shapes.
+ * Mostly useful for unpacking/packing Dates and other encoded types that
+ * are not intrinsic to JSON.
+ */
 export interface Serializer {
   readonly modelMappers: { [key: string]: any };
   readonly isXML: boolean;
