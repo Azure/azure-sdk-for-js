@@ -14,7 +14,8 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   EntityName,
-  getRandomReceiverTestClientType
+  getRandomSessionEnabledTestClientType,
+  getRandomNoSessionEnabledTestClientType
 } from "./utils/testutils2";
 import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
@@ -23,8 +24,8 @@ import { ReceiverEvents } from "rhea-promise";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-const noSessionTestClientType = getRandomReceiverTestClientType(false);
-const withSessionTestClientType = getRandomReceiverTestClientType(true);
+const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
+const withSessionTestClientType = getRandomSessionEnabledTestClientType();
 
 [noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
   describe(testClientType + ": Batch Receiver Settle Message", () => {

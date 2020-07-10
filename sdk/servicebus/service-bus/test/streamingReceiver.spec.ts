@@ -22,7 +22,7 @@ import {
   createServiceBusClientForTests,
   drainReceiveAndDeleteReceiver,
   testPeekMsgsLength,
-  getRandomReceiverTestClientType
+  getRandomNoSessionEnabledTestClientType
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 import { MessagingError, translate } from "@azure/core-amqp";
@@ -47,7 +47,7 @@ describe("Streaming Receiver Tests", () => {
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
   let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
   let entityNames: EntityName;
-  let testClientType = getRandomReceiverTestClientType(false);
+  let testClientType = getRandomNoSessionEnabledTestClientType();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();

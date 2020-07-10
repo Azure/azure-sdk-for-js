@@ -6,7 +6,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomReceiverTestClientType
+  getRandomSessionEnabledTestClientType
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ServiceBusMessage, SessionReceiver } from "../src";
@@ -25,7 +25,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
 
-  let testClientType = getRandomReceiverTestClientType(true);
+  let testClientType = getRandomSessionEnabledTestClientType();
 
   async function beforeEachNoSessionTest(): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();

@@ -12,15 +12,16 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomReceiverTestClientType
+  getRandomSessionEnabledTestClientType,
+  getRandomNoSessionEnabledTestClientType
 } from "./utils/testutils2";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-const noSessionTestClientType = getRandomReceiverTestClientType(false);
-const withSessionTestClientType = getRandomReceiverTestClientType(true);
+const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
+const withSessionTestClientType = getRandomSessionEnabledTestClientType();
 
 [noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
   describe(testClientType + ": Backup message settlement - Through ManagementLink", () => {

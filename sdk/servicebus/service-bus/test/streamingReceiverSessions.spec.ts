@@ -15,7 +15,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomReceiverTestClientType
+  getRandomSessionEnabledTestClientType
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 import { singleMessagePromise } from "./streamingReceiver.spec";
@@ -29,7 +29,7 @@ describe("Streaming with sessions", () => {
   let errorWasThrown: boolean;
   let unexpectedError: Error | undefined;
   let serviceBusClient: ServiceBusClientForTests;
-  let testClientType = getRandomReceiverTestClientType(true);
+  let testClientType = getRandomSessionEnabledTestClientType();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();

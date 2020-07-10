@@ -136,13 +136,43 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
  * Returns a TestClientType for either a Queue or a Subscription
  * @param useSessions
  */
-export function getRandomReceiverTestClientType(useSessions: boolean): TestClientType {
+export function getRandomReceiverTestClientType(): TestClientType {
+  const allTypes = [
+    TestClientType.PartitionedQueue,
+    TestClientType.PartitionedSubscription,
+    TestClientType.UnpartitionedQueue,
+    TestClientType.UnpartitionedSubscription,
+    TestClientType.PartitionedQueueWithSessions,
+    TestClientType.PartitionedSubscriptionWithSessions,
+    TestClientType.UnpartitionedQueueWithSessions,
+    TestClientType.UnpartitionedSubscriptionWithSessions
+  ];
+
+  const index = Math.floor(Math.random() * allTypes.length);
+  return allTypes[index];
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription with no
+ * sessions enabled
+ */
+export function getRandomNoSessionEnabledTestClientType(): TestClientType {
   const noSessionRecieverClientTypes = [
     TestClientType.PartitionedQueue,
     TestClientType.PartitionedSubscription,
     TestClientType.UnpartitionedQueue,
     TestClientType.UnpartitionedSubscription
   ];
+
+  const index = Math.floor(Math.random() * noSessionRecieverClientTypes.length);
+  return noSessionRecieverClientTypes[index];
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription with
+ * sessions enabled
+ */
+export function getRandomSessionEnabledTestClientType(): TestClientType {
   const withSessionRecieverClientTypes = [
     TestClientType.PartitionedQueueWithSessions,
     TestClientType.PartitionedSubscriptionWithSessions,
@@ -150,8 +180,8 @@ export function getRandomReceiverTestClientType(useSessions: boolean): TestClien
     TestClientType.UnpartitionedSubscriptionWithSessions
   ];
 
-  const index = Math.floor(Math.random() * noSessionRecieverClientTypes.length);
-  return useSessions ? withSessionRecieverClientTypes[index] : noSessionRecieverClientTypes[index];
+  const index = Math.floor(Math.random() * withSessionRecieverClientTypes.length);
+  return withSessionRecieverClientTypes[index];
 }
 
 export type EntityName = ReturnType<typeof getEntityNames>;

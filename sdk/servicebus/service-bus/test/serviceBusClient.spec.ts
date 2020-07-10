@@ -21,7 +21,8 @@ import {
   EntityName,
   ServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomReceiverTestClientType
+  getRandomSessionEnabledTestClientType,
+  getRandomNoSessionEnabledTestClientType
 } from "./utils/testutils2";
 
 const should = chai.should();
@@ -381,8 +382,8 @@ describe("Errors after close()", function(): void {
   let receiver: Receiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
   let entityName: EntityName;
-  let noSessionTestClientType = getRandomReceiverTestClientType(false);
-  let withSessionTestClientType = getRandomReceiverTestClientType(true);
+  let noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
+  let withSessionTestClientType = getRandomSessionEnabledTestClientType();
 
   afterEach(async () => {
     await sbClient.test.afterEach();

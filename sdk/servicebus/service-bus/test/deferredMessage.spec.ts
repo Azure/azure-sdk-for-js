@@ -11,7 +11,8 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   EntityName,
-  getRandomReceiverTestClientType
+  getRandomSessionEnabledTestClientType,
+  getRandomNoSessionEnabledTestClientType
 } from "./utils/testutils2";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
@@ -24,8 +25,8 @@ describe("deferred messages", () => {
   let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
 
   let entityNames: EntityName;
-  let noSessionTestClientType = getRandomReceiverTestClientType(false);
-  let withSessionTestClientType = getRandomReceiverTestClientType(true);
+  let noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
+  let withSessionTestClientType = getRandomSessionEnabledTestClientType();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
