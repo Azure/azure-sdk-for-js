@@ -10,6 +10,22 @@ import { VSCodeCredential } from "./vscodeCredential";
 import { TokenCredential } from "@azure/core-http";
 
 /**
+ * Hosts the TokenCredentialOptions, plus options specific to DefaultAzureCredentials.
+ */
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+  /**
+   * Holds a union type of the supported credential chains.
+   * Each possible value will pick a specific list of credentials to authenticate with.
+   */
+  version?: "1";
+}
+
+/**
+ * Default credential chain for the DefaultAzureCredential
+ */
+export const DEFAULT_AZURE_CREDENTIAL_CHAIN_VERSION = "1";
+
+/**
  * Provides a default {@link ChainedTokenCredential} configuration for
  * applications that will be deployed to Azure.  The following credential
  * types will be tried, in order:
@@ -26,19 +42,25 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
-    let credentials = [];
-    credentials.push(new EnvironmentCredential(tokenCredentialOptions));
-    credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
-    if (process.env.AZURE_CLIENT_ID) {
-      credentials.push(
-        new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions)
-      );
+  constructor(options?: DefaultAzureCredentialOptions) {
+    let credentials: TokenCredential[] = [];
+    const version = options?.version || DEFAULT_AZURE_CREDENTIAL_CHAIN_VERSION;
+
+    switch (version) {
+      // Add more cases as we create them.
+      case "1":
+        credentials.push(new EnvironmentCredential(options));
+        credentials.push(new ManagedIdentityCredential(options));
+        if (process.env.AZURE_CLIENT_ID) {
+          credentials.push(new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, options));
+        }
+        credentials.push(new AzureCliCredential());
+        credentials.push(new VSCodeCredential(options));
+        break;
     }
-    credentials.push(new AzureCliCredential());
-    credentials.push(new VSCodeCredential(tokenCredentialOptions));
 
     super(
+      // Only keeping the non-empty entries.
       ...credentials
     );
     this.UnavailableMessage =

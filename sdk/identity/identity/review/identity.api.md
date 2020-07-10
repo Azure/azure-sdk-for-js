@@ -71,8 +71,16 @@ export class CredentialUnavailable extends Error {
 }
 
 // @public
+export const DEFAULT_AZURE_CREDENTIAL_CHAIN_VERSION = "1";
+
+// @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
-    constructor(tokenCredentialOptions?: TokenCredentialOptions);
+    constructor(options?: DefaultAzureCredentialOptions);
+}
+
+// @public
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+    version?: "1";
 }
 
 // @public

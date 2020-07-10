@@ -24,7 +24,11 @@ export {
   DeviceCodeInfo
 } from "./credentials/deviceCodeCredential";
 
-export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
+export {
+  DefaultAzureCredential,
+  DefaultAzureCredentialOptions,
+  DEFAULT_AZURE_CREDENTIAL_CHAIN_VERSION
+} from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export {
