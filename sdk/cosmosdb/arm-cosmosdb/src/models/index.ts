@@ -220,6 +220,89 @@ export interface ApiProperties {
 }
 
 /**
+ * Specific Databases to restore.
+ */
+export interface DatabaseRestoreResource {
+  /**
+   * The name of the database to restore.
+   */
+  databaseName?: string;
+  /**
+   * The names of the collections to restore.
+   */
+  collectionNames?: string[];
+}
+
+/**
+ * Parameters to indicate the information about the restore.
+ */
+export interface RestoreParameters {
+  /**
+   * Describes the mode of the restore. Possible values include: 'PointInTime'
+   */
+  restoreMode?: RestoreMode;
+  /**
+   * Path of the source account from which the restore has to be initiated
+   */
+  restoreSource?: string;
+  /**
+   * Time to which the account has to be restored (ISO-8601 format).
+   */
+  restoreTimestampInUtc?: Date;
+  /**
+   * List of specific databases to restore.
+   */
+  databasesToRestore?: DatabaseRestoreResource[];
+}
+
+/**
+ * Contains the possible cases for BackupPolicy.
+ */
+export type BackupPolicyUnion = BackupPolicy | PeriodicModeBackupPolicy | ContinuousModeBackupPolicy;
+
+/**
+ * The object representing the policy for taking backups on an account.
+ */
+export interface BackupPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "BackupPolicy";
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The type of identity that last modified the resource.
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
  * The core properties of ARM resources.
  */
 export interface ARMResourceProperties extends BaseResource {
@@ -243,6 +326,7 @@ export interface ARMResourceProperties extends BaseResource {
    */
   location?: string;
   tags?: { [propertyName: string]: string };
+  identity?: ManagedServiceIdentity;
 }
 
 /**
@@ -357,6 +441,29 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    * Flag to indicate whether to enable storage analytics.
    */
   enableAnalyticalStorage?: boolean;
+  /**
+   * A unique identifier assigned to the database account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly instanceId?: string;
+  /**
+   * Enum to indicate the mode of account creation. Possible values include: 'Default', 'Restore'.
+   * Default value: 'Default'.
+   */
+  createMode?: CreateMode;
+  /**
+   * Parameters to indicate the information about the restore.
+   */
+  restoreParameters?: RestoreParameters;
+  /**
+   * The object representing the policy for taking backups on an account.
+   */
+  backupPolicy?: BackupPolicyUnion;
+  /**
+   * The system meta data relating to this resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -1209,6 +1316,13 @@ export interface ErrorResponse {
 }
 
 /**
+ * An error response from the service.
+ */
+export interface ErrorResponseUpdatedFormat {
+  error?: ErrorResponse;
+}
+
+/**
  * The list of new failover policies for the failover priority change.
  */
 export interface FailoverPolicies {
@@ -1226,6 +1340,31 @@ export interface RegionForOnlineOffline {
    * Cosmos DB region, with spaces between words and each word capitalized.
    */
   region: string;
+}
+
+/**
+ * Identity for the resource.
+ */
+export interface ManagedServiceIdentity {
+  /**
+   * The principal id of the system assigned identity. This property will only be provided for a
+   * system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the system assigned identity. This property will only be provided for a
+   * system assigned identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes
+   * both an implicitly created identity and a set of user assigned identities. The type 'None'
+   * will remove any identities from the service. Possible values include: 'SystemAssigned',
+   * 'UserAssigned', 'SystemAssigned, UserAssigned', 'None'
+   */
+  type?: ResourceIdentityType;
 }
 
 /**
@@ -1368,15 +1507,18 @@ export interface ThroughputSettingsGetResults extends ARMResourceProperties {
 }
 
 /**
- * Parameters to create and update Cosmos DB database accounts.
+ * Contains the possible cases for DatabaseAccountCreateUpdateProperties.
  */
-export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProperties {
+export type DatabaseAccountCreateUpdatePropertiesUnion = DatabaseAccountCreateUpdateProperties | DefaultRequestDatabaseAccountCreateUpdateProperties | RestoreReqeustDatabaseAccountCreateUpdateProperties;
+
+/**
+ * Properties to create and update Azure Cosmos DB database accounts.
+ */
+export interface DatabaseAccountCreateUpdateProperties {
   /**
-   * Indicates the type of database account. This can only be set at database account creation.
-   * Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'. Default value:
-   * 'GlobalDocumentDB'.
+   * Polymorphic Discriminator
    */
-  kind?: DatabaseAccountKind;
+  createMode: "DatabaseAccountCreateUpdateProperties";
   /**
    * The consistency policy for the Cosmos DB account.
    */
@@ -1446,6 +1588,193 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    * Flag to indicate whether to enable storage analytics.
    */
   enableAnalyticalStorage?: boolean;
+  /**
+   * The object representing the policy for taking backups on an account.
+   */
+  backupPolicy?: BackupPolicyUnion;
+}
+
+/**
+ * Properties for non-restore Azure Cosmos DB database account requests.
+ */
+export interface DefaultRequestDatabaseAccountCreateUpdateProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  createMode: "Default";
+  /**
+   * The consistency policy for the Cosmos DB account.
+   */
+  consistencyPolicy?: ConsistencyPolicy;
+  /**
+   * An array that contains the georeplication locations enabled for the Cosmos DB account.
+   */
+  locations: Location[];
+  /**
+   * List of IpRules.
+   */
+  ipRules?: IpAddressOrRange[];
+  /**
+   * Flag to indicate whether to enable/disable Virtual Network ACL rules.
+   */
+  isVirtualNetworkFilterEnabled?: boolean;
+  /**
+   * Enables automatic failover of the write region in the rare event that the region is
+   * unavailable due to an outage. Automatic failover will result in a new write region for the
+   * account and is chosen based on the failover priorities configured for the account.
+   */
+  enableAutomaticFailover?: boolean;
+  /**
+   * List of Cosmos DB capabilities for the account
+   */
+  capabilities?: Capability[];
+  /**
+   * List of Virtual Network ACL rules configured for the Cosmos DB account.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * Enables the account to write in multiple locations
+   */
+  enableMultipleWriteLocations?: boolean;
+  /**
+   * Enables the cassandra connector on the Cosmos DB C* account
+   */
+  enableCassandraConnector?: boolean;
+  /**
+   * The cassandra connector offer type for the Cosmos DB database C* account. Possible values
+   * include: 'Small'
+   */
+  connectorOffer?: ConnectorOffer;
+  /**
+   * Disable write operations on metadata resources (databases, containers, throughput) via account
+   * keys
+   */
+  disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
+  /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Flag to indicate whether Free Tier is enabled.
+   */
+  enableFreeTier?: boolean;
+  /**
+   * API specific properties. Currently, supported only for MongoDB API.
+   */
+  apiProperties?: ApiProperties;
+  /**
+   * Flag to indicate whether to enable storage analytics.
+   */
+  enableAnalyticalStorage?: boolean;
+  /**
+   * The object representing the policy for taking backups on an account.
+   */
+  backupPolicy?: BackupPolicyUnion;
+}
+
+/**
+ * Properties to restore Azure Cosmos DB database account.
+ */
+export interface RestoreReqeustDatabaseAccountCreateUpdateProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  createMode: "Restore";
+  /**
+   * The consistency policy for the Cosmos DB account.
+   */
+  consistencyPolicy?: ConsistencyPolicy;
+  /**
+   * An array that contains the georeplication locations enabled for the Cosmos DB account.
+   */
+  locations: Location[];
+  /**
+   * List of IpRules.
+   */
+  ipRules?: IpAddressOrRange[];
+  /**
+   * Flag to indicate whether to enable/disable Virtual Network ACL rules.
+   */
+  isVirtualNetworkFilterEnabled?: boolean;
+  /**
+   * Enables automatic failover of the write region in the rare event that the region is
+   * unavailable due to an outage. Automatic failover will result in a new write region for the
+   * account and is chosen based on the failover priorities configured for the account.
+   */
+  enableAutomaticFailover?: boolean;
+  /**
+   * List of Cosmos DB capabilities for the account
+   */
+  capabilities?: Capability[];
+  /**
+   * List of Virtual Network ACL rules configured for the Cosmos DB account.
+   */
+  virtualNetworkRules?: VirtualNetworkRule[];
+  /**
+   * Enables the account to write in multiple locations
+   */
+  enableMultipleWriteLocations?: boolean;
+  /**
+   * Enables the cassandra connector on the Cosmos DB C* account
+   */
+  enableCassandraConnector?: boolean;
+  /**
+   * The cassandra connector offer type for the Cosmos DB database C* account. Possible values
+   * include: 'Small'
+   */
+  connectorOffer?: ConnectorOffer;
+  /**
+   * Disable write operations on metadata resources (databases, containers, throughput) via account
+   * keys
+   */
+  disableKeyBasedMetadataWriteAccess?: boolean;
+  /**
+   * The URI of the key vault
+   */
+  keyVaultKeyUri?: string;
+  /**
+   * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * Flag to indicate whether Free Tier is enabled.
+   */
+  enableFreeTier?: boolean;
+  /**
+   * API specific properties. Currently, supported only for MongoDB API.
+   */
+  apiProperties?: ApiProperties;
+  /**
+   * Flag to indicate whether to enable storage analytics.
+   */
+  enableAnalyticalStorage?: boolean;
+  /**
+   * The object representing the policy for taking backups on an account.
+   */
+  backupPolicy?: BackupPolicyUnion;
+  /**
+   * Parameters to indicate the information about the restore.
+   */
+  restoreParameters?: RestoreParameters;
+}
+
+/**
+ * Parameters to create and update Cosmos DB database accounts.
+ */
+export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProperties {
+  /**
+   * Indicates the type of database account. This can only be set at database account creation.
+   * Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'. Default value:
+   * 'GlobalDocumentDB'.
+   */
+  kind?: DatabaseAccountKind;
+  properties: DatabaseAccountCreateUpdatePropertiesUnion;
 }
 
 /**
@@ -1526,6 +1855,10 @@ export interface DatabaseAccountUpdateParameters {
    * Flag to indicate whether to enable storage analytics.
    */
   enableAnalyticalStorage?: boolean;
+  /**
+   * The object representing the policy for taking backups on an account.
+   */
+  backupPolicy?: BackupPolicyUnion;
 }
 
 /**
@@ -2363,6 +2696,62 @@ export interface PartitionMetric extends Metric {
 }
 
 /**
+ * Configuration values for periodic mode backup
+ */
+export interface PeriodicModeProperties {
+  /**
+   * An integer representing the interval in minutes between two backups
+   */
+  backupIntervalInMinutes?: number;
+  /**
+   * An integer representing the time (in hours) that each backup is retained
+   */
+  backupRetentionIntervalInHours?: number;
+}
+
+/**
+ * The object representing periodic mode backup policy.
+ */
+export interface PeriodicModeBackupPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Periodic";
+  /**
+   * Configuration values for periodic mode backup
+   */
+  periodicModeProperties?: PeriodicModeProperties;
+}
+
+/**
+ * The object representing continuous mode backup policy.
+ */
+export interface ContinuousModeBackupPolicy {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Continuous";
+}
+
+/**
+ * A Azure Cosmos DB restorable database account.
+ */
+export interface RestorableDatabaseAccountGetResult extends ARMResourceProperties {
+  /**
+   * The name of the global database account
+   */
+  accountName?: string;
+  /**
+   * The creation time of the restorable database account (ISO-8601 format).
+   */
+  creationTime?: Date;
+  /**
+   * The time at which the restorable database account has been deleted (ISO-8601 format).
+   */
+  deletionTime?: Date;
+}
+
+/**
  * The resource model definition for a ARM tracked top level resource
  */
 export interface TrackedResource extends Resource {
@@ -2665,6 +3054,15 @@ export interface GremlinGraphListResult extends Array<GremlinGraphGetResults> {
 
 /**
  * @interface
+ * The List operation response, that contains the restorable database accounts and their
+ * properties.
+ * @extends Array<RestorableDatabaseAccountGetResult>
+ */
+export interface RestorableDatabaseAccountsListResult extends Array<RestorableDatabaseAccountGetResult> {
+}
+
+/**
+ * @interface
  * A list of notebook workspace resources
  * @extends Array<NotebookWorkspace>
  */
@@ -2734,6 +3132,30 @@ export type PublicNetworkAccess = 'Enabled' | 'Disabled';
  * @enum {string}
  */
 export type ServerVersion = '3.2' | '3.6';
+
+/**
+ * Defines values for CreateMode.
+ * Possible values include: 'Default', 'Restore'
+ * @readonly
+ * @enum {string}
+ */
+export type CreateMode = 'Default' | 'Restore';
+
+/**
+ * Defines values for RestoreMode.
+ * Possible values include: 'PointInTime'
+ * @readonly
+ * @enum {string}
+ */
+export type RestoreMode = 'PointInTime';
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for IndexingMode.
@@ -2806,6 +3228,15 @@ export type TriggerType = 'Pre' | 'Post';
  * @enum {string}
  */
 export type TriggerOperation = 'All' | 'Create' | 'Update' | 'Delete' | 'Replace';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
+ * 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned' | 'None';
 
 /**
  * Defines values for KeyKind.
@@ -4994,6 +5425,66 @@ export type GremlinResourcesBeginUpdateGremlinGraphThroughputResponse = Throughp
        * The response body as parsed JSON or XML
        */
       parsedBody: ThroughputSettingsGetResults;
+    };
+};
+
+/**
+ * Contains response data for the listByLocation operation.
+ */
+export type RestorableDatabaseAccountsListByLocationResponse = RestorableDatabaseAccountsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDatabaseAccountsListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type RestorableDatabaseAccountsListResponse = RestorableDatabaseAccountsListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDatabaseAccountsListResult;
+    };
+};
+
+/**
+ * Contains response data for the getByLocation operation.
+ */
+export type RestorableDatabaseAccountsGetByLocationResponse = RestorableDatabaseAccountGetResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RestorableDatabaseAccountGetResult;
     };
 };
 
