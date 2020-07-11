@@ -282,8 +282,10 @@ describe.only("bulk item operations", function() {
       assert.equal(response[0].code, 200);
     });
   });
-  describe.only("with v2 container", function() {
+  describe("with v2 container", function() {
     let container: Container;
+    let readItemId: string;
+    let replaceItemId: string;
     let deleteItemId: string;
     before(async function() {
       container = await getTestContainer("bulk container", undefined, {
@@ -292,53 +294,53 @@ describe.only("bulk item operations", function() {
         },
         throughput: 25100
       });
-      // readItemId = addEntropy("item1");
-      // await container.items.create({
-      //   id: readItemId,
-      //   key: "A",
-      //   class: "2010"
-      // });
+      readItemId = addEntropy("item1");
+      await container.items.create({
+        id: readItemId,
+        key: "A",
+        class: "2010"
+      });
       deleteItemId = addEntropy("item2");
       await container.items.create({
         id: deleteItemId,
-        key: 5,
+        key: "A",
         class: "2010"
       });
-      // replaceItemId = addEntropy("item3");
-      // await container.items.create({
-      //   id: replaceItemId,
-      //   key: "A",
-      //   class: "2010"
-      // });
+      replaceItemId = addEntropy("item3");
+      await container.items.create({
+        id: replaceItemId,
+        key: "A",
+        class: "2010"
+      });
     });
     it("handles create, upsert, replace, delete", async function() {
       const operations: Operation[] = [
-        // {
-        //   operationType: "Create",
-        //   partitionKey: `["A"]`,
-        //   resourceBody: { id: "doc1", name: "sample", key: "A" }
-        // },
-        // {
-        //   operationType: "Upsert",
-        //   partitionKey: `["A"]`,
-        //   resourceBody: { id: "doc2", name: "other", key: "A" }
-        // },
-        // {
-        //   operationType: "Read",
-        //   id: readItemId,
-        //   partitionKey: `["A"]`
-        // },
+        {
+          operationType: "Create",
+          partitionKey: `["A"]`,
+          resourceBody: { id: "doc1", name: "sample", key: "A" }
+        },
+        {
+          operationType: "Upsert",
+          partitionKey: `["A"]`,
+          resourceBody: { id: "doc2", name: "other", key: "A" }
+        },
+        {
+          operationType: "Read",
+          id: readItemId,
+          partitionKey: `["A"]`
+        },
         {
           operationType: "Delete",
           id: deleteItemId,
-          partitionKey: `[5]`
+          partitionKey: `["A"]`
+        },
+        {
+          operationType: "Replace",
+          partitionKey: `["A"]`,
+          id: replaceItemId,
+          resourceBody: { id: replaceItemId + "230984", name: "nice", key: "A" }
         }
-        // {
-        //   operationType: "Replace",
-        //   partitionKey: `["A"]`,
-        //   id: replaceItemId,
-        //   resourceBody: { id: replaceItemId, name: "nice", key: "A" }
-        // }
       ];
       const response = await container.items.bulk(operations);
       assert.equal(response[0].code, 200);

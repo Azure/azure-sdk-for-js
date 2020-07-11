@@ -401,7 +401,6 @@ export class Items {
             .replace("'", "")
             .replace('"', "")
             .replace('"', "");
-
       const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
       let batchForKey = batches.find((batch: Batch) => {
         return isKeyInRange(batch.min, batch.max, hashed);
@@ -425,8 +424,8 @@ export class Items {
               options
             });
             return response;
-          } catch (e) {
-            console.log({ e });
+          } catch (error) {
+            console.log({ error });
           }
         })
     );
