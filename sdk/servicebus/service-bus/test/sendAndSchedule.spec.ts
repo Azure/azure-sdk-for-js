@@ -12,16 +12,25 @@ import { Receiver } from "../src/receivers/receiver";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  testPeekMsgsLength
+  testPeekMsgsLength,
+  getRandomNoSessionEnabledTestClientType,
+  getRandomSessionEnabledTestClientType,
+  EntityName,
+  getRandomReceiverTestClientType
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 
+const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
+const withSessionTestClientType = getRandomSessionEnabledTestClientType();
+const anyRandomTestClientType = getRandomReceiverTestClientType();
+
 describe("send scheduled messages", () => {
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
+  let entityName: EntityName;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -32,11 +41,11 @@ describe("send scheduled messages", () => {
   });
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
-    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    entityName = await serviceBusClient.test.createTestEntities(entityType);
+    receiver = await serviceBusClient.test.getPeekLockReceiver(entityName);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityName.queue ?? entityName.topic!)
     );
   }
 
@@ -50,8 +59,10 @@ describe("send scheduled messages", () => {
       await afterEachTest();
     });
 
-    async function testSimpleSend(useSessions: boolean, usePartitions: boolean): Promise<void> {
-      const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    async function testSimpleSend(): Promise<void> {
+      const testMessage = entityName.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
       await sender.sendMessages(testMessage);
       const msgs = await receiver.receiveMessages(1);
 
@@ -59,51 +70,26 @@ describe("send scheduled messages", () => {
       should.equal(msgs.length, 1, "Unexpected number of messages");
       should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
 
-      TestMessage.checkMessageContents(testMessage, msgs[0], useSessions, usePartitions);
+      TestMessage.checkMessageContents(
+        testMessage,
+        msgs[0],
+        entityName.usesSessions,
+        entityName.isPartitioned
+      );
 
       await msgs[0].complete();
 
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it("Partitioned Queue: Simple Send", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testSimpleSend(false, true);
+    it(noSessionTestClientType + ": Simple Send", async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testSimpleSend();
     });
 
-    it("Partitioned Topic: Simple Send", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSimpleSend(false, true);
-    });
-
-    it("Unpartitioned Queue: Simple Send", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSimpleSend(false, false);
-    });
-
-    it("Unpartitioned Topic: Simple Send", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSimpleSend(false, false);
-    });
-
-    it("Partitioned Queue with Sessions: Simple Send", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSimpleSend(true, true);
-    });
-
-    it("Partitioned Topic with Sessions: Simple Send", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSimpleSend(true, true);
-    });
-
-    it("Unpartitioned Queue with Sessions: Simple Send", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSimpleSend(true, false);
-    });
-
-    it("Unpartitioned Topic with Sessions: Simple Send", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testSimpleSend(true, false);
+    it(withSessionTestClientType + ": Simple Send", async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testSimpleSend();
     });
   });
 
@@ -112,13 +98,14 @@ describe("send scheduled messages", () => {
       await afterEachTest();
     });
 
-    async function testSimpleSendBatch(
-      useSessions: boolean,
-      usePartitions: boolean
-    ): Promise<void> {
+    async function testSimpleSendBatch(): Promise<void> {
       const testMessages = [];
-      testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
-      testMessages.push(useSessions ? TestMessage.getSessionSample() : TestMessage.getSample());
+      testMessages.push(
+        entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample()
+      );
+      testMessages.push(
+        entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample()
+      );
 
       await sender.sendMessages(testMessages);
       const msgs = await receiver.receiveMessages(2);
@@ -127,11 +114,31 @@ describe("send scheduled messages", () => {
       should.equal(msgs.length, 2, "Unexpected number of messages");
 
       if (testMessages[0].messageId === msgs[0].messageId) {
-        TestMessage.checkMessageContents(testMessages[0], msgs[0], useSessions, usePartitions);
-        TestMessage.checkMessageContents(testMessages[1], msgs[1], useSessions, usePartitions);
+        TestMessage.checkMessageContents(
+          testMessages[0],
+          msgs[0],
+          entityName.usesSessions,
+          entityName.isPartitioned
+        );
+        TestMessage.checkMessageContents(
+          testMessages[1],
+          msgs[1],
+          entityName.usesSessions,
+          entityName.isPartitioned
+        );
       } else {
-        TestMessage.checkMessageContents(testMessages[1], msgs[0], useSessions, usePartitions);
-        TestMessage.checkMessageContents(testMessages[0], msgs[1], useSessions, usePartitions);
+        TestMessage.checkMessageContents(
+          testMessages[1],
+          msgs[0],
+          entityName.usesSessions,
+          entityName.isPartitioned
+        );
+        TestMessage.checkMessageContents(
+          testMessages[0],
+          msgs[1],
+          entityName.usesSessions,
+          entityName.isPartitioned
+        );
       }
 
       await msgs[0].complete();
@@ -140,69 +147,29 @@ describe("send scheduled messages", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it("Partitioned Queue: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testSimpleSendBatch(false, true);
+    it(noSessionTestClientType + ": Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testSimpleSendBatch();
     });
 
-    it("Partitioned Topic: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSimpleSendBatch(false, true);
-    });
-
-    it("Unpartitioned Queue: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSimpleSendBatch(false, false);
-    });
-
-    it("Unpartitioned Topic: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSimpleSendBatch(false, false);
-    });
-
-    it("Partitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSimpleSendBatch(true, true);
-    });
-
-    it("Partitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSimpleSendBatch(true, true);
-    });
-
-    it("Unpartitioned Queue with Sessions: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSimpleSendBatch(true, false);
-    });
-
-    it("Unpartitioned Topic with Sessions: Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testSimpleSendBatch(true, false);
+    it(withSessionTestClientType + ": Simple SendBatch", async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testSimpleSendBatch();
     });
   });
 
-  describe("Schedule single message", function(): void {
+  describe("Schedule messages", function(): void {
     afterEach(async () => {
       await afterEachTest();
     });
 
-    /**
-     * Schedules a test message message to be sent at a later time, waits and then receives it
-     * @param useSessions Set to true if using session enabled queues or subscriptions
-     * @param passSequenceNumberInArray Boolean to indicate whether to pass the sequence number
-     * as is or in an array to ensure both get code coverage
-     */
-    async function testScheduleMessage(
-      useSessions: boolean,
-      passSequenceNumberInArray: boolean
-    ): Promise<void> {
-      const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    async function testScheduleSingleMessage(): Promise<void> {
+      const testMessage = entityName.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
       const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from
 
-      await sender.scheduleMessages(
-        scheduleTime,
-        passSequenceNumberInArray ? [testMessage] : testMessage
-      );
+      await sender.scheduleMessages(scheduleTime, testMessage);
 
       const msgs = await receiver.receiveMessages(1);
       const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
@@ -226,83 +193,10 @@ describe("send scheduled messages", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it("Partitioned Queue: Schedule single message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testScheduleMessage(false, true);
-    });
-
-    it("Partitioned Topic: Schedule single message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testScheduleMessage(false, false);
-    });
-
-    it("Unpartitioned Queue: Schedule single message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testScheduleMessage(false, false);
-    });
-
-    it("Unpartitioned Topic: Schedule single message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testScheduleMessage(false, true);
-    });
-
-    it("Partitioned Queue with Sessions: Schedule single message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testScheduleMessage(true, true);
-    });
-
-    it("Partitioned Topic with Sessions: Schedule single message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testScheduleMessage(true, true);
-    });
-
-    it("Unpartitioned Queue with Sessions: Schedule single message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testScheduleMessage(true, false);
-    });
-
-    it("Unpartitioned Topic with Sessions: Schedule single message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testScheduleMessage(true, false);
-    });
-  });
-
-  describe("Schedule multiple messages", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
-
-    const messages: ServiceBusMessage[] = [
-      {
-        body: "hello1",
-        messageId: `test message ${Math.random()}`,
-        partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
-      },
-      {
-        body: "hello2",
-        messageId: `test message ${Math.random()}`,
-        partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
-      }
-    ];
-    const messageWithSessions: ServiceBusMessage[] = [
-      {
-        body: "hello1",
-        messageId: `test message ${Math.random()}`,
-        sessionId: TestMessage.sessionId
-      },
-      {
-        body: "hello2",
-        messageId: `test message ${Math.random()}`,
-        sessionId: TestMessage.sessionId
-      }
-    ];
-
-    async function testScheduleMessages(useSessions?: boolean): Promise<void> {
-      const testMessages = useSessions ? messageWithSessions : messages;
+    async function testScheduleMultipleMessages(): Promise<void> {
+      const testMessages = entityName.usesSessions
+        ? [TestMessage.getSessionSample(), TestMessage.getSessionSample()]
+        : [TestMessage.getSample(), TestMessage.getSample()];
       const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
       await sender.scheduleMessages(scheduleTime, testMessages);
 
@@ -341,62 +235,26 @@ describe("send scheduled messages", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it("Partitioned Queue: Schedule multiple messages", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testScheduleMessages();
+    it(anyRandomTestClientType + ": Schedule single message", async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await testScheduleSingleMessage();
     });
 
-    it("Partitioned Topic: Schedule multiple messages", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testScheduleMessages();
-    });
-
-    it("UnPartitioned Queue: Schedule multiple messages", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testScheduleMessages();
-    });
-
-    it("UnPartitioned Topic: Schedule multiple messages", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testScheduleMessages();
-    });
-
-    it("Partitioned Queue with Sessions: Schedule multiple messages", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testScheduleMessages(true);
-    });
-
-    it("Partitioned Topic with Sessions: Schedule multiple messages", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testScheduleMessages(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: Schedule multiple messages", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testScheduleMessages(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: Schedule multiple messages", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testScheduleMessages(true);
+    it(anyRandomTestClientType + ": Schedule multiple messages", async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await testScheduleMultipleMessages();
     });
   });
 
-  describe("Cancel single Scheduled message", function(): void {
+  describe("Cancel Scheduled messages", function(): void {
     afterEach(async () => {
       await afterEachTest();
     });
 
-    async function testCancelScheduleMessage(useSessions?: boolean): Promise<void> {
-      const testMessage = useSessions ? TestMessage.getSessionSample() : TestMessage.getSample();
+    async function testCancelSingleScheduledMessage(): Promise<void> {
+      const testMessage = entityName.usesSessions
+        ? TestMessage.getSessionSample()
+        : TestMessage.getSample();
       const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
       const [sequenceNumber] = await sender.scheduleMessages(scheduleTime, testMessage);
 
@@ -409,62 +267,10 @@ describe("send scheduled messages", () => {
       await testReceivedMsgsLength(receiver, 0);
     }
 
-    it("Partitioned Queue: Cancel single Scheduled message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testCancelScheduleMessage();
-    });
-
-    it("Partitioned Topic: Cancel single Scheduled message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testCancelScheduleMessage();
-    });
-
-    it("Unpartitioned Queue: Cancel single Scheduled message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testCancelScheduleMessage();
-    });
-
-    it("Unpartitioned Topic: Cancel single Scheduled message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testCancelScheduleMessage();
-    });
-
-    it("Partitioned Queue with Sessions: Cancel single Scheduled message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testCancelScheduleMessage(true);
-    });
-
-    it("Partitioned Topic with Sessions: Cancel single Scheduled message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testCancelScheduleMessage(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: Cancel single Scheduled message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testCancelScheduleMessage(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: Cancel single Scheduled message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testCancelScheduleMessage(true);
-    });
-  });
-
-  describe("Cancel multiple Scheduled messages", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
-
-    async function testCancelScheduleMessages(useSessions?: boolean): Promise<void> {
-      const getTestMessage = useSessions ? TestMessage.getSessionSample : TestMessage.getSample;
+    async function testCancelMultipleScheduleMessages(): Promise<void> {
+      const getTestMessage = entityName.usesSessions
+        ? TestMessage.getSessionSample
+        : TestMessage.getSample;
 
       const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
       const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(scheduleTime, [
@@ -481,111 +287,72 @@ describe("send scheduled messages", () => {
       await testReceivedMsgsLength(receiver, 0);
     }
 
-    it("Partitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testCancelScheduleMessages(false);
-    });
-
-    it("Partitioned Topic: Cancel scheduled messages", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testCancelScheduleMessages(false);
-    });
-
-    it("Unpartitioned Queue: Cancel scheduled messages", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testCancelScheduleMessages(false);
-    });
-
-    it("Unpartitioned Topic: Cancel scheduled messages", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testCancelScheduleMessages(false);
-    });
-
-    it("Partitioned Queue with Sessions: Cancel scheduled messages", async function(): Promise<
+    it(anyRandomTestClientType + ": Cancel single Scheduled message", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testCancelScheduleMessages(true);
+      await beforeEachTest(anyRandomTestClientType);
+      await testCancelSingleScheduledMessage();
     });
 
-    it("Partitioned Topic with Sessions: Cancel scheduled messages", async function(): Promise<
+    it(anyRandomTestClientType + ": Cancel multiple Scheduled messages", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testCancelScheduleMessages(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: Cancel scheduled messages", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testCancelScheduleMessages(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: Cancel scheduled messages", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
-      await testCancelScheduleMessages(true);
+      await beforeEachTest(anyRandomTestClientType);
+      await testCancelMultipleScheduleMessages();
     });
   });
 
-  describe("Miscellaneous", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
+  it(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
+    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    const date = new Date();
+    const messages = [
+      { body: "Hello!" },
+      { body: "Hello, again!" },
+      { body: "Hello, again and again!!" }
+    ];
+    let [result1, result2, result3] = await Promise.all([
+      // Schedule messages in parallel
+      sender.scheduleMessages(date, messages[0]),
+      sender.scheduleMessages(date, messages[1]),
+      sender.scheduleMessages(date, messages[2])
+    ]);
+    const sequenceNumbers = [result1[0], result2[0], result3[0]];
+    compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[1]);
+    compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[2]);
+    compareSequenceNumbers(sequenceNumbers[1], sequenceNumbers[2]);
 
-    it("Schedule messages in parallel", async () => {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      const date = new Date();
-      const messages = [
-        { body: "Hello!" },
-        { body: "Hello, again!" },
-        { body: "Hello, again and again!!" }
-      ];
-      let [result1, result2, result3] = await Promise.all([
-        // Schedule messages in parallel
-        sender.scheduleMessages(date, messages[0]),
-        sender.scheduleMessages(date, messages[1]),
-        sender.scheduleMessages(date, messages[2])
-      ]);
-      const sequenceNumbers = [result1[0], result2[0], result3[0]]
-      compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[1]);
-      compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[2]);
-      compareSequenceNumbers(sequenceNumbers[1], sequenceNumbers[2]);
+    function compareSequenceNumbers(sequenceNumber1: Long.Long, sequenceNumber2: Long.Long) {
+      should.equal(
+        sequenceNumber1.compare(sequenceNumber2) != 0,
+        true,
+        "Returned sequence numbers for parallel requests are the same"
+      );
+    }
 
-      function compareSequenceNumbers(sequenceNumber1: Long.Long, sequenceNumber2: Long.Long) {
-        should.equal(
-          sequenceNumber1.compare(sequenceNumber2) != 0,
-          true,
-          "Returned sequence numbers for parallel requests are the same"
-        );
-      }
+    const receivedMsgs = await receiver.receiveMessages(3);
+    should.equal(receivedMsgs.length, 3, "Unexpected number of messages");
+    for (const seqNum of sequenceNumbers) {
+      const msgWithSeqNum = receivedMsgs.find(
+        ({ sequenceNumber }) => sequenceNumber?.comp(seqNum) === 0
+      );
+      should.equal(
+        msgWithSeqNum == undefined,
+        false,
+        `Sequence number ${seqNum} is not found in the received messages!`
+      );
+      should.equal(
+        msgWithSeqNum?.body,
+        messages[sequenceNumbers.indexOf(seqNum)].body,
+        "Message body did not match though the sequence numbers matched!"
+      );
+      await msgWithSeqNum?.complete();
+    }
 
-      const receivedMsgs = await receiver.receiveMessages(3);
-      should.equal(receivedMsgs.length, 3, "Unexpected number of messages");
-      for (const seqNum of sequenceNumbers) {
-        const msgWithSeqNum = receivedMsgs.find(
-          ({ sequenceNumber }) => sequenceNumber?.comp(seqNum) === 0
-        );
-        should.equal(
-          msgWithSeqNum == undefined,
-          false,
-          `Sequence number ${seqNum} is not found in the received messages!`
-        );
-        should.equal(
-          msgWithSeqNum?.body,
-          messages[sequenceNumbers.indexOf(seqNum)].body,
-          "Message body did not match though the sequence numbers matched!"
-        );
-        await msgWithSeqNum?.complete();
-      }
-
-      await testPeekMsgsLength(receiver, 0);
-    });
+    await testPeekMsgsLength(receiver, 0);
+    await afterEachTest();
   });
 
-  describe("ServiceBusMessage validations", function(): void {
+  describe(anyRandomTestClientType + ": ServiceBusMessage validations", function(): void {
     const longString =
       "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
     after(async () => {
@@ -746,9 +513,13 @@ describe("send scheduled messages", () => {
     );
   }
 
-  describe("Cancel operations on the sender", function(): void {
+  describe(anyRandomTestClientType + ":Cancel operations on the sender", function(): void {
+    afterEach(async () => {
+      await afterEachTest();
+    });
+
     it("Abort scheduleMessages request on the sender", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+      await beforeEachTest(anyRandomTestClientType);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
@@ -762,7 +533,7 @@ describe("send scheduled messages", () => {
     });
 
     it("Abort cancelScheduledMessages request on the sender", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+      await beforeEachTest(anyRandomTestClientType);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
