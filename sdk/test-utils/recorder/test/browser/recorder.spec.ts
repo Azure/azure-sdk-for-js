@@ -3,7 +3,7 @@ import { record, TestContextInterface, TestContext, TestContextTest } from "../.
 import xhrMock from "xhr-mock";
 import MD5 from "md5";
 import chai from "chai";
-import { consoleLog, setConsoleLogForTesting } from '../../src/customConsoleLog';
+import { consoleLog, setConsoleLogForTesting } from "../../src/customConsoleLog";
 const { expect } = chai;
 
 const expectedHttpResponse = "Hello World!";
@@ -74,9 +74,9 @@ describe("The recorder's public API, on a browser", () => {
     const savedConsoleLogParams: any[] = [];
     setConsoleLogForTesting((...params: any[]) => {
       if (params && params.length > 0) {
-        try{
-          if (JSON.parse(params[0]).writeFile){
-          savedConsoleLogParams.push(params);
+        try {
+          if (JSON.parse(params[0]).writeFile) {
+            savedConsoleLogParams.push(params);
           }
         } catch (err) {}
       }
@@ -215,14 +215,13 @@ describe("The recorder's public API, on a browser", () => {
     const savedConsoleLogParams: any[] = [];
     setConsoleLogForTesting((...params: any[]) => {
       if (params && params.length > 0) {
-        try{
-          if (JSON.parse(params[0]).writeFile){
-          savedConsoleLogParams.push(params);
+        try {
+          if (JSON.parse(params[0]).writeFile) {
+            savedConsoleLogParams.push(params);
           }
         } catch (err) {}
       }
     });
-
 
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
