@@ -6,7 +6,7 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay } from "../src";
+import { ServiceBusMessage, delay, ServiceBusClient } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { Receiver } from "../src/receivers/receiver";
 import {
@@ -352,152 +352,6 @@ describe("send scheduled messages", () => {
     await afterEachTest();
   });
 
-  describe(anyRandomTestClientType + ": ServiceBusMessage validations", function(): void {
-    const longString =
-      "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
-    after(async () => {
-      await afterEachTest();
-    });
-
-    before(async () => {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-    });
-
-    const testInputs: {
-      message: ServiceBusMessage;
-      expectedErrorMessage: string;
-      title?: string;
-    }[] = [
-      {
-        message: { body: "", contentType: 1 as any },
-        expectedErrorMessage: "The property 'contentType' on the message must be of type 'string'",
-        title: "contenType is of invalid type"
-      },
-      {
-        message: { body: "", label: 1 as any },
-        expectedErrorMessage: "The property 'label' on the message must be of type 'string'",
-        title: "label is of invalid type"
-      },
-      {
-        message: { body: "", to: 1 as any },
-        expectedErrorMessage: "The property 'to' on the message must be of type 'string'",
-        title: "to is of invalid type"
-      },
-      {
-        message: { body: "", replyToSessionId: 1 as any },
-        expectedErrorMessage:
-          "The property 'replyToSessionId' on the message must be of type 'string'",
-        title: "replyToSessionId is of invalid type"
-      },
-      {
-        message: { body: "", sessionId: 1 as any },
-        expectedErrorMessage: "The property 'sessionId' on the message must be of type 'string'",
-        title: "sessionId is of invalid type"
-      },
-      {
-        message: { body: "", replyTo: 1 as any },
-        expectedErrorMessage: "The property 'replyTo' on the message must be of type 'string'",
-        title: "replyTo is of invalid type"
-      },
-      {
-        message: { body: "", timeToLive: "" as any },
-        expectedErrorMessage: "The property 'timeToLive' on the message must be of type 'number'",
-        title: "timeToLive is of invalid type"
-      },
-      {
-        message: { body: "", partitionKey: longString },
-        expectedErrorMessage:
-          "Length of 'partitionKey' property on the message cannot be greater than 128 characters.",
-        title: "partitionKey is longer than 128 characters"
-      },
-      {
-        message: { body: "", viaPartitionKey: longString },
-        expectedErrorMessage:
-          "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
-        title: "viaPartitionKey is longer than 128 characters"
-      },
-      {
-        message: { body: "", sessionId: longString },
-        expectedErrorMessage:
-          "Length of 'sessionId' property on the message cannot be greater than 128 characters.",
-        title: "sessionId is longer than 128 characters"
-      },
-      {
-        message: { body: "", messageId: longString },
-        expectedErrorMessage:
-          "Length of 'messageId' property on the message cannot be greater than 128 characters.",
-        title: "messageId is longer than 128 characters"
-      },
-      {
-        message: { body: "", messageId: {} as any },
-        expectedErrorMessage:
-          "The property 'messageId' on the message must be of type string, number or Buffer",
-        title: "messageId is of invalid type"
-      },
-      {
-        message: { body: "", correlationId: {} as any },
-        expectedErrorMessage:
-          "The property 'correlationId' on the message must be of type string, number or Buffer",
-        title: "correlationId is of invalid type"
-      }
-    ];
-
-    testInputs.forEach(function(testInput: any): void {
-      it("SendMessages() throws if " + testInput.title, async function(): Promise<void> {
-        let actualErrorMsg = "";
-        await sender.sendMessages(testInput.message).catch((err) => {
-          actualErrorMsg = err.message;
-        });
-        should.equal(
-          actualErrorMsg,
-          testInput.expectedErrorMessage,
-          "Error not thrown as expected"
-        );
-      });
-
-      // sendBatch(<Array of messages>) - Commented
-      // it(
-      //   "SendBatch() throws if in the first message, " + testInput.title,
-      //   async function(): Promise<void> {
-      //     let actualErrorMsg = "";
-      //     await sender.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
-      //       actualErrorMsg = err.message;
-      //     });
-      //     should.equal(
-      //       actualErrorMsg,
-      //       testInput.expectedErrorMessage,
-      //       "Error not thrown as expected"
-      //     );
-      //   }
-      // );
-
-      // it(
-      //   "SendBatch() throws if in the subsequent message, " + testInput.title,
-      //   async function(): Promise<void> {
-      //     let actualErrorMsg = "";
-      //     await sender.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
-      //       actualErrorMsg = err.message;
-      //     });
-      //     should.equal(
-      //       actualErrorMsg,
-      //       testInput.expectedErrorMessage,
-      //       "Error not thrown as expected"
-      //     );
-      //   }
-      // );
-
-      it("ScheduleMessages() throws if " + testInput.title, async function(): Promise<void> {
-        let actualErrorMsg = "";
-        let actualErr;
-        await sender.scheduleMessages(new Date(), testInput.message).catch((err) => {
-          actualErr = err;
-          actualErrorMsg = err.message;
-        });
-        should.equal(actualErrorMsg, testInput.expectedErrorMessage, actualErr);
-      });
-    });
-  });
-
   async function testReceivedMsgsLength(
     receiver: Receiver<ReceivedMessageWithLock>,
     expectedReceivedMsgsLength: number
@@ -544,6 +398,145 @@ describe("send scheduled messages", () => {
           "The cancelScheduledMessages operation has been cancelled by the user."
         );
       }
+    });
+  });
+});
+
+describe("ServiceBusMessage validations", function(): void {
+  const sbClient = new ServiceBusClient(
+    "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+  );
+  const sender = sbClient.createSender("dummyQueue");
+  const longString =
+    "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
+
+  const testInputs: {
+    message: ServiceBusMessage;
+    expectedErrorMessage: string;
+    title?: string;
+  }[] = [
+    {
+      message: { body: "", contentType: 1 as any },
+      expectedErrorMessage: "The property 'contentType' on the message must be of type 'string'",
+      title: "contenType is of invalid type"
+    },
+    {
+      message: { body: "", label: 1 as any },
+      expectedErrorMessage: "The property 'label' on the message must be of type 'string'",
+      title: "label is of invalid type"
+    },
+    {
+      message: { body: "", to: 1 as any },
+      expectedErrorMessage: "The property 'to' on the message must be of type 'string'",
+      title: "to is of invalid type"
+    },
+    {
+      message: { body: "", replyToSessionId: 1 as any },
+      expectedErrorMessage:
+        "The property 'replyToSessionId' on the message must be of type 'string'",
+      title: "replyToSessionId is of invalid type"
+    },
+    {
+      message: { body: "", sessionId: 1 as any },
+      expectedErrorMessage: "The property 'sessionId' on the message must be of type 'string'",
+      title: "sessionId is of invalid type"
+    },
+    {
+      message: { body: "", replyTo: 1 as any },
+      expectedErrorMessage: "The property 'replyTo' on the message must be of type 'string'",
+      title: "replyTo is of invalid type"
+    },
+    {
+      message: { body: "", timeToLive: "" as any },
+      expectedErrorMessage: "The property 'timeToLive' on the message must be of type 'number'",
+      title: "timeToLive is of invalid type"
+    },
+    {
+      message: { body: "", partitionKey: longString },
+      expectedErrorMessage:
+        "Length of 'partitionKey' property on the message cannot be greater than 128 characters.",
+      title: "partitionKey is longer than 128 characters"
+    },
+    {
+      message: { body: "", viaPartitionKey: longString },
+      expectedErrorMessage:
+        "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
+      title: "viaPartitionKey is longer than 128 characters"
+    },
+    {
+      message: { body: "", sessionId: longString },
+      expectedErrorMessage:
+        "Length of 'sessionId' property on the message cannot be greater than 128 characters.",
+      title: "sessionId is longer than 128 characters"
+    },
+    {
+      message: { body: "", messageId: longString },
+      expectedErrorMessage:
+        "Length of 'messageId' property on the message cannot be greater than 128 characters.",
+      title: "messageId is longer than 128 characters"
+    },
+    {
+      message: { body: "", messageId: {} as any },
+      expectedErrorMessage:
+        "The property 'messageId' on the message must be of type string, number or Buffer",
+      title: "messageId is of invalid type"
+    },
+    {
+      message: { body: "", correlationId: {} as any },
+      expectedErrorMessage:
+        "The property 'correlationId' on the message must be of type string, number or Buffer",
+      title: "correlationId is of invalid type"
+    }
+  ];
+
+  testInputs.forEach(function(testInput: any): void {
+    it("SendMessages() throws if " + testInput.title, async function(): Promise<void> {
+      let actualErrorMsg = "";
+      await sender.sendMessages(testInput.message).catch((err) => {
+        actualErrorMsg = err.message;
+      });
+      should.equal(actualErrorMsg, testInput.expectedErrorMessage, "Error not thrown as expected");
+    });
+
+    // sendBatch(<Array of messages>) - Commented
+    // it(
+    //   "SendBatch() throws if in the first message, " + testInput.title,
+    //   async function(): Promise<void> {
+    //     let actualErrorMsg = "";
+    //     await sender.sendBatch([testInput.message, { body: "random" }]).catch((err) => {
+    //       actualErrorMsg = err.message;
+    //     });
+    //     should.equal(
+    //       actualErrorMsg,
+    //       testInput.expectedErrorMessage,
+    //       "Error not thrown as expected"
+    //     );
+    //   }
+    // );
+
+    // it(
+    //   "SendBatch() throws if in the subsequent message, " + testInput.title,
+    //   async function(): Promise<void> {
+    //     let actualErrorMsg = "";
+    //     await sender.sendBatch([{ body: "random" }, testInput.message]).catch((err) => {
+    //       actualErrorMsg = err.message;
+    //     });
+    //     should.equal(
+    //       actualErrorMsg,
+    //       testInput.expectedErrorMessage,
+    //       "Error not thrown as expected"
+    //     );
+    //   }
+    // );
+
+    it("ScheduleMessages() throws if " + testInput.title, async function(): Promise<void> {
+      let actualErrorMsg = "";
+      let actualErr;
+      await sender.scheduleMessages(new Date(), testInput.message).catch((err) => {
+        actualErr = err;
+        actualErrorMsg = err.message;
+      });
+      should.equal(actualErrorMsg, testInput.expectedErrorMessage, actualErr);
     });
   });
 });
