@@ -533,7 +533,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
     if (!operationOptions) operationOptions = {};
     if (!operationOptions.requestOptions) operationOptions.requestOptions = {};
-    operationOptions.requestOptions.customHeaders = { "If-Match": `'${queue.eTag}'` };
+    operationOptions.requestOptions.customHeaders = { "If-Match": queue.eTag };
     const response: HttpOperationResponse = await this.putResource(
       queue.name,
       buildQueueOptions(queue),
