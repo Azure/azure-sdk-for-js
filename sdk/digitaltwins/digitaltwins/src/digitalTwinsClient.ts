@@ -5,7 +5,7 @@ import {
   TokenCredential,
   ServiceClientCredentials,
   RestResponse,
-  RequestOptionsBase
+  RequestOptionsBase,
 } from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { v4 } from "uuid";
@@ -45,7 +45,7 @@ import {
   EventRoute,
   EventRoutesAddOptionalParams,
   QueryQueryTwinsResponse,
-  QuerySpecification
+  QuerySpecification,
 } from "./generated/src/models";
 
 /**
@@ -78,13 +78,13 @@ export class DigitalTwinsClient {
    * @param {AzureDigitalTwinsAPIOptions} [options] Used to configure the service client.
    */
   constructor(
-    enpoint: string,
+    endpoint: string,
     credential: TokenCredential | ServiceClientCredentials,
     options?: AzureDigitalTwinsAPIOptions
   ) {
     if (!options) {
       const options: AzureDigitalTwinsAPIOptions = {};
-      options.baseUri = enpoint;
+      options.baseUri = endpoint;
     }
 
     this.client = new GeneratedClient(credential, options);
@@ -104,20 +104,20 @@ export class DigitalTwinsClient {
    * Create or update a digital twin
    *
    * @param digitalTwinId The Id of the digital twin to create or update.
-   * @param digitalTwin The application/json digital twin to create.
+   * @param digitalTwinJson The application/json digital twin to create.
    * @param enableUpdate If true then update of an existing digital twin is enabled.
    * @returns The created application/json digital twin and the http response.
    */
   public upsertDigitalTwin(
     digitalTwinId: string,
-    digitalTwin: string,
-    enableUpdate: boolean = true
+    digitalTwinJson: string,
+    disableUpdate: boolean = false
   ): Promise<DigitalTwinsAddResponse> {
     var options = <DigitalTwinsAddOptionalParams>{};
-    if (!enableUpdate) {
+    if (disableUpdate) {
       options.ifNoneMatch = "*";
     }
-    return this.client.digitalTwins.add(digitalTwinId, digitalTwin, options);
+    return this.client.digitalTwins.add(digitalTwinId, digitalTwinJson, options);
   }
 
   /**
@@ -272,7 +272,7 @@ export class DigitalTwinsClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: DigitalTwinsListRelationshipsOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const listRelationshipResponse = await this.client.digitalTwins.listRelationships(
         digitalTwinId,
@@ -302,9 +302,7 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: DigitalTwinsListRelationshipsOptionalParams
   ): AsyncIterableIterator<any> {
-    const f = {};
-
-    for await (const page of this.listRelationshipsPage(digitalTwinId, options, f)) {
+    for await (const page of this.listRelationshipsPage(digitalTwinId, options, {})) {
       for (const item of page) {
         yield item;
       }
@@ -330,7 +328,7 @@ export class DigitalTwinsClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listRelationshipsPage(digitalTwinId, options, settings)
+        this.listRelationshipsPage(digitalTwinId, options, settings),
     };
   }
 
@@ -351,7 +349,7 @@ export class DigitalTwinsClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: RequestOptionsBase = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const listIncomingRelationshipsResponse = await this.client.digitalTwins.listIncomingRelationships(
         digitalTwinId,
@@ -412,7 +410,7 @@ export class DigitalTwinsClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listIncomingRelationshipsPage(digitalTwinId, options, settings)
+        this.listIncomingRelationshipsPage(digitalTwinId, options, settings),
     };
   }
 
@@ -492,7 +490,7 @@ export class DigitalTwinsClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: DigitalTwinModelsListOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const listResponse = await this.client.digitalTwinModels.list(optionsComplete);
       continuationState.continuationToken = listResponse.nextLink;
@@ -557,7 +555,7 @@ export class DigitalTwinsClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.getModelsPage(options, settings)
+      byPage: (settings: PageSettings = {}) => this.getModelsPage(options, settings),
     };
   }
 
@@ -624,7 +622,7 @@ export class DigitalTwinsClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: EventRoutesListOptionalParams = {
         maxresults: continuationState.maxPageSize,
-        ...options
+        ...options,
       };
       const listResponse = await this.client.eventRoutes.list(optionsComplete);
       continuationState.continuationToken = listResponse.nextLink;
@@ -670,7 +668,7 @@ export class DigitalTwinsClient {
     maxItemCount: number = -1
   ): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse> {
     var options: EventRoutesListOptionalParams & PageSettings = {};
-    if (maxItemCount != -1) {
+    if (maxItemCount !== -1) {
       options.eventRoutesListOptions = {};
       options.eventRoutesListOptions.maxItemCount = maxItemCount;
     }
@@ -684,7 +682,7 @@ export class DigitalTwinsClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.getEventRoutesPage(options, settings)
+      byPage: (settings: PageSettings = {}) => this.getEventRoutesPage(options, settings),
     };
   }
 
@@ -704,7 +702,7 @@ export class DigitalTwinsClient {
     var options: EventRoutesAddOptionalParams = {};
     var eventRoute: EventRoute = {
       endpointName,
-      filter
+      filter,
     };
     options.eventRoute = eventRoute;
     return this.client.eventRoutes.add(eventRouteId, options);
@@ -736,7 +734,7 @@ export class DigitalTwinsClient {
     if (continuationState.continuationToken == null) {
       const optionsComplete: QuerySpecification = {
         continuationToken: continuationState.continuationToken,
-        ...options
+        ...options,
       };
       const queryResponse = await this.client.query.queryTwins(optionsComplete);
       continuationState.continuationToken = queryResponse.continuationToken;
@@ -745,7 +743,7 @@ export class DigitalTwinsClient {
     while (continuationState.continuationToken) {
       const optionsNext: QuerySpecification = {
         continuationToken: continuationState.continuationToken,
-        ...options
+        ...options,
       };
       const queryResponse = await this.client.query.queryTwins(optionsNext, options);
 
@@ -791,7 +789,7 @@ export class DigitalTwinsClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.queryTwinsPage(querySpecification, settings)
+      byPage: (settings: PageSettings = {}) => this.queryTwinsPage(querySpecification, settings),
     };
   }
 }
@@ -847,5 +845,5 @@ export {
   QueryQueryTwinsHeaders,
   QueryQueryTwinsResponse,
   QueryResult,
-  QuerySpecification
+  QuerySpecification,
 } from "./generated/src/models";

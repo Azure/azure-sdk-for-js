@@ -103,7 +103,7 @@ export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
 
 // @public
 export class DigitalTwinsClient {
-    constructor(enpoint: string, credential: TokenCredential | ServiceClientCredentials, options?: AzureDigitalTwinsAPIOptions);
+    constructor(endpoint: string, credential: TokenCredential | ServiceClientCredentials, options?: AzureDigitalTwinsAPIOptions);
     createModels(models: any[]): Promise<DigitalTwinModelsAddResponse>;
     decomissionModel(modelId: string, updateModel: any[]): Promise<RestResponse>;
     deleteDigitalTwin(digitalTwinId: string, ifMatch?: string): Promise<RestResponse>;
@@ -125,7 +125,7 @@ export class DigitalTwinsClient {
     updateComponent(digitalTwinId: string, componentPath: string, componentPatch: any, ifMatch?: string): Promise<DigitalTwinsUpdateComponentResponse>;
     updateDigitalTwin(digitalTwinId: string, twinPatch: any, options?: DigitalTwinsUpdateOptionalParams): Promise<DigitalTwinsUpdateResponse>;
     updateRelationship(digitalTwinId: string, relationshipId: string, options?: DigitalTwinsUpdateRelationshipOptionalParams): Promise<DigitalTwinsUpdateRelationshipResponse>;
-    upsertDigitalTwin(digitalTwinId: string, digitalTwin: string, enableUpdate?: boolean): Promise<DigitalTwinsAddResponse>;
+    upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, disableUpdate?: boolean): Promise<DigitalTwinsAddResponse>;
     upsertEventRoute(eventRouteId: string, endpointName: string, filter?: string): Promise<RestResponse>;
     upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: string, enableUpdate?: boolean): Promise<DigitalTwinsAddRelationshipResponse>;
 }

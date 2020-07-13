@@ -1,6 +1,6 @@
 {
   "name": "azure-digitaltwins-js-samples",
-  "version": "1.0.0",
+  "version": "1.0.0-preview.1",
   "description": "Samples for the azure-digitaltwins client library",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -8,6 +8,6 @@
   "dependencies": {
     "@azure/digitaltwins": "file:../..",
     "@azure/core-http": "^1.1.1",
-    "@azure/identity": "^1.1.0-preview"
+    "@azure/identity": "^1.0.3"
   }
 }

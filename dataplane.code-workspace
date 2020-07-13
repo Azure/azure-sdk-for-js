@@ -143,6 +143,9 @@
     {
       "name": "perfstress",
       "path": "sdk\\test-utils\\perfstress"
+    },
+    {
+      "path": "sdk\\digitaltwins\\digitaltwins"
     }
   ],
   "settings": {
@@ -169,12 +172,9 @@
       "**/*.d.ts": true,
       "**/test-browser/*": true
     },
-    "typescript.tsdk": "core-http\\node_modules\\typescript\\lib",
+    "typescript.tsdk": "core-http\\node_modules\\typescript\\lib"
   },
   "extensions": {
-    "recommendations": [
-      "dbaeumer.vscode-eslint",
-      "esbenp.prettier-vscode"
-    ]
+    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
   }
 }
