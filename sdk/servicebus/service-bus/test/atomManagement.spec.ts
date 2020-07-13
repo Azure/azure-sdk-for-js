@@ -143,17 +143,26 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
     "getRules"
   ].forEach((methodName) => {
     describe(`${methodName}`, () => {
-      it("Verify PagedAsyncIterableIterator", async () => {
-        const receivedEntities = [];
-        let iter = (serviceBusAtomManagementClient as any)[methodName]();
+      function getIter() {
+        let iterator;
         if (methodName.includes("Subscription")) {
-          iter = (serviceBusAtomManagementClient as any)[methodName](managementTopic1);
+          iterator = (serviceBusAtomManagementClient as any)[methodName](managementTopic1);
         } else if (methodName.includes("Rule")) {
-          iter = (serviceBusAtomManagementClient as any)[methodName](
+          iterator = (serviceBusAtomManagementClient as any)[methodName](
             managementTopic1,
             managementSubscription1
           );
+        } else if (methodName.includes("Queue") || methodName.includes("Topic")) {
+          iterator = (serviceBusAtomManagementClient as any)[methodName]();
+        } else {
+          throw new Error("Invalid methodName");
         }
+        return iterator;
+      }
+
+      it("Verify PagedAsyncIterableIterator", async () => {
+        const receivedEntities = [];
+        let iter = getIter();
         for await (const entity of iter) {
           receivedEntities.push(
             methodName.includes("Subscription") ? entity.subscriptionName : entity.name
@@ -164,15 +173,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
       it("Verify PagedAsyncIterableIterator(generator .next() syntax)", async () => {
         const receivedEntities = [];
-        let iter = (serviceBusAtomManagementClient as any)[methodName]();
-        if (methodName.includes("Subscription")) {
-          iter = (serviceBusAtomManagementClient as any)[methodName](managementTopic1);
-        } else if (methodName.includes("Rule")) {
-          iter = (serviceBusAtomManagementClient as any)[methodName](
-            managementTopic1,
-            managementSubscription1
-          );
-        }
+        let iter = getIter();
         let entityItem = await iter.next();
         while (!entityItem.done) {
           receivedEntities.push(
@@ -185,27 +186,9 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
         verifyEntities(methodName, receivedEntities);
       });
 
-      function getByPageIter(options?: PageSettings) {
-        let iterator;
-        if (methodName.includes("Subscription")) {
-          iterator = (serviceBusAtomManagementClient as any)
-            [methodName](managementTopic1)
-            .byPage(options);
-        } else if (methodName.includes("Rule")) {
-          iterator = (serviceBusAtomManagementClient as any)
-            [methodName](managementTopic1, managementSubscription1)
-            .byPage(options);
-        } else if (methodName.includes("Queue") || methodName.includes("Topic")) {
-          iterator = (serviceBusAtomManagementClient as any)[methodName]().byPage(options);
-        } else {
-          throw new Error("Invalid methodName");
-        }
-        return iterator;
-      }
-
       it("Verify PagedAsyncIterableIterator(byPage())", async () => {
         const receivedEntities = [];
-        let iter = getByPageIter({
+        let iter = getIter().byPage({
           maxPageSize: 2
         });
         for await (const response of iter) {
@@ -220,7 +203,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
       it("Verify PagedAsyncIterableIterator(byPage() - continuationToken)", async () => {
         const receivedEntities = [];
-        let iterator = getByPageIter({ maxPageSize: 2 });
+        let iterator = getIter().byPage({ maxPageSize: 2 });
         let response = await iterator.next();
         // Prints 2 entity names
         if (!response.done) {
@@ -234,7 +217,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
         // Gets next marker
         let marker = response.value.continuationToken;
         // Passing next marker as continuationToken
-        iterator = getByPageIter({
+        iterator = getIter().byPage({
           continuationToken: marker,
           maxPageSize: 5
         });
@@ -251,7 +234,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
         // In case the namespace has too many entities and the newly created entities were not recovered
         if (marker) {
-          for await (const response of getByPageIter({
+          for await (const response of getIter().byPage({
             continuationToken: marker
           })) {
             for (const entity of response) {
@@ -269,7 +252,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
           const settings: PageSettings = { continuationToken: token as number };
           let errorWasThrown = false;
           try {
-            getByPageIter(settings);
+            getIter().byPage(settings);
           } catch (error) {
             errorWasThrown = true;
             should.equal(
