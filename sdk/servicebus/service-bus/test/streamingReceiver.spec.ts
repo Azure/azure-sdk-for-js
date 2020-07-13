@@ -57,10 +57,7 @@ describe("Streaming Receiver Tests", () => {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(
-    testClientType: TestClientType,
-    receiveMode?: "peekLock" | "receiveAndDelete"
-  ): Promise<void> {
+  async function beforeEachTest(receiveMode?: "peekLock" | "receiveAndDelete"): Promise<void> {
     entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (receiveMode === "receiveAndDelete") {
@@ -84,7 +81,7 @@ describe("Streaming Receiver Tests", () => {
     });
 
     beforeEach(async () => {
-      await beforeEachTest(testClientType);
+      await beforeEachTest();
     });
 
     it("AutoComplete removes the message", async function(): Promise<void> {
@@ -210,7 +207,7 @@ describe("Streaming Receiver Tests", () => {
     });
 
     beforeEach(async () => {
-      await beforeEachTest(testClientType);
+      await beforeEachTest();
     });
 
     async function testComplete(autoComplete: boolean): Promise<void> {
@@ -257,7 +254,7 @@ describe("Streaming Receiver Tests", () => {
     });
 
     beforeEach(async () => {
-      await beforeEachTest(testClientType);
+      await beforeEachTest();
     });
 
     it("Multiple abandons until maxDeliveryCount", async function(): Promise<void> {
@@ -317,7 +314,7 @@ describe("Streaming Receiver Tests", () => {
     });
 
     beforeEach(async () => {
-      await beforeEachTest(testClientType);
+      await beforeEachTest();
     });
 
     async function testDefer(autoComplete: boolean): Promise<void> {
@@ -381,7 +378,7 @@ describe("Streaming Receiver Tests", () => {
     });
 
     beforeEach(async () => {
-      await beforeEachTest(testClientType);
+      await beforeEachTest();
     });
 
     async function testDeadletter(autoComplete: boolean): Promise<void> {
@@ -478,12 +475,14 @@ describe("Streaming Receiver Tests", () => {
       );
     }
 
-    it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testMultipleReceiveCalls();
-    });
+    it(
+      testClientType +
+        ": Second receive operation should fail if the first streaming receiver is not stopped",
+      async function(): Promise<void> {
+        await beforeEachTest();
+        await testMultipleReceiveCalls();
+      }
+    );
   });
 
   describe(testClientType + ": Streaming - Settle an already Settled message throws error", () => {
@@ -492,7 +491,7 @@ describe("Streaming Receiver Tests", () => {
     });
 
     beforeEach(async () => {
-      await beforeEachTest(testClientType);
+      await beforeEachTest();
     });
 
     const testError = (err: Error, operation: DispositionType): void => {
@@ -610,10 +609,10 @@ describe("Streaming Receiver Tests", () => {
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     }
 
-    it("UnPartitioned Queue: onError handler is called for user error", async function(): Promise<
+    it(testClientType + ": onError handler is called for user error", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await beforeEachTest();
       await testUserError();
     });
   });
@@ -701,7 +700,7 @@ describe("Streaming Receiver Tests", () => {
     });
 
     beforeEach(async () => {
-      await beforeEachTest(testClientType);
+      await beforeEachTest();
     });
 
     async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
@@ -807,19 +806,21 @@ describe("Streaming Receiver Tests", () => {
       await verifyMessageCount(0, entityNames.queue);
     }
 
-    it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testReceiveMessages();
-    });
+    it(
+      testClientType + ": Not receive messages after receiver is closed",
+      async function(): Promise<void> {
+        await beforeEachTest();
+        await testReceiveMessages();
+      }
+    );
 
-    it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
-      await testReceiveMessages();
-    });
+    it(
+      testClientType + ": (Receive And Delete mode) Not receive messages after receiver is closed",
+      async function(): Promise<void> {
+        await beforeEachTest("receiveAndDelete");
+        await testReceiveMessages();
+      }
+    );
   });
 
   it("Streaming - user can stop a message subscription without closing the receiver", async () => {
