@@ -43,7 +43,7 @@ describe("Highlevel Node.js only", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 

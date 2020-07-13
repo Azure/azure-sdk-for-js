@@ -49,7 +49,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
       await destinationContainerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 

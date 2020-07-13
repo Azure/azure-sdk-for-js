@@ -27,7 +27,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

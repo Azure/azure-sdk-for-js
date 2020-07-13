@@ -21,39 +21,6 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
 
 /**
  * @internal
- * Logs and throws error if the underlying AMQP connection or if the client is closed
- * @param context The ConnectionContext associated with the current AMQP connection.
- * @param entityPath Entity Path of the client which denotes the name of the Queue/Topic/Subscription
- * @param isClientClosed Boolean denoting if the client is closed or not
- */
-export function throwErrorIfClientOrConnectionClosed(
-  context: ConnectionContext,
-  entityPath: string,
-  isClientClosed: boolean
-): void {
-  throwErrorIfConnectionClosed(context);
-  if (context && isClientClosed) {
-    const errorMessage = getClientClosedErrorMsg(entityPath);
-    const error = new Error(errorMessage);
-    log.error(`[${context.connectionId}] %O`, error);
-    throw error;
-  }
-}
-
-/**
- * @internal
- * Gets the error message when a client is used when its already closed
- * @param entityPath Value of the `entityPath` property on the client which denotes its name
- */
-export function getClientClosedErrorMsg(entityPath: string): string {
-  return (
-    `The client for "${entityPath}" has been closed and can no longer be used. ` +
-    `Please create a new client using an instance of ServiceBusClient.`
-  );
-}
-
-/**
- * @internal
  * Gets the error message when a sender is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  */
