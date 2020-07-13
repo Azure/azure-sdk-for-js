@@ -39,11 +39,11 @@ export interface CorrelationRuleFilter {
     correlationId?: string;
     label?: string;
     messageId?: string;
+    properties?: any;
     replyTo?: string;
     replyToSessionId?: string;
     sessionId?: string;
     to?: string;
-    userProperties?: any;
 }
 
 // @public
@@ -337,15 +337,15 @@ export interface ServiceBusMessage {
     label?: string;
     messageId?: string | number | Buffer;
     partitionKey?: string;
+    properties?: {
+        [key: string]: any;
+    };
     replyTo?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;
     sessionId?: string;
     timeToLive?: number;
     to?: string;
-    userProperties?: {
-        [key: string]: any;
-    };
     viaPartitionKey?: string;
 }
 

@@ -27,8 +27,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     queueServiceClient = getQSU();
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("generateAccountSASQueryParameters should work", async () => {

@@ -1752,7 +1752,7 @@ describe("Atom management - Authentication", function(): void {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: {
+        properties: {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
@@ -1771,7 +1771,7 @@ describe("Atom management - Authentication", function(): void {
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        userProperties: {
+        properties: {
           randomState: "WA",
           randomCountry: "US",
           randomCount: 25,
@@ -2315,7 +2315,7 @@ describe("Atom management - Authentication", function(): void {
         replyToSessionId: "",
         sessionId: "",
         to: "",
-        userProperties: undefined
+        properties: undefined
       },
       action: {
         sqlExpression: "SET sys.label='RED'",

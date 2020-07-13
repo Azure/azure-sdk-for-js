@@ -44,7 +44,7 @@ describe("PageBlobClient Node.js only", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("startCopyIncremental", async () => {

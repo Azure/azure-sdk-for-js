@@ -32,7 +32,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

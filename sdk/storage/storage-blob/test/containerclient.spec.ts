@@ -36,7 +36,7 @@ describe("ContainerClient", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {

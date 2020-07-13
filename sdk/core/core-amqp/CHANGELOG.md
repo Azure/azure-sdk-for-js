@@ -2,6 +2,9 @@
 
 ## 1.1.5 (Unreleased)
 
+- Fixes issue [9615](https://github.com/Azure/azure-sdk-for-js/issues/9615)
+  where closing the `RequestResponseLink` session before closing the receiver
+  could cause the service to report a missing session channel.
 
 ## 1.1.4 (2020-06-30)
 
