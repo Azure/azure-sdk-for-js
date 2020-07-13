@@ -171,21 +171,6 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
         verifyEntities(methodName, receivedEntities);
       });
 
-      it("Verify PagedAsyncIterableIterator(generator .next() syntax)", async () => {
-        const receivedEntities = [];
-        let iter = getIter();
-        let entityItem = await iter.next();
-        while (!entityItem.done) {
-          receivedEntities.push(
-            methodName.includes("Subscription")
-              ? entityItem.value.subscriptionName
-              : entityItem.value.name
-          );
-          entityItem = await iter.next();
-        }
-        verifyEntities(methodName, receivedEntities);
-      });
-
       it("Verify PagedAsyncIterableIterator(byPage())", async () => {
         const receivedEntities = [];
         let iter = getIter().byPage({
