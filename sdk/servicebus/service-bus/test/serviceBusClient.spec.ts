@@ -65,12 +65,16 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
-    sender = sbClientWithRelaxedEndPoint.createSender(entities.queue!);
-    receiver = !entities.usesSessions
-      ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock")
-      : await sbClientWithRelaxedEndPoint.createSessionReceiver(entities.queue!, "peekLock", {
-          sessionId: TestMessage.sessionId
-        });
+    sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
+    if (entities.queue) {
+      receiver = sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock");
+    } else {
+      receiver = sbClientWithRelaxedEndPoint.createReceiver(
+        entities.topic!,
+        entities.subscription!,
+        "peekLock"
+      );
+    }
   }
 
   afterEach(async () => {
@@ -99,7 +103,7 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     await testPeekMsgsLength(receiver, 0);
   }
 
-  it(anyRandomTestClientType + ": send and receive message", async function(): Promise<void> {
+  it(noSessionTestClientType + ": send and receive message", async function(): Promise<void> {
     await beforeEachTest();
     await sendReceiveMsg();
   });
@@ -273,7 +277,7 @@ describe("Errors with non existing Queue/Topic/Subscription", async function(): 
   });
 });
 
-describe("Test ServiceBusClient creation", function(): void {
+describe("Test ServiceBusClient with TokenCredentials", function(): void {
   let errorWasThrown: boolean = false;
 
   const env = getEnvVars();
@@ -349,25 +353,31 @@ describe("Test ServiceBusClient creation", function(): void {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     });
 
-    it("sends a message to the ServiceBus entity", async function(): Promise<void> {
-      const tokenCreds = getDefaultTokenCredential();
+    it(
+      noSessionTestClientType + ": sends a message to the ServiceBus entity",
+      async function(): Promise<void> {
+        const tokenCreds = getDefaultTokenCredential();
 
-      const serviceBusClient = createServiceBusClientForTests();
-      const entities = await serviceBusClient.test.createTestEntities(anyRandomTestClientType);
-      await serviceBusClient.close();
+        const serviceBusClient = createServiceBusClientForTests();
+        const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
+        await serviceBusClient.close();
 
-      const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
-      const sender = sbClient.createSender(entities.queue!);
-      const receiver = sbClient.createReceiver(entities.queue!, "peekLock");
-      const testMessages = TestMessage.getSample();
-      await sender.sendMessages(testMessages);
-      const msgs = await receiver.receiveMessages(1);
+        const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
+        const sender = sbClient.createSender(entities.queue || entities.topic!);
+        const receiver = entities.queue
+          ? sbClient.createReceiver(entities.queue!, "peekLock")
+          : sbClient.createReceiver(entities.topic!, entities.subscription!, "peekLock");
 
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
-      await sbClient.close();
-    });
+        const testMessages = TestMessage.getSample();
+        await sender.sendMessages(testMessages);
+        const msgs = await receiver.receiveMessages(1);
+
+        should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+        should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+        should.equal(msgs.length, 1, "Unexpected number of messages");
+        await sbClient.close();
+      }
+    );
   }
 });
 
