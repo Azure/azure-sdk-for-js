@@ -37,7 +37,7 @@
       "advanced.js",
       "anonymousCred.js",
       "basic.js",
-      "cusomPipeline.js",
+      "customPipeline.js",
       "iterators-files-and-directories.js",
       "iterators-shares.js",
       "sharedKeyCred.js"
