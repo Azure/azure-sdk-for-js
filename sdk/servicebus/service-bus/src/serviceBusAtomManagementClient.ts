@@ -440,17 +440,15 @@ export class ServiceBusManagementClient extends ServiceClient {
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<QueueDescription>> {
     let listResponse;
-    if (!!marker || marker === undefined) {
-      do {
-        listResponse = await this.listQueues({
-          skip: marker,
-          maxCount: options.maxPageSize,
-          ...options
-        });
-        marker = listResponse.continuationToken;
-        yield listResponse;
-      } while (marker);
-    }
+    do {
+      listResponse = await this.listQueues({
+        skip: marker,
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
   }
 
   private async *listQueuesAll(
@@ -501,6 +499,7 @@ export class ServiceBusManagementClient extends ServiceClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listQueuesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...options
@@ -542,17 +541,15 @@ export class ServiceBusManagementClient extends ServiceClient {
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<QueueRuntimeInfo>> {
     let listResponse;
-    if (!!marker || marker === undefined) {
-      do {
-        listResponse = await this.listQueuesRuntimeInfo({
-          skip: marker,
-          maxCount: options.maxPageSize,
-          ...options
-        });
-        marker = listResponse.continuationToken;
-        yield listResponse;
-      } while (marker);
-    }
+    do {
+      listResponse = await this.listQueuesRuntimeInfo({
+        skip: marker,
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
   }
 
   private async *listQueuesRuntimeInfoAll(
@@ -606,6 +603,7 @@ export class ServiceBusManagementClient extends ServiceClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listQueuesRuntimeInfoPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...options
@@ -862,17 +860,15 @@ export class ServiceBusManagementClient extends ServiceClient {
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<TopicDescription>> {
     let listResponse;
-    if (!!marker || marker === undefined) {
-      do {
-        listResponse = await this.listTopics({
-          skip: marker,
-          maxCount: options.maxPageSize,
-          ...options
-        });
-        marker = listResponse.continuationToken;
-        yield listResponse;
-      } while (marker);
-    }
+    do {
+      listResponse = await this.listTopics({
+        skip: marker,
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
   }
 
   private async *listTopicsAll(
@@ -924,6 +920,7 @@ export class ServiceBusManagementClient extends ServiceClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listTopicsPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...options
@@ -963,17 +960,15 @@ export class ServiceBusManagementClient extends ServiceClient {
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<TopicRuntimeInfo>> {
     let listResponse;
-    if (!!marker || marker === undefined) {
-      do {
-        listResponse = await this.listTopicsRuntimeInfo({
-          skip: marker,
-          maxCount: options.maxPageSize,
-          ...options
-        });
-        marker = listResponse.continuationToken;
-        yield listResponse;
-      } while (marker);
-    }
+    do {
+      listResponse = await this.listTopicsRuntimeInfo({
+        skip: marker,
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
   }
 
   private async *listTopicsRuntimeInfoAll(
@@ -1027,6 +1022,7 @@ export class ServiceBusManagementClient extends ServiceClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listTopicsRuntimeInfoPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...options
@@ -1318,17 +1314,15 @@ export class ServiceBusManagementClient extends ServiceClient {
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<SubscriptionDescription>> {
     let listResponse;
-    if (!!marker || marker === undefined) {
-      do {
-        listResponse = await this.listSubscriptions(topicName, {
-          skip: marker,
-          maxCount: options.maxPageSize,
-          ...options
-        });
-        marker = listResponse.continuationToken;
-        yield listResponse;
-      } while (marker);
-    }
+    do {
+      listResponse = await this.listSubscriptions(topicName, {
+        skip: marker,
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
   }
 
   private async *listSubscriptionsAll(
@@ -1387,6 +1381,7 @@ export class ServiceBusManagementClient extends ServiceClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listSubscriptionsPage(topicName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...options
@@ -1431,17 +1426,15 @@ export class ServiceBusManagementClient extends ServiceClient {
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<SubscriptionRuntimeInfo>> {
     let listResponse;
-    if (!!marker || marker === undefined) {
-      do {
-        listResponse = await this.listSubscriptionsRuntimeInfo(topicName, {
-          skip: marker,
-          maxCount: options.maxPageSize,
-          ...options
-        });
-        marker = listResponse.continuationToken;
-        yield listResponse;
-      } while (marker);
-    }
+    do {
+      listResponse = await this.listSubscriptionsRuntimeInfo(topicName, {
+        skip: marker,
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
   }
 
   private async *listSubscriptionsRuntimeInfoAll(
@@ -1498,6 +1491,7 @@ export class ServiceBusManagementClient extends ServiceClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listSubscriptionsRuntimeInfoPage(topicName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...options
@@ -1734,17 +1728,15 @@ export class ServiceBusManagementClient extends ServiceClient {
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<RuleDescription>> {
     let listResponse;
-    if (!!marker || marker === undefined) {
-      do {
-        listResponse = await this.listRules(topicName, subscriptionName, {
-          skip: marker,
-          maxCount: options.maxPageSize,
-          ...options
-        });
-        marker = listResponse.continuationToken;
-        yield listResponse;
-      } while (marker);
-    }
+    do {
+      listResponse = await this.listRules(topicName, subscriptionName, {
+        skip: marker,
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
   }
 
   private async *listRulesAll(
@@ -1794,6 +1786,7 @@ export class ServiceBusManagementClient extends ServiceClient {
        * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listRulesPage(topicName, subscriptionName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
           ...options
