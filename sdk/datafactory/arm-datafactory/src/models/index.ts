@@ -2953,10 +2953,15 @@ export interface SalesforceMarketingCloudLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Salesforce Marketing Cloud. It is mutually exclusive with any
+   * other properties in the linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The client ID associated with the Salesforce Marketing Cloud application. Type: string (or
    * Expression with resultType string).
    */
-  clientId: any;
+  clientId?: any;
   /**
    * The client secret associated with the Salesforce Marketing Cloud application. Type: string (or
    * Expression with resultType string).
@@ -3088,9 +3093,14 @@ export interface ZohoLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Zoho. It is mutually exclusive with any other properties in the
+   * linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The endpoint of the Zoho server. (i.e. crm.zoho.com/crm/private)
    */
-  endpoint: any;
+  endpoint?: any;
   /**
    * The access token for Zoho authentication.
    */
@@ -3142,9 +3152,14 @@ export interface XeroLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Xero. It is mutually exclusive with any other properties in the
+   * linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The endpoint of the Xero server. (i.e. api.xero.com)
    */
-  host: any;
+  host?: any;
   /**
    * The consumer key associated with the Xero application.
    */
@@ -3202,13 +3217,18 @@ export interface SquareLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to Square. It is mutually exclusive with any other properties in
+   * the linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The URL of the Square instance. (i.e. mystore.mysquare.com)
    */
-  host: any;
+  host?: any;
   /**
    * The client ID associated with your Square application.
    */
-  clientId: any;
+  clientId?: any;
   /**
    * The client secret associated with your Square application.
    */
@@ -3216,7 +3236,7 @@ export interface SquareLinkedService {
   /**
    * The redirect URL assigned in the Square application dashboard. (i.e. http://localhost:2500)
    */
-  redirectUri: any;
+  redirectUri?: any;
   /**
    * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
    * true.
@@ -3481,29 +3501,34 @@ export interface QuickBooksLinkedService {
    */
   annotations?: any[];
   /**
+   * Properties used to connect to QuickBooks. It is mutually exclusive with any other properties
+   * in the linked service. Type: object.
+   */
+  connectionProperties?: any;
+  /**
    * The endpoint of the QuickBooks server. (i.e. quickbooks.api.intuit.com)
    */
-  endpoint: any;
+  endpoint?: any;
   /**
    * The company ID of the QuickBooks company to authorize.
    */
-  companyId: any;
+  companyId?: any;
   /**
    * The consumer key for OAuth 1.0 authentication.
    */
-  consumerKey: any;
+  consumerKey?: any;
   /**
    * The consumer secret for OAuth 1.0 authentication.
    */
-  consumerSecret: SecretBaseUnion;
+  consumerSecret?: SecretBaseUnion;
   /**
    * The access token for OAuth 1.0 authentication.
    */
-  accessToken: SecretBaseUnion;
+  accessToken?: SecretBaseUnion;
   /**
    * The access token secret for OAuth 1.0 authentication.
    */
-  accessTokenSecret: SecretBaseUnion;
+  accessTokenSecret?: SecretBaseUnion;
   /**
    * Specifies whether the data source endpoints are encrypted using HTTPS. The default value is
    * true.
@@ -5344,23 +5369,28 @@ export interface SapOpenHubLinkedService {
    * Host name of the SAP BW instance where the open hub destination is located. Type: string (or
    * Expression with resultType string).
    */
-  server: any;
+  server?: any;
   /**
    * System number of the BW system where the open hub destination is located. (Usually a two-digit
    * decimal number represented as a string.) Type: string (or Expression with resultType string).
    */
-  systemNumber: any;
+  systemNumber?: any;
   /**
    * Client ID of the client on the BW system where the open hub destination is located. (Usually a
    * three-digit decimal number represented as a string) Type: string (or Expression with
    * resultType string).
    */
-  clientId: any;
+  clientId?: any;
   /**
    * Language of the BW system where the open hub destination is located. The default value is EN.
    * Type: string (or Expression with resultType string).
    */
   language?: any;
+  /**
+   * SystemID of the SAP system where the table is located. Type: string (or Expression with
+   * resultType string).
+   */
+  systemId?: any;
   /**
    * Username to access the SAP BW server where the open hub destination is located. Type: string
    * (or Expression with resultType string).
@@ -5370,6 +5400,19 @@ export interface SapOpenHubLinkedService {
    * Password to access the SAP BW server where the open hub destination is located.
    */
   password?: SecretBaseUnion;
+  /**
+   * The hostname of the SAP Message Server. Type: string (or Expression with resultType string).
+   */
+  messageServer?: any;
+  /**
+   * The service name or port number of the Message Server. Type: string (or Expression with
+   * resultType string).
+   */
+  messageServerService?: any;
+  /**
+   * The Logon Group for the SAP System. Type: string (or Expression with resultType string).
+   */
+  logonGroup?: any;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
