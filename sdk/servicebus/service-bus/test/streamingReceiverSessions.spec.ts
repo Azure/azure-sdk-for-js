@@ -7,7 +7,7 @@ import { ReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
-import { SessionReceiver } from "../src/receivers/sessionReceiver";
+import { SessionReceiver, SessionReceiverImpl } from "../src/receivers/sessionReceiver";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import {
@@ -17,6 +17,7 @@ import {
   testPeekMsgsLength
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
+import { singleMessagePromise } from "./streamingReceiver.spec";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
@@ -98,6 +99,53 @@ describe("Streaming with sessions", () => {
     );
     return entityNames;
   }
+
+  it("Streaming - user can stop a message subscription without closing the receiver", async () => {
+    const entities = await serviceBusClient.test.createTestEntities(
+      TestClientType.UnpartitionedQueueWithSessions
+    );
+
+    const sender = await serviceBusClient.test.createSender(entities);
+    await sender.sendMessages({
+      body: ".close() test - first message",
+      sessionId: TestMessage.sessionId
+    });
+
+    const actualReceiver = await serviceBusClient.test.getSessionPeekLockReceiver(entities, {
+      sessionId: TestMessage.sessionId
+    });
+    const { subscriber, messages } = await singleMessagePromise(actualReceiver);
+
+    messages.map((m) => m.body).should.deep.equal([".close() test - first message"]);
+
+    // now we're going to shut down the closeable (ie, subscription). This leaves
+    // the receiver open but it does drain it (so any remaining messages are delivered
+    // and will still be settleable).
+    await subscriber.close();
+
+    await messages[0].complete();
+    messages.pop();
+
+    await sender.sendMessages({
+      body: ".close test - second message, after closing",
+      sessionId: TestMessage.sessionId
+    });
+
+    // the subscription is closed so no messages should be received here.
+    await delay(2000);
+
+    messages.map((m) => m.body).should.deep.equal([]);
+
+    await actualReceiver.close(); // release the session lock
+
+    const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+
+    // clean out the remaining message that never arrived.
+    const [finalMessage] = await receiver2.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+    finalMessage.body.should.equal(".close test - second message, after closing");
+
+    await serviceBusClient.test.afterEach();
+  });
 
   describe("Sessions Streaming - Misc Tests", function(): void {
     afterEach(async () => {
@@ -343,7 +391,9 @@ describe("Streaming with sessions", () => {
           async processMessage(msg: ReceivedMessageWithLock) {
             return msg.abandon().then(() => {
               abandonFlag = 1;
-              if (receiver.isReceivingMessages()) {
+              if (
+                (receiver as SessionReceiverImpl<ReceivedMessageWithLock>)["_isReceivingMessages"]()
+              ) {
                 return receiver.close();
               }
               return Promise.resolve();
@@ -357,7 +407,7 @@ describe("Streaming with sessions", () => {
       const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
       should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
-      if (receiver.isReceivingMessages()) {
+      if ((receiver as SessionReceiverImpl<ReceivedMessageWithLock>)["_isReceivingMessages"]()) {
         await receiver.close();
       }
 

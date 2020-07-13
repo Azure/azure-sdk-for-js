@@ -6,16 +6,23 @@
  * See recognizeForm.ts to recognize forms using a custom model.
  */
 
-import { FormTrainingClient, AzureKeyCredential, BeginTrainingPollState } from "@azure/ai-form-recognizer";
+import {
+  FormTrainingClient,
+  AzureKeyCredential,
+  BeginTrainingPollState
+} from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const containerSasUrl = process.env["LABELED_CONTAINER_SAS_URL"] || "<url to Azure blob container storing the labeled training documents>";
+  const containerSasUrl =
+    process.env["LABELED_CONTAINER_SAS_URL"] ||
+    "<url to Azure blob container storing the labeled training documents>";
 
   const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 

@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.4 (Unreleased)
+
+
 ## 1.1.3 (2020-06-30)
 
 - Fix this library to be compatible with ES5 ([#8975](https://github.com/Azure/azure-sdk-for-js/pull/8975))

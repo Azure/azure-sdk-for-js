@@ -101,7 +101,7 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public (undocumented)
-export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedReceiptArray> {
+export interface BeginRecognizeReceiptPollState extends PollOperationState<RecognizedFormArray> {
     // (undocumented)
     readonly analyzeOptions?: RecognizeReceiptsOptions;
     // (undocumented)
@@ -143,9 +143,9 @@ export interface BeginTrainingPollState extends PollOperationState<CustomFormMod
 export interface CommonFieldValue {
     boundingBox?: Point2D[];
     confidence?: number;
+    fieldElements?: FormElement[];
     pageNumber?: number;
     text?: string;
-    textContent?: FormContent[];
 }
 
 // @public
@@ -153,6 +153,7 @@ export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, Fo
 
 // @public
 export interface CopyAuthorization extends CopyAuthorizationResultModel {
+    expiresOn: Date;
     resourceId: string;
     resourceRegion: string;
 }
@@ -215,32 +216,32 @@ export interface CustomFormSubmodel {
 export type DeleteModelOptions = FormRecognizerOperationOptions;
 
 // @public
-export interface FieldText {
+export interface FieldData {
     boundingBox?: Point2D[];
+    fieldElements?: FormElement[];
     pageNumber: number;
     text?: string;
-    textContent?: FormContent[];
-}
-
-// @public
-export type FormContent = FormWord | FormLine;
-
-// @public
-export interface FormContentCommon {
-    boundingBox: Point2D[];
-    pageNumber: number;
-    text: string;
 }
 
 // @public
 export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
+export type FormElement = FormWord | FormLine;
+
+// @public
+export interface FormElementCommon {
+    boundingBox: Point2D[];
+    pageNumber: number;
+    text: string;
+}
+
+// @public
 export type FormField = {
     confidence?: number;
-    labelText?: FieldText;
+    labelData?: FieldData;
     name?: string;
-    valueText?: FieldText;
+    valueData?: FieldData;
 } & ({
     value?: string;
     valueType?: "string";
@@ -276,7 +277,7 @@ export interface FormFieldsReport {
 }
 
 // @public
-export interface FormLine extends FormContentCommon {
+export interface FormLine extends FormElementCommon {
     kind: "line";
     words: FormWord[];
 }
@@ -355,12 +356,12 @@ export interface FormTableCell {
     columnIndex: number;
     columnSpan?: number;
     confidence: number;
+    fieldElements?: FormElement[];
     isFooter?: boolean;
     isHeader?: boolean;
     rowIndex: number;
     rowSpan?: number;
     text: string;
-    textContent?: FormContent[];
 }
 
 // @public
@@ -383,11 +384,66 @@ export class FormTrainingClient {
     }
 
 // @public
-export interface FormWord extends FormContentCommon {
+export interface FormWord extends FormElementCommon {
     confidence?: number;
     containingLine?: FormLine;
     kind: "word";
 }
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientAnalyzeLayoutAsyncHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientAnalyzeLayoutAsyncResponse = GeneratedClientAnalyzeLayoutAsyncHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientAnalyzeLayoutAsyncHeaders;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientAnalyzeReceiptAsyncHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientAnalyzeReceiptAsyncResponse = GeneratedClientAnalyzeReceiptAsyncHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientAnalyzeReceiptAsyncHeaders;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientAnalyzeWithCustomModelHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientAnalyzeWithCustomModelResponse = GeneratedClientAnalyzeWithCustomModelHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientAnalyzeWithCustomModelHeaders;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientCopyCustomModelHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientCopyCustomModelResponse = GeneratedClientCopyCustomModelHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientCopyCustomModelHeaders;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "CopyOperationResult" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientGetCustomModelCopyResultResponse = CopyOperationResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: CopyOperationResult;
+    };
+};
+
+// Warning: (ae-forgotten-export) The symbol "GeneratedClientTrainCustomModelAsyncHeaders" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type GeneratedClientTrainCustomModelAsyncResponse = GeneratedClientTrainCustomModelAsyncHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: GeneratedClientTrainCustomModelAsyncHeaders;
+    };
+};
 
 // @public
 export type GetAccountPropertiesOptions = FormRecognizerOperationOptions;
@@ -475,7 +531,7 @@ export { PollerLike }
 export { PollOperationState }
 
 // @public
-export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedReceiptArray>, RecognizedReceiptArray>;
+export type ReceiptPollerLike = PollerLike<PollOperationState<RecognizedFormArray>, RecognizedFormArray>;
 
 // @public
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
@@ -486,6 +542,16 @@ export type RecognizeContentPollerClient = {
     getRecognizeResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
     }) => Promise<RecognizeContentResultResponse>;
+};
+
+// Warning: (ae-forgotten-export) The symbol "RecognizedContent" needs to be exported by the entry point index.d.ts
+//
+// @public
+export type RecognizeContentResultResponse = RecognizedContent & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
 };
 
 // @public
@@ -510,18 +576,19 @@ export interface RecognizedForm {
 export interface RecognizedFormArray extends Array<RecognizedForm> {
 }
 
+// Warning: (ae-forgotten-export) The symbol "RecognizedForms" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type RecognizedReceipt = {
-    recognizedForm: RecognizedForm;
+export type RecognizeFormResultResponse = RecognizedForms & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnalyzeOperationResultModel;
+    };
 };
-
-// @public (undocumented)
-export interface RecognizedReceiptArray extends Array<RecognizedReceipt> {
-}
 
 // @public
 export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
-    includeTextContent?: boolean;
+    includeFieldElements?: boolean;
 };
 
 // @public
@@ -529,12 +596,12 @@ export type RecognizeReceiptPollerClient = {
     beginRecognize: (source: FormRecognizerRequestBody | string, contentType?: FormContentType, analyzeOptions?: RecognizeReceiptsOptions) => Promise<GeneratedClientAnalyzeReceiptAsyncResponse>;
     getRecognizeResult: (resultId: string, options: {
         abortSignal?: AbortSignalLike;
-    }) => Promise<RecognizeReceiptResultResponse>;
+    }) => Promise<RecognizeFormResultResponse>;
 };
 
 // @public
 export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
-    includeTextContent?: boolean;
+    includeFieldElements?: boolean;
 };
 
 export { RestResponse }
@@ -570,18 +637,6 @@ export interface TrainResult {
     trainingDocuments: TrainingDocumentInfo[];
 }
 
-
-// Warnings were encountered during analysis:
-//
-// src/lro/analyze/contentPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeLayoutAsyncResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/contentPoller.ts:46:3 - (ae-forgotten-export) The symbol "RecognizeContentResultResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/customFormPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeWithCustomModelResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/customFormPoller.ts:47:3 - (ae-forgotten-export) The symbol "RecognizeFormResultResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/receiptPoller.ts:40:3 - (ae-forgotten-export) The symbol "GeneratedClientAnalyzeReceiptAsyncResponse" needs to be exported by the entry point index.d.ts
-// src/lro/analyze/receiptPoller.ts:46:3 - (ae-forgotten-export) The symbol "RecognizeReceiptResultResponse" needs to be exported by the entry point index.d.ts
-// src/lro/copy/poller.ts:37:3 - (ae-forgotten-export) The symbol "GeneratedClientCopyCustomModelResponse" needs to be exported by the entry point index.d.ts
-// src/lro/copy/poller.ts:43:3 - (ae-forgotten-export) The symbol "GeneratedClientGetCustomModelCopyResultResponse" needs to be exported by the entry point index.d.ts
-// src/lro/train/poller.ts:21:3 - (ae-forgotten-export) The symbol "GeneratedClientTrainCustomModelAsyncResponse" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { SystemErrorRetryPolicy, RetryError } from "../../src/policies/systemErrorRetryPolicy";
+import { SystemErrorRetryPolicy } from "../../src/policies/systemErrorRetryPolicy";
+import { RetryError } from "../../src/util/exponentialBackoffStrategy";
 import { WebResource } from "../../src/webResource";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
@@ -50,7 +51,9 @@ describe("SystemErrorRetryPolicy", () => {
     headers: new HttpHeaders()
   };
 
-  function createDefaultSystemErrorRetryPolicy(response?: HttpOperationResponse) {
+  function createDefaultSystemErrorRetryPolicy(
+    response?: HttpOperationResponse
+  ): SystemErrorRetryPolicy {
     if (!response) {
       response = defaultResponse;
     }

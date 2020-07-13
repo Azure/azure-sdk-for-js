@@ -35,11 +35,12 @@ describe("Certificates client - lro - delete", () => {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
-    await client.beginCreateCertificate(
+    const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
       testPollerProperties
     );
+    await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
@@ -64,11 +65,12 @@ describe("Certificates client - lro - delete", () => {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
-    await client.beginCreateCertificate(
+    const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
       testPollerProperties
     );
+    await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
 
@@ -100,4 +102,5 @@ describe("Certificates client - lro - delete", () => {
 
     await testClient.purgeCertificate(certificateName);
   });
+
 });

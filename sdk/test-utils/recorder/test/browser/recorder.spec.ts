@@ -3,6 +3,7 @@ import { record, TestContextInterface, TestContext, TestContextTest } from "../.
 import xhrMock from "xhr-mock";
 import MD5 from "md5";
 import chai from "chai";
+import { consoleLog, setConsoleLogForTesting } from "../../src/customConsoleLog";
 const { expect } = chai;
 
 const expectedHttpResponse = "Hello World!";
@@ -69,11 +70,17 @@ describe("The recorder's public API, on a browser", () => {
 
     // The recorder outputs files into the console,
     // so we need to mock the console.log function to capture and test the recorder output.
-    const originalConsoleLog = console.log;
+    const originalConsoleLog = consoleLog;
     const savedConsoleLogParams: any[] = [];
-    console.log = (...params: any[]) => {
-      savedConsoleLogParams.push(params);
-    };
+    setConsoleLogForTesting((...params: any[]) => {
+      if (params && params.length > 0) {
+        try {
+          if (JSON.parse(params[0]).writeFile) {
+            savedConsoleLogParams.push(params);
+          }
+        } catch (err) {}
+      }
+    });
 
     // The recorder should start in the beforeEach call.
     // We have to do this to emulate that.
@@ -97,7 +104,7 @@ describe("The recorder's public API, on a browser", () => {
     // Cleaning everything before we continue verifying the results.
     xhrMock.teardown();
     recorder.stop();
-    console.log = originalConsoleLog;
+    setConsoleLogForTesting(originalConsoleLog);
 
     // Here we confirm that the recorder generated an expected output on the console.logs.
     // This output is used to generate the recording files in the filesystem, though here we're only
@@ -203,12 +210,18 @@ describe("The recorder's public API, on a browser", () => {
     const originalXHR = XMLHttpRequest;
 
     // The recorder outputs files into the console,
-    // so we need to mock the console.log function to capture and test the recorder output.
-    const originalConsoleLog = console.log;
+    // so we need to override the consoleLog function to capture and test the recorder output.
+    const originalConsoleLog = consoleLog;
     const savedConsoleLogParams: any[] = [];
-    console.log = (...params: any) => {
-      savedConsoleLogParams.push(params);
-    };
+    setConsoleLogForTesting((...params: any[]) => {
+      if (params && params.length > 0) {
+        try {
+          if (JSON.parse(params[0]).writeFile) {
+            savedConsoleLogParams.push(params);
+          }
+        } catch (err) {}
+      }
+    });
 
     // The recorder should start in the beforeEach call.
     // To emulate that behavior while keeping the test code as contained as possible,
@@ -234,7 +247,7 @@ describe("The recorder's public API, on a browser", () => {
     // Cleaning everything before we continue verifying the results.
     xhrMock.teardown();
     recorder.stop();
-    console.log = originalConsoleLog;
+    setConsoleLogForTesting(originalConsoleLog);
 
     // Now we check the hash has changed in the recorded console.log output.
 

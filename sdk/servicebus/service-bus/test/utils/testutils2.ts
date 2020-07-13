@@ -389,6 +389,14 @@ export class ServiceBusTestHelpers {
     );
   }
 
+  async createSender(entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">) {
+    return this.addToCleanup(
+      entityNames.queue
+        ? this._serviceBusClient.createSender(entityNames.queue)
+        : this._serviceBusClient.createSender(entityNames.topic!)
+    );
+  }
+
   private _closeables: { close(): Promise<void> }[] = [];
   private _testClientEntities: Map<TestClientType, ReturnType<typeof getEntityNames>> = new Map();
 }
@@ -468,9 +476,7 @@ export async function testPeekMsgsLength(
   peekableReceiver: Receiver<ReceivedMessage>,
   expectedPeekLength: number
 ): Promise<void> {
-  const peekedMsgs = await peekableReceiver.peekMessages({
-    maxMessageCount: expectedPeekLength + 1
-  });
+  const peekedMsgs = await peekableReceiver.peekMessages(expectedPeekLength + 1);
 
   should.equal(
     peekedMsgs.length,

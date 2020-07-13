@@ -66,7 +66,7 @@ export function createTunnel(
   }
 }
 
-function isValidPort(port: number) {
+function isValidPort(port: number): boolean {
   // any port in 0-65535 range is valid (RFC 793) even though almost all implementations
   // will reserve 0 for a specific purpose, and a range of numbers for ephemeral ports
   return 0 <= port && port <= 65535;

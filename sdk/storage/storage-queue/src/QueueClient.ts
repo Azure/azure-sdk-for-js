@@ -72,6 +72,23 @@ export interface QueueCreateOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure {@link QueueClient.exists} operation
+ *
+ * @export
+ * @interface QueueExistsOptions
+ */
+export interface QueueExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof QueueExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Options to configure {@link QueueClient.getProperties} operation
  *
  * @export
@@ -412,6 +429,38 @@ export interface QueueUpdateMessageOptions extends CommonOptions {
 }
 
 /**
+ * Contains response data for the {@link QueueClient.createIfNotExists} operation.
+ *
+ * @export
+ * @interface QueueCreateIfNotExistsResponse
+ */
+export interface QueueCreateIfNotExistsResponse extends QueueCreateResponse {
+  /**
+   * Indicate whether the queue is successfully created. Is false when the queue is not changed as it already exists.
+   *
+   * @type {boolean}
+   * @memberof QueueCreateIfNotExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
+ * Contains response data for the {@link QueueClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface QueueDeleteIfExistsResponse
+ */
+export interface QueueDeleteIfExistsResponse extends QueueDeleteResponse {
+  /**
+   * Indicate whether the queue is successfully deleted. Is false if the queue does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof QueueDeleteIfExistsResponse
+   */
+  succeeded: boolean;
+}
+
+/**
  * A QueueClient represents a URL to an Azure Storage Queue's messages allowing you to manipulate its messages.
  *
  * @export
@@ -609,6 +658,107 @@ export class QueueClient extends StorageClient {
   }
 
   /**
+   * Creates a new queue under the specified account if it doesn't already exist.
+   * If the queue already exists, it is not changed.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
+   *
+   * @param {QueueCreateOptions} [options]
+   * @returns {Promise<QueueCreateIfNotExistsResponse>}
+   * @memberof QueueClient
+   */
+  public async createIfNotExists(
+    options: QueueCreateOptions = {}
+  ): Promise<QueueCreateIfNotExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "QueueClient-createIfNotExists",
+      options.tracingOptions
+    );
+    try {
+      const response = await this.create({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+
+      // When a queue with the specified name already exists, the Queue service checks the metadata associated with the existing queue.
+      // If the existing metadata is identical to the metadata specified on the Create Queue request, status code 204 (No Content) is returned.
+      // If the existing metadata does not match, the operation fails and status code 409 (Conflict) is returned.
+      if (response._response.status == 204) {
+        return {
+          succeeded: false,
+          ...response
+        };
+      }
+      return {
+        succeeded: true,
+        ...response
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "QueueAlreadyExists") {
+        span.setStatus({
+          code: CanonicalCode.ALREADY_EXISTS,
+          message: "Expected exception when creating a queue only if it does not already exist."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
+
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes the specified queue permanently if it exists.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
+   *
+   * @param {QueueDeleteOptions} [options]
+   * @returns {Promise<QueueDeleteIfExistsResponse>}
+   * @memberof QueueClient
+   */
+  public async deleteIfExists(
+    options: QueueDeleteOptions = {}
+  ): Promise<QueueDeleteIfExistsResponse> {
+    const { span, spanOptions } = createSpan("QueueClient-deleteIfExists", options.tracingOptions);
+    try {
+      const res = await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "QueueNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting a queue only if it exists."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
@@ -633,6 +783,43 @@ export class QueueClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns true if the specified queue exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing queue might be deleted by other clients or
+   * applications. Vice versa new queues might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {QueueExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof QueueClient
+   */
+  public async exists(options: QueueExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("QueueClient-exists", options.tracingOptions);
+    try {
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking queue existence"
+        });
+        return false;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message

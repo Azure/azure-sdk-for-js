@@ -7,6 +7,7 @@
  */
 
 export {
+  AclFailedEntry,
   PathAppendDataHeaders,
   PathCreateHeaders,
   PathDeleteHeaders,
@@ -15,7 +16,10 @@ export {
   PathLeaseHeaders,
   PathReadHeaders,
   PathSetAccessControlHeaders,
+  PathSetAccessControlRecursiveHeaders,
+  PathSetExpiryHeaders,
   PathUpdateHeaders,
+  SetAccessControlRecursiveResponse,
   StorageError,
   StorageErrorError
 } from "../models/mappers";

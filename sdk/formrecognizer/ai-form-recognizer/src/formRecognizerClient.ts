@@ -51,21 +51,12 @@ import {
   BeginRecognizeReceiptPoller,
   BeginRecognizeReceiptPollState
 } from "./lro/analyze/receiptPoller";
-import {
-  FormRecognizerRequestBody,
-  RecognizedFormArray,
-  FormPageArray,
-  RecognizedReceiptArray
-} from "./models";
-import {
-  RecognizeContentResultResponse,
-  RecognizeFormResultResponse,
-  RecognizeReceiptResultResponse
-} from "./internalModels";
+import { FormRecognizerRequestBody, RecognizedFormArray, FormPageArray } from "./models";
+import { RecognizeContentResultResponse, RecognizeFormResultResponse } from "./internalModels";
 import {
   toRecognizeFormResultResponse,
   toRecognizeContentResultResponse,
-  toReceiptResultResponse
+  toRecognizeFormResultResponseFromReceipt
 } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
@@ -106,10 +97,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
 /**
  * The Long-Running-Operation (LRO) poller that allows you to wait until form content is recognized.
  */
-export type ContentPollerLike = PollerLike<
-  PollOperationState<FormPageArray>,
-  FormPageArray
->;
+export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, FormPageArray>;
 
 /**
  * Options for retrieving recognized content data
@@ -123,7 +111,7 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
   /**
    * Specifies whether to include text lines and element references in the result
    */
-  includeTextContent?: boolean;
+  includeFieldElements?: boolean;
 };
 
 /**
@@ -164,7 +152,7 @@ export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
   /**
    * Specifies whether to include text lines and element references in the result
    */
-  includeTextContent?: boolean;
+  includeFieldElements?: boolean;
 };
 
 /**
@@ -194,8 +182,8 @@ export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
  * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are recognized.
  */
 export type ReceiptPollerLike = PollerLike<
-  PollOperationState<RecognizedReceiptArray>,
-  RecognizedReceiptArray
+  PollOperationState<RecognizedFormArray>,
+  RecognizedFormArray
 >;
 
 /**
@@ -334,8 +322,7 @@ export class FormRecognizerClient {
    * const pages = await poller.pollUntilDone();
    * ```
    * @summary Recognizes content/layout information from a url to a form document
-   * @param {string} formUrl Url to an accessible form document
-ng", and "image/tiff";
+   * @param {string} formUrl Url to an accessible form document. Supported document types include PDF, JPEG, PNG, and TIFF.
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContentFromUrl(
@@ -462,8 +449,7 @@ ng", and "image/tiff";
    * ```
    * @summary Recognizes form information from a url to a form document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
-   * @param {string} formUrl Url to an accessible form document
-   ng", and "image/tiff";
+   * @param {string} formUrl Url to an accessible form document. Supported document types include PDF, JPEG, PNG, and TIFF.
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
   public async beginRecognizeCustomFormsFromUrl(
@@ -558,19 +544,19 @@ ng", and "image/tiff";
    *
    * const receipt = receipts[0];
    * console.log("First receipt:");
-   * const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+   * const receiptTypeField = receipt.fields["ReceiptType"];
    * if (receiptTypeField.valueType === "string") {
    *   console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
    * }
-   * const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+   * const merchantNameField = receipt.fields["MerchantName"];
    * if (merchantNameField.valueType === "string") {
    *   console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
    * }
-   * const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+   * const transactionDate = receipt.fields["TransactionDate"];
    * if (transactionDate.valueType === "date") {
    *   console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
    * }
-   * const itemsField = receipt.recognizedForm.fields["Items"];
+   * const itemsField = receipt.fields["Items"];
    * if (itemsField.valueType === "array") {
    *   for (const itemField of itemsField.value || []) {
    *     if (itemField.valueType === "object") {
@@ -581,7 +567,7 @@ ng", and "image/tiff";
    *     }
    *  }
    * }
-   * const totalField = receipt.recognizedForm.fields["Total"];
+   * const totalField = receipt.fields["Total"];
    * if (totalField.valueType === "number") {
    *   console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
    * }
@@ -629,7 +615,7 @@ ng", and "image/tiff";
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
    * const poller = await client.beginRecognizeReceiptsFromUrl(
    *   url, {
-   *     includeTextContent: true,
+   *     includeFieldElements: true,
    *     onProgress: (state) => { console.log(`analyzing status: ${state.status}`); }
    * });
    * const receipts = await poller.pollUntilDone();
@@ -639,19 +625,19 @@ ng", and "image/tiff";
    *
    * const receipt = receipts[0];
    * console.log("First receipt:");
-   * const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+   * const receiptTypeField = receipt.fields["ReceiptType"];
    * if (receiptTypeField.valueType === "string") {
    *   console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
    * }
-   * const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+   * const merchantNameField = receipt.fields["MerchantName"];
    * if (merchantNameField.valueType === "string") {
    *   console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
    * }
-   * const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+   * const transactionDate = receipt.fields["TransactionDate"];
    * if (transactionDate.valueType === "date") {
    *   console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
    * }
-   * const itemsField = receipt.recognizedForm.fields["Items"];
+   * const itemsField = receipt.fields["Items"];
    * if (itemsField.valueType === "array") {
    *   for (const itemField of itemsField.value || []) {
    *     if (itemField.valueType === "object") {
@@ -662,13 +648,13 @@ ng", and "image/tiff";
    *     }
    *  }
    * }
-   * const totalField = receipt.recognizedForm.fields["Total"];
+   * const totalField = receipt.fields["Total"];
    * if (totalField.valueType === "number") {
    *   console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
    * }
    * ```
    * @summary Recognizes receipt information from a given accessible url to input document
-   * @param {string} receiptUrl url to the input receipt document
+   * @param {string} receiptUrl Url to an accesssible receipt document. Supported document types include PDF, JPEG, PNG, and TIFF.
    * @param {BeginRecognizeReceiptsOptions} [options] Options to start receipt recognition operation
    */
   public async beginRecognizeReceiptsFromUrl(
@@ -698,7 +684,7 @@ ng", and "image/tiff";
   private async getReceipts(
     resultId: string,
     options?: GetReceiptsOptions
-  ): Promise<RecognizeReceiptResultResponse> {
+  ): Promise<RecognizeFormResultResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "FormRecognizerClient-getRecognizedReceipt",
@@ -710,7 +696,7 @@ ng", and "image/tiff";
         resultId,
         operationOptionsToRequestOptionsBase(finalOptions)
       );
-      return toReceiptResultResponse(result);
+      return toRecognizeFormResultResponseFromReceipt(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -773,7 +759,7 @@ async function recognizeCustomFormInternal(
 ): Promise<AnalyzeWithCustomModelResponseModel> {
   const { span, updatedOptions: finalOptions } = createSpan("analyzeCustomFormInternal", {
     ...options,
-    includeTextDetails: options.includeTextContent
+    includeTextDetails: options.includeFieldElements
   });
   const requestBody = await toRequestBody(body);
   const requestContentType = contentType ? contentType : await getContentType(requestBody);
@@ -812,10 +798,10 @@ async function recognizeReceiptInternal(
   options?: RecognizeReceiptsOptions,
   _modelId?: string
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
-  const realOptions = options || { includeTextContent: false };
+  const realOptions = options || { includeFieldElements: false };
   const { span, updatedOptions: finalOptions } = createSpan("analyzeReceiptInternal", {
     ...realOptions,
-    includeTextDetails: realOptions.includeTextContent
+    includeTextDetails: realOptions.includeFieldElements
   });
   const requestBody = await toRequestBody(body);
   const requestContentType =

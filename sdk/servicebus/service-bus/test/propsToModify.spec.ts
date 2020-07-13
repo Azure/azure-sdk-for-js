@@ -153,9 +153,9 @@ describe("dead lettering", () => {
     const deadLetterMessages = await deadLetterReceiver.receiveMessages(1);
     should.exist(deadLetterMessages[0]);
 
-    const reason = deadLetterMessages[0]!.userProperties!["DeadLetterReason"];
-    const description = deadLetterMessages[0]!.userProperties!["DeadLetterErrorDescription"];
-    const customProperty = deadLetterMessages[0]!.userProperties!["customProperty"];
+    const reason = deadLetterMessages[0]!.properties!["DeadLetterReason"];
+    const description = deadLetterMessages[0]!.properties!["DeadLetterErrorDescription"];
+    const customProperty = deadLetterMessages[0]!.properties!["customProperty"];
 
     should.equal(reason, expected.reason);
     should.equal(description, expected.description);
@@ -282,7 +282,7 @@ describe("abandoning", () => {
   ) {
     should.exist(abandonedMessage);
 
-    const customProperty = abandonedMessage.userProperties!["customProperty"];
+    const customProperty = abandonedMessage.properties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }
@@ -400,7 +400,7 @@ describe("deferring", () => {
 
     should.exist(deferredMessage);
 
-    const customProperty = deferredMessage!.userProperties!["customProperty"];
+    const customProperty = deferredMessage!.properties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }

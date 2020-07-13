@@ -51,6 +51,113 @@ describe("BlobClient", () => {
     }
   });
 
+  it("Set blob tags should work", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.setTags(tags);
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+
+    const properties = await blockBlobClient.getProperties();
+    assert.deepStrictEqual(properties.tagCount, 2);
+
+    const download = await blockBlobClient.download();
+    assert.deepStrictEqual(download.tagCount, 2);
+
+    const listblob = containerClient.listBlobsFlat({ includeTags: true });
+
+    const iter = listblob.byPage();
+    const segment = await iter.next();
+
+    // TODO: Make blob tag type consistency cross all request or response
+    assert.deepStrictEqual(segment.value.segment.blobItems[0].tags, tags);
+  });
+
+  it("Get blob tags should work with a snapshot", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.setTags(tags);
+
+    const snapshotResponse = await blockBlobClient.createSnapshot();
+    const blockBlobClientSnapshot = blockBlobClient.withSnapshot(snapshotResponse.snapshot!);
+
+    const response = await blockBlobClientSnapshot.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
+  it("Create block blob should work with tags", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
+    await blockBlobClient.delete();
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.upload("hello", 5, { tags });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
+  it("Create append blob should work with tags", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
+    await blockBlobClient.delete();
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    const appendBlobClient = blobClient.getAppendBlobClient();
+    await appendBlobClient.create({ tags });
+
+    const response = await appendBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
+  it("Create page blob should work with tags", async function() {
+    if (!isNode) {
+      // SAS in test pipeline need to support the new permission.
+      this.skip();
+    }
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    const pageBlobName = recorder.getUniqueName("pageBlobName");
+    const blobClient2 = containerClient.getBlobClient(pageBlobName);
+    const pageBlobClient = blobClient2.getPageBlobClient();
+    await pageBlobClient.create(512, { tags });
+
+    const response = await pageBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
+  });
+
   it("download with with default parameters", async () => {
     const result = await blobClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
@@ -173,6 +280,18 @@ describe("BlobClient", () => {
     await blobClient.delete();
   });
 
+  it("deleteIfExists", async () => {
+    const res = await blobClient.deleteIfExists();
+    assert.ok(res.succeeded);
+
+    const blobName2 = recorder.getUniqueName("blob2");
+    const blobClient2 = containerClient.getBlobClient(blobName2);
+    // delete a non-existent blob
+    const res2 = await blobClient2.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "BlobNotFound");
+  });
+
   // The following code illustrates deleting a snapshot after creating one
   it("delete snapshot", async () => {
     const result = await blobClient.createSnapshot();
@@ -182,6 +301,10 @@ describe("BlobClient", () => {
     await blobSnapshotClient.getProperties();
 
     await blobSnapshotClient.delete();
+    const res = await blobSnapshotClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "BlobNotFound");
+
     await blobClient.delete();
 
     const result2 = (
@@ -252,7 +375,8 @@ describe("BlobClient", () => {
 
     const iter = containerClient
       .listBlobsFlat({
-        includeDeleted: true
+        includeDeleted: true,
+        includeVersions: true
       })
       .byPage({ maxPageSize: 1 });
 
@@ -276,7 +400,7 @@ describe("BlobClient", () => {
 
     assert.ok(
       result.segment.blobItems,
-      "Expect non empty result from list blobs({ includeDeleted: true }) with page size of 1."
+      "Expect non empty result from list blobs({ includeDeleted: true, includeVersions: true }) with page size of 1."
     );
 
     assert.equal(
@@ -290,13 +414,12 @@ describe("BlobClient", () => {
       "Expect a valid element in result array from list blobs({ includeDeleted: true }) with page size of 1."
     );
 
-    assert.ok(result.segment.blobItems![0].deleted, "Expect that the blob is marked for deletion");
-
     await blobClient.undelete();
 
     const iter2 = containerClient
       .listBlobsFlat({
-        includeDeleted: true
+        includeDeleted: true,
+        includeVersions: true
       })
       .byPage();
 
@@ -625,6 +748,28 @@ describe("BlobClient", () => {
     try {
       await blobClient.exists();
     } catch (err) {
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("exists with condition", async () => {
+    const leaseResp = await blobClient.getBlobLeaseClient().acquireLease(30);
+    assert.ok(leaseResp.leaseId);
+
+    assert.ok(await blobClient.exists({ conditions: { leaseId: leaseResp.leaseId! } }));
+
+    let exceptionCaught = false;
+    try {
+      let guid = "ca761232ed4211cebacd00aa0057b223";
+      if (guid === leaseResp.leaseId) {
+        guid = "ca761232ed4211cebacd00aa0057b224";
+      }
+
+      const existsRes = await blobClient.exists({ conditions: { leaseId: guid } });
+      console.log(existsRes);
+    } catch (err) {
+      assert.equal(err.details.errorCode, "LeaseIdMismatchWithBlobOperation");
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);

@@ -133,6 +133,8 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 export class DataLakeDirectoryClient extends DataLakePathClient {
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
+    createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    createIfNotExists(options?: DirectoryCreateIfNotExistsOptions): Promise<DirectoryCreateIfNotExistsResponse>;
     getFileClient(fileName: string): DataLakeFileClient;
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;
 }
@@ -141,17 +143,19 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 export class DataLakeFileClient extends DataLakePathClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<PathUpdateResponse>;
+    append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
-    flush(position: number, options?: FileFlushOptions): Promise<PathUpdateResponse>;
+    createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
+    flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToFile(filePath: string, offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
-    upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathUpdateResponse>;
-    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathUpdateResponse>;
-    uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathUpdateResponse>;
+    upload(data: Buffer | Blob | ArrayBuffer | ArrayBufferView, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
+    uploadFile(filePath: string, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
+    uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<PathFlushDataResponse>;
 }
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
@@ -161,7 +165,9 @@ export class DataLakeFileSystemClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
+    createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
     delete(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteResponse>;
+    deleteIfExists(options?: FileSystemDeleteOptions): Promise<FileSystemDeleteIfExistsResponse>;
     exists(options?: FileSystemExistsOptions): Promise<boolean>;
     getAccessPolicy(options?: FileSystemGetAccessPolicyOptions): Promise<FileSystemGetAccessPolicyResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
@@ -198,7 +204,9 @@ export class DataLakePathClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
     create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
+    deleteIfExists(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteIfExistsResponse>;
     exists(options?: PathExistsOptions): Promise<boolean>;
     get fileSystemName(): string;
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
@@ -260,6 +268,14 @@ export class DataLakeServiceClient extends StorageClient {
 
 export { deserializationPolicy }
 
+// @public (undocumented)
+export interface DirectoryCreateIfNotExistsOptions extends PathCreateIfNotExistsOptions {
+}
+
+// @public (undocumented)
+export interface DirectoryCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {
+}
+
 // @public
 export interface DirectoryCreateOptions extends PathCreateOptions {
 }
@@ -278,6 +294,21 @@ export interface FileAppendOptions extends CommonOptions {
     onProgress?: (progress: TransferProgressEvent) => void;
     // (undocumented)
     transactionalContentMD5?: Uint8Array;
+}
+
+// @public
+export type FileAppendResponse = PathAppendDataHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: PathAppendDataHeaders;
+    };
+};
+
+// @public (undocumented)
+export interface FileCreateIfNotExistsOptions extends PathCreateIfNotExistsOptions {
+}
+
+// @public (undocumented)
+export interface FileCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {
 }
 
 // @public (undocumented)
@@ -431,6 +462,11 @@ export interface FileSystemCreateHeaders {
 }
 
 // @public
+export interface FileSystemCreateIfNotExistsResponse extends FileSystemCreateResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface FileSystemCreateOptions extends CommonOptions {
     // (undocumented)
     abortSignal?: AbortSignalLike;
@@ -457,6 +493,11 @@ export interface FileSystemDeleteHeaders {
     requestId?: string;
     // (undocumented)
     version?: string;
+}
+
+// @public
+export interface FileSystemDeleteIfExistsResponse extends FileSystemDeleteResponse {
+    succeeded: boolean;
 }
 
 // @public (undocumented)
@@ -820,6 +861,14 @@ export interface PathAccessControlItem {
 }
 
 // @public
+export interface PathAppendDataHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
 export interface PathCreateHeaders {
     contentLength?: number;
     continuation?: string;
@@ -844,6 +893,25 @@ export interface PathCreateHttpHeaders {
     contentLanguage?: string;
     // (undocumented)
     contentType?: string;
+}
+
+// @public (undocumented)
+export interface PathCreateIfNotExistsOptions extends CommonOptions {
+    // (undocumented)
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    metadata?: Metadata;
+    // (undocumented)
+    pathHttpHeaders?: PathCreateHttpHeaders;
+    // (undocumented)
+    permissions?: string;
+    // (undocumented)
+    umask?: string;
+}
+
+// @public
+export interface PathCreateIfNotExistsResponse extends PathCreateResponse {
+    succeeded: boolean;
 }
 
 // @public (undocumented)
@@ -879,6 +947,11 @@ export interface PathDeleteHeaders {
     version?: string;
 }
 
+// @public
+export interface PathDeleteIfExistsResponse extends PathDeleteResponse {
+    succeeded: boolean;
+}
+
 // @public (undocumented)
 export interface PathDeleteOptions extends CommonOptions {
     // (undocumented)
@@ -898,6 +971,28 @@ export type PathDeleteResponse = PathDeleteHeaders & {
 export interface PathExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
+
+// @public
+export interface PathFlushDataHeaders {
+    clientRequestId?: string;
+    contentLength?: number;
+    date?: Date;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+type PathFlushDataResponse = PathFlushDataHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: PathFlushDataHeaders;
+    };
+};
+
+export { PathFlushDataResponse as FileFlushResponse }
+
+export { PathFlushDataResponse as FileUploadResponse }
 
 // @public (undocumented)
 export interface PathGetAccessControlHeaders {
@@ -1296,20 +1391,8 @@ export interface PathUpdateHeaders {
     properties?: string;
     requestId?: string;
     version?: string;
+    xMsContinuation?: string;
 }
-
-// @public
-type PathUpdateResponse = PathUpdateHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: PathUpdateHeaders;
-    };
-};
-
-export { PathUpdateResponse as FileAppendResponse }
-
-export { PathUpdateResponse as FileFlushResponse }
-
-export { PathUpdateResponse as FileUploadResponse }
 
 // @public
 export class Pipeline extends Pipeline_2 {
