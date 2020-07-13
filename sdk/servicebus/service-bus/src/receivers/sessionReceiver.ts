@@ -479,8 +479,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       } catch (err) {
         onError(err);
       }
-    } else {
-      this._messageSession.close().catch((err) => onError(err));
     }
   }
 
