@@ -146,6 +146,10 @@ if (!$Location) {
     Write-Verbose "Location was not set. Using default location for environment: '$Location'"
 }
 
+# Set standard environment variables from configuration
+$azEnvironment = Get-AzEnvironment -Name $Environment
+$environmentVariables['AZURE_AUTHORITY_HOST'] = $azEnvironment.ActiveDirectoryAuthority
+
 # Log in if requested; otherwise, the user is expected to already be authenticated via Connect-AzAccount.
 if ($ProvisionerApplicationId) {
     $null = Disable-AzContextAutosave -Scope Process
