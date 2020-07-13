@@ -7,12 +7,12 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - [Source Code - Keys](./keyvault-keys)
 - [Source Code - Secrets](./keyvault-secrets)
 - [Source Code - Certificates](./keyvault-certificates)
-- [Product documentation](https://docs.microsoft.com/en-us/azure/key-vault)
+- [Product documentation](https://docs.microsoft.com/azure/key-vault)
 - @azure/keyvault-keys [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys)
 - @azure/keyvault-secrets [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets)
 - @azure/keyvault-certificates [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-certificates)
-- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/key-vault)
-- [Azure Key Vault REST APIs](https://docs.microsoft.com/en-us/rest/api/keyvault/)
+- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/key-vault-index)
+- [Azure Key Vault REST APIs](https://docs.microsoft.com/rest/api/keyvault/)
 
 ## Getting started
 

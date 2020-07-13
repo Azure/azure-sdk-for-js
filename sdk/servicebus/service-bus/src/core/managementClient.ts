@@ -113,7 +113,7 @@ export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the user properties of the incoming message.
    */
-  userProperties?: any;
+  properties?: any;
 }
 
 /**
@@ -129,7 +129,7 @@ const correlationProperties = [
   "sessionId",
   "replyToSessionId",
   "contentType",
-  "userProperties"
+  "properties"
 ];
 
 /**
@@ -1213,7 +1213,7 @@ export class ManagementClient extends LinkEntity {
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              userProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
+              properties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
             };
             break;
           default:
@@ -1346,7 +1346,7 @@ export class ManagementClient extends LinkEntity {
             "session-id": filter.sessionId,
             "reply-to-session-id": filter.replyToSessionId,
             "content-type": filter.contentType,
-            properties: filter.userProperties
+            properties: filter.properties
           };
           break;
       }

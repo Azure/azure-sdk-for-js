@@ -1,5 +1,7 @@
 # Release History
 
+## 1.1.0-preview.5 (Unreleased)
+
 ## 1.1.0-preview.4 (2020-06-09)
 - Switch to using CredentialUnavailable to differentiate from expected and unexpected errors during DefaultAzureCredential startup. [PR #8172](https://github.com/Azure/azure-sdk-for-js/pull/8127)
 - Make all developer credentials public as well as the list used by DefaultAzureCredential [PR #9274](https://github.com/Azure/azure-sdk-for-js/pull/9274)

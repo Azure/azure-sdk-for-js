@@ -263,7 +263,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ## 2.1.0 (2019-06-10)
 
 - Added support for WebSockets. WebSockets enable Event Hubs to work over an HTTP proxy and in environments where the standard AMQP port 5671 is blocked.
-  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/websockets.ts) sample to see how to use WebSockets.
+  Refer to the [websockets](https://github.com/Azure/azure-sdk-for-js/blob/@azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples/websockets.ts) sample to see how to use WebSockets.
 - `@types/async-lock` has been moved to being a dependency from a dev-dependency. This fixes the [bug 3240](https://github.com/Azure/azure-sdk-for-js/issues/3240)
 
 ## 2.0.0 (2019-03-26)
@@ -280,7 +280,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ### Bug fixes and other changes
 
 - A network connection lost error is now treated as retryable error. A new error with name `ConnectionLostError`
-  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/sdk/eventhub/event-hubs/README.md#debug-logs).
+  is introduced for this scenario which you can see if you enable the [logs](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/README.md#debug-logs).
 - When recovering from an error that caused the underlying AMQP connection to get disconnected,
   [rhea](https://github.com/amqp/rhea/issues/205) reconnects all the older AMQP links on the connection
   resulting in the below 2 errors in the logs. We now clear rhea's internal map to avoid such reconnections.
@@ -351,7 +351,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 ## 0.2.6 (2018-08-07)
 
 - Improved log statements.
-- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/master/eventhub/event-hubs/#debug-logs).
+- Documented different mechanisms of getting the debug logs in [README](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-hubs//#debug-logs).
 - Minimum dependency on `"rhea": "^0.2.18"`.
 - Fixed bugs in recovery logic
 - Added support to recover from session close for sender and receiver
@@ -359,7 +359,7 @@ For more information, please visit https://aka.ms/azsdk/releases/july2019preview
 - Using `is_closed()` method of sender, receiver and session in rhea to determine whether the sdk initiated the close.
 - MessagingError is retryable by default.
 - Added support to translate node.js [`SystemError`](https://nodejs.org/api/errors.html#errors_class_systemerror) into AmqpError.
-- Added a new static method `createFromTokenProvider()` on the EventHubClient where customers can provide their own [TokenProvider](https://github.com/Azure/azure-event-hubs-node/blob/master/client/lib/amqp-common/auth/token.ts#L42).
+- Added a new static method `createFromTokenProvider()` on the EventHubClient where customers can provide their own [TokenProvider](https://github.com/Azure/azure-event-hubs-node/blob/v0.2.6-EH-August2018/client/lib/amqp-common/auth/token.ts#L42).
 
 ## 0.2.5 (2018-07-17)
 
@@ -411,7 +411,7 @@ const client = await EventHubClient.createFromIotHubConnectionString(
 - Created an options object in the `client.createFromConnectionString()` and the `EventHubClient` constructor. This is a breaking change. However moving to an options object design reduces the chances of breaking changes in the future.
   This options object will:
 - have the existing optional `tokenProvider` property
-- and a new an optional property named `dataTransformer`. You can provide your own transformer. If not provided then we will use the [DefaultDataTransformer](./client/lib/dataTransformer.ts). This should be applicable for majority of the scenarios and will ensure that messages are interoperable between different Azure services. It fixes issue #60.
+- and a new an optional property named `dataTransformer`. You can provide your own transformer. If not provided then we will use the [DefaultDataTransformer](https://github.com/Azure/azure-event-hubs-node/blob/v0.2.0-EH-May2018/client/lib/dataTransformer.ts). This should be applicable for majority of the scenarios and will ensure that messages are interoperable between different Azure services. It fixes issue #60.
 
 ## 0.1.2 (2018-04-26)
 
@@ -424,7 +424,7 @@ const client = await EventHubClient.createFromIotHubConnectionString(
 ## 0.1.0 (2018-04-23)
 
 - Previously we were depending on [amqp10](https://npmjs.com/package/amqp10) package for the amqp protocol. Moving forward we will be depending on [rhea](https://npmjs.com/package/rhea).
-- The public facing API of this library has major breaking changes from the previous version 0.0.8. Please take a look at the [Readme](./README.md) and the [samples](./samples) directory for detailed samples.
+- The public facing API of this library has major breaking changes from the previous version 0.0.8. Please take a look at the [Readme](https://github.com/Azure/azure-event-hubs-node/blob/v0.1.0-April2018/README.md) and the [examples](https://github.com/Azure/azure-event-hubs-node/tree/v0.1.0-April2018/examples) directory for detailed samples.
 - Removed the need to say `client.open.then()`. First call to create a sender, receiver or get metadata about the hub or partition will establish the AMQP connection.
 - Added support to authenticate via Service Principal credentials, MSITokenCredentials, DeviceTokenCredentials.
   - This should make it easy for customers to login once using the above mentioned credentials,

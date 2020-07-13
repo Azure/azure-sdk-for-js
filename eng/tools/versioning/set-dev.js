@@ -179,7 +179,8 @@ async function main(argv) {
   for (const package of Object.keys(rushPackages)) {
     if (
       ["client", "core"].includes(rushPackages[package].versionPolicy) &&
-      rushPackages[package].projectFolder.startsWith(`sdk/${service}`)
+      rushPackages[package].projectFolder.startsWith(`sdk/${service}`) &&
+      !rushPackages[package].json["private"]
     ) {
       targetPackages.push(package);
     }
