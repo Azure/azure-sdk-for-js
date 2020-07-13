@@ -132,7 +132,7 @@ foreach ($entry in $manifest) {
         -DeleteAfterHours 24 `
         -Force `
         -Verbose `
-        -CI:$CI
+        -CI:$false
 
       $deployedServiceDirectories[$entry.ResourcesDirectory] = $true;
 
