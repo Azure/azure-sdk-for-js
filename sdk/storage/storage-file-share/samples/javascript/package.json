@@ -31,5 +31,16 @@
   },
   "devDependencies": {
     "rimraf": "^3.0.0"
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "advanced.js",
+      "anonymousCred.js",
+      "basic.js",
+      "cusomPipeline.js",
+      "iterators-files-and-directories.js",
+      "iterators-shares.js",
+      "sharedKeyCred.js"
+    ]
   }
 }
