@@ -17,14 +17,14 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomSessionEnabledTestClientType,
-  getRandomNoSessionEnabledTestClientType
+  getRandomTestClientTypeWithSessions,
+  getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 let errorWasThrown: boolean;
-const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
-const withSessionTestClientType = getRandomSessionEnabledTestClientType();
+const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
 describe("receive and delete", () => {
   let sender: Sender;

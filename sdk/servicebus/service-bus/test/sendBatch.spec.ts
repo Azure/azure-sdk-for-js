@@ -11,8 +11,8 @@ import {
   EntityName,
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  getRandomSessionEnabledTestClientType,
-  getRandomNoSessionEnabledTestClientType
+  getRandomTestClientTypeWithSessions,
+  getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ConditionErrorNameMapper } from "@azure/core-amqp";
@@ -22,8 +22,8 @@ describe("Send Batch", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   let entityNames: EntityName;
-  let noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
-  let withSessionTestClientType = getRandomSessionEnabledTestClientType();
+  let noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+  let withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();

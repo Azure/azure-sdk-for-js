@@ -10,7 +10,7 @@ import { TestClientType, TestMessage, isMessagingError } from "./utils/testUtils
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  getRandomSessionEnabledTestClientType
+  getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { SessionReceiver } from "../src/receivers/sessionReceiver";
@@ -23,7 +23,7 @@ describe("Session Lock Renewal", () => {
 
   let serviceBusClient: ServiceBusClientForTests;
 
-  const testClientType = getRandomSessionEnabledTestClientType();
+  const testClientType = getRandomTestClientTypeWithSessions();
 
   before(async () => {
     serviceBusClient = createServiceBusClientForTests();

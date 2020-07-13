@@ -10,7 +10,7 @@ import { TestMessage } from "./utils/testUtils";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
-  getRandomNoSessionEnabledTestClientType
+  getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
@@ -21,7 +21,7 @@ describe("Message Lock Renewal", () => {
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
 
-  const testClientType = getRandomNoSessionEnabledTestClientType();
+  const testClientType = getRandomTestClientTypeWithNoSessions();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();

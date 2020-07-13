@@ -136,8 +136,8 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
  * Returns a TestClientType for either a Queue or a Subscription
  * @param useSessions
  */
-export function getRandomReceiverTestClientType(): TestClientType {
-  const allTypes = [
+export function getRandomTestClientType(): TestClientType {
+  const allTestClientTypes = [
     TestClientType.PartitionedQueue,
     TestClientType.PartitionedSubscription,
     TestClientType.UnpartitionedQueue,
@@ -148,40 +148,40 @@ export function getRandomReceiverTestClientType(): TestClientType {
     TestClientType.UnpartitionedSubscriptionWithSessions
   ];
 
-  const index = Math.floor(Math.random() * allTypes.length);
-  return allTypes[index];
+  const index = Math.floor(Math.random() * allTestClientTypes.length);
+  return allTestClientTypes[index];
 }
 
 /**
  * Returns a TestClientType for either a Queue or a Subscription with no
  * sessions enabled
  */
-export function getRandomNoSessionEnabledTestClientType(): TestClientType {
-  const noSessionRecieverClientTypes = [
+export function getRandomTestClientTypeWithNoSessions(): TestClientType {
+  const noSessionTestClientTypes = [
     TestClientType.PartitionedQueue,
     TestClientType.PartitionedSubscription,
     TestClientType.UnpartitionedQueue,
     TestClientType.UnpartitionedSubscription
   ];
 
-  const index = Math.floor(Math.random() * noSessionRecieverClientTypes.length);
-  return noSessionRecieverClientTypes[index];
+  const index = Math.floor(Math.random() * noSessionTestClientTypes.length);
+  return noSessionTestClientTypes[index];
 }
 
 /**
  * Returns a TestClientType for either a Queue or a Subscription with
  * sessions enabled
  */
-export function getRandomSessionEnabledTestClientType(): TestClientType {
-  const withSessionRecieverClientTypes = [
+export function getRandomTestClientTypeWithSessions(): TestClientType {
+  const withSessionTestClientTypes = [
     TestClientType.PartitionedQueueWithSessions,
     TestClientType.PartitionedSubscriptionWithSessions,
     TestClientType.UnpartitionedQueueWithSessions,
     TestClientType.UnpartitionedSubscriptionWithSessions
   ];
 
-  const index = Math.floor(Math.random() * withSessionRecieverClientTypes.length);
-  return withSessionRecieverClientTypes[index];
+  const index = Math.floor(Math.random() * withSessionTestClientTypes.length);
+  return withSessionTestClientTypes[index];
 }
 
 export type EntityName = ReturnType<typeof getEntityNames>;

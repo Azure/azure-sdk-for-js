@@ -16,7 +16,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomSessionEnabledTestClientType
+  getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
@@ -33,7 +33,7 @@ describe("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: SessionReceiver<ReceivedMessageWithLock>;
-  let testClientType = getRandomSessionEnabledTestClientType();
+  let testClientType = getRandomTestClientTypeWithSessions();
 
   async function beforeEachTest(sessionId?: string): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();

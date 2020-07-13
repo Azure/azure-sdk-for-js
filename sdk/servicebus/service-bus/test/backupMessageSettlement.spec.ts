@@ -12,16 +12,16 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomSessionEnabledTestClientType,
-  getRandomNoSessionEnabledTestClientType
+  getRandomTestClientTypeWithSessions,
+  getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
-const withSessionTestClientType = getRandomSessionEnabledTestClientType();
+const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
 describe("Message settlement After Receiver is Closed - Through ManagementLink", () => {
   let serviceBusClient: ServiceBusClientForTests;

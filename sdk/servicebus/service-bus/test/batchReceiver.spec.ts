@@ -13,10 +13,10 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomSessionEnabledTestClientType,
-  getRandomNoSessionEnabledTestClientType,
+  getRandomTestClientTypeWithSessions,
+  getRandomTestClientTypeWithNoSessions,
   EntityName,
-  getRandomReceiverTestClientType
+  getRandomTestClientType
 } from "./utils/testutils2";
 import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
@@ -25,9 +25,9 @@ import { ReceiverEvents } from "rhea-promise";
 const should = chai.should();
 chai.use(chaiAsPromised);
 
-const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
-const withSessionTestClientType = getRandomSessionEnabledTestClientType();
-const anyRandomTestClientType = getRandomReceiverTestClientType();
+const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+const withSessionTestClientType = getRandomTestClientTypeWithSessions();
+const anyRandomTestClientType = getRandomTestClientType();
 
 let serviceBusClient: ServiceBusClientForTests;
 let entityNames: EntityName;

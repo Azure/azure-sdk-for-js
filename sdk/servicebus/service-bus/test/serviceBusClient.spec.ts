@@ -21,9 +21,9 @@ import {
   EntityName,
   ServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomSessionEnabledTestClientType,
-  getRandomNoSessionEnabledTestClientType,
-  getRandomReceiverTestClientType
+  getRandomTestClientTypeWithSessions,
+  getRandomTestClientTypeWithNoSessions,
+  getRandomTestClientType
 } from "./utils/testutils2";
 
 const should = chai.should();
@@ -31,9 +31,9 @@ chai.use(chaiAsPromised);
 
 dotenv.config();
 
-const anyRandomTestClientType = getRandomReceiverTestClientType();
-const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
-const withSessionTestClientType = getRandomSessionEnabledTestClientType();
+const anyRandomTestClientType = getRandomTestClientType();
+const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
 describe("Create ServiceBusClient", function(): void {
   let sbClient: ServiceBusClient;

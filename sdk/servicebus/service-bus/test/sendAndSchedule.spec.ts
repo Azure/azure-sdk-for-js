@@ -13,18 +13,18 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomNoSessionEnabledTestClientType,
-  getRandomSessionEnabledTestClientType,
+  getRandomTestClientTypeWithNoSessions,
+  getRandomTestClientTypeWithSessions,
   EntityName,
-  getRandomReceiverTestClientType
+  getRandomTestClientType
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 
-const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
-const withSessionTestClientType = getRandomSessionEnabledTestClientType();
-const anyRandomTestClientType = getRandomReceiverTestClientType();
+const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+const withSessionTestClientType = getRandomTestClientTypeWithSessions();
+const anyRandomTestClientType = getRandomTestClientType();
 
 describe("Sender Tests", () => {
   let sender: Sender;
