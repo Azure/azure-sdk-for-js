@@ -32,6 +32,7 @@ async function main() {
         entrypoint: sampleModule.main,
         name: entry.Name,
         sampleFile: targetSample,
+        directory: entry.SamplesDirectory,
       });
     }
   }
@@ -73,7 +74,13 @@ async function executeSample(sample) {
     success: true,
   };
 
+  let currentDir = __dirname;
+
   try {
+    // Set the process directory to the sample's directory because some samples
+    // use file paths relative to the sample's directory.
+    process.chdir(sample.directory);
+
     await sample.entrypoint();
   } catch (exception) {
     console.log("FAILURE");
@@ -81,6 +88,9 @@ async function executeSample(sample) {
       success: false,
       exception,
     };
+  } finally {
+    // Reset the working directory to the root directory after execution
+    process.chdir(currentDir);
   }
 
   console.log("=========================================");
