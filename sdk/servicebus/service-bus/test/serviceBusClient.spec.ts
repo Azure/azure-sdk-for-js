@@ -18,8 +18,7 @@ import {
   ServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
-  getRandomTestClientTypeWithNoSessions,
-  getRandomTestClientType
+  getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 
 const should = chai.should();
@@ -27,7 +26,6 @@ chai.use(chaiAsPromised);
 
 dotenv.config();
 
-const anyRandomTestClientType = getRandomTestClientType();
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
@@ -52,39 +50,26 @@ describe("Create ServiceBusClient", function(): void {
 });
 
 describe("Random scheme in the endpoint from connection string", function(): void {
-  let sbClient: ServiceBusClientForTests;
-  let sbClientWithRelaxedEndPoint: ServiceBusClient;
-  let entities: EntityName;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-
-  async function beforeEachTest() {
-    sbClient = createServiceBusClientForTests();
-    entities = await sbClient.test.createTestEntities(anyRandomTestClientType);
+  it(noSessionTestClientType + ": send and receive message", async function(): Promise<void> {
+    // Create a test client to get the entity types
+    const sbClient = createServiceBusClientForTests();
+    const entities = await sbClient.test.createTestEntities(noSessionTestClientType);
     await sbClient.close();
-    sbClientWithRelaxedEndPoint = new ServiceBusClient(
+
+    // Create a sb client, sender, receiver with relaxed endpoint
+    const sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
     );
-    sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
-    if (entities.queue) {
-      receiver = sbClientWithRelaxedEndPoint.createReceiver(entities.queue!, "peekLock");
-    } else {
-      receiver = sbClientWithRelaxedEndPoint.createReceiver(
-        entities.topic!,
-        entities.subscription!,
-        "peekLock"
-      );
-    }
-  }
+    const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
+    const receiver = entities.queue
+      ? sbClientWithRelaxedEndPoint.createReceiver(entities.queue, "peekLock")
+      : sbClientWithRelaxedEndPoint.createReceiver(
+          entities.topic!,
+          entities.subscription!,
+          "peekLock"
+        );
 
-  afterEach(async () => {
-    await sbClient.test.after();
-    await sender.close();
-    await receiver.close();
-    await sbClientWithRelaxedEndPoint.close();
-  });
-
-  async function sendReceiveMsg(): Promise<void> {
+    // Send and receive messages
     const testMessages = entities.usesSessions
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
@@ -101,11 +86,12 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     await msgs[0].complete();
 
     await testPeekMsgsLength(receiver, 0);
-  }
 
-  it(noSessionTestClientType + ": send and receive message", async function(): Promise<void> {
-    await beforeEachTest();
-    await sendReceiveMsg();
+    // Clean up
+    await sbClient.test.after();
+    await sender.close();
+    await receiver.close();
+    await sbClientWithRelaxedEndPoint.close();
   });
 });
 
