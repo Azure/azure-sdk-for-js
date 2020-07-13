@@ -8,11 +8,7 @@ import * as dotenv from "dotenv";
 import Long from "long";
 import { MessagingError, Receiver, ServiceBusClient, SessionReceiver } from "../src";
 import { Sender } from "../src/sender";
-import {
-  DispositionType,
-  ReceivedMessageWithLock,
-  ServiceBusMessage
-} from "../src/serviceBusMessage";
+import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
 import { checkWithTimeout, isMessagingError, TestClientType, TestMessage } from "./utils/testUtils";
