@@ -1,5 +1,10 @@
 # Release History
 
+## 1.1.8 (TBD)
+
+- Fixes [bug 9958](https://github.com/Azure/azure-sdk-for-js/issues/9958) where failures under
+  certain conditions could lead a receiver to not properly initialize when using `registerMessageHandler`.
+
 ## 1.1.7 (2020-05-13)
 
 - Relaxes the scheme check for the endpoint while parsing the connection string.
