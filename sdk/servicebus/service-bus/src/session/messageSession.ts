@@ -142,7 +142,7 @@ export class MessageSession extends LinkEntity {
   sessionId?: string;
   /**
    * @property {number} [maxConcurrentSessions] The maximum number of concurrent sessions that the
-   * client should initate.
+   * client should initiate.
    * - **Default**: `1`.
    */
   maxConcurrentSessions?: number;
@@ -183,7 +183,7 @@ export class MessageSession extends LinkEntity {
    */
   autoRenewLock: boolean;
   /**
-   * @property {SessionCallee} callee Describes who instantied the MessageSession. Whether it was
+   * @property {SessionCallee} callee Describes who instantiated the MessageSession. Whether it was
    * called by the SessionManager or it was called standalone.
    * - Default: "standalone"
    */
