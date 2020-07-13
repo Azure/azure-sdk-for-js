@@ -86,7 +86,7 @@ import {
   BlobProperties,
   ContainerListBlobHierarchySegmentHeaders,
   ListBlobsHierarchySegmentResponseModel,
-  BlobQueryResponseModel
+  BlobDownloadResponseModel
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -3866,13 +3866,13 @@ export class BlockBlobClient extends BlobClient {
    *
    * @param {string} query
    * @param {BlockBlobQueryOptions} [options={}]
-   * @returns {Promise<BlobQueryResponseModel>}
+   * @returns {Promise<BlobDownloadResponseModel>}
    * @memberof BlockBlobClient
    */
   public async query(
     query: string,
     options: BlockBlobQueryOptions = {}
-  ): Promise<BlobQueryResponseModel> {
+  ): Promise<BlobDownloadResponseModel> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
     const { span, spanOptions } = createSpan("BlockBlobClient-query", options.tracingOptions);
