@@ -101,52 +101,53 @@ describe("Streaming with sessions", () => {
     return entityNames;
   }
 
-  it("Streaming - user can stop a message subscription without closing the receiver", async () => {
-    const entities = await serviceBusClient.test.createTestEntities(
-      TestClientType.UnpartitionedQueueWithSessions
-    );
+  it(
+    testClientType + ": Streaming - stop a message subscription without closing the receiver",
+    async () => {
+      const entities = await serviceBusClient.test.createTestEntities(testClientType);
 
-    const sender = await serviceBusClient.test.createSender(entities);
-    await sender.sendMessages({
-      body: ".close() test - first message",
-      sessionId: TestMessage.sessionId
-    });
+      const sender = await serviceBusClient.test.createSender(entities);
+      await sender.sendMessages({
+        body: ".close() test - first message",
+        sessionId: TestMessage.sessionId
+      });
 
-    const actualReceiver = await serviceBusClient.test.getSessionPeekLockReceiver(entities, {
-      sessionId: TestMessage.sessionId
-    });
-    const { subscriber, messages } = await singleMessagePromise(actualReceiver);
+      const actualReceiver = await serviceBusClient.test.getSessionPeekLockReceiver(entities, {
+        sessionId: TestMessage.sessionId
+      });
+      const { subscriber, messages } = await singleMessagePromise(actualReceiver);
 
-    messages.map((m) => m.body).should.deep.equal([".close() test - first message"]);
+      messages.map((m) => m.body).should.deep.equal([".close() test - first message"]);
 
-    // now we're going to shut down the closeable (ie, subscription). This leaves
-    // the receiver open but it does drain it (so any remaining messages are delivered
-    // and will still be settleable).
-    await subscriber.close();
+      // now we're going to shut down the closeable (ie, subscription). This leaves
+      // the receiver open but it does drain it (so any remaining messages are delivered
+      // and will still be settleable).
+      await subscriber.close();
 
-    await messages[0].complete();
-    messages.pop();
+      await messages[0].complete();
+      messages.pop();
 
-    await sender.sendMessages({
-      body: ".close test - second message, after closing",
-      sessionId: TestMessage.sessionId
-    });
+      await sender.sendMessages({
+        body: ".close test - second message, after closing",
+        sessionId: TestMessage.sessionId
+      });
 
-    // the subscription is closed so no messages should be received here.
-    await delay(2000);
+      // the subscription is closed so no messages should be received here.
+      await delay(2000);
 
-    messages.map((m) => m.body).should.deep.equal([]);
+      messages.map((m) => m.body).should.deep.equal([]);
 
-    await actualReceiver.close(); // release the session lock
+      await actualReceiver.close(); // release the session lock
 
-    const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+      const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
 
-    // clean out the remaining message that never arrived.
-    const [finalMessage] = await receiver2.receiveMessages(1, { maxWaitTimeInMs: 5000 });
-    finalMessage.body.should.equal(".close test - second message, after closing");
+      // clean out the remaining message that never arrived.
+      const [finalMessage] = await receiver2.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+      finalMessage.body.should.equal(".close test - second message, after closing");
 
-    await serviceBusClient.test.afterEach();
-  });
+      await serviceBusClient.test.afterEach();
+    }
+  );
 
   describe(testClientType + ": Sessions Streaming - Misc Tests", function(): void {
     afterEach(async () => {
