@@ -693,63 +693,86 @@ describe("Errors after close()", function(): void {
 });
 
 describe("entityPath on sender and receiver", async () => {
-  const sbClient = createServiceBusClientForTests();
+  let sbClient: ServiceBusClientForTests;
+
+  before(() => {
+    sbClient = createServiceBusClientForTests();
+  });
+
   afterEach(async () => {
     await sbClient.test.afterEach();
   });
   after(async () => {
     await sbClient.test.after();
   });
-  it(noSessionTestClientType, async () => {
-    const entityName = await sbClient.test.createTestEntities(noSessionTestClientType);
-    const sender = sbClient.test.addToCleanup(sbClient.createSender(entityName.queue!));
-    const receiver = sbClient.test.addToCleanup(
-      sbClient.createReceiver(entityName.queue!, "receiveAndDelete")
-    );
-    const deadLetterReceiver = sbClient.test.addToCleanup(
-      sbClient.createDeadLetterReceiver(entityName.queue!, "receiveAndDelete")
-    );
-    should.equal(sender.entityPath, entityName.queue, "Entity path on the sender did not match!");
+
+  it("Entity Path on Sender", () => {
+    const dummyQueueOrTopicName = "dummy";
+    const sender = sbClient.createSender(dummyQueueOrTopicName);
     should.equal(
-      receiver.entityPath,
-      entityName.queue,
-      "Entity path on the receiver did not match!"
-    );
-    should.equal(
-      deadLetterReceiver.entityPath,
-      `${entityName.queue}/$DeadLetterQueue`,
-      "Entity path on the deadLetterReceiver did not match!"
+      sender.entityPath,
+      dummyQueueOrTopicName,
+      "Entity path on the sender did not match!"
     );
   });
 
-  it(withSessionTestClientType, async () => {
-    const entityName = await sbClient.test.createTestEntities(withSessionTestClientType);
-    const sender = sbClient.test.addToCleanup(sbClient.createSender(entityName.topic!));
-    const receiver = sbClient.test.addToCleanup(
-      await sbClient.createSessionReceiver(
-        entityName.topic!,
-        entityName.subscription!,
-        "receiveAndDelete",
-        { sessionId: TestMessage.sessionId }
-      )
-    );
-    const deadLetterReceiver = sbClient.test.addToCleanup(
-      sbClient.createDeadLetterReceiver(
-        entityName.topic!,
-        entityName.subscription!,
-        "receiveAndDelete"
-      )
-    );
-    should.equal(sender.entityPath, entityName.topic, "Entity path on the sender did not match!");
+  it("Entity Path on Queue Receiver", () => {
+    const dummyQueueName = "dummy";
+    const receiver = sbClient.createReceiver(dummyQueueName, "peekLock");
     should.equal(
       receiver.entityPath,
-      `${entityName.topic}/Subscriptions/${entityName.subscription}`,
-      "Entity path on the receiver did not match!"
+      dummyQueueName,
+      "Entity path on the receiver for queue did not match!"
+    );
+  });
+
+  it("Entity Path on Queue deadletter Receiver", () => {
+    const dummyQueueName = "dummy";
+    const receiver = sbClient.createDeadLetterReceiver(dummyQueueName, "peekLock");
+    should.equal(
+      receiver.entityPath,
+      `${dummyQueueName}/$DeadLetterQueue`,
+      "Entity path on the receiver for queue did not match!"
+    );
+  });
+
+  it("Entity Path on Subscription Receiver", () => {
+    const dummyTopicName = "dummyTopicName";
+    const dummySubscriptionName = "dummySubscriptionName";
+    const receiver = sbClient.createReceiver(dummyTopicName, dummySubscriptionName, "peekLock");
+    should.equal(
+      receiver.entityPath,
+      `${dummyTopicName}/Subscriptions/${dummySubscriptionName}`,
+      "Entity path on the receiver for subscription did not match!"
+    );
+  });
+
+  it("Entity Path on Subscription deadletter Receiver", () => {
+    const dummyTopicName = "dummyTopicName";
+    const dummySubscriptionName = "dummySubscriptionName";
+    const receiver = sbClient.createDeadLetterReceiver(
+      dummyTopicName,
+      dummySubscriptionName,
+      "peekLock"
     );
     should.equal(
-      deadLetterReceiver.entityPath,
-      `${entityName.topic}/Subscriptions/${entityName.subscription}/$DeadLetterQueue`,
-      "Entity path on the deadLetterReceiver did not match!"
+      receiver.entityPath,
+      `${dummyTopicName}/Subscriptions/${dummySubscriptionName}/$DeadLetterQueue`,
+      "Entity path on the receiver for subscription did not match!"
+    );
+  });
+
+  it(withSessionTestClientType + ": EntityPath on Session Receiver", async () => {
+    const entityName = await sbClient.test.createTestEntities(withSessionTestClientType);
+
+    const receiver = await sbClient.test.getPeekLockReceiver(entityName);
+    const expectedEntityPath = entityName.queue
+      ? entityName.queue
+      : `${entityName.topic}/Subscriptions/${entityName.subscription}`;
+    should.equal(
+      receiver.entityPath,
+      expectedEntityPath,
+      "Entity path on the session receiver for did not match!"
     );
   });
 });
