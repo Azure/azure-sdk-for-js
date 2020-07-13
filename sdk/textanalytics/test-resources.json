@@ -23,7 +23,7 @@
     {
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[guid(concat(variables('taRoleId'), parameters('baseName')))]",
+      "name": "[guid(parameters('baseName'))]",
       "dependsOn": ["[parameters('baseName')]"],
       "properties": {
         "principalId": "[parameters('testApplicationOid')]",
