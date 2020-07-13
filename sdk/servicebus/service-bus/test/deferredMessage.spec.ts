@@ -18,15 +18,15 @@ import { Receiver } from "../src/receivers/receiver";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
-describe("deferred messages", () => {
+describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
   let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
 
   let entityNames: EntityName;
-  let noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
-  let withSessionTestClientType = getRandomSessionEnabledTestClientType();
+  const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
+  const withSessionTestClientType = getRandomSessionEnabledTestClientType();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -48,9 +48,9 @@ describe("deferred messages", () => {
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
-  async function afterEachTest(): Promise<void> {
+  afterEach(async () => {
     await serviceBusClient.test.afterEach();
-  }
+  });
 
   /**
    * Sends, defers, receives and then returns a test message
@@ -126,83 +126,110 @@ describe("deferred messages", () => {
     await testPeekMsgsLength(receiver, 0);
   }
 
-  [noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
-    describe(`${testClientType}: Abandon/Defer/Deadletter deferred message`, () => {
-      afterEach(async () => {
-        await afterEachTest();
-      });
+  async function testAbandon(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const deferredMsg = await deferMessage(testMessages, true);
+    const sequenceNumber = deferredMsg.sequenceNumber;
+    if (!sequenceNumber) {
+      throw "Sequence Number can not be null";
+    }
+    await deferredMsg.abandon();
+    await completeDeferredMessage(sequenceNumber, 2, testMessages);
+  }
 
-      beforeEach(async () => {
-        await beforeEachTest(testClientType);
-      });
+  it(
+    noSessionTestClientType + ": Abandoning a deferred message puts it back to the deferred queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testAbandon();
+    }
+  );
 
-      it("Abandoning a deferred message puts it back to the deferred queue.", async function(): Promise<
-        void
-      > {
-        const testMessages = entityNames.usesSessions
-          ? TestMessage.getSessionSample()
-          : TestMessage.getSample();
-        const deferredMsg = await deferMessage(testMessages, true);
-        const sequenceNumber = deferredMsg.sequenceNumber;
-        if (!sequenceNumber) {
-          throw "Sequence Number can not be null";
-        }
-        await deferredMsg.abandon();
-        await completeDeferredMessage(sequenceNumber, 2, testMessages);
-      });
+  it(
+    withSessionTestClientType +
+      ": Abandoning a deferred message puts it back to the deferred queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testAbandon();
+    }
+  );
 
-      it("Deferring a deferred message puts it back to the deferred queue.", async function(): Promise<
-        void
-      > {
-        const testMessages = entityNames.usesSessions
-          ? TestMessage.getSessionSample()
-          : TestMessage.getSample();
-        const deferredMsg = await deferMessage(testMessages, false);
-        const sequenceNumber = deferredMsg.sequenceNumber;
-        if (!sequenceNumber) {
-          throw "Sequence Number can not be null";
-        }
-        await deferredMsg.defer();
-        await completeDeferredMessage(sequenceNumber, 2, testMessages);
-      });
+  async function testDefer(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const deferredMsg = await deferMessage(testMessages, false);
+    const sequenceNumber = deferredMsg.sequenceNumber;
+    if (!sequenceNumber) {
+      throw "Sequence Number can not be null";
+    }
+    await deferredMsg.defer();
+    await completeDeferredMessage(sequenceNumber, 2, testMessages);
+  }
+  it(
+    noSessionTestClientType + ": Deferring a deferred message puts it back to the deferred queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testDefer();
+    }
+  );
 
-      it("Deadlettering a deferred message moves it to dead letter queue.", async function(): Promise<
-        void
-      > {
-        const testMessages = entityNames.usesSessions
-          ? TestMessage.getSessionSample()
-          : TestMessage.getSample();
-        const deferredMsg = await deferMessage(testMessages, true);
+  it(
+    withSessionTestClientType +
+      ": Deferring a deferred message puts it back to the deferred queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testDefer();
+    }
+  );
 
-        await deferredMsg.deadLetter();
+  async function testDeadletter(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const deferredMsg = await deferMessage(testMessages, true);
 
-        await testPeekMsgsLength(receiver, 0);
+    await deferredMsg.deadLetter();
 
-        const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
+    await testPeekMsgsLength(receiver, 0);
 
-        should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
-        should.equal(
-          deadLetterMsgs[0].body,
-          testMessages.body,
-          "MessageBody is different than expected"
-        );
-        should.equal(
-          deadLetterMsgs[0].deliveryCount,
-          1,
-          "DeliveryCount is different than expected"
-        );
-        should.equal(
-          deadLetterMsgs[0].messageId,
-          testMessages.messageId,
-          "MessageId is different than expected"
-        );
+    const deadLetterMsgs = await deadLetterReceiver.receiveMessages(1);
 
-        await deadLetterMsgs[0].complete();
+    should.equal(deadLetterMsgs.length, 1, "Unexpected number of messages");
+    should.equal(
+      deadLetterMsgs[0].body,
+      testMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(deadLetterMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
+    should.equal(
+      deadLetterMsgs[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
 
-        await testPeekMsgsLength(deadLetterReceiver, 0);
-      });
-    });
-  });
+    await deadLetterMsgs[0].complete();
+
+    await testPeekMsgsLength(deadLetterReceiver, 0);
+  }
+
+  it(
+    noSessionTestClientType + ": Deadlettering a deferred message moves it to dead letter queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testDeadletter();
+    }
+  );
+
+  it(
+    withSessionTestClientType + ": Deadlettering a deferred message moves it to dead letter queue.",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testDeadletter();
+    }
+  );
 
   it(`${noSessionTestClientType}: renewLock on a deferred message`, async function(): Promise<
     void

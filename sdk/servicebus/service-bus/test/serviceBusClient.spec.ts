@@ -22,13 +22,18 @@ import {
   ServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomSessionEnabledTestClientType,
-  getRandomNoSessionEnabledTestClientType
+  getRandomNoSessionEnabledTestClientType,
+  getRandomReceiverTestClientType
 } from "./utils/testutils2";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
 
 dotenv.config();
+
+const anyRandomTestClientType = getRandomReceiverTestClientType();
+const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
+const withSessionTestClientType = getRandomSessionEnabledTestClientType();
 
 describe("Create ServiceBusClient", function(): void {
   let sbClient: ServiceBusClient;
@@ -57,9 +62,9 @@ describe("Random scheme in the endpoint from connection string", function(): voi
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
 
-  async function beforeEachTest(testClientType: TestClientType) {
+  async function beforeEachTest() {
     sbClient = createServiceBusClientForTests();
-    entities = await sbClient.test.createTestEntities(testClientType);
+    entities = await sbClient.test.createTestEntities(anyRandomTestClientType);
     await sbClient.close();
     sbClientWithRelaxedEndPoint = new ServiceBusClient(
       getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
@@ -79,7 +84,10 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     await sbClientWithRelaxedEndPoint.close();
   });
 
-  async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<void> {
+  async function sendReceiveMsg(): Promise<void> {
+    const testMessages = entities.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
     await sender.sendMessages(testMessages);
     await testPeekMsgsLength(receiver, 1);
 
@@ -95,16 +103,9 @@ describe("Random scheme in the endpoint from connection string", function(): voi
     await testPeekMsgsLength(receiver, 0);
   }
 
-  it("Partitioned Queue: send and receive message", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.PartitionedQueue);
-    await sendReceiveMsg(TestMessage.getSample());
-  });
-
-  it("Unpartitioned Queue With Sessions: send and receive message", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-    await sendReceiveMsg(TestMessage.getSessionSample());
+  it(anyRandomTestClientType + ": send and receive message", async function(): Promise<void> {
+    await beforeEachTest();
+    await sendReceiveMsg();
   });
 });
 
@@ -356,9 +357,7 @@ describe("Test ServiceBusClient creation", function(): void {
       const tokenCreds = getDefaultTokenCredential();
 
       const serviceBusClient = createServiceBusClientForTests();
-      const entities = await serviceBusClient.test.createTestEntities(
-        TestClientType.UnpartitionedQueue
-      );
+      const entities = await serviceBusClient.test.createTestEntities(anyRandomTestClientType);
       await serviceBusClient.close();
 
       const sbClient = new ServiceBusClient(serviceBusEndpoint, tokenCreds);
@@ -382,8 +381,6 @@ describe("Errors after close()", function(): void {
   let receiver: Receiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
   let entityName: EntityName;
-  let noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
-  let withSessionTestClientType = getRandomSessionEnabledTestClientType();
 
   afterEach(async () => {
     await sbClient.test.afterEach();
@@ -707,8 +704,8 @@ describe("entityPath on sender and receiver", async () => {
   after(async () => {
     await sbClient.test.after();
   });
-  it("UnpartitionedQueue", async () => {
-    const entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
+  it(noSessionTestClientType, async () => {
+    const entityName = await sbClient.test.createTestEntities(noSessionTestClientType);
     const sender = sbClient.test.addToCleanup(sbClient.createSender(entityName.queue!));
     const receiver = sbClient.test.addToCleanup(
       sbClient.createReceiver(entityName.queue!, "receiveAndDelete")
@@ -729,10 +726,8 @@ describe("entityPath on sender and receiver", async () => {
     );
   });
 
-  it("PartitionedSubscriptionWithSessions", async () => {
-    const entityName = await sbClient.test.createTestEntities(
-      TestClientType.PartitionedSubscriptionWithSessions
-    );
+  it(withSessionTestClientType, async () => {
+    const entityName = await sbClient.test.createTestEntities(withSessionTestClientType);
     const sender = sbClient.test.addToCleanup(sbClient.createSender(entityName.topic!));
     const receiver = sbClient.test.addToCleanup(
       await sbClient.createSessionReceiver(

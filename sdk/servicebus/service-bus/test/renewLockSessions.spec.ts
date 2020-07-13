@@ -68,31 +68,34 @@ describe("Session Lock Renewal", () => {
     return serviceBusClient.test.afterEach();
   });
 
-  describe(testClientType, () => {
-    it("Batch Receiver: renewLock() resets lock duration each time", async function(): Promise<
-      void
-    > {
+  it(
+    testClientType + ": Batch Receiver: renewLock() resets lock duration each time",
+    async function(): Promise<void> {
       await beforeEachTest(0);
       await testBatchReceiverManualLockRenewalHappyCase(sender, receiver);
-    });
+    }
+  );
 
-    it("Batch Receiver: complete() after lock expiry with throws error", async function(): Promise<
-      void
-    > {
+  it(
+    testClientType + ": Batch Receiver: complete() after lock expiry with throws error",
+    async function(): Promise<void> {
       await beforeEachTest(0);
       await testBatchReceiverManualLockRenewalErrorOnLockExpiry(testClientType, sender, receiver);
-    });
+    }
+  );
 
-    it("Streaming Receiver: renewLock() resets lock duration each time", async function(): Promise<
-      void
-    > {
+  it(
+    testClientType + ": Streaming Receiver: renewLock() resets lock duration each time",
+    async function(): Promise<void> {
       await beforeEachTest(0);
       await testStreamingReceiverManualLockRenewalHappyCase(sender, receiver);
-    });
+    }
+  );
 
-    it("Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error", async function(): Promise<
-      void
-    > {
+  it(
+    testClientType +
+      ": Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error",
+    async function(): Promise<void> {
       const options: AutoLockRenewalTestOptions = {
         autoRenewLockDurationInMs: 0,
         delayBeforeAttemptingToCompleteMessageInSeconds: 31,
@@ -101,11 +104,12 @@ describe("Session Lock Renewal", () => {
 
       await beforeEachTest(options.autoRenewLockDurationInMs);
       await testAutoLockRenewalConfigBehavior(sender, receiver, options);
-    });
+    }
+  );
 
-    it("Streaming Receiver: lock will not expire until configured time", async function(): Promise<
-      void
-    > {
+  it(
+    testClientType + ": Streaming Receiver: lock will not expire until configured time",
+    async function(): Promise<void> {
       const options: AutoLockRenewalTestOptions = {
         autoRenewLockDurationInMs: 38 * 1000,
         delayBeforeAttemptingToCompleteMessageInSeconds: 35,
@@ -114,8 +118,8 @@ describe("Session Lock Renewal", () => {
 
       await beforeEachTest(options.autoRenewLockDurationInMs);
       await testAutoLockRenewalConfigBehavior(sender, receiver, options);
-    });
-  });
+    }
+  );
 
   const lockDurationInMilliseconds = 30000;
   // const autoRenewLockDurationInMs = 300*1000;

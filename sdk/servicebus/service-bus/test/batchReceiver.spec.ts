@@ -13,9 +13,10 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  EntityName,
   getRandomSessionEnabledTestClientType,
-  getRandomNoSessionEnabledTestClientType
+  getRandomNoSessionEnabledTestClientType,
+  EntityName,
+  getRandomReceiverTestClientType
 } from "./utils/testutils2";
 import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
@@ -26,209 +27,97 @@ chai.use(chaiAsPromised);
 
 const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
 const withSessionTestClientType = getRandomSessionEnabledTestClientType();
+const anyRandomTestClientType = getRandomReceiverTestClientType();
 
-[noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
-  describe(testClientType + ": Batch Receiver Settle Message", () => {
-    let serviceBusClient: ServiceBusClientForTests;
+let serviceBusClient: ServiceBusClientForTests;
+let entityNames: EntityName;
+let sender: Sender;
+let receiver: Receiver<ReceivedMessageWithLock>;
+let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
 
-    let sender: Sender;
-    let receiver: Receiver<ReceivedMessageWithLock>;
-    let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
+async function beforeEachTest(entityType: TestClientType): Promise<void> {
+  entityNames = await serviceBusClient.test.createTestEntities(entityType);
+  receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    let entityNames: EntityName;
-    let testMessage: ServiceBusMessage;
-    const maxDeliveryCount = 10;
+  sender = serviceBusClient.test.addToCleanup(
+    serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+  );
 
-    before(() => {
-      serviceBusClient = createServiceBusClientForTests();
-    });
+  deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
+}
 
-    after(() => {
-      return serviceBusClient.test.after();
-    });
+function afterEachTest(): Promise<void> {
+  return serviceBusClient.test.afterEach();
+}
 
-    beforeEach(async () => {
-      entityNames = await serviceBusClient.test.createTestEntities(testClientType);
-      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+describe("Batch Receiver - default values", function(): void {
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
 
-      sender = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
-      );
+  after(() => {
+    return serviceBusClient.test.after();
+  });
 
-      deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
-      testMessage = entityNames.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-    });
+  afterEach(async () => {
+    await afterEachTest();
+  });
 
-    afterEach(async () => {
-      await serviceBusClient.test.afterEach();
-    });
+  it(noSessionTestClientType + ": maxMessageCount defaults to 1", async function(): Promise<void> {
+    await beforeEachTest(noSessionTestClientType);
+    const testMessage = TestMessage.getSample();
+    await sender.sendMessages(testMessage);
 
-    async function sendReceiveMsg(
-      testMessages: ServiceBusMessage
-    ): Promise<ReceivedMessageWithLock> {
-      await sender.sendMessages(testMessages);
-      const msgs = await receiver.receiveMessages(1);
+    // @ts-expect-error
+    const peekedMsgs = await receiver.peekMessages();
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked.");
+    should.equal(
+      peekedMsgs[0].body,
+      testMessage.body,
+      "Peeked message body is different than expected"
+    );
 
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
-      should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
-      should.equal(
-        msgs[0].messageId,
-        testMessages.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+    // @ts-expect-error
+    const msgs = await receiver.receiveMessages();
+    should.equal(msgs.length, 1, "Unexpected number of messages received.");
+    should.equal(
+      msgs[0].body,
+      testMessage.body,
+      "Received message body is different than expected"
+    );
+    await msgs[0].complete();
+  });
 
-      return msgs[0];
-    }
+  it(withSessionTestClientType + ": maxMessageCount defaults to 1", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(withSessionTestClientType);
+    const testMessage = TestMessage.getSessionSample();
+    await sender.sendMessages(testMessage);
 
-    it("complete() removes message", async function(): Promise<void> {
-      const msg = await sendReceiveMsg(testMessage);
+    // @ts-expect-error
+    const peekedMsgs = await receiver.peekMessages();
+    should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked.");
+    should.equal(
+      peekedMsgs[0].body,
+      testMessage.body,
+      "Peeked message body is different than expected"
+    );
 
-      await msg.complete();
-
-      await testPeekMsgsLength(receiver, 0);
-    });
-
-    it("abandon() retains message with incremented deliveryCount", async function(): Promise<void> {
-      const msg = await sendReceiveMsg(testMessage);
-      await msg.abandon();
-
-      await testPeekMsgsLength(receiver, 1);
-
-      const messageBatch = await receiver.receiveMessages(1);
-
-      should.equal(messageBatch.length, 1, "Unexpected number of messages");
-      should.equal(messageBatch[0].deliveryCount, 1, "DeliveryCount is different than expected");
-      should.equal(
-        messageBatch[0].messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
-
-      await messageBatch[0].complete();
-
-      await testPeekMsgsLength(receiver, 0);
-    });
-
-    it("Multiple abandons until maxDeliveryCount", async function(): Promise<void> {
-      await sender.sendMessages(testMessage);
-      let abandonMsgCount = 0;
-
-      while (abandonMsgCount < maxDeliveryCount) {
-        const batch = await receiver.receiveMessages(1);
-
-        should.equal(batch.length, 1, "Unexpected number of messages");
-        should.equal(
-          batch[0].messageId,
-          testMessage.messageId,
-          "MessageId is different than expected"
-        );
-        should.equal(
-          batch[0].deliveryCount,
-          abandonMsgCount,
-          "DeliveryCount is different than expected"
-        );
-        abandonMsgCount++;
-
-        await batch[0].abandon();
-      }
-
-      await testPeekMsgsLength(receiver, 0);
-
-      const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
-
-      should.equal(
-        Array.isArray(deadLetterMsgsBatch),
-        true,
-        "`ReceivedMessages` from Deadletter is not an array"
-      );
-      should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
-      should.equal(
-        deadLetterMsgsBatch[0].body,
-        testMessage.body,
-        "MessageBody is different than expected"
-      );
-      should.equal(
-        deadLetterMsgsBatch[0].messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
-
-      await deadLetterMsgsBatch[0].complete();
-
-      await testPeekMsgsLength(deadLetterReceiver, 0);
-    });
-
-    it("defer() moves message to deferred queue", async function(): Promise<void> {
-      const msg = await sendReceiveMsg(testMessage);
-
-      if (!msg.sequenceNumber) {
-        throw "Sequence Number can not be null";
-      }
-      const sequenceNumber = msg.sequenceNumber;
-      await msg.defer();
-
-      const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
-      if (!deferredMsg) {
-        throw "No message received for sequence number";
-      }
-      should.equal(deferredMsg.body, testMessage.body, "MessageBody is different than expected");
-      should.equal(
-        deferredMsg.messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
-
-      await deferredMsg.complete();
-
-      await testPeekMsgsLength(receiver, 0);
-    });
-
-    it("deadLetter() moves message to deadletter queue", async function(): Promise<void> {
-      const msg = await sendReceiveMsg(testMessage);
-      await msg.deadLetter();
-
-      await testPeekMsgsLength(receiver, 0);
-
-      const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
-
-      should.equal(
-        Array.isArray(deadLetterMsgsBatch),
-        true,
-        "`ReceivedMessages` from Deadletter is not an array"
-      );
-      should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
-      should.equal(
-        deadLetterMsgsBatch[0].body,
-        testMessage.body,
-        "MessageBody is different than expected"
-      );
-      should.equal(
-        deadLetterMsgsBatch[0].messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
-
-      await deadLetterMsgsBatch[0].complete();
-
-      await testPeekMsgsLength(deadLetterReceiver, 0);
-    });
+    // @ts-expect-error
+    const msgs = await receiver.receiveMessages();
+    should.equal(msgs.length, 1, "Unexpected number of messages received.");
+    should.equal(
+      msgs[0].body,
+      testMessage.body,
+      "Received message body is different than expected"
+    );
+    await msgs[0].complete();
   });
 });
 
-describe(noSessionTestClientType + ": Batch Receiver Settle Deadlettered Message", () => {
-  let serviceBusClient: ServiceBusClientForTests;
-
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
-
-  let entityNames: EntityName;
-  let testMessage: ServiceBusMessage;
+describe("Batch Receiver - Settle message", function(): void {
+  const maxDeliveryCount = 10;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -238,29 +127,258 @@ describe(noSessionTestClientType + ": Batch Receiver Settle Deadlettered Message
     return serviceBusClient.test.after();
   });
 
-  beforeEach(async () => {
-    entityNames = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+  afterEach(async () => {
+    await afterEachTest();
+  });
 
-    sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
-    );
+  async function sendReceiveMsg(testMessages: ServiceBusMessage): Promise<ReceivedMessageWithLock> {
+    await sender.sendMessages(testMessages);
+    const msgs = await receiver.receiveMessages(1);
 
-    deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
-    testMessage = entityNames.usesSessions
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessages.messageId, "MessageId is different than expected");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+
+    return msgs[0];
+  }
+
+  async function testComplete(): Promise<void> {
+    const testMessages = entityNames.usesSessions
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
+    const msg = await sendReceiveMsg(testMessages);
+
+    await msg.complete();
+
+    await testPeekMsgsLength(receiver, 0);
+  }
+
+  it(noSessionTestClientType + ": complete() removes message", async function(): Promise<void> {
+    await beforeEachTest(noSessionTestClientType);
+    await testComplete();
+  });
+
+  it(withSessionTestClientType + ": complete() removes message", async function(): Promise<void> {
+    await beforeEachTest(withSessionTestClientType);
+    await testComplete();
+  });
+
+  async function testAbandon(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const msg = await sendReceiveMsg(testMessages);
+    await msg.abandon();
+
+    await testPeekMsgsLength(receiver, 1);
+
+    const messageBatch = await receiver.receiveMessages(1);
+
+    should.equal(messageBatch.length, 1, "Unexpected number of messages");
+    should.equal(messageBatch[0].deliveryCount, 1, "DeliveryCount is different than expected");
+    should.equal(
+      messageBatch[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
+
+    await messageBatch[0].complete();
+
+    await testPeekMsgsLength(receiver, 0);
+  }
+
+  it(
+    noSessionTestClientType + ": abandon() retains message with incremented deliveryCount",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testAbandon();
+    }
+  );
+
+  it(
+    withSessionTestClientType + ": abandon() retains message with incremented deliveryCount",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testAbandon();
+    }
+  );
+
+  async function testAbandonMsgsTillMaxDeliveryCount(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    await sender.sendMessages(testMessages);
+    let abandonMsgCount = 0;
+
+    while (abandonMsgCount < maxDeliveryCount) {
+      const batch = await receiver.receiveMessages(1);
+
+      should.equal(batch.length, 1, "Unexpected number of messages");
+      should.equal(
+        batch[0].messageId,
+        testMessages.messageId,
+        "MessageId is different than expected"
+      );
+      should.equal(
+        batch[0].deliveryCount,
+        abandonMsgCount,
+        "DeliveryCount is different than expected"
+      );
+      abandonMsgCount++;
+
+      await batch[0].abandon();
+    }
+
+    await testPeekMsgsLength(receiver, 0);
+
+    const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
+
+    should.equal(
+      Array.isArray(deadLetterMsgsBatch),
+      true,
+      "`ReceivedMessages` from Deadletter is not an array"
+    );
+    should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
+    should.equal(
+      deadLetterMsgsBatch[0].body,
+      testMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      deadLetterMsgsBatch[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
+
+    await deadLetterMsgsBatch[0].complete();
+
+    await testPeekMsgsLength(deadLetterReceiver, 0);
+  }
+
+  it(
+    noSessionTestClientType + ": Multiple abandons until maxDeliveryCount.",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testAbandonMsgsTillMaxDeliveryCount();
+    }
+  );
+
+  it(
+    withSessionTestClientType + ": Multiple abandons until maxDeliveryCount.",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testAbandonMsgsTillMaxDeliveryCount();
+    }
+  );
+
+  async function testDefer(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const msg = await sendReceiveMsg(testMessages);
+
+    if (!msg.sequenceNumber) {
+      throw "Sequence Number can not be null";
+    }
+    const sequenceNumber = msg.sequenceNumber;
+    await msg.defer();
+
+    const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
+    if (!deferredMsg) {
+      throw "No message received for sequence number";
+    }
+    should.equal(deferredMsg.body, testMessages.body, "MessageBody is different than expected");
+    should.equal(
+      deferredMsg.messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
+    should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
+
+    await deferredMsg.complete();
+
+    await testPeekMsgsLength(receiver, 0);
+  }
+
+  it(
+    noSessionTestClientType + ": defer() moves message to deferred queue",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testDefer();
+    }
+  );
+
+  it(
+    withSessionTestClientType + ": defer() moves message to deferred queue",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testDefer();
+    }
+  );
+
+  async function testDeadletter(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const msg = await sendReceiveMsg(testMessages);
+    await msg.deadLetter();
+
+    await testPeekMsgsLength(receiver, 0);
+
+    const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
+
+    should.equal(
+      Array.isArray(deadLetterMsgsBatch),
+      true,
+      "`ReceivedMessages` from Deadletter is not an array"
+    );
+    should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
+    should.equal(
+      deadLetterMsgsBatch[0].body,
+      testMessages.body,
+      "MessageBody is different than expected"
+    );
+    should.equal(
+      deadLetterMsgsBatch[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
+
+    await deadLetterMsgsBatch[0].complete();
+
+    await testPeekMsgsLength(deadLetterReceiver, 0);
+  }
+
+  it(
+    noSessionTestClientType + ": deadLetter() moves message to deadletter queue",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testDeadletter();
+    }
+  );
+
+  it(
+    withSessionTestClientType + ": deadLetter() moves message to deadletter queue",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testDeadletter();
+    }
+  );
+});
+
+describe("Batch Receiver - Settle deadlettered message", function(): void {
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
+
+  after(() => {
+    return serviceBusClient.test.after();
   });
 
   afterEach(async () => {
-    await serviceBusClient.test.afterEach();
-  });
-
-  let errorWasThrown: boolean;
-  let deadLetterMsg: ReceivedMessageWithLock;
-
-  beforeEach(async () => {
-    deadLetterMsg = await deadLetterMessage(testMessage);
+    await afterEachTest();
   });
 
   async function deadLetterMessage(
@@ -300,7 +418,11 @@ describe(noSessionTestClientType + ": Batch Receiver Settle Deadlettered Message
     return deadLetterMsgsBatch[0];
   }
 
-  async function completeDeadLetteredMessage(): Promise<void> {
+  async function completeDeadLetteredMessage(
+    testMessage: ServiceBusMessage,
+    deadletterClient: Receiver<ReceivedMessageWithLock>,
+    expectedDeliverCount: number
+  ): Promise<void> {
     const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
 
     should.equal(deadLetterMsgsBatch.length, 1, "Unexpected number of messages");
@@ -314,12 +436,23 @@ describe(noSessionTestClientType + ": Batch Receiver Settle Deadlettered Message
       testMessage.messageId,
       "MessageId is different than expected"
     );
+    should.equal(
+      deadLetterMsgsBatch[0].deliveryCount,
+      expectedDeliverCount,
+      "DeliveryCount is different than expected"
+    );
 
     await deadLetterMsgsBatch[0].complete();
-    await testPeekMsgsLength(deadLetterReceiver, 0);
+    await testPeekMsgsLength(deadletterClient, 0);
   }
 
-  it("Throws error when dead lettering a dead lettered message", async function(): Promise<void> {
+  async function testDeadletter(): Promise<void> {
+    const testMessage = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSessionSample();
+    const deadLetterMsg = await deadLetterMessage(testMessage);
+    let errorWasThrown = false;
+
     await deadLetterMsg.deadLetter().catch((err) => {
       should.equal(err.code, "InvalidOperationError", "Error code is different than expected");
       errorWasThrown = true;
@@ -327,16 +460,42 @@ describe(noSessionTestClientType + ": Batch Receiver Settle Deadlettered Message
 
     should.equal(errorWasThrown, true, "Error thrown flag must be true");
 
-    await completeDeadLetteredMessage();
-  });
+    await completeDeadLetteredMessage(testMessage, deadLetterReceiver, 0);
+  }
 
-  it("Abandon a message received from dead letter queue", async function(): Promise<void> {
+  it(
+    anyRandomTestClientType + ": Throws error when dead lettering a dead lettered message",
+    async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await testDeadletter();
+    }
+  );
+
+  async function testAbandon(): Promise<void> {
+    const testMessage = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSessionSample();
+    const deadLetterMsg = await deadLetterMessage(testMessage);
+
     await deadLetterMsg.abandon();
 
-    await completeDeadLetteredMessage();
-  });
+    await completeDeadLetteredMessage(testMessage, deadLetterReceiver, 0);
+  }
 
-  it("Defer a message received from dead letter queue", async function(): Promise<void> {
+  it(
+    anyRandomTestClientType + ": Abandon a message received from dead letter queue",
+    async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await testAbandon();
+    }
+  );
+
+  async function testDefer(): Promise<void> {
+    const testMessage = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSessionSample();
+    const deadLetterMsg = await deadLetterMessage(testMessage);
+
     if (!deadLetterMsg.sequenceNumber) {
       throw "Sequence Number can not be null";
     }
@@ -360,246 +519,299 @@ describe(noSessionTestClientType + ": Batch Receiver Settle Deadlettered Message
     await testPeekMsgsLength(receiver, 0);
 
     await testPeekMsgsLength(deadLetterReceiver, 0);
-  });
+  }
+
+  it(
+    anyRandomTestClientType + ": Defer a message received from dead letter queue",
+    async function(): Promise<void> {
+      await beforeEachTest(anyRandomTestClientType);
+      await testDefer();
+    }
+  );
 });
 
-[noSessionTestClientType, withSessionTestClientType].forEach((testClientType) => {
-  describe(testClientType + ": Batch Receiver Misc", () => {
-    let serviceBusClient: ServiceBusClientForTests;
+describe("Batch Receiver - Multiple Receiver Operations", function(): void {
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
 
-    let sender: Sender;
-    let receiver: Receiver<ReceivedMessageWithLock>;
+  after(() => {
+    return serviceBusClient.test.after();
+  });
 
-    let entityNames: EntityName;
-    let testMessage: ServiceBusMessage;
+  afterEach(async () => {
+    await afterEachTest();
+  });
 
-    before(() => {
-      serviceBusClient = createServiceBusClientForTests();
-    });
+  // We use an empty queue/topic here so that the first receiveMessages call takes time to return
+  async function testParallelReceiveCalls(): Promise<void> {
+    const firstBatchPromise = receiver.receiveMessages(1, { maxWaitTimeInMs: 10000 });
+    await delay(5000);
 
-    after(() => {
-      return serviceBusClient.test.after();
-    });
+    let errorMessage;
+    const expectedErrorMessage = getAlreadyReceivingErrorMsg(
+      receiver.entityPath,
+      entityNames.usesSessions ? TestMessage.sessionId : undefined
+    );
 
-    beforeEach(async () => {
-      entityNames = await serviceBusClient.test.createTestEntities(testClientType);
-      receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    try {
+      await receiver.receiveMessages(1);
+    } catch (err) {
+      errorMessage = err && err.message;
+    }
+    should.equal(
+      errorMessage,
+      expectedErrorMessage,
+      "Unexpected error message for receiveMessages"
+    );
 
-      sender = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
-      );
-
-      testMessage = entityNames.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-    });
-
-    afterEach(async () => {
-      await serviceBusClient.test.afterEach();
-    });
-
-    it("maxMessageCount defaults to 1", async function(): Promise<void> {
-      await sender.sendMessages(testMessage);
-
-      // @ts-expect-error
-      const peekedMsgs = await receiver.peekMessages();
-      should.equal(peekedMsgs.length, 1, "Unexpected number of messages peeked.");
-      should.equal(
-        peekedMsgs[0].body,
-        testMessage.body,
-        "Peeked message body is different than expected"
-      );
-
-      // @ts-expect-error
-      const msgs = await receiver.receiveMessages();
-      should.equal(msgs.length, 1, "Unexpected number of messages received.");
-      should.equal(
-        msgs[0].body,
-        testMessage.body,
-        "Received message body is different than expected"
-      );
-      await msgs[0].complete();
-    });
-
-    it("Throws error when ReceiveBatch is called while the previous call is not done", async function(): Promise<
-      void
-    > {
-      // We use an empty queue/topic here so that the first receiveMessages call takes time to return
-
-      const firstBatchPromise = receiver.receiveMessages(1, { maxWaitTimeInMs: 10000 });
-      await delay(5000);
-
-      let errorMessage;
-      const expectedErrorMessage = getAlreadyReceivingErrorMsg(
-        receiver.entityPath,
-        entityNames.usesSessions ? TestMessage.sessionId : undefined
-      );
-
-      try {
-        await receiver.receiveMessages(1);
-      } catch (err) {
-        errorMessage = err && err.message;
-      }
-      should.equal(
-        errorMessage,
-        expectedErrorMessage,
-        "Unexpected error message for receiveMessages"
-      );
-
-      let unexpectedError;
-      try {
-        receiver.subscribe({
-          async processMessage(): Promise<void> {
-            // process message here - it's basically a ServiceBusMessage minus any settlement related methods
-          },
-          async processError(err: Error): Promise<void> {
-            unexpectedError = err;
-          }
-        });
-      } catch (err) {
-        errorMessage = err && err.message;
-      }
-      should.equal(
-        errorMessage,
-        expectedErrorMessage,
-        "Unexpected error message for registerMessageHandler"
-      );
-      should.equal(
-        unexpectedError,
-        undefined,
-        "Unexpected error found in errorHandler for registerMessageHandler"
-      );
-
-      await firstBatchPromise;
-    });
-
-    it("Multiple sequential receiveMessages calls", async function(): Promise<void> {
-      const messages: ServiceBusMessage[] = [
-        {
-          body: "hello1",
-          messageId: `test message ${Math.random()}`,
-          partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+    let unexpectedError;
+    try {
+      receiver.subscribe({
+        async processMessage(): Promise<void> {
+          // process message here - it's basically a ServiceBusMessage minus any settlement related methods
         },
-        {
-          body: "hello2",
-          messageId: `test message ${Math.random()}`,
-          partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+        async processError(err: Error): Promise<void> {
+          unexpectedError = err;
         }
-      ];
-      const messageWithSessions: ServiceBusMessage[] = [
-        {
-          body: "hello1",
-          messageId: `test message ${Math.random()}`,
-          sessionId: TestMessage.sessionId
-        },
-        {
-          body: "hello2",
-          messageId: `test message ${Math.random()}`,
-          sessionId: TestMessage.sessionId
-        }
-      ];
-      const testMessages = entityNames.usesSessions ? messageWithSessions : messages;
-      const batchMessageToSend = await sender.createBatch();
-      for (const message of testMessages) {
-        batchMessageToSend.tryAdd(message);
-      }
-      await sender.sendMessages(batchMessageToSend);
-      const msgs1 = await receiver.receiveMessages(1);
-      const msgs2 = await receiver.receiveMessages(1);
+      });
+    } catch (err) {
+      errorMessage = err && err.message;
+    }
+    should.equal(
+      errorMessage,
+      expectedErrorMessage,
+      "Unexpected error message for registerMessageHandler"
+    );
+    should.equal(
+      unexpectedError,
+      undefined,
+      "Unexpected error found in errorHandler for registerMessageHandler"
+    );
 
-      // Results are checked after both receiveMessages are done to ensure that the second call doesnt
-      // affect the result from the first one.
-      should.equal(Array.isArray(msgs1), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs1.length, 1, "Unexpected number of messages");
+    await firstBatchPromise;
+  }
 
-      should.equal(Array.isArray(msgs2), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs2.length, 1, "Unexpected number of messages");
+  it(
+    noSessionTestClientType +
+      ": Throws error when ReceiveBatch is called while the previous call is not done",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testParallelReceiveCalls();
+    }
+  );
 
-      should.equal(
-        testMessages.some((x) => x.messageId === msgs1[0].messageId),
-        true,
-        "MessageId is different than expected"
-      );
-      should.equal(
-        testMessages.some((x) => x.messageId === msgs2[0].messageId),
-        true,
-        "MessageId is different than expected"
-      );
+  it(
+    withSessionTestClientType +
+      ": Throws error when ReceiveBatch is called while the previous call is not done",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testParallelReceiveCalls();
+    }
+  );
 
-      await msgs1[0].complete();
-      await msgs2[0].complete();
-    });
+  const messages: ServiceBusMessage[] = [
+    {
+      body: "hello1",
+      messageId: `test message ${Math.random()}`,
+      partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+    },
+    {
+      body: "hello2",
+      messageId: `test message ${Math.random()}`,
+      partitionKey: "dummy" // partitionKey is only for partitioned queue/subscrption, Unpartitioned queue/subscrption do not care about partitionKey.
+    }
+  ];
+  const messageWithSessions: ServiceBusMessage[] = [
+    {
+      body: "hello1",
+      messageId: `test message ${Math.random()}`,
+      sessionId: TestMessage.sessionId
+    },
+    {
+      body: "hello2",
+      messageId: `test message ${Math.random()}`,
+      sessionId: TestMessage.sessionId
+    }
+  ];
 
-    it("No settlement of the message is retained with incremented deliveryCount", async function(): Promise<
-      void
-    > {
-      await sender.sendMessages(testMessage);
+  // We test for mutilple receiveMessages specifically to ensure that batchingRecevier on a client is reused
+  // See https://github.com/Azure/azure-service-bus-node/issues/31
+  async function testSequentialReceiveBatchCalls(): Promise<void> {
+    const testMessages = entityNames.usesSessions ? messageWithSessions : messages;
+    const batchMessageToSend = await sender.createBatch();
+    for (const message of testMessages) {
+      batchMessageToSend.tryAdd(message);
+    }
+    await sender.sendMessages(batchMessageToSend);
+    const msgs1 = await receiver.receiveMessages(1);
+    const msgs2 = await receiver.receiveMessages(1);
 
-      // If using sessions, we need a receiver with lock renewal disabled so that
-      // the message lands back in the queue/subscription to be picked up again.
-      if (entityNames.usesSessions) {
-        await receiver.close();
-        receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-          sessionId: testMessage.sessionId,
-          autoRenewLockDurationInMs: 0
-        });
-      }
+    // Results are checked after both receiveMessages are done to ensure that the second call doesnt
+    // affect the result from the first one.
+    should.equal(Array.isArray(msgs1), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs1.length, 1, "Unexpected number of messages");
 
-      let batch = await receiver.receiveMessages(1);
+    should.equal(Array.isArray(msgs2), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs2.length, 1, "Unexpected number of messages");
 
-      should.equal(batch.length, 1, "Unexpected number of messages");
-      should.equal(batch[0].deliveryCount, 0, "DeliveryCount is different than expected");
-      should.equal(
-        batch[0].messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
+    should.equal(
+      testMessages.some((x) => x.messageId === msgs1[0].messageId),
+      true,
+      "MessageId is different than expected"
+    );
+    should.equal(
+      testMessages.some((x) => x.messageId === msgs2[0].messageId),
+      true,
+      "MessageId is different than expected"
+    );
 
-      await testPeekMsgsLength(receiver, 1);
+    await msgs1[0].complete();
+    await msgs2[0].complete();
+  }
 
-      // If using sessions wait to lose the lock, then use a new receiver to get the message
-      // landed back in the queue/subscription.
-      if (entityNames.usesSessions) {
-        await delay(31000);
-        receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
-          sessionId: testMessage.sessionId,
-          autoRenewLockDurationInMs: 0
-        });
-      }
+  it(
+    noSessionTestClientType + ": Multiple sequential receiveMessages calls",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testSequentialReceiveBatchCalls();
+    }
+  );
 
-      batch = await receiver.receiveMessages(1);
+  it(
+    withSessionTestClientType + ":  Multiple sequential receiveMessages calls",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testSequentialReceiveBatchCalls();
+    }
+  );
+});
 
-      should.equal(batch.length, 1, "Unexpected number of messages");
-      should.equal(batch[0].deliveryCount, 1, "DeliveryCount is different than expected");
-      should.equal(
-        batch[0].messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
+describe("Batch Receiver - Others", function(): void {
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
 
-      await batch[0].complete();
-    });
+  after(() => {
+    return serviceBusClient.test.after();
+  });
 
-    it("Receive n messages but queue only has m messages, where m < n", async function(): Promise<
-      void
-    > {
-      await sender.sendMessages(testMessage);
-      const batch = await receiver.receiveMessages(2);
+  afterEach(async () => {
+    await afterEachTest();
+  });
 
-      should.equal(batch.length, 1, "Unexpected number of messages");
-      should.equal(batch[0].body, testMessage.body, "MessageBody is different than expected");
-      should.equal(
-        batch[0].messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
+  async function testNoSettlement(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    await sender.sendMessages(testMessages);
 
-      await batch[0].complete();
+    // If using sessions, we need a receiver with lock renewal disabled so that
+    // the message lands back in the queue/subscription to be picked up again.
+    if (entityNames.usesSessions) {
+      await receiver.close();
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+        sessionId: testMessages.sessionId,
+        autoRenewLockDurationInMs: 0
+      });
+    }
 
-      await testPeekMsgsLength(receiver, 0);
-    });
+    let batch = await receiver.receiveMessages(1);
 
-    it("Abort receiveDeferredMessages request on the receiver", async function(): Promise<void> {
+    should.equal(batch.length, 1, "Unexpected number of messages");
+    should.equal(batch[0].deliveryCount, 0, "DeliveryCount is different than expected");
+    should.equal(
+      batch[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
+
+    await testPeekMsgsLength(receiver, 1);
+
+    // If using sessions wait to lose the lock, then use a new receiver to get the message
+    // landed back in the queue/subscription.
+    if (entityNames.usesSessions) {
+      await delay(31000);
+      receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
+        sessionId: testMessages.sessionId,
+        autoRenewLockDurationInMs: 0
+      });
+    }
+
+    batch = await receiver.receiveMessages(1);
+
+    should.equal(batch.length, 1, "Unexpected number of messages");
+    should.equal(batch[0].deliveryCount, 1, "DeliveryCount is different than expected");
+    should.equal(
+      batch[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
+
+    await batch[0].complete();
+  }
+
+  it(
+    noSessionTestClientType +
+      ": No settlement of the message is retained with incremented deliveryCount",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await testNoSettlement();
+    }
+  );
+
+  it(
+    withSessionTestClientType +
+      ": No settlement of the message is retained with incremented deliveryCount",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await testNoSettlement();
+    }
+  );
+
+  async function testAskForMore(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    await sender.sendMessages(testMessages);
+    const batch = await receiver.receiveMessages(2);
+
+    should.equal(batch.length, 1, "Unexpected number of messages");
+    should.equal(batch[0].body, testMessages.body, "MessageBody is different than expected");
+    should.equal(
+      batch[0].messageId,
+      testMessages.messageId,
+      "MessageId is different than expected"
+    );
+
+    await batch[0].complete();
+
+    await testPeekMsgsLength(receiver, 0);
+  }
+
+  it(
+    noSessionTestClientType + ": Receive n messages but queue only has m messages, where m < n",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+
+      await testAskForMore();
+    }
+  );
+
+  it(
+    withSessionTestClientType +
+      ": Receive n messages but subscription only has m messages, where m < n",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+
+      await testAskForMore();
+    }
+  );
+
+  it(
+    noSessionTestClientType + ": Abort receiveDeferredMessages request on the receiver",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
@@ -612,21 +824,39 @@ describe(noSessionTestClientType + ": Batch Receiver Settle Deadlettered Message
           "The receiveDeferredMessages operation has been cancelled by the user."
         );
       }
-    });
-  });
+    }
+  );
+
+  it(
+    withSessionTestClientType + ": Abort receiveDeferredMessages request on the receiver",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      const controller = new AbortController();
+      setTimeout(() => controller.abort(), 1);
+      try {
+        await receiver.receiveDeferredMessages([Long.ZERO], {
+          abortSignal: controller.signal
+        });
+        throw new Error(`Test failure`);
+      } catch (err) {
+        err.message.should.equal(
+          "The receiveDeferredMessages operation has been cancelled by the user."
+        );
+      }
+    }
+  );
 });
 
-describe("Batching - disconnects", function(): void {
+describe(noSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
 
   async function beforeEachTest(
-    entityType: TestClientType,
     receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
   ): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();
-    const entityNames = await serviceBusClient.test.createTestEntities(entityType);
+    const entityNames = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
     if (receiveMode == "receiveAndDelete") {
       receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
     } else {
@@ -647,7 +877,7 @@ describe("Batching - disconnects", function(): void {
 
   it("can receive and settle messages after a disconnect", async function(): Promise<void> {
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    await beforeEachTest();
 
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(TestMessage.getSample());
@@ -699,7 +929,7 @@ describe("Batching - disconnects", function(): void {
     void
   > {
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+    await beforeEachTest("receiveAndDelete");
 
     // The first time `receiveMessages` is called the receiver link is created.
     // The `receiver_drained` handler is only added after the link is created,
@@ -760,7 +990,7 @@ describe("Batching - disconnects", function(): void {
 
   it("throws an error if drain is in progress (peekLock)", async function(): Promise<void> {
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    await beforeEachTest();
 
     // The first time `receiveMessages` is called the receiver link is created.
     // The `receiver_drained` handler is only added after the link is created,
@@ -827,7 +1057,7 @@ describe("Batching - disconnects", function(): void {
 
   it("returns messages if receive in progress (receiveAndDelete)", async function(): Promise<void> {
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+    await beforeEachTest("receiveAndDelete");
 
     // The first time `receiveMessages` is called the receiver link is created.
     // The `receiver_drained` handler is only added after the link is created,
@@ -868,7 +1098,7 @@ describe("Batching - disconnects", function(): void {
 
   it("throws an error if receive is in progress (peekLock)", async function(): Promise<void> {
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    await beforeEachTest();
 
     // The first time `receiveMessages` is called the receiver link is created.
     // The `receiver_drained` handler is only added after the link is created,

@@ -26,7 +26,7 @@ const noSessionTestClientType = getRandomNoSessionEnabledTestClientType();
 const withSessionTestClientType = getRandomSessionEnabledTestClientType();
 const anyRandomTestClientType = getRandomReceiverTestClientType();
 
-describe("send scheduled messages", () => {
+describe("Sender Tests", () => {
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
@@ -49,257 +49,229 @@ describe("send scheduled messages", () => {
     );
   }
 
-  async function afterEachTest(): Promise<void> {
+  afterEach(async () => {
     await sender.close();
     await receiver.close();
+  });
+
+  async function testSimpleSend(): Promise<void> {
+    const testMessage = entityName.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    await sender.sendMessages(testMessage);
+    const msgs = await receiver.receiveMessages(1);
+
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+
+    TestMessage.checkMessageContents(
+      testMessage,
+      msgs[0],
+      entityName.usesSessions,
+      entityName.isPartitioned
+    );
+
+    await msgs[0].complete();
+
+    await testPeekMsgsLength(receiver, 0);
   }
 
-  describe("Simple Send", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
+  it(noSessionTestClientType + ": Send single message", async function(): Promise<void> {
+    await beforeEachTest(noSessionTestClientType);
+    await testSimpleSend();
+  });
 
-    async function testSimpleSend(): Promise<void> {
-      const testMessage = entityName.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      await sender.sendMessages(testMessage);
-      const msgs = await receiver.receiveMessages(1);
+  it(withSessionTestClientType + ": Send single message", async function(): Promise<void> {
+    await beforeEachTest(withSessionTestClientType);
+    await testSimpleSend();
+  });
 
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
-      should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
+  async function testSimpleSendArray(): Promise<void> {
+    const testMessages = [];
+    testMessages.push(
+      entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample()
+    );
+    testMessages.push(
+      entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample()
+    );
 
+    await sender.sendMessages(testMessages);
+    const msgs = await receiver.receiveMessages(2);
+
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 2, "Unexpected number of messages");
+
+    if (testMessages[0].messageId === msgs[0].messageId) {
       TestMessage.checkMessageContents(
-        testMessage,
+        testMessages[0],
         msgs[0],
         entityName.usesSessions,
         entityName.isPartitioned
       );
-
-      await msgs[0].complete();
-
-      await testPeekMsgsLength(receiver, 0);
+      TestMessage.checkMessageContents(
+        testMessages[1],
+        msgs[1],
+        entityName.usesSessions,
+        entityName.isPartitioned
+      );
+    } else {
+      TestMessage.checkMessageContents(
+        testMessages[1],
+        msgs[0],
+        entityName.usesSessions,
+        entityName.isPartitioned
+      );
+      TestMessage.checkMessageContents(
+        testMessages[0],
+        msgs[1],
+        entityName.usesSessions,
+        entityName.isPartitioned
+      );
     }
 
-    it(noSessionTestClientType + ": Simple Send", async function(): Promise<void> {
-      await beforeEachTest(noSessionTestClientType);
-      await testSimpleSend();
-    });
+    await msgs[0].complete();
+    await msgs[1].complete();
 
-    it(withSessionTestClientType + ": Simple Send", async function(): Promise<void> {
-      await beforeEachTest(withSessionTestClientType);
-      await testSimpleSend();
-    });
+    await testPeekMsgsLength(receiver, 0);
+  }
+
+  it(noSessionTestClientType + ": Send Array of messages", async function(): Promise<void> {
+    await beforeEachTest(noSessionTestClientType);
+    await testSimpleSendArray();
   });
 
-  describe("Send array of messages", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
-
-    async function testSimpleSendBatch(): Promise<void> {
-      const testMessages = [];
-      testMessages.push(
-        entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample()
-      );
-      testMessages.push(
-        entityName.usesSessions ? TestMessage.getSessionSample() : TestMessage.getSample()
-      );
-
-      await sender.sendMessages(testMessages);
-      const msgs = await receiver.receiveMessages(2);
-
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 2, "Unexpected number of messages");
-
-      if (testMessages[0].messageId === msgs[0].messageId) {
-        TestMessage.checkMessageContents(
-          testMessages[0],
-          msgs[0],
-          entityName.usesSessions,
-          entityName.isPartitioned
-        );
-        TestMessage.checkMessageContents(
-          testMessages[1],
-          msgs[1],
-          entityName.usesSessions,
-          entityName.isPartitioned
-        );
-      } else {
-        TestMessage.checkMessageContents(
-          testMessages[1],
-          msgs[0],
-          entityName.usesSessions,
-          entityName.isPartitioned
-        );
-        TestMessage.checkMessageContents(
-          testMessages[0],
-          msgs[1],
-          entityName.usesSessions,
-          entityName.isPartitioned
-        );
-      }
-
-      await msgs[0].complete();
-      await msgs[1].complete();
-
-      await testPeekMsgsLength(receiver, 0);
-    }
-
-    it(noSessionTestClientType + ": Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(noSessionTestClientType);
-      await testSimpleSendBatch();
-    });
-
-    it(withSessionTestClientType + ": Simple SendBatch", async function(): Promise<void> {
-      await beforeEachTest(withSessionTestClientType);
-      await testSimpleSendBatch();
-    });
+  it(withSessionTestClientType + ": Send Array of messages", async function(): Promise<void> {
+    await beforeEachTest(withSessionTestClientType);
+    await testSimpleSendArray();
   });
 
-  describe("Schedule messages", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
+  async function testScheduleSingleMessage(): Promise<void> {
+    const testMessage = entityName.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from
 
-    async function testScheduleSingleMessage(): Promise<void> {
-      const testMessage = entityName.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from
+    await sender.scheduleMessages(scheduleTime, testMessage);
 
-      await sender.scheduleMessages(scheduleTime, testMessage);
+    const msgs = await receiver.receiveMessages(1);
+    const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
 
-      const msgs = await receiver.receiveMessages(1);
-      const msgEnqueueTime = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 1, "Unexpected number of messages");
+    should.equal(
+      msgEnqueueTime - scheduleTime.valueOf() >= 0,
+      true,
+      "Enqueued time must be greater than scheduled time"
+    ); // checking received message enqueue time is greater or equal to the scheduled time.
+    should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+    should.equal(msgs[0].messageId, testMessage.messageId, "MessageId is different than expected");
 
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 1, "Unexpected number of messages");
-      should.equal(
-        msgEnqueueTime - scheduleTime.valueOf() >= 0,
-        true,
-        "Enqueued time must be greater than scheduled time"
-      ); // checking received message enqueue time is greater or equal to the scheduled time.
-      should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
-      should.equal(
-        msgs[0].messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
+    await msgs[0].complete();
 
-      await msgs[0].complete();
+    await testPeekMsgsLength(receiver, 0);
+  }
 
-      await testPeekMsgsLength(receiver, 0);
-    }
+  async function testScheduleMultipleMessages(): Promise<void> {
+    const testMessages = entityName.usesSessions
+      ? [TestMessage.getSessionSample(), TestMessage.getSessionSample()]
+      : [TestMessage.getSample(), TestMessage.getSample()];
+    const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
+    await sender.scheduleMessages(scheduleTime, testMessages);
 
-    async function testScheduleMultipleMessages(): Promise<void> {
-      const testMessages = entityName.usesSessions
-        ? [TestMessage.getSessionSample(), TestMessage.getSessionSample()]
-        : [TestMessage.getSample(), TestMessage.getSample()];
-      const scheduleTime = new Date(Date.now() + 10000); // 10 seconds from now
-      await sender.scheduleMessages(scheduleTime, testMessages);
+    const msgs = await receiver.receiveMessages(2);
+    should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+    should.equal(msgs.length, 2, "Unexpected number of messages");
 
-      const msgs = await receiver.receiveMessages(2);
-      should.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-      should.equal(msgs.length, 2, "Unexpected number of messages");
+    const msgEnqueueTime1 = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
+    const msgEnqueueTime2 = msgs[1].enqueuedTimeUtc ? msgs[1].enqueuedTimeUtc.valueOf() : 0;
 
-      const msgEnqueueTime1 = msgs[0].enqueuedTimeUtc ? msgs[0].enqueuedTimeUtc.valueOf() : 0;
-      const msgEnqueueTime2 = msgs[1].enqueuedTimeUtc ? msgs[1].enqueuedTimeUtc.valueOf() : 0;
+    // checking received message enqueue time is greater or equal to the scheduled time.
+    should.equal(
+      msgEnqueueTime1 - scheduleTime.valueOf() >= 0,
+      true,
+      "msgEnqueueTime1 time must be greater than scheduled time"
+    );
+    should.equal(
+      msgEnqueueTime2 - scheduleTime.valueOf() >= 0,
+      true,
+      "msgEnqueueTime2 time must be greater than scheduled time"
+    );
+    should.equal(
+      testMessages.some((x) => x.messageId === msgs[0].messageId),
+      true,
+      "MessageId of first message is different than expected"
+    );
+    should.equal(
+      testMessages.some((x) => x.messageId === msgs[1].messageId),
+      true,
+      "MessageId of second message is different than expected"
+    );
 
-      // checking received message enqueue time is greater or equal to the scheduled time.
-      should.equal(
-        msgEnqueueTime1 - scheduleTime.valueOf() >= 0,
-        true,
-        "msgEnqueueTime1 time must be greater than scheduled time"
-      );
-      should.equal(
-        msgEnqueueTime2 - scheduleTime.valueOf() >= 0,
-        true,
-        "msgEnqueueTime2 time must be greater than scheduled time"
-      );
-      should.equal(
-        testMessages.some((x) => x.messageId === msgs[0].messageId),
-        true,
-        "MessageId of first message is different than expected"
-      );
-      should.equal(
-        testMessages.some((x) => x.messageId === msgs[1].messageId),
-        true,
-        "MessageId of second message is different than expected"
-      );
+    await msgs[0].complete();
+    await msgs[1].complete();
 
-      await msgs[0].complete();
-      await msgs[1].complete();
+    await testPeekMsgsLength(receiver, 0);
+  }
 
-      await testPeekMsgsLength(receiver, 0);
-    }
-
-    it(anyRandomTestClientType + ": Schedule single message", async function(): Promise<void> {
-      await beforeEachTest(anyRandomTestClientType);
-      await testScheduleSingleMessage();
-    });
-
-    it(anyRandomTestClientType + ": Schedule multiple messages", async function(): Promise<void> {
-      await beforeEachTest(anyRandomTestClientType);
-      await testScheduleMultipleMessages();
-    });
+  it(anyRandomTestClientType + ": Schedule single message", async function(): Promise<void> {
+    await beforeEachTest(anyRandomTestClientType);
+    await testScheduleSingleMessage();
   });
 
-  describe("Cancel Scheduled messages", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
+  it(anyRandomTestClientType + ": Schedule multiple messages", async function(): Promise<void> {
+    await beforeEachTest(anyRandomTestClientType);
+    await testScheduleMultipleMessages();
+  });
 
-    async function testCancelSingleScheduledMessage(): Promise<void> {
-      const testMessage = entityName.usesSessions
-        ? TestMessage.getSessionSample()
-        : TestMessage.getSample();
-      const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-      const [sequenceNumber] = await sender.scheduleMessages(scheduleTime, testMessage);
+  async function testCancelSingleScheduledMessage(): Promise<void> {
+    const testMessage = entityName.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
+    const [sequenceNumber] = await sender.scheduleMessages(scheduleTime, testMessage);
 
-      await delay(2000);
+    await delay(2000);
 
-      await sender.cancelScheduledMessages(sequenceNumber);
+    await sender.cancelScheduledMessages(sequenceNumber);
 
-      // Wait until we are sure we have passed the schedule time
-      await delay(30000);
-      await testReceivedMsgsLength(receiver, 0);
-    }
+    // Wait until we are sure we have passed the schedule time
+    await delay(30000);
+    await testReceivedMsgsLength(receiver, 0);
+  }
 
-    async function testCancelMultipleScheduleMessages(): Promise<void> {
-      const getTestMessage = entityName.usesSessions
-        ? TestMessage.getSessionSample
-        : TestMessage.getSample;
+  async function testCancelMultipleScheduleMessages(): Promise<void> {
+    const getTestMessage = entityName.usesSessions
+      ? TestMessage.getSessionSample
+      : TestMessage.getSample;
 
-      const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
-      const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(scheduleTime, [
-        getTestMessage(),
-        getTestMessage()
-      ]);
+    const scheduleTime = new Date(Date.now() + 30000); // 30 seconds from now as anything less gives inconsistent results for cancelling
+    const [sequenceNumber1, sequenceNumber2] = await sender.scheduleMessages(scheduleTime, [
+      getTestMessage(),
+      getTestMessage()
+    ]);
 
-      await delay(2000);
+    await delay(2000);
 
-      await sender.cancelScheduledMessages([sequenceNumber1, sequenceNumber2]);
+    await sender.cancelScheduledMessages([sequenceNumber1, sequenceNumber2]);
 
-      // Wait until we are sure we have passed the schedule time
-      await delay(30000);
-      await testReceivedMsgsLength(receiver, 0);
-    }
+    // Wait until we are sure we have passed the schedule time
+    await delay(30000);
+    await testReceivedMsgsLength(receiver, 0);
+  }
 
-    it(anyRandomTestClientType + ": Cancel single Scheduled message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(anyRandomTestClientType);
-      await testCancelSingleScheduledMessage();
-    });
+  it(anyRandomTestClientType + ": Cancel single Scheduled message", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(anyRandomTestClientType);
+    await testCancelSingleScheduledMessage();
+  });
 
-    it(anyRandomTestClientType + ": Cancel multiple Scheduled messages", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(anyRandomTestClientType);
-      await testCancelMultipleScheduleMessages();
-    });
+  it(anyRandomTestClientType + ": Cancel multiple Scheduled messages", async function(): Promise<
+    void
+  > {
+    await beforeEachTest(anyRandomTestClientType);
+    await testCancelMultipleScheduleMessages();
   });
 
   it(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
@@ -349,7 +321,6 @@ describe("send scheduled messages", () => {
     }
 
     await testPeekMsgsLength(receiver, 0);
-    await afterEachTest();
   });
 
   async function testReceivedMsgsLength(
@@ -367,12 +338,9 @@ describe("send scheduled messages", () => {
     );
   }
 
-  describe(anyRandomTestClientType + ":Cancel operations on the sender", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
-
-    it("Abort scheduleMessages request on the sender", async function(): Promise<void> {
+  it(
+    anyRandomTestClientType + ": Abort scheduleMessages request on the sender",
+    async function(): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
@@ -384,9 +352,12 @@ describe("send scheduled messages", () => {
       } catch (err) {
         err.message.should.equal("The scheduleMessages operation has been cancelled by the user.");
       }
-    });
+    }
+  );
 
-    it("Abort cancelScheduledMessages request on the sender", async function(): Promise<void> {
+  it(
+    anyRandomTestClientType + ": Abort cancelScheduledMessages request on the sender",
+    async function(): Promise<void> {
       await beforeEachTest(anyRandomTestClientType);
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
@@ -398,8 +369,8 @@ describe("send scheduled messages", () => {
           "The cancelScheduledMessages operation has been cancelled by the user."
         );
       }
-    });
-  });
+    }
+  );
 });
 
 describe("ServiceBusMessage validations", function(): void {
