@@ -185,22 +185,29 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
         verifyEntities(methodName, receivedEntities);
       });
 
+      function getByPageIter(options?: PageSettings) {
+        let iterator;
+        if (methodName.includes("Subscription")) {
+          iterator = (serviceBusAtomManagementClient as any)
+            [methodName](managementTopic1)
+            .byPage(options);
+        } else if (methodName.includes("Rule")) {
+          iterator = (serviceBusAtomManagementClient as any)
+            [methodName](managementTopic1, managementSubscription1)
+            .byPage(options);
+        } else if (methodName.includes("Queue") || methodName.includes("Topic")) {
+          iterator = (serviceBusAtomManagementClient as any)[methodName]().byPage(options);
+        } else {
+          throw new Error("Invalid methodName");
+        }
+        return iterator;
+      }
+
       it("Verify PagedAsyncIterableIterator(byPage())", async () => {
         const receivedEntities = [];
-        let iter = (serviceBusAtomManagementClient as any)[methodName]().byPage({
+        let iter = getByPageIter({
           maxPageSize: 2
         });
-        if (methodName.includes("Subscription")) {
-          iter = (serviceBusAtomManagementClient as any)[methodName](managementTopic1).byPage({
-            maxPageSize: 2
-          });
-        } else if (methodName.includes("Rule")) {
-          iter = (serviceBusAtomManagementClient as any)
-            [methodName](managementTopic1, managementSubscription1)
-            .byPage({
-              maxPageSize: 2
-            });
-        }
         for await (const response of iter) {
           for (const entity of response) {
             receivedEntities.push(
@@ -213,21 +220,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
       it("Verify PagedAsyncIterableIterator(byPage() - continuationToken)", async () => {
         const receivedEntities = [];
-        function getIter(options?: PageSettings) {
-          let iterator = (serviceBusAtomManagementClient as any)[methodName]().byPage(options);
-          if (methodName.includes("Subscription")) {
-            iterator = (serviceBusAtomManagementClient as any)
-              [methodName](managementTopic1)
-              .byPage(options);
-          } else if (methodName.includes("Rule")) {
-            iterator = (serviceBusAtomManagementClient as any)
-              [methodName](managementTopic1, managementSubscription1)
-              .byPage(options);
-          }
-          return iterator;
-        }
-
-        let iterator = getIter({ maxPageSize: 2 });
+        let iterator = getByPageIter({ maxPageSize: 2 });
         let response = await iterator.next();
         // Prints 2 entity names
         if (!response.done) {
@@ -241,7 +234,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
         // Gets next marker
         let marker = response.value.continuationToken;
         // Passing next marker as continuationToken
-        iterator = getIter({
+        iterator = getByPageIter({
           continuationToken: marker,
           maxPageSize: 5
         });
@@ -258,7 +251,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
         // In case the namespace has too many entities and the newly created entities were not recovered
         if (marker) {
-          for await (const response of getIter({
+          for await (const response of getByPageIter({
             continuationToken: marker
           })) {
             for (const entity of response) {
@@ -269,6 +262,24 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
           }
         }
         verifyEntities(methodName, receivedEntities);
+      });
+
+      [-2, "abc", [], null].forEach((token) => {
+        it(`Validate continuationToken ${token} - PagedAsyncIterableIterator(byPage())`, async () => {
+          const settings: PageSettings = { continuationToken: token as number };
+          let errorWasThrown = false;
+          try {
+            getByPageIter(settings);
+          } catch (error) {
+            errorWasThrown = true;
+            should.equal(
+              error.message,
+              `Invalid continuationToken ${token} provided`,
+              "Unexpected error message"
+            );
+          }
+          should.equal(errorWasThrown, true, "Error was not thrown");
+        });
       });
     });
   });
@@ -2567,9 +2578,9 @@ async function getEntitiesRuntimeInfo(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient["listSubscriptionsRuntimeInfo"](
-        topicPath
-      );
+      const subscriptionResponse = await serviceBusAtomManagementClient[
+        "listSubscriptionsRuntimeInfo"
+      ](topicPath);
       return subscriptionResponse;
   }
   throw new Error("TestError: Unrecognized EntityType");
