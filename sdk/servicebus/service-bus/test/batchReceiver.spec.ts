@@ -521,14 +521,16 @@ describe("Batch Receiver - Settle deadlettered message", function(): void {
     await testPeekMsgsLength(deadLetterReceiver, 0);
   }
 
-  // For some reason, needs higher timeout when working with session enabled entity
+  // TODO: The below test for session enabled entity needs a higher timeout most of the time
+  // The rest of the time, it fails with "The service was unable to process the request; please retry the operation.".
+  // So, testing for non sessions at the moment, more investigation needed from service side.
   it(
-    anyRandomTestClientType + ": Defer a message received from dead letter queue",
+    noSessionTestClientType + ": Defer a message received from dead letter queue",
     async function(): Promise<void> {
-      await beforeEachTest(anyRandomTestClientType);
+      await beforeEachTest(noSessionTestClientType);
       await testDefer();
     }
-  ).timeout(300000);
+  );
 });
 
 describe("Batch Receiver - Multiple Receiver Operations", function(): void {
