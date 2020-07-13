@@ -2042,7 +2042,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return undefined;
     }
     try {
-      return parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+      return Number(parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip"));
     } catch (error) {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
