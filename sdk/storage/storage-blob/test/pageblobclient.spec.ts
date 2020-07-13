@@ -40,7 +40,7 @@ describe("PageBlobClient", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("create with default parameters", async () => {

@@ -30,7 +30,7 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

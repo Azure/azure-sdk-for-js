@@ -16,9 +16,9 @@ describe("FormRecognizerClient browser only", () => {
     ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 

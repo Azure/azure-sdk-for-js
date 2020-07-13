@@ -103,7 +103,7 @@ describe("The recorder's public API, on a browser", () => {
 
     // Cleaning everything before we continue verifying the results.
     xhrMock.teardown();
-    recorder.stop();
+    await recorder.stop();
     setConsoleLogForTesting(originalConsoleLog);
 
     // Here we confirm that the recorder generated an expected output on the console.logs.
@@ -170,7 +170,7 @@ describe("The recorder's public API, on a browser", () => {
     // The playback code served the appropriate response based on the recordings.
     expect(response).to.equal(expectedHttpResponse);
 
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("soft-record should re-record a simple outdated test", async function() {
@@ -246,7 +246,7 @@ describe("The recorder's public API, on a browser", () => {
 
     // Cleaning everything before we continue verifying the results.
     xhrMock.teardown();
-    recorder.stop();
+    await recorder.stop();
     setConsoleLogForTesting(originalConsoleLog);
 
     // Now we check the hash has changed in the recorded console.log output.
