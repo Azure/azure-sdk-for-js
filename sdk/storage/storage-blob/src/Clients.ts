@@ -1320,6 +1320,7 @@ export class BlobClient extends StorageClient {
 
       const wrappedRes = {
         ...res,
+        _response: res._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
       };
@@ -1474,6 +1475,7 @@ export class BlobClient extends StorageClient {
 
       return {
         ...res,
+        _response: res._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
       };
@@ -1543,7 +1545,8 @@ export class BlobClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobNotFound") {
@@ -1723,6 +1726,7 @@ export class BlobClient extends StorageClient {
       });
       const wrappedResponse: BlobGetTagsResponse = {
         ...response,
+        _response: response._response, // _response is made non-enumerable
         tags: toTags({ blobTagSet: response.blobTagSet }) || {}
       };
       return wrappedResponse;
@@ -2832,7 +2836,8 @@ export class AppendBlobClient extends BlobClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
@@ -5314,7 +5319,8 @@ export class PageBlobClient extends BlobClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
@@ -6882,7 +6888,8 @@ export class ContainerClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerAlreadyExists") {
@@ -7118,7 +7125,8 @@ export class ContainerClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerNotFound") {
@@ -7463,16 +7471,17 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      const resposne = await this.containerContext.listBlobFlatSegment({
+      const response = await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
         spanOptions
       });
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
-        ...resposne,
+        ...response,
+        _response: response._response, // _response is made non-enumerable
         segment: {
-          ...resposne.segment,
-          blobItems: resposne.segment.blobItems.map((blobItemInteral) => {
+          ...response.segment,
+          blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
               tags: toTags(blobItemInteral.blobTags),
@@ -7519,16 +7528,17 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      const resposne = await this.containerContext.listBlobHierarchySegment(delimiter, {
+      const response = await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
         spanOptions
       });
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
-        ...resposne,
+        ...response,
+        _response: response._response, // _response is made non-enumerable
         segment: {
-          ...resposne.segment,
-          blobItems: resposne.segment.blobItems.map((blobItemInteral) => {
+          ...response.segment,
+          blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
               tags: toTags(blobItemInteral.blobTags),
