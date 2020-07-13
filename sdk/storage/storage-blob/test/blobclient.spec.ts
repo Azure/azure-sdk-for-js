@@ -145,14 +145,14 @@ describe("BlobClient", () => {
       this.skip();
     }
 
-    await blockBlobClient.delete();
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
     };
 
-    const pageBlobClient = blobClient.getPageBlobClient();
+    const pageBlobName = recorder.getUniqueName("pageBlobName");
+    const blobClient2 = containerClient.getBlobClient(pageBlobName);
+    const pageBlobClient = blobClient2.getPageBlobClient();
     await pageBlobClient.create(512, { tags });
 
     const response = await pageBlobClient.getTags();

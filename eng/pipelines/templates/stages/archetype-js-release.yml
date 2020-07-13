@@ -199,6 +199,7 @@ stages:
           artifact: ${{parameters.ArtifactName}}
           timeoutInMinutes: 5
         - ${{ each artifact in parameters.Artifacts }}:
+          - ${{if ne(artifact.options.skipPublishDevFeed, 'true')}}:
             - pwsh: |
                 $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}-*-dev*.tgz
                 echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"

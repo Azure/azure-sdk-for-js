@@ -304,7 +304,7 @@ async function updateCommonVersions(repoRoot, allowedVersionList) {
     if (allowedVersionList[package] && !allowedAlternativeVersions[package]) {
       allowedAlternativeVersions[package] = [allowedVersionList[package]];
     }
-    else if (allowedVersionList[package] && allowedAlternativeVersions[package].includes(allowedVersionList[package])) {
+    else if (allowedVersionList[package] && !allowedAlternativeVersions[package].includes(allowedVersionList[package])) {
       allowedAlternativeVersions[package].push(allowedVersionList[package]);
     }
   }

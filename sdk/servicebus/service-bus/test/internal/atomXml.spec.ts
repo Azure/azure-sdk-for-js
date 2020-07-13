@@ -573,7 +573,7 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: {
+        properties: {
           message: ["hello"]
         }
       }
@@ -589,7 +589,7 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: {
+        properties: {
           message: {}
         }
       }
@@ -605,7 +605,7 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: {
+        properties: {
           message: undefined
         }
       }
@@ -621,11 +621,11 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: 123
+        properties: 123
       }
     },
     output: {
-      testErrorMessage: `Unsupported value for the userProperties 123, expected a JSON object with key-value pairs.`,
+      testErrorMessage: `Unsupported value for the properties 123, expected a JSON object with key-value pairs.`,
       testErrorType: Error
     }
   },
@@ -635,11 +635,11 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: "abcd"
+        properties: "abcd"
       }
     },
     output: {
-      testErrorMessage: `Unsupported value for the userProperties "abcd", expected a JSON object with key-value pairs.`,
+      testErrorMessage: `Unsupported value for the properties "abcd", expected a JSON object with key-value pairs.`,
       testErrorType: Error
     }
   },
@@ -649,11 +649,11 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: ["abcd"]
+        properties: ["abcd"]
       }
     },
     output: {
-      testErrorMessage: `Unsupported value for the userProperties ["abcd"], expected a JSON object with key-value pairs.`,
+      testErrorMessage: `Unsupported value for the properties ["abcd"], expected a JSON object with key-value pairs.`,
       testErrorType: Error
     }
   },
@@ -663,11 +663,11 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: {}
+        properties: {}
       }
     },
     output: {
-      testErrorMessage: `Unsupported value for the userProperties {}, expected a JSON object with key-value pairs.`,
+      testErrorMessage: `Unsupported value for the properties {}, expected a JSON object with key-value pairs.`,
       testErrorType: Error
     }
   }

@@ -33,7 +33,10 @@
         "${workspaceFolder}/test/*.spec.ts",
         "${workspaceFolder}/test/node/*.spec.ts"
       ],
-      "env": { "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}" },
+      "env": {
+        "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\" }",
+        "NODE_PATH": "${workspaceFolder}/../../../common/temp/node_modules/.pnpm/node_modules"
+       },
       "envFile": "${workspaceFolder}/.env",
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
