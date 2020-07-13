@@ -2443,4 +2443,10 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
     }
   }
+
+  private throwIfInvalidContinuationToken(token: number | undefined) {
+    if (!(token === undefined || (typeof token === "number" && token >= 0))) {
+      throw new Error(`Invalid continuationToken ${token} provided`);
+    }
+  }
 }
