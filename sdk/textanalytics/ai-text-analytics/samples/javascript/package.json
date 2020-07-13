@@ -28,5 +28,8 @@
     "@azure/ai-text-analytics": "latest",
     "@azure/identity": "latest",
     "dotenv": "^8.2.0"
+  },
+  "//smokeTestConfiguration": {
+    "skipFolder": true
   }
 }
