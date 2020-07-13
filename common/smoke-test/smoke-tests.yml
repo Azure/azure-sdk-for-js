@@ -41,9 +41,9 @@ jobs:
       - name: AzureCloudArmTemplateParameters
         value: "@{ }"
       - name: AzureUSGovernmentArmTemplateParameters
-        value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net' }"
+        value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.us' }"
       - name: AzureChinaCloudArmTemplateParameters
-        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn' }"
+        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.cn' }"
 
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml

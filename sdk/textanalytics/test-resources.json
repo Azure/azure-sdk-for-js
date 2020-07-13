@@ -14,6 +14,10 @@
       "metadata": {
         "description": "The AAD Client ID of the test application service principal."
       }
+    },
+    "cognitiveServicesEndpointSuffix": {
+      "type": "string",
+      "defaultValue": "cognitiveservices.azure.com"
     }
   },
   "variables": {
@@ -55,7 +59,7 @@
     },
     "ENDPOINT": {
       "type": "string",
-      "value": "[concat('https://', variables('accountName'), '.cognitiveservices.azure.com/')]"
+      "value": "[concat('https://', variables('accountName'), '.', parameters('cognitiveServicesEndpointSuffix'), '/')]"
     }
   }
 }
