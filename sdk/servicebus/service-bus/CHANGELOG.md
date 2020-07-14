@@ -6,7 +6,7 @@
 
 - Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`,`getQueuesRuntimeInfo()`, etc.
   [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
-  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts)
+  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts)
 - `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
   [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
 
