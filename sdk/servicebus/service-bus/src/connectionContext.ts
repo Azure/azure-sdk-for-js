@@ -128,6 +128,7 @@ export namespace ConnectionContext {
         return Boolean(!this.connection.isOpen() && this.connection.isRemoteOpen());
       },
       async readyToOpenLink() {
+        log.error(`[${this.connectionId}] Waiting until the connection is ready to open link.`);
         // Check that the connection isn't in the process of closing.
         // This can happen when the idle timeout has been reached but
         // the underlying socket is waiting to be destroyed.
@@ -140,6 +141,7 @@ export namespace ConnectionContext {
           // Wait for the connection to be reset.
           await this.waitForConnectionReset();
         }
+        log.error(`[${this.connectionId}] Connection is ready to open link.`);
       },
       waitForDisconnectedEvent() {
         return new Promise((resolve) => {
