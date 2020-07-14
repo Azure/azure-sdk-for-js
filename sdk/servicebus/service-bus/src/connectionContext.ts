@@ -120,8 +120,8 @@ export namespace ConnectionContext {
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
     connectionContext.clientContexts = {};
 
-    let waitForDisconnectResolve: () => void;
-    let waitForDisconnectPromise: Promise<void> | undefined;
+    let waitForConnectionRefreshResolve: () => void;
+    let waitForConnectionRefreshPromise: Promise<void> | undefined;
     Object.assign<ConnectionContext, ConnectionContextMethods>(connectionContext, {
       isConnectionClosing() {
         // When the connection is not open, but the remote end is open,
@@ -154,8 +154,8 @@ export namespace ConnectionContext {
       },
       waitForConnectionReset() {
         // Check if the connection is currently in the process of disconnecting.
-        if (waitForDisconnectPromise) {
-          return waitForDisconnectPromise;
+        if (waitForConnectionRefreshPromise) {
+          return waitForConnectionRefreshPromise;
         }
         return Promise.resolve();
       }
@@ -173,11 +173,11 @@ export namespace ConnectionContext {
     };
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      if (waitForDisconnectPromise) {
+      if (waitForConnectionRefreshPromise) {
         return;
       }
-      waitForDisconnectPromise = new Promise((resolve) => {
-        waitForDisconnectResolve = resolve;
+      waitForConnectionRefreshPromise = new Promise((resolve) => {
+        waitForConnectionRefreshResolve = resolve;
       });
 
       const connectionError =
@@ -221,8 +221,8 @@ export namespace ConnectionContext {
       }
 
       await refreshConnection(connectionContext);
-      waitForDisconnectResolve();
-      waitForDisconnectPromise = undefined;
+      waitForConnectionRefreshResolve();
+      waitForConnectionRefreshPromise = undefined;
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
       log.error("[%s] state: %O", connectionContext.connectionId, state);
