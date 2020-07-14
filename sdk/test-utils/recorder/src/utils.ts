@@ -498,3 +498,18 @@ export const windowLens: {
     return this.set(propertyPath.slice(1), propertyValue, root[propertyPath[0]]);
   }
 };
+
+/**
+ * Returns true if the given string is a hexadecimal value
+ *
+ * @export
+ * @param {string} value
+ * @returns {boolean}
+ */
+export function isHex(value: string): boolean {
+  // TODO: Add tests to validate regex
+  if (/[0-9A-Fa-f]/g.test(value)) {
+    return true;
+  }
+  return false;
+}
