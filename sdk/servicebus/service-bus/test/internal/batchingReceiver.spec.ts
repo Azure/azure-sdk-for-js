@@ -195,46 +195,106 @@ describe("BatchingReceiver unit tests", () => {
         assert.isEmpty(messages);
       }).timeout(5 * 1000);
 
-      it(`3. We've received 1 message and _now_ have exceeded 'max wait time past first message`, async () => {
-        const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-          receiveMode: lockMode
-        });
+      // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
+      // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
+      // the duration of time given (or max messages) with no idle timer.
+      // When we eliminate that bug we can remove this check.
+      (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+        `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message`,
+        async () => {
+          const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
+            receiveMode: lockMode
+          });
 
-        receiver["_getServiceBusMessage"] = (eventContext) => {
-          return {
-            body: eventContext.message?.body
-          } as ServiceBusMessageImpl;
-        };
+          receiver["_getServiceBusMessage"] = (eventContext) => {
+            return {
+              body: eventContext.message?.body
+            } as ServiceBusMessageImpl;
+          };
 
-        const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+          const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
-        const receivePromise = receiver.receive(3, bigTimeout, littleTimeout);
-        await receiveIsReady;
+          const receivePromise = receiver.receive(3, bigTimeout, littleTimeout);
+          await receiveIsReady;
 
-        // batch fulfillment is checked when we receive a message...
-        emitter.emit(ReceiverEvents.message, {
-          message: { body: "the first message" } as RheaMessage
-        } as EventContext);
+          // batch fulfillment is checked when we receive a message...
+          emitter.emit(ReceiverEvents.message, {
+            message: { body: "the first message" } as RheaMessage
+          } as EventContext);
 
-        // advance the timeout to _just_ before the expiration of the first one (which must have been set
-        // since we just received a message). This'll make it more obvious if I scheduled it a second time.
-        clock.tick(littleTimeout - 1);
+          // advance the timeout to _just_ before the expiration of the first one (which must have been set
+          // since we just received a message). This'll make it more obvious if I scheduled it a second time.
+          clock.tick(littleTimeout - 1);
 
-        // now emit a second message - this second message should _not_ change any existing timers
-        // or start new ones.
-        emitter.emit(ReceiverEvents.message, {
-          message: { body: "the second message" } as RheaMessage
-        } as EventContext);
+          // now emit a second message - this second message should _not_ change any existing timers
+          // or start new ones.
+          emitter.emit(ReceiverEvents.message, {
+            message: { body: "the second message" } as RheaMessage
+          } as EventContext);
 
-        // now we'll advance the clock to 'littleTimeout' which should now fire off our timer.
-        clock.tick(1); // make the "no new message arrived within time limit" timer fire.
+          // now we'll advance the clock to 'littleTimeout' which should now fire off our timer.
+          clock.tick(1); // make the "no new message arrived within time limit" timer fire.
 
-        const messages = await receivePromise;
-        assert.deepEqual(
-          messages.map((m) => m.body),
-          ["the first message", "the second message"]
-        );
-      }).timeout(5 * 1000);
+          const messages = await receivePromise;
+          assert.deepEqual(
+            messages.map((m) => m.body),
+            ["the first message", "the second message"]
+          );
+        }
+      ).timeout(5 * 1000);
+
+      // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
+      // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
+      // the duration of time given (or max messages) with no idle timer.
+      // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
+      (lockMode === ReceiveMode.receiveAndDelete ? it : it.skip)(
+        `3b. (without idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message`,
+        async () => {
+          const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
+            receiveMode: lockMode
+          });
+
+          receiver["_getServiceBusMessage"] = (eventContext) => {
+            return {
+              body: eventContext.message?.body
+            } as ServiceBusMessageImpl;
+          };
+
+          const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+
+          const receivePromise = receiver.receive(3, bigTimeout, littleTimeout);
+          await receiveIsReady;
+
+          // batch fulfillment is checked when we receive a message...
+          emitter.emit(ReceiverEvents.message, {
+            message: {
+              body: "the first message"
+            } as RheaMessage
+          } as EventContext);
+
+          // In the peekLock algorithm we would've resolved the promise here but_ we disable
+          // that in receiveAndDelete. So we'll advance here....
+          clock.tick(littleTimeout);
+
+          // ...and emit another message _after_ the idle timer would have fired. Now when we advance
+          // the time all the way....
+          emitter.emit(ReceiverEvents.message, {
+            message: {
+              body: "the second message"
+            } as RheaMessage
+          } as EventContext);
+
+          clock.tick(bigTimeout);
+
+          // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
+          // timer fired.
+          const messages = await receivePromise;
+          assert.deepEqual(
+            messages.map((m) => m.body),
+            ["the first message", "the second message"]
+          );
+        }
+      ).timeout(5 * 1000);
 
       function setupFakeReceiver(
         batchingReceiver: BatchingReceiver
