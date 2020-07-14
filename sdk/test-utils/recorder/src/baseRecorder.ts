@@ -201,10 +201,10 @@ export class NockRecorder extends BaseRecorder {
   }
 
   /**
-   * Decodes "hex" strings in the response from the recorded fixture if any
-   * For example,
-   * `.reply(200, "4f626a01", [` part of the recording would be updated to
-   * `.reply(200, Buffer.from("4f626a01", "hex"), [`
+   * Decodes "hex" strings in the response from the recorded fixture if any exists
+   * For example, the following part of the recording would be updated
+   * from `.reply(200, "4f626a01", [`
+   * to   `.reply(200, Buffer.from("4f626a01", "hex"), [`
    *
    * @private
    * @param {string} fixture
