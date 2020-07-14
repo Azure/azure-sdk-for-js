@@ -13,7 +13,7 @@ import {
 import { CanonicalCode } from "@opentelemetry/api";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { credentialLogger, CredentialLogger, processEnvVars, success } from "../util/logging";
+import { credentialLogger, processEnvVars, success } from "../util/logging";
 
 /**
  * Contains the list of all supported environment variable names so that an

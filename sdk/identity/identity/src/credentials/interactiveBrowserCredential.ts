@@ -5,7 +5,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger, CredentialLogger } from "../util/logging";
+import { credentialLogger } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
   "InteractiveBrowserCredential is not supported in Node.js."
@@ -18,8 +18,6 @@ const logger = credentialLogger("InteractiveBrowserCredential");
  * window.  This credential is not currently supported in Node.js.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
-  private logger: CredentialLogger;
-
   constructor(options?: InteractiveBrowserCredentialOptions) {
     logger.error(BrowserNotSupportedError);
     throw BrowserNotSupportedError;

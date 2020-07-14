@@ -7,7 +7,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger, success } from "../util/logging";
+import { credentialLogger, success } from "../util/logging";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 

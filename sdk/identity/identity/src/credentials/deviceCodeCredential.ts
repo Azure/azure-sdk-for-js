@@ -8,7 +8,7 @@ import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger, success } from "../util/logging";
+import { credentialLogger, success } from "../util/logging";
 
 /**
  * An internal interface that contains the verbatim devicecode response.

@@ -11,7 +11,7 @@ import {
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
-import { credentialLogger, CredentialLogger, success } from "../util/logging";
+import { credentialLogger, success } from "../util/logging";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 

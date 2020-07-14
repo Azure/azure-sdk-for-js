@@ -17,7 +17,7 @@ import {
   CredentialUnavailable
 } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger, success } from "../util/logging";
+import { credentialLogger, success } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";

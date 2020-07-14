@@ -7,7 +7,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger } from "../util/logging";
+import { credentialLogger } from "../util/logging";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 

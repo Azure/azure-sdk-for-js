@@ -5,7 +5,7 @@
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { TokenCredentialOptions } from "../client/identityClient";
-import { credentialLogger, CredentialLogger } from "../util/logging";
+import { credentialLogger } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
   "EnvironmentCredential is not supported in the browser."

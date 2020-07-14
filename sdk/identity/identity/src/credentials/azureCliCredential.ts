@@ -5,7 +5,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger, success } from "../util/logging";
+import { credentialLogger, success } from "../util/logging";
 import * as child_process from "child_process";
 
 function getSafeWorkingDir(): string {
