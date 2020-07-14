@@ -43,7 +43,7 @@ export class AzureCliCredential implements TokenCredential {
     constructor();
     protected getAzureCliAccessToken(resource: string): Promise<unknown>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-    }
+}
 
 // @public
 export type BrowserLoginStyle = "redirect" | "popup";
@@ -51,7 +51,6 @@ export type BrowserLoginStyle = "redirect" | "popup";
 // @public
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
-    protected credentialName: string;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     protected UnavailableMessage: string;
 }
@@ -97,7 +96,7 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 export class EnvironmentCredential implements TokenCredential {
     constructor(options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-    }
+}
 
 // @public
 export interface ErrorResponse {

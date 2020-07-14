@@ -9,24 +9,24 @@ import { TokenCredentialOptions } from "../client/identityClient";
 import { credentialLogger, CredentialLogger } from "../util/logging";
 
 const BrowserNotSupportedError = new Error("DeviceCodeCredential is not supported in the browser.");
+const logger = credentialLogger("DeviceCodeCredential");
 
 export class DeviceCodeCredential implements TokenCredential {
-  private logger: CredentialLogger;
-
   constructor(
     tenantId: string | "organizations",
     clientId: string,
     userPromptCallback: DeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
-    this.logger = credentialLogger(this.constructor.name);
-    this.logger.throwError(BrowserNotSupportedError);
+    logger.error(BrowserNotSupportedError);
+    throw BrowserNotSupportedError;
   }
 
   public getToken(
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    this.logger.throwError(BrowserNotSupportedError);
+    logger.getToken.error(BrowserNotSupportedError);
+    throw BrowserNotSupportedError;
   }
 }

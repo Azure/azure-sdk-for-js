@@ -9,6 +9,8 @@ import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, CredentialLogger } from "../util/logging";
 
+const logger = credentialLogger("UsernamePasswordCredential");
+
 /**
  * Enables authentication to Azure Active Directory with a user's
  * username and password. This credential requires a high degree of
@@ -21,7 +23,6 @@ export class UsernamePasswordCredential implements TokenCredential {
   private clientId: string;
   private username: string;
   private password: string;
-  private logger: CredentialLogger;
 
   /**
    * Creates an instance of the UsernamePasswordCredential with the details
@@ -46,7 +47,6 @@ export class UsernamePasswordCredential implements TokenCredential {
     this.clientId = clientId;
     this.username = username;
     this.password = password;
-    this.logger = credentialLogger(this.constructor.name);
   }
 
   /**
@@ -90,7 +90,7 @@ export class UsernamePasswordCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      this.logger.getToken.success(scopes);
+      logger.getToken.success(`${scopes}`);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -101,7 +101,8 @@ export class UsernamePasswordCredential implements TokenCredential {
         code,
         message: err.message
       });
-      this.logger.getToken.throwError(err);
+      logger.getToken.error(err);
+      throw err;
     } finally {
       span.end();
     }

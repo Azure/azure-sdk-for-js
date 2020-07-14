@@ -9,6 +9,8 @@ import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, CredentialLogger } from "../util/logging";
 
+const logger = credentialLogger("ClientSecretCredential");
+
 /**
  * Enables authentication to Azure Active Directory using a client secret
  * that was generated for an App Registration.  More information on how
@@ -22,7 +24,6 @@ export class ClientSecretCredential implements TokenCredential {
   private tenantId: string;
   private clientId: string;
   private clientSecret: string;
-  private logger: CredentialLogger;
 
   /**
    * Creates an instance of the ClientSecretCredential with the details
@@ -44,7 +45,6 @@ export class ClientSecretCredential implements TokenCredential {
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.clientSecret = clientSecret;
-    this.logger = credentialLogger(this.constructor.name);
   }
 
   /**
@@ -84,7 +84,7 @@ export class ClientSecretCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      this.logger.getToken.success(scopes);
+      logger.getToken.success(`${scopes}`);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -95,7 +95,8 @@ export class ClientSecretCredential implements TokenCredential {
         code,
         message: err.message
       });
-      this.logger.getToken.throwError(err);
+      logger.getToken.error(err);
+      throw err;
     } finally {
       span.end();
     }

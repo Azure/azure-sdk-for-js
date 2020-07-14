@@ -12,6 +12,7 @@ import { credentialLogger, CredentialLogger } from "../util/logging";
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
 const VSCodeUserName = "VS Code Azure";
+const logger = credentialLogger("VSCodeCredential");
 
 /**
  * Connect to Azure using the credential provided by the VSCode extension 'Azure Account'.
@@ -20,7 +21,6 @@ const VSCodeUserName = "VS Code Azure";
  */
 export class VSCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
-  private logger: CredentialLogger;
 
   /**
    * Creates an instance of VSCodeCredential to use for automatically authenicating via VSCode.
@@ -29,7 +29,6 @@ export class VSCodeCredential implements TokenCredential {
    */
   constructor(options?: TokenCredentialOptions) {
     this.identityClient = new IdentityClient(options);
-    this.logger = credentialLogger(this.constructor.name);
   }
 
   /**
@@ -48,9 +47,9 @@ export class VSCodeCredential implements TokenCredential {
 
     // Check to make sure the scope we get back is a valid scope
     if (!scopeString.match(/^[0-9a-zA-Z-.:/]+$/)) {
-      this.logger.getToken.throwError(
-        new Error("Invalid scope was specified by the user or calling client")
-      );
+      const error = new Error("Invalid scope was specified by the user or calling client");
+      logger.getToken.error(error);
+      throw error;
     }
 
     if (scopeString.indexOf("offline_access") < 0) {
@@ -68,21 +67,21 @@ export class VSCodeCredential implements TokenCredential {
       );
 
       if (tokenResponse) {
-        this.logger.getToken.success(scopes);
+        logger.getToken.success(`${scopes}`);
         return tokenResponse.accessToken;
       } else {
-        this.logger.getToken.throwError(
-          new CredentialUnavailable(
-            "Could not retrieve the token associated with VSCode. Have you connected using the 'Azure Account' extension recently?"
-          )
+        const error = new CredentialUnavailable(
+          "Could not retrieve the token associated with VSCode. Have you connected using the 'Azure Account' extension recently?"
         );
+        logger.getToken.error(error);
+        throw error;
       }
     } else {
-      this.logger.getToken.throwError(
-        new CredentialUnavailable(
-          "Could not retrieve the token associated with VSCode. Did you connect using the 'Azure Account' extension?"
-        )
+      const error = new CredentialUnavailable(
+        "Could not retrieve the token associated with VSCode. Did you connect using the 'Azure Account' extension?"
       );
+      logger.getToken.error(error);
+      throw error;
     }
   }
 }

@@ -55,6 +55,8 @@ export interface DeviceCodeInfo {
  */
 export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 
+const logger = credentialLogger("DeviceCodeCredential");
+
 /**
  * Enables authentication to Azure Active Directory using a device code
  * that the user can enter into https://microsoft.com/devicelogin.
@@ -65,7 +67,6 @@ export class DeviceCodeCredential implements TokenCredential {
   private clientId: string;
   private userPromptCallback: DeviceCodePromptCallback;
   private lastTokenResponse: TokenResponse | null = null;
-  private logger: CredentialLogger;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
@@ -88,7 +89,6 @@ export class DeviceCodeCredential implements TokenCredential {
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.userPromptCallback = userPromptCallback;
-    this.logger = credentialLogger(this.constructor.name);
   }
 
   private async sendDeviceCodeRequest(
@@ -117,7 +117,7 @@ export class DeviceCodeCredential implements TokenCredential {
         spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
       });
 
-      this.logger.info("Sending devicecode request");
+      logger.info("Sending devicecode request");
 
       const response = await this.identityClient.sendRequest(webResource);
       if (!(response.status === 200 || response.status === 201)) {
@@ -132,11 +132,11 @@ export class DeviceCodeCredential implements TokenCredential {
           : CanonicalCode.UNKNOWN;
 
       if (err.name === AuthenticationErrorName) {
-        this.logger.warning(
+        logger.warning(
           `Failed to authenticate ${(err as AuthenticationError).errorResponse.errorDescription}`
         );
       } else {
-        this.logger.warning(`FFailed to authenticate ${err}`);
+        logger.warning(`FFailed to authenticate ${err}`);
       }
 
       span.setStatus({
@@ -270,7 +270,7 @@ export class DeviceCodeCredential implements TokenCredential {
       }
 
       this.lastTokenResponse = tokenResponse;
-      this.logger.getToken.success(scopes);
+      logger.getToken.success(`${scopes}`);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -281,7 +281,8 @@ export class DeviceCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      this.logger.getToken.throwError(err);
+      logger.getToken.error(err);
+      throw err;
     } finally {
       span.end();
     }

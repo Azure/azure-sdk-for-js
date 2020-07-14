@@ -6,7 +6,6 @@ import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, CredentialLogger } from "../util/logging";
-
 import * as child_process from "child_process";
 
 function getSafeWorkingDir(): string {
@@ -20,19 +19,17 @@ function getSafeWorkingDir(): string {
   }
 }
 
+const logger = credentialLogger("AzureCliCredential");
+
 /**
  * Provides the user access token and expire time
  * with Azure CLI command "az account get-access-token".
  */
 export class AzureCliCredential implements TokenCredential {
-  private logger: CredentialLogger;
-
   /**
    * Creates an instance of the AzureCliCredential class.
    */
-  constructor() {
-    this.logger = credentialLogger(this.constructor.name);
-  }
+  constructor() {}
 
   /**
    * Gets the access token from Azure CLI
@@ -71,15 +68,15 @@ export class AzureCliCredential implements TokenCredential {
     return new Promise((resolve, reject) => {
       let scope: string;
       scope = typeof scopes === "string" ? scopes : scopes[0];
-      this.logger.getToken.info(`use the scope ${scope}`);
+      logger.getToken.info(`Using the scope ${scope}`);
 
       const resource = scope.replace(/\/.default$/, "");
 
       // Check to make sure the scope we get back is a valid scope
       if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        this.logger.getToken.throwError(
-          new Error("Invalid scope was specified by the user or calling client")
-        );
+        const error = new Error("Invalid scope was specified by the user or calling client");
+        logger.getToken.error(error);
+        throw error;
       }
 
       let responseData = "";
@@ -93,23 +90,25 @@ export class AzureCliCredential implements TokenCredential {
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
-              this.logger.getToken.throwError(
-                new CredentialUnavailable(
-                  "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
-                )
+              const error = new CredentialUnavailable(
+                "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
               );
+              logger.getToken.error(error);
+              throw error;
             } else if (isLoginError) {
-              this.logger.getToken.throwError(
-                new CredentialUnavailable(
-                  "Please run 'az login' from a command prompt to authenticate before using this credential."
-                )
+              const error = new CredentialUnavailable(
+                "Please run 'az login' from a command prompt to authenticate before using this credential."
               );
+              logger.getToken.error(error);
+              throw error;
             }
-            this.logger.getToken.throwError(new CredentialUnavailable(obj.stderr));
+            const error = new CredentialUnavailable(obj.stderr);
+            logger.getToken.error(error);
+            throw error;
           } else {
             responseData = obj.stdout;
             const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
-            this.logger.getToken.success(scopes);
+            logger.getToken.success(`${scopes}`);
             resolve({
               token: response.accessToken,
               expiresOnTimestamp: new Date(response.expiresOn).getTime()
@@ -125,7 +124,7 @@ export class AzureCliCredential implements TokenCredential {
             code,
             message: err.message
           });
-          this.logger.getToken.error(err);
+          logger.getToken.error(err);
           reject(err);
         });
     });

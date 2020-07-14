@@ -9,6 +9,8 @@ import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, CredentialLogger } from "../util/logging";
 
+const logger = credentialLogger("AuthorizationCodeCredential");
+
 /**
  * Enables authentication to Azure Active Directory using an authorization code
  * that was obtained through the authorization code flow, described in more detail
@@ -23,8 +25,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private clientSecret: string | undefined;
   private authorizationCode: string;
   private redirectUri: string;
-  private logger: CredentialLogger;
-
   private lastTokenResponse: TokenResponse | null = null;
 
   /**
@@ -115,7 +115,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
     }
 
     this.identityClient = new IdentityClient(options);
-    this.logger = credentialLogger(this.constructor.name);
   }
 
   /**
@@ -182,7 +181,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       this.lastTokenResponse = tokenResponse;
-      this.logger.getToken.success(scopes);
+      logger.getToken.info(`${scopes}`);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -193,7 +192,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      this.logger.getToken.throwError(err);
+      logger.getToken.error(err);
+      throw err;
     } finally {
       span.end();
     }

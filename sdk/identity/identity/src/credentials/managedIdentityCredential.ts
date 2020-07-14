@@ -23,6 +23,7 @@ const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
 export const ImdsApiVersion = "2018-02-01";
 export const AppServiceMsiApiVersion = "2017-09-01";
+const logger = credentialLogger("ManagedIdentityCredential");
 
 /**
  * Attempts authentication using a managed identity that has been assigned
@@ -37,7 +38,6 @@ export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private clientId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
-  private logger: CredentialLogger;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -69,7 +69,6 @@ export class ManagedIdentityCredential implements TokenCredential {
       // options only constructor
       this.identityClient = new IdentityClient(clientIdOrOptions);
     }
-    this.logger = credentialLogger(this.constructor.name);
   }
 
   private mapScopesToResource(scopes: string | string[]): string {
@@ -190,7 +189,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 500;
 
       try {
-        this.logger.info(`Pinging IMDS endpoint`);
+        logger.info(`Pinging IMDS endpoint`);
         await this.identityClient.sendRequest(webResource);
       } catch (err) {
         if (
@@ -198,7 +197,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           err.name === "AbortError"
         ) {
           // Either request failed or IMDS endpoint isn't available
-          this.logger.info(`IMDS endpoint unavailable`);
+          logger.info(`IMDS endpoint unavailable`);
           span.setStatus({
             code: CanonicalCode.UNAVAILABLE,
             message: err.message
@@ -208,10 +207,10 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
 
       // If we received any response, the endpoint is available
-      this.logger.info(`IMDS endpoint is available`);
+      logger.info(`IMDS endpoint is available`);
       return true;
     } catch (err) {
-      this.logger.warning(`Error when accessing IMDS endpoint: ${err}`);
+      logger.warning(`Error when accessing IMDS endpoint: ${err}`);
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: err.message
@@ -257,14 +256,14 @@ export class ManagedIdentityCredential implements TokenCredential {
           if (requestBody.expires_on) {
             // Use the expires_on timestamp if it's available
             const expires = +requestBody.expires_on * 1000;
-            this.logger.info(
+            logger.info(
               `IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`
             );
             return expires;
           } else {
             // If these aren't possible, use expires_in and calculate a timestamp
             const expires = Date.now() + requestBody.expires_in * 1000;
-            this.logger.info(
+            logger.info(
               `IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`
             );
             return expires;
@@ -347,11 +346,13 @@ export class ManagedIdentityCredential implements TokenCredential {
         // requests.
         this.isEndpointUnavailable = result === null;
       } else {
-        this.logger.getToken.throwError(
-          new CredentialUnavailable("The managed identity endpoint is not currently available")
+        const error = new CredentialUnavailable(
+          "The managed identity endpoint is not currently available"
         );
+        logger.getToken.error(error);
+        throw error;
       }
-      this.logger.getToken.success(scopes);
+      logger.getToken.success(`${scopes}`);
       return result;
     } catch (err) {
       span.setStatus({
@@ -360,11 +361,12 @@ export class ManagedIdentityCredential implements TokenCredential {
       });
 
       if (err.code == "ENETUNREACH") {
-        this.logger.getToken.throwError(
-          new CredentialUnavailable(
-            "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
-          )
+        const error = new CredentialUnavailable(
+          "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
+
+        logger.getToken.error(error);
+        throw error;
       }
       throw new AuthenticationError(400, {
         error: "ManagedIdentityCredential authentication failed.",
@@ -372,11 +374,11 @@ export class ManagedIdentityCredential implements TokenCredential {
       });
     } finally {
       if (this.isEndpointUnavailable) {
-        this.logger.getToken.throwError(
-          new CredentialUnavailable(
-            "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
-          )
+        const error = new CredentialUnavailable(
+          "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
+        logger.getToken.error(error);
+        throw error;
       }
       span.end();
     }

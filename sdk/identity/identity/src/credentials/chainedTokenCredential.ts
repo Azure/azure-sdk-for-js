@@ -7,30 +7,18 @@ import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, CredentialLogger } from "../util/logging";
 
+const logger = credentialLogger("ChainedTokenCredential");
+
 /**
  * Enables multiple `TokenCredential` implementations to be tried in order
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
   /**
-   * The name to use during logging
-   */
-  protected credentialName = "ChainedTokenCredential";
-
-  /**
    * The message to use when the chained token fails to get a token
    */
   protected UnavailableMessage =
     "ChainedTokenCredential => failed to retrieve a token from the included credentials";
-
-  private _logger?: CredentialLogger;
-  private get logger(): CredentialLogger {
-    if (this._logger) {
-      return this._logger;
-    }
-    this._logger = credentialLogger(this.credentialName);
-    return this._logger;
-  }
 
   private _sources: TokenCredential[] = [];
 
@@ -76,7 +64,8 @@ export class ChainedTokenCredential implements TokenCredential {
         if (err instanceof CredentialUnavailable) {
           errors.push(err);
         } else {
-          this.logger.getToken.throwError(err);
+          logger.getToken.error(err);
+          throw err;
         }
       }
     }
@@ -87,13 +76,13 @@ export class ChainedTokenCredential implements TokenCredential {
         code: CanonicalCode.UNAUTHENTICATED,
         message: err.message
       });
-      this.logger.getToken.throwError(err);
+      logger.getToken.error(err);
       throw err;
     }
 
     span.end();
 
-    this.logger.getToken.success(scopes);
+    logger.getToken.success(`${scopes}`);
     return token;
   }
 }

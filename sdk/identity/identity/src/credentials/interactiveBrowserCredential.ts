@@ -10,6 +10,7 @@ import { credentialLogger, CredentialLogger } from "../util/logging";
 const BrowserNotSupportedError = new Error(
   "InteractiveBrowserCredential is not supported in Node.js."
 );
+const logger = credentialLogger("InteractiveBrowserCredential");
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -20,8 +21,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private logger: CredentialLogger;
 
   constructor(options?: InteractiveBrowserCredentialOptions) {
-    this.logger = credentialLogger(this.constructor.name);
-    this.logger.throwError(BrowserNotSupportedError);
+    logger.error(BrowserNotSupportedError);
+    throw BrowserNotSupportedError;
   }
 
   /**
@@ -38,6 +39,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    this.logger.throwError(BrowserNotSupportedError);
+    logger.getToken.error(BrowserNotSupportedError);
+    throw BrowserNotSupportedError;
   }
 }

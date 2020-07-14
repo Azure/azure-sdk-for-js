@@ -53,26 +53,25 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
 }
 
 /**
- * A CredentialLoggerInstance represents a logger used either at a credentials' constructor, or at its methods.
+ * A CredentialLoggerInstance is a logger properly formatted to work in a credential's constructor, and its methods.
  */
 export interface CredentialLoggerInstance {
   title: string;
   fullTitle: string;
   info(message: string): void;
   warning(message: string): void;
-  success(scopes: string | string[]): void;
+  success(message: string): void;
   error(err: Error): void;
-  throwError(err: Error): never;
 }
 
 /**
- * Generates a CredentialLoggerInstance, which represents a logger used either at a credentials' constructor, or at its methods.
+ * Generates a CredentialLoggerInstance.
  *
  * It logs with the formats:
  *
- *   [title] => [message]
- *   [title] => Success: [message]
- *   [title] => Error: [message]
+ *   formatter.info():    [title] => [message]
+ *   formatter.success(): [title] => Success: [message]
+ *   formatter.error():   [title] => Error: [message]
  *
  */
 export function credentialLoggerInstance(
@@ -89,14 +88,10 @@ export function credentialLoggerInstance(
     log.warning(`${fullTitle} =>`, message);
   }
   function success(message: string): void {
-    log.info(`${fullTitle} => Success:`, message);
+    info(`Success: ${message}`);
   }
   function error(err: Error): void {
     log.error(`${fullTitle} =>`, err);
-  }
-  function throwError(err: Error | CredentialUnavailable): never {
-    error(err);
-    throw err;
   }
 
   return {
@@ -105,8 +100,7 @@ export function credentialLoggerInstance(
     info,
     warning,
     success,
-    error,
-    throwError
+    error
   };
 }
 

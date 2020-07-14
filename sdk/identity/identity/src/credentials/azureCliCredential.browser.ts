@@ -8,16 +8,16 @@ import { TokenCredentialOptions } from "../client/identityClient";
 import { credentialLogger, CredentialLogger } from "../util/logging";
 
 const BrowserNotSupportedError = new Error("AzureCliCredential is not supported in the browser.");
+const logger = credentialLogger("AzureCliCredential");
 
 export class AzureCliCredential implements TokenCredential {
-  private logger: CredentialLogger;
-
   constructor(options?: TokenCredentialOptions) {
-    this.logger = credentialLogger(this.constructor.name);
-    this.logger.throwError(BrowserNotSupportedError);
+    logger.error(BrowserNotSupportedError);
+    throw BrowserNotSupportedError;
   }
 
   getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
-    this.logger.throwError(BrowserNotSupportedError);
+    logger.getToken.error(BrowserNotSupportedError);
+    throw BrowserNotSupportedError;
   }
 }

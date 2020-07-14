@@ -24,6 +24,8 @@ function addMinutes(date: Date, minutes: number): Date {
   return date;
 }
 
+const logger = credentialLogger("ClientCertificateCredential");
+
 /**
  * Enables authentication to Azure Active Directory using a PEM-encoded
  * certificate that is assigned to an App Registration.  More information
@@ -39,7 +41,6 @@ export class ClientCertificateCredential implements TokenCredential {
   private certificateString: string;
   private certificateThumbprint: string;
   private certificateX5t: string;
-  private logger: CredentialLogger;
 
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -60,15 +61,16 @@ export class ClientCertificateCredential implements TokenCredential {
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.certificateString = readFileSync(certificatePath, "utf8");
-    this.logger = credentialLogger(this.constructor.name);
 
     const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/;
     const matchCert = this.certificateString.match(certificatePattern);
     const publicKey = matchCert ? matchCert[3] : "";
     if (!publicKey) {
-      this.logger.throwError(
-        new Error("The file at the specified path does not contain a PEM-encoded certificate.")
+      const error = new Error(
+        "The file at the specified path does not contain a PEM-encoded certificate."
       );
+      logger.error(error);
+      throw error;
     }
 
     this.certificateThumbprint = createHash("sha1")
@@ -143,7 +145,7 @@ export class ClientCertificateCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      this.logger.getToken.success(scopes);
+      logger.getToken.success(`${scopes}`);
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -154,7 +156,8 @@ export class ClientCertificateCredential implements TokenCredential {
         code,
         message: err.message
       });
-      this.logger.getToken.throwError(err);
+      logger.getToken.error(err);
+      throw err;
     } finally {
       span.end();
     }

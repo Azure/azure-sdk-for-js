@@ -48,7 +48,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
-      this.logger.throwError(new Error(`Invalid loginStyle: ${options.loginStyle}`));
+      const error = new Error(`Invalid loginStyle: ${options.loginStyle}`);
+      this.logger.error(error);
+      throw error;
     }
 
     this.msalConfig = {
@@ -151,7 +153,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       });
 
       if (authResponse) {
-        this.logger.getToken.success(scopes);
+        this.logger.getToken.success(`${scopes}`);
         return {
           token: authResponse.accessToken,
           expiresOnTimestamp: authResponse.expiresOn.getTime()
@@ -165,7 +167,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      this.logger.getToken.throwError(err);
+      this.logger.getToken.error(err);
+      throw err;
     } finally {
       span.end();
     }

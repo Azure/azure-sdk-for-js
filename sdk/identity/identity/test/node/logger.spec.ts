@@ -9,7 +9,7 @@ import {
 } from "../../src/util/logging";
 import { TokenCredential, GetTokenOptions, AccessToken } from "../../src";
 
-describe.only("Identity logging utilities", function() {
+describe("Identity logging utilities", function() {
   describe("nestedLogger", function() {
     it("info", async function() {
       const allParams: any[] = [];
@@ -49,22 +49,6 @@ describe.only("Identity logging utilities", function() {
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.error(new Error("message"));
       assert.equal(allParams[0].join(" "), "title => Error: message");
-    });
-
-    it("throwError", async function() {
-      const allParams: any[] = [];
-      const fakeLogger = {
-        error: (...params: any) => allParams.push(params)
-      };
-      const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
-      let error: Error | undefined;
-      try {
-        logger.throwError(new Error("message"));
-      } catch (e) {
-        error = e;
-      }
-      assert.equal(allParams[0].join(" "), "title => Error: message");
-      assert.equal(error!.message, "message");
     });
   });
 
@@ -111,10 +95,12 @@ describe.only("Identity logging utilities", function() {
         options?: GetTokenOptions
       ): Promise<AccessToken | null> {
         if (scopes.length) {
-          this.logger.getToken.success(scopes);
+          this.logger.getToken.success(`${scopes}`);
           return null;
         }
-        this.logger.getToken.throwError(new Error("test getToken error"));
+        const error = new Error("test getToken error");
+        this.logger.getToken.error(error);
+        throw error;
       }
     }
 
