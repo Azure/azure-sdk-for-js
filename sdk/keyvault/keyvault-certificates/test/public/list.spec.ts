@@ -35,7 +35,7 @@ describe("Certificates client - list certificates in various ways", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

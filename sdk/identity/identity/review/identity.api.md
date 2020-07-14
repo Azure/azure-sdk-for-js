@@ -75,7 +75,6 @@ export class CredentialUnavailable extends Error {
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
     constructor(tokenCredentialOptions?: TokenCredentialOptions);
-    static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[];
 }
 
 // @public

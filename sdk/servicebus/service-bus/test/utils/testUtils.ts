@@ -22,7 +22,7 @@ export class TestMessage {
       to: `to ${randomNumber}`,
       replyTo: `reply to ${randomNumber}`,
       scheduledEnqueueTimeUtc: new Date(),
-      userProperties: {
+      properties: {
         propOne: 1,
         propTwo: "two",
         propThree: true
@@ -43,7 +43,7 @@ export class TestMessage {
       to: `to ${randomNumber}`,
       replyTo: `reply to ${randomNumber}`,
       scheduledEnqueueTimeUtc: new Date(),
-      userProperties: {
+      properties: {
         propOne: 1,
         propTwo: "two",
         propThree: true
@@ -63,13 +63,13 @@ export class TestMessage {
     useSessions?: boolean,
     usePartitions?: boolean
   ): void {
-    if (sent.userProperties) {
-      if (!received.userProperties) {
+    if (sent.properties) {
+      if (!received.properties) {
         chai.assert.fail("Received message doesnt have any user properties");
         return;
       }
-      const expectedUserProperties = sent.userProperties;
-      const receivedUserProperties = received.userProperties;
+      const expectedUserProperties = sent.properties;
+      const receivedUserProperties = received.properties;
       Object.keys(expectedUserProperties).forEach((key) => {
         chai.assert.equal(
           receivedUserProperties[key],

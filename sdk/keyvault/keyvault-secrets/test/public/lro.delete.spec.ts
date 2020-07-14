@@ -27,7 +27,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

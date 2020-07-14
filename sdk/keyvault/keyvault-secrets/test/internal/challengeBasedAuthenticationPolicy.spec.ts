@@ -35,7 +35,7 @@ describe("Challenge based authentication tests", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

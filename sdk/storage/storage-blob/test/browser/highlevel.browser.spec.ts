@@ -43,7 +43,7 @@ describe("Highlevel", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -51,7 +51,7 @@ describe("Highlevel", () => {
     recorder = record(this, recorderEnvSetup);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
     tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile2"), tempFile2Length);
-    recorder.stop();
+    await recorder.stop();
   });
 
   after(async () => {});
