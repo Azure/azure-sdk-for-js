@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
+import { QueueResponse } from "../serviceBusAtomManagementClient";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -59,7 +60,7 @@ export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions
  * response from the service
  * @param rawQueue
  */
-export function buildQueue(rawQueue: any): QueueDescription {
+export function buildQueue(rawQueue: any): Omit<QueueResponse, "_response"> {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
