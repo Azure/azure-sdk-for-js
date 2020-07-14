@@ -137,11 +137,9 @@ export namespace ConnectionContext {
           // Wait for the disconnected event that indicates the underlying socket has closed.
           await this.waitForDisconnectedEvent();
         }
-        // Check if the connection is currently in the process of disconnecting.
-        if (waitForDisconnectPromise) {
-          // Wait for the connection to be reset.
-          await this.waitForConnectionReset();
-        }
+
+        // Wait for the connection to be reset.
+        await this.waitForConnectionReset();
         log.error(`[${this.connectionId}] Connection is ready to open link.`);
       },
       waitForDisconnectedEvent() {
@@ -155,6 +153,7 @@ export namespace ConnectionContext {
         });
       },
       waitForConnectionReset() {
+        // Check if the connection is currently in the process of disconnecting.
         if (waitForDisconnectPromise) {
           return waitForDisconnectPromise;
         }
