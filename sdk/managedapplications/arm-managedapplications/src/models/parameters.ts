@@ -30,22 +30,22 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const applianceDefinitionId: msRest.OperationURLParameter = {
-  parameterPath: "applianceDefinitionId",
+export const applicationDefinitionId: msRest.OperationURLParameter = {
+  parameterPath: "applicationDefinitionId",
   mapper: {
     required: true,
-    serializedName: "applianceDefinitionId",
+    serializedName: "applicationDefinitionId",
     type: {
       name: "String"
     }
   },
   skipEncoding: true
 };
-export const applianceDefinitionName: msRest.OperationURLParameter = {
-  parameterPath: "applianceDefinitionName",
+export const applicationDefinitionName: msRest.OperationURLParameter = {
+  parameterPath: "applicationDefinitionName",
   mapper: {
     required: true,
-    serializedName: "applianceDefinitionName",
+    serializedName: "applicationDefinitionName",
     constraints: {
       MaxLength: 64,
       MinLength: 3
@@ -55,22 +55,22 @@ export const applianceDefinitionName: msRest.OperationURLParameter = {
     }
   }
 };
-export const applianceId: msRest.OperationURLParameter = {
-  parameterPath: "applianceId",
+export const applicationId: msRest.OperationURLParameter = {
+  parameterPath: "applicationId",
   mapper: {
     required: true,
-    serializedName: "applianceId",
+    serializedName: "applicationId",
     type: {
       name: "String"
     }
   },
   skipEncoding: true
 };
-export const applianceName: msRest.OperationURLParameter = {
-  parameterPath: "applianceName",
+export const applicationName: msRest.OperationURLParameter = {
+  parameterPath: "applicationName",
   mapper: {
     required: true,
-    serializedName: "applianceName",
+    serializedName: "applicationName",
     constraints: {
       MaxLength: 64,
       MinLength: 3
