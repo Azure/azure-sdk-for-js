@@ -53,6 +53,13 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
 }
 
 /**
+ * Formatting the success event on the credentials
+ */
+export function success(scope: string | string[]) {
+  return `Success: ${Array.isArray(scope) ? scope.join(", ") : scope}`;
+}
+
+/**
  * A CredentialLoggerInstance is a logger properly formatted to work in a credential's constructor, and its methods.
  */
 export interface CredentialLoggerInstance {
@@ -60,7 +67,6 @@ export interface CredentialLoggerInstance {
   fullTitle: string;
   info(message: string): void;
   warning(message: string): void;
-  success(message: string): void;
   error(err: Error): void;
 }
 
@@ -87,9 +93,6 @@ export function credentialLoggerInstance(
   function warning(message: string): void {
     log.warning(`${fullTitle} =>`, message);
   }
-  function success(message: string): void {
-    info(`Success: ${message}`);
-  }
   function error(err: Error): void {
     log.error(`${fullTitle} =>`, err);
   }
@@ -99,7 +102,6 @@ export function credentialLoggerInstance(
     fullTitle,
     info,
     warning,
-    success,
     error
   };
 }

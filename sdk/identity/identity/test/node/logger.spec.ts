@@ -5,12 +5,13 @@ import assert from "assert";
 import {
   credentialLoggerInstance,
   credentialLogger,
-  CredentialLogger
+  CredentialLogger,
+  success
 } from "../../src/util/logging";
 import { TokenCredential, GetTokenOptions, AccessToken } from "../../src";
 
 describe("Identity logging utilities", function() {
-  describe("nestedLogger", function() {
+  describe("credentialLoggerInstance", function() {
     it("info", async function() {
       const allParams: any[] = [];
       const fakeLogger = {
@@ -37,8 +38,18 @@ describe("Identity logging utilities", function() {
         info: (...params: any) => allParams.push(params)
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
-      logger.success("message");
-      assert.equal(allParams[0].join(" "), "title => Success: message");
+      logger.info(success("scope"));
+      assert.equal(allParams[0].join(" "), "title => Success: scope");
+    });
+
+    it("success with multiple scopes", async function() {
+      const allParams: any[] = [];
+      const fakeLogger = {
+        info: (...params: any) => allParams.push(params)
+      };
+      const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
+      logger.info(success(["scope 1", "scope 2"]));
+      assert.equal(allParams[0].join(" "), "title => Success: scope 1, scope 2");
     });
 
     it("error", async function() {
@@ -95,7 +106,7 @@ describe("Identity logging utilities", function() {
         options?: GetTokenOptions
       ): Promise<AccessToken | null> {
         if (scopes.length) {
-          this.logger.getToken.success(`${scopes}`);
+          this.logger.getToken.info(success(scopes));
           return null;
         }
         const error = new Error("test getToken error");
@@ -110,7 +121,7 @@ describe("Identity logging utilities", function() {
     await fakeCredential.getToken(["Scope 1", "Scope 2"]);
     assert.equal(
       allInfoParams[1].join(" "),
-      "FakeCredential => getToken() => Success: Scope 1,Scope 2"
+      "FakeCredential => getToken() => Success: Scope 1, Scope 2"
     );
 
     let error: Error | undefined;

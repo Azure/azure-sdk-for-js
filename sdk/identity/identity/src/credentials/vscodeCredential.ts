@@ -7,7 +7,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import * as keytar from "keytar";
 import { CredentialUnavailable } from "../client/errors";
-import { credentialLogger, CredentialLogger } from "../util/logging";
+import { credentialLogger, CredentialLogger, success } from "../util/logging";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -67,7 +67,7 @@ export class VSCodeCredential implements TokenCredential {
       );
 
       if (tokenResponse) {
-        logger.getToken.success(`${scopes}`);
+        logger.getToken.info(success(scopes));
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailable(

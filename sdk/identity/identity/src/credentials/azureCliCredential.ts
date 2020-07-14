@@ -5,7 +5,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger } from "../util/logging";
+import { credentialLogger, CredentialLogger, success } from "../util/logging";
 import * as child_process from "child_process";
 
 function getSafeWorkingDir(): string {
@@ -108,7 +108,7 @@ export class AzureCliCredential implements TokenCredential {
           } else {
             responseData = obj.stdout;
             const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
-            logger.getToken.success(`${scopes}`);
+            logger.getToken.info(success(scopes));
             resolve({
               token: response.accessToken,
               expiresOnTimestamp: new Date(response.expiresOn).getTime()

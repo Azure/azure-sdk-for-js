@@ -7,7 +7,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger } from "../util/logging";
+import { credentialLogger, CredentialLogger, success } from "../util/logging";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 
@@ -90,7 +90,7 @@ export class UsernamePasswordCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      logger.getToken.success(`${scopes}`);
+      logger.getToken.info(success(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =

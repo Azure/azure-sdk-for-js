@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, CredentialLogger } from "../util/logging";
+import { credentialLogger, CredentialLogger, success } from "../util/logging";
 
 const logger = credentialLogger("ChainedTokenCredential");
 
@@ -82,7 +82,7 @@ export class ChainedTokenCredential implements TokenCredential {
 
     span.end();
 
-    logger.getToken.success(`${scopes}`);
+    logger.getToken.info(success(scopes));
     return token;
   }
 }
