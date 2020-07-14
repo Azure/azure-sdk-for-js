@@ -190,7 +190,7 @@ export class LinkEntity {
     if (!this._tokenTimeout) {
       return;
     }
-    // Clear the existing token renewal timer in case it hasn't already fired.
+    // Clear the existing token renewal timer in case the previous timeout hasn't been reached.
     // This scenario can happen if the connection goes down and is brought back up
     // before the `nextRenewalTimeout` was reached.
     if (this._tokenRenewalTimer) {
