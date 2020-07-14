@@ -11,13 +11,15 @@ import {
 import {
   AmqpError,
   EventContext,
+  isAmqpError,
   OnAmqpEvent,
   Receiver,
   ReceiverEvents,
-  ReceiverOptions,
-  isAmqpError
+  ReceiverOptions
 } from "rhea-promise";
-import * as log from "../log";
+import { ClientEntityContext } from "../clientEntityContext";
+import { LinkEntity } from "../core/linkEntity";
+import { DispositionStatusOptions } from "../core/managementClient";
 import {
   OnAmqpEventAsPromise,
   OnError,
@@ -25,12 +27,10 @@ import {
   PromiseLike,
   ReceiverHelper
 } from "../core/messageReceiver";
-import { LinkEntity } from "../core/linkEntity";
-import { ClientEntityContext } from "../clientEntityContext";
-import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
-import { throwErrorIfConnectionClosed } from "../util/errors";
+import * as log from "../log";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { DispositionStatusOptions } from "../core/managementClient";
+import { throwErrorIfConnectionClosed } from "../util/errors";
+import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 
 /**
  * Enum to denote who is calling the session receiver
@@ -137,11 +137,11 @@ export class MessageSession extends LinkEntity {
    */
   sessionLockedUntilUtc?: Date;
   /**
-   * @property {string} [sessionId] The sessionId provided in the MessageSessionOptions. Empty string is valid sessionId.
+   * @property {string} [providedSessionId] The sessionId provided in the MessageSessionOptions. Empty string is valid sessionId.
    */
-  providedSessionId?: string;
+  private providedSessionId?: string;
   /**
-   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId
+   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId.
    */
   sessionId!: string;
   /**
