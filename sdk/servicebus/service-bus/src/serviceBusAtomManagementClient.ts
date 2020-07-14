@@ -107,6 +107,11 @@ export interface Response {
 export interface NamespacePropertiesResponse extends NamespaceProperties, Response {}
 
 /**
+ * Options to be passed to the createQueue method.
+ */
+export interface CreateQueueOptions extends Omit<QueueDescription, "status"> {}
+
+/**
  * Represents runtime info of a queue.
  */
 export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
@@ -116,9 +121,28 @@ export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
  */
 export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {}
 /**
- * Represents result of create, get, update and delete operations on queue.
+ * Represents result of create, get, update operations on queue.
  */
-export interface QueueResponse extends QueueDescription, Response {}
+export interface QueueResponse
+  extends Pick<
+      QueueDescription,
+      | "defaultMessageTtl"
+      | "lockDuration"
+      | "deadLetteringOnMessageExpiration"
+      | "duplicateDetectionHistoryTimeWindow"
+      | "maxDeliveryCount"
+    >,
+    Readonly<
+      Omit<
+        QueueDescription,
+        | "defaultMessageTtl"
+        | "lockDuration"
+        | "deadLetteringOnMessageExpiration"
+        | "duplicateDetectionHistoryTimeWindow"
+        | "maxDeliveryCount"
+      >
+    >,
+    Response {}
 
 /**
  * Represents result of list operation on queues.
@@ -337,11 +361,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createQueue(
-    queue: QueueDescription,
+    queue: CreateQueueOptions,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse>;
   async createQueue(
-    queueNameOrOptions: string | QueueDescription,
+    queueNameOrOptions: string | CreateQueueOptions,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     let queue: QueueDescription;
