@@ -473,12 +473,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    if (!this._isClosed) {
-      try {
-        this._messageSession.receive(onMessage, onError, options);
-      } catch (err) {
-        onError(err);
-      }
+    try {
+      this._messageSession.receive(onMessage, onError, options);
+    } catch (err) {
+      onError(err);
     }
   }
 
