@@ -4,6 +4,9 @@
 
 - `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
   [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
+- Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
+  where attempting to create AMQP links when the AMQP connection was in the
+  process of closing resulted in a `TypeError` in an uncaught exception.
 
 ## 7.0.0-preview.4 (2020-07-07)
 

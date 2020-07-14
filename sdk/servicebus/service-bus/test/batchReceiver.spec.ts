@@ -910,9 +910,6 @@ describe(noSessionTestClientType + ": Batch Receiver - disconnects", function():
       "_connection"
     ].idle();
 
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSample());
 
