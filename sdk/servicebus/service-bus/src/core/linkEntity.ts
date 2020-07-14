@@ -102,6 +102,8 @@ export class LinkEntity {
    * @return {Promise<void>} Promise<void>
    */
   protected async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+    // Wait for the connectionContext to be ready to open the link.
+    await this._context.namespace.readyToOpenLink();
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
@@ -155,6 +157,12 @@ export class LinkEntity {
    * @returns {void}
    */
   protected async _ensureTokenRenewal(): Promise<void> {
+    // Clear the existing token renewal timer.
+    // This scenario can happen if the connection goes down and is brought back up
+    // before the `nextRenewalTimeout` was reached.
+    if (this._tokenRenewalTimer) {
+      clearTimeout(this._tokenRenewalTimer);
+    }
     const tokenValidTimeInSeconds = this._context.namespace.tokenProvider.tokenValidTimeInSeconds;
     const tokenRenewalMarginInSeconds = this._context.namespace.tokenProvider
       .tokenRenewalMarginInSeconds;

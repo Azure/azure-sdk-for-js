@@ -29,7 +29,62 @@ export interface ConnectionContext extends ConnectionContextBase {
    * objects for each of the client in the `clients` dictionary
    */
   clientContexts: Dictionary<ClientEntityContext>;
+  /**
+   * Function returning a promise that resolves once the connectionContext is ready to open an AMQP link.
+   * ConnectionContext will be ready to open an AMQP link when:
+   * - The AMQP connection is already open on both sides.
+   * - The AMQP connection has been closed or disconnected. In this case, a new AMQP connection is expected
+   * to be created first.
+   * An AMQP link cannot be opened if the AMQP connection
+   * is in the process of closing or disconnecting.
+   */
+  readyToOpenLink(): Promise<void>;
 }
+
+/**
+ * Describes the members on the ConnectionContext that are only
+ * used by it internally.
+ * @ignore
+ * @internal
+ */
+export interface ConnectionContextInternalMembers extends ConnectionContext {
+  /**
+   * Indicates whether the connection is in the process of closing.
+   * When this returns `true`, a `disconnected` event will be received
+   * after the connection is closed.
+   *
+   */
+  isConnectionClosing(): boolean;
+  /**
+   * Resolves once the context's connection emits a `disconnected` event.
+   */
+  waitForDisconnectedEvent(): Promise<void>;
+  /**
+   * Resolves once the connection has finished being reset.
+   * Connections are reset as part of reacting to a `disconnected` event.
+   */
+  waitForConnectionReset(): Promise<void>;
+}
+
+/**
+ * Helper type to get the names of all the functions on an object.
+ */
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
+/**
+ * Helper type to get the types of all the functions on an object.
+ */
+type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
+/**
+ * Helper type to get the types of all the functions on ConnectionContext
+ * and the internal methods from ConnectionContextInternalMembers.
+ * Note that this excludes the functions that ConnectionContext inherits.
+ * Each function also has its `this` type set as `ConnectionContext`.
+ */
+type ConnectionContextMethods = Omit<
+  FunctionProperties<ConnectionContextInternalMembers>,
+  FunctionPropertyNames<ConnectionContextBase>
+> &
+  ThisType<ConnectionContextInternalMembers>;
 
 /**
  * @internal
@@ -64,6 +119,47 @@ export namespace ConnectionContext {
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
     connectionContext.clientContexts = {};
 
+    let waitForConnectionRefreshResolve: () => void;
+    let waitForConnectionRefreshPromise: Promise<void> | undefined;
+    Object.assign<ConnectionContext, ConnectionContextMethods>(connectionContext, {
+      isConnectionClosing() {
+        // When the connection is not open, but the remote end is open,
+        // then the rhea connection is in the process of terminating.
+        return Boolean(!this.connection.isOpen() && this.connection.isRemoteOpen());
+      },
+      async readyToOpenLink() {
+        log.error(`[${this.connectionId}] Waiting until the connection is ready to open link.`);
+        // Check that the connection isn't in the process of closing.
+        // This can happen when the idle timeout has been reached but
+        // the underlying socket is waiting to be destroyed.
+        if (this.isConnectionClosing()) {
+          // Wait for the disconnected event that indicates the underlying socket has closed.
+          await this.waitForDisconnectedEvent();
+        }
+
+        // Wait for the connection to be reset.
+        await this.waitForConnectionReset();
+        log.error(`[${this.connectionId}] Connection is ready to open link.`);
+      },
+      waitForDisconnectedEvent() {
+        return new Promise((resolve) => {
+          log.error(
+            `[${this.connectionId}] Attempting to reinitialize connection` +
+              ` but the connection is in the process of closing.` +
+              ` Waiting for the disconnect event before continuing.`
+          );
+          this.connection.once(ConnectionEvents.disconnected, resolve);
+        });
+      },
+      waitForConnectionReset() {
+        // Check if the connection is currently in the process of disconnecting.
+        if (waitForConnectionRefreshPromise) {
+          return waitForConnectionRefreshPromise;
+        }
+        return Promise.resolve();
+      }
+    });
+
     // Define listeners to be added to the connection object for
     // "connection_open" and "connection_error" events.
     const onConnectionOpen: OnAmqpEvent = (context: EventContext) => {
@@ -76,6 +172,13 @@ export namespace ConnectionContext {
     };
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
+      if (waitForConnectionRefreshPromise) {
+        return;
+      }
+      waitForConnectionRefreshPromise = new Promise((resolve) => {
+        waitForConnectionRefreshResolve = resolve;
+      });
+
       const connectionError =
         context.connection && context.connection.error ? context.connection.error : undefined;
       if (connectionError) {
@@ -117,6 +220,8 @@ export namespace ConnectionContext {
       }
 
       await refreshConnection(connectionContext);
+      waitForConnectionRefreshResolve();
+      waitForConnectionRefreshPromise = undefined;
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
       log.error("[%s] state: %O", connectionContext.connectionId, state);
