@@ -51,6 +51,10 @@ export interface CreateBatchOptions extends OperationOptionsBase {
 }
 
 // @public
+export interface CreateQueueOptions extends Omit<QueueDescription, "status"> {
+}
+
+// @public
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptionsBase {
 }
 
@@ -147,7 +151,7 @@ export interface QueueDescription {
 }
 
 // @public
-export interface QueueResponse extends QueueDescription, Response {
+export interface QueueResponse extends Pick<QueueDescription, "defaultMessageTtl" | "lockDuration" | "deadLetteringOnMessageExpiration" | "duplicateDetectionHistoryTimeWindow" | "maxDeliveryCount">, Readonly<Omit<QueueDescription, "defaultMessageTtl" | "lockDuration" | "deadLetteringOnMessageExpiration" | "duplicateDetectionHistoryTimeWindow" | "maxDeliveryCount">>, Response {
 }
 
 // @public
@@ -291,7 +295,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    createQueue(queue: QueueDescription, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    createQueue(queue: CreateQueueOptions, operationOptions?: OperationOptions): Promise<QueueResponse>;
     createRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     createSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
