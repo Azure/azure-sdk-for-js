@@ -1,0 +1,32 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/api/events",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"id\":\"singleEventId159477576968000871\",\"subject\":\"Single 1\",\"data\":{\"hello\":\"world\"},\"eventType\":\"Azure.Sdk.TestEvent1\",\"eventTime\":\"2020-07-15T01:16:09.680Z\",\"dataVersion\":\"1.0\"}]",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2018-01-01",
+    "content-length": "0",
+    "date": "Wed, 15 Jul 2020 01:16:13 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "2e8240bd-678e-453c-b63c-31d076f8c3c7"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "singleEventId": "singleEventId159477576968000871"
+  },
+  "newDate": {
+   "singleEventDate": "2020-07-15T01:16:09.680Z"
+  }
+ },
+ "hash": "9b44e18369316233af4458904ca8ae09"
+}
