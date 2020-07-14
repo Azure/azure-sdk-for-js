@@ -202,7 +202,7 @@ $serviceName = if (Split-Path -IsAbsolute  $ServiceDirectory) {
     $ServiceDirectory
 }
 
-if ($CI -and !$ResourceGroupName) { 
+if ($CI) { 
   $BaseName = 't' + (New-Guid).ToString('n').Substring(0, 16)
   Write-Verbose "Generated base name '$BaseName' for CI build"
 }
