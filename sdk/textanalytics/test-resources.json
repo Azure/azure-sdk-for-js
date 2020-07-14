@@ -27,7 +27,7 @@
   "resources": [{
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "cognitiveServicesUser",
+      "name": "[guid('cognitiveServicesUser')]",
       "dependsOn": ["[variables('accountName')]"],
       "properties": {
         "principalId": "[parameters('testApplicationOid')]",
