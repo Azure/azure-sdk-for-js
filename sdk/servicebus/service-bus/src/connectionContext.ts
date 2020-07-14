@@ -119,8 +119,8 @@ export namespace ConnectionContext {
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
     connectionContext.clientContexts = {};
 
-    let waitForDisconnectResolve: () => void;
-    let waitForDisconnectPromise: Promise<void> | undefined;
+    let waitForConnectionRefreshResolve: () => void;
+    let waitForConnectionRefreshPromise: Promise<void> | undefined;
     Object.assign<ConnectionContext, ConnectionContextMethods>(connectionContext, {
       isConnectionClosing() {
         // When the connection is not open, but the remote end is open,
@@ -136,11 +136,9 @@ export namespace ConnectionContext {
           // Wait for the disconnected event that indicates the underlying socket has closed.
           await this.waitForDisconnectedEvent();
         }
-        // Check if the connection is currently in the process of disconnecting.
-        if (waitForDisconnectPromise) {
-          // Wait for the connection to be reset.
-          await this.waitForConnectionReset();
-        }
+
+        // Wait for the connection to be reset.
+        await this.waitForConnectionReset();
         log.error(`[${this.connectionId}] Connection is ready to open link.`);
       },
       waitForDisconnectedEvent() {
@@ -154,8 +152,9 @@ export namespace ConnectionContext {
         });
       },
       waitForConnectionReset() {
-        if (waitForDisconnectPromise) {
-          return waitForDisconnectPromise;
+        // Check if the connection is currently in the process of disconnecting.
+        if (waitForConnectionRefreshPromise) {
+          return waitForConnectionRefreshPromise;
         }
         return Promise.resolve();
       }
@@ -173,11 +172,11 @@ export namespace ConnectionContext {
     };
 
     const disconnected: OnAmqpEvent = async (context: EventContext) => {
-      if (waitForDisconnectPromise) {
+      if (waitForConnectionRefreshPromise) {
         return;
       }
-      waitForDisconnectPromise = new Promise((resolve) => {
-        waitForDisconnectResolve = resolve;
+      waitForConnectionRefreshPromise = new Promise((resolve) => {
+        waitForConnectionRefreshResolve = resolve;
       });
 
       const connectionError =
@@ -221,8 +220,8 @@ export namespace ConnectionContext {
       }
 
       await refreshConnection(connectionContext);
-      waitForDisconnectResolve();
-      waitForDisconnectPromise = undefined;
+      waitForConnectionRefreshResolve();
+      waitForConnectionRefreshPromise = undefined;
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
       log.error("[%s] state: %O", connectionContext.connectionId, state);
