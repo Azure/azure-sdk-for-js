@@ -779,7 +779,6 @@ export class MessageReceiver extends LinkEntity {
         }
 
         this.isConnecting = true;
-        await this._context.namespace.readyToOpenLink();
         await this._negotiateClaim();
         if (!options) {
           options = this._createReceiverOptions();

@@ -458,7 +458,6 @@ export class MessageSender extends LinkEntity {
             this.address
           );
           this.isConnecting = true;
-          await this._context.namespace.readyToOpenLink();
           await this._negotiateClaim();
           log.error(
             "[%s] Trying to create sender '%s'...",
