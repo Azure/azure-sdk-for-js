@@ -25,10 +25,12 @@
     "accountName": "[format('textanalytics-{0}', parameters('baseName'))]"
   },
   "resources": [{
-      "type": "Microsoft.Authorization/roleAssignments",
+      "type": "Microsoft.CognitiveServices/accounts/providers/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[guid('cognitiveServicesUser')]",
-      "dependsOn": ["[variables('accountName')]"],
+      "name": "[format('{0}/Microsoft.Authorization/{1}', variables('accountName'), guid(parameters('baseName')))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', variables('accountName'))]"
+      ],
       "properties": {
         "principalId": "[parameters('testApplicationOid')]",
         "roleDefinitionId": "[variables('taRoleId')]"
