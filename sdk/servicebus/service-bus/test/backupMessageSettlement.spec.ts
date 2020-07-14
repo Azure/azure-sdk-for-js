@@ -127,7 +127,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     if (entityNames.usesSessions) {
       should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
     } else {
-      should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
+      should.equal(errorWasThrown, false, "Error was thrown for messages without session-id");
     }
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     await testPeekMsgsLength(receiver, 1);
