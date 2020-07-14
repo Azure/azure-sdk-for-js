@@ -46,6 +46,7 @@ export {
 } from "./serializers/subscriptionResourceSerializer";
 export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
 export {
+  CreateQueueOptions,
   ListRequestOptions,
   NamespacePropertiesResponse,
   QueueResponse,
