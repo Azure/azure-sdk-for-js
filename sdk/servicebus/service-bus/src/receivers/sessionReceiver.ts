@@ -120,7 +120,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ) {
     throwErrorIfConnectionClosed(this._context.namespace);
     this.entityPath = this._context.entityPath;
-    this.sessionId = _messageSession.sessionId!;
+    this.sessionId = _messageSession.sessionId;
   }
 
   static async createInitializedSessionReceiver<

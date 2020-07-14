@@ -137,9 +137,13 @@ export class MessageSession extends LinkEntity {
    */
   sessionLockedUntilUtc?: Date;
   /**
+   * @property {string} [sessionId] The sessionId provided in the MessageSessionOptions. Empty string is valid sessionId.
+   */
+  providedSessionId?: string;
+  /**
    * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId
    */
-  sessionId?: string;
+  sessionId!: string;
   /**
    * @property {number} [maxConcurrentSessions] The maximum number of concurrent sessions that the
    * client should initiate.
@@ -284,7 +288,7 @@ export class MessageSession extends LinkEntity {
             this.name
           );
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-            this.sessionId!,
+            this.sessionId,
             {
               timeoutInMs: 10000
             }
@@ -330,7 +334,7 @@ export class MessageSession extends LinkEntity {
    */
   private _deleteFromCache(): void {
     this._receiver = undefined;
-    delete this._context.messageSessions[this.sessionId!];
+    delete this._context.messageSessions[this.sessionId];
     log.error(
       "[%s] Deleted the receiver '%s' with sessionId '%s' from the client cache.",
       this._context.namespace.connectionId,
@@ -375,14 +379,14 @@ export class MessageSession extends LinkEntity {
         let errorMessage: string = "";
         // SB allows a sessionId with empty string value :)
 
-        if (this.sessionId == null && receivedSessionId == null) {
+        if (this.providedSessionId == null && receivedSessionId == null) {
           // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
           // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
           errorMessage = `No unlocked sessions were available`;
-        } else if (this.sessionId != null && receivedSessionId !== this.sessionId) {
+        } else if (this.providedSessionId != null && receivedSessionId !== this.providedSessionId) {
           // This code path is reached if the session is already locked by another receiver.
           // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-          errorMessage = `Failed to get a lock on the session ${this.sessionId}`;
+          errorMessage = `Failed to get a lock on the session ${this.providedSessionId}`;
         }
 
         if (errorMessage) {
@@ -393,7 +397,7 @@ export class MessageSession extends LinkEntity {
           log.error("[%s] %O", this._context.namespace.connectionId, error);
           throw error;
         }
-        if (this.sessionId == null) this.sessionId = receivedSessionId;
+        if (this.providedSessionId == null) this.sessionId = receivedSessionId;
         this.sessionLockedUntilUtc = convertTicksToDate(
           this._receiver.properties["com.microsoft:locked-until-utc"]
         );
@@ -419,8 +423,8 @@ export class MessageSession extends LinkEntity {
           this.name,
           options
         );
-        if (!this._context.messageSessions[this.sessionId!]) {
-          this._context.messageSessions[this.sessionId!] = this;
+        if (!this._context.messageSessions[this.sessionId]) {
+          this._context.messageSessions[this.sessionId] = this;
         }
         this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
         this._ensureTokenRenewal();
@@ -491,7 +495,8 @@ export class MessageSession extends LinkEntity {
     this._receiverHelper = new ReceiverHelper(() => this._receiver);
     if (!options) options = { sessionId: undefined };
     this.autoComplete = false;
-    this.sessionId = options.sessionId;
+    this.providedSessionId = options.sessionId;
+    if (this.providedSessionId != undefined) this.sessionId = this.providedSessionId;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this.callee = options.callee || SessionCallee.standalone;
     this.maxAutoRenewDurationInMs =
