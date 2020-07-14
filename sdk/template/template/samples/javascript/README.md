@@ -55,6 +55,6 @@ npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node sampleTemplate.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [sampleTemplate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples/javascript/src/sampleTemplate.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/template
+[apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md
