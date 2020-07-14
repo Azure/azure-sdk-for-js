@@ -11,7 +11,7 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "westcentralus",
+      "defaultValue": "[resourceGroup().location]",
       "metadata": {
         "description": "The location of the resource. By default, this is the same as the resource group."
       }
@@ -60,8 +60,7 @@
   "variables": {
     "frRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]"
   },
-  "resources": [
-    {
+  "resources": [{
       "type": "Microsoft.Authorization/roleAssignments",
       "apiVersion": "2018-09-01-preview",
       "name": "cognitiveServicesUser",
