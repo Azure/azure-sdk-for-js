@@ -202,12 +202,12 @@ $serviceName = if (Split-Path -IsAbsolute  $ServiceDirectory) {
     $ServiceDirectory
 }
 
-if ($CI) { 
+if ($CI -and !$ResourceGroupName) { 
   $BaseName = 't' + (New-Guid).ToString('n').Substring(0, 16)
   Write-Verbose "Generated base name '$BaseName' for CI build"
 }
 
-$rgName = if ($ResourceGroupName -ne '') { 
+$rgName = if ($ResourceGroupName -ne '') {
   $ResourceGroupName
 } elseif ($CI) {
   # Format the resource group name based on resource group naming recommendations and limitations.

@@ -132,7 +132,7 @@ foreach ($entry in $manifest) {
         -DeleteAfterHours 24 `
         -Force `
         -Verbose `
-        -CI:$false
+        -CI:$CI
 
       $deployedServiceDirectories[$entry.ResourcesDirectory] = $true;
 
@@ -146,6 +146,7 @@ foreach ($entry in $manifest) {
 
   }
   catch {
+    OutputWarning "Failed to deploy $($entry.Name) $($_Exception.Message)"
     Write-Warning "Failed to deploy $($entry.Name)"
     Write-Host $_Exception.Message
     continue
@@ -180,6 +181,12 @@ $runnerPackageSpec.dependencies = $dependencies
 ($runnerPackageSpec | ConvertTo-Json | Set-Content common/smoke-test/package.json)
 
 SetEnvironmentVariable -Name "NODE_PATH" -Value "$PSScriptRoot/node_modules"
+
+if ($CI) {
+  # If in CI mark the task as successful even if there are warnings so the
+  # pipeline execution status shows up as red or green
+  Write-Host "##vso[task.complete result=Succeeded;]DONE"
+}
 
 # TODO: use current script location instead of changing directories
 popd
