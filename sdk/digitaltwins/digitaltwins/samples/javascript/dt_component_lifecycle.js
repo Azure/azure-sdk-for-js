@@ -21,9 +21,9 @@ const { v4 } = require("uuid");
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these model Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
-  const modelId = "model-" + v4();
-  const componentId = "component-" + v4();
-  const digitalTwinId = "digitalTwin-" + v4();
+  const modelId = `model-${v4()}`;
+  const componentId = `component-${v4()}`;
+  const digitalTwinId = `digitalTwin-${v4()}`;
 
   const temporaryComponent = {
     "@id": componentId,
@@ -34,9 +34,9 @@ async function main() {
       {
         "@type": "Property",
         name: "ComponentProp1",
-        schema: "string"
-      }
-    ]
+        schema: "string",
+      },
+    ],
   };
 
   const temporaryModel = {
@@ -48,26 +48,26 @@ async function main() {
       {
         "@type": "Property",
         name: "Prop1",
-        schema: "double"
+        schema: "double",
       },
       {
         "@type": "Component",
         name: "Component1",
-        schema: componentId
-      }
-    ]
+        schema: componentId,
+      },
+    ],
   };
 
   const temporaryTwin = {
     "@id": digitalTwinId,
     $metadata: {
-      "@model": modelId
+      "@model": modelId,
     },
     Prop1: 42,
     Component1: {
       $metadata: {},
-      ComponentProp1: "value1"
-    }
+      ComponentProp1: "value1",
+    },
   };
 
   // - AZURE_URL: The tenant ID in Azure Active Directory
@@ -96,7 +96,7 @@ async function main() {
   // Update component
   const componentPath = "Component1";
   const jsonPatch = {
-    ComponentProp1: "value2"
+    ComponentProp1: "value2",
   };
   const response = await serviceClient.updateComponent(digitalTwinId, componentPath, jsonPatch);
   console.log(response);

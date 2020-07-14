@@ -20,8 +20,8 @@ const { v4 } = require("uuid");
 // For the purpose of this example we will create temporary model and a temporay component model using random Ids.
 // We have to make sure these model Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
-  const modelId = "model-" + v4();
-  const componentId = "component-" + v4();
+  const modelId = `model-${v4()}`;
+  const componentId = `component-${v4()}`;
 
   const temporaryComponent = {
     "@id": componentId,
@@ -32,14 +32,14 @@ async function main() {
       {
         "@type": "Property",
         name: "ComponentProp1",
-        schema: "string"
+        schema: "string",
       },
       {
         "@type": "Telemetry",
         name: "ComponentTelemetry1",
-        schema: "integer"
-      }
-    ]
+        schema: "integer",
+      },
+    ],
   };
 
   const temporaryModel = {
@@ -51,19 +51,19 @@ async function main() {
       {
         "@type": "Property",
         name: "Prop1",
-        schema: "string"
+        schema: "string",
       },
       {
         "@type": "Component",
         name: "Component1",
-        schema: componentId
+        schema: componentId,
       },
       {
         "@type": "Telemetry",
         name: "Telemetry1",
-        schema: "integer"
-      }
-    ]
+        schema: "integer",
+      },
+    ],
   };
 
   // - AZURE_URL: The tenant ID in Azure Active Directory

@@ -14,7 +14,7 @@ Use the client library to:
 - Create and manage relationships between the models and twins.
 - Publis telemetry to digital twin or component.
 
-[Source code][source] | [NPM package][package]
+[Source code][source] | [NPM package][adt_npm]
 
 ## Getting started
 
@@ -41,8 +41,8 @@ View the package details at [npmjs.com][adt_npm].
     - Using [Azure portal][azure_portal]
     - Using [Azure Management APIs][azure_rest_api]
     - Using [Azure CLI][azure_cli]
-      - You will need to install azure cli and the [Azure IoT extension][iot_cli_extension] for Azure CLI.
-      - Refer to [IoT CLI documentation][iot_cli_doc] for more information on how to create and interact with your Digital Twins instance.
+      - You will need to [install azure cli][azure_cli_install] and the [Azure IoT extension][iot_cli_extension] for Azure CLI.
+      - Refer to [IoT CLI documentation][azure_cli_install] for more information on how to create and interact with your Digital Twins instance.
 
 ### Authenticate the Client
 
@@ -106,23 +106,18 @@ For more information see the Code of Conduct FAQ or contact opencode@microsoft.c
 
 <!-- LINKS -->
 
-[microsoft_sdk_download]: https://azure.microsoft.com/en-us/downloads/?sdk=net
-[azure_sdk_target_frameworks]: https://github.com/azure/azure-sdk-for-net#target-frameworks
+[microsoft_sdk_download]: https://azure.microsoft.com/en-us/downloads
 [azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_cli_install]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
+[iot_cli_extension]: https://docs.microsoft.com/en-us/azure/iot-pnp/howto-install-pnp-cli
 [azure_sub]: https://azure.microsoft.com/free/
 [source]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins
-[package]: https://www.npmjs.com/package/@azure/digitaltwins
 [adt_npm]: https://www.npmjs.com/package/@azure/digitaltwins
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [npm]: https://www.npmjs.com/
 [azure_portal]: https://portal.azure.com/
 [azure_rest_api]: https://docs.microsoft.com/en-us/rest/api/azure/
-[azure_core_library]: https://github.com/Azure/azure-sdk-for-net/tree/master/sdk/core/Azure.Core
-[token_credential]: https://docs.microsoft.com/en-us/dotnet/api/azure.core.tokencredential?view=azure-dotnet
-[service_client_credential]: https://docs.microsoft.com/en-us/dotnet/api/microsoft.rest.serviceclientcredentials?view=azure-dotnet
-[digital_twins_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digitaltwins/src/digitalTwinsClient.cs
+[token_credential]: https://docs.microsoft.com/en-us/javascript/api/@azure/ms-rest-js/tokencredentials?view=azure-node-latest
+[service_client_credential]: https://docs.microsoft.com/en-us/javascript/api/@azure/ms-rest-js/serviceclientcredentials?view=azure-node-latest
+[digital_twins_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digitaltwins/src/digitalTwinsClient.ts
 [digital_twins_documentation]: https://docs.microsoft.com/en-us/azure/digital-twins/
-[azure_cli]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[iot_cli_extension]: https://docs.microsoft.com/en-us/azure/iot-pnp/howto-install-pnp-cli
-[iot_cli_doc]: https://docs.microsoft.com/en-us/cli/azure/ext/azure-iot/dt?view=azure-cli-latest
-[http_status_code]: https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netcore-3.1

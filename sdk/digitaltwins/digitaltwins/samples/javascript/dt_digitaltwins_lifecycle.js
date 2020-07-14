@@ -37,7 +37,7 @@ async function main() {
   console.log(`Model: ${model.body}`);
 
   // Create digital twin based on the created model
-  const digitalTwinId = "digitalTwin-" + v4();
+  const digitalTwinId = `digitalTwin-${v4()}`;
   const newTwin = buildingTwin;
   const createdTwin = await serviceClient.upsertDigitalTwin(
     digitalTwinId,
@@ -53,7 +53,7 @@ async function main() {
 
   // Update digital twin
   const twinPatch = {
-    AverageTemperature: 42
+    AverageTemperature: 42,
   };
   const updatedTwin = await serviceClient.updateDigitalTwin(digitalTwinId, twinPatch);
   console.log(`Updated digitalTwin's etag: ${updatedTwin.eTag}`);

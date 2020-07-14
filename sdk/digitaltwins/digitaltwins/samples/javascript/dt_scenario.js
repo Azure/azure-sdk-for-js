@@ -127,7 +127,7 @@ async function main() {
   }
 
   // Create event route
-  const eventRouteId = "eventRoute-" + v4();
+  const eventRouteId = `eventRoute-${v4()}`;
   const eventFilter =
     "$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'";
   const response = await serviceClient.upsertEventRoute(
