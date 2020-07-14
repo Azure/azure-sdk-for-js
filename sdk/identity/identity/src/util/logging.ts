@@ -73,11 +73,9 @@ export interface CredentialLoggerInstance {
 /**
  * Generates a CredentialLoggerInstance.
  *
- * It logs with the formats:
+ * It logs with the format:
  *
- *   formatter.info():    [title] => [message]
- *   formatter.success(): [title] => Success: [message]
- *   formatter.error():   [title] => Error: [message]
+ *   [title] => [message]
  *
  */
 export function credentialLoggerInstance(
@@ -118,11 +116,9 @@ export interface CredentialLogger extends CredentialLoggerInstance {
  * Generates a CredentialLogger, which is a logger declared at the credential's constructor, and used at any point in the credential.
  * It has all the properties of a CredentialLoggerInstance, plus other logger instances, one per method.
  *
- * At the getToken method level, it logs with the formats:
+ * It logs with the format:
  *
- *   [title] => getToken => [message]
- *   [title] => getToken => Success: [message]
- *   [title] => getToken => Error: [message]
+ *   [title] => [message]
  *
  */
 export function credentialLogger(title: string, log: AzureLogger = logger): CredentialLogger {
