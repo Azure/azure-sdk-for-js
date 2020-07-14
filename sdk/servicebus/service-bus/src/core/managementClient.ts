@@ -212,6 +212,7 @@ export class ManagementClient extends LinkEntity {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
+        await this._context.namespace.readyToOpenLink();
         await this._negotiateClaim();
         const rxopt: ReceiverOptions = {
           source: { address: this.address },

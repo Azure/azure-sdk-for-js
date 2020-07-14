@@ -2,7 +2,7 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "license": "MIT",
   "description": "Azure Service Bus SDK for Node.js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus",
@@ -97,7 +97,7 @@
     "is-buffer": "^2.0.3",
     "long": "^4.0.0",
     "process": "^0.11.10",
-    "rhea": "^1.0.21",
+    "rhea": "^1.0.23",
     "rhea-promise": "^0.1.15",
     "tslib": "^1.10.0"
   },

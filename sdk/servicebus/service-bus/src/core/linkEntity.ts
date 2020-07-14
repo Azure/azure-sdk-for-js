@@ -155,6 +155,12 @@ export class LinkEntity {
    * @returns {void}
    */
   protected async _ensureTokenRenewal(): Promise<void> {
+    // Clear the existing token renewal timer in case it hasn't already fired.
+    // This scenario can happen if the connection goes down and is brought back up
+    // before the `nextRenewalTimeout` was reached.
+    if (this._tokenRenewalTimer) {
+      clearTimeout(this._tokenRenewalTimer);
+    }
     const tokenValidTimeInSeconds = this._context.namespace.tokenProvider.tokenValidTimeInSeconds;
     const tokenRenewalMarginInSeconds = this._context.namespace.tokenProvider
       .tokenRenewalMarginInSeconds;

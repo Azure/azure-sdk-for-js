@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.8 (Unreleased)
+
+- Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
+  where attempting to create AMQP links when the AMQP connection was in the
+  process of closing resulted in a `TypeError` in an uncaught exception.
+
 ## 1.1.7 (2020-05-13)
 
 - Relaxes the scheme check for the endpoint while parsing the connection string.
@@ -9,9 +15,9 @@
   [PR 8515](https://github.com/Azure/azure-sdk-for-js/pull/8515)
 - Updates `@azure/amqp-common` to version 1.0.0-preview.15, fixing an issue with 'OperationTimeoutError's not being considered retryable.
 - Ensures the promise returned by `receiveMessages()` is rejected appropriately when the connection disconnects in the midst of
-draining credits. This fixes [bug 7689](https://github.com/Azure/azure-sdk-for-js/issues/7689) with [PR 8552](https://github.com/Azure/azure-sdk-for-js/pull/8552)
+  draining credits. This fixes [bug 7689](https://github.com/Azure/azure-sdk-for-js/issues/7689) with [PR 8552](https://github.com/Azure/azure-sdk-for-js/pull/8552)
 - Fixes [bug 8673](https://github.com/Azure/azure-sdk-for-js/issues/8673) where a user application would crash with ECONNRESET error due to the underlying AMQP library
-`rhea` not cleaning up sockets on connection going idle. Details can be found in [PR amqp/rhea#300](https://github.com/amqp/rhea/pull/300)
+  `rhea` not cleaning up sockets on connection going idle. Details can be found in [PR amqp/rhea#300](https://github.com/amqp/rhea/pull/300)
 
 ## 1.1.6 (2020-04-23)
 

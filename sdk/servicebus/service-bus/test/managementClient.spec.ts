@@ -2,7 +2,6 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import Long from "long";
 import {
-  delay,
   QueueClient,
   ServiceBusClient,
   TopicClient,
@@ -64,10 +63,6 @@ describe("ManagementClient - disconnects", function(): void {
     // Simulate a disconnect being called with a non-retryable error.
     connectionContext.connection["_connection"].idle();
 
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
-
     // peek additional messages
     messages = await receiverClient.peek(1);
     peekedMessageCount += messages.length;
@@ -108,10 +103,6 @@ describe("ManagementClient - disconnects", function(): void {
 
     // Simulate a disconnect being called with a non-retryable error.
     connectionContext.connection["_connection"].idle();
-
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
 
     // peek additional messages
     deliveryId = await sender.scheduleMessage(

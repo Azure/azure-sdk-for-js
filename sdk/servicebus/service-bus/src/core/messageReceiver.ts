@@ -765,7 +765,7 @@ export class MessageReceiver extends LinkEntity {
           // an error here could have unintended consequences.
           return;
         }
-        
+
         log.error(
           "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
             "establishing itself. Hence let's try to connect.",
@@ -773,12 +773,13 @@ export class MessageReceiver extends LinkEntity {
           this.name,
           this.address
         );
-        
+
         if (options && options.name) {
           this.name = options.name;
         }
-        
+
         this.isConnecting = true;
+        await this._context.namespace.readyToOpenLink();
         await this._negotiateClaim();
         if (!options) {
           options = this._createReceiverOptions();
