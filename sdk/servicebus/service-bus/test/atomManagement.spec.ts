@@ -63,6 +63,12 @@ describe("Atom management - Namespace", function(): void {
       ["_response", "createdAt", "updatedAt", "name"]
     );
   });
+  
+  it("Create queue response", async () => {
+    const response = await serviceBusAtomManagementClient.createQueue("random");
+    // @ts-expect-error
+    response.authorizationRules = "";
+  });
 });
 
 describe("Atom management - Authentication", function(): void {
