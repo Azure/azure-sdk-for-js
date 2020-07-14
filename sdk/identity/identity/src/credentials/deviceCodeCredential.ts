@@ -136,7 +136,7 @@ export class DeviceCodeCredential implements TokenCredential {
           `Failed to authenticate ${(err as AuthenticationError).errorResponse.errorDescription}`
         );
       } else {
-        logger.warning(`FFailed to authenticate ${err}`);
+        logger.warning(`Failed to authenticate ${err}`);
       }
 
       span.setStatus({

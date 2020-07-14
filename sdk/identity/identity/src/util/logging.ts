@@ -119,6 +119,7 @@ export interface CredentialLogger extends CredentialLoggerInstance {
  * It logs with the format:
  *
  *   [title] => [message]
+ *   [title] => getToken() => [message]
  *
  */
 export function credentialLogger(title: string, log: AzureLogger = logger): CredentialLogger {
