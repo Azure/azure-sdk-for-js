@@ -382,6 +382,7 @@ export class Items {
       resources: partitionKeyRanges
     } = await this.container.readPartitionKeyRanges().fetchAll();
     const { resource: definition } = await this.container.getPartitionKeyDefinition();
+    console.log({ container: this.container });
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
         min: keyRange.minInclusive,
@@ -410,12 +411,13 @@ export class Items {
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
 
-    return Promise.all(
+    const responses = await Promise.all(
       batches
         .filter((batch: Batch) => batch.operations.length)
         .map(async (batch: Batch) => {
-          console.log({ batch });
+          console.log({ batch: JSON.stringify(batch) });
           try {
+            console.log({ rangeId: batch.rangeId });
             const response = await this.clientContext.bulk({
               body: batch.operations,
               partitionKeyRange: batch.rangeId,
@@ -424,10 +426,20 @@ export class Items {
               options
             });
             return response;
-          } catch (error) {
-            console.log({ error });
+          } catch (err) {
+            console.log({ err });
+            const {
+              resources: partitionKeyRanges
+            } = await this.container.readPartitionKeyRanges().fetchAll();
+            console.log({ partitionKeyRanges });
           }
         })
     );
+    return responses
+      .map((resp) => {
+        console.log(resp);
+        return resp.result;
+      })
+      .flat();
   }
 }

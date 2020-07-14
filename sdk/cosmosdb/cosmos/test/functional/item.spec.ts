@@ -245,7 +245,7 @@ describe.only("bulk item operations", function() {
       replaceItemId = addEntropy("item3");
       await container.items.create({
         id: replaceItemId,
-        key: "A",
+        key: 5,
         class: "2010"
       });
     });
@@ -273,77 +273,79 @@ describe.only("bulk item operations", function() {
         },
         {
           operationType: "Replace",
-          partitionKey: `["A"]`,
+          partitionKey: "5",
           id: replaceItemId,
-          resourceBody: { id: replaceItemId, name: "nice", key: "A" }
+          resourceBody: { id: replaceItemId, name: "nice", key: 5 }
         }
       ];
       const response = await container.items.bulk(operations);
-      assert.equal(response[0].code, 200);
+      console.log({ response });
     });
   });
-  describe("with v2 container", function() {
-    let container: Container;
-    let readItemId: string;
+  describe.only("with v2 container", function() {
+    let v2Container: Container;
+    // let readItemId: string;
     let replaceItemId: string;
-    let deleteItemId: string;
+    // let deleteItemId: string;
     before(async function() {
-      container = await getTestContainer("bulk container", undefined, {
+      v2Container = await getTestContainer("bulk container v2", undefined, {
         partitionKey: {
-          paths: ["/key"]
+          paths: ["/key"],
+          version: 2
         },
         throughput: 25100
       });
-      readItemId = addEntropy("item1");
-      await container.items.create({
-        id: readItemId,
-        key: "A",
-        class: "2010"
-      });
-      deleteItemId = addEntropy("item2");
-      await container.items.create({
-        id: deleteItemId,
-        key: "A",
-        class: "2010"
-      });
-      replaceItemId = addEntropy("item3");
-      await container.items.create({
+      // readItemId = addEntropy("item1");
+      // await container.items.create({
+      //   id: readItemId,
+      //   key: "A",
+      //   class: "2010"
+      // });
+      // deleteItemId = addEntropy("item2");
+      // await container.items.create({
+      //   id: deleteItemId,
+      //   key: "A",
+      //   class: "2010"
+      // });
+      // replaceItemId = addEntropy("item3");
+      await v2Container.items.create({
         id: replaceItemId,
-        key: "A",
+        key: 5,
         class: "2010"
       });
     });
     it("handles create, upsert, replace, delete", async function() {
       const operations: Operation[] = [
-        {
-          operationType: "Create",
-          partitionKey: `["A"]`,
-          resourceBody: { id: "doc1", name: "sample", key: "A" }
-        },
-        {
-          operationType: "Upsert",
-          partitionKey: `["A"]`,
-          resourceBody: { id: "doc2", name: "other", key: "A" }
-        },
-        {
-          operationType: "Read",
-          id: readItemId,
-          partitionKey: `["A"]`
-        },
-        {
-          operationType: "Delete",
-          id: deleteItemId,
-          partitionKey: `["A"]`
-        },
+        // {
+        //   operationType: "Create",
+        //   partitionKey: `["A"]`,
+        //   resourceBody: { id: "doc1", name: "sample", key: "A" }
+        // },
+        // {
+        //   operationType: "Upsert",
+        //   partitionKey: `["A"]`,
+        //   resourceBody: { id: "doc2", name: "other", key: "A" }
+        // },
+        // {
+        //   operationType: "Read",
+        //   id: readItemId,
+        //   partitionKey: `["A"]`
+        // },
+        // {
+        //   operationType: "Delete",
+        //   id: deleteItemId,
+        //   partitionKey: `["A"]`
+        // },
         {
           operationType: "Replace",
-          partitionKey: `["A"]`,
+          partitionKey: "[5]",
           id: replaceItemId,
-          resourceBody: { id: replaceItemId + "230984", name: "nice", key: "A" }
+          resourceBody: { id: replaceItemId, name: "nice", key: 5 }
         }
       ];
-      const response = await container.items.bulk(operations);
-      assert.equal(response[0].code, 200);
+      const response = await v2Container.items.bulk(operations);
+      console.log(response.map((item: any) => item.resourceBody));
+      // assert.equal(response[0], 200);
     });
   });
 });

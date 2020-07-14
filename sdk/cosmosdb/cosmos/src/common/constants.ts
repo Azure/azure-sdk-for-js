@@ -146,7 +146,10 @@ export const Constants = {
 
     // Bulk/Batch header
     IsBatchRequest: "x-ms-cosmos-is-batch-request",
-    IsBatchAtomic: "x-ms-cosmos-batch-atomic"
+    IsBatchAtomic: "x-ms-cosmos-batch-atomic",
+
+    // Cache Refresh header
+    ForceRefresh: "x-ms-force-refresh"
   },
 
   // GlobalDB related constants

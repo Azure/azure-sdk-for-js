@@ -15,6 +15,7 @@ export interface Batch {
 }
 
 export function isKeyInRange(min: string, max: string, key: string) {
+  console.log({ min, max, key });
   const isAfterMinInclusive = key.localeCompare(min) >= 0;
   const isBeforeMax = key.localeCompare(max) < 0;
   return isAfterMinInclusive && isBeforeMax;

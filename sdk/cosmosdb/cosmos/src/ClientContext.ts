@@ -139,6 +139,7 @@ export class ClientContext {
       request.operationType
     );
     request.headers = await this.buildHeaders(request);
+    // request.headers[Constants.HttpHeaders.ForceRefresh] = "True";
     if (query !== undefined) {
       request.headers[Constants.HttpHeaders.IsQuery] = "true";
       request.headers[Constants.HttpHeaders.ContentType] = QueryJsonContentType;
@@ -655,8 +656,7 @@ export class ClientContext {
       clientOptions: this.cosmosClientOptions,
       defaultHeaders: {
         ...this.cosmosClientOptions.defaultHeaders,
-        ...requestContext.options.initialHeaders,
-        PartitionKeyRangeID: "3"
+        ...requestContext.options.initialHeaders
       },
       verb: requestContext.method,
       path: requestContext.path,
