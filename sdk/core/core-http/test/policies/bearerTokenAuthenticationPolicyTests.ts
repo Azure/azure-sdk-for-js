@@ -15,6 +15,7 @@ import {
   ExpiringAccessTokenCache,
   TokenRefreshBufferMs
 } from "../../src/credentials/accessTokenCache";
+import { delay } from "../../src/coreHttp";
 
 describe("BearerTokenAuthenticationPolicy", function() {
   const mockPolicy: RequestPolicy = {
@@ -52,15 +53,15 @@ describe("BearerTokenAuthenticationPolicy", function() {
     );
   });
 
-  it("refreshes access tokens when they expire", async () => {
+  it("refreshes access tokens when they expire", async function() {
     const now = Date.now();
     const refreshCred1 = new MockRefreshAzureCredential(now);
     const refreshCred2 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs);
     const notRefreshCred1 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs + 5000);
 
     const credentialsToTest: [MockRefreshAzureCredential, number][] = [
-      [refreshCred1, 2],
-      [refreshCred2, 2],
+      [refreshCred1, 1],
+      [refreshCred2, 1],
       [notRefreshCred1, 1]
     ];
 
@@ -71,6 +72,19 @@ describe("BearerTokenAuthenticationPolicy", function() {
       await policy.sendRequest(request);
       assert.strictEqual(credentialToTest.authCount, expectedCalls);
     }
+  });
+
+  it("tests that AccessTokenRefresher is working", async function() {
+    this.timeout(35000);
+    const now = Date.now();
+    const credentialToTest = new MockRefreshAzureCredential(now);
+
+    const request = createRequest();
+    const policy = createBearerTokenPolicy("testscope", credentialToTest);
+    await policy.sendRequest(request);
+    await delay(30000);
+    await policy.sendRequest(request);
+    assert.strictEqual(credentialToTest.authCount, 2);
   });
 
   function createRequest(operationSpec?: OperationSpec): WebResource {
