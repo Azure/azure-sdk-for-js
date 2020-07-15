@@ -1,4 +1,7 @@
-import { AvroReadable } from "./AvroReadable";
+import { AvroReadable, AvroReadableReadOptions } from "./AvroReadable";
+import { AbortError } from "@azure/abort-controller";
+
+const ABORT_ERROR = new AbortError("Reading from the avro stream was aborted.");
 
 export class AvroReadableFromStream extends AvroReadable {
   private _position: number;
@@ -11,25 +14,15 @@ export class AvroReadableFromStream extends AvroReadable {
     return data;
   }
 
-  // private _stillReadable: boolean;
   constructor(readable: NodeJS.ReadableStream) {
     super();
     this._readable = readable;
     this._position = 0;
-    // workaround due to Readable.readable only available after Node.js v11.4
-    // this._stillReadable = true;
-    // this._readable.on("end", () => {
-    //   this._stillReadable = false;
-    // });
-    // this._readable.on("error", () => {
-    //   this._stillReadable = false;
-    // });
   }
   public get position(): number {
     return this._position;
   }
-  public async read(size: number): Promise<Uint8Array> {
-    // console.log(`reading stream for size ${size} at position ${this._position}`);
+  public async read(size: number, options: AvroReadableReadOptions = {}): Promise<Uint8Array> {
     if (size < 0) {
       throw new Error(`size parameter should be positive: ${size}`);
     }
@@ -38,12 +31,10 @@ export class AvroReadableFromStream extends AvroReadable {
       return new Uint8Array();
     }
 
-    // readable is true if it is safe to call readable.read(), which means the stream has not been destroyed or emitted 'error' or 'end'.
-    // if (!this._stillReadable || this._readable.destroyed) {
     if (!this._readable.readable) {
       throw new Error("Stream no longer readable.");
     }
-    // See if there is already enough data, note that "Only after readable.read() returns null, 'readable' will be emitted."
+    // See if there is already enough data.
     let chunk = this._readable.read(size);
     if (chunk) {
       this._position += chunk.length;
@@ -61,6 +52,9 @@ export class AvroReadableFromStream extends AvroReadable {
             this._readable.removeListener("error", rejectCallback);
             this._readable.removeListener("end", rejectCallback);
             this._readable.removeListener("close", rejectCallback);
+            if (options.abortSignal) {
+              options.abortSignal!.removeEventListener("abort", abortHandler);
+            }
 
             // chunk.length maybe less than desired size if the stream ends.
             resolve(this.toUint8Array(chunk));
@@ -72,13 +66,31 @@ export class AvroReadableFromStream extends AvroReadable {
           this._readable.removeListener("error", rejectCallback);
           this._readable.removeListener("end", rejectCallback);
           this._readable.removeListener("close", rejectCallback);
+          if (options.abortSignal) {
+            options.abortSignal!.removeEventListener("abort", abortHandler);
+          }
           reject();
+        };
+
+        const abortHandler = () => {
+          this._readable.removeListener("readable", readableCallback);
+          this._readable.removeListener("error", rejectCallback);
+          this._readable.removeListener("end", rejectCallback);
+          this._readable.removeListener("close", rejectCallback);
+
+          if (options.abortSignal) {
+            options.abortSignal!.removeEventListener("abort", abortHandler);
+          }
+          reject(ABORT_ERROR);
         };
 
         this._readable.on("readable", readableCallback);
         this._readable.once("error", rejectCallback);
         this._readable.once("end", rejectCallback);
         this._readable.once("close", rejectCallback);
+        if (options.abortSignal) {
+          options.abortSignal!.addEventListener("abort", abortHandler);
+        }
       });
     }
   }

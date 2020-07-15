@@ -26,8 +26,9 @@
     "pack": "npm pack 2>&1"
   },
   "dependencies": {
-    "tslib": "^2.0.0",
-    "@azure/core-paging": "^1.1.1"
+    "@azure/abort-controller": "^1.0.0",
+    "@azure/core-paging": "^1.1.1",
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/identity": "^1.1.0",

@@ -2,6 +2,18 @@ import * as fs from "fs";
 import * as assert from "assert";
 import { AvroReader, AvroReadableFromStream } from "../src";
 import { arraysEqual } from "../src/utils/utils.common";
+import { AbortController } from "@azure/abort-controller";
+const { Readable } = require("stream");
+
+type Action = (o: Object | null) => void;
+class TestCase {
+  public path: string;
+  public predict: Action;
+  constructor(path: string, action: Action) {
+    this.path = path;
+    this.predict = action;
+  }
+}
 
 describe("AvroReader", () => {
   if (typeof TextEncoder === "undefined" && typeof require !== "undefined") {
@@ -50,14 +62,27 @@ describe("AvroReader", () => {
       }
     }
   });
-});
 
-type Action = (o: Object | null) => void;
-class TestCase {
-  public path: string;
-  public predict: Action;
-  constructor(path: string, action: Action) {
-    this.path = path;
-    this.predict = action;
-  }
-}
+  it("aborter", async () => {
+    const delayedReadable = new Readable({ read() {} });
+    let rfs = new AvroReadableFromStream(delayedReadable);
+    const avroReader = new AvroReader(rfs);
+
+    const timeoutSignal = AbortController.timeout(1);
+    const manualAborter = new AbortController();
+    const linkedAborter = new AbortController(timeoutSignal, manualAborter.signal);
+
+    const iter = avroReader.parseObjects({ abortSignal: linkedAborter.signal });
+    let AbortErrorCaught = false;
+    try {
+      await iter.next();
+    } catch (err) {
+      if (err.name === "AbortError") {
+        AbortErrorCaught = true;
+      }
+    }
+    assert.ok(AbortErrorCaught);
+
+    manualAborter.abort();
+  });
+});
