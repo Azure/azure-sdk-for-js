@@ -44,7 +44,7 @@ async function main() {
           console.log("Receiver will be recreated. A recoverable error occurred:", err);
           resolve();
         } else {
-          console.log("Non-fatal error occurred: ", err);
+          console.log("Error occurred: ", err);
         }
       };
 
