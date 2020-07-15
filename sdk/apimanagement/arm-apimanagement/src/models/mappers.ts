@@ -7083,6 +7083,28 @@ export const QuotaCounterValueContractProperties: msRest.CompositeMapper = {
   }
 };
 
+export const QuotaCounterValueUpdateContract: msRest.CompositeMapper = {
+  serializedName: "QuotaCounterValueUpdateContract",
+  type: {
+    name: "Composite",
+    className: "QuotaCounterValueUpdateContract",
+    modelProperties: {
+      callsCount: {
+        serializedName: "properties.callsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      kbTransferred: {
+        serializedName: "properties.kbTransferred",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const QuotaCounterContract: msRest.CompositeMapper = {
   serializedName: "QuotaCounterContract",
   type: {

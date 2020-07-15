@@ -178,7 +178,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TenantAccessGitGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TenantAccessGitGetHeaders
     }
   },
   serializer
@@ -253,7 +254,8 @@ const listSecretsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TenantAccessGitListSecretsHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TenantAccessGitListSecretsHeaders
     }
   },
   serializer

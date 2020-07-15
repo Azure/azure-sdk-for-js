@@ -375,7 +375,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OpenIdConnectProviderGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.OpenIdConnectProviderGetEntityTagHeaders
     }
   },
   serializer
@@ -402,7 +403,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OpenIdConnectProviderGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.OpenIdConnectProviderGetHeaders
     }
   },
   serializer
@@ -441,7 +443,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.OpenIdConnectProviderCreateOrUpdateHeaders
     }
   },
   serializer

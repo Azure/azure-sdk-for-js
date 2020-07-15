@@ -444,7 +444,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.EmailTemplateGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EmailTemplateGetEntityTagHeaders
     }
   },
   serializer
@@ -471,7 +472,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.EmailTemplateGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.EmailTemplateGetHeaders
     }
   },
   serializer
