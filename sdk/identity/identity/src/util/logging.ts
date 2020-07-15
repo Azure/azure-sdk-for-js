@@ -55,7 +55,7 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
 /**
  * Formatting the success event on the credentials
  */
-export function success(scope: string | string[]) {
+export function formatSuccess(scope: string | string[]) {
   return `Success: ${Array.isArray(scope) ? scope.join(", ") : scope}`;
 }
 

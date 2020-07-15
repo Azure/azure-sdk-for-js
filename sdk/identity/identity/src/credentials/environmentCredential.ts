@@ -13,7 +13,7 @@ import {
 import { CanonicalCode } from "@opentelemetry/api";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { credentialLogger, processEnvVars, success } from "../util/logging";
+import { credentialLogger, processEnvVars, formatSuccess } from "../util/logging";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -121,7 +121,7 @@ export class EnvironmentCredential implements TokenCredential {
     if (this._credential) {
       try {
         const result = await this._credential.getToken(scopes, newOptions);
-        logger.getToken.info(success(scopes));
+        logger.getToken.info(formatSuccess(scopes));
         return result;
       } catch (err) {
         const code =

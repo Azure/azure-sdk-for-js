@@ -11,7 +11,7 @@ import {
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
-import { credentialLogger, success } from "../util/logging";
+import { credentialLogger, formatSuccess } from "../util/logging";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -152,7 +152,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       });
 
       if (authResponse) {
-        logger.getToken.info(success(scopes));
+        logger.getToken.info(formatSuccess(scopes));
         return {
           token: authResponse.accessToken,
           expiresOnTimestamp: authResponse.expiresOn.getTime()

@@ -17,7 +17,7 @@ import {
   CredentialUnavailable
 } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, success } from "../util/logging";
+import { credentialLogger, formatSuccess } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -352,7 +352,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         logger.getToken.error(error);
         throw error;
       }
-      logger.getToken.info(success(scopes));
+      logger.getToken.info(formatSuccess(scopes));
       return result;
     } catch (err) {
       span.setStatus({

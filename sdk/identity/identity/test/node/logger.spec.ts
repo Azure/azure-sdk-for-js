@@ -6,7 +6,7 @@ import {
   credentialLoggerInstance,
   credentialLogger,
   CredentialLogger,
-  success
+  formatSuccess
 } from "../../src/util/logging";
 import { TokenCredential, GetTokenOptions, AccessToken } from "../../src";
 
@@ -38,7 +38,7 @@ describe("Identity logging utilities", function() {
         info: (...params: any) => allParams.push(params)
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
-      logger.info(success("scope"));
+      logger.info(formatSuccess("scope"));
       assert.equal(allParams[0].join(" "), "title => Success: scope");
     });
 
@@ -48,7 +48,7 @@ describe("Identity logging utilities", function() {
         info: (...params: any) => allParams.push(params)
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
-      logger.info(success(["scope 1", "scope 2"]));
+      logger.info(formatSuccess(["scope 1", "scope 2"]));
       assert.equal(allParams[0].join(" "), "title => Success: scope 1, scope 2");
     });
 
@@ -106,7 +106,7 @@ describe("Identity logging utilities", function() {
         options?: GetTokenOptions
       ): Promise<AccessToken | null> {
         if (scopes.length) {
-          this.logger.getToken.info(success(scopes));
+          this.logger.getToken.info(formatSuccess(scopes));
           return null;
         }
         const error = new Error("test getToken error");

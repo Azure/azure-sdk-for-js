@@ -8,7 +8,7 @@ import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, success } from "../util/logging";
+import { credentialLogger, formatSuccess } from "../util/logging";
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -270,7 +270,7 @@ export class DeviceCodeCredential implements TokenCredential {
       }
 
       this.lastTokenResponse = tokenResponse;
-      logger.getToken.info(success(scopes));
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =

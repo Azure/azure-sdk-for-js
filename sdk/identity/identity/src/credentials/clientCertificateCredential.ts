@@ -11,7 +11,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, success } from "../util/logging";
+import { credentialLogger, formatSuccess } from "../util/logging";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -145,7 +145,7 @@ export class ClientCertificateCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      logger.getToken.info(success(scopes));
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
