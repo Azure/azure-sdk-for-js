@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc -p .",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ./mocha-multi-reporter.js --timeout 180000 --full-trace 'dist/**/*.js' --exit",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ./mocha-multi-reporter.js --timeout 250000 --full-trace 'dist/**/*.js' --exit",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser"
   },
   "repository": {
