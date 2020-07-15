@@ -46,9 +46,7 @@ describe("dead lettering", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveMessages(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
@@ -195,9 +193,7 @@ describe("abandoning", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveMessages(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
@@ -320,9 +316,7 @@ describe("deferring", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveMessages(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");

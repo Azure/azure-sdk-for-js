@@ -43,7 +43,7 @@ describe("Blob versioning", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("List Blobs include versions", async () => {

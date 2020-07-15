@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
-import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
+import { TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import {
@@ -21,7 +21,8 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   drainReceiveAndDeleteReceiver,
-  testPeekMsgsLength
+  testPeekMsgsLength,
+  getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { getDeliveryProperty } from "./utils/misc";
 import { MessagingError, translate } from "@azure/core-amqp";
@@ -33,6 +34,7 @@ chai.use(chaiAsPromised);
 let errorWasThrown: boolean;
 let unexpectedError: Error | undefined;
 const maxDeliveryCount = 10;
+const testClientType = getRandomTestClientTypeWithNoSessions();
 
 async function processError(err: Error): Promise<void> {
   if (err) {
@@ -40,7 +42,7 @@ async function processError(err: Error): Promise<void> {
   }
 }
 
-describe("Streaming", () => {
+describe("Streaming Receiver Tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
@@ -55,10 +57,7 @@ describe("Streaming", () => {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(
-    testClientType: TestClientType,
-    receiveMode?: "peekLock" | "receiveAndDelete"
-  ): Promise<void> {
+  async function beforeEachTest(receiveMode?: "peekLock" | "receiveAndDelete"): Promise<void> {
     entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (receiveMode === "receiveAndDelete") {
@@ -76,12 +75,16 @@ describe("Streaming", () => {
     unexpectedError = undefined;
   }
 
-  describe("Streaming - Misc Tests", function(): void {
+  describe(testClientType + ": Streaming - Misc Tests", function(): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
 
-    async function testAutoComplete(): Promise<void> {
+    beforeEach(async () => {
+      await beforeEachTest();
+    });
+
+    it("AutoComplete removes the message", async function(): Promise<void> {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
 
@@ -118,72 +121,11 @@ describe("Streaming", () => {
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
       await testPeekMsgsLength(receiver, 0);
-    }
-    async function testAutoCompleteWithSenderAndReceiver(): Promise<void> {
-      const testMessage = TestMessage.getSample();
-      await sender.sendMessages(testMessage);
-
-      const receivedMsgs: ReceivedMessage[] = [];
-      receiver.subscribe({
-        async processMessage(msg: ReceivedMessage) {
-          receivedMsgs.push(msg);
-          should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
-          should.equal(
-            msg.messageId,
-            testMessage.messageId,
-            "MessageId is different than expected"
-          );
-
-          return Promise.resolve();
-        },
-        processError
-      });
-
-      const msgsCheck = await checkWithTimeout(
-        () =>
-          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
-      );
-
-      should.equal(
-        msgsCheck,
-        true,
-        receivedMsgs.length !== 1
-          ? `Expected 1, received ${receivedMsgs.length} messages`
-          : "Message didnt get auto-completed in time"
-      );
-
-      should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
-      should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
-
-      const peekedMsgs = await receiver.peekMessages(1);
-      should.equal(peekedMsgs.length, 0, "Unexpected number of msgs found when peeking");
-    }
-
-    it("Partitioned Queue: AutoComplete removes the message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testAutoCompleteWithSenderAndReceiver();
     });
 
-    it("Partitioned Subscription: AutoComplete removes the message", async function(): Promise<
+    it("Disabled autoComplete, no manual complete retains the message", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testAutoComplete();
-    });
-
-    it("UnPartitioned Queue: AutoComplete removes the message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testAutoComplete();
-    });
-
-    it("UnPartitioned Subscription: AutoComplete removes the message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testAutoComplete();
-    });
-
-    async function testManualComplete(): Promise<void> {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
 
@@ -215,40 +157,11 @@ describe("Streaming", () => {
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       await testPeekMsgsLength(receiver, 0);
-    }
-
-    it("Partitioned Queue: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testManualComplete();
-    });
-
-    it("Partitioned Subscription: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testManualComplete();
-    });
-
-    it("UnPartitioned Queue: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testManualComplete();
-    });
-
-    it("UnPartitioned Subscription: Disabled autoComplete, no manual complete retains the message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testManualComplete();
     });
 
     it("onDetached should forward error messages if it fails to retry", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
       let streamingReceiver: StreamingReceiver | undefined;
       try {
         let actualError: Error | undefined;
@@ -288,9 +201,13 @@ describe("Streaming", () => {
     });
   });
 
-  describe("Streaming - Complete message", function(): void {
+  describe(testClientType + ": Streaming - Complete message", function(): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
+    });
+
+    beforeEach(async () => {
+      await beforeEachTest();
     });
 
     async function testComplete(autoComplete: boolean): Promise<void> {
@@ -322,61 +239,25 @@ describe("Streaming", () => {
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
       await testPeekMsgsLength(receiver, 0);
     }
-    it("Partitioned Queue: complete() removes message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it("complete() removes message", async function(): Promise<void> {
       await testComplete(false);
     });
 
-    it("Partitioned Subscription: complete() removes message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testComplete(false);
-    });
-
-    it("UnPartitioned Queue: complete() removes message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testComplete(false);
-    });
-
-    it("UnPartitioned Subscription: complete() removes message", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testComplete(false);
-    });
-
-    it("Partitioned Queue with autoComplete: complete() removes message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testComplete(true);
-    });
-
-    it("Partitioned Subscription with autoComplete: complete() removes message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testComplete(true);
-    });
-
-    it("UnPartitioned Queue with autoComplete: complete() removes message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testComplete(true);
-    });
-
-    it("UnPartitioned Subscription with autoComplete: complete() removes message", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
+    it("with autoComplete: complete() removes message", async function(): Promise<void> {
       await testComplete(true);
     });
   });
 
-  describe("Streaming - Abandon message", function(): void {
+  describe(testClientType + ": Streaming - Abandon message", function(): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
 
-    async function testMultipleAbandons(): Promise<void> {
+    beforeEach(async () => {
+      await beforeEachTest();
+    });
+
+    it("Multiple abandons until maxDeliveryCount", async function(): Promise<void> {
       const testMessage = TestMessage.getSample();
       await sender.sendMessages(testMessage);
 
@@ -424,40 +305,16 @@ describe("Streaming", () => {
       await deadLetterMsgs[0].complete();
 
       await testPeekMsgsLength(deadLetterReceiver, 0);
-    }
-
-    it("Partitioned Queue: Multiple abandons until maxDeliveryCount", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testMultipleAbandons();
-    });
-
-    it("Partitioned Subscription: Multiple abandons until maxDeliveryCount", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testMultipleAbandons();
-    });
-
-    it("Unpartitioned Queue: Multiple abandons until maxDeliveryCount", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testMultipleAbandons();
-    });
-
-    it("Unpartitioned Subscription: Multiple abandons until maxDeliveryCount", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testMultipleAbandons();
     });
   });
 
-  describe("Streaming - Defer message", function(): void {
+  describe(testClientType + ": Streaming - Defer message", function(): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
+    });
+
+    beforeEach(async () => {
+      await beforeEachTest();
     });
 
     async function testDefer(autoComplete: boolean): Promise<void> {
@@ -504,66 +361,24 @@ describe("Streaming", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it("Partitioned Queue: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it("defer() moves message to deferred queue", async function(): Promise<void> {
       await testDefer(false);
     });
 
-    it("Partitioned Subscription: defer() moves message to deferred queue", async function(): Promise<
+    it("with autoComplete: defer() moves message to deferred queue", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testDefer(false);
-    });
-
-    it("UnPartitioned Queue: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testDefer(false);
-    });
-
-    it("UnPartitioned Subscription: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testDefer(false);
-    });
-
-    it("Partitioned Queue with autoComplete: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testDefer(true);
-    });
-
-    it("Partitioned Subscription with autoComplete: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testDefer(true);
-    });
-
-    it("UnPartitioned Queue with autoComplete: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testDefer(true);
-    });
-
-    it("UnPartitioned Subscription with autoComplete: defer() moves message to deferred queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
       await testDefer(true);
     });
   });
 
-  describe("Streaming - Deadletter message", function(): void {
+  describe(testClientType + ": Streaming - Deadletter message", function(): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
+    });
+
+    beforeEach(async () => {
+      await beforeEachTest();
     });
 
     async function testDeadletter(autoComplete: boolean): Promise<void> {
@@ -603,64 +418,18 @@ describe("Streaming", () => {
       await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
-    it("Partitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it("deadLetter() moves message to deadletter queue", async function(): Promise<void> {
       await testDeadletter(false);
     });
 
-    it("Partitioned Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
+    it("with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testDeadletter(false);
-    });
-
-    it("UnPartitioned Queue: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testDeadletter(false);
-    });
-
-    it("UnPartitioned Subscription: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testDeadletter(false);
-    });
-
-    it("Partitioned Queue with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testDeadletter(true);
-    });
-
-    it("Partitioned Subscription with autoComplete: deadLetter() moves message to deadletter", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testDeadletter(true);
-    });
-
-    it("UnPartitioned Queue with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testDeadletter(true);
-    });
-
-    it("UnPartitioned Subscription with autoComplete: deadLetter() moves message to deadletter queue", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
       await testDeadletter(true);
     });
   });
 
-  describe("Streaming - Multiple Receiver Operations", function(): void {
+  describe(testClientType + ": Streaming - Multiple Receiver Operations", function(): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
@@ -706,17 +475,21 @@ describe("Streaming", () => {
       );
     }
 
-    it("UnPartitioned Queue: Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
+    it("Second receive operation should fail if the first streaming receiver is not stopped", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await beforeEachTest();
       await testMultipleReceiveCalls();
     });
   });
 
-  describe("Streaming - Settle an already Settled message throws error", () => {
+  describe(testClientType + ": Streaming - Settle an already Settled message throws error", () => {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
+    });
+
+    beforeEach(async () => {
+      await beforeEachTest();
     });
 
     const testError = (err: Error, operation: DispositionType): void => {
@@ -781,43 +554,19 @@ describe("Streaming", () => {
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
     }
 
-    it("UnPartitioned Queue: complete() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
+    it("complete() throws error", async function(): Promise<void> {
       await testSettlement(DispositionType.complete);
     });
 
-    it("UnPartitioned Subscription: complete() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSettlement(DispositionType.complete);
-    });
-
-    it("UnPartitioned Queue: abandon() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
+    it("abandon() throws error", async function(): Promise<void> {
       await testSettlement(DispositionType.abandon);
     });
 
-    it("UnPartitioned Subscription: abandon() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSettlement(DispositionType.abandon);
-    });
-
-    it("UnPartitioned Queue: defer() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
+    it("defer() throws error", async function(): Promise<void> {
       await testSettlement(DispositionType.defer);
     });
 
-    it("UnPartitioned Subscription: defer() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSettlement(DispositionType.defer);
-    });
-
-    it("UnPartitioned Queue: deadLetter() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSettlement(DispositionType.deadletter);
-    });
-
-    it("UnPartitioned Subscription: deadLetter() throws error", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
+    it("deadLetter() throws error", async function(): Promise<void> {
       await testSettlement(DispositionType.deadletter);
     });
   });
@@ -858,94 +607,98 @@ describe("Streaming", () => {
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     }
 
-    it("UnPartitioned Queue: onError handler is called for user error", async function(): Promise<
+    it(testClientType + ": onError handler is called for user error", async function(): Promise<
       void
     > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
+      await beforeEachTest();
       await testUserError();
     });
   });
 
-  describe("Streaming - Failed init should not cache receiver", function(): void {
+  // describe("Streaming - Failed init should not cache receiver", function(): void {
+  //   afterEach(async () => {
+  //     return serviceBusClient.test.afterEach();
+  //   });
+
+  // class TestTokenCredential extends EnvironmentCredential implements TokenCredential {
+  //   private firstCall = true;
+  //   static errorMessage = "This is a faulty token provider.";
+  //   constructor() {
+  //     super();
+  //   }
+
+  //   async getToken(audience: string): Promise<AccessToken | null> {
+  //     if (this.firstCall) {
+  //       this.firstCall = false;
+  //       throw new Error(TestTokenCredential.errorMessage);
+  //     }
+  //     return super.getToken(audience);
+  //   }
+  // }
+
+  // TODO: what is this test even actually testing?
+  // it("UnPartitioned Queue: Receiver is not cached when not initialized", async function(): Promise<
+  //   void
+  // > {
+  //   const env: any = getEnvVars();
+
+  //   // Send a message using service bus client created with connection string
+  //   let clients = await getSenderReceiverClients(TestClientType.UnpartitionedQueue, "peekLock");
+  //   sender = clients.sender;
+  //   receiver = clients.receiver;
+  //   await sender.send(TestMessage.getSample());
+  //   await sender.close();
+  //   await receiver.close();
+
+  //   // Receive using service bus client created with faulty token provider
+  //   const connectionObject: {
+  //     Endpoint: string;
+  //     SharedAccessKeyName: string;
+  //     SharedAccessKey: string;
+  //   } = parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
+  //   const tokenProvider = new TestTokenCredential();
+  //   receiver = new ServiceBusReceiverClient(
+  //     {
+  //       host: connectionObject.Endpoint.substr(5),
+  //       tokenCredential: tokenProvider,
+  //       queueName: EntityNames.QUEUE_NAME_NO_PARTITION
+  //     },
+  //     "peekLock"
+  //   );
+
+  //   let actualError: Error;
+  //   receiver.subscribe({
+  //     async processMessage(msg: ReceivedMessage) {
+  //       throw new Error("No messages should have been received with faulty token provider");
+  //     },
+  //     async processError(err) {
+  //       actualError = err;
+  //     }
+  //   });
+
+  //   // Check for expected error and that receiver was not cached
+  //   const errCheck = await checkWithTimeout(() => !!actualError === true);
+  //   should.equal(errCheck, true, "Expected error to be thrown, but no error found.");
+  //   should.equal(
+  //     actualError!.message,
+  //     TestTokenCredential.errorMessage,
+  //     "Expected error from token provider, but unexpected error found."
+  //   );
+  //   should.equal(
+  //     !!(clients.receiver as any)._context.streamingReceiver,
+  //     false,
+  //     "Expected Streaming receiver to not be cached"
+  //   );
+  // });
+  // });
+
+  describe(testClientType + ": Streaming - maxConcurrentCalls", function(): void {
     afterEach(async () => {
       return serviceBusClient.test.afterEach();
     });
 
-    // class TestTokenCredential extends EnvironmentCredential implements TokenCredential {
-    //   private firstCall = true;
-    //   static errorMessage = "This is a faulty token provider.";
-    //   constructor() {
-    //     super();
-    //   }
-
-    //   async getToken(audience: string): Promise<AccessToken | null> {
-    //     if (this.firstCall) {
-    //       this.firstCall = false;
-    //       throw new Error(TestTokenCredential.errorMessage);
-    //     }
-    //     return super.getToken(audience);
-    //   }
-    // }
-
-    // TODO: what is this test even actually testing?
-    // it("UnPartitioned Queue: Receiver is not cached when not initialized", async function(): Promise<
-    //   void
-    // > {
-    //   const env: any = getEnvVars();
-
-    //   // Send a message using service bus client created with connection string
-    //   let clients = await getSenderReceiverClients(TestClientType.UnpartitionedQueue, "peekLock");
-    //   sender = clients.sender;
-    //   receiver = clients.receiver;
-    //   await sender.send(TestMessage.getSample());
-    //   await sender.close();
-    //   await receiver.close();
-
-    //   // Receive using service bus client created with faulty token provider
-    //   const connectionObject: {
-    //     Endpoint: string;
-    //     SharedAccessKeyName: string;
-    //     SharedAccessKey: string;
-    //   } = parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]);
-    //   const tokenProvider = new TestTokenCredential();
-    //   receiver = new ServiceBusReceiverClient(
-    //     {
-    //       host: connectionObject.Endpoint.substr(5),
-    //       tokenCredential: tokenProvider,
-    //       queueName: EntityNames.QUEUE_NAME_NO_PARTITION
-    //     },
-    //     "peekLock"
-    //   );
-
-    //   let actualError: Error;
-    //   receiver.subscribe({
-    //     async processMessage(msg: ReceivedMessage) {
-    //       throw new Error("No messages should have been received with faulty token provider");
-    //     },
-    //     async processError(err) {
-    //       actualError = err;
-    //     }
-    //   });
-
-    //   // Check for expected error and that receiver was not cached
-    //   const errCheck = await checkWithTimeout(() => !!actualError === true);
-    //   should.equal(errCheck, true, "Expected error to be thrown, but no error found.");
-    //   should.equal(
-    //     actualError!.message,
-    //     TestTokenCredential.errorMessage,
-    //     "Expected error from token provider, but unexpected error found."
-    //   );
-    //   should.equal(
-    //     !!(clients.receiver as any)._context.streamingReceiver,
-    //     false,
-    //     "Expected Streaming receiver to not be cached"
-    //   );
-    // });
-  });
-
-  describe("Streaming - maxConcurrentCalls", function(): void {
-    afterEach(async () => {
-      return serviceBusClient.test.afterEach();
+    beforeEach(async () => {
+      await beforeEachTest();
     });
 
     async function testConcurrency(maxConcurrentCalls?: number): Promise<void> {
@@ -991,67 +744,15 @@ describe("Streaming", () => {
       should.equal(settledMsgs.length, 2, `Expected 2, received ${settledMsgs.length} messages.`);
     }
 
-    it("Partitioned Queue: no maxConcurrentCalls passed", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it("no maxConcurrentCalls passed", async function(): Promise<void> {
       await testConcurrency();
     });
 
-    it("Partitioned Queue: pass 1 for maxConcurrentCalls", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it("pass 1 for maxConcurrentCalls", async function(): Promise<void> {
       await testConcurrency(1);
     });
 
-    it("Partitioned Queue: pass 2 for maxConcurrentCalls", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
-      await testConcurrency(2);
-    });
-
-    it("Unpartitioned Queue: no maxConcurrentCalls passed", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testConcurrency();
-    });
-
-    it("Unpartitioned Queue: pass 1 for maxConcurrentCalls", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testConcurrency(1);
-    });
-
-    it("Unpartitioned Queue: pass 2 for maxConcurrentCalls", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testConcurrency(2);
-    });
-
-    it("Partitioned Subscription: no maxConcurrentCalls passed", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testConcurrency();
-    });
-
-    it("Partitioned Queue: pass 1 for maxConcurrentCalls", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testConcurrency(1);
-    });
-
-    it("Partitioned Queue: pass 2 for maxConcurrentCalls", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testConcurrency(2);
-    });
-
-    it("Unpartitioned Subscription: no maxConcurrentCalls passed", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testConcurrency();
-    });
-
-    it("Unpartitioned Subscription: pass 1 for maxConcurrentCalls", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testConcurrency(1);
-    });
-
-    it("Unpartitioned Subscription: pass 2 for maxConcurrentCalls", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
+    it("pass 2 for maxConcurrentCalls", async function(): Promise<void> {
       await testConcurrency(2);
     });
   });
@@ -1098,67 +799,75 @@ describe("Streaming", () => {
         `Expected 0 messages, but received ${receivedMsgs.length}`
       );
       receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entityNames);
-      await testPeekMsgsLength(receiver, totalNumOfMessages);
+      await verifyMessageCount(
+        totalNumOfMessages,
+        entityNames.queue,
+        entityNames.topic,
+        entityNames.subscription
+      );
       await drainReceiveAndDeleteReceiver(receiver);
-      await verifyMessageCount(0, entityNames.queue);
+      await verifyMessageCount(0, entityNames.queue, entityNames.topic, entityNames.subscription);
     }
 
-    it("UnPartitioned Queue: Not receive messages after receiver is closed", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testReceiveMessages();
-    });
-
-    it("UnPartitioned Queue: (Receive And Delete mode) Not receive messages after receiver is closed", async function(): Promise<
-      void
-    > {
-      await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
-      await testReceiveMessages();
-    });
-  });
-
-  it("Streaming - user can stop a message subscription without closing the receiver", async () => {
-    const entities = await serviceBusClient.test.createTestEntities(
-      TestClientType.UnpartitionedQueue
+    it(
+      testClientType + ": Not receive messages after receiver is closed",
+      async function(): Promise<void> {
+        await beforeEachTest();
+        await testReceiveMessages();
+      }
     );
 
-    const actualReceiver = await serviceBusClient.test.getPeekLockReceiver(entities);
-    const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
-    const sender = await serviceBusClient.test.createSender(entities);
-
-    await sender.sendMessages({ body: ".close() test - first message" });
-
-    const { subscriber, messages } = await singleMessagePromise(actualReceiver);
-
-    messages.map((m) => m.body).should.deep.equal([".close() test - first message"]);
-
-    // now we're going to shut down the closeable (ie, subscription). This leaves
-    // the receiver open but it does drain it (so any remaining messages are delivered
-    // and will still be settleable).
-    await subscriber.close();
-
-    await messages[0].complete();
-    messages.pop();
-
-    await sender.sendMessages({
-      body: ".close test - second message, after closing"
-    });
-
-    // the subscription is closed so no messages should be received here.
-    await delay(2000);
-
-    messages.map((m) => m.body).should.deep.equal([]);
-
-    // clean out the remaining message that never arrived.
-    const [finalMessage] = await receiver2.receiveMessages(1, { maxWaitTimeInMs: 5000 });
-    finalMessage.body.should.equal(".close test - second message, after closing");
-
-    await serviceBusClient.test.afterEach();
+    it(
+      testClientType + ": (Receive And Delete mode) Not receive messages after receiver is closed",
+      async function(): Promise<void> {
+        await beforeEachTest("receiveAndDelete");
+        await testReceiveMessages();
+      }
+    );
   });
+
+  it(
+    testClientType + ": Streaming - stop a message subscription without closing the receiver",
+    async () => {
+      const entities = await serviceBusClient.test.createTestEntities(testClientType);
+
+      const actualReceiver = await serviceBusClient.test.getPeekLockReceiver(entities);
+      const receiver2 = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+      const sender = await serviceBusClient.test.createSender(entities);
+
+      await sender.sendMessages({ body: ".close() test - first message" });
+
+      const { subscriber, messages } = await singleMessagePromise(actualReceiver);
+
+      messages.map((m) => m.body).should.deep.equal([".close() test - first message"]);
+
+      // now we're going to shut down the closeable (ie, subscription). This leaves
+      // the receiver open but it does drain it (so any remaining messages are delivered
+      // and will still be settleable).
+      await subscriber.close();
+
+      await messages[0].complete();
+      messages.pop();
+
+      await sender.sendMessages({
+        body: ".close test - second message, after closing"
+      });
+
+      // the subscription is closed so no messages should be received here.
+      await delay(2000);
+
+      messages.map((m) => m.body).should.deep.equal([]);
+
+      // clean out the remaining message that never arrived.
+      const [finalMessage] = await receiver2.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+      finalMessage.body.should.equal(".close test - second message, after closing");
+
+      await serviceBusClient.test.afterEach();
+    }
+  );
 });
 
-describe("Streaming - onDetached", function(): void {
+describe(testClientType + ": Streaming - onDetached", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
@@ -1171,10 +880,7 @@ describe("Streaming - onDetached", function(): void {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(
-    testClientType: TestClientType,
-    receiveMode?: "peekLock" | "receiveAndDelete"
-  ): Promise<void> {
+  async function beforeEachTest(receiveMode?: "peekLock" | "receiveAndDelete"): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     if (receiveMode === "receiveAndDelete") {
@@ -1201,7 +907,7 @@ describe("Streaming - onDetached", function(): void {
      * error handler.
      */
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+    await beforeEachTest("receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
@@ -1236,7 +942,7 @@ describe("Streaming - onDetached", function(): void {
     void
   > {
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+    await beforeEachTest("receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
@@ -1271,7 +977,7 @@ describe("Streaming - onDetached", function(): void {
     void
   > {
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+    await beforeEachTest("receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
@@ -1309,7 +1015,7 @@ describe("Streaming - onDetached", function(): void {
     void
   > {
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue, "receiveAndDelete");
+    await beforeEachTest("receiveAndDelete");
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];
@@ -1346,7 +1052,7 @@ describe("Streaming - onDetached", function(): void {
   });
 });
 
-describe("Streaming - disconnects", function(): void {
+describe(testClientType + ": Streaming - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
@@ -1359,7 +1065,7 @@ describe("Streaming - disconnects", function(): void {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(testClientType: TestClientType): Promise<void> {
+  async function beforeEachTest(): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
     sender = serviceBusClient.test.addToCleanup(
@@ -1378,7 +1084,7 @@ describe("Streaming - disconnects", function(): void {
      * error handler.
      */
     // Create the sender and receiver.
-    await beforeEachTest(TestClientType.UnpartitionedQueue);
+    await beforeEachTest();
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(TestMessage.getSample());
     const receivedErrors: any[] = [];

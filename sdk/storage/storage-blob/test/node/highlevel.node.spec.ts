@@ -43,7 +43,7 @@ describe("Highlevel", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -56,14 +56,14 @@ describe("Highlevel", () => {
     tempFileLargeLength = 257 * 1024 * 1024;
     tempFileSmall = await createRandomLocalFile(tempFolderPath, 15, 1024 * 1024);
     tempFileSmallLength = 15 * 1024 * 1024;
-    recorder.stop();
+    await recorder.stop();
   });
 
   after(async function() {
     recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("put blob with maximum size", async () => {
