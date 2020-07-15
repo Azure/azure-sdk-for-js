@@ -205,16 +205,16 @@ describe("EventGridClient", function() {
           new AzureKeyCredential(key)
         );
 
-        const sig = client.generateSharedAccessSignature(new Date(2020, 0, 1, 0, 0, 0));
+        const sig = client.generateSharedAccessSignature(new Date(Date.UTC(2020, 0, 1, 0, 0, 0)));
         assert.equal(
           sig,
-          "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%208%3A00%3A00%20AM&s=PL2XXgj4Fimu3LcgH5aIaYTG3MefvrmcZZ%2BLPBsARrc%3D"
+          "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%2012%3A00%3A00%20AM&s=ZzvNAYRyvJwDrOJKYxbNAPNCoSqgOJVLFi4IMXOrW2Q%3D"
         );
       });
 
       it("fails when a signature credential was used", () => {
         const signature =
-          "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%208%3A00%3A00%20AM&s=PL2XXgj4Fimu3LcgH5aIaYTG3MefvrmcZZ%2BLPBsARrc%3D";
+          "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%2012%3A00%3A00%20AM&s=ZzvNAYRyvJwDrOJKYxbNAPNCoSqgOJVLFi4IMXOrW2Q%3D";
 
         const client = new EventGridClient(
           "https://eg-topic.westus-2.eventgrid.azure.net/api/events",
@@ -222,7 +222,7 @@ describe("EventGridClient", function() {
         );
 
         assert.throws(
-          () => client.generateSharedAccessSignature(new Date(2020, 0, 1, 0, 0, 0)),
+          () => client.generateSharedAccessSignature(new Date(Date.UTC(2020, 0, 1, 0, 0, 0))),
           /may only be called when the client is constructed with a key credential/
         );
       });
