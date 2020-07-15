@@ -260,14 +260,12 @@ function parseLinkInfo(
   feedLink: { [Constants.XML_METADATA_MARKER]: { rel: string; href: string } }[],
   relationship: "self" | "next"
 ): string | undefined {
-  if (!feedLink) {
+  if (!feedLink || !Array.isArray(feedLink)) {
     return undefined;
   }
-  if (Array.isArray(feedLink)) {
-    for (const linkInfo of feedLink) {
-      if (linkInfo[Constants.XML_METADATA_MARKER].rel === relationship) {
-        return linkInfo[Constants.XML_METADATA_MARKER].href;
-      }
+  for (const linkInfo of feedLink) {
+    if (linkInfo[Constants.XML_METADATA_MARKER].rel === relationship) {
+      return linkInfo[Constants.XML_METADATA_MARKER].href;
     }
   }
   return undefined;
