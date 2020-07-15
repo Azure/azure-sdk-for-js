@@ -69,7 +69,7 @@ export interface Receiver<ReceivedMessageT> {
    *
    * @param maxMessageCount The maximum number of messages to receive.
    * @param options A set of options to control the receive operation.
-   * - `maxWaitTimeInMs`: The time to wait to receive the given number of messages.
+   * - `maxWaitTimeInMs`: The maximum time to wait for the first message before returning an empty array if no messages are available.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
    * @returns Promise<ReceivedMessageT[]> A promise that resolves with an array of messages.
    * @throws Error if the underlying connection, client or receiver is closed.
