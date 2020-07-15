@@ -5,6 +5,9 @@
 - `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
   [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
 
+- The term `RuntimeInfo` is replaced with `RuntimeProperties` to better align with guidelines around the kind 
+of suffxes we use for naming methods and interfaces.
+
 ## 7.0.0-preview.4 (2020-07-07)
 
 - Adds abortSignal support throughout Sender and non-session Receivers.
