@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AvroReadable, AvroReadableFromStream } from "../../../storage-internal-avro/src";
 
 /**

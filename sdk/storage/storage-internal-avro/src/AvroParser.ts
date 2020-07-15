@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AvroReadable } from "./AvroReadable";
 import { KeyValuePair } from "./utils/utils.common";
 import { AbortSignalLike } from "@azure/abort-controller";

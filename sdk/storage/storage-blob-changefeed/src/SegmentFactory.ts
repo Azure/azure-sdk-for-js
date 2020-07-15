@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ShardFactory } from "./ShardFactory";
 import { ContainerClient } from "@azure/storage-blob";
 import { CHANGE_FEED_STATUS_FINALIZED, CHANGE_FEED_CONTAINER_NAME } from "./utils/constants";

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AvroReadable } from "./AvroReadable";
 import {
   AVRO_SYNC_MARKER_SIZE,
