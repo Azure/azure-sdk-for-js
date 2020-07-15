@@ -8,6 +8,8 @@
   message, rather than how long to wait for an entire set of messages. This change allows for a faster return
   of messages to your application.
   [PR 9968](https://github.com/Azure/azure-sdk-for-js/pull/9968)
+- `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
+  [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
 
 ## 7.0.0-preview.4 (2020-07-07)
 
@@ -187,7 +189,7 @@
 
 ## 1.0.0-preview.3 (2019-04-24)
 
-- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/gettingStarted/useProxy.js)
+- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/useProxy.js)
   sample to see how you can use Websockets to run this library with a proxy server
 - Standardized error messages on errors thrown on parameter validations
 - We now have API reference docs published for this library. Checkout our README which has been updated with the relevant API reference links.

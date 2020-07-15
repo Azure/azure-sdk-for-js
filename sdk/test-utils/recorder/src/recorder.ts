@@ -30,7 +30,7 @@ export interface Recorder {
    * `stop()` method is supposed to be called at the end of the test, stops and saves the recording in the "record" mode.
    * Has no effect in the playback/live test modes.
    */
-  stop(): void;
+  stop(): Promise<void>;
   /**
    * `{recorder.skip("node")}` and `{recorder.skip("browser")}` will skip the test in node.js and browser runtimes respectively.
    * If the `{runtime}` is `{undefined}`, the test will be skipped in both the node and browser runtimes.
@@ -160,10 +160,10 @@ export function record(
   // If TEST_MODE=live, hits the live-service and no recordings are generated.
 
   return {
-    stop: function() {
+    stop: async function() {
       // We check wether we're on record or playback inside of the recorder's stop method.
       if (recorder) {
-        recorder.stop();
+        await recorder.stop();
       }
     },
     /**

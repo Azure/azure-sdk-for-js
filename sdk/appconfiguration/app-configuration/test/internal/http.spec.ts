@@ -108,8 +108,8 @@ describe("http request related tests", function() {
       client = createAppConfigurationClientForTests() || this.skip();
     });
 
-    afterEach(function() {
-      recorder.stop();
+    afterEach(async function() {
+      await recorder.stop();
     });
 
     it("custom client request ID", async () => {

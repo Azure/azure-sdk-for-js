@@ -26,7 +26,7 @@ describe("Certificates client - LRO - create", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

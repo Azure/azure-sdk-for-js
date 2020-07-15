@@ -85,7 +85,7 @@
   - `onEphError`
   - `leaseRenewInterval`
   - `leaseDuration`
-- Please take a look at the [examples](https://github.com/Azure/azure-sdk-for-js/tree/master/eventhub/event-processor-host/samples) for more details.
+- Please take a look at the [examples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host/samples) for more details.
 
 ## 0.1.4 (2018-07-16)
 

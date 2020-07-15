@@ -24,7 +24,7 @@ describe("QueueClient messageId methods", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("update and delete empty message with default parameters", async () => {

@@ -36,8 +36,8 @@ describe("Utility Helpers", () => {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("sanitizeURL redacts SAS token", () => {

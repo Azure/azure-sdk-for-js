@@ -43,8 +43,8 @@ describe("[AAD] TextAnalyticsClient", function() {
     };
   });
 
-  afterEach(() => {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   describe("#analyzeSentiment", () => {
