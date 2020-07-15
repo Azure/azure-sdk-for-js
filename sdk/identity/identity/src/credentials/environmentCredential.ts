@@ -67,7 +67,7 @@ export class EnvironmentCredential implements TokenCredential {
 
     if (tenantId && clientId && clientSecret) {
       logger.info(
-        `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: ${clientSecret}`
+        `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: [REDACTED]`
       );
       this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, options);
       return;
