@@ -163,6 +163,7 @@
     "typescript": "~3.9.3",
     "ws": "^7.1.1",
     "sinon": "^9.0.2",
-    "@types/sinon": "^9.0.4"
+    "@types/sinon": "^9.0.4",
+    "events": "^3.0.0"
   }
 }
