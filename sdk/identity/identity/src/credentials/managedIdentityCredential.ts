@@ -247,7 +247,13 @@ export class ManagedIdentityCredential implements TokenCredential {
             // convert it into a JavaScript-formatted date
             return Date.parse(requestBody.expires_on);
           };
+          logger.info(
+            `Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
+          );
         } else {
+          logger.info(
+            `Using the endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+          );
           // Running in Cloud Shell
           authRequestOptions = this.createCloudShellMsiAuthRequest(resource, clientId);
         }
@@ -269,6 +275,9 @@ export class ManagedIdentityCredential implements TokenCredential {
             return expires;
           }
         };
+        logger.info(
+          `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+        );
         // Ping the IMDS endpoint to see if it's available
         if (
           !checkIfImdsEndpointAvailable ||
