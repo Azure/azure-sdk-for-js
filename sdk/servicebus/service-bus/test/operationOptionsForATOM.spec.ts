@@ -298,7 +298,12 @@ describe("Operation Options", () => {
                   {
                     children: [
                       {
-                        children: [],
+                        children: [
+                          {
+                            children: [],
+                            name: "/$namespaceinfo"
+                          }
+                        ],
                         name: "Azure.ServiceBus.ServiceBusManagementClient-executeAtomXmlOperation"
                       }
                     ],
