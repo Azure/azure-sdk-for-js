@@ -46,9 +46,9 @@ export async function executeAtomXmlOperation(
   serializer: AtomXmlSerializer,
   operationOptions: OperationOptions
 ): Promise<HttpOperationResponse> {
-  const { span, spanOptions } = createSpan(
+  const { span, updatedOperationOptions } = createSpan(
     "ServiceBusManagementClient-executeAtomXmlOperation",
-    operationOptions?.tracingOptions
+    operationOptions
   );
   try {
     if (webResource.body) {
@@ -64,15 +64,15 @@ export async function executeAtomXmlOperation(
 
     const reqPrepareOptions: RequestPrepareOptions = {
       ...webResource,
-      headers: operationOptions.requestOptions?.customHeaders,
-      onUploadProgress: operationOptions.requestOptions?.onUploadProgress,
-      onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
-      abortSignal: operationOptions.abortSignal,
-      spanOptions,
+      headers: updatedOperationOptions.requestOptions?.customHeaders,
+      onUploadProgress: updatedOperationOptions.requestOptions?.onUploadProgress,
+      onDownloadProgress: updatedOperationOptions.requestOptions?.onDownloadProgress,
+      abortSignal: updatedOperationOptions.abortSignal,
+      spanOptions: updatedOperationOptions.tracingOptions?.spanOptions,
       disableJsonStringifyOnBody: true
     };
     webResource = webResource.prepare(reqPrepareOptions);
-    webResource.timeout = operationOptions.requestOptions?.timeout || 0;
+    webResource.timeout = updatedOperationOptions.requestOptions?.timeout || 0;
     const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
       webResource
     );

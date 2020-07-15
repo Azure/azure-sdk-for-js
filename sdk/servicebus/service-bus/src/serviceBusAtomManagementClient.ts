@@ -242,7 +242,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     let credentials: SasServiceClientCredentials | TokenCredential;
     requestPolicyFactories.push(
       // TODO: Update the userAgent in ConnectionContext to properly distinguish among Node and browser (Reference: EventHubs)
-      //       And use the same userAgent string for both ServiceBusManagementClient and the ServiceBusClient. 
+      //       And use the same userAgent string for both ServiceBusManagementClient and the ServiceBusClient.
       tracingPolicy({ userAgent: `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}` })
     );
     if (isTokenCredential(credentialOrOptions2)) {
@@ -300,18 +300,15 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<NamespacePropertiesResponse> {
     log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getNamespaceProperties",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       const response: HttpOperationResponse = await this.getResource(
         "$namespaceinfo",
         this.namespaceResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildNamespacePropertiesResponse(response);
@@ -368,9 +365,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     queueNameOrOptions: string | QueueDescription,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-createQueue",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       let queue: QueueDescription;
@@ -387,10 +384,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         buildQueueOptions(queue),
         this.queueResourceSerializer,
         false,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildQueueResponse(response);
@@ -422,19 +416,16 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getQueue",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildQueueResponse(response);
@@ -468,19 +459,16 @@ export class ServiceBusManagementClient extends ServiceClient {
     queueName: string,
     operationOptions?: OperationOptions
   ): Promise<QueueRuntimeInfoResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getQueueRuntimeInfo",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - getQueueRuntimeInfo() for "${queueName}"`);
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildQueueRuntimeInfoResponse(response);
@@ -510,18 +498,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getQueues",
-      options?.tracingOptions
+      options
     );
     try {
       log.httpAtomXml(`Performing management operation - getQueues() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
-        {
-          ...options,
-          tracingOptions: { ...options?.tracingOptions, spanOptions }
-        },
+        updatedOperationOptions,
         this.queueResourceSerializer
       );
 
@@ -553,9 +538,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getQueuesRuntimeInfo(
     options?: ListRequestOptions & OperationOptions
   ): Promise<QueuesRuntimeInfoResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getQueuesRuntimeInfo",
-      options?.tracingOptions
+      options
     );
     try {
       log.httpAtomXml(
@@ -563,10 +548,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
-        {
-          ...options,
-          tracingOptions: { ...options?.tracingOptions, spanOptions }
-        },
+        updatedOperationOptions,
         this.queueResourceSerializer
       );
 
@@ -611,9 +593,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     queue: QueueDescription,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-updateQueue",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(
@@ -635,10 +617,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         buildQueueOptions(queue),
         this.queueResourceSerializer,
         true,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildQueueResponse(response);
@@ -669,19 +648,16 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-deleteQueue",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
       const response: HttpOperationResponse = await this.deleteResource(
         queueName,
         this.queueResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return { _response: response };
@@ -702,17 +678,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-queueExists",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
       try {
-        await this.getQueue(queueName, {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        });
+        await this.getQueue(queueName, updatedOperationOptions);
       } catch (error) {
         if (error.code == "MessageEntityNotFoundError") {
           return false;
@@ -773,9 +746,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicNameOrOptions: string | TopicDescription,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-createTopic",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       let topic: TopicDescription;
@@ -792,10 +765,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         buildTopicOptions(topic),
         this.topicResourceSerializer,
         false,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildTopicResponse(response);
@@ -827,19 +797,16 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getTopic",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
       const response: HttpOperationResponse = await this.getResource(
         topicName,
         this.topicResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildTopicResponse(response);
@@ -873,19 +840,16 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     operationOptions?: OperationOptions
   ): Promise<TopicRuntimeInfoResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getTopicRuntimeInfo",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - getTopicRuntimeInfo() for "${topicName}"`);
       const response: HttpOperationResponse = await this.getResource(
         topicName,
         this.topicResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildTopicRuntimeInfoResponse(response);
@@ -915,18 +879,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getTopics",
-      options?.tracingOptions
+      options
     );
     try {
       log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
-        {
-          ...options,
-          tracingOptions: { ...options?.tracingOptions, spanOptions }
-        },
+        updatedOperationOptions,
         this.topicResourceSerializer
       );
 
@@ -958,9 +919,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getTopicsRuntimeInfo(
     options?: ListRequestOptions & OperationOptions
   ): Promise<TopicsRuntimeInfoResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getTopicsRuntimeInfo",
-      options?.tracingOptions
+      options
     );
     try {
       log.httpAtomXml(
@@ -968,10 +929,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
-        {
-          ...options,
-          tracingOptions: { ...options?.tracingOptions, spanOptions }
-        },
+        updatedOperationOptions,
         this.topicResourceSerializer
       );
 
@@ -1013,9 +971,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     topic: TopicDescription,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-updateTopic",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(
@@ -1037,10 +995,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         buildTopicOptions(topic),
         this.topicResourceSerializer,
         true,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildTopicResponse(response);
@@ -1071,19 +1026,16 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-deleteTopic",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
       const response: HttpOperationResponse = await this.deleteResource(
         topicName,
         this.topicResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return { _response: response };
@@ -1104,17 +1056,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-topicExists",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
       try {
-        await this.getTopic(topicName, {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        });
+        await this.getTopic(topicName, updatedOperationOptions);
       } catch (error) {
         if (error.code == "MessageEntityNotFoundError") {
           return false;
@@ -1197,9 +1146,9 @@ export class ServiceBusManagementClient extends ServiceClient {
       subscription = topicNameOrSubscriptionOptions as SubscriptionDescription;
       operOptions = subscriptionNameOrOperationOptions;
     }
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-createSubscription",
-      operOptions?.tracingOptions
+      operOptions
     );
     try {
       log.httpAtomXml(
@@ -1214,10 +1163,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         buildSubscriptionOptions(subscription),
         this.subscriptionResourceSerializer,
         false,
-        {
-          ...operOptions,
-          tracingOptions: { ...operOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildSubscriptionResponse(response);
@@ -1254,9 +1200,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getSubscription",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(
@@ -1266,10 +1212,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildSubscriptionRuntimeInfoResponse(response);
@@ -1305,9 +1248,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionRuntimeInfoResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getSubscriptionRuntimeInfo",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(
@@ -1317,10 +1260,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildSubscriptionRuntimeInfoResponse(response);
@@ -1354,9 +1294,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<SubscriptionsResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getSubscriptions",
-      options?.tracingOptions
+      options
     );
     try {
       log.httpAtomXml(
@@ -1364,10 +1304,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
-        {
-          ...options,
-          tracingOptions: { ...options?.tracingOptions, spanOptions }
-        },
+        updatedOperationOptions,
         this.subscriptionResourceSerializer
       );
 
@@ -1401,9 +1338,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<SubscriptionsRuntimeInfoResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getSubscriptionsRuntimeInfo",
-      options?.tracingOptions
+      options
     );
     try {
       log.httpAtomXml(
@@ -1411,10 +1348,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
-        {
-          ...options,
-          tracingOptions: { ...options?.tracingOptions, spanOptions }
-        },
+        updatedOperationOptions,
         this.subscriptionResourceSerializer
       );
 
@@ -1456,9 +1390,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscription: SubscriptionDescription,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-updateSubscription",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(
@@ -1487,10 +1421,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         buildSubscriptionOptions(subscription),
         this.subscriptionResourceSerializer,
         true,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildSubscriptionResponse(response);
@@ -1526,9 +1457,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<Response> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-deleteSubscription",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(
@@ -1538,10 +1469,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         fullPath,
         this.subscriptionResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return { _response: response };
@@ -1568,19 +1496,16 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     operationOptions?: OperationOptions
   ): Promise<boolean> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-subscriptionExists",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(
         `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
       );
       try {
-        await this.getSubscription(topicName, subscriptionName, {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        });
+        await this.getSubscription(topicName, subscriptionName, updatedOperationOptions);
       } catch (error) {
         if (error.code == "MessageEntityNotFoundError") {
           return false;
@@ -1623,9 +1548,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     rule: RuleDescription,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-createRule",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(
@@ -1637,10 +1562,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         rule,
         this.ruleResourceSerializer,
         false,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
       return this.buildRuleResponse(response);
     } catch (e) {
@@ -1677,9 +1599,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     ruleName: string,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getRule",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
@@ -1687,10 +1609,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
         this.ruleResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildRuleResponse(response);
@@ -1725,19 +1644,16 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<RulesResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getRules",
-      options?.tracingOptions
+      options
     );
     try {
       log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
       const response: HttpOperationResponse = await this.listResources(
         fullPath,
-        {
-          ...options,
-          tracingOptions: { ...options?.tracingOptions, spanOptions }
-        },
+        updatedOperationOptions,
         this.ruleResourceSerializer
       );
 
@@ -1777,9 +1693,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     rule: RuleDescription,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-updateRule",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(
@@ -1802,10 +1718,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         rule,
         this.ruleResourceSerializer,
         true,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return this.buildRuleResponse(response);
@@ -1843,9 +1756,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     ruleName: string,
     operationOptions?: OperationOptions
   ): Promise<Response> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-deleteRule",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       log.httpAtomXml(`Performing management operation - deleteRule() for "${ruleName}"`);
@@ -1853,10 +1766,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         fullPath,
         this.ruleResourceSerializer,
-        {
-          ...operationOptions,
-          tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-        }
+        updatedOperationOptions
       );
 
       return { _response: response };
@@ -1889,9 +1799,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-putResource",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
@@ -1932,10 +1842,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
       webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
-      return executeAtomXmlOperation(this, webResource, serializer, {
-        ...operationOptions,
-        tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-      });
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -1957,17 +1864,19 @@ export class ServiceBusManagementClient extends ServiceClient {
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getResource",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-      const response = await executeAtomXmlOperation(this, webResource, serializer, {
-        ...operationOptions,
-        tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-      });
+      const response = await executeAtomXmlOperation(
+        this,
+        webResource,
+        serializer,
+        updatedOperationOptions
+      );
       if (
         response.parsedBody == undefined ||
         (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
@@ -2004,9 +1913,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     options: ListRequestOptions & OperationOptions = {},
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-listResources",
-      options?.tracingOptions
+      options
     );
     try {
       const queryParams: { [key: string]: string } = {};
@@ -2021,10 +1930,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
       const webResource: WebResource = new WebResource(this.getUrl(name, queryParams), "GET");
 
-      return executeAtomXmlOperation(this, webResource, serializer, {
-        ...options,
-        tracingOptions: { ...options?.tracingOptions, spanOptions }
-      });
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -2045,17 +1951,14 @@ export class ServiceBusManagementClient extends ServiceClient {
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const { span, spanOptions } = createSpan(
+    const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-deleteResource",
-      operationOptions?.tracingOptions
+      operationOptions
     );
     try {
       const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
 
-      return executeAtomXmlOperation(this, webResource, serializer, {
-        ...operationOptions,
-        tracingOptions: { ...operationOptions?.tracingOptions, spanOptions }
-      });
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
