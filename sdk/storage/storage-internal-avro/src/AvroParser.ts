@@ -186,7 +186,7 @@ export class AvroParser {
     options: AvroParserReadOptions = {}
   ): Promise<KeyValuePair<T>> {
     const key = await AvroParser.readString(stream, options);
-    // FUTURE: this won't work with readFixed which need a length as the parameter. We don't support readFixed now.
+    // FUTURE: this won't work with readFixed (currently not supported) which need a length as the parameter.
     const value = await readItemMethod(stream, options);
     return { key, value };
   }

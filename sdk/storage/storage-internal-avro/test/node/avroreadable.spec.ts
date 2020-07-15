@@ -48,4 +48,24 @@ describe("AvroReadableFromStream", () => {
     await rfs.read(10, { abortSignal: aborter.signal });
     aborter.abort();
   });
+
+  it("abort again should not throw", async () => {
+    const delayedReadable = new Readable({ read() {} });
+    let rfs = new AvroReadableFromStream(delayedReadable);
+
+    const timeoutSignal = AbortController.timeout(1);
+    const manualAborter = new AbortController();
+    const linkedAborter = new AbortController(timeoutSignal, manualAborter.signal);
+    let AbortErrorCaught = false;
+    try {
+      await rfs.read(10, { abortSignal: linkedAborter.signal });
+    } catch (err) {
+      if (err.name === "AbortError") {
+        AbortErrorCaught = true;
+      }
+    }
+    assert.ok(AbortErrorCaught);
+
+    manualAborter.abort();
+  });
 });
