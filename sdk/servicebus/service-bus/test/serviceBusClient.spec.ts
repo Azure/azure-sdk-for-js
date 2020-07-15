@@ -660,7 +660,7 @@ describe("Errors after close()", function(): void {
     > {
       await beforeEachTest(noSessionTestClientType, entityToClose);
 
-      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, false));
+      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath));
     });
 
     it(withSessionTestClientType + ": errors after close() on receiver", async function(): Promise<
@@ -668,9 +668,7 @@ describe("Errors after close()", function(): void {
     > {
       await beforeEachTest(withSessionTestClientType, entityToClose);
 
-      await testReceiver(
-        getReceiverClosedErrorMsg(receiver.entityPath, false, TestMessage.sessionId)
-      );
+      await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, TestMessage.sessionId));
 
       await testAllDispositions();
     });

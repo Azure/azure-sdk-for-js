@@ -173,10 +173,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      const errorMessage = getReceiverClosedErrorMsg(
-        this._context.entityPath,
-        this._context.isClosed
-      );
+      const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
