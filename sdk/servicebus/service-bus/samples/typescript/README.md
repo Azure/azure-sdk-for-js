@@ -1,6 +1,6 @@
 # Azure Service Bus client library samples for TypeScript
 
-**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1)
 
 These sample programs show how to use the TypeScript client libraries for Azure Service Bus in some common scenarios.
 
