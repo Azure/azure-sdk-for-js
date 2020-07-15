@@ -6,7 +6,8 @@ import {
   credentialLoggerInstance,
   credentialLogger,
   CredentialLogger,
-  formatSuccess
+  formatSuccess,
+  formatError
 } from "../../src/util/logging";
 import { TokenCredential, GetTokenOptions, AccessToken } from "../../src";
 
@@ -22,16 +23,6 @@ describe("Identity logging utilities", function() {
       assert.equal(allParams[0].join(" "), "title => message");
     });
 
-    it("warning", async function() {
-      const allParams: any[] = [];
-      const fakeLogger = {
-        warning: (...params: any) => allParams.push(params)
-      };
-      const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
-      logger.warning("message");
-      assert.equal(allParams[0].join(" "), "title => message");
-    });
-
     it("success", async function() {
       const allParams: any[] = [];
       const fakeLogger = {
@@ -39,7 +30,7 @@ describe("Identity logging utilities", function() {
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.info(formatSuccess("scope"));
-      assert.equal(allParams[0].join(" "), "title => Success: scope");
+      assert.equal(allParams[0].join(" "), "title => SUCCESS: scope");
     });
 
     it("success with multiple scopes", async function() {
@@ -49,17 +40,17 @@ describe("Identity logging utilities", function() {
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.info(formatSuccess(["scope 1", "scope 2"]));
-      assert.equal(allParams[0].join(" "), "title => Success: scope 1, scope 2");
+      assert.equal(allParams[0].join(" "), "title => SUCCESS: scope 1, scope 2");
     });
 
-    it("error", async function() {
+    it("error (with formatError)", async function() {
       const allParams: any[] = [];
       const fakeLogger = {
-        error: (...params: any) => allParams.push(params)
+        info: (...params: any) => allParams.push(params)
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
-      logger.error(new Error("message"));
-      assert.equal(allParams[0].join(" "), "title => Error: message");
+      logger.info(formatError(new Error("message")));
+      assert.equal(allParams[0].join(" "), "title => ERROR: message");
     });
   });
 
@@ -87,10 +78,8 @@ describe("Identity logging utilities", function() {
 
   it("credentialLogger with a fake credential", async function() {
     const allInfoParams: any[] = [];
-    const allErrorParams: any[] = [];
     const fakeLogger = {
-      info: (...params: any) => allInfoParams.push(params),
-      error: (...params: any) => allErrorParams.push(params)
+      info: (...params: any) => allInfoParams.push(params)
     };
 
     class FakeCredential implements TokenCredential {
@@ -110,7 +99,7 @@ describe("Identity logging utilities", function() {
           return null;
         }
         const error = new Error("test getToken error");
-        this.logger.getToken.error(error);
+        this.logger.getToken.info(formatError(error));
         throw error;
       }
     }
@@ -121,7 +110,7 @@ describe("Identity logging utilities", function() {
     await fakeCredential.getToken(["Scope 1", "Scope 2"]);
     assert.equal(
       allInfoParams[1].join(" "),
-      "FakeCredential => getToken() => Success: Scope 1, Scope 2"
+      "FakeCredential => getToken() => SUCCESS: Scope 1, Scope 2"
     );
 
     let error: Error | undefined;
@@ -132,8 +121,8 @@ describe("Identity logging utilities", function() {
     }
 
     assert.equal(
-      allErrorParams[0].join(" "),
-      "FakeCredential => getToken() => Error: test getToken error"
+      allInfoParams[2].join(" "),
+      "FakeCredential => getToken() => ERROR: test getToken error"
     );
   });
 });

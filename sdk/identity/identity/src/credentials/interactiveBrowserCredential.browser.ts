@@ -11,7 +11,7 @@ import {
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
-import { credentialLogger, formatSuccess } from "../util/logging";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -48,7 +48,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
       const error = new Error(`Invalid loginStyle: ${options.loginStyle}`);
-      logger.error(error);
+      logger.info(formatError(error));
       throw error;
     }
 
@@ -95,10 +95,10 @@ export class InteractiveBrowserCredential implements TokenCredential {
           case "consent_required":
           case "interaction_required":
           case "login_required":
-            logger.warning(`Authentication returned errorCode ${err.errorCode}`);
+            logger.info(`Authentication returned errorCode ${err.errorCode}`);
             break;
           default:
-            logger.warning(`Failed to acquire token: ${err}`);
+            logger.info(formatError(`Failed to acquire token: ${err.message}`));
             throw err;
         }
       }
@@ -106,7 +106,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     let authPromise: Promise<msal.AuthResponse> | undefined;
     if (authResponse === undefined) {
-      logger.warning(
+      logger.info(
         `Silent authentication failed, falling back to interactive method ${this.loginStyle}`
       );
       switch (this.loginStyle) {
@@ -158,7 +158,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           expiresOnTimestamp: authResponse.expiresOn.getTime()
         };
       } else {
-        logger.getToken.warning("No response");
+        logger.getToken.info("No response");
         return null;
       }
     } catch (err) {
@@ -166,7 +166,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
-      logger.getToken.error(err);
+      logger.getToken.info(formatError(err));
       throw err;
     } finally {
       span.end();

@@ -50,7 +50,14 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
  * Formatting the success event on the credentials
  */
 export function formatSuccess(scope: string | string[]) {
-  return `Success: ${Array.isArray(scope) ? scope.join(", ") : scope}`;
+  return `SUCCESS: ${Array.isArray(scope) ? scope.join(", ") : scope}`;
+}
+
+/**
+ * Formatting the success event on the credentials
+ */
+export function formatError(error: Error | string) {
+  return `ERROR: ${typeof error === "string" ? error : error.message}`;
 }
 
 /**
@@ -60,8 +67,13 @@ export interface CredentialLoggerInstance {
   title: string;
   fullTitle: string;
   info(message: string): void;
-  warning(message: string): void;
-  error(err: Error): void;
+  /**
+   * The logging functions for warning and error are intentionally left out, since we want the identity logging to be at the info level.
+   * Otherwise, they would look like:
+   *
+   *   warning(message: string): void;
+   *   error(err: Error): void;
+   */
 }
 
 /**
@@ -82,19 +94,11 @@ export function credentialLoggerInstance(
   function info(message: string): void {
     log.info(`${fullTitle} =>`, message);
   }
-  function warning(message: string): void {
-    log.warning(`${fullTitle} =>`, message);
-  }
-  function error(err: Error): void {
-    log.error(`${fullTitle} =>`, err);
-  }
 
   return {
     title,
     fullTitle,
-    info,
-    warning,
-    error
+    info
   };
 }
 

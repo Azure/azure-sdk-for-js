@@ -95,7 +95,7 @@ export class ClientSecretCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.error(err);
+      logger.getToken.info(err);
       throw err;
     } finally {
       span.end();

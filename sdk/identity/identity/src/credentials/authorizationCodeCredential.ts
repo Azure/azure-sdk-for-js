@@ -7,7 +7,7 @@ import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, formatSuccess } from "../util/logging";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -192,7 +192,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
-      logger.getToken.error(err);
+      logger.getToken.info(formatError(err));
       throw err;
     } finally {
       span.end();

@@ -13,7 +13,7 @@ import {
 import { CanonicalCode } from "@opentelemetry/api";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { credentialLogger, processEnvVars, formatSuccess } from "../util/logging";
+import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -139,7 +139,7 @@ export class EnvironmentCredential implements TokenCredential {
             .split("More details:")
             .join("")
         });
-        logger.getToken.error(authenticationError);
+        logger.getToken.info(formatError(authenticationError));
         throw authenticationError;
       } finally {
         span.end();
@@ -153,7 +153,7 @@ export class EnvironmentCredential implements TokenCredential {
     const error = new CredentialUnavailable(
       "EnvironmentCredential is unavailable. Environment variables are not fully configured."
     );
-    logger.getToken.error(error);
+    logger.getToken.info(formatError(error));
     throw error;
   }
 }

@@ -17,7 +17,7 @@ import {
   CredentialUnavailable
 } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, formatSuccess } from "../util/logging";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
@@ -210,7 +210,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       logger.info(`IMDS endpoint is available`);
       return true;
     } catch (err) {
-      logger.warning(`Error when accessing IMDS endpoint: ${err}`);
+      logger.info(formatError(`Error when accessing IMDS endpoint: ${err.message}`));
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: err.message
@@ -358,7 +358,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         const error = new CredentialUnavailable(
           "The managed identity endpoint is not currently available"
         );
-        logger.getToken.error(error);
+        logger.getToken.info(formatError(error));
         throw error;
       }
       logger.getToken.info(formatSuccess(scopes));
@@ -374,7 +374,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
 
-        logger.getToken.error(error);
+        logger.getToken.info(formatError(error));
         throw error;
       }
       throw new AuthenticationError(400, {
@@ -386,7 +386,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         const error = new CredentialUnavailable(
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
-        logger.getToken.error(error);
+        logger.getToken.info(formatError(error));
         throw error;
       }
       span.end();

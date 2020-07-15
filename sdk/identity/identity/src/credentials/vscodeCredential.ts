@@ -7,7 +7,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import * as keytar from "keytar";
 import { CredentialUnavailable } from "../client/errors";
-import { credentialLogger, formatSuccess } from "../util/logging";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
@@ -48,7 +48,7 @@ export class VSCodeCredential implements TokenCredential {
     // Check to make sure the scope we get back is a valid scope
     if (!scopeString.match(/^[0-9a-zA-Z-.:/]+$/)) {
       const error = new Error("Invalid scope was specified by the user or calling client");
-      logger.getToken.error(error);
+      logger.getToken.info(formatError(error));
       throw error;
     }
 
@@ -73,14 +73,14 @@ export class VSCodeCredential implements TokenCredential {
         const error = new CredentialUnavailable(
           "Could not retrieve the token associated with VSCode. Have you connected using the 'Azure Account' extension recently?"
         );
-        logger.getToken.error(error);
+        logger.getToken.info(formatError(error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailable(
         "Could not retrieve the token associated with VSCode. Did you connect using the 'Azure Account' extension?"
       );
-      logger.getToken.error(error);
+      logger.getToken.info(formatError(error));
       throw error;
     }
   }
