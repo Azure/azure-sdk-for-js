@@ -20,10 +20,17 @@ export {
   EventHubEventSourceResource,
   EventSourceCreateOrUpdateParameters,
   EventSourceResource,
+  Gen1EnvironmentCreateOrUpdateParameters,
+  Gen1EnvironmentResource,
+  Gen2EnvironmentCreateOrUpdateParameters,
+  Gen2EnvironmentResource,
+  Gen2StorageConfigurationInput,
+  Gen2StorageConfigurationOutput,
   IngressEnvironmentStatus,
   IoTHubEventSourceCreateOrUpdateParameters,
   IoTHubEventSourceResource,
-  PartitionKeyProperty,
+  LocalTimestamp,
+  LocalTimestampTimeZoneOffset,
   ReferenceDataSetCreateOrUpdateParameters,
   ReferenceDataSetKeyProperty,
   ReferenceDataSetListResponse,
@@ -31,5 +38,8 @@ export {
   ReferenceDataSetUpdateParameters,
   Resource,
   Sku,
-  TrackedResource
+  TimeSeriesIdProperty,
+  TrackedResource,
+  WarmStorageEnvironmentStatus,
+  WarmStoreConfigurationProperties
 } from "../models/mappers";
