@@ -10,12 +10,14 @@ export class AccessTokenRefresher {
   constructor(
     private credential: TokenCredential,
     private scopes: string | string[],
-    private requiredMillisecondsBeforeNewRefresh: number) {
-  }
+    private requiredMillisecondsBeforeNewRefresh: number
+  ) {}
 
   private readyForNewRefresh() {
     // We're only ready for a new refresh if the required milliseconds have passed.
-    return !this.lastCalled || (Date.now() - this.lastCalled > this.requiredMillisecondsBeforeNewRefresh);
+    return (
+      !this.lastCalled || Date.now() - this.lastCalled > this.requiredMillisecondsBeforeNewRefresh
+    );
   }
 
   /**

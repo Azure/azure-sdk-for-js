@@ -47,7 +47,7 @@ export function bearerTokenAuthenticationPolicy(
  *
  */
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-  private tokenRefresher: AccessTokenRefresher
+  private tokenRefresher: AccessTokenRefresher;
 
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
@@ -67,7 +67,11 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   ) {
     super(nextPolicy, options);
     const requiredMillisecondsBeforeNewRefresh = 30000;
-    this.tokenRefresher = new AccessTokenRefresher(this.credential, this.scopes, requiredMillisecondsBeforeNewRefresh);
+    this.tokenRefresher = new AccessTokenRefresher(
+      this.credential,
+      this.scopes,
+      requiredMillisecondsBeforeNewRefresh
+    );
   }
 
   /**
