@@ -153,12 +153,6 @@ describe("BatchingReceiver unit tests", () => {
           receiveMode: lockMode
         });
 
-        receiver["_getServiceBusMessage"] = (eventContext) => {
-          return {
-            body: eventContext.message?.body
-          } as ServiceBusMessageImpl;
-        };
-
         const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
         const receivePromise = receiver.receive(1, bigTimeout, bigTimeout);
@@ -200,17 +194,11 @@ describe("BatchingReceiver unit tests", () => {
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this check.
       (lockMode === ReceiveMode.peekLock ? it : it.skip)(
-        `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message`,
+        `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
         async () => {
           const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
             receiveMode: lockMode
           });
-
-          receiver["_getServiceBusMessage"] = (eventContext) => {
-            return {
-              body: eventContext.message?.body
-            } as ServiceBusMessageImpl;
-          };
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -248,17 +236,11 @@ describe("BatchingReceiver unit tests", () => {
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
       (lockMode === ReceiveMode.receiveAndDelete ? it : it.skip)(
-        `3b. (without idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message`,
+        `3b. (without idle timeout)`,
         async () => {
           const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
             receiveMode: lockMode
           });
-
-          receiver["_getServiceBusMessage"] = (eventContext) => {
-            return {
-              body: eventContext.message?.body
-            } as ServiceBusMessageImpl;
-          };
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -296,6 +278,57 @@ describe("BatchingReceiver unit tests", () => {
         }
       ).timeout(5 * 1000);
 
+      // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
+      // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
+      // the duration of time given (or max messages) with no idle timer.
+      // When we eliminate that bug we can enable this test for all modes.
+      (lockMode === ReceiveMode.peekLock ? it : it.skip)("4. sanity check that we're using getRemainingWaitTimeInMs", async () => {
+        const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
+          receiveMode: lockMode
+        });
+
+        const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+
+        let wasCalled = false;
+
+        const arbitraryAmountOfTimeInMs = 40;
+
+        receiver["_getRemainingWaitTimeInMsFn"] = (
+          maxWaitTimeInMs: number,
+          maxTimeAfterFirstMessageMs: number
+        ) => {
+          // sanity check that the timeouts are passed in correctly....
+          assert.equal(maxWaitTimeInMs, bigTimeout + 1);
+          assert.equal(maxTimeAfterFirstMessageMs, bigTimeout + 2);
+
+          return () => {
+            // and we'll make sure that we did ask the callback from the amount
+            // of time to wait...
+            wasCalled = true;
+            return arbitraryAmountOfTimeInMs;
+          };
+        };
+
+        const receivePromise = receiver.receive(3, bigTimeout + 1, bigTimeout + 2);
+        await receiveIsReady;
+
+        emitter.emit(ReceiverEvents.message, {
+          message: {
+            body: "the second message"
+          } as RheaMessage
+        } as EventContext);
+
+        // and just to be _really_ sure we'll only tick the `arbitraryAmountOfTimeInMs`.
+        // if we resolve() then we know that we ignored the passed in timeouts in favor
+        // of what our getRemainingWaitTimeInMs function calculated.
+        clock.tick(arbitraryAmountOfTimeInMs);
+
+        const messages = await receivePromise;
+        assert.equal(messages.length, 1);
+
+        assert.isTrue(wasCalled);
+      }).timeout(5 * 1000);
+
       function setupFakeReceiver(
         batchingReceiver: BatchingReceiver
       ): {
@@ -328,12 +361,56 @@ describe("BatchingReceiver unit tests", () => {
         } as RheaReceiver;
 
         batchingReceiver["_receiver"] = fakeRheaReceiver;
+        
+        batchingReceiver["_getServiceBusMessage"] = (eventContext) => {
+          return {
+            body: eventContext.message?.body
+          } as ServiceBusMessageImpl;
+        };
 
         return {
           receiveIsReady,
           emitter
         };
       }
+    });
+  });
+
+  describe("getRemainingWaitTimeInMs", () => {
+    let clock: ReturnType<typeof sinon.useFakeTimers>;
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers();
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it("tests", () => {
+      const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
+        receiveMode: ReceiveMode.peekLock
+      });
+
+      let fn = receiver["_getRemainingWaitTimeInMsFn"](10, 2);
+      // 1ms has elapsed so we're comparing 9ms vs 2ms
+      clock.tick(1);
+      assert.equal(2, fn());
+
+      fn = receiver["_getRemainingWaitTimeInMsFn"](10, 2);
+      // 9ms has elapsed so we're comparing 1ms vs 2ms
+      clock.tick(9);
+      assert.equal(1, fn());
+
+      fn = receiver["_getRemainingWaitTimeInMsFn"](10, 2);
+      // 8ms has elapsed so we're comparing 2ms vs 2ms
+      clock.tick(8);
+      assert.equal(2, fn());
+
+      fn = receiver["_getRemainingWaitTimeInMsFn"](10, 2);
+      // 11ms has elapsed so we're comparing -1ms vs 2ms (we'll just treat that as "don't wait, just return what you have")
+      clock.tick(11);
+      assert.equal(0, fn());
     });
   });
 });

@@ -127,6 +127,11 @@ export class BatchingReceiver extends MessageReceiver {
     maxTimeAfterFirstMessageMs: number,
     abortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
+    const getRemainingWaitTimeInMs = this._getRemainingWaitTimeInMsFn(
+      maxWaitTimeInMs,
+      maxTimeAfterFirstMessageMs
+    );
+
     const brokeredMessages: ServiceBusMessageImpl[] = [];
 
     this.isReceivingMessages = true;
@@ -225,7 +230,8 @@ export class BatchingReceiver extends MessageReceiver {
             // a chance to have fewer messages internally that could get lost if the user's
             // app crashes in receiveAndDelete mode.
             if (totalWaitTimer) clearTimeout(totalWaitTimer);
-            totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxTimeAfterFirstMessageMs);
+
+            totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
           }
         }
 
@@ -471,6 +477,30 @@ export class BatchingReceiver extends MessageReceiver {
         this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
       }
     });
+  }
+
+  /**
+   * Gets a function that will calculate the correct amount of time to wait
+   * for the next message to arrive.
+   *
+   * @param maxWaitTimeInMs The maximum amount of time to wait for the first message.
+   * @param maxTimeAfterFirstMessageInMs The maximum time to wait after the first message.
+   */
+  private _getRemainingWaitTimeInMsFn(
+    maxWaitTimeInMs: number,
+    maxTimeAfterFirstMessageInMs: number
+  ): () => number {
+    const startTimeMs = Date.now();
+
+    return () => {
+      const remainingTimeMs = maxWaitTimeInMs - (Date.now() - startTimeMs);
+
+      if (remainingTimeMs < 0) {
+        return 0;
+      }
+
+      return Math.min(remainingTimeMs, maxTimeAfterFirstMessageInMs);
+    };
   }
 
   private _getServiceBusMessage(context: EventContext): ServiceBusMessageImpl {
