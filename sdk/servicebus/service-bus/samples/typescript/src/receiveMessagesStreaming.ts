@@ -2,7 +2,7 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  This sample demonstrates how the receive() function can be used to receive Service Bus messages
+  This sample demonstrates how the registerMessageHandler() function can be used to receive Service Bus messages
   in a stream.
 
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
@@ -46,8 +46,8 @@ export async function main() {
       };
 
       const onErrorHandler: OnError = (err) => {
-        if ((err as MessagingError).retryable === false) {
-          console.log("Receiver will be recreated. A fatal error occurred:", err);
+        if ((err as MessagingError).retryable === true) {
+          console.log("Receiver will be recreated. A recoverable error occurred:", err);
           resolve();
         } else {
           console.log("Non-fatal error occurred: ", err);
