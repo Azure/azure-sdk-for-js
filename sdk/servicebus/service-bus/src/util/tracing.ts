@@ -1,32 +1,32 @@
-import { RestError } from "@azure/core-http";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getTracer, OperationTracingOptions, SpanOptions } from "@azure/core-tracing";
-import { Span, SpanOptions as OTSpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/api";
+import { OperationOptions, RestError } from "@azure/core-http";
+import { getTracer } from "@azure/core-tracing";
+import { CanonicalCode, Span, SpanKind, SpanOptions as OTSpanOptions } from "@opentelemetry/api";
 
 /**
  * Creates a span using the global tracer.
  * @param name The name of the operation being performed.
- * @param tracingOptions The options for the underlying http request.
+ * @param operationOptions The options for the underlying http request.
  */
 export function createSpan(
   operationName: string,
-  tracingOptions: OperationTracingOptions = {}
-): { span: Span; spanOptions: SpanOptions } {
+  operationOptions: OperationOptions = {}
+): { span: Span; updatedOperationOptions: OperationOptions } {
   const tracer = getTracer();
   const spanOptions: OTSpanOptions = {
-    ...tracingOptions.spanOptions,
+    ...operationOptions.tracingOptions?.spanOptions,
     kind: SpanKind.INTERNAL
   };
 
   const span = tracer.startSpan(`Azure.ServiceBus.${operationName}`, spanOptions);
   span.setAttribute("az.namespace", "Microsoft.ServiceBus");
 
-  let newOptions = tracingOptions.spanOptions || {};
+  let newOptions = operationOptions.tracingOptions?.spanOptions || {};
   if (span.isRecording()) {
     newOptions = {
-      ...tracingOptions.spanOptions,
+      ...operationOptions.tracingOptions?.spanOptions,
       parent: span.context(),
       attributes: {
         ...spanOptions.attributes,
@@ -37,7 +37,10 @@ export function createSpan(
 
   return {
     span,
-    spanOptions: newOptions
+    updatedOperationOptions: {
+      ...operationOptions,
+      tracingOptions: { ...operationOptions?.tracingOptions, spanOptions: newOptions }
+    }
   };
 }
 
