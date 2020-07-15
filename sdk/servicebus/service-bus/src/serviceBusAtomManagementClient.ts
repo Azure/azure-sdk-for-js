@@ -19,6 +19,7 @@ import {
   signingPolicy,
   stripRequest,
   stripResponse,
+  tracingPolicy,
   URLBuilder,
   WebResource
 } from "@azure/core-http";
@@ -239,6 +240,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     let options: ServiceBusManagementClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
+    requestPolicyFactories.push(
+      // TODO: Update the userAgent in ConnectionContext to properly distinguish among Node and browser (Reference: EventHubs)
+      //       And use the same userAgent string for both ServiceBusManagementClient and the ServiceBusClient. 
+      tracingPolicy({ userAgent: `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}` })
+    );
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
