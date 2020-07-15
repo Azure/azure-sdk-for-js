@@ -36,16 +36,10 @@ export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulat
 /**
  * Based on a given list of environment variable names,
  * logs the environment variables currently assigned during the usage of a credential that goes by the given name.
- * Logs nothing if the log level is "warning" or "error".
  * @param credentialName Name of the credential in use
  * @param supportedEnvVars List of environment variables supported by that credential
  */
 export function logEnvVars(credentialName: string, supportedEnvVars: string[]): void {
-  // Logs nothing if the log level is "warning" or "error".
-  const logLevel = process.env.AZURE_LOG_LEVEL;
-  if (logLevel === "warning" || logLevel === "error") {
-    return;
-  }
   const { assigned } = processEnvVars(supportedEnvVars);
   logger.info(
     `${credentialName} => Found the following environment variables: ${assigned.join(", ")}`
