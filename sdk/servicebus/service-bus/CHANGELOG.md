@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.8 (Unreleased)
+## 1.1.8 (2020-07-15)
 
 - Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
   where attempting to create AMQP links when the AMQP connection was in the
