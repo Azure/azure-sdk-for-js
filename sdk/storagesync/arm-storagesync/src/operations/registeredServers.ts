@@ -223,7 +223,8 @@ const listByStorageSyncServiceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.RegisteredServersListByStorageSyncServiceHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.RegisteredServersListByStorageSyncServiceHeaders
     }
   },
   serializer
@@ -250,7 +251,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.RegisteredServersGetHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.RegisteredServersGetHeaders
     }
   },
   serializer
@@ -287,7 +289,8 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.RegisteredServersCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.RegisteredServersCreateHeaders
     }
   },
   serializer
@@ -319,7 +322,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.RegisteredServersDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.RegisteredServersDeleteHeaders
     }
   },
   serializer
@@ -355,7 +359,8 @@ const beginTriggerRolloverOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.RegisteredServersTriggerRolloverHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.RegisteredServersTriggerRolloverHeaders
     }
   },
   serializer

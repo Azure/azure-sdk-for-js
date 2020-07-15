@@ -91,7 +91,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OperationStatusGetHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.OperationStatusGetHeaders
     }
   },
   serializer

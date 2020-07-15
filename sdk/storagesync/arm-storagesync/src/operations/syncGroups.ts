@@ -193,7 +193,8 @@ const listByStorageSyncServiceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SyncGroupsListByStorageSyncServiceHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.SyncGroupsListByStorageSyncServiceHeaders
     }
   },
   serializer
@@ -227,7 +228,8 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SyncGroupsCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.SyncGroupsCreateHeaders
     }
   },
   serializer
@@ -254,7 +256,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SyncGroupsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.SyncGroupsGetHeaders
     }
   },
   serializer
@@ -283,7 +286,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SyncGroupsDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.SyncGroupsDeleteHeaders
     }
   },
   serializer
