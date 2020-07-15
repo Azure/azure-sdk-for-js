@@ -1,8 +1,9 @@
+import { RestError } from "@azure/core-http";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { getTracer, OperationTracingOptions, SpanOptions } from "@azure/core-tracing";
-import { Span, SpanOptions as OTSpanOptions, SpanKind } from "@opentelemetry/api";
+import { Span, SpanOptions as OTSpanOptions, SpanKind, CanonicalCode } from "@opentelemetry/api";
 
 /**
  * Creates a span using the global tracer.
@@ -38,4 +39,19 @@ export function createSpan(
     span,
     spanOptions: newOptions
   };
+}
+
+export function getCanonicalCode(err: Error) {
+  if (err instanceof RestError) {
+    switch (err.statusCode) {
+      case 401:
+        return CanonicalCode.PERMISSION_DENIED;
+      case 404:
+        return CanonicalCode.NOT_FOUND;
+      case 412:
+        return CanonicalCode.FAILED_PRECONDITION;
+    }
+  }
+
+  return CanonicalCode.UNKNOWN;
 }

@@ -65,8 +65,7 @@ import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 import { OperationOptions } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
-import { createSpan } from "./util/tracing";
+import { createSpan, getCanonicalCode } from "./util/tracing";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -312,7 +311,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildNamespacePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -391,7 +390,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildQueueResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -435,7 +434,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildQueueResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -481,7 +480,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildQueueRuntimeInfoResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -523,7 +522,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildListQueuesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -568,7 +567,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildListQueuesRuntimeInfoResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -639,7 +638,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildQueueResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -682,7 +681,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return { _response: response };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -717,7 +716,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -796,7 +795,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildTopicResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -840,7 +839,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildTopicResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -886,7 +885,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildTopicRuntimeInfoResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -928,7 +927,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildListTopicsResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -973,7 +972,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildListTopicsRuntimeInfoResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1041,7 +1040,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildTopicResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1084,7 +1083,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return { _response: response };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1119,7 +1118,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1218,7 +1217,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildSubscriptionResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1270,7 +1269,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildSubscriptionRuntimeInfoResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1321,7 +1320,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildSubscriptionRuntimeInfoResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1369,7 +1368,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildListSubscriptionsResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1416,7 +1415,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildListSubscriptionsRuntimeInfoResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1491,7 +1490,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildSubscriptionResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1542,7 +1541,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return { _response: response };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1585,7 +1584,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1640,7 +1639,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildRuleResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1691,7 +1690,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildRuleResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1739,7 +1738,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildListRulesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1806,7 +1805,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return this.buildRuleResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1857,7 +1856,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return { _response: response };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1933,7 +1932,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -1979,7 +1978,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -2022,7 +2021,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
@@ -2053,7 +2052,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: getCanonicalCode(e),
         message: e.message
       });
       throw e;
