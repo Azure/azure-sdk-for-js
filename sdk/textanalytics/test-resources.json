@@ -27,7 +27,7 @@
   "resources": [{
       "type": "Microsoft.CognitiveServices/accounts/providers/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[format('{0}/Microsoft.Authorization/{1}', variables('accountName'), guid(parameters('baseName')))]",
+      "name": "[format('{0}/Microsoft.Authorization/{1}', variables('accountName'), guid(variables('accountName')))]",
       "dependsOn": [
         "[resourceId('Microsoft.CognitiveServices/accounts', variables('accountName'))]"
       ],
