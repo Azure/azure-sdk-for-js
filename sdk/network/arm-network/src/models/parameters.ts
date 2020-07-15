@@ -581,19 +581,6 @@ export const peeringName: msRest.OperationURLParameter = {
     }
   }
 };
-export const policyName: msRest.OperationURLParameter = {
-  parameterPath: "policyName",
-  mapper: {
-    required: true,
-    serializedName: "policyName",
-    constraints: {
-      MaxLength: 128
-    },
-    type: {
-      name: "String"
-    }
-  }
-};
 export const predefinedPolicyName: msRest.OperationURLParameter = {
   parameterPath: "predefinedPolicyName",
   mapper: {
@@ -834,6 +821,16 @@ export const virtualHubName: msRest.OperationURLParameter = {
     }
   }
 };
+export const virtualmachineIndex: msRest.OperationURLParameter = {
+  parameterPath: "virtualmachineIndex",
+  mapper: {
+    required: true,
+    serializedName: "virtualmachineIndex",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const virtualMachineScaleSetName: msRest.OperationURLParameter = {
   parameterPath: "virtualMachineScaleSetName",
   mapper: {
@@ -909,16 +906,6 @@ export const virtualWANName1: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "VirtualWANName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const virtualmachineIndex: msRest.OperationURLParameter = {
-  parameterPath: "virtualmachineIndex",
-  mapper: {
-    required: true,
-    serializedName: "virtualmachineIndex",
     type: {
       name: "String"
     }

@@ -119,7 +119,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   virtualHubBgpConnections: operations.VirtualHubBgpConnections;
   virtualHubIpConfiguration: operations.VirtualHubIpConfiguration;
   hubRouteTables: operations.HubRouteTables;
-  webApplicationFirewallPolicies: operations.WebApplicationFirewallPolicies;
 
   /**
    * Initializes a new instance of the NetworkManagementClient class.
@@ -230,7 +229,6 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.virtualHubBgpConnections = new operations.VirtualHubBgpConnections(this);
     this.virtualHubIpConfiguration = new operations.VirtualHubIpConfiguration(this);
     this.hubRouteTables = new operations.HubRouteTables(this);
-    this.webApplicationFirewallPolicies = new operations.WebApplicationFirewallPolicies(this);
   }
 
   /**
