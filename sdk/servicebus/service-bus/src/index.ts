@@ -33,7 +33,7 @@ export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
-export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
+export { QueueDescription, QueueRuntimeProperties } from "./serializers/queueResourceSerializer";
 export {
   RuleDescription,
   SqlParameter,
@@ -42,29 +42,29 @@ export {
 } from "./serializers/ruleResourceSerializer";
 export {
   SubscriptionDescription,
-  SubscriptionRuntimeInfo
+  SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
-export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
+export { TopicDescription, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
 export {
   ListRequestOptions,
   NamespacePropertiesResponse,
   QueueResponse,
-  QueueRuntimeInfoResponse,
+  QueueRuntimePropertiesResponse,
   QueuesResponse,
-  QueuesRuntimeInfoResponse,
+  QueuesRuntimePropertiesResponse,
   Response,
   RuleResponse,
   RulesResponse,
   ServiceBusManagementClient,
   ServiceBusManagementClientOptions,
   SubscriptionResponse,
-  SubscriptionRuntimeInfoResponse,
+  SubscriptionRuntimePropertiesResponse,
   SubscriptionsResponse,
-  SubscriptionsRuntimeInfoResponse,
+  SubscriptionsRuntimePropertiesResponse,
   TopicResponse,
-  TopicRuntimeInfoResponse,
+  TopicRuntimePropertiesResponse,
   TopicsResponse,
-  TopicsRuntimeInfoResponse
+  TopicsRuntimePropertiesResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {

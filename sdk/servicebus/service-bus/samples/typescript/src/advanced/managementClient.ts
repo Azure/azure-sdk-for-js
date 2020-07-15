@@ -37,8 +37,8 @@ export async function main() {
   const updateQueueResponse = await serviceBusManagementClient.updateQueue(getQueueResponse);
   console.log("(Updated)max delivery count = ", updateQueueResponse.maxDeliveryCount);
 
-  const queueRuntimeInfo = await serviceBusManagementClient.getQueueRuntimeInfo(queueName);
-  console.log("Number of messages in the queue = ", queueRuntimeInfo.messageCount);
+  const queueRuntimeProperties = await serviceBusManagementClient.getQueueRuntimeProperties(queueName);
+  console.log("Number of messages in the queue = ", queueRuntimeProperties.messageCount);
 
   const namespaceInfo = await serviceBusManagementClient.getNamespaceProperties();
   console.log("Type of the namespace - ", namespaceInfo.namespaceType);

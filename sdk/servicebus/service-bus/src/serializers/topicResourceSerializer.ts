@@ -93,7 +93,7 @@ export function buildTopic(rawTopic: any): TopicDescription {
  * response from the service
  * @param rawTopic
  */
-export function buildTopicRuntimeInfo(rawTopic: any): TopicRuntimeInfo {
+export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperties {
   return {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
@@ -285,7 +285,7 @@ export interface InternalTopicOptions {
 /**
  * Represents runtime info attributes of a topic entity
  */
-export interface TopicRuntimeInfo {
+export interface TopicRuntimeProperties {
   /**
    * Name of the topic
    */

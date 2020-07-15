@@ -151,7 +151,7 @@ export interface QueueResponse extends QueueDescription, Response {
 }
 
 // @public
-export interface QueueRuntimeInfo {
+export interface QueueRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
     messageCount?: number;
@@ -162,7 +162,7 @@ export interface QueueRuntimeInfo {
 }
 
 // @public
-export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {
+export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, Response {
 }
 
 // @public
@@ -170,7 +170,7 @@ export interface QueuesResponse extends Array<QueueDescription>, Response {
 }
 
 // @public
-export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {
+export interface QueuesRuntimePropertiesResponse extends Array<QueueRuntimeProperties>, Response {
 }
 
 // @public
@@ -303,19 +303,19 @@ export class ServiceBusManagementClient extends ServiceClient {
     deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
+    getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimePropertiesResponse>;
     getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse>;
-    getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimeInfoResponse>;
+    getQueuesRuntimeProperties(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimePropertiesResponse>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
     getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptions): Promise<RulesResponse>;
     getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimeInfoResponse>;
+    getSubscriptionRuntimeProperties(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimePropertiesResponse>;
     getSubscriptions(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsResponse>;
-    getSubscriptionsRuntimeInfo(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsRuntimeInfoResponse>;
+    getSubscriptionsRuntimeProperties(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsRuntimePropertiesResponse>;
     getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
-    getTopicRuntimeInfo(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimeInfoResponse>;
+    getTopicRuntimeProperties(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimePropertiesResponse>;
     getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse>;
-    getTopicsRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<TopicsRuntimeInfoResponse>;
+    getTopicsRuntimeProperties(options?: ListRequestOptions & OperationOptions): Promise<TopicsRuntimePropertiesResponse>;
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
@@ -426,7 +426,7 @@ export interface SubscriptionResponse extends SubscriptionDescription, Response 
 }
 
 // @public
-export interface SubscriptionRuntimeInfo {
+export interface SubscriptionRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
     messageCount: number;
@@ -437,7 +437,7 @@ export interface SubscriptionRuntimeInfo {
 }
 
 // @public
-export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo, Response {
+export interface SubscriptionRuntimePropertiesResponse extends SubscriptionRuntimeProperties, Response {
 }
 
 // @public
@@ -445,7 +445,7 @@ export interface SubscriptionsResponse extends Array<SubscriptionDescription>, R
 }
 
 // @public
-export interface SubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo>, Response {
+export interface SubscriptionsRuntimePropertiesResponse extends Array<SubscriptionRuntimeProperties>, Response {
 }
 
 export { TokenCredential }
@@ -473,7 +473,7 @@ export interface TopicResponse extends TopicDescription, Response {
 }
 
 // @public
-export interface TopicRuntimeInfo {
+export interface TopicRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
     name: string;
@@ -483,7 +483,7 @@ export interface TopicRuntimeInfo {
 }
 
 // @public
-export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {
+export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
 }
 
 // @public
@@ -491,7 +491,7 @@ export interface TopicsResponse extends Array<TopicDescription>, Response {
 }
 
 // @public
-export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo>, Response {
+export interface TopicsRuntimePropertiesResponse extends Array<TopicRuntimeProperties>, Response {
 }
 
 // @public
