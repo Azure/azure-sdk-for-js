@@ -2,6 +2,12 @@
 
 ## 7.0.0-preview.5 (Unreleased)
 
+### Breaking Changes
+
+- `receiveMessages()`'s optional `maxWaitTimeInMs` parameter now controls how long to wait for the _first_
+  message, rather than how long to wait for an entire set of messages. This change allows for a faster return
+  of messages to your application.
+  [PR 9968](https://github.com/Azure/azure-sdk-for-js/pull/9968)
 
 ## 7.0.0-preview.4 (2020-07-07)
 
