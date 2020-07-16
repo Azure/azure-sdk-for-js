@@ -46,44 +46,34 @@ export class AvroReadableFromStream extends AvroReadable {
     } else {
       // register callback to wait for enough data to read
       return new Promise((resolve, reject) => {
+        const cleanUp = () => {
+          this._readable.removeListener("readable", readableCallback);
+          this._readable.removeListener("error", rejectCallback);
+          this._readable.removeListener("end", rejectCallback);
+          this._readable.removeListener("close", rejectCallback);
+
+          if (options.abortSignal) {
+            options.abortSignal!.removeEventListener("abort", abortHandler);
+          }
+        };
+
         const readableCallback = () => {
           let chunk = this._readable.read(size);
           if (chunk) {
             this._position += chunk.length;
-
-            this._readable.removeListener("readable", readableCallback);
-            this._readable.removeListener("error", rejectCallback);
-            this._readable.removeListener("end", rejectCallback);
-            this._readable.removeListener("close", rejectCallback);
-            if (options.abortSignal) {
-              options.abortSignal!.removeEventListener("abort", abortHandler);
-            }
-
+            cleanUp();
             // chunk.length maybe less than desired size if the stream ends.
             resolve(this.toUint8Array(chunk));
           }
         };
 
         const rejectCallback = () => {
-          this._readable.removeListener("readable", readableCallback);
-          this._readable.removeListener("error", rejectCallback);
-          this._readable.removeListener("end", rejectCallback);
-          this._readable.removeListener("close", rejectCallback);
-          if (options.abortSignal) {
-            options.abortSignal!.removeEventListener("abort", abortHandler);
-          }
+          cleanUp();
           reject();
         };
 
         const abortHandler = () => {
-          this._readable.removeListener("readable", readableCallback);
-          this._readable.removeListener("error", rejectCallback);
-          this._readable.removeListener("end", rejectCallback);
-          this._readable.removeListener("close", rejectCallback);
-
-          if (options.abortSignal) {
-            options.abortSignal!.removeEventListener("abort", abortHandler);
-          }
+          cleanUp();
           reject(ABORT_ERROR);
         };
 
