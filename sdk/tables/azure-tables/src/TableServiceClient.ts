@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { GeneratedClient } from "./generated/generatedClient";
 import { Service } from "./generated/operations";
 import { Table } from "./generated/operations/table";
 import {
-  GeneratedClientOptionalParams,
+  Entity,
+  TableServiceClientOptions,
   ServiceGetStatisticsOptionalParams,
   ServiceGetStatisticsResponse,
   ServiceGetPropertiesOptionalParams,
@@ -14,7 +16,7 @@ import {
   ServiceSetPropertiesResponse,
   TableCreateOptionalParams,
   TableCreateResponse,
-  TableDeleteOptionalParams,
+  DeleteTableOptions,
   TableDeleteResponse,
   TableQueryOptionalParams,
   QueryOptions,
@@ -36,20 +38,14 @@ import {
   TableSetAccessPolicyOptionalParams,
   SignedIdentifier,
   TableSetAccessPolicyResponse
-} from "./generated/models";
-import { GeneratedClient } from "./generated/generatedClient";
-
-interface Entity {
-  PartitionKey: string;
-  RowKey: string;
-  [propertyName: string]: any;
-}
+} from "./models";
 
 export class TableServiceClient {
   private table: Table;
   private service: Service;
 
-  constructor(url: string, options?: GeneratedClientOptionalParams | undefined) {
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  constructor(url: string, options?: TableServiceClientOptions) {
     /**
      * Initializes a new instance of the TableServiceClient class.
      * @param url The URL of the service account that is the target of the desired operation.
@@ -114,10 +110,7 @@ export class TableServiceClient {
    * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  deleteTable(
-    tableName: string,
-    options?: TableDeleteOptionalParams
-  ): Promise<TableDeleteResponse> {
+  deleteTable(tableName: string, options?: DeleteTableOptions): Promise<TableDeleteResponse> {
     return this.table.delete(tableName, options);
   }
 

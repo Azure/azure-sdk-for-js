@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 export {
-  Entity,
-  TableServiceClientOptions,
+  GeneratedClientOptionalParams as TableServiceClientOptions,
   ServiceGetStatisticsOptionalParams,
   ServiceGetStatisticsResponse,
   ServiceGetPropertiesOptionalParams,
@@ -13,7 +12,7 @@ export {
   ServiceSetPropertiesResponse,
   TableCreateOptionalParams,
   TableCreateResponse,
-  TableDeleteOptionalParams,
+  TableDeleteOptionalParams as DeleteTableOptions,
   TableDeleteResponse,
   TableQueryOptionalParams,
   QueryOptions,
@@ -35,6 +34,10 @@ export {
   TableSetAccessPolicyOptionalParams,
   SignedIdentifier,
   TableSetAccessPolicyResponse
-} from "./models";
+} from "./generated/models";
 
-export { TableServiceClient } from "./TableServiceClient";
+export interface Entity {
+  PartitionKey: string;
+  RowKey: string;
+  [propertyName: string]: any;
+}
