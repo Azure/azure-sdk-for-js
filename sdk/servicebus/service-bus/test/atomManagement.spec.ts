@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { isNode, parseConnectionString } from "@azure/core-amqp";
+import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
@@ -11,7 +12,7 @@ import { QueueDescription } from "../src/serializers/queueResourceSerializer";
 import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
 import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
 import { TopicDescription } from "../src/serializers/topicResourceSerializer";
-import { ServiceBusManagementClient, PageSettings } from "../src/serviceBusAtomManagementClient";
+import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 import { EntityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
@@ -142,7 +143,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
     "getSubscriptionsRuntimeInfo",
     "getRules"
   ].forEach((methodName) => {
-    describe(`${methodName}`, () => {
+    describe.only(`${methodName}`, () => {
       function getIter() {
         let iterator;
         if (methodName.includes("Subscription")) {
@@ -232,9 +233,9 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
         verifyEntities(methodName, receivedEntities);
       });
 
-      [-2, "abc", [], null].forEach((token) => {
+      [2, "-1", [], null].forEach((token) => {
         it(`Validate continuationToken ${token} - PagedAsyncIterableIterator(byPage())`, async () => {
-          const settings: PageSettings = { continuationToken: token as number };
+          const settings: PageSettings = { continuationToken: token as string };
           let errorWasThrown = false;
           try {
             getIter().byPage(settings);
