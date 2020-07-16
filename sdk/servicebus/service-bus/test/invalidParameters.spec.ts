@@ -231,12 +231,11 @@ describe("invalid parameters", () => {
   describe("Invalid parameters in Receiver", function(): void {
     const mockConnectionString = "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test";
     const sbClient = new ServiceBusClient(mockConnectionString);
-    const receiver = sbClient.createReceiver("dummyQueue", "peekLock");
+    const receiver = sbClient.createReceiver("dummyQueue");
 
     it("Receiver: Missing ReceiveMode", async function(): Promise<void> {
       let errorCaught: string = "";
       try {
-        // @ts-expect-error
         sbClient.createReceiver("dummyQueue");
       } catch (error) {
         errorCaught = error.message;
