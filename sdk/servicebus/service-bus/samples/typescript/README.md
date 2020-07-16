@@ -1,6 +1,6 @@
 # Azure Service Bus client library samples for TypeScript
 
-**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1)
 
 These sample programs show how to use the TypeScript client libraries for Azure Service Bus in some common scenarios.
 
@@ -23,7 +23,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0.
+The samples are compatible with Node.js >= 8.0.0, except for the samples that use the async for await syntax, which require Node.js >= 10.0.0.
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
 

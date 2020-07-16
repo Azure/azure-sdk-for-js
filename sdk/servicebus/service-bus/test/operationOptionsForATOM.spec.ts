@@ -94,7 +94,7 @@ describe("Operation Options", () => {
     it("getQueues", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueues({
+          await serviceBusAtomManagementClient["listQueues"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -102,7 +102,7 @@ describe("Operation Options", () => {
     it("getQueuesRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueuesRuntimeProperties({
+          await serviceBusAtomManagementClient["listQueuesRuntimeInfo"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -153,7 +153,7 @@ describe("Operation Options", () => {
     it("getTopics", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopics({
+          await serviceBusAtomManagementClient["listTopics"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -161,7 +161,7 @@ describe("Operation Options", () => {
     it("getTopicsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopicsRuntimeProperties({
+          await serviceBusAtomManagementClient["listTopicsRuntimeInfo"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -219,7 +219,7 @@ describe("Operation Options", () => {
     it("getSubscriptions", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscriptions(enitityName1, {
+          await serviceBusAtomManagementClient["listSubscriptions"](enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -227,7 +227,7 @@ describe("Operation Options", () => {
     it("getSubscriptionsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscriptionsRuntimeProperties(enitityName1, {
+          await serviceBusAtomManagementClient["listSubscriptionsRuntimeInfo"](enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );

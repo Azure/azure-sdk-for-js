@@ -46,25 +46,19 @@ export {
 } from "./serializers/subscriptionResourceSerializer";
 export { TopicDescription, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
 export {
+  EntitiesResponse,
   ListRequestOptions,
   NamespacePropertiesResponse,
   QueueResponse,
   QueueRuntimePropertiesResponse,
-  QueuesResponse,
-  QueuesRuntimePropertiesResponse,
   Response,
   RuleResponse,
-  RulesResponse,
   ServiceBusManagementClient,
   ServiceBusManagementClientOptions,
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
-  SubscriptionsResponse,
-  SubscriptionsRuntimePropertiesResponse,
   TopicResponse,
-  TopicRuntimePropertiesResponse,
-  TopicsResponse,
-  TopicsRuntimePropertiesResponse
+  TopicRuntimePropertiesResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {

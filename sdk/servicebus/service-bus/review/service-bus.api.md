@@ -12,6 +12,8 @@ import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PageSettings } from '@azure/core-paging';
 import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
@@ -63,6 +65,10 @@ export interface DeadLetterOptions {
 export { delay }
 
 export { Delivery }
+
+// @public
+export interface EntitiesResponse<T> extends Array<T>, Pick<PageSettings, "continuationToken">, Response {
+}
 
 // @public
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
@@ -166,14 +172,6 @@ export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, 
 }
 
 // @public
-export interface QueuesResponse extends Array<QueueDescription>, Response {
-}
-
-// @public
-export interface QueuesRuntimePropertiesResponse extends Array<QueueRuntimeProperties>, Response {
-}
-
-// @public
 export interface ReceivedMessage extends ServiceBusMessage {
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterSource?: string;
@@ -239,10 +237,6 @@ export interface RuleResponse extends RuleDescription, Response {
 }
 
 // @public
-export interface RulesResponse extends Array<RuleDescription>, Response {
-}
-
-// @public
 export interface Sender {
     cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
     close(): Promise<void>;
@@ -304,18 +298,18 @@ export class ServiceBusManagementClient extends ServiceClient {
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
     getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimePropertiesResponse>;
-    getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse>;
-    getQueuesRuntimeProperties(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimePropertiesResponse>;
+    getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueDescription, EntitiesResponse<QueueDescription>>;
+    getQueuesRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptions): Promise<RulesResponse>;
+    getRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>>;
     getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     getSubscriptionRuntimeProperties(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimePropertiesResponse>;
-    getSubscriptions(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsResponse>;
-    getSubscriptionsRuntimeProperties(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsRuntimePropertiesResponse>;
+    getSubscriptions(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionDescription, EntitiesResponse<SubscriptionDescription>>;
+    getSubscriptionsRuntimeProperties(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionRuntimeProperties, EntitiesResponse<SubscriptionRuntimeProperties>>;
     getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
     getTopicRuntimeProperties(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimePropertiesResponse>;
-    getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse>;
-    getTopicsRuntimeProperties(options?: ListRequestOptions & OperationOptions): Promise<TopicsRuntimePropertiesResponse>;
+    getTopics(options?: OperationOptions): PagedAsyncIterableIterator<TopicDescription, EntitiesResponse<TopicDescription>>;
+    getTopicsRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>>;
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
@@ -440,14 +434,6 @@ export interface SubscriptionRuntimeProperties {
 export interface SubscriptionRuntimePropertiesResponse extends SubscriptionRuntimeProperties, Response {
 }
 
-// @public
-export interface SubscriptionsResponse extends Array<SubscriptionDescription>, Response {
-}
-
-// @public
-export interface SubscriptionsRuntimePropertiesResponse extends Array<SubscriptionRuntimeProperties>, Response {
-}
-
 export { TokenCredential }
 
 export { TokenType }
@@ -484,14 +470,6 @@ export interface TopicRuntimeProperties {
 
 // @public
 export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
-}
-
-// @public
-export interface TopicsResponse extends Array<TopicDescription>, Response {
-}
-
-// @public
-export interface TopicsRuntimePropertiesResponse extends Array<TopicRuntimeProperties>, Response {
 }
 
 // @public

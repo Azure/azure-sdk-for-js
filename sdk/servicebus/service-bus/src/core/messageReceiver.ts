@@ -145,12 +145,6 @@ export class MessageReceiver extends LinkEntity {
    */
   maxAutoRenewDurationInMs: number;
   /**
-   * @property {number} [newMessageWaitTimeoutInMs] The maximum amount of idle time the
-   * receiver will wait after a message has been received. If no messages are received by this
-   * time then the receive operation will end.
-   */
-  newMessageWaitTimeoutInMs?: number;
-  /**
    * @property {boolean} autoRenewLock Should lock renewal happen automatically.
    */
   autoRenewLock: boolean;
@@ -221,15 +215,6 @@ export class MessageReceiver extends LinkEntity {
     NodeJS.Timer | undefined
   >();
   /**
-   * @property {NodeJS.Timer} _newMessageReceivedTimer The timer that keeps track of time since the
-   * last message was received.
-   */
-  protected _newMessageReceivedTimer?: NodeJS.Timer;
-  /**
-   * Resets the `_newMessageReceivedTimer` timer when a new message is received.
-   */
-  protected resetTimerOnNewMessageReceived: () => void;
-  /**
    * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for a
    * specific messageId.
    */
@@ -269,9 +254,6 @@ export class MessageReceiver extends LinkEntity {
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
-    this.resetTimerOnNewMessageReceived = () => {
-      /** */
-    };
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this.maxAutoRenewDurationInMs =
@@ -356,7 +338,6 @@ export class MessageReceiver extends LinkEntity {
         return;
       }
 
-      this.resetTimerOnNewMessageReceived();
       const connectionId = this._context.namespace.connectionId;
       const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
         this._context,
@@ -591,9 +572,6 @@ export class MessageReceiver extends LinkEntity {
           );
         }
       }
-      if (this._newMessageReceivedTimer) {
-        clearTimeout(this._newMessageReceivedTimer);
-      }
     };
 
     this._onSessionError = (context: EventContext) => {
@@ -616,9 +594,6 @@ export class MessageReceiver extends LinkEntity {
           );
           this._onError!(sbError);
         }
-      }
-      if (this._newMessageReceivedTimer) {
-        clearTimeout(this._newMessageReceivedTimer);
       }
     };
 
@@ -1103,7 +1078,6 @@ export class MessageReceiver extends LinkEntity {
       this.receiverType,
       this._context.entityPath
     );
-    if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
     this._clearAllMessageLockRenewTimers();
     if (this._receiver) {
       const receiverLink = this._receiver;

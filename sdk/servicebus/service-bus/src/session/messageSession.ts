@@ -11,13 +11,15 @@ import {
 import {
   AmqpError,
   EventContext,
+  isAmqpError,
   OnAmqpEvent,
   Receiver,
   ReceiverEvents,
-  ReceiverOptions,
-  isAmqpError
+  ReceiverOptions
 } from "rhea-promise";
-import * as log from "../log";
+import { ClientEntityContext } from "../clientEntityContext";
+import { LinkEntity } from "../core/linkEntity";
+import { DispositionStatusOptions } from "../core/managementClient";
 import {
   OnAmqpEventAsPromise,
   OnError,
@@ -25,12 +27,10 @@ import {
   PromiseLike,
   ReceiverHelper
 } from "../core/messageReceiver";
-import { LinkEntity } from "../core/linkEntity";
-import { ClientEntityContext } from "../clientEntityContext";
-import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
-import { throwErrorIfConnectionClosed } from "../util/errors";
+import * as log from "../log";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { DispositionStatusOptions } from "../core/managementClient";
+import { throwErrorIfConnectionClosed } from "../util/errors";
+import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 
 /**
  * Enum to denote who is calling the session receiver
@@ -137,12 +137,16 @@ export class MessageSession extends LinkEntity {
    */
   sessionLockedUntilUtc?: Date;
   /**
-   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId
+   * @property {string} [providedSessionId] The sessionId provided in the MessageSessionOptions. Empty string is valid sessionId.
    */
-  sessionId?: string;
+  private providedSessionId?: string;
+  /**
+   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId.
+   */
+  sessionId!: string;
   /**
    * @property {number} [maxConcurrentSessions] The maximum number of concurrent sessions that the
-   * client should initate.
+   * client should initiate.
    * - **Default**: `1`.
    */
   maxConcurrentSessions?: number;
@@ -183,7 +187,7 @@ export class MessageSession extends LinkEntity {
    */
   autoRenewLock: boolean;
   /**
-   * @property {SessionCallee} callee Describes who instantied the MessageSession. Whether it was
+   * @property {SessionCallee} callee Describes who instantiated the MessageSession. Whether it was
    * called by the SessionManager or it was called standalone.
    * - Default: "standalone"
    */
@@ -284,7 +288,7 @@ export class MessageSession extends LinkEntity {
             this.name
           );
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-            this.sessionId!,
+            this.sessionId,
             {
               timeoutInMs: 10000
             }
@@ -330,7 +334,7 @@ export class MessageSession extends LinkEntity {
    */
   private _deleteFromCache(): void {
     this._receiver = undefined;
-    delete this._context.messageSessions[this.sessionId!];
+    delete this._context.messageSessions[this.sessionId];
     log.error(
       "[%s] Deleted the receiver '%s' with sessionId '%s' from the client cache.",
       this._context.namespace.connectionId,
@@ -371,17 +375,18 @@ export class MessageSession extends LinkEntity {
           this._receiver.source &&
           this._receiver.source.filter &&
           this._receiver.source.filter[Constants.sessionFilterName];
+
         let errorMessage: string = "";
         // SB allows a sessionId with empty string value :)
 
-        if (this.sessionId == null && receivedSessionId == null) {
-          // Ideally this code path should never be reached as `createReceiver()` should fail instead
+        if (this.providedSessionId == null && receivedSessionId == null) {
+          // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
           // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
           errorMessage = `No unlocked sessions were available`;
-        } else if (this.sessionId != null && receivedSessionId !== this.sessionId) {
+        } else if (this.providedSessionId != null && receivedSessionId !== this.providedSessionId) {
           // This code path is reached if the session is already locked by another receiver.
           // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-          errorMessage = `Failed to get a lock on the session ${this.sessionId}`;
+          errorMessage = `Failed to get a lock on the session ${this.providedSessionId}`;
         }
 
         if (errorMessage) {
@@ -392,7 +397,7 @@ export class MessageSession extends LinkEntity {
           log.error("[%s] %O", this._context.namespace.connectionId, error);
           throw error;
         }
-        if (this.sessionId == null) this.sessionId = receivedSessionId;
+        if (this.providedSessionId == null) this.sessionId = receivedSessionId;
         this.sessionLockedUntilUtc = convertTicksToDate(
           this._receiver.properties["com.microsoft:locked-until-utc"]
         );
@@ -418,12 +423,12 @@ export class MessageSession extends LinkEntity {
           this.name,
           options
         );
-        if (!this._context.messageSessions[this.sessionId!]) {
-          this._context.messageSessions[this.sessionId!] = this;
+        if (!this._context.messageSessions[this.sessionId]) {
+          this._context.messageSessions[this.sessionId] = this;
         }
         this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-        await this._ensureTokenRenewal();
-        await this._ensureSessionLockRenewal();
+        this._ensureTokenRenewal();
+        this._ensureSessionLockRenewal();
       } else {
         log.error(
           "[%s] The receiver '%s' for sessionId '%s' is open -> %s and is connecting " +
@@ -439,7 +444,7 @@ export class MessageSession extends LinkEntity {
       this.isConnecting = false;
       const errObj = translate(err);
       log.error(
-        "[%s] An error occured while creating the receiver '%s': %O",
+        "[%s] An error occurred while creating the receiver '%s': %O",
         this._context.namespace.connectionId,
         this.name,
         errObj
@@ -490,7 +495,8 @@ export class MessageSession extends LinkEntity {
     this._receiverHelper = new ReceiverHelper(() => this._receiver);
     if (!options) options = { sessionId: undefined };
     this.autoComplete = false;
-    this.sessionId = options.sessionId;
+    this.providedSessionId = options.sessionId;
+    if (this.providedSessionId != undefined) this.sessionId = this.providedSessionId;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
     this.callee = options.callee || SessionCallee.standalone;
     this.maxAutoRenewDurationInMs =
