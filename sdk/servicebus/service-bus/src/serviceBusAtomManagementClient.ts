@@ -23,7 +23,7 @@ import {
   URLBuilder,
   WebResource
 } from "@azure/core-http";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import * as log from "./log";
 import {
   buildNamespace,
@@ -101,21 +101,6 @@ export interface Response {
    * The underlying HTTP response.
    */
   _response: HttpOperationResponse;
-}
-
-/**
- * @interface
- * An interface that tracks the settings for paged iteration
- */
-export interface PageSettings {
-  /**
-   * @member {number} [continuationToken] The token that keeps track of where to continue the iterator
-   */
-  continuationToken?: number;
-  /**
-   * @member {number} [pageSize] The size of the page during paged iteration
-   */
-  maxPageSize?: number;
 }
 
 /**
@@ -436,13 +421,13 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   private async *listQueuesPage(
-    marker?: number,
+    marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<QueueDescription>> {
     let listResponse;
     do {
       listResponse = await this.listQueues({
-        skip: marker,
+        skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
       });
@@ -454,7 +439,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listQueuesAll(
     options: OperationOptions = {}
   ): AsyncIterableIterator<QueueDescription> {
-    let marker: number | undefined;
+    let marker: string | undefined;
     for await (const segment of this.listQueuesPage(marker, options)) {
       yield* segment;
     }
@@ -469,17 +454,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @returns {PagedAsyncIterableIterator<
    *     QueueDescription,
    *     EntitiesResponse<QueueDescription>,
-   *     PageSettings
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
   public getQueues(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<
-    QueueDescription,
-    EntitiesResponse<QueueDescription>,
-    PageSettings
-  > {
+  ): PagedAsyncIterableIterator<QueueDescription, EntitiesResponse<QueueDescription>> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const iter = this.listQueuesAll(options);
     return {
@@ -537,13 +517,13 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   private async *listQueuesRuntimeInfoPage(
-    marker?: number,
+    marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<QueueRuntimeInfo>> {
     let listResponse;
     do {
       listResponse = await this.listQueuesRuntimeInfo({
-        skip: marker,
+        skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
       });
@@ -555,7 +535,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listQueuesRuntimeInfoAll(
     options: OperationOptions = {}
   ): AsyncIterableIterator<QueueRuntimeInfo> {
-    let marker: number | undefined;
+    let marker: string | undefined;
     for await (const segment of this.listQueuesRuntimeInfoPage(marker, options)) {
       yield* segment;
     }
@@ -571,17 +551,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @returns {PagedAsyncIterableIterator<
    *     QueueRuntimeInfo,
    *     EntitiesResponse<QueueRuntimeInfo>,
-   *     PageSettings
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
   public getQueuesRuntimeInfo(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<
-    QueueRuntimeInfo,
-    EntitiesResponse<QueueRuntimeInfo>,
-    PageSettings
-  > {
+  ): PagedAsyncIterableIterator<QueueRuntimeInfo, EntitiesResponse<QueueRuntimeInfo>> {
     log.httpAtomXml(
       `Performing management operation - getQueuesRuntimeInfo() with options: ${options}`
     );
@@ -856,13 +831,13 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   private async *listTopicsPage(
-    marker?: number,
+    marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<TopicDescription>> {
     let listResponse;
     do {
       listResponse = await this.listTopics({
-        skip: marker,
+        skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
       });
@@ -874,7 +849,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listTopicsAll(
     options: OperationOptions = {}
   ): AsyncIterableIterator<TopicDescription> {
-    let marker: number | undefined;
+    let marker: string | undefined;
     for await (const segment of this.listTopicsPage(marker, options)) {
       yield* segment;
     }
@@ -890,17 +865,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @returns {PagedAsyncIterableIterator<
    *     TopicDescription,
    *     EntitiesResponse<TopicDescription>,
-   *     PageSettings
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
   public getTopics(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<
-    TopicDescription,
-    EntitiesResponse<TopicDescription>,
-    PageSettings
-  > {
+  ): PagedAsyncIterableIterator<TopicDescription, EntitiesResponse<TopicDescription>> {
     log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
     const iter = this.listTopicsAll(options);
     return {
@@ -956,13 +926,13 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   private async *listTopicsRuntimeInfoPage(
-    marker?: number,
+    marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<TopicRuntimeInfo>> {
     let listResponse;
     do {
       listResponse = await this.listTopicsRuntimeInfo({
-        skip: marker,
+        skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
       });
@@ -974,7 +944,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listTopicsRuntimeInfoAll(
     options: OperationOptions = {}
   ): AsyncIterableIterator<TopicRuntimeInfo> {
-    let marker: number | undefined;
+    let marker: string | undefined;
     for await (const segment of this.listTopicsRuntimeInfoPage(marker, options)) {
       yield* segment;
     }
@@ -990,17 +960,13 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @returns {PagedAsyncIterableIterator<
    *     TopicRuntimeInfo,
    *     EntitiesResponse<TopicRuntimeInfo>,
-   *     PageSettings
+
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
   public getTopicsRuntimeInfo(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<
-    TopicRuntimeInfo,
-    EntitiesResponse<TopicRuntimeInfo>,
-    PageSettings
-  > {
+  ): PagedAsyncIterableIterator<TopicRuntimeInfo, EntitiesResponse<TopicRuntimeInfo>> {
     log.httpAtomXml(
       `Performing management operation - getTopicsRuntimeInfo() with options: ${options}`
     );
@@ -1310,13 +1276,13 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private async *listSubscriptionsPage(
     topicName: string,
-    marker?: number,
+    marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<SubscriptionDescription>> {
     let listResponse;
     do {
       listResponse = await this.listSubscriptions(topicName, {
-        skip: marker,
+        skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
       });
@@ -1329,7 +1295,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     options: OperationOptions = {}
   ): AsyncIterableIterator<SubscriptionDescription> {
-    let marker: number | undefined;
+    let marker: string | undefined;
     for await (const segment of this.listSubscriptionsPage(topicName, marker, options)) {
       yield* segment;
     }
@@ -1347,8 +1313,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<
    *     SubscriptionDescription,
-   *     EntitiesResponse<SubscriptionDescription>,
-   *     PageSettings
+   *     EntitiesResponse<SubscriptionDescription>
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
@@ -1357,8 +1322,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
     SubscriptionDescription,
-    EntitiesResponse<SubscriptionDescription>,
-    PageSettings
+    EntitiesResponse<SubscriptionDescription>
   > {
     log.httpAtomXml(
       `Performing management operation - getSubscriptions() with options: ${options}`
@@ -1422,13 +1386,13 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private async *listSubscriptionsRuntimeInfoPage(
     topicName: string,
-    marker?: number,
+    marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<SubscriptionRuntimeInfo>> {
     let listResponse;
     do {
       listResponse = await this.listSubscriptionsRuntimeInfo(topicName, {
-        skip: marker,
+        skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
       });
@@ -1441,7 +1405,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     options: OperationOptions = {}
   ): AsyncIterableIterator<SubscriptionRuntimeInfo> {
-    let marker: number | undefined;
+    let marker: string | undefined;
     for await (const segment of this.listSubscriptionsRuntimeInfoPage(topicName, marker, options)) {
       yield* segment;
     }
@@ -1458,7 +1422,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @returns {PagedAsyncIterableIterator<
    *     SubscriptionRuntimeInfo,
    *     EntitiesResponse<SubscriptionRuntimeInfo>,
-   *     PageSettings
+
    *   >}  An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
@@ -1467,8 +1431,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
     SubscriptionRuntimeInfo,
-    EntitiesResponse<SubscriptionRuntimeInfo>,
-    PageSettings
+    EntitiesResponse<SubscriptionRuntimeInfo>
   > {
     log.httpAtomXml(
       `Performing management operation - getSubscriptionsRuntimeInfo() with options: ${options}`
@@ -1724,13 +1687,13 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listRulesPage(
     topicName: string,
     subscriptionName: string,
-    marker?: number,
+    marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
   ): AsyncIterableIterator<EntitiesResponse<RuleDescription>> {
     let listResponse;
     do {
       listResponse = await this.listRules(topicName, subscriptionName, {
-        skip: marker,
+        skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
       });
@@ -1744,7 +1707,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     options: OperationOptions = {}
   ): AsyncIterableIterator<RuleDescription> {
-    let marker: number | undefined;
+    let marker: string | undefined;
     for await (const segment of this.listRulesPage(topicName, subscriptionName, marker, options)) {
       yield* segment;
     }
@@ -1759,14 +1722,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param {string} topicName
    * @param {string} subscriptionName
    * @param {OperationOptions} [options]
-   * @returns {PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>, PageSettings>} An asyncIterableIterator that supports paging.
+   * @returns {PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>>} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
   public getRules(
     topicName: string,
     subscriptionName: string,
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>, PageSettings> {
+  ): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>> {
     log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
@@ -2030,12 +1993,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
   }
 
-  private getMarkerFromNextLinkUrl(url: string): number | undefined {
+  private getMarkerFromNextLinkUrl(url: string): string | undefined {
     if (!url) {
       return undefined;
     }
     try {
-      return Number(parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip"));
+      return parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
     } catch (error) {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
@@ -2437,8 +2400,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private throwIfInvalidContinuationToken(token: number | undefined) {
-    if (!(token === undefined || (typeof token === "number" && token >= 0))) {
+  private throwIfInvalidContinuationToken(token: string | undefined) {
+    if (!(token === undefined || (typeof token === "string" && Number(token) >= 0))) {
       throw new Error(`Invalid continuationToken ${token} provided`);
     }
   }
