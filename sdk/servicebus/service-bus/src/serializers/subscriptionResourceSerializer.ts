@@ -103,7 +103,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionDescription
  * the response from the service
  * @param rawSubscription
  */
-export function buildSubscriptionRuntimeInfo(rawSubscription: any): SubscriptionRuntimeInfo {
+export function buildSubscriptionRuntimeProperties(rawSubscription: any): SubscriptionRuntimeProperties {
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
@@ -332,7 +332,7 @@ export interface InternalSubscriptionOptions {
 /**
  * Represents runtime info attributes of a subscription entity
  */
-export interface SubscriptionRuntimeInfo {
+export interface SubscriptionRuntimeProperties {
   /**
    * Name of the subscription
    */
