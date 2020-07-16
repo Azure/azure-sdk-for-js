@@ -589,7 +589,7 @@ export function checkAndRegisterWithAbortSignal(
 
 /**
  * @property {string} userAgent The user agent string for the ServiceBus client.
- * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
+ * See guideline at https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy
  */
 export const userAgent: string = `azsdk-js-azureservicebus/${
   Constants.packageJsonInfo.version
