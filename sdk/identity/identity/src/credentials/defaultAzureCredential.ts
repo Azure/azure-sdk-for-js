@@ -22,11 +22,11 @@ import { TokenCredential } from "@azure/core-http";
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
-   * Returns the list of credentials DefaultAzureCredential will use to authenticate.
+   * Creates an instance of the DefaultAzureCredential class.
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[] {
+  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
     let credentials = [];
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
@@ -38,15 +38,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     credentials.push(new AzureCliCredential());
     credentials.push(new VSCodeCredential(tokenCredentialOptions));
 
-    return credentials;
-  }
-  /**
-   * Creates an instance of the DefaultAzureCredential class.
-   *
-   * @param options Options for configuring the client which makes the authentication request.
-   */
-  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
-    let credentials = DefaultAzureCredential.credentials(tokenCredentialOptions);
     super(
       ...credentials
     );

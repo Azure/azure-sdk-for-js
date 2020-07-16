@@ -11,7 +11,7 @@ import {
   retry
 } from "../src";
 import { Connection, Message } from "rhea-promise";
-import { stub } from "sinon";
+import { stub, fake, SinonSpy } from "sinon";
 import EventEmitter from "events";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 interface Window {}
@@ -562,6 +562,55 @@ describe("RequestResponseLink", function() {
 
       await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
+    });
+  });
+
+  describe("close", () => {
+    it("signals receiver and sender to now close the session", async () => {
+      const connectionStub = stub(new Connection());
+
+      connectionStub.createSession.resolves({
+        connection: {
+          id: "connection-1"
+        },
+        close: fake(),
+        createSender: () => {
+          return Promise.resolve({
+            send: () => {
+              /* no op */
+            },
+            close: fake()
+          });
+        },
+        createReceiver: () => {
+          return Promise.resolve({
+            close: fake()
+          });
+        }
+      } as any);
+      const sessionStub = await connectionStub.createSession();
+      const senderStub = await sessionStub.createSender();
+      const receiverStub = await sessionStub.createReceiver();
+      const link = new RequestResponseLink(
+        sessionStub as any,
+        senderStub as any,
+        receiverStub as any
+      );
+
+      await link.close();
+
+      assert(
+        (senderStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
+        "Sender.close() should have been called once."
+      );
+      assert(
+        (receiverStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
+        "Receiver.close() should have been called once."
+      );
+      assert(
+        (sessionStub.close as SinonSpy).calledOnceWithExactly(),
+        "Session.close() should have been called once."
+      );
     });
   });
 });

@@ -44,7 +44,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

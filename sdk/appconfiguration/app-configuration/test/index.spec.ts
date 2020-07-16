@@ -24,8 +24,8 @@ describe("AppConfigurationClient", () => {
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   describe("simple usages", () => {

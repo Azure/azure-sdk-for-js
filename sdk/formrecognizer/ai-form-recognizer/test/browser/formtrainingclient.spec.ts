@@ -33,9 +33,9 @@ describe("FormTrainingClient browser only", () => {
     );
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -214,9 +214,9 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
   it("recognizes form url unlabeled model", async () => {
