@@ -49,7 +49,6 @@ export {
   EntitiesResponse,
   ListRequestOptions,
   NamespacePropertiesResponse,
-  PageSettings,
   QueueResponse,
   QueueRuntimeInfoResponse,
   Response,
