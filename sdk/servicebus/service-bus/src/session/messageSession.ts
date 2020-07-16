@@ -563,7 +563,9 @@ export class MessageSession extends LinkEntity {
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
         if (sbError.code === "SessionLockLostError") {
-          sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
+          sbError.message = `The session lock has expired on the session with id ${
+            this.sessionId
+          }.`;
         }
         log.error(
           "[%s] An error occurred for Receiver '%s': %O.",
@@ -775,7 +777,9 @@ export class MessageSession extends LinkEntity {
         this._newMessageReceivedTimer = setTimeout(async () => {
           const msg =
             `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-            `any messages in the last ${this.newMessageWaitTimeoutInMs} milliseconds. Hence closing it.`;
+            `any messages in the last ${
+              this.newMessageWaitTimeoutInMs
+            } milliseconds. Hence closing it.`;
           log.error("[%s] %s", this._context.namespace.connectionId, msg);
 
           if (this.callee === SessionCallee.sessionManager) {
@@ -810,12 +814,8 @@ export class MessageSession extends LinkEntity {
         }
 
         resetTimerOnNewMessageReceived();
-        const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
-          this._context,
-          context.message!,
-          context.delivery!,
-          true
-        );
+        const bMessage = this._getServiceBusMessage(context);
+
         try {
           await this._onMessage(bMessage);
         } catch (err) {
@@ -967,12 +967,8 @@ export class MessageSession extends LinkEntity {
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
         resetTimerOnNewMessageReceived();
         try {
-          const data: ServiceBusMessageImpl = new ServiceBusMessageImpl(
-            this._context,
-            context.message!,
-            context.delivery!,
-            true
-          );
+          const data = this._getServiceBusMessage(context);
+
           if (brokeredMessages.length < maxMessageCount) {
             brokeredMessages.push(data);
           }
@@ -1071,7 +1067,9 @@ export class MessageSession extends LinkEntity {
                 this._newMessageReceivedTimer = setTimeout(async () => {
                   const msg =
                     `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-                    `any messages in the last ${this.newMessageWaitTimeoutInMs} milliseconds. Hence closing it.`;
+                    `any messages in the last ${
+                      this.newMessageWaitTimeoutInMs
+                    } milliseconds. Hence closing it.`;
                   log.error("[%s] %s", this._context.namespace.connectionId, msg);
                   finalAction();
                   if (this.callee === SessionCallee.sessionManager) {
@@ -1180,6 +1178,10 @@ export class MessageSession extends LinkEntity {
         delivery.reject(error);
       }
     });
+  }
+
+  private _getServiceBusMessage(context: EventContext): ServiceBusMessageImpl {
+    return new ServiceBusMessageImpl(this._context, context.message!, context.delivery!, true);
   }
 
   /**
