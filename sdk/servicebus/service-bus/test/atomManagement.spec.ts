@@ -136,11 +136,11 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
   [
     "getQueues",
-    "getQueuesRuntimeInfo",
+    "getQueuesRuntimeProperties",
     "getTopics",
-    "getTopicsRuntimeInfo",
+    "getTopicsRuntimeProperties",
     "getSubscriptions",
-    "getSubscriptionsRuntimeInfo",
+    "getSubscriptionsRuntimeProperties",
     "getRules"
   ].forEach((methodName) => {
     describe(`${methodName}`, () => {
@@ -297,9 +297,9 @@ describe("Atom management - Authentication", function(): void {
         "Unexpected queue name in the updateQueue response"
       );
       should.equal(
-        (await serviceBusManagementClient.getQueueRuntimeInfo(managementQueue1)).name,
+        (await serviceBusManagementClient.getQueueRuntimeProperties(managementQueue1)).name,
         managementQueue1,
-        "Unexpected queue name in the getQueueRuntimeInfo response"
+        "Unexpected queue name in the getQueueRuntimeProperties response"
       );
       should.equal(
         (await serviceBusManagementClient.getNamespaceProperties()).name,
@@ -592,7 +592,7 @@ describe("Atom management - Authentication", function(): void {
     });
 
     it(`Gets runtime info for an existing ${testCase.entityType} entity(single) successfully`, async () => {
-      const response = await getEntityRuntimeInfo(
+      const response = await getEntityRuntimeProperties(
         testCase.entityType,
         testCase.alwaysBeExistingEntity,
         managementTopic1
@@ -745,7 +745,7 @@ describe("Atom management - Authentication", function(): void {
     });
 
     it(`Gets runtime info for existing ${testCase.entityType} entities(multiple) successfully`, async () => {
-      const response = await getEntitiesRuntimeInfo(testCase.entityType, managementTopic1);
+      const response = await getEntitiesRuntimeProperties(testCase.entityType, managementTopic1);
       const name = testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name";
       const paramsToExclude = ["createdAt", "accessedAt", "updatedAt"];
       for (const info of response) {
@@ -2503,17 +2503,17 @@ async function getEntity(
   throw new Error("TestError: Unrecognized EntityType");
 }
 
-async function getEntityRuntimeInfo(
+async function getEntityRuntimeProperties(
   testEntityType: EntityType,
   entityPath: string,
   topicPath?: string
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeInfo(entityPath);
+      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeProperties(entityPath);
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeInfo(entityPath);
+      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeProperties(entityPath);
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2521,7 +2521,7 @@ async function getEntityRuntimeInfo(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionRuntimeInfo(
+      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
         topicPath,
         entityPath
       );
@@ -2530,16 +2530,16 @@ async function getEntityRuntimeInfo(
   throw new Error("TestError: Unrecognized EntityType");
 }
 
-async function getEntitiesRuntimeInfo(
+async function getEntitiesRuntimeProperties(
   testEntityType: EntityType,
   topicPath?: string
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient["listQueuesRuntimeInfo"]();
+      const queueResponse = await serviceBusAtomManagementClient["listQueuesRuntimeProperties"]();
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient["listTopicsRuntimeInfo"]();
+      const topicResponse = await serviceBusAtomManagementClient["listTopicsRuntimeProperties"]();
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2548,7 +2548,7 @@ async function getEntitiesRuntimeInfo(
         );
       }
       const subscriptionResponse = await serviceBusAtomManagementClient[
-        "listSubscriptionsRuntimeInfo"
+        "listSubscriptionsRuntimeProperties"
       ](topicPath);
       return subscriptionResponse;
   }
