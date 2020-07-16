@@ -60,55 +60,57 @@ export async function main() {
 
   // 4. list queues by page
   i = 1;
-  for await (const response of serviceBusManagementClient.getQueues().byPage()) {
-    for (const queue of response) {
+  for await (const queuesPage of serviceBusManagementClient.getQueues().byPage()) {
+    for (const queue of queuesPage) {
       console.log(`Queue ${i++}: ${queue.name}`);
     }
   }
 
   // 5. Same as the previous example - passing maxPageSize in the page settings
   i = 1;
-  for await (const response of serviceBusManagementClient.getQueues().byPage({ maxPageSize: 2 })) {
-    for (const queue of response) {
+  for await (const queuesPage of serviceBusManagementClient
+    .getQueues()
+    .byPage({ maxPageSize: 2 })) {
+    for (const queue of queuesPage) {
       console.log(`Queue ${i++}: ${queue.name}`);
     }
   }
 
   // 6. Generator syntax .next()
   i = 1;
-  let queuesPage = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 3 });
-  let response = await queuesPage.next();
-  while (!response.done) {
-    if (response.value) {
-      for (const queue of response.value) {
+  let iterator = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 3 });
+  let queuesPage = await iterator.next();
+  while (!queuesPage.done) {
+    if (queuesPage.value) {
+      for (const queue of queuesPage.value) {
         console.log(`Queue ${i++}: ${queue.name}`);
       }
     }
-    response = await queuesPage.next();
+    queuesPage = await iterator.next();
   }
 
   // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
-  queuesPage = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 2 });
-  response = await queuesPage.next();
+  iterator = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 2 });
+  queuesPage = await iterator.next();
   // Prints 2 queue names
-  if (!response.done) {
-    for (const queue of response.value) {
+  if (!queuesPage.done) {
+    for (const queue of queuesPage.value) {
       console.log(`Queue ${i++}: ${queue.name}`);
     }
   }
 
   // Gets next marker
-  let marker = response.value.continuationToken;
+  let marker = queuesPage.value.continuationToken;
   // Passing next marker as continuationToken
-  queuesPage = serviceBusManagementClient.getQueues().byPage({
+  iterator = serviceBusManagementClient.getQueues().byPage({
     continuationToken: marker,
     maxPageSize: 10
   });
-  response = await queuesPage.next();
+  queuesPage = await iterator.next();
   // Prints 10 queue names
-  if (!response.done) {
-    for (const queue of response.value) {
+  if (!queuesPage.done) {
+    for (const queue of queuesPage.value) {
       console.log(`Queue ${i++}: ${queue.name}`);
     }
   }
