@@ -32,6 +32,23 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
     sentiment: DocumentSentimentLabel;
 }
 
+// @public
+export interface AspectConfidenceScoreLabel {
+    // (undocumented)
+    negative: number;
+    // (undocumented)
+    positive: number;
+}
+
+// @public (undocumented)
+export interface AspectRelation {
+    ref: string;
+    relationType: AspectRelationType;
+}
+
+// @public
+export type AspectRelationType = "opinion" | "aspect";
+
 export { AzureKeyCredential }
 
 // @public
@@ -75,7 +92,7 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 }
 
 // @public
-export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixed';
+export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
 // @public
 export interface Entity {
@@ -89,7 +106,7 @@ export interface Entity {
 export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 // @public
-export type ErrorCodeValue = 'InvalidRequest' | 'InvalidArgument' | 'InternalServerError' | 'ServiceUnavailable';
+export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable";
 
 // @public
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
@@ -112,7 +129,7 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
-export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyFormat' | 'EmptyRequest' | 'MissingInputRecords' | 'InvalidDocument' | 'ModelVersionIncorrect' | 'InvalidDocumentBatch' | 'UnsupportedLanguageCode' | 'InvalidCountryHint';
+export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint";
 
 // @public
 export interface LinkedEntity {
@@ -170,15 +187,39 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
     readonly entities: LinkedEntity[];
 }
 
-// @public
-export interface SentenceSentiment {
-    confidenceScores: SentimentConfidenceScores;
-    sentiment: SentenceSentimentLabel;
-    text?: string;
+// @public (undocumented)
+export interface SentenceAspect {
+    confidenceScores: AspectConfidenceScoreLabel;
+    relations: AspectRelation[];
+    sentiment: SentenceAspectSentiment;
+    text: string;
 }
 
 // @public
-export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
+export type SentenceAspectSentiment = "positive" | "mixed" | "negative";
+
+// @public (undocumented)
+export interface SentenceOpinion {
+    confidenceScores: AspectConfidenceScoreLabel;
+    isNegated: boolean;
+    sentiment: SentenceOpinionSentiment;
+    text: string;
+}
+
+// @public
+export type SentenceOpinionSentiment = "positive" | "mixed" | "negative";
+
+// @public
+export interface SentenceSentiment {
+    aspects?: SentenceAspect[];
+    confidenceScores: SentimentConfidenceScores;
+    opinions?: SentenceOpinion[];
+    sentiment: SentenceSentimentLabel;
+    text: string;
+}
+
+// @public
+export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 
 // @public
 export interface SentimentConfidenceScores {
@@ -272,7 +313,7 @@ export interface TextDocumentStatistics {
 }
 
 // @public
-export type WarningCode = 'LongWordsInDocument' | 'DocumentTruncated';
+export type WarningCode = "LongWordsInDocument" | "DocumentTruncated";
 
 
 // (No @packageDocumentation comment for this package)
