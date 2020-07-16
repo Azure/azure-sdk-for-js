@@ -993,7 +993,9 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async listTopics(options?: ListRequestOptions & OperationOptions): Promise<EntitiesResponse<TopicDescription>> {
+  private async listTopics(
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<TopicDescription>> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-listTopics",
       options
