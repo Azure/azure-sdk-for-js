@@ -136,11 +136,11 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
   [
     "getQueues",
-    "getQueuesRuntimeInfo",
+    "getQueuesRuntimeProperties",
     "getTopics",
-    "getTopicsRuntimeInfo",
+    "getTopicsRuntimeProperties",
     "getSubscriptions",
-    "getSubscriptionsRuntimeInfo",
+    "getSubscriptionsRuntimeProperties",
     "getRules"
   ].forEach((methodName) => {
     describe.only(`${methodName}`, () => {
@@ -2536,10 +2536,10 @@ async function getEntitiesRuntimeProperties(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient["listQueuesRuntimeInfo"]();
+      const queueResponse = await serviceBusAtomManagementClient["listQueuesRuntimeProperties"]();
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient["listTopicsRuntimeInfo"]();
+      const topicResponse = await serviceBusAtomManagementClient["listTopicsRuntimeProperties"]();
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2548,7 +2548,7 @@ async function getEntitiesRuntimeProperties(
         );
       }
       const subscriptionResponse = await serviceBusAtomManagementClient[
-        "listSubscriptionsRuntimeInfo"
+        "listSubscriptionsRuntimeProperties"
       ](topicPath);
       return subscriptionResponse;
   }

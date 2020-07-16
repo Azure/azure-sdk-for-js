@@ -102,7 +102,7 @@ describe("Operation Options", () => {
     it("getQueuesRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listQueuesRuntimeInfo"]({
+          await serviceBusAtomManagementClient["listQueuesRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -161,7 +161,7 @@ describe("Operation Options", () => {
     it("getTopicsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listTopicsRuntimeInfo"]({
+          await serviceBusAtomManagementClient["listTopicsRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -227,7 +227,7 @@ describe("Operation Options", () => {
     it("getSubscriptionsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listSubscriptionsRuntimeInfo"](enitityName1, {
+          await serviceBusAtomManagementClient["listSubscriptionsRuntimeProperties"](enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
