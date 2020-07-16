@@ -19,8 +19,6 @@ import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
 import { OperationOptions } from "@azure/core-http";
-import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * @internal
@@ -46,65 +44,51 @@ export async function executeAtomXmlOperation(
   serializer: AtomXmlSerializer,
   operationOptions: OperationOptions
 ): Promise<HttpOperationResponse> {
-  const { span, updatedOperationOptions } = createSpan(
-    "ServiceBusManagementClient-executeAtomXmlOperation",
-    operationOptions
-  );
-  try {
-    if (webResource.body) {
-      const content: object = serializer.serialize(webResource.body);
-      webResource.body = stringifyXML(content, { rootName: "entry" });
-    }
-
-    if (webResource.method == "PUT") {
-      webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
-    }
-
-    log.httpAtomXml(`Executing ATOM based HTTP request: ${webResource.body}`);
-
-    const reqPrepareOptions: RequestPrepareOptions = {
-      ...webResource,
-      headers: updatedOperationOptions.requestOptions?.customHeaders,
-      onUploadProgress: updatedOperationOptions.requestOptions?.onUploadProgress,
-      onDownloadProgress: updatedOperationOptions.requestOptions?.onDownloadProgress,
-      abortSignal: updatedOperationOptions.abortSignal,
-      spanOptions: updatedOperationOptions.tracingOptions?.spanOptions,
-      disableJsonStringifyOnBody: true
-    };
-    webResource = webResource.prepare(reqPrepareOptions);
-    webResource.timeout = updatedOperationOptions.requestOptions?.timeout || 0;
-    const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
-      webResource
-    );
-
-    log.httpAtomXml(`Received ATOM based HTTP response: ${response.bodyAsText}`);
-
-    try {
-      if (response.bodyAsText) {
-        response.parsedBody = await parseXML(response.bodyAsText, { includeRoot: true });
-      }
-    } catch (err) {
-      const error = new RestError(
-        `Error occurred while parsing the response body - expected the service to return valid xml content.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
-      );
-      log.warning("Error parsing response body from Service - %0", err);
-      throw error;
-    }
-
-    return serializer.deserialize(response);
-  } catch (e) {
-    span.setStatus({
-      code: CanonicalCode.UNKNOWN,
-      message: e.message
-    });
-    throw e;
-  } finally {
-    span.end();
+  if (webResource.body) {
+    const content: object = serializer.serialize(webResource.body);
+    webResource.body = stringifyXML(content, { rootName: "entry" });
   }
+
+  if (webResource.method == "PUT") {
+    webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
+  }
+
+  log.httpAtomXml(`Executing ATOM based HTTP request: ${webResource.body}`);
+
+  const reqPrepareOptions: RequestPrepareOptions = {
+    ...webResource,
+    headers: operationOptions.requestOptions?.customHeaders,
+    onUploadProgress: operationOptions.requestOptions?.onUploadProgress,
+    onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
+    abortSignal: operationOptions.abortSignal,
+    spanOptions: operationOptions.tracingOptions?.spanOptions,
+    disableJsonStringifyOnBody: true
+  };
+  webResource = webResource.prepare(reqPrepareOptions);
+  webResource.timeout = operationOptions.requestOptions?.timeout || 0;
+  const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
+    webResource
+  );
+
+  log.httpAtomXml(`Received ATOM based HTTP response: ${response.bodyAsText}`);
+
+  try {
+    if (response.bodyAsText) {
+      response.parsedBody = await parseXML(response.bodyAsText, { includeRoot: true });
+    }
+  } catch (err) {
+    const error = new RestError(
+      `Error occurred while parsing the response body - expected the service to return valid xml content.`,
+      RestError.PARSE_ERROR,
+      response.status,
+      stripRequest(response.request),
+      stripResponse(response)
+    );
+    log.warning("Error parsing response body from Service - %0", err);
+    throw error;
+  }
+
+  return serializer.deserialize(response);
 }
 
 /**
