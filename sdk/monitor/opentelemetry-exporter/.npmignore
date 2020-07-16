@@ -1,0 +1,13 @@
+# Ignore everything
+*
+
+# Except for...
+!dist-esm/src/**
+!dist/src/**
+!browser/src/**
+!types/src/**
+!src/**
+!package.json
+!README.md
+!SECURITY.md
+!LICENSE
