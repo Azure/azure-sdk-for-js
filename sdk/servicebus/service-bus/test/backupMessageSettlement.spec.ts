@@ -47,6 +47,40 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
 
+    const receiver1 = serviceBusClient.createReceiver("q");
+    const receiver2 = serviceBusClient.createReceiver("q", {});
+    const receiver3 = serviceBusClient.createSessionReceiver("q", { sessionId: "session-id" });
+    const receiver4 = serviceBusClient.createSessionReceiver("q", {});
+    const receiver5 = serviceBusClient.createReceiver2("q");
+    const receiver6 = serviceBusClient.createReceiver2("q", {});
+    const receiver7 = serviceBusClient.createSessionReceiver2("q", { sessionId: "session-id" });
+    const receiver8 = serviceBusClient.createSessionReceiver2("q", {});
+    const receiver9 = serviceBusClient.createReceiver("q", { receiveMode: "receiveAndDelete" });
+    const receiver10 = serviceBusClient.createSessionReceiver("q", {
+      sessionId: "session-id",
+      receiveMode: "receiveAndDelete"
+    });
+    const receiver11 = serviceBusClient.createReceiver2("q", { receiveMode: "receiveAndDelete" });
+    const receiver12 = serviceBusClient.createSessionReceiver2("q", {
+      sessionId: "session-id",
+      receiveMode: "receiveAndDelete"
+    });
+    const receiver13 = serviceBusClient.createSessionReceiver2("q", {
+      receiveMode: "receiveAndDelete"
+    });
+    const receiver14 = serviceBusClient.createSessionReceiver("q", {
+      receiveMode: undefined
+    });
+    const receiver15 = serviceBusClient.createSessionReceiver2("q", {
+      receiveMode: undefined
+    });
+    const receiver16 = serviceBusClient.createReceiver("q", {
+      receiveMode: undefined
+    });
+    const receiver17 = serviceBusClient.createReceiver2("q", {
+      receiveMode: undefined
+    });
+
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
   }
 
