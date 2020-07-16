@@ -264,19 +264,26 @@ export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
-    createDeadLetterReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
+    createDeadLetterReceiver<ModeT extends BaseCreateReceiverOptions>(queueName: string, options?: ModeT): ModeT extends {
+        receiveMode: "receiveAndDelete";
+    } ? Receiver<ReceivedMessage> : Receiver<ReceivedMessageWithLock>;
+    createDeadLetterReceiver<ModeT extends BaseCreateReceiverOptions>(topicName: string, subscriptionName: string, options?: ModeT): ModeT extends {
+        receiveMode: "receiveAndDelete";
+    } ? Receiver<ReceivedMessage> : Receiver<ReceivedMessageWithLock>;
+    // Warning: (ae-forgotten-export) The symbol "BaseCreateReceiverOptions" needs to be exported by the entry point index.d.ts
+    createReceiver<ModeT extends BaseCreateReceiverOptions>(queueName: string, options?: ModeT): ModeT extends {
+        receiveMode: "receiveAndDelete";
+    } ? Receiver<ReceivedMessage> : Receiver<ReceivedMessageWithLock>;
+    createReceiver<ModeT extends BaseCreateReceiverOptions>(topicName: string, subscriptionName: string, options?: ModeT): ModeT extends {
+        receiveMode: "receiveAndDelete";
+    } ? Receiver<ReceivedMessage> : Receiver<ReceivedMessageWithLock>;
     createSender(queueOrTopicName: string): Sender;
-    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
+    createSessionReceiver<ModeT extends BaseCreateReceiverOptions>(queueName: string, options?: CreateSessionReceiverOptions & ModeT): ModeT extends {
+        receiveMode: "receiveAndDelete";
+    } ? Promise<SessionReceiver<ReceivedMessage>> : Promise<SessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver<ModeT extends BaseCreateReceiverOptions>(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions & ModeT): ModeT extends {
+        receiveMode: "receiveAndDelete";
+    } ? Promise<SessionReceiver<ReceivedMessage>> : Promise<SessionReceiver<ReceivedMessageWithLock>>;
     fullyQualifiedNamespace: string;
 }
 
