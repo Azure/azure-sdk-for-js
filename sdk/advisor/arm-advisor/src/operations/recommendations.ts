@@ -194,7 +194,8 @@ const generateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.RecommendationsGenerateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.RecommendationsGenerateHeaders
     }
   },
   serializer
