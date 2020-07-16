@@ -269,7 +269,9 @@ export class Table {
 }
 // Operation Specifications
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+
+const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const queryOperationSpec: coreHttp.OperationSpec = {
   path: "/Tables",
@@ -548,7 +550,7 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.url, Parameters.table],
   headerParameters: [Parameters.version, Parameters.requestId],
   isXML: true,
-  serializer
+  serializer: xmlSerializer
 };
 const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   path: "/{table}",
@@ -573,5 +575,5 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer
+  serializer: xmlSerializer
 };

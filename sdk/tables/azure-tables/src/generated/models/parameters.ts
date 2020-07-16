@@ -6,10 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import * as Mappers from "../models/mappers";
+import {
+  OperationURLParameter,
+  OperationParameter,
+  OperationQueryParameter
+} from "@azure/core-http";
+import {
+  TableProperties as TablePropertiesMapper,
+  TableServiceProperties as TableServicePropertiesMapper
+} from "../models/mappers";
 
-export const url: coreHttp.OperationURLParameter = {
+export const url: OperationURLParameter = {
   parameterPath: "url",
   mapper: {
     serializedName: "url",
@@ -22,7 +29,7 @@ export const url: coreHttp.OperationURLParameter = {
   skipEncoding: true
 };
 
-export const version: coreHttp.OperationParameter = {
+export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
     defaultValue: "2019-02-02",
@@ -34,7 +41,7 @@ export const version: coreHttp.OperationParameter = {
   }
 };
 
-export const requestId: coreHttp.OperationParameter = {
+export const requestId: OperationParameter = {
   parameterPath: ["options", "requestId"],
   mapper: {
     serializedName: "x-ms-client-request-id",
@@ -45,7 +52,7 @@ export const requestId: coreHttp.OperationParameter = {
   }
 };
 
-export const dataServiceVersion: coreHttp.OperationParameter = {
+export const dataServiceVersion: OperationParameter = {
   parameterPath: "dataServiceVersion",
   mapper: {
     defaultValue: "3.0",
@@ -57,8 +64,8 @@ export const dataServiceVersion: coreHttp.OperationParameter = {
   }
 };
 
-export const format: coreHttp.OperationQueryParameter = {
-  parameterPath: ["queryOptions", "format"],
+export const format: OperationQueryParameter = {
+  parameterPath: ["options", "queryOptions", "format"],
   mapper: {
     serializedName: "$format",
     xmlName: "$format",
@@ -68,8 +75,8 @@ export const format: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const top: coreHttp.OperationQueryParameter = {
-  parameterPath: ["queryOptions", "top"],
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "queryOptions", "top"],
   mapper: {
     constraints: {},
     serializedName: "$top",
@@ -80,8 +87,8 @@ export const top: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const select: coreHttp.OperationQueryParameter = {
-  parameterPath: ["queryOptions", "select"],
+export const select: OperationQueryParameter = {
+  parameterPath: ["options", "queryOptions", "select"],
   mapper: {
     serializedName: "$select",
     xmlName: "$select",
@@ -91,8 +98,8 @@ export const select: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const filter: coreHttp.OperationQueryParameter = {
-  parameterPath: ["queryOptions", "filter"],
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "queryOptions", "filter"],
   mapper: {
     serializedName: "$filter",
     xmlName: "$filter",
@@ -102,7 +109,7 @@ export const filter: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const nextTableName: coreHttp.OperationQueryParameter = {
+export const nextTableName: OperationQueryParameter = {
   parameterPath: ["options", "nextTableName"],
   mapper: {
     serializedName: "NextTableName",
@@ -113,7 +120,7 @@ export const nextTableName: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const contentType: coreHttp.OperationParameter = {
+export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/json;odata=nometadata",
@@ -125,12 +132,12 @@ export const contentType: coreHttp.OperationParameter = {
   }
 };
 
-export const tableProperties: coreHttp.OperationParameter = {
+export const tableProperties: OperationParameter = {
   parameterPath: "tableProperties",
-  mapper: Mappers.TableProperties
+  mapper: TablePropertiesMapper
 };
 
-export const responsePreference: coreHttp.OperationParameter = {
+export const responsePreference: OperationParameter = {
   parameterPath: ["options", "responsePreference"],
   mapper: {
     serializedName: "Prefer",
@@ -141,7 +148,7 @@ export const responsePreference: coreHttp.OperationParameter = {
   }
 };
 
-export const table: coreHttp.OperationURLParameter = {
+export const table: OperationURLParameter = {
   parameterPath: "table",
   mapper: {
     serializedName: "table",
@@ -153,7 +160,7 @@ export const table: coreHttp.OperationURLParameter = {
   }
 };
 
-export const timeout: coreHttp.OperationQueryParameter = {
+export const timeout: OperationQueryParameter = {
   parameterPath: ["options", "timeout"],
   mapper: {
     constraints: {},
@@ -165,7 +172,7 @@ export const timeout: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const nextPartitionKey: coreHttp.OperationQueryParameter = {
+export const nextPartitionKey: OperationQueryParameter = {
   parameterPath: ["options", "nextPartitionKey"],
   mapper: {
     serializedName: "NextPartitionKey",
@@ -176,7 +183,7 @@ export const nextPartitionKey: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const nextRowKey: coreHttp.OperationQueryParameter = {
+export const nextRowKey: OperationQueryParameter = {
   parameterPath: ["options", "nextRowKey"],
   mapper: {
     serializedName: "NextRowKey",
@@ -187,7 +194,7 @@ export const nextRowKey: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const partitionKey: coreHttp.OperationURLParameter = {
+export const partitionKey: OperationURLParameter = {
   parameterPath: "partitionKey",
   mapper: {
     serializedName: "partitionKey",
@@ -199,7 +206,7 @@ export const partitionKey: coreHttp.OperationURLParameter = {
   }
 };
 
-export const rowKey: coreHttp.OperationURLParameter = {
+export const rowKey: OperationURLParameter = {
   parameterPath: "rowKey",
   mapper: {
     serializedName: "rowKey",
@@ -211,7 +218,7 @@ export const rowKey: coreHttp.OperationURLParameter = {
   }
 };
 
-export const contentType1: coreHttp.OperationParameter = {
+export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/json",
@@ -223,7 +230,7 @@ export const contentType1: coreHttp.OperationParameter = {
   }
 };
 
-export const tableEntityProperties: coreHttp.OperationParameter = {
+export const tableEntityProperties: OperationParameter = {
   parameterPath: ["options", "tableEntityProperties"],
   mapper: {
     serializedName: "tableEntityProperties",
@@ -235,7 +242,7 @@ export const tableEntityProperties: coreHttp.OperationParameter = {
   }
 };
 
-export const ifMatch: coreHttp.OperationParameter = {
+export const ifMatch: OperationParameter = {
   parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
@@ -246,7 +253,7 @@ export const ifMatch: coreHttp.OperationParameter = {
   }
 };
 
-export const ifMatch1: coreHttp.OperationParameter = {
+export const ifMatch1: OperationParameter = {
   parameterPath: "ifMatch",
   mapper: {
     serializedName: "If-Match",
@@ -258,7 +265,7 @@ export const ifMatch1: coreHttp.OperationParameter = {
   }
 };
 
-export const comp: coreHttp.OperationQueryParameter = {
+export const comp: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "acl",
@@ -270,7 +277,7 @@ export const comp: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const contentType2: coreHttp.OperationParameter = {
+export const contentType2: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/xml",
@@ -282,7 +289,7 @@ export const contentType2: coreHttp.OperationParameter = {
   }
 };
 
-export const tableAcl: coreHttp.OperationParameter = {
+export const tableAcl: OperationParameter = {
   parameterPath: ["options", "tableAcl"],
   mapper: {
     serializedName: "tableAcl",
@@ -296,12 +303,12 @@ export const tableAcl: coreHttp.OperationParameter = {
   }
 };
 
-export const tableServiceProperties: coreHttp.OperationParameter = {
+export const tableServiceProperties: OperationParameter = {
   parameterPath: "tableServiceProperties",
-  mapper: Mappers.TableServiceProperties
+  mapper: TableServicePropertiesMapper
 };
 
-export const restype: coreHttp.OperationQueryParameter = {
+export const restype: OperationQueryParameter = {
   parameterPath: "restype",
   mapper: {
     defaultValue: "service",
@@ -313,7 +320,7 @@ export const restype: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const comp1: coreHttp.OperationQueryParameter = {
+export const comp1: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "properties",
@@ -325,7 +332,7 @@ export const comp1: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const comp2: coreHttp.OperationQueryParameter = {
+export const comp2: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "stats",

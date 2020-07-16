@@ -91,24 +91,6 @@ export const TableProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const TableResponse: coreHttp.CompositeMapper = {
-  serializedName: "TableResponse",
-  type: {
-    name: "Composite",
-    className: "TableResponse",
-    modelProperties: {
-      ...TableResponseProperties.type.modelProperties,
-      odataMetadata: {
-        serializedName: "odata\\.metadata",
-        xmlName: "odata\\.metadata",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const TableServiceError: coreHttp.CompositeMapper = {
   serializedName: "TableServiceError",
   type: {
@@ -479,27 +461,45 @@ export const GeoReplication: coreHttp.CompositeMapper = {
   }
 };
 
+export const TableResponse: coreHttp.CompositeMapper = {
+  serializedName: "TableResponse",
+  type: {
+    name: "Composite",
+    className: "TableResponse",
+    modelProperties: {
+      ...TableResponseProperties.type.modelProperties,
+      odataMetadata: {
+        serializedName: "odata\\.metadata",
+        xmlName: "odata\\.metadata",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TableQueryHeaders: coreHttp.CompositeMapper = {
   serializedName: "Table_queryHeaders",
   type: {
     name: "Composite",
     className: "TableQueryHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -530,21 +530,21 @@ export const TableCreateHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TableCreateHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -575,21 +575,21 @@ export const TableDeleteHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TableDeleteHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -613,21 +613,21 @@ export const TableQueryEntitiesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TableQueryEntitiesHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -665,21 +665,21 @@ export const TableQueryEntitiesWithPartitionAndRowKeyHeaders: coreHttp.Composite
     name: "Composite",
     className: "TableQueryEntitiesWithPartitionAndRowKeyHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -724,21 +724,21 @@ export const TableUpdateEntityHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TableUpdateEntityHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -769,21 +769,21 @@ export const TableMergeEntityHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TableMergeEntityHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -814,21 +814,21 @@ export const TableDeleteEntityHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TableDeleteEntityHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -852,21 +852,21 @@ export const TableInsertEntityHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TableInsertEntityHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -911,21 +911,21 @@ export const TableGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TableGetAccessPolicyHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -949,21 +949,21 @@ export const TableSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TableSetAccessPolicyHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -987,21 +987,21 @@ export const ServiceSetPropertiesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceSetPropertiesHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -1018,21 +1018,21 @@ export const ServiceGetPropertiesHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceGetPropertiesHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {
@@ -1049,21 +1049,21 @@ export const ServiceGetStatisticsHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ServiceGetStatisticsHeaders",
     modelProperties: {
-      xMsClientRequestId: {
+      clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
         type: {
           name: "String"
         }
       },
-      xMsRequestId: {
+      requestId: {
         serializedName: "x-ms-request-id",
         xmlName: "x-ms-request-id",
         type: {
           name: "String"
         }
       },
-      xMsVersion: {
+      version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
         type: {

@@ -89,7 +89,9 @@ export class Service {
 }
 // Operation Specifications
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
+
+const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   path: "/",
@@ -114,7 +116,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
-  serializer
+  serializer: xmlSerializer
 };
 const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   path: "/",
@@ -133,7 +135,7 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [Parameters.version, Parameters.requestId],
   isXML: true,
-  serializer
+  serializer: xmlSerializer
 };
 const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   path: "/",
@@ -152,5 +154,5 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.url],
   headerParameters: [Parameters.version, Parameters.requestId],
   isXML: true,
-  serializer
+  serializer: xmlSerializer
 };
