@@ -26,7 +26,7 @@ import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
-import { Receiver } from "./receiver";
+import { Receiver, defaultMaxTimeAfterFirstMessageMs } from "./receiver";
 import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
@@ -393,7 +393,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const receiveBatchOperationPromise = async () => {
       const receivedMessages = await this._messageSession!.receiveMessages(
         maxMessageCount,
-        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs
+        options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
+        defaultMaxTimeAfterFirstMessageMs
       );
 
       return (receivedMessages as any) as ReceivedMessageT[];
