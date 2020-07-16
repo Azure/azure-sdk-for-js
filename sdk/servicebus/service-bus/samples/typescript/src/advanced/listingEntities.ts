@@ -34,8 +34,8 @@ export async function main() {
   // as well as on the runtime info of entities by using methods like `getQueuesRuntimeInfo()`
   // 1. List Queues
   let i = 1;
-  let iter = serviceBusManagementClient.getQueues();
-  for await (const queue of iter) {
+  let queues = serviceBusManagementClient.getQueues();
+  for await (const queue of queues) {
     console.log(`Queue ${i++}: ${queue.name}`);
   }
 
@@ -47,11 +47,11 @@ export async function main() {
 
   // 3. Generator syntax .next()
   i = 1;
-  iter = serviceBusManagementClient.getQueues();
-  let queueItem = await iter.next();
+  queues = serviceBusManagementClient.getQueues();
+  let queueItem = await queues.next();
   while (!queueItem.done) {
     console.log(`Queue ${i++}: ${queueItem.value.name}`);
-    queueItem = await iter.next();
+    queueItem = await queues.next();
   }
 
   ////////////////////////////////////////////////////////
@@ -76,21 +76,21 @@ export async function main() {
 
   // 6. Generator syntax .next()
   i = 1;
-  let iterator = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 3 });
-  let response = await iterator.next();
+  let queuesPage = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 3 });
+  let response = await queuesPage.next();
   while (!response.done) {
     if (response.value) {
       for (const queue of response.value) {
         console.log(`Queue ${i++}: ${queue.name}`);
       }
     }
-    response = await iterator.next();
+    response = await queuesPage.next();
   }
 
   // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
-  iterator = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 2 });
-  response = await iterator.next();
+  queuesPage = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 2 });
+  response = await queuesPage.next();
   // Prints 2 queue names
   if (!response.done) {
     for (const queue of response.value) {
@@ -101,11 +101,11 @@ export async function main() {
   // Gets next marker
   let marker = response.value.continuationToken;
   // Passing next marker as continuationToken
-  iterator = serviceBusManagementClient.getQueues().byPage({
+  queuesPage = serviceBusManagementClient.getQueues().byPage({
     continuationToken: marker,
     maxPageSize: 10
   });
-  response = await iterator.next();
+  response = await queuesPage.next();
   // Prints 10 queue names
   if (!response.done) {
     for (const queue of response.value) {
@@ -113,6 +113,7 @@ export async function main() {
     }
   }
 
+  // Delete all the newly created queues
   for (let i = 0; i < numberOfQueues; i++) {
     await serviceBusManagementClient.deleteQueue(baseQueueName + "_" + i);
   }
