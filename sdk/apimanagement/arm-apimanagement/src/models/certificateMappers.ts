@@ -41,6 +41,8 @@ export {
   CertificateGetEntityTagHeaders,
   CertificateGetHeaders,
   CertificateInformation,
+  ContentItemContract,
+  ContentTypeContract,
   DiagnosticContract,
   EmailTemplateContract,
   EmailTemplateParametersContractProperties,

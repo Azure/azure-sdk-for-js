@@ -7083,6 +7083,28 @@ export const QuotaCounterValueContractProperties: msRest.CompositeMapper = {
   }
 };
 
+export const QuotaCounterValueUpdateContract: msRest.CompositeMapper = {
+  serializedName: "QuotaCounterValueUpdateContract",
+  type: {
+    name: "Composite",
+    className: "QuotaCounterValueUpdateContract",
+    modelProperties: {
+      callsCount: {
+        serializedName: "properties.callsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      kbTransferred: {
+        serializedName: "properties.kbTransferred",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const QuotaCounterContract: msRest.CompositeMapper = {
   serializedName: "QuotaCounterContract",
   type: {
@@ -8178,6 +8200,129 @@ export const QuotaCounterValueContract: msRest.CompositeMapper = {
         serializedName: "value.kbTransferred",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ContentTypeContract: msRest.CompositeMapper = {
+  serializedName: "ContentTypeContract",
+  type: {
+    name: "Composite",
+    className: "ContentTypeContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      contentTypeContractId: {
+        serializedName: "properties.id",
+        type: {
+          name: "String"
+        }
+      },
+      contentTypeContractName: {
+        serializedName: "properties.name",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      schema: {
+        serializedName: "properties.schema",
+        type: {
+          name: "Object"
+        }
+      },
+      version: {
+        serializedName: "properties.version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContentTypeCollection: msRest.CompositeMapper = {
+  serializedName: "ContentTypeCollection",
+  type: {
+    name: "Composite",
+    className: "ContentTypeCollection",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContentTypeContract"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContentItemContract: msRest.CompositeMapper = {
+  serializedName: "ContentItemContract",
+  type: {
+    name: "Composite",
+    className: "ContentItemContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ContentItemCollection: msRest.CompositeMapper = {
+  serializedName: "ContentItemCollection",
+  type: {
+    name: "Composite",
+    className: "ContentItemCollection",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContentItemContract"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

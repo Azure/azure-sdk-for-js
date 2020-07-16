@@ -71,6 +71,19 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const appType: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "appType"
+  ],
+  mapper: {
+    serializedName: "appType",
+    defaultValue: 'portal',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const attachmentId: msRest.OperationURLParameter = {
   parameterPath: "attachmentId",
   mapper: {

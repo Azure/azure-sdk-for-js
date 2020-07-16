@@ -43,6 +43,8 @@ export {
   CertificateContract,
   CertificateInformation,
   CloudError,
+  ContentItemContract,
+  ContentTypeContract,
   DiagnosticContract,
   EmailTemplateContract,
   EmailTemplateParametersContractProperties,

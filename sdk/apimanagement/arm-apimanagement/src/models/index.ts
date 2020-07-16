@@ -4047,7 +4047,8 @@ export interface SubscriptionContract extends Resource {
    */
   secondaryKey?: string;
   /**
-   * Optional subscription comment added by an administrator.
+   * Optional subscription comment added by an administrator when the state is changed to the
+   * 'rejected'.
    */
   stateComment?: string;
   /**
@@ -4107,6 +4108,20 @@ export interface ProductUpdateParameters {
  * Quota counter value details.
  */
 export interface QuotaCounterValueContractProperties {
+  /**
+   * Number of times Counter was called.
+   */
+  callsCount?: number;
+  /**
+   * Data Transferred in KiloBytes.
+   */
+  kbTransferred?: number;
+}
+
+/**
+ * Quota counter value details.
+ */
+export interface QuotaCounterValueUpdateContract {
   /**
    * Number of times Counter was called.
    */
@@ -4421,7 +4436,8 @@ export interface SubscriptionUpdateParameters {
    */
   state?: SubscriptionState;
   /**
-   * Comments describing subscription state change by the administrator.
+   * Comments describing subscription state change by the administrator when the state is changed
+   * to the 'rejected'.
    */
   stateComment?: string;
   /**
@@ -4747,8 +4763,8 @@ export interface UserCreateParameters {
    */
   password?: string;
   /**
-   * Determines the type of application which send the create user request. Default is old
-   * publisher portal. Possible values include: 'developerPortal'
+   * Determines the type of application which send the create user request. Default is legacy
+   * portal. Possible values include: 'portal', 'developerPortal'
    */
   appType?: AppType;
   /**
@@ -4792,6 +4808,74 @@ export interface QuotaCounterValueContract {
    * Data Transferred in KiloBytes.
    */
   kbTransferred?: number;
+}
+
+/**
+ * Content type contract details.
+ */
+export interface ContentTypeContract extends Resource {
+  /**
+   * Content type identifier
+   */
+  contentTypeContractId?: string;
+  /**
+   * Content type name. Must be 1 to 250 characters long.
+   */
+  contentTypeContractName?: string;
+  /**
+   * Content type description.
+   */
+  description?: string;
+  /**
+   * Content type schema.
+   */
+  schema?: any;
+  /**
+   * Content type version.
+   */
+  version?: string;
+}
+
+/**
+ * Paged list of content types.
+ */
+export interface ContentTypeCollection {
+  /**
+   * Collection of content types.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: ContentTypeContract[];
+  /**
+   * Next page link, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Content type contract details.
+ */
+export interface ContentItemContract extends Resource {
+  /**
+   * Properties of the content item.
+   */
+  properties?: { [propertyName: string]: any };
+}
+
+/**
+ * Paged list of content items.
+ */
+export interface ContentItemCollection {
+  /**
+   * Collection of content items.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: ContentItemContract[];
+  /**
+   * Next page link, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
 }
 
 /**
@@ -6365,6 +6449,12 @@ export interface SubscriptionCreateOrUpdateOptionalParams extends msRest.Request
    * entity.
    */
   ifMatch?: string;
+  /**
+   * Determines the type of application which send the create user request. Default is legacy
+   * publisher portal. Possible values include: 'portal', 'developerPortal'. Default value:
+   * 'portal'.
+   */
+  appType?: AppType;
 }
 
 /**
@@ -6377,6 +6467,12 @@ export interface SubscriptionUpdateOptionalParams extends msRest.RequestOptionsB
    * - If true, send email notification of change of state of subscription
    */
   notify?: boolean;
+  /**
+   * Determines the type of application which send the create user request. Default is legacy
+   * publisher portal. Possible values include: 'portal', 'developerPortal'. Default value:
+   * 'portal'.
+   */
+  appType?: AppType;
 }
 
 /**
@@ -6446,6 +6542,10 @@ export interface UserListByServiceOptionalParams extends msRest.RequestOptionsBa
  */
 export interface UserCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
+   * Send an Email notification to the User.
+   */
+  notify?: boolean;
+  /**
    * ETag of the Entity. Not required when creating an entity, but required when updating an
    * entity.
    */
@@ -6464,6 +6564,12 @@ export interface UserDeleteMethodOptionalParams extends msRest.RequestOptionsBas
    * Send an Account Closed Email notification to the User.
    */
   notify?: boolean;
+  /**
+   * Determines the type of application which send the create user request. Default is legacy
+   * publisher portal. Possible values include: 'portal', 'developerPortal'. Default value:
+   * 'portal'.
+   */
+  appType?: AppType;
 }
 
 /**
@@ -6513,6 +6619,18 @@ export interface UserSubscriptionListOptionalParams extends msRest.RequestOption
    * Number of records to skip.
    */
   skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface UserConfirmationPasswordSendOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Determines the type of application which send the create user request. Default is legacy
+   * publisher portal. Possible values include: 'portal', 'developerPortal'. Default value:
+   * 'portal'.
+   */
+  appType?: AppType;
 }
 
 /**
@@ -8461,11 +8579,11 @@ export type KeyType = 'primary' | 'secondary';
 
 /**
  * Defines values for AppType.
- * Possible values include: 'developerPortal'
+ * Possible values include: 'portal', 'developerPortal'
  * @readonly
  * @enum {string}
  */
-export type AppType = 'developerPortal';
+export type AppType = 'portal' | 'developerPortal';
 
 /**
  * Defines values for Confirmation.
