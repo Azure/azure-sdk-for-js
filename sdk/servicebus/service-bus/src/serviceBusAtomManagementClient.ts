@@ -125,7 +125,7 @@ export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Resp
  */
 export interface QueueResponse
   extends Pick<
-      QueueDescription,
+      Required<QueueDescription>,
       | "defaultMessageTtl"
       | "lockDuration"
       | "deadLetteringOnMessageExpiration"
@@ -134,7 +134,7 @@ export interface QueueResponse
     >,
     Readonly<
       Omit<
-        QueueDescription,
+        Required<QueueDescription>,
         | "defaultMessageTtl"
         | "lockDuration"
         | "deadLetteringOnMessageExpiration"
