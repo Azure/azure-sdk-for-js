@@ -30,7 +30,7 @@ async function main() {
   }
 
   // This sample leverages `getQueues()` as an example, you can iterate over topics, subscriptions, and rules
-  // as well as on the runtime info of entities by using methods like `getQueuesRuntimeInfo()`
+  // as well as on the runtime info of entities by using methods like `getQueuesRuntimeProperties()`
   // 1. List Queues
   let i = 1;
   let queues = serviceBusManagementClient.getQueues();

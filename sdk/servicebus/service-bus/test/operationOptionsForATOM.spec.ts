@@ -83,10 +83,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getQueueRuntimeinfo", async () => {
+    it("getQueueRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueueRuntimeInfo(enitityName1, {
+          await serviceBusAtomManagementClient.getQueueRuntimeProperties(enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -99,10 +99,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getQueuesRuntimeinfo", async () => {
+    it("getQueuesRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listQueuesRuntimeInfo"]({
+          await serviceBusAtomManagementClient["listQueuesRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -142,10 +142,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getTopicRuntimeinfo", async () => {
+    it("getTopicRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopicRuntimeInfo(enitityName1, {
+          await serviceBusAtomManagementClient.getTopicRuntimeProperties(enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -158,10 +158,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getTopicsRuntimeinfo", async () => {
+    it("getTopicsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listTopicsRuntimeInfo"]({
+          await serviceBusAtomManagementClient["listTopicsRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -204,10 +204,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getSubscriptionRuntimeinfo", async () => {
+    it("getSubscriptionRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscriptionRuntimeInfo(
+          await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
             enitityName1,
             enitityName2,
             {
@@ -224,10 +224,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getSubscriptionsRuntimeinfo", async () => {
+    it("getSubscriptionsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listSubscriptionsRuntimeInfo"](enitityName1, {
+          await serviceBusAtomManagementClient["listSubscriptionsRuntimeProperties"](enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
