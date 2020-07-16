@@ -63,7 +63,7 @@ import {
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
+import { isAbsoluteUrl, isJSONLikeObject, userAgent } from "./util/utils";
 import { OperationOptions } from "@azure/core-http";
 
 /**
@@ -267,9 +267,9 @@ export class ServiceBusManagementClient extends ServiceClient {
       requestPolicyFactories.push(proxyPolicy(options.proxySettings));
     }
     const serviceClientOptions: ServiceClientOptions = {
-      requestPolicyFactories: requestPolicyFactories
+      requestPolicyFactories: requestPolicyFactories,
+      userAgent: userAgent
     };
-
     super(credentials, serviceClientOptions);
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")

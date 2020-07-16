@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as log from "./log";
-import * as os from "os";
 import { packageJsonInfo } from "./util/constants";
 import {
   ConnectionConfig,
@@ -16,6 +15,7 @@ import {
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { ClientEntityContext } from "./clientEntityContext";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
+import { userAgent } from "./util/utils";
 
 /**
  * @internal
@@ -27,21 +27,13 @@ export interface ConnectionContext extends ConnectionContextBase {
    * @property A dictionary of ClientEntityContext
    * objects for each of the client in the `clients` dictionary
    */
-  clientContexts: { [name: string]: ClientEntityContext }
+  clientContexts: { [name: string]: ClientEntityContext };
 }
 
 /**
  * @internal
  */
 export namespace ConnectionContext {
-  /**
-   * @property {string} userAgent The user agent string for the ServiceBus client.
-   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
-   */
-  export const userAgent: string = `azsdk-js-azureservicebus/${
-    packageJsonInfo.version
-  } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
-
   export function create(
     config: ConnectionConfig,
     tokenCredential: SharedKeyCredential | TokenCredential,
