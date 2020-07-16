@@ -21,6 +21,7 @@ import {
   stripRequest,
   stripResponse,
   URLBuilder,
+  userAgentPolicy,
   WebResource
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -144,7 +145,9 @@ export interface SubscriptionResponse extends SubscriptionDescription, Response 
 /**
  * Represents runtime info of a subscription.
  */
-export interface SubscriptionRuntimePropertiesResponse extends SubscriptionRuntimeProperties, Response {}
+export interface SubscriptionRuntimePropertiesResponse
+  extends SubscriptionRuntimeProperties,
+    Response {}
 
 /**
  * Represents result of create, get, and update operations on rule.
@@ -212,6 +215,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     let options: ServiceBusManagementClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
+    requestPolicyFactories.push(userAgentPolicy({ value: userAgent }));
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
@@ -793,7 +797,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     operationOptions?: OperationOptions
   ): Promise<TopicRuntimePropertiesResponse> {
-    log.httpAtomXml(`Performing management operation - getTopicRuntimeProperties() for "${topicName}"`);
+    log.httpAtomXml(
+      `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
+    );
     const response: HttpOperationResponse = await this.getResource(
       topicName,
       this.topicResourceSerializer,
@@ -1406,7 +1412,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     options: OperationOptions = {}
   ): AsyncIterableIterator<SubscriptionRuntimeProperties> {
     let marker: string | undefined;
-    for await (const segment of this.listSubscriptionsRuntimePropertiesPage(topicName, marker, options)) {
+    for await (const segment of this.listSubscriptionsRuntimePropertiesPage(
+      topicName,
+      marker,
+      options
+    )) {
       yield* segment;
     }
   }
@@ -2113,7 +2123,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildQueueRuntimePropertiesResponse(response: HttpOperationResponse): QueueRuntimePropertiesResponse {
+  private buildQueueRuntimePropertiesResponse(
+    response: HttpOperationResponse
+  ): QueueRuntimePropertiesResponse {
     try {
       const queue = buildQueueRuntimeProperties(response.parsedBody);
       const queueResponse: QueueRuntimePropertiesResponse = Object.assign(queue || {}, {
@@ -2216,7 +2228,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildTopicRuntimePropertiesResponse(response: HttpOperationResponse): TopicRuntimePropertiesResponse {
+  private buildTopicRuntimePropertiesResponse(
+    response: HttpOperationResponse
+  ): TopicRuntimePropertiesResponse {
     try {
       const topic = buildTopicRuntimeProperties(response.parsedBody);
       const topicResponse: TopicRuntimePropertiesResponse = Object.assign(topic || {}, {
