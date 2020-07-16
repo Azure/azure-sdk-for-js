@@ -4,6 +4,15 @@
 
 - Adds tracing support to the methods under `ServiceBusManagementClient`.
   [PR 9987](https://github.com/Azure/azure-sdk-for-js/pull/9987)
+
+### Breaking Changes
+
+- Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`,`getQueuesRuntimeInfo()`, etc.
+  [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
+- `receiveMessages()`'s optional `maxWaitTimeInMs` parameter now controls how long to wait for the _first_
+  message, rather than how long to wait for an entire set of messages. This change allows for a faster return
+  of messages to your application.
+  [PR 9968](https://github.com/Azure/azure-sdk-for-js/pull/9968)
 - `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
   [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
 
