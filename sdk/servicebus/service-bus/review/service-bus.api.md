@@ -13,6 +13,7 @@ import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PageSettings } from '@azure/core-paging';
 import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
@@ -124,12 +125,6 @@ export { OperationOptions }
 
 // @public
 export type OperationOptionsBase = Pick<OperationOptions, "abortSignal" | "tracingOptions">;
-
-// @public
-export interface PageSettings {
-    continuationToken?: number;
-    maxPageSize?: number;
-}
 
 // @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
@@ -303,18 +298,18 @@ export class ServiceBusManagementClient extends ServiceClient {
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
     getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
-    getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueDescription, EntitiesResponse<QueueDescription>, PageSettings>;
-    getQueuesRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeInfo, EntitiesResponse<QueueRuntimeInfo>, PageSettings>;
+    getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueDescription, EntitiesResponse<QueueDescription>>;
+    getQueuesRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeInfo, EntitiesResponse<QueueRuntimeInfo>>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    getRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>, PageSettings>;
+    getRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>>;
     getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimeInfoResponse>;
-    getSubscriptions(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionDescription, EntitiesResponse<SubscriptionDescription>, PageSettings>;
-    getSubscriptionsRuntimeInfo(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionRuntimeInfo, EntitiesResponse<SubscriptionRuntimeInfo>, PageSettings>;
+    getSubscriptions(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionDescription, EntitiesResponse<SubscriptionDescription>>;
+    getSubscriptionsRuntimeInfo(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionRuntimeInfo, EntitiesResponse<SubscriptionRuntimeInfo>>;
     getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
     getTopicRuntimeInfo(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimeInfoResponse>;
-    getTopics(options?: OperationOptions): PagedAsyncIterableIterator<TopicDescription, EntitiesResponse<TopicDescription>, PageSettings>;
-    getTopicsRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<TopicRuntimeInfo, EntitiesResponse<TopicRuntimeInfo>, PageSettings>;
+    getTopics(options?: OperationOptions): PagedAsyncIterableIterator<TopicDescription, EntitiesResponse<TopicDescription>>;
+    getTopicsRuntimeInfo(options?: OperationOptions): PagedAsyncIterableIterator<TopicRuntimeInfo, EntitiesResponse<TopicRuntimeInfo>>;
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
