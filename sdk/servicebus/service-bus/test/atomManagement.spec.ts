@@ -68,6 +68,8 @@ describe("Atom management - Namespace", function(): void {
     const response = await serviceBusAtomManagementClient.createQueue("random");
     // @ts-expect-error
     response.authorizationRules = "";
+    // @ts-expect-error
+    response.maxDeliveryCount = undefined;
   });
 });
 
