@@ -24,6 +24,31 @@ export interface MessageHandlers<ReceivedMessageT> {
 }
 
 /**
+ * Options to create a receiver.
+ *
+ * @export
+ * @interface BaseCreateReceiverOptions
+ */
+export interface BaseCreateReceiverOptions {
+  /**
+   * Represents the receive mode for the receiver.
+   *
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
+   *
+   * In peekLock mode, messages are not deleted from the queue directly, you need to settle the message by calling complete(), abandon() or defer() methods on
+   * the message.
+   *
+   * More information about how peekLock and message settlement works here:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   *
+   *
+   * @type {("receiveAndDelete" | "peekLock")}
+   * @memberof BaseCreateReceiverOptions
+   */
+  receiveMode?: "receiveAndDelete" | "peekLock";
+}
+
+/**
  * Options related to wait times.
  */
 export interface WaitTimeOptions {
