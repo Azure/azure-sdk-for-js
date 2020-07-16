@@ -556,7 +556,7 @@ export class ClientContext {
     partitionKeyRange: string;
     resourceId: string;
     options?: RequestOptions;
-  }): Promise<Response<T & U & Resource>> {
+  }) {
     try {
       const request: RequestContext = {
         globalEndpointManager: this.globalEndpointManager,

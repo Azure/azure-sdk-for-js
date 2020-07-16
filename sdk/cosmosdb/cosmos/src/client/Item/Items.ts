@@ -6,14 +6,20 @@ import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { extractPartitionKey } from "../../extractPartitionKey";
-import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
+import { FetchFunctionCallback, SqlQuerySpec, JSONObject } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
-import { Batch, isKeyInRange, Operation, hasResource } from "../../utils/batch";
+import {
+  Batch,
+  isKeyInRange,
+  Operation,
+  getPartitionKeyToHash,
+  addPKToOperation
+} from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
 
@@ -377,12 +383,21 @@ export class Items {
     );
   }
 
-  public async bulk(operations: Operation[], options?: RequestOptions) {
+  public async bulk(
+    operations: Operation[],
+    options?: RequestOptions
+  ): Promise<
+    {
+      statusCode: number;
+      requestCharge: number;
+      eTag?: string;
+      resourceBody?: JSONObject;
+    }[]
+  > {
     const {
       resources: partitionKeyRanges
     } = await this.container.readPartitionKeyRanges().fetchAll();
     const { resource: definition } = await this.container.getPartitionKeyDefinition();
-    console.log({ container: this.container });
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
         min: keyRange.minInclusive,
@@ -391,23 +406,18 @@ export class Items {
         operations: []
       };
     });
-    operations.forEach((operation: Operation) => {
-      const partitionProp = definition.paths[0].replace("/", "");
-      const isV2 = definition.version && definition.version === 2;
-      const toHashKey = hasResource(operation)
-        ? (operation.resourceBody as any)[partitionProp]
-        : operation.partitionKey
-            .replace("[", "")
-            .replace("]", "")
-            .replace("'", "")
-            .replace('"', "")
-            .replace('"', "");
-      const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
-      let batchForKey = batches.find((batch: Batch) => {
-        return isKeyInRange(batch.min, batch.max, hashed);
+    operations
+      .map((operation) => addPKToOperation(operation, definition))
+      .forEach((operation: Operation) => {
+        const partitionProp = definition.paths[0].replace("/", "");
+        const isV2 = definition.version && definition.version === 2;
+        const toHashKey = getPartitionKeyToHash(operation, partitionProp);
+        const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
+        let batchForKey = batches.find((batch: Batch) => {
+          return isKeyInRange(batch.min, batch.max, hashed);
+        });
+        batchForKey.operations.push(operation);
       });
-      batchForKey.operations.push(operation);
-    });
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
 
@@ -415,9 +425,7 @@ export class Items {
       batches
         .filter((batch: Batch) => batch.operations.length)
         .map(async (batch: Batch) => {
-          console.log({ batch: JSON.stringify(batch) });
           try {
-            console.log({ rangeId: batch.rangeId });
             const response = await this.clientContext.bulk({
               body: batch.operations,
               partitionKeyRange: batch.rangeId,
@@ -426,18 +434,11 @@ export class Items {
               options
             });
             return response;
-          } catch (err) {
-            console.log({ err });
-            const {
-              resources: partitionKeyRanges
-            } = await this.container.readPartitionKeyRanges().fetchAll();
-            console.log({ partitionKeyRanges });
-          }
+          } catch (err) {}
         })
     );
     return responses
       .map((resp) => {
-        console.log(resp);
         return resp.result;
       })
       .flat();

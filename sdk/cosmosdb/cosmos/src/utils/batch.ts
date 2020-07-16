@@ -1,4 +1,6 @@
 import { JSONObject } from "../queryExecutionContext";
+import { extractPartitionKey } from "../extractPartitionKey";
+import { PartitionKeyDefinition } from "../documents";
 
 export type Operation =
   | CreateOperation
@@ -15,14 +17,13 @@ export interface Batch {
 }
 
 export function isKeyInRange(min: string, max: string, key: string) {
-  console.log({ min, max, key });
   const isAfterMinInclusive = key.localeCompare(min) >= 0;
   const isBeforeMax = key.localeCompare(max) < 0;
   return isAfterMinInclusive && isBeforeMax;
 }
 
 interface OperationBase {
-  partitionKey: string;
+  partitionKey?: string;
   ifMatch?: string;
   ifNoneMatch?: string;
 }
@@ -58,4 +59,23 @@ export function hasResource(
   operation: Operation
 ): operation is CreateOperation | UpsertOperation | ReplaceOperation {
   return (operation as OperationWithItem).resourceBody !== undefined;
+}
+
+export function getPartitionKeyToHash(operation: Operation, partitionProperty: string) {
+  return hasResource(operation)
+    ? (operation.resourceBody as any)[partitionProperty]
+    : operation.partitionKey
+        .replace("[", "")
+        .replace("]", "")
+        .replace("'", "")
+        .replace('"', "")
+        .replace('"', "");
+}
+
+export function addPKToOperation(operation: Operation, definition: PartitionKeyDefinition) {
+  if (operation.partitionKey || !hasResource(operation)) {
+    return operation;
+  }
+  const pk = extractPartitionKey(operation.resourceBody, definition);
+  return { ...operation, partitionKey: JSON.stringify(pk) };
 }

@@ -55,10 +55,9 @@ function encodeNumberAsUInt64JSBI(value: number) {
 
 export function doubleToByteArrayJSBI(double: number) {
   const output: Buffer = Buffer.alloc(8);
-  const otherOutput: Buffer = Buffer.alloc(8);
   const lng = getRawBitsJSBI(double);
   for (let i = 0; i < 8; i++) {
-    otherOutput[i] = JSBI.toNumber(
+    output[i] = JSBI.toNumber(
       JSBI.bitwiseAnd(
         JSBI.signedRightShift(lng, JSBI.multiply(JSBI.BigInt(i), JSBI.BigInt(8))),
         JSBI.BigInt(0xff)
