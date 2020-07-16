@@ -143,7 +143,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
     "getSubscriptionsRuntimeInfo",
     "getRules"
   ].forEach((methodName) => {
-    describe.only(`${methodName}`, () => {
+    describe(`${methodName}`, () => {
       function getIter() {
         let iterator;
         if (methodName.includes("Subscription")) {
