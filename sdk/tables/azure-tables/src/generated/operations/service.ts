@@ -91,8 +91,6 @@ export class Service {
 
 const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
 const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   path: "/",
   httpMethod: "PUT",
@@ -108,11 +106,7 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.tableServiceProperties,
   queryParameters: [Parameters.timeout, Parameters.restype, Parameters.comp1],
   urlParameters: [Parameters.url],
-  headerParameters: [
-    Parameters.version,
-    Parameters.requestId,
-    Parameters.contentType2
-  ],
+  headerParameters: [Parameters.version, Parameters.requestId, Parameters.contentType2],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",

@@ -1,43 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export {
-  GeneratedClientOptionalParams as TableServiceClientOptions,
-  ServiceGetStatisticsOptionalParams,
-  ServiceGetStatisticsResponse,
-  ServiceGetPropertiesOptionalParams,
-  ServiceGetPropertiesResponse,
-  TableServiceProperties,
-  ServiceSetPropertiesOptionalParams,
-  ServiceSetPropertiesResponse,
-  TableCreateOptionalParams,
-  TableCreateResponse,
-  TableDeleteOptionalParams as DeleteTableOptions,
-  TableDeleteResponse,
-  TableQueryOptionalParams,
-  QueryOptions,
-  TableQueryOperationResponse,
-  TableQueryEntitiesOptionalParams,
-  TableQueryEntitiesResponse,
-  TableQueryEntitiesWithPartitionAndRowKeyOptionalParams,
-  TableQueryEntitiesWithPartitionAndRowKeyResponse,
-  TableDeleteEntityOptionalParams,
-  TableInsertEntityOptionalParams,
-  TableInsertEntityResponse,
-  TableMergeEntityOptionalParams,
-  TableUpdateEntityResponse,
-  TableDeleteEntityResponse,
-  TableUpdateEntityOptionalParams,
-  TableMergeEntityResponse,
-  TableGetAccessPolicyOptionalParams,
-  TableGetAccessPolicyResponse,
-  TableSetAccessPolicyOptionalParams,
-  SignedIdentifier,
-  TableSetAccessPolicyResponse
-} from "./generated/models";
-
+/**
+ * A set of key-value pairs representing the table entity.
+ */
 export interface Entity {
+  /**
+   * The PartitionKey property of the entity.
+   */
   PartitionKey: string;
+  /**
+   * The RowKey property of the entity.
+   */
   RowKey: string;
+  /**
+   * Any custom properties of the entity.
+   */
   [propertyName: string]: any;
 }

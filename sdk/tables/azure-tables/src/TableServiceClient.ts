@@ -3,43 +3,47 @@
 
 import { GeneratedClient } from "./generated/generatedClient";
 import { Service } from "./generated/operations";
-import { Table } from "./generated/operations/table";
+import { Table } from "./generated/operations";
+import { Entity } from "./models";
 import {
-  Entity,
   TableServiceClientOptions,
-  ServiceGetStatisticsOptionalParams,
-  ServiceGetStatisticsResponse,
-  ServiceGetPropertiesOptionalParams,
-  ServiceGetPropertiesResponse,
-  TableServiceProperties,
-  ServiceSetPropertiesOptionalParams,
-  ServiceSetPropertiesResponse,
-  TableCreateOptionalParams,
-  TableCreateResponse,
+  GetStatisticsOptions,
+  GetStatisticsResponse,
+  GetPropertiesOptions,
+  GetPropertiesResponse,
+  SetPropertiesOptions,
+  ServiceProperties,
+  SetPropertiesResponse,
+  CreateTableOptions,
+  CreateTableResponse,
   DeleteTableOptions,
-  TableDeleteResponse,
-  TableQueryOptionalParams,
+  DeleteTableResponse,
+  ListTablesOptions,
   QueryOptions,
-  TableQueryOperationResponse,
-  TableQueryEntitiesOptionalParams,
-  TableQueryEntitiesResponse,
-  TableQueryEntitiesWithPartitionAndRowKeyOptionalParams,
-  TableQueryEntitiesWithPartitionAndRowKeyResponse,
-  TableDeleteEntityOptionalParams,
-  TableInsertEntityOptionalParams,
-  TableInsertEntityResponse,
-  TableMergeEntityOptionalParams,
-  TableUpdateEntityResponse,
-  TableDeleteEntityResponse,
-  TableUpdateEntityOptionalParams,
-  TableMergeEntityResponse,
-  TableGetAccessPolicyOptionalParams,
-  TableGetAccessPolicyResponse,
-  TableSetAccessPolicyOptionalParams,
+  ListTablesResponse,
+  GetEntityOptions,
+  GetEntityResponse,
+  ListEntitiesOptions,
+  ListEntitiesResponse,
+  CreateEntityOptions,
+  CreateEntityResponse,
+  DeleteEntityOptions,
+  DeleteEntityResponse,
+  UpdateEntityOptions,
+  UpdateEntityResponse,
+  MergeEntityOptions,
+  MergeEntityResponse,
+  GetAccessPolicyOptions,
+  GetAccessPolicyResponse,
+  SetAccessPolicyOptions,
   SignedIdentifier,
-  TableSetAccessPolicyResponse
-} from "./models";
+  SetAccessPolicyResponse
+} from "./generatedModels";
 
+/**
+ * A TableServiceClient represents a Client to the Azure Tables service allowing you
+ * to perform operations on the tables and the entities.
+ */
 export class TableServiceClient {
   private table: Table;
   private service: Service;
@@ -63,9 +67,7 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options The options parameters.
    */
-  getStatistics(
-    options?: ServiceGetStatisticsOptionalParams
-  ): Promise<ServiceGetStatisticsResponse> {
+  getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse> {
     return this.service.getStatistics(options);
   }
 
@@ -74,9 +76,7 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options The options parameters.
    */
-  getProperties(
-    options?: ServiceGetPropertiesOptionalParams
-  ): Promise<ServiceGetPropertiesResponse> {
+  getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse> {
     return this.service.getProperties(options);
   }
 
@@ -87,9 +87,9 @@ export class TableServiceClient {
    * @param options The options parameters.
    */
   setProperties(
-    properties: TableServiceProperties,
-    options?: ServiceSetPropertiesOptionalParams
-  ): Promise<ServiceSetPropertiesResponse> {
+    properties: ServiceProperties,
+    options?: SetPropertiesOptions
+  ): Promise<SetPropertiesResponse> {
     return this.service.setProperties(properties, options);
   }
 
@@ -98,10 +98,7 @@ export class TableServiceClient {
    * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  createTable(
-    tableName: string,
-    options?: TableCreateOptionalParams
-  ): Promise<TableCreateResponse> {
+  createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse> {
     return this.table.create({ tableName }, { ...options, responsePreference: "return-content" });
   }
 
@@ -110,7 +107,7 @@ export class TableServiceClient {
    * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  deleteTable(tableName: string, options?: DeleteTableOptions): Promise<TableDeleteResponse> {
+  deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse> {
     return this.table.delete(tableName, options);
   }
 
@@ -122,8 +119,8 @@ export class TableServiceClient {
   listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
-    options?: Omit<TableQueryOptionalParams, "queryOptions">
-  ): Promise<TableQueryOperationResponse> {
+    options?: Omit<ListTablesOptions, "queryOptions">
+  ): Promise<ListTablesResponse> {
     return this.table.query({ queryOptions: query, ...options });
   }
 
@@ -138,8 +135,8 @@ export class TableServiceClient {
     tableName: string,
     partitionKey: string,
     rowKey: string,
-    options?: TableQueryEntitiesWithPartitionAndRowKeyOptionalParams
-  ): Promise<TableQueryEntitiesWithPartitionAndRowKeyResponse> {
+    options?: GetEntityOptions
+  ): Promise<GetEntityResponse> {
     return this.table.queryEntitiesWithPartitionAndRowKey(tableName, partitionKey, rowKey, options);
   }
 
@@ -153,8 +150,8 @@ export class TableServiceClient {
     tableName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
-    options?: Omit<TableQueryEntitiesOptionalParams, "queryOptions">
-  ): Promise<TableQueryEntitiesResponse> {
+    options?: Omit<ListEntitiesOptions, "queryOptions">
+  ): Promise<ListEntitiesResponse> {
     return this.table.queryEntities(tableName, { queryOptions: query, ...options });
   }
 
@@ -167,8 +164,8 @@ export class TableServiceClient {
   createEntity(
     tableName: string,
     entity?: Entity,
-    options?: Omit<TableInsertEntityOptionalParams, "tableEntityProperties">
-  ): Promise<TableInsertEntityResponse> {
+    options?: Omit<CreateEntityOptions, "tableEntityProperties">
+  ): Promise<CreateEntityResponse> {
     return this.table.insertEntity(tableName, { tableEntityProperties: entity, ...options });
   }
 
@@ -187,8 +184,8 @@ export class TableServiceClient {
     partitionKey: string,
     rowKey: string,
     ifMatch: string,
-    options?: TableDeleteEntityOptionalParams
-  ): Promise<TableDeleteEntityResponse> {
+    options?: DeleteEntityOptions
+  ): Promise<DeleteEntityResponse> {
     return this.table.deleteEntity(tableName, partitionKey, rowKey, ifMatch, options);
   }
 
@@ -206,8 +203,8 @@ export class TableServiceClient {
     tableName: string,
     entity: Entity,
     ifMatch?: string,
-    options?: Omit<TableUpdateEntityOptionalParams, "tableEntityProperties" | "ifMatch">
-  ): Promise<TableUpdateEntityResponse> {
+    options?: Omit<UpdateEntityOptions, "tableEntityProperties" | "ifMatch">
+  ): Promise<UpdateEntityResponse> {
     return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
       tableEntityProperties: entity,
       ifMatch,
@@ -226,8 +223,8 @@ export class TableServiceClient {
     tableName: string,
     entity: Entity,
     ifMatch?: string,
-    options?: Omit<TableMergeEntityOptionalParams, "tableEntityProperties" | "ifMatch">
-  ): Promise<TableMergeEntityResponse> {
+    options?: Omit<MergeEntityOptions, "tableEntityProperties" | "ifMatch">
+  ): Promise<MergeEntityResponse> {
     return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
       tableEntityProperties: entity,
       ifMatch,
@@ -243,8 +240,8 @@ export class TableServiceClient {
    */
   getAccessPolicy(
     tableName: string,
-    options?: TableGetAccessPolicyOptionalParams
-  ): Promise<TableGetAccessPolicyResponse> {
+    options?: GetAccessPolicyOptions
+  ): Promise<GetAccessPolicyResponse> {
     return this.table.getAccessPolicy(tableName, options);
   }
 
@@ -257,8 +254,8 @@ export class TableServiceClient {
   setAccessPolicy(
     tableName: string,
     acl?: SignedIdentifier[],
-    options?: Omit<TableSetAccessPolicyOptionalParams, "tableAcl">
-  ): Promise<TableSetAccessPolicyResponse> {
+    options?: Omit<SetAccessPolicyOptions, "tableAcl">
+  ): Promise<SetAccessPolicyResponse> {
     return this.table.setAccessPolicy(tableName, { tableAcl: acl, ...options });
   }
 }
