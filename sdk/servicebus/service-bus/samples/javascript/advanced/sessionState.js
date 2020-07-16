@@ -3,7 +3,7 @@
   Licensed under the MIT Licence.
 
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
 
   This sample demonstrates usage of SessionState.
 
@@ -124,7 +124,9 @@ async function processMessageFromSession(sessionId) {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${
+        messages[0].body.event_details
+      }'`
     );
     await messages[0].complete();
   } else {

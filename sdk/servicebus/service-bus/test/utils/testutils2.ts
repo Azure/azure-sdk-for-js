@@ -42,7 +42,7 @@ function getEntityNames(
   usesSessions: boolean;
   isPartitioned: boolean;
 } {
-  const name = TestClientType[testClientType];
+  const name = testClientType;
   let prefix = "";
   let isPartitioned = false;
 
@@ -130,6 +130,58 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   }
 
   await receiver.close();
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription
+ * @param useSessions
+ */
+export function getRandomTestClientType(): TestClientType {
+  const allTestClientTypes = [
+    TestClientType.PartitionedQueue,
+    TestClientType.PartitionedSubscription,
+    TestClientType.UnpartitionedQueue,
+    TestClientType.UnpartitionedSubscription,
+    TestClientType.PartitionedQueueWithSessions,
+    TestClientType.PartitionedSubscriptionWithSessions,
+    TestClientType.UnpartitionedQueueWithSessions,
+    TestClientType.UnpartitionedSubscriptionWithSessions
+  ];
+
+  const index = Math.floor(Math.random() * allTestClientTypes.length);
+  return allTestClientTypes[index];
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription with no
+ * sessions enabled
+ */
+export function getRandomTestClientTypeWithNoSessions(): TestClientType {
+  const noSessionTestClientTypes = [
+    TestClientType.PartitionedQueue,
+    TestClientType.PartitionedSubscription,
+    TestClientType.UnpartitionedQueue,
+    TestClientType.UnpartitionedSubscription
+  ];
+
+  const index = Math.floor(Math.random() * noSessionTestClientTypes.length);
+  return noSessionTestClientTypes[index];
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription with
+ * sessions enabled
+ */
+export function getRandomTestClientTypeWithSessions(): TestClientType {
+  const withSessionTestClientTypes = [
+    TestClientType.PartitionedQueueWithSessions,
+    TestClientType.PartitionedSubscriptionWithSessions,
+    TestClientType.UnpartitionedQueueWithSessions,
+    TestClientType.UnpartitionedSubscriptionWithSessions
+  ];
+
+  const index = Math.floor(Math.random() * withSessionTestClientTypes.length);
+  return withSessionTestClientTypes[index];
 }
 
 export type EntityName = ReturnType<typeof getEntityNames>;

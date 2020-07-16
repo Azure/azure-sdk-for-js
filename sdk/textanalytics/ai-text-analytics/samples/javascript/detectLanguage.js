@@ -20,7 +20,7 @@ const documents = [
   "Este es un document escrito en Español.",
   "这是一个用中文写的文件",
   "Dies ist ein Dokument in deutsche Sprache.",
-  "Detta är ett dokument skrivet på engelska.",
+  "Detta är ett dokument skrivet på engelska."
 ];
 
 async function main() {
