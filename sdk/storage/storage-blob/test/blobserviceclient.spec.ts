@@ -23,7 +23,7 @@ describe("BlobServiceClient", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("ListContainers with default parameters", async () => {

@@ -253,11 +253,32 @@ function parseEntryResult(entry: any): object | undefined {
 /**
  * @internal
  * @ignore
+ * Utility to help parse link info from the given `feed` result
+ * @param feedLink
+ */
+function parseLinkInfo(
+  feedLink: { [Constants.XML_METADATA_MARKER]: { rel: string; href: string } }[],
+  relationship: "self" | "next"
+): string | undefined {
+  if (!feedLink || !Array.isArray(feedLink)) {
+    return undefined;
+  }
+  for (const linkInfo of feedLink) {
+    if (linkInfo[Constants.XML_METADATA_MARKER].rel === relationship) {
+      return linkInfo[Constants.XML_METADATA_MARKER].href;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * @internal
+ * @ignore
  * Utility to help parse given `feed` result
  * @param feed
  */
-function parseFeedResult(feed: any): object[] {
-  const result = [];
+function parseFeedResult(feed: any): object[] & { nextLink?: string } {
+  const result: object[] & { nextLink?: string } = [];
   if (typeof feed === "object" && feed != null && feed.entry) {
     if (Array.isArray(feed.entry)) {
       feed.entry.forEach((entry: any) => {
@@ -272,6 +293,7 @@ function parseFeedResult(feed: any): object[] {
         result.push(parsedEntryResult);
       }
     }
+    result.nextLink = parseLinkInfo(feed.link, "next");
   }
   return result;
 }

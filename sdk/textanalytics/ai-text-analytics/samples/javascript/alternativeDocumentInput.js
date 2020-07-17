@@ -17,9 +17,11 @@ const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 /**
- * Inputs for the `detectLanguage` method have an `id`, the document `text, and an optional
- * `countryHint` (an ISO 3166 two-letter country code). The `id` field is required and must
- * be unique for each document in a given request.
+ * DetectLanguageInput objects allow for specification of country hints on a
+ * document-by-document basis.
+ *
+ * When using DetectLanguageInput, the `id` field is required and must be unique
+ * for each document in a given request.
  */
 const detectLanguageInputs = [
   { id: "0", countryHint: "us", text: "I had the best day of my life." },
@@ -28,13 +30,16 @@ const detectLanguageInputs = [
   {
     id: "3",
     countryHint: "fr",
-    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre.",
-  },
+    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre."
+  }
 ];
 
 /**
- * Inputs for all other methods are similar to the input for `detectLanguage`, but have an
- * optional `language` field (a ISO 639-1 two-letter language code) and no `countryHint` field.
+ * TextDocumentInput objects are used by all methods except for `detectLanguage`.
+ * They allow for specification of input language on a document-by-document basis.
+ *
+ * Like `DetectLanguageInput`, the `id` field is required and must be unique for
+ * each document in the request.
  */
 const textDocumentInputs = [
   { id: "0", language: "en", text: "I had the best day of my life." },
@@ -43,8 +48,8 @@ const textDocumentInputs = [
   {
     id: "3",
     language: "fr",
-    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre.",
-  },
+    text: "L'hôtel n'était pas très confortable. L'éclairage était trop sombre."
+  }
 ];
 
 async function main() {

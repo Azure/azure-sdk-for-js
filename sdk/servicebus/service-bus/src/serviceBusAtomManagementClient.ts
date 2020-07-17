@@ -10,6 +10,7 @@ import {
 import {
   bearerTokenAuthenticationPolicy,
   HttpOperationResponse,
+  OperationOptions,
   proxyPolicy,
   ProxySettings,
   RequestPolicyFactory,
@@ -22,6 +23,7 @@ import {
   URLBuilder,
   WebResource
 } from "@azure/core-http";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import * as log from "./log";
 import {
   buildNamespace,
@@ -31,11 +33,11 @@ import {
 import {
   buildQueue,
   buildQueueOptions,
-  buildQueueRuntimeInfo,
+  buildQueueRuntimeProperties,
   InternalQueueOptions,
   QueueDescription,
   QueueResourceSerializer,
-  QueueRuntimeInfo
+  QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
 import {
   buildRule,
@@ -45,26 +47,26 @@ import {
 import {
   buildSubscription,
   buildSubscriptionOptions,
-  buildSubscriptionRuntimeInfo,
+  buildSubscriptionRuntimeProperties,
   InternalSubscriptionOptions,
   SubscriptionDescription,
   SubscriptionResourceSerializer,
-  SubscriptionRuntimeInfo
+  SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
 import {
   buildTopic,
   buildTopicOptions,
-  buildTopicRuntimeInfo,
+  buildTopicRuntimeProperties,
   InternalTopicOptions,
   TopicDescription,
   TopicResourceSerializer,
-  TopicRuntimeInfo
+  TopicRuntimeProperties
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-import { OperationOptions } from "@azure/core-http";
+import { parseURL } from "./util/parseUrl";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -102,6 +104,14 @@ export interface Response {
 }
 
 /**
+ * Represents the result of list operation on entities which also contains the `continuationToken` to start iterating over from.
+ */
+export interface EntitiesResponse<T>
+  extends Array<T>,
+    Pick<PageSettings, "continuationToken">,
+    Response {}
+
+/**
  * Represents properties of the namespace.
  */
 export interface NamespacePropertiesResponse extends NamespaceProperties, Response {}
@@ -109,73 +119,37 @@ export interface NamespacePropertiesResponse extends NamespaceProperties, Respon
 /**
  * Represents runtime info of a queue.
  */
-export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {}
+export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, Response {}
 
 /**
- * Array of objects representing runtime info for multiple queues.
- */
-export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {}
-/**
- * Represents result of create, get, update and delete operations on queue.
+ * Represents result of create, get, and update operations on queue.
  */
 export interface QueueResponse extends QueueDescription, Response {}
 
 /**
- * Represents result of list operation on queues.
- */
-export interface QueuesResponse extends Array<QueueDescription>, Response {}
-
-/**
- * Represents result of create, get, update and delete operations on topic.
+ * Represents result of create, get, and update operations on topic.
  */
 export interface TopicResponse extends TopicDescription, Response {}
 
 /**
- * Represents result of list operation on topics.
- */
-export interface TopicsResponse extends Array<TopicDescription>, Response {}
-
-/**
  * Represents runtime info of a topic.
  */
-export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {}
+export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {}
 
 /**
- * Array of objects representing runtime info for multiple topics.
- */
-export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo>, Response {}
-
-/**
- * Represents result of create, get, update and delete operations on subscription.
+ * Represents result of create, get, and update operations on subscription.
  */
 export interface SubscriptionResponse extends SubscriptionDescription, Response {}
 
 /**
- * Represents result of list operation on subscriptions.
- */
-export interface SubscriptionsResponse extends Array<SubscriptionDescription>, Response {}
-
-/**
  * Represents runtime info of a subscription.
  */
-export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo, Response {}
+export interface SubscriptionRuntimePropertiesResponse extends SubscriptionRuntimeProperties, Response {}
 
 /**
- * Array of objects representing runtime info for multiple subscriptions.
- */
-export interface SubscriptionsRuntimeInfoResponse
-  extends Array<SubscriptionRuntimeInfo>,
-    Response {}
-
-/**
- * Represents result of create, get, update and delete operations on rule.
+ * Represents result of create, get, and update operations on rule.
  */
 export interface RuleResponse extends RuleDescription, Response {}
-
-/**
- * Represents result of list operation on rules.
- */
-export interface RulesResponse extends Array<RuleDescription>, Response {}
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
@@ -366,7 +340,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   /**
    * Returns an object representing the Queue and its properties.
-   * If you want to get the Queue runtime info like message count details, use `getQueueRuntimeInfo` API.
+   * If you want to get the Queue runtime info like message count details, use `getQueueRuntimeProperties` API.
    * @param queueName
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -406,10 +380,10 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueueRuntimeInfo(
+  async getQueueRuntimeProperties(
     queueName: string,
     operationOptions?: OperationOptions
-  ): Promise<QueueRuntimeInfoResponse> {
+  ): Promise<QueueRuntimePropertiesResponse> {
     log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
     const response: HttpOperationResponse = await this.getResource(
       queueName,
@@ -417,12 +391,12 @@ export class ServiceBusManagementClient extends ServiceClient {
       operationOptions
     );
 
-    return this.buildQueueRuntimeInfoResponse(response);
+    return this.buildQueueRuntimePropertiesResponse(response);
   }
 
   /**
    * Returns a list of objects, each representing a Queue along with its properties.
-   * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeInfo` API instead.
+   * If you want to get the runtime info of the queues like message count, use `getQueuesRuntimeProperties` API instead.
    * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -434,15 +408,84 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse> {
+  private async listQueues(
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<QueueDescription>> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
       options,
       this.queueResourceSerializer
     );
-
     return this.buildListQueuesResponse(response);
+  }
+
+  private async *listQueuesPage(
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<QueueDescription>> {
+    let listResponse;
+    do {
+      listResponse = await this.listQueues({
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listQueuesAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<QueueDescription> {
+    let marker: string | undefined;
+    for await (const segment of this.listQueuesPage(marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the queues.
+   *
+   * .byPage() returns an async iterable iterator to list the queues in pages.
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     QueueDescription,
+   *     EntitiesResponse<QueueDescription>,
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
+  public getQueues(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<QueueDescription, EntitiesResponse<QueueDescription>> {
+    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+    const iter = this.listQueuesAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listQueuesPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -458,17 +501,90 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getQueuesRuntimeInfo(
+  private async listQueuesRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
-  ): Promise<QueuesRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+  ): Promise<EntitiesResponse<QueueRuntimeProperties>> {
+    log.httpAtomXml(
+      `Performing management operation - listQueuesRuntimeProperties() with options: ${options}`
+    );
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
       options,
       this.queueResourceSerializer
     );
 
-    return this.buildListQueuesRuntimeInfoResponse(response);
+    return this.buildListQueuesRuntimePropertiesResponse(response);
+  }
+
+  private async *listQueuesRuntimePropertiesPage(
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<QueueRuntimeProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.listQueuesRuntimeProperties({
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listQueuesRuntimePropertiesAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<QueueRuntimeProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listQueuesRuntimePropertiesPage(marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list runtime info of the queues.
+   *
+   * .byPage() returns an async iterable iterator to list runtime info of the queues in pages.
+   *
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     QueueRuntimeProperties,
+   *     EntitiesResponse<QueueRuntimeProperties>,
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
+  public getQueuesRuntimeProperties(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
+    log.httpAtomXml(
+      `Performing management operation - getQueuesRuntimeProperties() with options: ${options}`
+    );
+    const iter = this.listQueuesRuntimePropertiesAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listQueuesRuntimePropertiesPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -633,7 +749,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   /**
    * Returns an object representing the Topic and its properties.
-   * If you want to get the Topic runtime info like subscription count details, use `getTopicRuntimeInfo` API.
+   * If you want to get the Topic runtime info like subscription count details, use `getTopicRuntimeProperties` API.
    * @param topicName
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -673,23 +789,23 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopicRuntimeInfo(
+  async getTopicRuntimeProperties(
     topicName: string,
     operationOptions?: OperationOptions
-  ): Promise<TopicRuntimeInfoResponse> {
-    log.httpAtomXml(`Performing management operation - getTopicRuntimeInfo() for "${topicName}"`);
+  ): Promise<TopicRuntimePropertiesResponse> {
+    log.httpAtomXml(`Performing management operation - getTopicRuntimeProperties() for "${topicName}"`);
     const response: HttpOperationResponse = await this.getResource(
       topicName,
       this.topicResourceSerializer,
       operationOptions
     );
 
-    return this.buildTopicRuntimeInfoResponse(response);
+    return this.buildTopicRuntimePropertiesResponse(response);
   }
 
   /**
    * Returns a list of objects, each representing a Topic along with its properties.
-   * If you want to get the runtime info of the topics like subscription count, use `getTopicsRuntimeInfo` API instead.
+   * If you want to get the runtime info of the topics like subscription count, use `getTopicsRuntimeProperties` API instead.
    * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -701,7 +817,9 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse> {
+  private async listTopics(
+    options?: ListRequestOptions & OperationOptions
+  ): Promise<EntitiesResponse<TopicDescription>> {
     log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
@@ -710,6 +828,75 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListTopicsResponse(response);
+  }
+
+  private async *listTopicsPage(
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<TopicDescription>> {
+    let listResponse;
+    do {
+      listResponse = await this.listTopics({
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listTopicsAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<TopicDescription> {
+    let marker: string | undefined;
+    for await (const segment of this.listTopicsPage(marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the topics.
+   *
+   * .byPage() returns an async iterable iterator to list the topics in pages.
+   *
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     TopicDescription,
+   *     EntitiesResponse<TopicDescription>,
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
+  public getTopics(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<TopicDescription, EntitiesResponse<TopicDescription>> {
+    log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
+    const iter = this.listTopicsAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listTopicsPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -725,9 +912,9 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getTopicsRuntimeInfo(
+  private async listTopicsRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
-  ): Promise<TopicsRuntimeInfoResponse> {
+  ): Promise<EntitiesResponse<TopicRuntimeProperties>> {
     log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
@@ -735,7 +922,79 @@ export class ServiceBusManagementClient extends ServiceClient {
       this.topicResourceSerializer
     );
 
-    return this.buildListTopicsRuntimeInfoResponse(response);
+    return this.buildListTopicsRuntimePropertiesResponse(response);
+  }
+
+  private async *listTopicsRuntimePropertiesPage(
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<TopicRuntimeProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.listTopicsRuntimeProperties({
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listTopicsRuntimePropertiesAll(
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<TopicRuntimeProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listTopicsRuntimePropertiesPage(marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list runtime info of the topics.
+   *
+   * .byPage() returns an async iterable iterator to list runtime info of the topics in pages.
+   *
+   *
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     TopicRuntimeProperties,
+   *     EntitiesResponse<TopicRuntimeProperties>,
+
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
+  public getTopicsRuntimeProperties(
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
+    log.httpAtomXml(
+      `Performing management operation - getTopicsRuntimeProperties() with options: ${options}`
+    );
+    const iter = this.listTopicsRuntimePropertiesAll(options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listTopicsRuntimePropertiesPage(settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -885,7 +1144,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     let subscription: SubscriptionDescription;
     let operOptions: OperationOptions | undefined;
     if (typeof subscriptionNameOrOperationOptions === "string") {
-      if (topicNameOrSubscriptionOptions !== "string") {
+      if (typeof topicNameOrSubscriptionOptions !== "string") {
         throw new Error("Topic name provided is invalid");
       }
       subscription = {
@@ -917,7 +1176,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   /**
    * Returns an object representing the Subscription and its properties.
-   * If you want to get the Subscription runtime info like message count details, use `getSubscriptionRuntimeInfo` API.
+   * If you want to get the Subscription runtime info like message count details, use `getSubscriptionRuntimeProperties` API.
    * @param topicName
    * @param subscriptionName
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
@@ -947,7 +1206,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       operationOptions
     );
 
-    return this.buildSubscriptionRuntimeInfoResponse(response);
+    return this.buildSubscriptionRuntimePropertiesResponse(response);
   }
 
   /**
@@ -966,11 +1225,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getSubscriptionRuntimeInfo(
+  async getSubscriptionRuntimeProperties(
     topicName: string,
     subscriptionName: string,
     operationOptions?: OperationOptions
-  ): Promise<SubscriptionRuntimeInfoResponse> {
+  ): Promise<SubscriptionRuntimePropertiesResponse> {
     log.httpAtomXml(
       `Performing management operation - getSubscription() for "${subscriptionName}"`
     );
@@ -981,12 +1240,12 @@ export class ServiceBusManagementClient extends ServiceClient {
       operationOptions
     );
 
-    return this.buildSubscriptionRuntimeInfoResponse(response);
+    return this.buildSubscriptionRuntimePropertiesResponse(response);
   }
 
   /**
    * Returns a list of objects, each representing a Subscription along with its properties.
-   * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeInfo` API instead.
+   * If you want to get the runtime info of the subscriptions like message count, use `getSubscriptionsRuntimeProperties` API instead.
    * @param topicName
    * @param options The options include the maxCount and the count of entities to skip, the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
@@ -999,10 +1258,10 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getSubscriptions(
+  private async listSubscriptions(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
-  ): Promise<SubscriptionsResponse> {
+  ): Promise<EntitiesResponse<SubscriptionDescription>> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptions() with options: ${options}`
     );
@@ -1013,6 +1272,86 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListSubscriptionsResponse(response);
+  }
+
+  private async *listSubscriptionsPage(
+    topicName: string,
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<SubscriptionDescription>> {
+    let listResponse;
+    do {
+      listResponse = await this.listSubscriptions(topicName, {
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listSubscriptionsAll(
+    topicName: string,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<SubscriptionDescription> {
+    let marker: string | undefined;
+    for await (const segment of this.listSubscriptionsPage(topicName, marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   *
+   * Returns an async iterable iterator to list all the subscriptions
+   * under the specified topic.
+   *
+   * .byPage() returns an async iterable iterator to list the subscriptions in pages.
+   *
+   * @memberof ServiceBusManagementClient
+   * @param {string} topicName
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     SubscriptionDescription,
+   *     EntitiesResponse<SubscriptionDescription>
+   *   >} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
+  public getSubscriptions(
+    topicName: string,
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<
+    SubscriptionDescription,
+    EntitiesResponse<SubscriptionDescription>
+  > {
+    log.httpAtomXml(
+      `Performing management operation - getSubscriptions() with options: ${options}`
+    );
+    const iter = this.listSubscriptionsAll(topicName, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listSubscriptionsPage(topicName, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -1029,12 +1368,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getSubscriptionsRuntimeInfo(
+  private async listSubscriptionsRuntimeProperties(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
-  ): Promise<SubscriptionsRuntimeInfoResponse> {
+  ): Promise<EntitiesResponse<SubscriptionRuntimeProperties>> {
     log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${options}`
+      `Performing management operation - listSubscriptionsRuntimeProperties() with options: ${options}`
     );
     const response: HttpOperationResponse = await this.listResources(
       topicName + "/Subscriptions/",
@@ -1042,7 +1381,86 @@ export class ServiceBusManagementClient extends ServiceClient {
       this.subscriptionResourceSerializer
     );
 
-    return this.buildListSubscriptionsRuntimeInfoResponse(response);
+    return this.buildListSubscriptionsRuntimePropertiesResponse(response);
+  }
+
+  private async *listSubscriptionsRuntimePropertiesPage(
+    topicName: string,
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<SubscriptionRuntimeProperties>> {
+    let listResponse;
+    do {
+      listResponse = await this.listSubscriptionsRuntimeProperties(topicName, {
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listSubscriptionsRuntimePropertiesAll(
+    topicName: string,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<SubscriptionRuntimeProperties> {
+    let marker: string | undefined;
+    for await (const segment of this.listSubscriptionsRuntimePropertiesPage(topicName, marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list runtime info of the subscriptions
+   * under the specified topic.
+   *
+   * .byPage() returns an async iterable iterator to list runtime info of subscriptions in pages.
+   *
+   * @param {string} topicName
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<
+   *     SubscriptionRuntimeProperties,
+   *     EntitiesResponse<SubscriptionRuntimeProperties>,
+
+   *   >}  An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
+  public getSubscriptionsRuntimeProperties(
+    topicName: string,
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<
+    SubscriptionRuntimeProperties,
+    EntitiesResponse<SubscriptionRuntimeProperties>
+  > {
+    log.httpAtomXml(
+      `Performing management operation - getSubscriptionsRuntimeProperties() with options: ${options}`
+    );
+    const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listSubscriptionsRuntimePropertiesPage(topicName, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -1250,11 +1668,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async getRules(
+  private async listRules(
     topicName: string,
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
-  ): Promise<RulesResponse> {
+  ): Promise<EntitiesResponse<RuleDescription>> {
     log.httpAtomXml(`Performing management operation - listRules() with options: ${options}`);
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
     const response: HttpOperationResponse = await this.listResources(
@@ -1264,6 +1682,80 @@ export class ServiceBusManagementClient extends ServiceClient {
     );
 
     return this.buildListRulesResponse(response);
+  }
+
+  private async *listRulesPage(
+    topicName: string,
+    subscriptionName: string,
+    marker?: string,
+    options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
+  ): AsyncIterableIterator<EntitiesResponse<RuleDescription>> {
+    let listResponse;
+    do {
+      listResponse = await this.listRules(topicName, subscriptionName, {
+        skip: Number(marker),
+        maxCount: options.maxPageSize,
+        ...options
+      });
+      marker = listResponse.continuationToken;
+      yield listResponse;
+    } while (marker);
+  }
+
+  private async *listRulesAll(
+    topicName: string,
+    subscriptionName: string,
+    options: OperationOptions = {}
+  ): AsyncIterableIterator<RuleDescription> {
+    let marker: string | undefined;
+    for await (const segment of this.listRulesPage(topicName, subscriptionName, marker, options)) {
+      yield* segment;
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list all the rules
+   * under the specified subscription.
+   *
+   * .byPage() returns an async iterable iterator to list the rules in pages.
+   *
+   * @param {string} topicName
+   * @param {string} subscriptionName
+   * @param {OperationOptions} [options]
+   * @returns {PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>>} An asyncIterableIterator that supports paging.
+   * @memberof ServiceBusManagementClient
+   */
+  public getRules(
+    topicName: string,
+    subscriptionName: string,
+    options?: OperationOptions
+  ): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>> {
+    log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
+    const iter = this.listRulesAll(topicName, subscriptionName, options);
+    return {
+      /**
+       * @member {Promise} [next] The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        this.throwIfInvalidContinuationToken(settings.continuationToken);
+        return this.listRulesPage(topicName, subscriptionName, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options
+        });
+      }
+    };
   }
 
   /**
@@ -1501,6 +1993,20 @@ export class ServiceBusManagementClient extends ServiceClient {
     return topicName + "/Subscriptions/" + subscriptionName + "/Rules/" + ruleName;
   }
 
+  private getMarkerFromNextLinkUrl(url: string): string | undefined {
+    if (!url) {
+      return undefined;
+    }
+    try {
+      return parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
+    } catch (error) {
+      throw new Error(
+        `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
+          error
+      );
+    }
+  }
+
   private buildNamespacePropertiesResponse(
     response: HttpOperationResponse
   ): NamespacePropertiesResponse {
@@ -1522,9 +2028,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListQueuesResponse(response: HttpOperationResponse): QueuesResponse {
+  private buildListQueuesResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<QueueDescription> {
     try {
       const queues: QueueDescription[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1535,9 +2044,10 @@ export class ServiceBusManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: QueuesResponse = Object.assign(queues, {
+      const listQueuesResponse: EntitiesResponse<QueueDescription> = Object.assign(queues, {
         _response: response
       });
+      listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1551,24 +2061,26 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListQueuesRuntimeInfoResponse(
+  private buildListQueuesRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): QueuesRuntimeInfoResponse {
+  ): EntitiesResponse<QueueRuntimeProperties> {
     try {
-      const queues: QueueRuntimeInfo[] = [];
+      const queues: QueueRuntimeProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
       const rawQueueArray: any = response.parsedBody;
       for (let i = 0; i < rawQueueArray.length; i++) {
-        const queue = buildQueueRuntimeInfo(rawQueueArray[i]);
+        const queue = buildQueueRuntimeProperties(rawQueueArray[i]);
         if (queue) {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: QueuesRuntimeInfoResponse = Object.assign(queues, {
+      const listQueuesResponse: EntitiesResponse<QueueRuntimeProperties> = Object.assign(queues, {
         _response: response
       });
+      listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1601,10 +2113,10 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildQueueRuntimeInfoResponse(response: HttpOperationResponse): QueueRuntimeInfoResponse {
+  private buildQueueRuntimePropertiesResponse(response: HttpOperationResponse): QueueRuntimePropertiesResponse {
     try {
-      const queue = buildQueueRuntimeInfo(response.parsedBody);
-      const queueResponse: QueueRuntimeInfoResponse = Object.assign(queue || {}, {
+      const queue = buildQueueRuntimeProperties(response.parsedBody);
+      const queueResponse: QueueRuntimePropertiesResponse = Object.assign(queue || {}, {
         _response: response
       });
       return queueResponse;
@@ -1620,9 +2132,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListTopicsResponse(response: HttpOperationResponse): TopicsResponse {
+  private buildListTopicsResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<TopicDescription> {
     try {
       const topics: TopicDescription[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1633,9 +2148,10 @@ export class ServiceBusManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: TopicsResponse = Object.assign(topics, {
+      const listTopicsResponse: EntitiesResponse<TopicDescription> = Object.assign(topics, {
         _response: response
       });
+      listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1649,24 +2165,26 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListTopicsRuntimeInfoResponse(
+  private buildListTopicsRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): TopicsRuntimeInfoResponse {
+  ): EntitiesResponse<TopicRuntimeProperties> {
     try {
-      const topics: TopicRuntimeInfo[] = [];
+      const topics: TopicRuntimeProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
       const rawTopicArray: any = response.parsedBody;
       for (let i = 0; i < rawTopicArray.length; i++) {
-        const topic = buildTopicRuntimeInfo(rawTopicArray[i]);
+        const topic = buildTopicRuntimeProperties(rawTopicArray[i]);
         if (topic) {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: TopicsRuntimeInfoResponse = Object.assign(topics, {
+      const listTopicsResponse: EntitiesResponse<TopicRuntimeProperties> = Object.assign(topics, {
         _response: response
       });
+      listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1698,10 +2216,10 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildTopicRuntimeInfoResponse(response: HttpOperationResponse): TopicRuntimeInfoResponse {
+  private buildTopicRuntimePropertiesResponse(response: HttpOperationResponse): TopicRuntimePropertiesResponse {
     try {
-      const topic = buildTopicRuntimeInfo(response.parsedBody);
-      const topicResponse: TopicRuntimeInfoResponse = Object.assign(topic || {}, {
+      const topic = buildTopicRuntimeProperties(response.parsedBody);
+      const topicResponse: TopicRuntimePropertiesResponse = Object.assign(topic || {}, {
         _response: response
       });
       return topicResponse;
@@ -1717,9 +2235,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListSubscriptionsResponse(response: HttpOperationResponse): SubscriptionsResponse {
+  private buildListSubscriptionsResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<SubscriptionDescription> {
     try {
       const subscriptions: SubscriptionDescription[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1730,9 +2251,13 @@ export class ServiceBusManagementClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: SubscriptionsResponse = Object.assign(subscriptions, {
-        _response: response
-      });
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionDescription> = Object.assign(
+        subscriptions,
+        {
+          _response: response
+        }
+      );
+      listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1746,27 +2271,29 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListSubscriptionsRuntimeInfoResponse(
+  private buildListSubscriptionsRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): SubscriptionsRuntimeInfoResponse {
+  ): EntitiesResponse<SubscriptionRuntimeProperties> {
     try {
-      const subscriptions: SubscriptionRuntimeInfo[] = [];
+      const subscriptions: SubscriptionRuntimeProperties[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
       const rawSubscriptionArray: any = response.parsedBody;
       for (let i = 0; i < rawSubscriptionArray.length; i++) {
-        const subscription = buildSubscriptionRuntimeInfo(rawSubscriptionArray[i]);
+        const subscription = buildSubscriptionRuntimeProperties(rawSubscriptionArray[i]);
         if (subscription) {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: SubscriptionsRuntimeInfoResponse = Object.assign(
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> = Object.assign(
         subscriptions,
         {
           _response: response
         }
       );
+      listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1799,12 +2326,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildSubscriptionRuntimeInfoResponse(
+  private buildSubscriptionRuntimePropertiesResponse(
     response: HttpOperationResponse
-  ): SubscriptionRuntimeInfoResponse {
+  ): SubscriptionRuntimePropertiesResponse {
     try {
-      const subscription = buildSubscriptionRuntimeInfo(response.parsedBody);
-      const subscriptionResponse: SubscriptionRuntimeInfoResponse = Object.assign(
+      const subscription = buildSubscriptionRuntimeProperties(response.parsedBody);
+      const subscriptionResponse: SubscriptionRuntimePropertiesResponse = Object.assign(
         subscription || {},
         {
           _response: response
@@ -1823,9 +2350,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private buildListRulesResponse(response: HttpOperationResponse): RulesResponse {
+  private buildListRulesResponse(
+    response: HttpOperationResponse
+  ): EntitiesResponse<RuleDescription> {
     try {
       const rules: RuleDescription[] = [];
+      const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
       }
@@ -1836,9 +2366,10 @@ export class ServiceBusManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: RulesResponse = Object.assign(rules, {
+      const listRulesResponse: EntitiesResponse<RuleDescription> = Object.assign(rules, {
         _response: response
       });
+      listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
     } catch (err) {
       log.warning("Failure parsing response from service - %0 ", err);
@@ -1866,6 +2397,12 @@ export class ServiceBusManagementClient extends ServiceClient {
         stripRequest(response.request),
         stripResponse(response)
       );
+    }
+  }
+
+  private throwIfInvalidContinuationToken(token: string | undefined) {
+    if (!(token === undefined || (typeof token === "string" && Number(token) >= 0))) {
+      throw new Error(`Invalid continuationToken ${token} provided`);
     }
   }
 }

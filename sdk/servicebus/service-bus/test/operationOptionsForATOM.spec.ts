@@ -83,10 +83,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getQueueRuntimeinfo", async () => {
+    it("getQueueRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueueRuntimeInfo(enitityName1, {
+          await serviceBusAtomManagementClient.getQueueRuntimeProperties(enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -94,15 +94,15 @@ describe("Operation Options", () => {
     it("getQueues", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueues({
+          await serviceBusAtomManagementClient["listQueues"]({
             abortSignal: AbortController.timeout(1)
           })
       );
     });
-    it("getQueuesRuntimeinfo", async () => {
+    it("getQueuesRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueuesRuntimeInfo({
+          await serviceBusAtomManagementClient["listQueuesRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -142,10 +142,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getTopicRuntimeinfo", async () => {
+    it("getTopicRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopicRuntimeInfo(enitityName1, {
+          await serviceBusAtomManagementClient.getTopicRuntimeProperties(enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -153,15 +153,15 @@ describe("Operation Options", () => {
     it("getTopics", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopics({
+          await serviceBusAtomManagementClient["listTopics"]({
             abortSignal: AbortController.timeout(1)
           })
       );
     });
-    it("getTopicsRuntimeinfo", async () => {
+    it("getTopicsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopicsRuntimeInfo({
+          await serviceBusAtomManagementClient["listTopicsRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -204,10 +204,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getSubscriptionRuntimeinfo", async () => {
+    it("getSubscriptionRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscriptionRuntimeInfo(
+          await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
             enitityName1,
             enitityName2,
             {
@@ -219,15 +219,15 @@ describe("Operation Options", () => {
     it("getSubscriptions", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscriptions(enitityName1, {
+          await serviceBusAtomManagementClient["listSubscriptions"](enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
     });
-    it("getSubscriptionsRuntimeinfo", async () => {
+    it("getSubscriptionsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscriptionsRuntimeInfo(enitityName1, {
+          await serviceBusAtomManagementClient["listSubscriptionsRuntimeProperties"](enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );

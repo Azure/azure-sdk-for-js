@@ -25,7 +25,7 @@ describe("Keys client - import keys", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow
