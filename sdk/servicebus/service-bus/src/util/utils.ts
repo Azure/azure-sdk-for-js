@@ -8,7 +8,7 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { getRuntimeInfo } from "./runtimeInfo";
+import { getPlatformSpecificData } from "@azure/core-http/types/latest/src/policies/msRestUserAgentPolicy";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -593,4 +593,4 @@ export function checkAndRegisterWithAbortSignal(
  */
 export const userAgent: string = `azsdk-js-azureservicebus/${
   Constants.packageJsonInfo.version
-} (${getRuntimeInfo()})`;
+} (${getPlatformSpecificData()})`;
