@@ -2,6 +2,9 @@
 
 ## 7.0.0-preview.5 (Unreleased)
 
+- Adds tracing support to the methods under `ServiceBusManagementClient`.
+  [PR 9987](https://github.com/Azure/azure-sdk-for-js/pull/9987)
+
 ### Breaking Changes
 
 - Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`,`getQueuesRuntimeInfo()`, etc.
