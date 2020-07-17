@@ -85,38 +85,14 @@ export interface SessionMessageHandlerOptions {
    */
   maxConcurrentCalls?: number;
 }
-/**
- * @internal
- * Describes the options for creating a Session Manager.
- */
-export interface SessionManagerOptions extends SessionMessageHandlerOptions {
-  /**
-   * @property {number} [maxConcurrentSessions] The maximum number of sessions that the user wants to
-   * handle concurrently.
-   * - **Default**: `2000`.
-   */
-  maxConcurrentSessions?: number;
-  /**
-   * @property The maximum amount of time the receiver will wait to receive a new message. If no new
-   * message is received in this time, then the receiver will be closed.
-   *
-   * If this option is not provided, then receiver link will stay open until manually closed.
-   *
-   * **Caution**: When setting this value, take into account the time taken to process messages. Once
-   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
-   * invoked on messages.
-   */
-  newMessageWaitTimeoutInMs?: number;
-}
 
 /**
  * @internal
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
-export type MessageSessionOptions = SessionManagerOptions &
-  SessionReceiverOptions & {
-    receiveMode?: ReceiveMode;
-  };
+export type MessageSessionOptions = SessionReceiverOptions & {
+  receiveMode?: ReceiveMode;
+};
 
 /**
  * @internal
