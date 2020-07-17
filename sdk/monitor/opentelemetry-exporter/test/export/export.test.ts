@@ -36,11 +36,11 @@ describe("#AzureMonitorBaseExporter", () => {
     assert.ok(exporter["_options"].instrumentationKey);
     assert.strictEqual(
       (exporter["_persister"] as FileSystemPersist)["_options"].instrumentationKey,
-      exporter["_options"].instrumentationKey,
+      exporter["_options"].instrumentationKey
     );
     assert.deepStrictEqual(
       (exporter["_persister"] as FileSystemPersist)["_options"],
-      exporter["_options"],
+      exporter["_options"]
     );
   });
 

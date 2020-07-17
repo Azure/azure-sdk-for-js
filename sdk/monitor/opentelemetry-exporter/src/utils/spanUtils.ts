@@ -56,7 +56,7 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
 function createPropertiesFromSpan(span: ReadableSpan): Properties {
   const properties: Properties = {};
 
-  Object.keys(span.attributes).forEach((key: string) => {
+  for (const key of Object.keys(span.attributes)) {
     if (
       key === GRPC_ERROR_MESSAGE ||
       key === GRPC_ERROR_NAME ||
@@ -64,7 +64,7 @@ function createPropertiesFromSpan(span: ReadableSpan): Properties {
     ) {
       properties[key] = span.attributes[key] as string;
     }
-  });
+  }
 
   const links: MSLink[] = span.links.map((link: Link) => ({
     operation_Id: link.context.traceId,

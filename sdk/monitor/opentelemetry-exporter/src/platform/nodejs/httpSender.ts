@@ -14,7 +14,7 @@ export class HttpSender implements Sender {
     this._logger = _options.logger || new ConsoleLogger(LogLevel.ERROR);
   }
 
-  send(envelopes: Envelope[], callback: SenderCallback): void {
+  send(envelopes: Envelope[], callback: SenderCallback = () => {}): void {
     const endpointUrl = `${this._options.endpointUrl}/v2/track`;
     const payload = Buffer.from(JSON.stringify(envelopes));
 

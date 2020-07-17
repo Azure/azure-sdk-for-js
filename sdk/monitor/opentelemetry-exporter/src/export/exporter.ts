@@ -23,7 +23,8 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
 
   constructor(_options: Partial<AzureExporterConfig> = {}) {
     const connectionString = _options.connectionString || process.env[ENV_CONNECTION_STRING];
-    const instrumentationKey = _options.instrumentationKey || process.env[ENV_INSTRUMENTATION_KEY];
+    const instrumentationKey =
+      _options.instrumentationKey || process.env[ENV_INSTRUMENTATION_KEY] || "";
 
     this._logger = _options.logger || new ConsoleLogger(LogLevel.ERROR);
     this._options = {
@@ -89,7 +90,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
           const breezeResponse = JSON.parse(resultString) as BreezeResponse;
           const filteredEnvelopes = breezeResponse.errors.reduce(
             (acc, v) => [...acc, envelopes[v.index]],
-            [] as Envelope[],
+            [] as Envelope[]
           );
           // calls resultCallback(ExportResult) based on result of persister.push
           this._persister.push(filteredEnvelopes, persistCb);
@@ -118,20 +119,20 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
 
   protected _applyTelemetryProcessors(envelopes: Envelope[]): Envelope[] {
     const filteredEnvelopes: Envelope[] = [];
-    envelopes.forEach((envelope) => {
+    for (const envelope of envelopes) {
       let accepted = true;
 
-      this._telemetryProcessors.forEach((processor) => {
+      for (const processor of this._telemetryProcessors) {
         // Don't use CPU cycles if item is already rejected
         if (accepted && processor(envelope) === false) {
           accepted = false;
         }
-      });
+      }
 
       if (accepted) {
         filteredEnvelopes.push(envelope);
       }
-    });
+    }
 
     return filteredEnvelopes;
   }
@@ -141,9 +142,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
       if (err) {
         this._logger.warn(`Failed to fetch persisted file`, err);
       } else if (envelopes) {
-        this._sender.send(envelopes, () => {
-          /** no-op */
-        });
+        this._sender.send(envelopes);
       }
     });
   }

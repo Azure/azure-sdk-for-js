@@ -15,7 +15,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
   export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): void {
     this._logger.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
     const envelopes = spans.map((span) =>
-      readableSpanToEnvelope(span, this._options.instrumentationKey!, this._logger),
+      readableSpanToEnvelope(span, this._options.instrumentationKey, this._logger)
     );
     this.exportEnvelopes(envelopes, resultCallback);
   }

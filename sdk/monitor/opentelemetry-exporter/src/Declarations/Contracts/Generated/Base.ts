@@ -7,9 +7,9 @@ class Base {
   /**
    * Name of item (B section) if any. If telemetry data is derived straight from this, this should be null.
    */
-  public baseType: 'RequestData' | 'RemoteDependencyData' | undefined;
+  public baseType: "RequestData" | "RemoteDependencyData" | undefined;
 
-  public baseData: { [key: string]: any } = {};
+  public baseData?: { [key: string]: any } = {};
 
   public properties: any;
 

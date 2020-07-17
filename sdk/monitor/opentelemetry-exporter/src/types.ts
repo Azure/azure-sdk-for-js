@@ -19,7 +19,7 @@ export interface BaseExporter {
 }
 
 export interface Sender {
-  send(payload: unknown[], callback: SenderCallback): void;
+  send(payload: unknown[], callback?: SenderCallback): void;
   shutdown(): void;
 }
 

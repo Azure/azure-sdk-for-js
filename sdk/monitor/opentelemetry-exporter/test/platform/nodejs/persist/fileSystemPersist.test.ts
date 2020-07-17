@@ -23,6 +23,9 @@ const deleteFolderRecursive = (dirPath: string) => {
 
 const assertFirstFile = (tempDir: string, expectation: unknown, done: Mocha.Done) => {
   fs.stat(tempDir, (statErr: Error | null, stats: fs.Stats) => {
+    if (statErr) {
+      done(statErr);
+    }
     if (stats.isDirectory()) {
       fs.readdir(tempDir, (error, origFiles) => {
         if (!error) {
@@ -33,7 +36,7 @@ const assertFirstFile = (tempDir: string, expectation: unknown, done: Mocha.Done
             fs.readFile(filePath, (readFileErr, payload) => {
               assert.deepStrictEqual(
                 JSON.parse(payload.toString()),
-                JSON.parse(JSON.stringify(expectation)),
+                JSON.parse(JSON.stringify(expectation))
               );
               if (!readFileErr) {
                 // delete the file first to prevent double sending
@@ -61,7 +64,7 @@ describe("FileSystemPersist", () => {
   const instrumentationKey = "abc";
   const tempDir = path.join(
     os.tmpdir(),
-    `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
+    `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
   );
 
   beforeEach(() => {
