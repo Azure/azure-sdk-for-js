@@ -168,12 +168,29 @@ const updateOtherProjectDependencySections = (rushPackages, package, depName) =>
   return rushPackages;
 };
 
+/*
+add a logic checking rush common-versions for the exact version I am replacing dev tags for - if that version is present in common-versions
+- then i might need to update common-versions adding the dev version as well as an exception
+*/
+const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, searchVersion, devVersion) => {
+  var allowedAlternativeVersions = commonVersionsConfig["allowedAlternativeVersions"];
+  if (allowedAlternativeVersions[package].includes(searchVersion)) {
+    allowedAlternativeVersions[package].push(devVersion);
+  }
+  var newConfig = commonVersionsConfig;
+  newConfig["allowedAlternativeVersions"] = allowedAlternativeVersions;
+  const commonVersionsPath = path.resolve(path.join(repoRoot, "/common/config/rush/common-versions.json"));
+  console.log(newConfig);
+  await packageUtils.writePackageJson(commonVersionsPath, newConfig);
+}
+
 async function main(argv) {
   const buildId = argv["build-id"];
   const repoRoot = argv["repo-root"];
   const service = argv["service"];
 
   var rushPackages = await packageUtils.getRushPackageJsons(repoRoot);
+  const commonVersionsConfig = await packageUtils.getRushCommonVersions(repoRoot);
 
   let targetPackages = [];
   for (const package of Object.keys(rushPackages)) {
@@ -196,6 +213,7 @@ async function main(argv) {
     console.log(package);
     rushPackages = updatePackageVersion(rushPackages, package, buildId);
     rushPackages = updateInternalDependencyVersions(rushPackages, package, buildId);
+    await updateCommonVersions(repoRoot, commonVersionsConfig, package, rushPackages[package].json.version, rushPackages[package].newVer);
     console.log(rushPackages[package].newVer);
   }
 
