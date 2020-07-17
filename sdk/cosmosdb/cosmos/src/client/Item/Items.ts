@@ -6,7 +6,7 @@ import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
 import { extractPartitionKey } from "../../extractPartitionKey";
-import { FetchFunctionCallback, SqlQuerySpec, JSONObject } from "../../queryExecutionContext";
+import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions } from "../../request";
 import { Container, PartitionKeyRange } from "../Container";
@@ -18,7 +18,8 @@ import {
   isKeyInRange,
   Operation,
   getPartitionKeyToHash,
-  addPKToOperation
+  addPKToOperation,
+  OperationResponse
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -386,14 +387,7 @@ export class Items {
   public async bulk(
     operations: Operation[],
     options?: RequestOptions
-  ): Promise<
-    {
-      statusCode: number;
-      requestCharge: number;
-      eTag?: string;
-      resourceBody?: JSONObject;
-    }[]
-  > {
+  ): Promise<OperationResponse[]> {
     const {
       resources: partitionKeyRanges
     } = await this.container.readPartitionKeyRanges().fetchAll();
@@ -403,12 +397,13 @@ export class Items {
         min: keyRange.minInclusive,
         max: keyRange.maxExclusive,
         rangeId: keyRange.id,
+        indexes: [],
         operations: []
       };
     });
     operations
       .map((operation) => addPKToOperation(operation, definition))
-      .forEach((operation: Operation) => {
+      .forEach((operation: Operation, index: number) => {
         const partitionProp = definition.paths[0].replace("/", "");
         const isV2 = definition.version && definition.version === 2;
         const toHashKey = getPartitionKeyToHash(operation, partitionProp);
@@ -417,11 +412,13 @@ export class Items {
           return isKeyInRange(batch.min, batch.max, hashed);
         });
         batchForKey.operations.push(operation);
+        batchForKey.indexes.push(index);
       });
 
     const path = getPathFromLink(this.container.url, ResourceType.item);
 
-    const responses = await Promise.all(
+    const orderedResponses: OperationResponse[] = [];
+    await Promise.all(
       batches
         .filter((batch: Batch) => batch.operations.length)
         .map(async (batch: Batch) => {
@@ -433,14 +430,12 @@ export class Items {
               resourceId: this.container.url,
               options
             });
-            return response;
+            response.result.forEach((operationResponse: OperationResponse, index: number) => {
+              orderedResponses[batch.indexes[index]] = operationResponse;
+            });
           } catch (err) {}
         })
     );
-    return responses
-      .map((resp) => {
-        return resp.result;
-      })
-      .flat();
+    return orderedResponses;
   }
 }

@@ -13,7 +13,15 @@ export interface Batch {
   min: string;
   max: string;
   rangeId: string;
+  indexes: number[];
   operations: Operation[];
+}
+
+export interface OperationResponse {
+  statusCode: number;
+  requestCharge: number;
+  eTag?: string;
+  resourceBody?: JSONObject;
 }
 
 export function isKeyInRange(min: string, max: string, key: string) {
