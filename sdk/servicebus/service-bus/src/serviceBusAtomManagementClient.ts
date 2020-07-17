@@ -219,7 +219,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
     options3?: ServiceBusManagementClientOptions
   ) {
-    const requestPolicyFactories: RequestPolicyFactory[] = [];
     let options: ServiceBusManagementClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
@@ -250,14 +249,17 @@ export class ServiceBusManagementClient extends ServiceClient {
     const userAgent = getUserAgentForAtomManagementClient(
       options.userAgentOptions?.userAgentPrefix
     );
-    requestPolicyFactories.push(userAgentPolicy({ value: userAgent }));
-    requestPolicyFactories.push(tracingPolicy({ userAgent }));
-    requestPolicyFactories.push(authPolicy);
+    const requestPolicyFactories: RequestPolicyFactory[] = [
+      userAgentPolicy({ value: userAgent }),
+      tracingPolicy({ userAgent }),
+      authPolicy
+    ];
     if (options && options.proxySettings) {
       requestPolicyFactories.push(proxyPolicy(options.proxySettings));
     }
     const serviceClientOptions: ServiceClientOptions = {
-      requestPolicyFactories: requestPolicyFactories
+      requestPolicyFactories: requestPolicyFactories,
+      userAgent
     };
     super(credentials, serviceClientOptions);
     this.endpoint = fullyQualifiedNamespace;
