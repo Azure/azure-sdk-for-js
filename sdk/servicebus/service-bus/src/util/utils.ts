@@ -8,7 +8,6 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { getDefaultUserAgentValue } from "@azure/core-http";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -594,24 +593,14 @@ export function checkAndRegisterWithAbortSignal(
 export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}`;
 
 /**
- * Returns the user agent string meant for the Atom management client appended with the provided prefix.
- *
- * @export
- * @param {string} [prefix]
- * @returns {string}
- */
-export function getUserAgentForAtomManagementClient(prefix?: string): string {
-  return `${formatUserAgentPrefix(prefix)}${libInfo} (${getDefaultUserAgentValue()})`;
-}
-
-/**
- * Returns the formatted prefix by removing the spaces, and by adding a space at the end if not an empty string.
+ * Returns the formatted prefix by removing the spaces, by appending the libInfo.
  *
  * @export
  * @param {string} [prefix]
  * @returns {string}
  */
 export function formatUserAgentPrefix(prefix?: string): string {
-  const userAgentPrefix = `${(prefix || "").replace(" ", "")}`;
-  return userAgentPrefix.length > 0 ? userAgentPrefix + " " : "";
+  let userAgentPrefix = `${(prefix || "").replace(" ", "")}`;
+  userAgentPrefix = userAgentPrefix.length > 0 ? userAgentPrefix + " " : "";
+  return `${userAgentPrefix}${libInfo}`;
 }

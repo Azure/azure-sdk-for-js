@@ -9,21 +9,19 @@ import {
 } from "@azure/core-amqp";
 import {
   bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions,
+  getDefaultUserAgentValue,
   HttpOperationResponse,
   OperationOptions,
-  proxyPolicy,
   ProxySettings,
   RequestPolicyFactory,
   RestError,
   ServiceClient,
-  ServiceClientOptions,
   signingPolicy,
   stripRequest,
   stripResponse,
-  tracingPolicy,
   URLBuilder,
   UserAgentOptions,
-  userAgentPolicy,
   WebResource
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -67,10 +65,10 @@ import {
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
-import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { getUserAgentForAtomManagementClient, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-import { createSpan, getCanonicalCode } from "./util/tracing";
 import { parseURL } from "./util/parseUrl";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
+import { createSpan, getCanonicalCode } from "./util/tracing";
+import { formatUserAgentPrefix, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -246,21 +244,17 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
       authPolicy = signingPolicy(credentials);
     }
-    const userAgent = getUserAgentForAtomManagementClient(
-      options.userAgentOptions?.userAgentPrefix
-    );
-    const requestPolicyFactories: RequestPolicyFactory[] = [
-      userAgentPolicy({ value: userAgent }),
-      tracingPolicy({ userAgent }),
+    const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
+    const serviceClientOptions = createPipelineFromOptions(
+      {
+        proxyOptions: options.proxySettings,
+        userAgentOptions: {
+          userAgentPrefix
+        }
+      },
       authPolicy
-    ];
-    if (options && options.proxySettings) {
-      requestPolicyFactories.push(proxyPolicy(options.proxySettings));
-    }
-    const serviceClientOptions: ServiceClientOptions = {
-      requestPolicyFactories: requestPolicyFactories,
-      userAgent
-    };
+    );
+    serviceClientOptions.userAgent = `${userAgentPrefix} ${getDefaultUserAgentValue()}`;
     super(credentials, serviceClientOptions);
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
