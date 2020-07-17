@@ -23,9 +23,9 @@ export function createSpan(
   const span = tracer.startSpan(`Azure.ServiceBus.${operationName}`, spanOptions);
   span.setAttribute("az.namespace", "Microsoft.ServiceBus");
 
-  let newOptions = operationOptions.tracingOptions?.spanOptions || {};
+  let newSpanOptions = operationOptions.tracingOptions?.spanOptions || {};
   if (span.isRecording()) {
-    newOptions = {
+    newSpanOptions = {
       ...operationOptions.tracingOptions?.spanOptions,
       parent: span.context(),
       attributes: {
@@ -39,7 +39,7 @@ export function createSpan(
     span,
     updatedOperationOptions: {
       ...operationOptions,
-      tracingOptions: { ...operationOptions?.tracingOptions, spanOptions: newOptions }
+      tracingOptions: { ...operationOptions?.tracingOptions, spanOptions: newSpanOptions }
     }
   };
 }
