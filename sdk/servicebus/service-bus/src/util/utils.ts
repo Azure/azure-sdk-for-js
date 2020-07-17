@@ -601,8 +601,17 @@ export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJson
  * @returns {string}
  */
 export function getUserAgentForAtomManagementClient(prefix?: string): string {
+  return `${formatUserAgentPrefix(prefix)}${libInfo} (${getDefaultUserAgentValue()})`;
+}
+
+/**
+ * Returns the formatted prefix by removing the spaces, and by adding a space at the end if not an empty string.
+ *
+ * @export
+ * @param {string} [prefix]
+ * @returns {string}
+ */
+export function formatUserAgentPrefix(prefix?: string): string {
   const userAgentPrefix = `${(prefix || "").replace(" ", "")}`;
-  let userAgent = userAgentPrefix.length > 0 ? userAgentPrefix + " " : "";
-  userAgent = userAgent + `${libInfo} (${getDefaultUserAgentValue()})`;
-  return userAgent;
+  return userAgentPrefix.length > 0 ? userAgentPrefix + " " : "";
 }
