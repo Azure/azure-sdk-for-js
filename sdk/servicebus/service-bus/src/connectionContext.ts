@@ -15,7 +15,8 @@ import {
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { ClientEntityContext } from "./clientEntityContext";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
-import { userAgent } from "./util/utils";
+import { userAgentPrefix } from "./util/utils";
+import { getRuntimeInfo } from "./util/runtimeInfo";
 
 /**
  * @internal
@@ -48,7 +49,7 @@ export namespace ConnectionContext {
       isEntityPathRequired: false,
       connectionProperties: {
         product: "MSJSClient",
-        userAgent: userAgent,
+        userAgent: `${userAgentPrefix} (${getRuntimeInfo()})`,
         version: packageJsonInfo.version
       }
     };
