@@ -19,6 +19,7 @@ import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
+import { UserAgentOptions } from '@azure/core-http';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
@@ -279,6 +280,7 @@ export class ServiceBusClient {
 // @public
 export interface ServiceBusClientOptions {
     retryOptions?: RetryOptions;
+    userAgentOptions?: UserAgentOptions;
     webSocketOptions?: WebSocketOptions;
 }
 
@@ -324,6 +326,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 // @public
 export interface ServiceBusManagementClientOptions {
     proxySettings?: ProxySettings;
+    userAgentOptions?: UserAgentOptions;
 }
 
 // @public
