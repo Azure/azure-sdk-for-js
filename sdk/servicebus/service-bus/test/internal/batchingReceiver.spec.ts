@@ -164,7 +164,10 @@ describe("BatchingReceiver unit tests", () => {
         } as EventContext);
 
         const messages = await receivePromise;
-        assert.deepEqual(messages.map((m) => m.body), ["the message"]);
+        assert.deepEqual(
+          messages.map((m) => m.body),
+          ["the message"]
+        );
       }).timeout(5 * 1000);
 
       // in the new world the overall timeout firing means we've received _no_ messages
@@ -221,10 +224,10 @@ describe("BatchingReceiver unit tests", () => {
           clock.tick(1); // make the "no new message arrived within time limit" timer fire.
 
           const messages = await receivePromise;
-          assert.deepEqual(messages.map((m) => m.body), [
-            "the first message",
-            "the second message"
-          ]);
+          assert.deepEqual(
+            messages.map((m) => m.body),
+            ["the first message", "the second message"]
+          );
         }
       ).timeout(5 * 1000);
 
@@ -268,10 +271,10 @@ describe("BatchingReceiver unit tests", () => {
           // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
           // timer fired.
           const messages = await receivePromise;
-          assert.deepEqual(messages.map((m) => m.body), [
-            "the first message",
-            "the second message"
-          ]);
+          assert.deepEqual(
+            messages.map((m) => m.body),
+            ["the first message", "the second message"]
+          );
         }
       ).timeout(5 * 1000);
 
@@ -282,51 +285,52 @@ describe("BatchingReceiver unit tests", () => {
       (lockMode === ReceiveMode.peekLock ? it : it.skip)(
         "4. sanity check that we're using getRemainingWaitTimeInMs",
         async () => {
-        const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-          receiveMode: lockMode
-        });
+          const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
+            receiveMode: lockMode
+          });
 
-        const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+          const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
-        let wasCalled = false;
+          let wasCalled = false;
 
-        const arbitraryAmountOfTimeInMs = 40;
+          const arbitraryAmountOfTimeInMs = 40;
 
-        receiver["_getRemainingWaitTimeInMsFn"] = (
-          maxWaitTimeInMs: number,
-          maxTimeAfterFirstMessageMs: number
-        ) => {
-          // sanity check that the timeouts are passed in correctly....
-          assert.equal(maxWaitTimeInMs, bigTimeout + 1);
-          assert.equal(maxTimeAfterFirstMessageMs, bigTimeout + 2);
+          receiver["_getRemainingWaitTimeInMsFn"] = (
+            maxWaitTimeInMs: number,
+            maxTimeAfterFirstMessageMs: number
+          ) => {
+            // sanity check that the timeouts are passed in correctly....
+            assert.equal(maxWaitTimeInMs, bigTimeout + 1);
+            assert.equal(maxTimeAfterFirstMessageMs, bigTimeout + 2);
 
-          return () => {
-            // and we'll make sure that we did ask the callback from the amount
-            // of time to wait...
-            wasCalled = true;
-            return arbitraryAmountOfTimeInMs;
+            return () => {
+              // and we'll make sure that we did ask the callback from the amount
+              // of time to wait...
+              wasCalled = true;
+              return arbitraryAmountOfTimeInMs;
+            };
           };
-        };
 
-        const receivePromise = receiver.receive(3, bigTimeout + 1, bigTimeout + 2);
-        await receiveIsReady;
+          const receivePromise = receiver.receive(3, bigTimeout + 1, bigTimeout + 2);
+          await receiveIsReady;
 
-        emitter.emit(ReceiverEvents.message, {
-          message: {
-            body: "the second message"
-          } as RheaMessage
-        } as EventContext);
+          emitter.emit(ReceiverEvents.message, {
+            message: {
+              body: "the second message"
+            } as RheaMessage
+          } as EventContext);
 
-        // and just to be _really_ sure we'll only tick the `arbitraryAmountOfTimeInMs`.
-        // if we resolve() then we know that we ignored the passed in timeouts in favor
-        // of what our getRemainingWaitTimeInMs function calculated.
-        clock.tick(arbitraryAmountOfTimeInMs);
+          // and just to be _really_ sure we'll only tick the `arbitraryAmountOfTimeInMs`.
+          // if we resolve() then we know that we ignored the passed in timeouts in favor
+          // of what our getRemainingWaitTimeInMs function calculated.
+          clock.tick(arbitraryAmountOfTimeInMs);
 
-        const messages = await receivePromise;
-        assert.equal(messages.length, 1);
+          const messages = await receivePromise;
+          assert.equal(messages.length, 1);
 
-        assert.isTrue(wasCalled);
-      }).timeout(5 * 1000);
+          assert.isTrue(wasCalled);
+        }
+      ).timeout(5 * 1000);
 
       function setupFakeReceiver(
         batchingReceiver: BatchingReceiver
@@ -370,11 +374,13 @@ describe("BatchingReceiver unit tests", () => {
               credits += _credits;
             }
           },
-          get credit() { return credits }
+          get credit() {
+            return credits;
+          }
         } as RheaReceiver;
 
         batchingReceiver["_receiver"] = fakeRheaReceiver;
-        
+
         batchingReceiver["_getServiceBusMessage"] = (eventContext) => {
           return {
             body: eventContext.message?.body

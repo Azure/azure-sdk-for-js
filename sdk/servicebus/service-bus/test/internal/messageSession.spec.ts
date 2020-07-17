@@ -6,10 +6,15 @@ import chaiAsPromised from "chai-as-promised";
 import { MessageSession } from "../../src/session/messageSession";
 import { createClientEntityContextForTests, defer } from "./unittestUtils";
 import sinon from "sinon";
-import { EventEmitter } from 'events';
-import { ReceiverEvents, Receiver as RheaReceiver, EventContext, Message as RheaMessage } from 'rhea-promise';
-import { OnAmqpEventAsPromise } from '../../src/core/messageReceiver';
-import { ServiceBusMessageImpl, ReceiveMode } from '../../src/serviceBusMessage';
+import { EventEmitter } from "events";
+import {
+  ReceiverEvents,
+  Receiver as RheaReceiver,
+  EventContext,
+  Message as RheaMessage
+} from "rhea-promise";
+import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
+import { ServiceBusMessageImpl, ReceiveMode } from "../../src/serviceBusMessage";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -56,7 +61,10 @@ describe("Message session unit tests", () => {
           } as EventContext);
 
           const messages = await receivePromise;
-          assert.deepEqual(messages.map((m) => m.body), ["the message"]);
+          assert.deepEqual(
+            messages.map((m) => m.body),
+            ["the message"]
+          );
         }).timeout(5 * 1000);
 
         // in the new world the overall timeout firing means we've received _no_ messages
@@ -113,10 +121,10 @@ describe("Message session unit tests", () => {
             clock.tick(1); // make the "no new message arrived within time limit" timer fire.
 
             const messages = await receivePromise;
-            assert.deepEqual(messages.map((m) => m.body), [
-              "the first message",
-              "the second message"
-            ]);
+            assert.deepEqual(
+              messages.map((m) => m.body),
+              ["the first message", "the second message"]
+            );
           }
         ).timeout(5 * 1000);
 
@@ -160,10 +168,10 @@ describe("Message session unit tests", () => {
             // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
             // timer fired.
             const messages = await receivePromise;
-            assert.deepEqual(messages.map((m) => m.body), [
-              "the first message",
-              "the second message"
-            ]);
+            assert.deepEqual(
+              messages.map((m) => m.body),
+              ["the first message", "the second message"]
+            );
           }
         ).timeout(5 * 1000);
 
@@ -218,10 +226,11 @@ describe("Message session unit tests", () => {
             assert.equal(messages.length, 1);
 
             assert.isTrue(wasCalled);
-          }).timeout(5 * 1000);
+          }
+        ).timeout(5 * 1000);
       });
     });
-    
+
     function setupFakeReceiver(
       messageSession: MessageSession
     ): {
@@ -241,7 +250,7 @@ describe("Message session unit tests", () => {
             // as part of it's initialization.
             resolvePromiseIsReady();
           }
-          
+
           if (evt === ReceiverEvents.message) {
             --credits;
           }
@@ -258,11 +267,13 @@ describe("Message session unit tests", () => {
             credits += _credits;
           }
         },
-        get credit() { return credits }
+        get credit() {
+          return credits;
+        }
       } as RheaReceiver;
 
       messageSession["_receiver"] = fakeRheaReceiver;
-        
+
       messageSession["_getServiceBusMessage"] = (eventContext) => {
         return {
           body: eventContext.message?.body
