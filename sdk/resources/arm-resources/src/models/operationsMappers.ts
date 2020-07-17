@@ -10,7 +10,7 @@ export {
   CloudError,
   ErrorAdditionalInfo,
   ErrorResponse,
-  Operation,
+  Operation1,
   OperationDisplay,
   OperationListResult
 } from "../models/mappers";
