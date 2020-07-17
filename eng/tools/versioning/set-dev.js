@@ -169,12 +169,13 @@ const updateOtherProjectDependencySections = (rushPackages, package, depName) =>
 };
 
 /*
-add a logic checking rush common-versions for the exact version I am replacing dev tags for - if that version is present in common-versions
-- then i might need to update common-versions adding the dev version as well as an exception
+Check rush common-versions for the exact version to replace dev tags for - if that version is present 
+in common-versions - then update common-versions adding the dev version as an exception
 */
 const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, searchVersion, devVersion) => {
   var allowedAlternativeVersions = commonVersionsConfig["allowedAlternativeVersions"];
   const parsedSearchVersion = semver.parse(searchVersion);
+
   if (allowedAlternativeVersions[package]) {
     for (var version of allowedAlternativeVersions[package]) {
       const parsedPackageVersion = semver.minVersion(version);
@@ -185,7 +186,6 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
         break;
       }
     }
-
   }
 
   var newConfig = commonVersionsConfig;
