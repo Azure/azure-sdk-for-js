@@ -9,5 +9,15 @@ import * as os from "os";
  * @internal
  */
 export function getRuntimeInfo(): string {
-  return `NODE-VERSION ${process.version}; ${os.type()} ${os.release()}`;
+  const runtimeInfo = {
+    key: "Node",
+    value: process.version
+  };
+
+  const osInfo = {
+    key: "OS",
+    value: `(${os.arch()}-${os.type()}-${os.release()})`
+  };
+
+  return `${[runtimeInfo, osInfo]}`;
 }

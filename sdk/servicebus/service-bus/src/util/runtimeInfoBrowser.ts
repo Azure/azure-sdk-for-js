@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-interface Window {}
-declare let self: Window & typeof globalThis & { navigator: Navigator };
-
-interface Navigator {
-  /**
-   * Returns a string representing the browser version info.
-   */
-  appVersion: string;
+interface NavigatorEx extends Navigator {
+  // oscpu is not yet standards-compliant, but can not be undefined in TypeScript 3.6.2
+  readonly oscpu: string;
 }
 
 /**
@@ -17,14 +12,11 @@ interface Navigator {
  * @internal
  */
 export function getRuntimeInfo(): string {
-  return `BROWSER-VERSION; Browser ${getReleaseInfo()}`;
-}
+  const navigator = window.navigator as NavigatorEx;
+  const osInfo = {
+    key: "OS",
+    value: (navigator.oscpu || navigator.platform).replace(" ", "")
+  };
 
-function getReleaseInfo(): string {
-  if (typeof self === "undefined") {
-    return "";
-  }
-
-  const navigator = self.navigator;
-  return navigator.appVersion;
+  return `${[osInfo]}`;
 }
