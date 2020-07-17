@@ -11,7 +11,7 @@ import {
   recorderEnvSetup,
   getGenericBSU
 } from "./utils";
-import { record, delay, isPlaybackMode } from "@azure/test-utils-recorder";
+import { record, delay, isLiveMode } from "@azure/test-utils-recorder";
 import {
   BlobClient,
   BlockBlobClient,
@@ -818,7 +818,7 @@ describe("BlobClient - Verify Name Properties", () => {
   });
 });
 
-describe("BlobClient - Object Replication", () => {
+describe.only("BlobClient - Object Replication", () => {
   const srcContainerName = "orssrc";
   const destContainerName = "orsdst";
   const blobName = "orsBlob";
@@ -853,7 +853,7 @@ describe("BlobClient - Object Replication", () => {
   ];
 
   before(async function() {
-    if (!isPlaybackMode()) {
+    if (isLiveMode()) {
       this.skip();
     }
   });
@@ -869,7 +869,7 @@ describe("BlobClient - Object Replication", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("source blob get properties", async () => {
