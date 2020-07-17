@@ -8,7 +8,6 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { getRuntimeInfo } from "./runtimeInfo";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -588,9 +587,7 @@ export function checkAndRegisterWithAbortSignal(
 }
 
 /**
- * @property {string} userAgent The user agent string for the ServiceBus client.
+ * @property {string} userAgentPrefix The user agent prefix string for the ServiceBus client.
  * See guideline at https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy
  */
-export const userAgent: string = `azsdk-js-azureservicebus/${
-  Constants.packageJsonInfo.version
-} (${getRuntimeInfo()})`;
+export const userAgentPrefix: string = `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}`;
