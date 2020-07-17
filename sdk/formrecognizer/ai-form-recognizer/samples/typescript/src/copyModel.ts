@@ -6,11 +6,7 @@
  * to a target Form Recognizer resource.
  */
 
-import {
-  FormTrainingClient,
-  AzureKeyCredential,
-  BeginCopyModelPollState
-} from "@azure/ai-form-recognizer";
+import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -41,7 +37,7 @@ export async function main() {
 
   const sourceClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await sourceClient.beginCopyModel(sourceModelId, authorization, {
-    onProgress: (state: BeginCopyModelPollState) => {
+    onProgress: (state) => {
       console.log(`Copy model status: ${state.status}`);
     }
   });

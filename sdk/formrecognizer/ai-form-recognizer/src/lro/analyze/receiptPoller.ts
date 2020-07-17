@@ -3,7 +3,6 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import { RecognizeReceiptsOptions } from "../../formRecognizerClient";
 
 import {
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
@@ -12,6 +11,7 @@ import {
 import { FormContentType } from "../../common";
 import { FormRecognizerRequestBody, RecognizedFormArray } from "../../models";
 import { RecognizeFormResultResponse } from "../../internalModels";
+import { RecognizeFormsOptions } from "../../formRecognizerClient";
 export { OperationStatus };
 
 export interface ReceiptPollerOperationOptions {
@@ -38,7 +38,7 @@ export type RecognizeReceiptPollerClient = {
   beginRecognize: (
     source: FormRecognizerRequestBody | string,
     contentType?: FormContentType,
-    analyzeOptions?: RecognizeReceiptsOptions
+    analyzeOptions?: RecognizeFormsOptions
   ) => Promise<AnalyzeReceiptAsyncResponseModel>;
   // retrieves analyze result
   getRecognizeResult: (
@@ -53,7 +53,7 @@ export interface BeginRecognizeReceiptPollState extends PollOperationState<Recog
   contentType?: FormContentType;
   resultId?: string;
   status: OperationStatus;
-  readonly analyzeOptions?: RecognizeReceiptsOptions;
+  readonly analyzeOptions?: RecognizeFormsOptions;
 }
 
 export interface BeginRecognizeReceiptPollerOperation
@@ -70,7 +70,7 @@ export type BeginRecognizeReceiptPollerOptions = {
   resultId?: string;
   onProgress?: (state: BeginRecognizeReceiptPollState) => void;
   resumeFrom?: string;
-} & RecognizeReceiptsOptions;
+} & RecognizeFormsOptions;
 
 /**
  * Class that represents a poller that waits until a model has been trained.
