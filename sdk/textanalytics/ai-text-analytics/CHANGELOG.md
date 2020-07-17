@@ -1,6 +1,9 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.1.0-preview.1 (unreleased)
+
+- Begin using version 3.1-preview.1 that has support for opinion mining, a new feature of Sentiment Analysis.
+- The `text` property of the `SentenceSentiment` interface is no longer optional because the service always returns it.
 
 
 ## 1.0.0 (2020-06-09)
