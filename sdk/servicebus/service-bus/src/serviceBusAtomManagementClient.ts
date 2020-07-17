@@ -9,7 +9,6 @@ import {
 } from "@azure/core-amqp";
 import {
   bearerTokenAuthenticationPolicy,
-  getDefaultUserAgentValue,
   HttpOperationResponse,
   OperationOptions,
   proxyPolicy,
@@ -23,6 +22,7 @@ import {
   stripResponse,
   tracingPolicy,
   URLBuilder,
+  UserAgentOptions,
   userAgentPolicy,
   WebResource
 } from "@azure/core-http";
@@ -68,7 +68,7 @@ import {
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { isAbsoluteUrl, isJSONLikeObject, userAgentPrefix } from "./util/utils";
+import { getUserAgentForAtomManagementClient, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 import { createSpan, getCanonicalCode } from "./util/tracing";
 import { parseURL } from "./util/parseUrl";
 
@@ -80,6 +80,12 @@ export interface ServiceBusManagementClientOptions {
    * Proxy related settings
    */
   proxySettings?: ProxySettings;
+  /**
+   * Options for adding user agent details to outgoing requests.
+   *
+   * @type {UserAgentOptions}
+   */
+  userAgentOptions?: UserAgentOptions;
 }
 
 /**
@@ -208,7 +214,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     credential: TokenCredential,
     options?: ServiceBusManagementClientOptions
   );
-
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
@@ -218,16 +223,12 @@ export class ServiceBusManagementClient extends ServiceClient {
     let options: ServiceBusManagementClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
-    const userAgent = `${userAgentPrefix} (${getDefaultUserAgentValue()})`;
-    requestPolicyFactories.push(userAgentPolicy({ value: userAgent }));
-    requestPolicyFactories.push(tracingPolicy({ userAgent }));
+    let authPolicy: RequestPolicyFactory;
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
       credentials = credentialOrOptions2;
-      requestPolicyFactories.push(
-        bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope)
-      );
+      authPolicy = bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope);
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
@@ -244,8 +245,14 @@ export class ServiceBusManagementClient extends ServiceClient {
         connectionStringObj.SharedAccessKeyName,
         connectionStringObj.SharedAccessKey
       );
-      requestPolicyFactories.push(signingPolicy(credentials));
+      authPolicy = signingPolicy(credentials);
     }
+    const userAgent = getUserAgentForAtomManagementClient(
+      options.userAgentOptions?.userAgentPrefix
+    );
+    requestPolicyFactories.push(userAgentPolicy({ value: userAgent }));
+    requestPolicyFactories.push(tracingPolicy({ userAgent }));
+    requestPolicyFactories.push(authPolicy);
     if (options && options.proxySettings) {
       requestPolicyFactories.push(proxyPolicy(options.proxySettings));
     }

@@ -15,7 +15,7 @@ import {
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { ClientEntityContext } from "./clientEntityContext";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
-import { userAgentPrefix } from "./util/utils";
+import { libInfo } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 
 /**
@@ -41,6 +41,9 @@ export namespace ConnectionContext {
     options?: ServiceBusClientOptions
   ): ConnectionContext {
     if (!options) options = {};
+    const userAgentPrefix = `${(options.userAgentOptions?.userAgentPrefix || "").replace(" ", "")}`;
+    let userAgent = userAgentPrefix.length > 0 ? userAgentPrefix + " " : "";
+    userAgent = userAgent + `${libInfo} (${getRuntimeInfo()})`;
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
       tokenCredential: tokenCredential,
@@ -49,7 +52,7 @@ export namespace ConnectionContext {
       isEntityPathRequired: false,
       connectionProperties: {
         product: "MSJSClient",
-        userAgent: `${userAgentPrefix} (${getRuntimeInfo()})`,
+        userAgent,
         version: packageJsonInfo.version
       }
     };
