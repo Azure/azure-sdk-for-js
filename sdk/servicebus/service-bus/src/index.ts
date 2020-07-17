@@ -33,18 +33,18 @@ export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
-export { QueueDescription, QueueRuntimeProperties } from "./serializers/queueResourceSerializer";
+export { QueueProperties, QueueRuntimeProperties } from "./serializers/queueResourceSerializer";
 export {
-  RuleDescription,
+  RuleProperties,
   SqlParameter,
   SqlRuleAction,
   SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 export {
-  SubscriptionDescription,
+  SubscriptionProperties,
   SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
-export { TopicDescription, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
+export { TopicProperties, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
   ListRequestOptions,

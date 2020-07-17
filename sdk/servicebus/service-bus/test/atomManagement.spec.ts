@@ -8,10 +8,10 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
-import { QueueDescription } from "../src/serializers/queueResourceSerializer";
-import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
-import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
-import { TopicDescription } from "../src/serializers/topicResourceSerializer";
+import { QueueProperties } from "../src/serializers/queueResourceSerializer";
+import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
+import { SubscriptionProperties } from "../src/serializers/subscriptionResourceSerializer";
+import { TopicProperties } from "../src/serializers/topicResourceSerializer";
 import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 import { EntityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
@@ -2372,10 +2372,10 @@ async function createEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "name">,
-  topicOptions?: Omit<TopicDescription, "name">,
-  subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "name">
+  queueOptions?: Omit<QueueProperties, "name">,
+  topicOptions?: Omit<TopicProperties, "name">,
+  subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
+  ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -2588,10 +2588,10 @@ async function updateEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "name">,
-  topicOptions?: Omit<TopicDescription, "name">,
-  subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "name">
+  queueOptions?: Omit<QueueProperties, "name">,
+  topicOptions?: Omit<TopicProperties, "name">,
+  subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
+  ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {

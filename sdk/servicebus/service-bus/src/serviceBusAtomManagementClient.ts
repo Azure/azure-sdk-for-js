@@ -35,13 +35,13 @@ import {
   buildQueueOptions,
   buildQueueRuntimeProperties,
   InternalQueueOptions,
-  QueueDescription,
+  QueueProperties,
   QueueResourceSerializer,
   QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
 import {
   buildRule,
-  RuleDescription,
+  RuleProperties,
   RuleResourceSerializer
 } from "./serializers/ruleResourceSerializer";
 import {
@@ -49,7 +49,7 @@ import {
   buildSubscriptionOptions,
   buildSubscriptionRuntimeProperties,
   InternalSubscriptionOptions,
-  SubscriptionDescription,
+  SubscriptionProperties,
   SubscriptionResourceSerializer,
   SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
@@ -58,7 +58,7 @@ import {
   buildTopicOptions,
   buildTopicRuntimeProperties,
   InternalTopicOptions,
-  TopicDescription,
+  TopicProperties,
   TopicResourceSerializer,
   TopicRuntimeProperties
 } from "./serializers/topicResourceSerializer";
@@ -124,12 +124,12 @@ export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, 
 /**
  * Represents result of create, get, and update operations on queue.
  */
-export interface QueueResponse extends QueueDescription, Response {}
+export interface QueueResponse extends QueueProperties, Response {}
 
 /**
  * Represents result of create, get, and update operations on topic.
  */
-export interface TopicResponse extends TopicDescription, Response {}
+export interface TopicResponse extends TopicProperties, Response {}
 
 /**
  * Represents runtime info of a topic.
@@ -139,7 +139,7 @@ export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, 
 /**
  * Represents result of create, get, and update operations on subscription.
  */
-export interface SubscriptionResponse extends SubscriptionDescription, Response {}
+export interface SubscriptionResponse extends SubscriptionProperties, Response {}
 
 /**
  * Represents runtime info of a subscription.
@@ -149,7 +149,7 @@ export interface SubscriptionRuntimePropertiesResponse extends SubscriptionRunti
 /**
  * Represents result of create, get, and update operations on rule.
  */
-export interface RuleResponse extends RuleDescription, Response {}
+export interface RuleResponse extends RuleProperties, Response {}
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
@@ -311,14 +311,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createQueue(
-    queue: QueueDescription,
+    queue: QueueProperties,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse>;
   async createQueue(
-    queueNameOrOptions: string | QueueDescription,
+    queueNameOrOptions: string | QueueProperties,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
-    let queue: QueueDescription;
+    let queue: QueueProperties;
     if (typeof queueNameOrOptions === "string") {
       queue = { name: queueNameOrOptions };
     } else {
@@ -410,7 +410,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   private async listQueues(
     options?: ListRequestOptions & OperationOptions
-  ): Promise<EntitiesResponse<QueueDescription>> {
+  ): Promise<EntitiesResponse<QueueProperties>> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Queues",
@@ -423,7 +423,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listQueuesPage(
     marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<EntitiesResponse<QueueDescription>> {
+  ): AsyncIterableIterator<EntitiesResponse<QueueProperties>> {
     let listResponse;
     do {
       listResponse = await this.listQueues({
@@ -438,7 +438,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private async *listQueuesAll(
     options: OperationOptions = {}
-  ): AsyncIterableIterator<QueueDescription> {
+  ): AsyncIterableIterator<QueueProperties> {
     let marker: string | undefined;
     for await (const segment of this.listQueuesPage(marker, options)) {
       yield* segment;
@@ -452,14 +452,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    *
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<
-   *     QueueDescription,
-   *     EntitiesResponse<QueueDescription>,
+   *     QueueProperties,
+   *     EntitiesResponse<QueueProperties>,
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
   public getQueues(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<QueueDescription, EntitiesResponse<QueueDescription>> {
+  ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
     const iter = this.listQueuesAll(options);
     return {
@@ -588,9 +588,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates the queue based on the queue description provided.
-   * All properties on the queue description must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getQueue()` to get the queue description with all properties set,
+   * Updates the queue based on the queue properties provided.
+   * All queue properties must be set even though only a subset of them are actually updatable.
+   * Therefore, the suggested flow is to use `getQueue()` to get the complete set of queue properties,
    * update as needed and then pass it to `updateQueue()`.
    * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue for more details.
    *
@@ -613,7 +613,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateQueue(
-    queue: QueueDescription,
+    queue: QueueProperties,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     log.httpAtomXml(
@@ -622,7 +622,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
     if (!isJSONLikeObject(queue) || queue == null) {
       throw new TypeError(
-        `Parameter "queue" must be an object of type "QueueDescription" and cannot be undefined or null.`
+        `Parameter "queue" must be an object of type "QueueProperties" and cannot be undefined or null.`
       );
     }
 
@@ -720,14 +720,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createTopic(
-    topic: TopicDescription,
+    topic: TopicProperties,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse>;
   async createTopic(
-    topicNameOrOptions: string | TopicDescription,
+    topicNameOrOptions: string | TopicProperties,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
-    let topic: TopicDescription;
+    let topic: TopicProperties;
     if (typeof topicNameOrOptions === "string") {
       topic = { name: topicNameOrOptions };
     } else {
@@ -819,7 +819,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   private async listTopics(
     options?: ListRequestOptions & OperationOptions
-  ): Promise<EntitiesResponse<TopicDescription>> {
+  ): Promise<EntitiesResponse<TopicProperties>> {
     log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const response: HttpOperationResponse = await this.listResources(
       "$Resources/Topics",
@@ -833,7 +833,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listTopicsPage(
     marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<EntitiesResponse<TopicDescription>> {
+  ): AsyncIterableIterator<EntitiesResponse<TopicProperties>> {
     let listResponse;
     do {
       listResponse = await this.listTopics({
@@ -848,7 +848,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private async *listTopicsAll(
     options: OperationOptions = {}
-  ): AsyncIterableIterator<TopicDescription> {
+  ): AsyncIterableIterator<TopicProperties> {
     let marker: string | undefined;
     for await (const segment of this.listTopicsPage(marker, options)) {
       yield* segment;
@@ -863,14 +863,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    *
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<
-   *     TopicDescription,
-   *     EntitiesResponse<TopicDescription>,
+   *     TopicProperties,
+   *     EntitiesResponse<TopicProperties>,
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
   public getTopics(
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<TopicDescription, EntitiesResponse<TopicDescription>> {
+  ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
     log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
     const iter = this.listTopicsAll(options);
     return {
@@ -998,9 +998,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates the topic based on the topic description provided.
-   * All properties on the topic description must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getTopic()` to get the topic description with all properties set,
+   * Updates the topic based on the topic properties provided.
+   * All topic properties must be set even though only a subset of them are actually updatable.
+   * Therefore, the suggested flow is to use `getTopic()` to get the complete set of topic properties,
    * update as needed and then pass it to `updateTopic()`.
    * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-topic for more details.
    *
@@ -1020,7 +1020,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateTopic(
-    topic: TopicDescription,
+    topic: TopicProperties,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
     log.httpAtomXml(
@@ -1029,7 +1029,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
     if (!isJSONLikeObject(topic) || topic == null) {
       throw new TypeError(
-        `Parameter "topic" must be an object of type "TopicDescription" and cannot be undefined or null.`
+        `Parameter "topic" must be an object of type "TopicProperties" and cannot be undefined or null.`
       );
     }
 
@@ -1133,15 +1133,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createSubscription(
-    subscription: SubscriptionDescription,
+    subscription: SubscriptionProperties,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse>;
   async createSubscription(
-    topicNameOrSubscriptionOptions: string | SubscriptionDescription,
+    topicNameOrSubscriptionOptions: string | SubscriptionProperties,
     subscriptionNameOrOperationOptions?: string | OperationOptions,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
-    let subscription: SubscriptionDescription;
+    let subscription: SubscriptionProperties;
     let operOptions: OperationOptions | undefined;
     if (typeof subscriptionNameOrOperationOptions === "string") {
       if (typeof topicNameOrSubscriptionOptions !== "string") {
@@ -1153,7 +1153,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       };
       operOptions = operationOptions;
     } else {
-      subscription = topicNameOrSubscriptionOptions as SubscriptionDescription;
+      subscription = topicNameOrSubscriptionOptions as SubscriptionProperties;
       operOptions = subscriptionNameOrOperationOptions;
     }
     log.httpAtomXml(
@@ -1261,7 +1261,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async listSubscriptions(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
-  ): Promise<EntitiesResponse<SubscriptionDescription>> {
+  ): Promise<EntitiesResponse<SubscriptionProperties>> {
     log.httpAtomXml(
       `Performing management operation - listSubscriptions() with options: ${options}`
     );
@@ -1278,7 +1278,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<EntitiesResponse<SubscriptionDescription>> {
+  ): AsyncIterableIterator<EntitiesResponse<SubscriptionProperties>> {
     let listResponse;
     do {
       listResponse = await this.listSubscriptions(topicName, {
@@ -1294,7 +1294,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private async *listSubscriptionsAll(
     topicName: string,
     options: OperationOptions = {}
-  ): AsyncIterableIterator<SubscriptionDescription> {
+  ): AsyncIterableIterator<SubscriptionProperties> {
     let marker: string | undefined;
     for await (const segment of this.listSubscriptionsPage(topicName, marker, options)) {
       yield* segment;
@@ -1312,8 +1312,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param {string} topicName
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<
-   *     SubscriptionDescription,
-   *     EntitiesResponse<SubscriptionDescription>
+   *     SubscriptionProperties,
+   *     EntitiesResponse<SubscriptionProperties>
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
@@ -1321,8 +1321,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
-    SubscriptionDescription,
-    EntitiesResponse<SubscriptionDescription>
+    SubscriptionProperties,
+    EntitiesResponse<SubscriptionProperties>
   > {
     log.httpAtomXml(
       `Performing management operation - getSubscriptions() with options: ${options}`
@@ -1464,9 +1464,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
-   * Updates the subscription based on the subscription description provided.
-   * All properties on the subscription description must be set even though only a subset of them are actually updatable.
-   * Therefore, the suggested flow is to use `getSubscription()` to get the subscription description with all properties set,
+   * Updates the subscription based on the subscription properties provided.
+   * All subscription properties must be set even though only a subset of them are actually updatable.
+   * Therefore, the suggested flow is to use `getSubscription()` to get the complete set of subscription properties,
    * update as needed and then pass it to `updateSubscription()`.
    *
    * @param subscription Object representing the subscription with one or more of the below properties updated
@@ -1486,7 +1486,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateSubscription(
-    subscription: SubscriptionDescription,
+    subscription: SubscriptionProperties,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
     log.httpAtomXml(
@@ -1495,7 +1495,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
     if (!isJSONLikeObject(subscription) || subscription == null) {
       throw new TypeError(
-        `Parameter "subscription" must be an object of type "SubscriptionDescription" and cannot be undefined or null.`
+        `Parameter "subscription" must be an object of type "SubscriptionProperties" and cannot be undefined or null.`
       );
     }
 
@@ -1602,7 +1602,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createRule(
     topicName: string,
     subscriptionName: string,
-    rule: RuleDescription,
+    rule: RuleProperties,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     log.httpAtomXml(
@@ -1672,7 +1672,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
-  ): Promise<EntitiesResponse<RuleDescription>> {
+  ): Promise<EntitiesResponse<RuleProperties>> {
     log.httpAtomXml(`Performing management operation - listRules() with options: ${options}`);
     const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
     const response: HttpOperationResponse = await this.listResources(
@@ -1689,7 +1689,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     subscriptionName: string,
     marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<EntitiesResponse<RuleDescription>> {
+  ): AsyncIterableIterator<EntitiesResponse<RuleProperties>> {
     let listResponse;
     do {
       listResponse = await this.listRules(topicName, subscriptionName, {
@@ -1706,7 +1706,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     options: OperationOptions = {}
-  ): AsyncIterableIterator<RuleDescription> {
+  ): AsyncIterableIterator<RuleProperties> {
     let marker: string | undefined;
     for await (const segment of this.listRulesPage(topicName, subscriptionName, marker, options)) {
       yield* segment;
@@ -1722,14 +1722,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param {string} topicName
    * @param {string} subscriptionName
    * @param {OperationOptions} [options]
-   * @returns {PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>>} An asyncIterableIterator that supports paging.
+   * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
   public getRules(
     topicName: string,
     subscriptionName: string,
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<RuleDescription, EntitiesResponse<RuleDescription>> {
+  ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
     log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
@@ -1779,7 +1779,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async updateRule(
     topicName: string,
     subscriptionName: string,
-    rule: RuleDescription,
+    rule: RuleProperties,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     log.httpAtomXml(
@@ -1788,7 +1788,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 
     if (!isJSONLikeObject(rule) || rule === null) {
       throw new TypeError(
-        `Parameter "rule" must be an object of type "RuleDescription" and cannot be undefined or null.`
+        `Parameter "rule" must be an object of type "RuleProperties" and cannot be undefined or null.`
       );
     }
 
@@ -1855,7 +1855,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       | InternalQueueOptions
       | InternalTopicOptions
       | InternalSubscriptionOptions
-      | RuleDescription,
+      | RuleProperties,
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {}
@@ -2030,9 +2030,9 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListQueuesResponse(
     response: HttpOperationResponse
-  ): EntitiesResponse<QueueDescription> {
+  ): EntitiesResponse<QueueProperties> {
     try {
-      const queues: QueueDescription[] = [];
+      const queues: QueueProperties[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
@@ -2044,7 +2044,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           queues.push(queue);
         }
       }
-      const listQueuesResponse: EntitiesResponse<QueueDescription> = Object.assign(queues, {
+      const listQueuesResponse: EntitiesResponse<QueueProperties> = Object.assign(queues, {
         _response: response
       });
       listQueuesResponse.continuationToken = nextMarker;
@@ -2134,9 +2134,9 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListTopicsResponse(
     response: HttpOperationResponse
-  ): EntitiesResponse<TopicDescription> {
+  ): EntitiesResponse<TopicProperties> {
     try {
-      const topics: TopicDescription[] = [];
+      const topics: TopicProperties[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
@@ -2148,7 +2148,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           topics.push(topic);
         }
       }
-      const listTopicsResponse: EntitiesResponse<TopicDescription> = Object.assign(topics, {
+      const listTopicsResponse: EntitiesResponse<TopicProperties> = Object.assign(topics, {
         _response: response
       });
       listTopicsResponse.continuationToken = nextMarker;
@@ -2237,9 +2237,9 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListSubscriptionsResponse(
     response: HttpOperationResponse
-  ): EntitiesResponse<SubscriptionDescription> {
+  ): EntitiesResponse<SubscriptionProperties> {
     try {
-      const subscriptions: SubscriptionDescription[] = [];
+      const subscriptions: SubscriptionProperties[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
@@ -2251,7 +2251,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: EntitiesResponse<SubscriptionDescription> = Object.assign(
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> = Object.assign(
         subscriptions,
         {
           _response: response
@@ -2352,9 +2352,9 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   private buildListRulesResponse(
     response: HttpOperationResponse
-  ): EntitiesResponse<RuleDescription> {
+  ): EntitiesResponse<RuleProperties> {
     try {
-      const rules: RuleDescription[] = [];
+      const rules: RuleProperties[] = [];
       const nextMarker = this.getMarkerFromNextLinkUrl(response.parsedBody.nextLink);
       if (!Array.isArray(response.parsedBody)) {
         throw new TypeError(`${response.parsedBody} was expected to be of type Array`);
@@ -2366,7 +2366,7 @@ export class ServiceBusManagementClient extends ServiceClient {
           rules.push(rule);
         }
       }
-      const listRulesResponse: EntitiesResponse<RuleDescription> = Object.assign(rules, {
+      const listRulesResponse: EntitiesResponse<RuleProperties> = Object.assign(rules, {
         _response: response
       });
       listRulesResponse.continuationToken = nextMarker;

@@ -29,7 +29,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param topic
  */
-export function buildTopicOptions(topic: TopicDescription): InternalTopicOptions {
+export function buildTopicOptions(topic: TopicProperties): InternalTopicOptions {
   return {
     DefaultMessageTimeToLive: topic.defaultMessageTtl,
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
@@ -52,7 +52,7 @@ export function buildTopicOptions(topic: TopicDescription): InternalTopicOptions
  * response from the service
  * @param rawTopic
  */
-export function buildTopic(rawTopic: any): TopicDescription {
+export function buildTopic(rawTopic: any): TopicProperties {
   return {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     maxSizeInMegabytes: getInteger(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
@@ -107,7 +107,7 @@ export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperti
 /**
  * Represents settable options on a topic
  */
-export interface TopicDescription {
+export interface TopicProperties {
   /**
    * Name of the topic
    */
@@ -168,7 +168,7 @@ export interface TopicDescription {
   status?: EntityStatus;
 
   /**
-   * The user provided metadata information associated with the topic description.
+   * The user provided metadata information associated with the topic.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -256,7 +256,7 @@ export interface InternalTopicOptions {
   Status?: string;
 
   /**
-   * The user provided metadata information associated with the topic description.
+   * The user provided metadata information associated with the topic.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
