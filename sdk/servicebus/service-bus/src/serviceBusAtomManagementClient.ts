@@ -218,11 +218,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
     requestPolicyFactories.push(userAgentPolicy({ value: userAgent }));
-    requestPolicyFactories.push(
-      // TODO: Update the userAgent in ConnectionContext to properly distinguish among Node and browser (Reference: EventHubs)
-      //       And use the same userAgent string for both ServiceBusManagementClient and the ServiceBusClient.
-      tracingPolicy({ userAgent })
-    );
+    requestPolicyFactories.push(tracingPolicy({ userAgent }));
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
