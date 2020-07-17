@@ -1247,9 +1247,10 @@ export const ManagedServiceIdentity: msRest.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "None",
             "SystemAssigned",
-            "UserAssigned"
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
           ]
         }
       },
@@ -2110,6 +2111,12 @@ export const SiteConfig: msRest.CompositeMapper = {
       },
       nodeVersion: {
         serializedName: "nodeVersion",
+        type: {
+          name: "String"
+        }
+      },
+      powerShellVersion: {
+        serializedName: "powerShellVersion",
         type: {
           name: "String"
         }
@@ -7499,9 +7506,10 @@ export const ApiKVReference: msRest.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "None",
             "SystemAssigned",
-            "UserAssigned"
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
           ]
         }
       },
@@ -7647,6 +7655,23 @@ export const ApplicationLogsConfig: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AzureBlobStorageApplicationLogsConfig"
+        }
+      }
+    }
+  }
+};
+
+export const ArmIdWrapper: msRest.CompositeMapper = {
+  serializedName: "ArmIdWrapper",
+  type: {
+    name: "Composite",
+    className: "ArmIdWrapper",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
         }
       }
     }
@@ -8453,6 +8478,51 @@ export const CsmCopySlotEntity: msRest.CompositeMapper = {
   }
 };
 
+export const CsmPublishingCredentialsPoliciesEntity: msRest.CompositeMapper = {
+  serializedName: "CsmPublishingCredentialsPoliciesEntity",
+  type: {
+    name: "Composite",
+    className: "CsmPublishingCredentialsPoliciesEntity",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      allow: {
+        required: true,
+        serializedName: "properties.allow",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const CsmPublishingCredentialsPoliciesCollection: msRest.CompositeMapper = {
+  serializedName: "CsmPublishingCredentialsPoliciesCollection",
+  type: {
+    name: "Composite",
+    className: "CsmPublishingCredentialsPoliciesCollection",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      ftp: {
+        required: true,
+        serializedName: "properties.ftp",
+        type: {
+          name: "Composite",
+          className: "CsmPublishingCredentialsPoliciesEntity"
+        }
+      },
+      scm: {
+        required: true,
+        serializedName: "properties.scm",
+        type: {
+          name: "Composite",
+          className: "CsmPublishingCredentialsPoliciesEntity"
+        }
+      }
+    }
+  }
+};
+
 export const CsmPublishingProfileOptions: msRest.CompositeMapper = {
   serializedName: "CsmPublishingProfileOptions",
   type: {
@@ -9121,9 +9191,10 @@ export const KeyVaultReferenceResource: msRest.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "None",
             "SystemAssigned",
-            "UserAssigned"
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
           ]
         }
       },
@@ -9795,6 +9866,187 @@ export const PrivateAccess: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PrivateAccessVirtualNetwork"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkConnectionState: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkConnectionState",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionResource: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnectionResource",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionResource",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpoint: {
+        serializedName: "properties.privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "ArmIdWrapper"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkConnectionState"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkConnectionApprovalRequestResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkConnectionApprovalRequestResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkConnectionApprovalRequestResource",
+    modelProperties: {
+      ...ProxyOnlyResource.type.modelProperties,
+      privateLinkServiceConnectionState: {
+        serializedName: "properties.privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkConnectionState"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourceProperties: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResourceProperties",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourceProperties",
+    modelProperties: {
+      groupId: {
+        readOnly: true,
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        readOnly: true,
+        serializedName: "requiredMembers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredZoneNames: {
+        readOnly: true,
+        serializedName: "requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      id: {
+        required: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        required: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourcesWrapper: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResourcesWrapper",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourcesWrapper",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
             }
           }
         }
@@ -10675,6 +10927,12 @@ export const SiteConfigResource: msRest.CompositeMapper = {
       },
       nodeVersion: {
         serializedName: "properties.nodeVersion",
+        type: {
+          name: "String"
+        }
+      },
+      powerShellVersion: {
+        serializedName: "properties.powerShellVersion",
         type: {
           name: "String"
         }
