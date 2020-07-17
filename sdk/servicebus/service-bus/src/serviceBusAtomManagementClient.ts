@@ -9,6 +9,7 @@ import {
 } from "@azure/core-amqp";
 import {
   bearerTokenAuthenticationPolicy,
+  getDefaultUserAgentValue,
   HttpOperationResponse,
   OperationOptions,
   proxyPolicy,
@@ -67,7 +68,7 @@ import {
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { isAbsoluteUrl, isJSONLikeObject, userAgent } from "./util/utils";
+import { isAbsoluteUrl, isJSONLikeObject, userAgentPrefix } from "./util/utils";
 import { createSpan, getCanonicalCode } from "./util/tracing";
 import { parseURL } from "./util/parseUrl";
 
@@ -217,6 +218,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     let options: ServiceBusManagementClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
+    const userAgent = `${userAgentPrefix} (${getDefaultUserAgentValue()})`;
     requestPolicyFactories.push(userAgentPolicy({ value: userAgent }));
     requestPolicyFactories.push(tracingPolicy({ userAgent }));
     if (isTokenCredential(credentialOrOptions2)) {
