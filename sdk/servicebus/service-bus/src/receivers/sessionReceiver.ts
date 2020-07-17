@@ -26,7 +26,7 @@ import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
-import { Receiver, defaultMaxTimeAfterFirstMessageMs } from "./receiver";
+import { Receiver, defaultMaxTimeAfterFirstMessageForBatchingMs } from "./receiver";
 import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
@@ -394,7 +394,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       const receivedMessages = await this._messageSession!.receiveMessages(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
-        defaultMaxTimeAfterFirstMessageMs
+        defaultMaxTimeAfterFirstMessageForBatchingMs
       );
 
       return (receivedMessages as any) as ReceivedMessageT[];

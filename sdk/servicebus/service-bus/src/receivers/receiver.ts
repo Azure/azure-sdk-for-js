@@ -278,7 +278,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
-        defaultMaxTimeAfterFirstMessageMs,
+        defaultMaxTimeAfterFirstMessageForBatchingMs,
         options?.abortSignal
       );
       return (receivedMessages as unknown) as ReceivedMessageT[];
@@ -469,4 +469,4 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
  * @internal
  * @ignore
  */
-export const defaultMaxTimeAfterFirstMessageMs = 1000;
+export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
