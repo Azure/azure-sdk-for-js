@@ -318,6 +318,19 @@ export interface SignedIdentifier {
 }
 
 // @public
+export class TableClient {
+    constructor(url: string, tableName: string, options?: TableServiceClientOptions);
+    createEntity(entity?: Entity, options?: Omit<CreateEntityOptions, "tableEntityProperties">): Promise<CreateEntityResponse>;
+    deleteEntity(partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
+    getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
+    getEntity(partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse>;
+    listEntities(query?: QueryOptions, options?: Omit<ListEntitiesOptions, "queryOptions">): Promise<ListEntitiesResponse>;
+    mergeEntity(entity: Entity, ifMatch?: string, options?: Omit<MergeEntityOptions, "tableEntityProperties" | "ifMatch">): Promise<MergeEntityResponse>;
+    setAccessPolicy(acl?: SignedIdentifier[], options?: Omit<SetAccessPolicyOptions, "tableAcl">): Promise<SetAccessPolicyResponse>;
+    updateEntity(entity: Entity, ifMatch?: string, options?: Omit<UpdateEntityOptions, "tableEntityProperties" | "ifMatch">): Promise<UpdateEntityResponse>;
+}
+
+// @public
 export interface TableCreateHeaders {
     clientRequestId?: string;
     date?: Date;
