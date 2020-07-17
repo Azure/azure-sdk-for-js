@@ -164,10 +164,7 @@ describe("BatchingReceiver unit tests", () => {
         } as EventContext);
 
         const messages = await receivePromise;
-        assert.deepEqual(
-          messages.map((m) => m.body),
-          ["the message"]
-        );
+        assert.deepEqual(messages.map((m) => m.body), ["the message"]);
       }).timeout(5 * 1000);
 
       // in the new world the overall timeout firing means we've received _no_ messages
@@ -224,10 +221,10 @@ describe("BatchingReceiver unit tests", () => {
           clock.tick(1); // make the "no new message arrived within time limit" timer fire.
 
           const messages = await receivePromise;
-          assert.deepEqual(
-            messages.map((m) => m.body),
-            ["the first message", "the second message"]
-          );
+          assert.deepEqual(messages.map((m) => m.body), [
+            "the first message",
+            "the second message"
+          ]);
         }
       ).timeout(5 * 1000);
 
@@ -271,10 +268,10 @@ describe("BatchingReceiver unit tests", () => {
           // ...we can see that we didn't resolve earlier - we only resolved after the `maxWaitTimeInMs`
           // timer fired.
           const messages = await receivePromise;
-          assert.deepEqual(
-            messages.map((m) => m.body),
-            ["the first message", "the second message"]
-          );
+          assert.deepEqual(messages.map((m) => m.body), [
+            "the first message",
+            "the second message"
+          ]);
         }
       ).timeout(5 * 1000);
 
@@ -282,7 +279,9 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can enable this test for all modes.
-      (lockMode === ReceiveMode.peekLock ? it : it.skip)("4. sanity check that we're using getRemainingWaitTimeInMs", async () => {
+      (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+        "4. sanity check that we're using getRemainingWaitTimeInMs",
+        async () => {
         const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
           receiveMode: lockMode
         });
@@ -337,9 +336,15 @@ describe("BatchingReceiver unit tests", () => {
       } {
         const emitter = new EventEmitter();
         const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
+        let credits = 0;
+
         const fakeRheaReceiver = {
           on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
             emitter.on(evt, handler);
+
+            if (evt === ReceiverEvents.message) {
+              --credits;
+            }
           },
           removeListener(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
             emitter.removeListener(evt, handler);
@@ -357,7 +362,15 @@ describe("BatchingReceiver unit tests", () => {
             }
           },
           isOpen: () => true,
-          addCredit: (_credits) => {}
+          addCredit: (_credits: number) => {
+            if (_credits === 1 && fakeRheaReceiver.drain === true) {
+              // special case - if we're draining we should initiate a drain
+              emitter.emit(ReceiverEvents.receiverDrained, undefined);
+            } else {
+              credits += _credits;
+            }
+          },
+          get credit() { return credits }
         } as RheaReceiver;
 
         batchingReceiver["_receiver"] = fakeRheaReceiver;
