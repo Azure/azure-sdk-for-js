@@ -2510,10 +2510,14 @@ async function getEntityRuntimeProperties(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeProperties(entityPath);
+      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeProperties(
+        entityPath
+      );
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeProperties(entityPath);
+      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeProperties(
+        entityPath
+      );
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {

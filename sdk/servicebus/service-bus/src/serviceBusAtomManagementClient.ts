@@ -1630,10 +1630,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   public getSubscriptions(
     topicName: string,
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<
-    SubscriptionProperties,
-    EntitiesResponse<SubscriptionProperties>
-  > {
+  ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
     log.httpAtomXml(
       `Performing management operation - getSubscriptions() with options: ${options}`
     );

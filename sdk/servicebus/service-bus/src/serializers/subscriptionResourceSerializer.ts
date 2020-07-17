@@ -103,7 +103,9 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
  * the response from the service
  * @param rawSubscription
  */
-export function buildSubscriptionRuntimeProperties(rawSubscription: any): SubscriptionRuntimeProperties {
+export function buildSubscriptionRuntimeProperties(
+  rawSubscription: any
+): SubscriptionRuntimeProperties {
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
