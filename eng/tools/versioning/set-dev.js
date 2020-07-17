@@ -174,12 +174,18 @@ add a logic checking rush common-versions for the exact version I am replacing d
 */
 const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, searchVersion, devVersion) => {
   var allowedAlternativeVersions = commonVersionsConfig["allowedAlternativeVersions"];
-  console.log("allowed alternative versions");
-  console.log(allowedAlternativeVersions);
+  const parsedSearchVersion = semver.parse(searchVersion);
   if (allowedAlternativeVersions[package]) {
-    if (allowedAlternativeVersions[package].includes(searchVersion)) {
-      allowedAlternativeVersions[package].push(devVersion);
+    for (var version of allowedAlternativeVersions[package]) {
+      const parsedPackageVersion = semver.minVersion(version);
+      if (parsedPackageVersion.major == parsedSearchVersion.major &&
+        parsedPackageVersion.minor == parsedSearchVersion.minor &&
+        parsedPackageVersion.patch == parsedSearchVersion.patch) {
+        allowedAlternativeVersions[package].push(devVersion);
+        break;
+      }
     }
+
   }
 
   var newConfig = commonVersionsConfig;
@@ -197,8 +203,6 @@ async function main(argv) {
 
   var rushPackages = await packageUtils.getRushPackageJsons(repoRoot);
   const commonVersionsConfig = await packageUtils.getRushCommonVersions(repoRoot);
-  console.log("common versions config");
-  console.dir(commonVersionsConfig);
 
   let targetPackages = [];
   for (const package of Object.keys(rushPackages)) {
