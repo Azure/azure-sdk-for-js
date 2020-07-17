@@ -252,8 +252,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       requestPolicyFactories.push(proxyPolicy(options.proxySettings));
     }
     const serviceClientOptions: ServiceClientOptions = {
-      requestPolicyFactories: requestPolicyFactories,
-      userAgent: userAgent
+      requestPolicyFactories: requestPolicyFactories
     };
     super(credentials, serviceClientOptions);
     this.endpoint = fullyQualifiedNamespace;
