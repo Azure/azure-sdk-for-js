@@ -32,7 +32,6 @@ export {
   ParameterPath,
   OperationResponse,
   FullOperationResponse,
-  ServiceClientCredentials,
   PolymorphicDiscriminator
 } from "./interfaces";
 export {

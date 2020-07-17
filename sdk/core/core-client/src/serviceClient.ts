@@ -16,7 +16,6 @@ import {
   OperationResponse,
   OperationArguments,
   OperationSpec,
-  ServiceClientCredentials,
   OperationRequest,
   OperationResponseMap,
   FullOperationResponse,
@@ -29,7 +28,6 @@ import { getRequestUrl } from "./urlHelpers";
 import { isPrimitiveType } from "./utils";
 import { getOperationArgumentValueFromParameter } from "./operationHelpers";
 import { deserializationPolicy } from "./deserializationPolicy";
-import { signingPolicy } from "./signingPolicy";
 
 /**
  * Options to be provided while creating the client.
@@ -48,7 +46,7 @@ export interface ServiceClientOptions {
   /**
    * Credential used to authenticate the request.
    */
-  credential?: TokenCredential | ServiceClientCredentials;
+  credential?: TokenCredential;
   /**
    * A customized pipeline to use, otherwise a default one will be created.
    */
@@ -320,7 +318,7 @@ export function serializeRequestBody(
 }
 
 function createDefaultPipeline(
-  options: { baseUri?: string; credential?: TokenCredential | ServiceClientCredentials } = {}
+  options: { baseUri?: string; credential?: TokenCredential } = {}
 ): Pipeline {
   const pipeline = createPipelineFromOptions({});
 
@@ -330,8 +328,6 @@ function createDefaultPipeline(
       pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({ credential, scopes: `${options.baseUri || ""}/.default` })
       );
-    } else if (credential && typeof credential.signRequest === "function") {
-      pipeline.addPolicy(signingPolicy(credential));
     } else {
       throw new Error("The credential argument must implement the TokenCredential interface");
     }

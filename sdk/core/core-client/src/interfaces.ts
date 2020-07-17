@@ -42,21 +42,6 @@ export interface OperationRequestInfo {
 }
 
 /**
- * Old legacy interface for signing requests.
- * New clients should use tokens or their own custom credential policy.
- * @deprecated
- */
-export interface ServiceClientCredentials {
-  /**
-   * Signs a request with the Authentication header.
-   *
-   * @param request The request to be signed.
-   * @returns The signed request object.
-   */
-  signRequest(request: PipelineRequest): Promise<PipelineRequest>;
-}
-
-/**
  * The base options type for all operations.
  */
 export interface OperationOptions {

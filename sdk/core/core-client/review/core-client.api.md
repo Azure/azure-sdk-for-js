@@ -321,15 +321,10 @@ export class ServiceClient {
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
     }
 
-// @public @deprecated
-export interface ServiceClientCredentials {
-    signRequest(request: PipelineRequest): Promise<PipelineRequest>;
-}
-
 // @public
 export interface ServiceClientOptions {
     baseUri?: string;
-    credential?: TokenCredential | ServiceClientCredentials;
+    credential?: TokenCredential;
     httpsClient?: HttpsClient;
     pipeline?: Pipeline;
     requestContentType?: string;
