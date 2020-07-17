@@ -27,19 +27,22 @@ export class SecureScoreControls {
   }
 
   /**
-   * Get all secure score controls on specific initiatives inside a scope
-   * @param secureScoreName The secure score initiative name
+   * Get all security controls for a specific initiative within a scope
+   * @param secureScoreName The initiative name. For the ASC Default initiative, use 'ascScore' as in
+   * the sample request below.
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlsListBySecureScoreResponse>
    */
   listBySecureScore(secureScoreName: string, options?: Models.SecureScoreControlsListBySecureScoreOptionalParams): Promise<Models.SecureScoreControlsListBySecureScoreResponse>;
   /**
-   * @param secureScoreName The secure score initiative name
+   * @param secureScoreName The initiative name. For the ASC Default initiative, use 'ascScore' as in
+   * the sample request below.
    * @param callback The callback
    */
   listBySecureScore(secureScoreName: string, callback: msRest.ServiceCallback<Models.SecureScoreControlList>): void;
   /**
-   * @param secureScoreName The secure score initiative name
+   * @param secureScoreName The initiative name. For the ASC Default initiative, use 'ascScore' as in
+   * the sample request below.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -55,7 +58,7 @@ export class SecureScoreControls {
   }
 
   /**
-   * Get all secure score controls on specific initiatives inside a scope
+   * Get all security controls within a scope
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlsListResponse>
    */
@@ -79,7 +82,7 @@ export class SecureScoreControls {
   }
 
   /**
-   * Get all secure score controls on specific initiatives inside a scope
+   * Get all security controls for a specific initiative within a scope
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlsListBySecureScoreNextResponse>
@@ -107,7 +110,7 @@ export class SecureScoreControls {
   }
 
   /**
-   * Get all secure score controls on specific initiatives inside a scope
+   * Get all security controls within a scope
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.SecureScoreControlsListNextResponse>
