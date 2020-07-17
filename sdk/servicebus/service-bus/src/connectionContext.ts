@@ -15,7 +15,7 @@ import {
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { ClientEntityContext } from "./clientEntityContext";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
-import { formatUserAgentPrefix, libInfo } from "./util/utils";
+import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 
 /**
@@ -43,7 +43,7 @@ export namespace ConnectionContext {
     if (!options) options = {};
     const userAgent = `${formatUserAgentPrefix(
       options.userAgentOptions?.userAgentPrefix
-    )}${libInfo} (${getRuntimeInfo()})`;
+    )} (${getRuntimeInfo()})`;
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
       tokenCredential: tokenCredential,
