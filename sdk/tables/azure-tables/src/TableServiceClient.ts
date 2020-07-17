@@ -48,13 +48,13 @@ export class TableServiceClient {
   private table: Table;
   private service: Service;
 
+  /**
+   * Initializes a new instance of the TableServiceClient class.
+   * @param url The URL of the service account that is the target of the desired operation.
+   * @param options The parameter options.
+   */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(url: string, options?: TableServiceClientOptions) {
-    /**
-     * Initializes a new instance of the TableServiceClient class.
-     * @param url The URL of the service account that is the target of the desired operation.
-     * @param options The parameter options.
-     */
     const client = new GeneratedClient(url, options);
     this.table = client.table;
     this.service = client.service;
