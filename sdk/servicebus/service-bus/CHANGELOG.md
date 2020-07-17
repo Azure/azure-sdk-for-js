@@ -6,11 +6,14 @@
   OLD: `message.properties["DeadLetterReason"]` and `message.properties["DeadLetterErrorDescription"]`
   NEW: `message.deadLetterReason` and `message.deadLetterErrorDescription`
   [PR 10106](https://github.com/Azure/azure-sdk-for-js/pull/10106)
+- Adds tracing support to the methods under `ServiceBusManagementClient`.
+  [PR 9987](https://github.com/Azure/azure-sdk-for-js/pull/9987)
 
 ### Breaking Changes
 
 - Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`,`getQueuesRuntimeInfo()`, etc.
   [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
+  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts)
 - `receiveMessages()`'s optional `maxWaitTimeInMs` parameter now controls how long to wait for the _first_
   message, rather than how long to wait for an entire set of messages. This change allows for a faster return
   of messages to your application.

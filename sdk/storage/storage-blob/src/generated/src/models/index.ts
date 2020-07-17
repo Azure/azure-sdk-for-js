@@ -181,6 +181,10 @@ export interface BlobPropertiesInternal {
   tagCount?: number;
   expiresOn?: Date;
   isSealed?: boolean;
+  /**
+   * Possible values include: 'High', 'Standard'
+   */
+  rehydratePriority?: RehydratePriority;
 }
 
 /**
@@ -591,6 +595,10 @@ export interface StaticWebsite {
    * The absolute path of the custom 404 page
    */
   errorDocument404Path?: string;
+  /**
+   * Absolute path of the default index page
+   */
+  defaultIndexDocumentPath?: string;
 }
 
 /**
@@ -3474,7 +3482,8 @@ export interface ServiceGetAccountInfoHeaders {
    */
   skuName?: SkuName;
   /**
-   * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
+   * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2',
+   * 'FileStorage', 'BlockBlobStorage'
    */
   accountKind?: AccountKind;
   errorCode?: string;
@@ -4117,7 +4126,8 @@ export interface ContainerGetAccountInfoHeaders {
    */
   skuName?: SkuName;
   /**
-   * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
+   * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2',
+   * 'FileStorage', 'BlockBlobStorage'
    */
   accountKind?: AccountKind;
   errorCode?: string;
@@ -4756,6 +4766,11 @@ export interface BlobGetPropertiesHeaders {
    * If this blob has been sealed
    */
   isSealed?: boolean;
+  /**
+   * If an object is in rehydrate pending state then this header is returned with priority of
+   * rehydrate. Possible values include: 'High', 'Standard'
+   */
+  rehydratePriority?: RehydratePriority;
   errorCode?: string;
 }
 
@@ -5728,7 +5743,8 @@ export interface BlobGetAccountInfoHeaders {
    */
   skuName?: SkuName;
   /**
-   * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
+   * Identifies the account kind. Possible values include: 'Storage', 'BlobStorage', 'StorageV2',
+   * 'FileStorage', 'BlockBlobStorage'
    */
   accountKind?: AccountKind;
   errorCode?: string;
@@ -6856,6 +6872,14 @@ export type ArchiveStatus = 'rehydrate-pending-to-hot' | 'rehydrate-pending-to-c
 export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
 
 /**
+ * Defines values for RehydratePriority.
+ * Possible values include: 'High', 'Standard'
+ * @readonly
+ * @enum {string}
+ */
+export type RehydratePriority = 'High' | 'Standard';
+
+/**
  * Defines values for StorageErrorCode.
  * Possible values include: 'AccountAlreadyExists', 'AccountBeingCreated', 'AccountIsDisabled',
  * 'AuthenticationFailed', 'AuthorizationFailure', 'ConditionHeadersNotSupported',
@@ -6913,14 +6937,6 @@ export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
  * @enum {string}
  */
 export type QueryFormatType = 'delimited' | 'json';
-
-/**
- * Defines values for RehydratePriority.
- * Possible values include: 'High', 'Standard'
- * @readonly
- * @enum {string}
- */
-export type RehydratePriority = 'High' | 'Standard';
 
 /**
  * Defines values for BlobExpiryOptions.
@@ -6998,11 +7014,12 @@ export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Stan
 
 /**
  * Defines values for AccountKind.
- * Possible values include: 'Storage', 'BlobStorage', 'StorageV2'
+ * Possible values include: 'Storage', 'BlobStorage', 'StorageV2', 'FileStorage',
+ * 'BlockBlobStorage'
  * @readonly
  * @enum {string}
  */
-export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2';
+export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2' | 'FileStorage' | 'BlockBlobStorage';
 
 /**
  * Defines values for SyncCopyStatusType.
