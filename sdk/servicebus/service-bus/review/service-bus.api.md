@@ -174,6 +174,8 @@ export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, 
 // @public
 export interface ReceivedMessage extends ServiceBusMessage {
     readonly _amqpMessage: AmqpMessage;
+    readonly deadLetterErrorDescription?: string;
+    readonly deadLetterReason?: string;
     readonly deadLetterSource?: string;
     readonly deliveryCount?: number;
     readonly enqueuedSequenceNumber?: number;
