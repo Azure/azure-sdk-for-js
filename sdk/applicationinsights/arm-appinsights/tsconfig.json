@@ -12,7 +12,8 @@
     "lib": ["es6"],
     "declaration": true,
     "outDir": "./esm",
-    "importHelpers": true
+    "importHelpers": true,
+    "skipLibCheck": true
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["node_modules"]
