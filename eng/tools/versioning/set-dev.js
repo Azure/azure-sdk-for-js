@@ -180,6 +180,7 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
   var newConfig = commonVersionsConfig;
   newConfig["allowedAlternativeVersions"] = allowedAlternativeVersions;
   const commonVersionsPath = path.resolve(path.join(repoRoot, "/common/config/rush/common-versions.json"));
+  console.log("updated common versions config =");
   console.log(newConfig);
   await packageUtils.writePackageJson(commonVersionsPath, newConfig);
 }
