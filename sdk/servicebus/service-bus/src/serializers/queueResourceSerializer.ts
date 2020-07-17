@@ -31,7 +31,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param queue
  */
-export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions {
+export function buildQueueOptions(queue: QueueProperties): InternalQueueOptions {
   return {
     LockDuration: queue.lockDuration,
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
@@ -59,7 +59,7 @@ export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions
  * response from the service
  * @param rawQueue
  */
-export function buildQueue(rawQueue: any): QueueDescription {
+export function buildQueue(rawQueue: any): QueueProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
@@ -128,7 +128,7 @@ export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperti
 /**
  * Represents settable options on a queue
  */
-export interface QueueDescription {
+export interface QueueProperties {
   /**
    * Name of the queue
    */
@@ -226,7 +226,7 @@ export interface QueueDescription {
   forwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the queue.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -354,7 +354,7 @@ export interface InternalQueueOptions {
   ForwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the queue.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
