@@ -11,7 +11,7 @@ export class ConnectionStringParser {
 
   public static parse(
     connectionString?: string,
-    logger: Logger = new NoopLogger(),
+    logger: Logger = new NoopLogger()
   ): ConnectionString {
     if (!connectionString) {
       return {};
@@ -32,7 +32,7 @@ export class ConnectionStringParser {
       logger.error(
         `Connection string key-value pair is invalid: ${kv}`,
         `Entire connection string will be discarded`,
-        connectionString,
+        connectionString
       );
       isValid = false;
       return fields;
@@ -55,14 +55,14 @@ export class ConnectionStringParser {
       result.liveendpoint = result.liveendpoint || Constants.DEFAULT_LIVEMETRICS_ENDPOINT;
       if (result.authorization && result.authorization.toLowerCase() !== "ikey") {
         logger.warn(
-          `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`,
+          `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`
         );
       }
     }
 
     logger.error(
       "An invalid connection string was passed in. There may be telemetry loss",
-      connectionString,
+      connectionString
     );
     return result;
   }

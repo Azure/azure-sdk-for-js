@@ -17,13 +17,13 @@ export function isRetriable(statusCode: number): boolean {
     statusCode === 429 || // Throttle
     statusCode === 439 || // Quota
     statusCode === 500 || // Server Error
-    statusCode === 503
+    statusCode === 503 // Server Unavilable
   );
 }
 
 export function msToTimeSpan(ms: number): string {
   let totalms = ms;
-  if (Number.isNaN(totalms) || totalms < 0) {
+  if (Number.isNaN(totalms) || totalms < 0 || !Number.isFinite(ms)) {
     totalms = 0;
   }
 

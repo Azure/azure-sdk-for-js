@@ -46,9 +46,9 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
     span.attributes[HTTP_METHOD] &&
     span.attributes[HTTP_ROUTE]
   ) {
-    tags[AI_OPERATION_NAME] = `${span.attributes[HTTP_METHOD] as string} ${span.attributes[
-      HTTP_ROUTE
-    ] as string}`;
+    tags[AI_OPERATION_NAME] = `${span.attributes[HTTP_METHOD] as string} ${
+      span.attributes[HTTP_ROUTE] as string
+    }`;
   }
   return tags;
 }
@@ -153,9 +153,9 @@ function createRequestData(span: ReadableSpan): RequestData {
     }
 
     if (span.attributes[HTTP_ROUTE]) {
-      data.name = `${span.attributes[HTTP_METHOD] as string} ${span.attributes[
-        HTTP_ROUTE
-      ] as string}`;
+      data.name = `${span.attributes[HTTP_METHOD] as string} ${
+        span.attributes[HTTP_ROUTE] as string
+      }`;
     } else if (span.attributes[HTTP_URL]) {
       const url = new URL(span.attributes[HTTP_URL] as string);
       data.name = `${span.attributes[HTTP_METHOD] as string} ${url.pathname}`;
@@ -182,7 +182,7 @@ function createInProcData(span: ReadableSpan): RemoteDependencyData {
 export function readableSpanToEnvelope(
   span: ReadableSpan,
   instrumentationKey: string,
-  logger?: Logger,
+  logger?: Logger
 ): Envelope {
   const envelope = new Envelope();
   envelope.data = new Base();
@@ -210,9 +210,9 @@ export function readableSpanToEnvelope(
     default:
       // never
       if (logger) {
-        logger.error(`Unsupported span kind ${span.kind}`);
+        logger.error(`Unsupported span kind ${span.kind as string}`);
       }
-      throw new Error(`Unsupported span kind ${span.kind}`);
+      throw new Error(`Unsupported span kind ${span.kind as string}`);
   }
 
   envelope.data.baseData = { ...data, properties };
