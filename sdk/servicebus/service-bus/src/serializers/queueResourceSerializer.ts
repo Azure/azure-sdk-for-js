@@ -113,7 +113,7 @@ export function buildQueue(rawQueue: any): QueueDescription {
  * response from the service
  * @param rawQueue
  */
-export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
+export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
@@ -386,7 +386,7 @@ export interface InternalQueueOptions {
 /**
  * Represents runtime info attributes of a queue entity
  */
-export interface QueueRuntimeInfo {
+export interface QueueRuntimeProperties {
   /**
    * Name of the queue
    */
