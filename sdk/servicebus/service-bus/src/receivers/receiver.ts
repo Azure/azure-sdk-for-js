@@ -466,6 +466,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
  * The default time to wait for messages _after_ the first message
  * has been received.
  *
+ * This timeout only applies to receiveMessages()
+ *
  * @internal
  * @ignore
  */
