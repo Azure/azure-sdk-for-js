@@ -21,6 +21,7 @@ let argv = require("yargs")
 
 const process = require("process");
 const semver = require("semver");
+const path = require("path");
 const packageUtils = require("eng-package-utils");
 
 const commitChanges = async (rushPackages, package) => {
@@ -117,7 +118,6 @@ const updateInternalDependencyVersions = (rushPackages, package, buildId) => {
 };
 
 const makeDependencySectionConsistentForPackage = (rushPackages, dependencySection, depName) => {
-  console.log("Inside make dep");
   if (dependencySection && dependencySection[depName]) {
     depVersionRange = dependencySection[depName];
 
@@ -174,9 +174,14 @@ add a logic checking rush common-versions for the exact version I am replacing d
 */
 const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, searchVersion, devVersion) => {
   var allowedAlternativeVersions = commonVersionsConfig["allowedAlternativeVersions"];
-  if (allowedAlternativeVersions[package].includes(searchVersion)) {
-    allowedAlternativeVersions[package].push(devVersion);
+  console.log("allowed alternative versions");
+  console.log(allowedAlternativeVersions);
+  if (allowedAlternativeVersions[package]) {
+    if (allowedAlternativeVersions[package].includes(searchVersion)) {
+      allowedAlternativeVersions[package].push(devVersion);
+    }
   }
+
   var newConfig = commonVersionsConfig;
   newConfig["allowedAlternativeVersions"] = allowedAlternativeVersions;
   const commonVersionsPath = path.resolve(path.join(repoRoot, "/common/config/rush/common-versions.json"));
@@ -192,6 +197,8 @@ async function main(argv) {
 
   var rushPackages = await packageUtils.getRushPackageJsons(repoRoot);
   const commonVersionsConfig = await packageUtils.getRushCommonVersions(repoRoot);
+  console.log("common versions config");
+  console.dir(commonVersionsConfig);
 
   let targetPackages = [];
   for (const package of Object.keys(rushPackages)) {
