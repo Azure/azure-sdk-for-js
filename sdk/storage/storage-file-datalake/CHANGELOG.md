@@ -1,6 +1,9 @@
 # Release History
 
-## 12.1.0-rc.1 (2020.07)
+## 12.1.0 (Unreleased)
+
+
+## 12.1.0-preview.1 (2020.07)
 
 - Increased the maximum block size for file from 100MiB to 4000MiB(~4GB). And thereby supporting ~200TB maximum size for file.
 - Added more mappings for Blob and DFS endpoints. [issue #8744](https://github.com/Azure/azure-sdk-for-js/issues/8744).

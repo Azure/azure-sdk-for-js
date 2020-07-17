@@ -13,7 +13,12 @@ import {
   createRecordedRecognizerClient,
   testEnv
 } from "../util/recordedClients";
-import { FormRecognizerClient, TrainingDocumentInfo, FormTrainingClient, AzureKeyCredential } from "../../src";
+import {
+  FormRecognizerClient,
+  TrainingDocumentInfo,
+  FormTrainingClient,
+  AzureKeyCredential
+} from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 const ASSET_PATH = path.resolve(path.join(process.cwd(), "test-assets"));
@@ -30,9 +35,9 @@ describe("FormTrainingClient NodeJS only", () => {
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -55,7 +60,10 @@ describe("FormTrainingClient NodeJS only", () => {
     // save the id for recognition tests
     unlabeledModelId = response!.modelId;
 
-    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    assert.ok(
+      response!.submodels && response!.submodels.length > 0,
+      "Expected non empty sub model list"
+    );
     const model = response!.submodels![0];
     assert.equal(model.formType, "form-0");
     assert.equal(model.accuracy, undefined);
@@ -77,7 +85,10 @@ describe("FormTrainingClient NodeJS only", () => {
     // save the id for recognition tests
     labeledModelId = response!.modelId;
 
-    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    assert.ok(
+      response!.submodels && response!.submodels.length > 0,
+      "Expected non empty sub model list"
+    );
     const model = response!.submodels![0];
     assert.equal(model.formType, `form-${response!.modelId}`);
     assert.equal(model.accuracy, 0.973);
@@ -203,6 +214,8 @@ describe("FormTrainingClient NodeJS only", () => {
     const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
     const targetAuth = await trainingClient.getCopyAuthorization(resourceId, resourceRegion);
 
+    assert.ok(targetAuth.expiresOn.getTime() / 1000 === targetAuth.expirationDateTimeTicks);
+
     assert.ok(labeledModelId, "Expecting valide model id in source");
     const poller = await trainingClient.beginCopyModel(labeledModelId!, targetAuth);
     const result = await poller.pollUntilDone();
@@ -224,9 +237,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -242,10 +255,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     );
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
@@ -267,10 +277,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
@@ -295,10 +302,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     );
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
@@ -322,10 +326,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
@@ -349,10 +350,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "custom:form");
     assert.deepStrictEqual(form.pageRange, {
@@ -368,9 +366,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       "Expecting 'Merchant' field has undefined confidence"
     );
     assert.equal(
-      form.fields["Merchant"].labelText,
+      form.fields["Merchant"].labelData,
       undefined,
-      "Expecting 'Merchant' field has undefined labelText"
+      "Expecting 'Merchant' field has undefined labelData"
     );
     assert.equal(
       form.fields["Merchant"].value,
@@ -378,9 +376,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
       "Expecting 'Merchant' field has undefined value"
     );
     assert.equal(
-      form.fields["Merchant"].valueText,
+      form.fields["Merchant"].valueData,
       undefined,
-      "Expecting 'Merchant' field has undefined valueText"
+      "Expecting 'Merchant' field has undefined valueData"
     );
     assert.equal(
       form.fields["Merchant"].valueType,
@@ -398,9 +396,9 @@ describe("[AAD] FormTrainingClient NodeJS only", () => {
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 

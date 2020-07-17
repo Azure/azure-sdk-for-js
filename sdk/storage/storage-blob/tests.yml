@@ -6,6 +6,8 @@ extends:
     PackageName: "@azure/storage-blob"
     ResourceServiceDirectory: storage
     TimeoutInMinutes: 90
+    ResourceGroupLocation: canadacentral
+    ArmTemplateParameters: '@{ enableVersioning = $true }'
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

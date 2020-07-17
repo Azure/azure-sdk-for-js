@@ -19,8 +19,8 @@ async function main(): Promise<void> {
   const listOfDataSourceConnections: Array<SearchIndexerDataSourceConnection> = await client.listDataSourceConnections();
 
   console.log(`List of Data Source Connections`);
-  console.log(`*******************************`)
-  listOfDataSourceConnections.forEach((ds) => {
+  console.log(`*******************************`);
+  for (let ds of listOfDataSourceConnections) {
     console.log(`Name: ${ds.name}`);
     console.log(`Description: ${ds.description}`);
     console.log(`Connection String: ${ds.connectionString}`);
@@ -31,7 +31,7 @@ async function main(): Promise<void> {
     console.log(`\tName: ${ds.container.name}`);
     console.log(`\tQuery: ${ds.container.query}`);
     console.log();
-  });
+  }
 }
 
 main();

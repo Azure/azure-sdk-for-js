@@ -1,6 +1,10 @@
 # Release History
 
-## 12.2.0-rc.1 (2020.07)
+## 12.2.0 (Unreleased)
+
+- Added RehydratePriority to BlobProperties and BlobItemProperties.
+
+## 12.2.0-preview.1 (2020.07)
 
 - Updated Azure Storage Service API version to 2019-12-12.
 - Supported quick query. Added a new API `BlockBlobClient.query()`.
@@ -213,7 +217,7 @@
 - Updated HTTP client from axios to node-fetch in Node.js runtime.
 - A new option `keepAliveOptions` added to parameter of `newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
-- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/proxyAuth.ts)
+- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/@azure/storage-blob_12.0.0-preview.3/sdk/storage/storage-blob/samples/typescript/proxyAuth.ts)
 - Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
 ## 12.0.0-preview.2 (2019.08)

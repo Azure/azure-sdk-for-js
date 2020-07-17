@@ -368,6 +368,19 @@ export const Image: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      metadata: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -562,6 +575,18 @@ export const ImageFileCreateBatch: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      metadata: {
+        nullable: true,
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -635,6 +660,85 @@ export const ImageIdCreateBatch: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      metadata: {
+        nullable: true,
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ImageMetadataUpdateEntry: msRest.CompositeMapper = {
+  serializedName: "ImageMetadataUpdateEntry",
+  type: {
+    name: "Composite",
+    className: "ImageMetadataUpdateEntry",
+    modelProperties: {
+      imageId: {
+        nullable: false,
+        serializedName: "imageId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      status: {
+        nullable: false,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        nullable: true,
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ImageMetadataUpdateSummary: msRest.CompositeMapper = {
+  serializedName: "ImageMetadataUpdateSummary",
+  type: {
+    name: "Composite",
+    className: "ImageMetadataUpdateSummary",
+    modelProperties: {
+      isBatchSuccessful: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "isBatchSuccessful",
+        type: {
+          name: "Boolean"
+        }
+      },
+      images: {
+        readOnly: true,
+        serializedName: "images",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageMetadataUpdateEntry"
+            }
+          }
+        }
       }
     }
   }
@@ -677,6 +781,14 @@ export const Prediction: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BoundingBox"
+        }
+      },
+      tagType: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "tagType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1313,6 +1425,18 @@ export const ImageUrlCreateBatch: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Uuid"
+            }
+          }
+        }
+      },
+      metadata: {
+        nullable: true,
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
             }
           }
         }

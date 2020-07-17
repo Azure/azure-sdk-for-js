@@ -18,12 +18,12 @@ async function main(): Promise<void> {
 
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   console.log(`Get Synonym Map my-synonymmap`);
-  const sm:SynonymMap = await client.getSynonymMap("my-synonymmap");
+  const sm: SynonymMap = await client.getSynonymMap("my-synonymmap");
   console.log(`Name: ${sm.name}`);
   console.log(`Synonyms`);
-  sm.synonyms.forEach((synonym)=>{
+  for (let synonym of sm.synonyms) {
     console.log(synonym);
-  });
+  }
 }
 
 main();

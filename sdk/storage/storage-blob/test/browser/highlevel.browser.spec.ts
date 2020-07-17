@@ -13,7 +13,6 @@ import {
 } from "../utils/index.browser";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
-import { isBlobTagsDisabled } from "../utils";
 
 // tslint:disable:no-empty
 describe("Highlevel", () => {
@@ -44,7 +43,7 @@ describe("Highlevel", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -52,7 +51,7 @@ describe("Highlevel", () => {
     recorder = record(this, recorderEnvSetup);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
     tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile2"), tempFile2Length);
-    recorder.stop();
+    await recorder.stop();
   });
 
   after(async () => {});
@@ -155,10 +154,8 @@ describe("Highlevel", () => {
     assert.equal(uploadedString, downloadedString);
   });
 
-  it("uploadBrowserDataToBlockBlob should work with tags", async function() {
-    if (isBlobTagsDisabled()) {
-      this.skip();
-    }
+  // SAS in test pipeline need to support the new permission.
+  it.skip("uploadBrowserDataToBlockBlob should work with tags", async function() {
     recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
 
     const tags = {

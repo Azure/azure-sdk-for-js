@@ -3,9 +3,7 @@
 
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
-import {
-  RecognizeContentOptions,
-} from "../../formRecognizerClient";
+import { RecognizeContentOptions } from "../../formRecognizerClient";
 import { FormContentType } from "../../common";
 
 import {
@@ -43,7 +41,10 @@ export type RecognizeContentPollerClient = {
     analyzeOptions?: RecognizeContentOptions
   ) => Promise<AnalyzeLayoutAsyncResponseModel>;
   // retrieves analyze result
-  getRecognizeResult: (resultId: string, options: { abortSignal?: AbortSignalLike }) => Promise<RecognizeContentResultResponse>;
+  getRecognizeResult: (
+    resultId: string,
+    options: { abortSignal?: AbortSignalLike }
+  ) => Promise<RecognizeContentResultResponse>;
 };
 
 export interface BeginRecognizeContentPollState extends PollOperationState<FormPageArray> {
@@ -56,7 +57,7 @@ export interface BeginRecognizeContentPollState extends PollOperationState<FormP
 }
 
 export interface BeginRecognizeContentPollerOperation
-extends PollOperation<BeginRecognizeContentPollState, FormPageArray> {}
+  extends PollOperation<BeginRecognizeContentPollState, FormPageArray> {}
 
 /**
  * @internal
@@ -144,11 +145,7 @@ function makeBeginRecognizePollOperation(
         }
 
         state.isStarted = true;
-        const result = await client.beginRecognize(
-          source,
-          contentType,
-          analyzeOptions || {}
-        );
+        const result = await client.beginRecognize(source, contentType, analyzeOptions || {});
         if (!result.operationLocation) {
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
         }
@@ -164,9 +161,7 @@ function makeBeginRecognizePollOperation(
 
       state.status = response.status;
       if (!state.isCompleted) {
-        if (
-          typeof options.fireProgress === "function"
-        ) {
+        if (typeof options.fireProgress === "function") {
           options.fireProgress(state);
         }
 
@@ -174,7 +169,9 @@ function makeBeginRecognizePollOperation(
           state.result = response.pages;
           state.isCompleted = true;
         } else if (response.status === "failed") {
-          const errors = response.errors?.map((e) => `  code ${e.code}, message: '${e.message}'`).join("\n");
+          const errors = response.errors
+            ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
+            .join("\n");
           const message = `Content recognition failed.
 Error(s):
 ${errors || ""}

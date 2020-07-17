@@ -1,33 +1,68 @@
 # Release History
 
-## 7.0.0-preview.4 (Unreleased)
+## 7.0.0-preview.5 (Unreleased)
+
+- Adding `deadLetterErrorDescription` and `deadLetterReason` properties on the received messages. Previously, they were under the `properties` in the message.
+  OLD: `message.properties["DeadLetterReason"]` and `message.properties["DeadLetterErrorDescription"]`
+  NEW: `message.deadLetterReason` and `message.deadLetterErrorDescription`
+  [PR 10106](https://github.com/Azure/azure-sdk-for-js/pull/10106)
+- Adds tracing support to the methods under `ServiceBusManagementClient`.
+  [PR 9987](https://github.com/Azure/azure-sdk-for-js/pull/9987)
+
+### Breaking Changes
+
+- Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`,`getQueuesRuntimeInfo()`, etc.
+  [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
+  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts)
+- `receiveMessages()`'s optional `maxWaitTimeInMs` parameter now controls how long to wait for the _first_
+  message, rather than how long to wait for an entire set of messages. This change allows for a faster return
+  of messages to your application.
+  [PR 9968](https://github.com/Azure/azure-sdk-for-js/pull/9968)
+- `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
+  [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
+
+- The terms `RuntimeInfo` and `Description` are replaced with `RuntimeProperties` and `Properties` to better align with guidelines around the kind of suffixes we use for naming methods and interfaces.
+
+## 7.0.0-preview.4 (2020-07-07)
 
 - Adds abortSignal support throughout Sender and non-session Receivers.
   [PR 9233](https://github.com/Azure/azure-sdk-for-js/pull/9233)
   [PR 9284](https://github.com/Azure/azure-sdk-for-js/pull/9284)
-- Standardized methods on senders and receivers to use the `Messages` suffix and deal with multiple messages rather than have dedicated methods to deal with a single message. 
-  [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
-- Standardized methods that peek and receive given number messages to use similar signature.
-  [PR 9798](https://github.com/Azure/azure-sdk-for-js/pull/9798)
+- (Receiver|SessionReceiver).subscribe() now returns a closeable object which will stop new messages from arriving
+  but still leave the receiver open so they can be settled via methods like complete().
+  [PR 9802](https://github.com/Azure/azure-sdk-for-js/pull/9802)
+  [PR 9849](https://github.com/Azure/azure-sdk-for-js/pull/9849)
 - Bug - Messages scheduled in parallel with the `scheduleMessage` method have the same sequence number in response.
   Fixed in [PR 9503](https://github.com/Azure/azure-sdk-for-js/pull/9503)
-- Management api updates (Includes breaking changes)
-
+- Management api updates
   - Following return types are changed to improve the API surface.
     - [Create,Get,Update]QueueResponse as QueueResponse, DeleteQueueResponse as Response, GetQueueRuntimeInfoResponse as QueueRuntimeInfoResponse.
-      Similarly for topics, subscriptions and rules.
+      Similarly for topics, subscriptions, and rules.
       [PR 9432](https://github.com/Azure/azure-sdk-for-js/pull/9432)
-    - Renamed `createdOn`, `accessedOn` and `modifiedOn` properties to `createdAt`, `accessedAt` and `modifiedAt`, updated the corresponding type from `ISO-8601 timestamp string` to the `Date` type in the responses for the `runtimeInfo` methods for Queue, Topic and Subscription.
-      [PR 9434](https://github.com/Azure/azure-sdk-for-js/pull/9434)
-      [PR 9807](https://github.com/Azure/azure-sdk-for-js/pull/9807)
+  - `OperationOptions` has been added for all the methods under `ServiceBusManagementClient`, this adds support for abortSignal, requestOptions when creating and sending HTTP requests.
+    [PR 9654](https://github.com/Azure/azure-sdk-for-js/pull/9654)
+  - Fixed the bug where one cannot set `userProperties` in a correlation filter while using the `createRule()` method. [PR 9794](https://github.com/Azure/azure-sdk-for-js/pull/9794)
+
+### Breaking Changes
+
+- Standardized methods on senders and receivers to use the `Messages` suffix and deal with multiple messages rather than have dedicated methods to deal with a single message.
+  [PR 9678](https://github.com/Azure/azure-sdk-for-js/pull/9678)
+- Standardized methods that peek and receive a given number of messages to use a similar signature.
+  [PR 9798](https://github.com/Azure/azure-sdk-for-js/pull/9798)
+- Removed `isReceivingMessages` method on the `Receiver` as per discussions in [Issue 9746](https://github.com/Azure/azure-sdk-for-js/issues/9746)
+  [PR 9875](https://github.com/Azure/azure-sdk-for-js/pull/9875)
+
+- Management api updates
+
+  - Renamed `createdOn`, `accessedOn` and `modifiedOn` properties to `createdAt`, `accessedAt` and `modifiedAt`, updated the corresponding type from `ISO-8601 timestamp string` to the `Date` type in the responses for the `runtimeInfo` methods for Queue, Topic and Subscription.
+    [PR 9434](https://github.com/Azure/azure-sdk-for-js/pull/9434)
+    [PR 9807](https://github.com/Azure/azure-sdk-for-js/pull/9807)
   - The property `top` in the options passed to any of the methods that get information for multiple entities like `getQueues` or `getQueuesRuntimeInfo` is renamed to `maxCount`.
     [PR 9664](https://github.com/Azure/azure-sdk-for-js/pull/9664)
-  - The "update" methods (`updateQueue`, `updateTopic` and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are actually updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
+  - The "update" methods (`updateQueue`, `updateTopic`, and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
     [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
     See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
-
-  - Fixed the bug where one cannot set `userProperties` in a correlation filter while using the `createRule()` method. [PR 9794](https://github.com/Azure/azure-sdk-for-js/pull/9794)
 
 ## 7.0.0-preview.3 (2020-06-08)
 
@@ -166,7 +201,7 @@
 
 ## 1.0.0-preview.3 (2019-04-24)
 
-- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/gettingStarted/useProxy.js)
+- Proxy support added. Please refer to the [useProxy](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/javascript/useProxy.js)
   sample to see how you can use Websockets to run this library with a proxy server
 - Standardized error messages on errors thrown on parameter validations
 - We now have API reference docs published for this library. Checkout our README which has been updated with the relevant API reference links.

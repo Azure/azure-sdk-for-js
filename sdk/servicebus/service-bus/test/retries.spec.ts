@@ -13,12 +13,12 @@ import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
 import { delay } from "rhea-promise";
+import { SessionReceiverImpl } from "../src/receivers/sessionReceiver";
 
 describe("Retries - ManagementClient", () => {
   let sender: Sender;
   let receiver: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
-  // let subscriptionRuleManager: SubscriptionRuleManager;
   const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
 
@@ -44,15 +44,11 @@ describe("Retries - ManagementClient", () => {
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-    // subscriptionRuleManager = serviceBusClient.test.addToCleanup(
-    //   serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
-    // );
   }
 
   async function afterEachTest(): Promise<void> {
     await sender.close();
     await receiver.close();
-    // await subscriptionRuleManager.close();
   }
 
   function mockManagementClientToThrowError() {
@@ -183,35 +179,6 @@ describe("Retries - ManagementClient", () => {
       });
     });
   });
-
-  // describe("SubscriptionRuleManager Retries", function(): void {
-  //   beforeEach(async () => {
-  //     numberOfTimesManagementClientInvoked = 0;
-  //     await beforeEachTest(TestClientType.UnpartitionedSubscription);
-  //   });
-
-  //   afterEach(async () => {
-  //     await afterEachTest();
-  //   });
-
-  //   it("Unpartitioned Subscription: getRules", async function(): Promise<void> {
-  //     await mockManagementClientAndVerifyRetries(async () => {
-  //       await subscriptionRuleManager.getRules();
-  //     });
-  //   });
-
-  //   it("Unpartitioned Subscription: addRule", async function(): Promise<void> {
-  //     await mockManagementClientAndVerifyRetries(async () => {
-  //       await subscriptionRuleManager.addRule("new-rule", "1=2");
-  //     });
-  //   });
-
-  //   it("Unpartitioned Subscription: removeRule", async function(): Promise<void> {
-  //     await mockManagementClientAndVerifyRetries(async () => {
-  //       await subscriptionRuleManager.removeRule("new-rule");
-  //     });
-  //   });
-  // });
 });
 
 describe("Retries - MessageSender", () => {
@@ -367,8 +334,13 @@ describe("Retries - Receive methods", () => {
     const batchingReceiver = BatchingReceiver.create((receiver as any)._context);
     batchingReceiver.isOpen = () => true;
     batchingReceiver.receive = fakeFunction;
-    // Mocking session creation to throw the error and fail
-    (receiver as any)._createMessageSessionIfDoesntExist = fakeFunction;
+
+    if (receiver instanceof SessionReceiverImpl) {
+      // Mocking `_messageSession.receiveMessages()` to throw the error and fail
+      (receiver as SessionReceiverImpl<ReceivedMessageWithLock>)[
+        "_messageSession"
+      ].receiveMessages = fakeFunction;
+    }
   }
 
   async function mockReceiveAndVerifyRetries(func: Function) {

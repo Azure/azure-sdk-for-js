@@ -219,7 +219,7 @@ export interface ServiceBusMessage {
    * @property The application specific properties which can be
    * used for custom message metadata.
    */
-  userProperties?: { [key: string]: any };
+  properties?: { [key: string]: any };
 }
 
 /**
@@ -288,8 +288,8 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
     body: msg.body,
     message_annotations: {}
   };
-  if (msg.userProperties != null) {
-    amqpMsg.application_properties = msg.userProperties;
+  if (msg.properties != null) {
+    amqpMsg.application_properties = msg.properties;
   }
   if (msg.contentType != null) {
     amqpMsg.content_type = msg.contentType;
@@ -362,6 +362,16 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
  * @class ReceivedMessage
  */
 export interface ReceivedMessage extends ServiceBusMessage {
+  /**
+   * @property The reason for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterReason?: string;
+  /**
+   * @property The error description for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterErrorDescription?: string;
   /**
    * @property The lock token is a reference to the lock that is being held by the broker in
    * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
@@ -557,7 +567,7 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 
 /**
  * @ignore
- * Converts given AmqpMessage to ReceivedMessageInfo
+ * Converts given AmqpMessage to ReceivedMessage
  */
 export function fromAmqpMessage(
   msg: AmqpMessage,
@@ -574,7 +584,7 @@ export function fromAmqpMessage(
   };
 
   if (msg.application_properties != null) {
-    sbmsg.userProperties = msg.application_properties;
+    sbmsg.properties = msg.application_properties;
   }
   if (msg.content_type != null) {
     sbmsg.contentType = msg.content_type;
@@ -661,7 +671,9 @@ export function fromAmqpMessage(
           )
         : undefined,
     ...sbmsg,
-    ...props
+    ...props,
+    deadLetterReason: sbmsg.properties?.DeadLetterReason,
+    deadLetterErrorDescription: sbmsg.properties?.DeadLetterErrorDescription
   };
 
   log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
@@ -692,7 +704,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
    * @property The application specific properties.
    */
-  userProperties?: { [key: string]: any };
+  properties?: { [key: string]: any };
   /**
    * @property The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
@@ -858,6 +870,16 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    */
   readonly _amqpMessage: AmqpMessage;
   /**
+   * @property The reason for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterReason?: string;
+  /**
+   * @property The error description for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterErrorDescription?: string;
+  /**
    * @property Boolean denoting if the message has already been settled.
    * @readonly
    */
@@ -1022,7 +1044,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       sessionId: this.sessionId,
       timeToLive: this.timeToLive,
       to: this.to,
-      userProperties: this.userProperties,
+      properties: this.properties,
       viaPartitionKey: this.viaPartitionKey
     };
 
