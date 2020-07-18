@@ -12,6 +12,8 @@ import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PageSettings } from '@azure/core-paging';
 import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
@@ -67,6 +69,10 @@ export interface DeadLetterOptions {
 export { delay }
 
 export { Delivery }
+
+// @public
+export interface EntitiesResponse<T> extends Array<T>, Pick<PageSettings, "continuationToken">, Response {
+}
 
 // @public
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
@@ -130,7 +136,7 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface QueueDescription {
+export interface QueueProperties {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     deadLetteringOnMessageExpiration?: boolean;
@@ -155,7 +161,7 @@ export interface QueueResponse extends Pick<QueueDescription, "defaultMessageTtl
 }
 
 // @public
-export interface QueueRuntimeInfo {
+export interface QueueRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
     messageCount?: number;
@@ -166,20 +172,14 @@ export interface QueueRuntimeInfo {
 }
 
 // @public
-export interface QueueRuntimeInfoResponse extends QueueRuntimeInfo, Response {
-}
-
-// @public
-export interface QueuesResponse extends Array<QueueDescription>, Response {
-}
-
-// @public
-export interface QueuesRuntimeInfoResponse extends Array<QueueRuntimeInfo>, Response {
+export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, Response {
 }
 
 // @public
 export interface ReceivedMessage extends ServiceBusMessage {
     readonly _amqpMessage: AmqpMessage;
+    readonly deadLetterErrorDescription?: string;
+    readonly deadLetterReason?: string;
     readonly deadLetterSource?: string;
     readonly deliveryCount?: number;
     readonly enqueuedSequenceNumber?: number;
@@ -232,18 +232,14 @@ export interface Response {
 export { RetryOptions }
 
 // @public
-export interface RuleDescription {
+export interface RuleProperties {
     action?: SqlRuleAction;
     filter?: SqlRuleFilter | CorrelationRuleFilter;
     name: string;
 }
 
 // @public
-export interface RuleResponse extends RuleDescription, Response {
-}
-
-// @public
-export interface RulesResponse extends Array<RuleDescription>, Response {
+export interface RuleResponse extends RuleProperties, Response {
 }
 
 // @public
@@ -298,35 +294,35 @@ export class ServiceBusManagementClient extends ServiceClient {
     createQueue(queue: CreateQueueOptions, operationOptions?: OperationOptions): Promise<QueueResponse>;
     createRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    createSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    createSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
-    createTopic(topic: TopicDescription, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    createTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<TopicResponse>;
     deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    getQueueRuntimeInfo(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimeInfoResponse>;
-    getQueues(options?: ListRequestOptions & OperationOptions): Promise<QueuesResponse>;
-    getQueuesRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<QueuesRuntimeInfoResponse>;
+    getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimePropertiesResponse>;
+    getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>>;
+    getQueuesRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    getRules(topicName: string, subscriptionName: string, options?: ListRequestOptions & OperationOptions): Promise<RulesResponse>;
+    getRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>;
     getSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    getSubscriptionRuntimeInfo(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimeInfoResponse>;
-    getSubscriptions(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsResponse>;
-    getSubscriptionsRuntimeInfo(topicName: string, options?: ListRequestOptions & OperationOptions): Promise<SubscriptionsRuntimeInfoResponse>;
+    getSubscriptionRuntimeProperties(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionRuntimePropertiesResponse>;
+    getSubscriptions(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>>;
+    getSubscriptionsRuntimeProperties(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionRuntimeProperties, EntitiesResponse<SubscriptionRuntimeProperties>>;
     getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
-    getTopicRuntimeInfo(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimeInfoResponse>;
-    getTopics(options?: ListRequestOptions & OperationOptions): Promise<TopicsResponse>;
-    getTopicsRuntimeInfo(options?: ListRequestOptions & OperationOptions): Promise<TopicsRuntimeInfoResponse>;
+    getTopicRuntimeProperties(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimePropertiesResponse>;
+    getTopics(options?: OperationOptions): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>>;
+    getTopicsRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>>;
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    updateQueue(queue: QueueDescription, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    updateRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    updateSubscription(subscription: SubscriptionDescription, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    updateTopic(topic: TopicDescription, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    updateQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<TopicResponse>;
 }
 
 // @public
@@ -408,7 +404,7 @@ export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOp
 }
 
 // @public
-export interface SubscriptionDescription {
+export interface SubscriptionProperties {
     autoDeleteOnIdle?: string;
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
@@ -426,11 +422,11 @@ export interface SubscriptionDescription {
 }
 
 // @public
-export interface SubscriptionResponse extends SubscriptionDescription, Response {
+export interface SubscriptionResponse extends SubscriptionProperties, Response {
 }
 
 // @public
-export interface SubscriptionRuntimeInfo {
+export interface SubscriptionRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
     messageCount: number;
@@ -441,15 +437,7 @@ export interface SubscriptionRuntimeInfo {
 }
 
 // @public
-export interface SubscriptionRuntimeInfoResponse extends SubscriptionRuntimeInfo, Response {
-}
-
-// @public
-export interface SubscriptionsResponse extends Array<SubscriptionDescription>, Response {
-}
-
-// @public
-export interface SubscriptionsRuntimeInfoResponse extends Array<SubscriptionRuntimeInfo>, Response {
+export interface SubscriptionRuntimePropertiesResponse extends SubscriptionRuntimeProperties, Response {
 }
 
 export { TokenCredential }
@@ -457,7 +445,7 @@ export { TokenCredential }
 export { TokenType }
 
 // @public
-export interface TopicDescription {
+export interface TopicProperties {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     defaultMessageTtl?: string;
@@ -473,11 +461,11 @@ export interface TopicDescription {
 }
 
 // @public
-export interface TopicResponse extends TopicDescription, Response {
+export interface TopicResponse extends TopicProperties, Response {
 }
 
 // @public
-export interface TopicRuntimeInfo {
+export interface TopicRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
     name: string;
@@ -487,15 +475,7 @@ export interface TopicRuntimeInfo {
 }
 
 // @public
-export interface TopicRuntimeInfoResponse extends TopicRuntimeInfo, Response {
-}
-
-// @public
-export interface TopicsResponse extends Array<TopicDescription>, Response {
-}
-
-// @public
-export interface TopicsRuntimeInfoResponse extends Array<TopicRuntimeInfo>, Response {
+export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
 }
 
 // @public

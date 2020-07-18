@@ -32,7 +32,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param queue
  */
-export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions {
+export function buildQueueOptions(queue: QueueProperties): InternalQueueOptions {
   return {
     LockDuration: queue.lockDuration,
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
@@ -114,7 +114,7 @@ export function buildQueue(rawQueue: any): Omit<QueueResponse, "_response"> {
  * response from the service
  * @param rawQueue
  */
-export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
+export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
@@ -129,7 +129,7 @@ export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
 /**
  * Represents settable options on a queue
  */
-export interface QueueDescription {
+export interface QueueProperties {
   /**
    * Name of the queue
    */
@@ -227,7 +227,7 @@ export interface QueueDescription {
   forwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the queue.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -355,7 +355,7 @@ export interface InternalQueueOptions {
   ForwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the queue.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -387,7 +387,7 @@ export interface InternalQueueOptions {
 /**
  * Represents runtime info attributes of a queue entity
  */
-export interface QueueRuntimeInfo {
+export interface QueueRuntimeProperties {
   /**
    * Name of the queue
    */

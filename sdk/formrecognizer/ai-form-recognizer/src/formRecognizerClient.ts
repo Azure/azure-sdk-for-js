@@ -33,23 +33,21 @@ import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
-  SourcePath
+  SourcePath,
+  OperationStatus
 } from "./generated/models";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
   RecognizeContentPollerClient,
-  BeginRecognizeContentPoller,
-  BeginRecognizeContentPollState
+  BeginRecognizeContentPoller
 } from "./lro/analyze/contentPoller";
 import {
   RecognizeCustomFormPollerClient,
-  BeginRecognizeCustomFormPoller,
-  BeginRecognizeCustomFormPollState
+  BeginRecognizeCustomFormPoller
 } from "./lro/analyze/customFormPoller";
 import {
   RecognizeReceiptPollerClient,
-  BeginRecognizeReceiptPoller,
-  BeginRecognizeReceiptPollState
+  BeginRecognizeReceiptPoller
 } from "./lro/analyze/receiptPoller";
 import { FormRecognizerRequestBody, RecognizedFormArray, FormPageArray } from "./models";
 import { RecognizeContentResultResponse, RecognizeFormResultResponse } from "./internalModels";
@@ -60,21 +58,20 @@ import {
 } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
-export {
-  PollOperationState,
-  PollerLike,
-  BeginRecognizeCustomFormPollState,
-  BeginRecognizeContentPollState,
-  BeginRecognizeReceiptPollState,
-  RecognizeContentPollerClient,
-  RecognizeCustomFormPollerClient,
-  RecognizeReceiptPollerClient
-};
-
 /**
  * Options for content/layout recognition.
  */
 export type RecognizeContentOptions = FormRecognizerOperationOptions;
+
+/**
+ * The state of a recognize content operation
+ */
+export type RecognizeContentOperationState = PollOperationState<FormPageArray> & {
+  /**
+   * A string representing the current status of the operation.
+   */
+  status: OperationStatus;
+};
 
 /**
  * Options for the start content/layout recognition operation
@@ -87,7 +84,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
   /**
    * Callback to progress events triggered in the content recognition Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginRecognizeContentPollState) => void;
+  onProgress?: (state: RecognizeContentOperationState) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -115,7 +112,17 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 };
 
 /**
- * Options for starting analyzing form operation
+ * The status of a form recognition operation
+ */
+export type RecognizeFormsOperationState = PollOperationState<RecognizedFormArray> & {
+  /**
+   * A string representing the current status of the operation.
+   */
+  status: OperationStatus;
+};
+
+/**
+ * Options for starting the analyze form operation
  */
 export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
   /**
@@ -125,7 +132,7 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
   /**
    * Callback to progress events triggered in the Recognize Form Long-Running-Operation (LRO)
    */
-  onProgress?: (state: BeginRecognizeCustomFormPollState) => void;
+  onProgress?: (state: RecognizeFormsOperationState) => void;
   /**
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
@@ -135,10 +142,7 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 /**
  * Result type of the Recognize Form Long-Running-Operation (LRO)
  */
-export type FormPollerLike = PollerLike<
-  PollOperationState<RecognizedFormArray>,
-  RecognizedFormArray
->;
+export type FormPollerLike = PollerLike<RecognizeFormsOperationState, RecognizedFormArray>;
 
 /**
  * Options for retrieving result of form recognition operation
@@ -146,45 +150,9 @@ export type FormPollerLike = PollerLike<
 type GetRecognizedFormsOptions = FormRecognizerOperationOptions;
 
 /**
- * Options for receipt recognition operation
- */
-export type RecognizeReceiptsOptions = FormRecognizerOperationOptions & {
-  /**
-   * Specifies whether to include text lines and element references in the result
-   */
-  includeFieldElements?: boolean;
-};
-
-/**
  * Options for retrieving recognized receipt data
  */
 type GetReceiptsOptions = FormRecognizerOperationOptions;
-
-/**
- * Options for starting receipt recognition operation
- */
-export type BeginRecognizeReceiptsOptions = RecognizeReceiptsOptions & {
-  /**
-   * Delay to wait until next poll, in milliseconds
-   */
-  updateIntervalInMs?: number;
-  /**
-   * Callback to progress events triggered in the receipt recognition Long-Running-Operation (LRO)
-   */
-  onProgress?: (state: BeginRecognizeReceiptPollState) => void;
-  /**
-   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
-   */
-  resumeFrom?: string;
-};
-
-/**
- * The Long-Running-Operation (LRO) poller that allows you to wait until receipt(s) are recognized.
- */
-export type ReceiptPollerLike = PollerLike<
-  PollOperationState<RecognizedFormArray>,
-  RecognizedFormArray
->;
 
 /**
  * Client class for interacting with Azure Form Recognizer service.
@@ -575,13 +543,13 @@ export class FormRecognizerClient {
    * @summary Recognizes receipt information from a given document
    * @param {FormRecognizerRequestBody} receipt Input document
    * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
-   * @param {BeginRecognizeReceiptsOptions} [options] Options to start the receipt recognition operation
+   * @param {BeginRecognizeFormsOptions} [options] Options to start the receipt recognition operation
    */
   public async beginRecognizeReceipts(
     receipt: FormRecognizerRequestBody,
     contentType?: FormContentType,
-    options: BeginRecognizeReceiptsOptions = {}
-  ): Promise<ReceiptPollerLike> {
+    options: BeginRecognizeFormsOptions = {}
+  ): Promise<FormPollerLike> {
     const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
       getRecognizeResult: (...args) => this.getReceipts(...args)
@@ -655,12 +623,12 @@ export class FormRecognizerClient {
    * ```
    * @summary Recognizes receipt information from a given accessible url to input document
    * @param {string} receiptUrl Url to an accesssible receipt document. Supported document types include PDF, JPEG, PNG, and TIFF.
-   * @param {BeginRecognizeReceiptsOptions} [options] Options to start receipt recognition operation
+   * @param {BeginRecognizeFormsOptions} [options] Options to start receipt recognition operation
    */
   public async beginRecognizeReceiptsFromUrl(
     receiptUrl: string,
-    options: BeginRecognizeReceiptsOptions = {}
-  ): Promise<ReceiptPollerLike> {
+    options: BeginRecognizeFormsOptions = {}
+  ): Promise<FormPollerLike> {
     const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
       getRecognizeResult: (...args) => this.getReceipts(...args)
@@ -795,7 +763,7 @@ async function recognizeReceiptInternal(
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
   contentType?: FormContentType,
-  options?: RecognizeReceiptsOptions,
+  options?: RecognizeFormsOptions,
   _modelId?: string
 ): Promise<AnalyzeReceiptAsyncResponseModel> {
   const realOptions = options || { includeFieldElements: false };

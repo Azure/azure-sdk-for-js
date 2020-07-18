@@ -112,7 +112,7 @@ describe("controlled connection initialization", () => {
     } catch (err) {
       assert.equal(
         err.message,
-        `The sender for "${senderEntityPath}" has been closed and can no longer be used. Please create a new sender using the "getSender" method on the ServiceBusClient.`
+        `The sender for "${senderEntityPath}" has been closed and can no longer be used. Please create a new sender using the "createSender" method on the ServiceBusClient.`
       );
     }
   });

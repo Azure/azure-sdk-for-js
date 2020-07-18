@@ -46,9 +46,7 @@ describe("dead lettering", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveMessages(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
@@ -153,8 +151,8 @@ describe("dead lettering", () => {
     const deadLetterMessages = await deadLetterReceiver.receiveMessages(1);
     should.exist(deadLetterMessages[0]);
 
-    const reason = deadLetterMessages[0]!.properties!["DeadLetterReason"];
-    const description = deadLetterMessages[0]!.properties!["DeadLetterErrorDescription"];
+    const reason = deadLetterMessages[0].deadLetterReason;
+    const description = deadLetterMessages[0].deadLetterErrorDescription;
     const customProperty = deadLetterMessages[0]!.properties!["customProperty"];
 
     should.equal(reason, expected.reason);
@@ -195,9 +193,7 @@ describe("abandoning", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveMessages(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
@@ -320,9 +316,7 @@ describe("deferring", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveMessages(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
