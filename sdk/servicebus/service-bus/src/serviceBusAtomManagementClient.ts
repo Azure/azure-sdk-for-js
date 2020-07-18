@@ -35,6 +35,7 @@ import {
   buildQueue,
   buildQueueOptions,
   buildQueueRuntimeProperties,
+  CreateQueueOptions,
   InternalQueueOptions,
   QueueProperties,
   QueueResourceSerializer,
@@ -68,7 +69,7 @@ import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { createSpan, getCanonicalCode } from "./util/tracing";
-import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
+import {  isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -117,34 +118,12 @@ export interface EntitiesResponse<T>
  * Represents properties of the namespace.
  */
 export interface NamespacePropertiesResponse extends NamespaceProperties, Response {}
-/**
- * Options to be passed to the createQueue method.
- */
-export interface CreateQueueOptions extends Omit<QueueProperties, "status"> {}
-/**
- * Fields that are updatable on the QueueProperties.
- */
-export type UpdatableFields =
-  | "defaultMessageTtl"
-  | "lockDuration"
-  | "deadLetteringOnMessageExpiration"
-  | "duplicateDetectionHistoryTimeWindow"
-  | "maxDeliveryCount";
-/**
- * Fields that can assume undefined values on the QueueProperties.
- */
-export type AllowUndefinedFields =
-  | "forwardTo"
-  | "authorizationRules"
-  | "forwardDeadLetteredMessagesTo";
+
 /**
  * Represents result of create, get, and update operations on queue.
  */
-export interface QueueResponse
-  extends Required<Pick<QueueProperties, UpdatableFields>>,
-    Readonly<Pick<QueueProperties, AllowUndefinedFields>>,
-    Readonly<Required<Omit<QueueProperties, UpdatableFields | AllowUndefinedFields>>>,
-    Response {}
+export interface QueueResponse extends QueueProperties, Response {}
+
 /**
  * Represents runtime info of a queue.
  */
@@ -368,7 +347,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       operationOptions
     );
     try {
-      let queue: QueueProperties;
+      let queue: CreateQueueOptions;
       if (typeof queueNameOrOptions === "string") {
         queue = { name: queueNameOrOptions };
       } else {

@@ -8,7 +8,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
-import { QueueProperties } from "../src/serializers/queueResourceSerializer";
+import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
 import { SubscriptionProperties } from "../src/serializers/subscriptionResourceSerializer";
 import { TopicProperties } from "../src/serializers/topicResourceSerializer";
@@ -64,7 +64,7 @@ describe("Atom management - Namespace", function(): void {
       ["_response", "createdAt", "updatedAt", "name"]
     );
   });
-  
+
   it("Create queue response", async () => {
     const response = await serviceBusAtomManagementClient.createQueue("random");
     // @ts-expect-error
@@ -2380,7 +2380,7 @@ async function createEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueProperties, "name">,
+  queueOptions?: Omit<CreateQueueOptions, "name">,
   topicOptions?: Omit<TopicProperties, "name">,
   subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
   ruleOptions?: Omit<RuleProperties, "name">
@@ -2600,7 +2600,7 @@ async function updateEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueProperties, "name">,
+  queueOptions?: Omit<CreateQueueOptions, "name">,
   topicOptions?: Omit<TopicProperties, "name">,
   subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
   ruleOptions?: Omit<RuleProperties, "name">

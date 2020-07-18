@@ -23,7 +23,7 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
-export type AllowUndefinedFields = "forwardTo" | "authorizationRules" | "forwardDeadLetteredMessagesTo";
+export type AllowUndefinedFieldsForQueue = "forwardTo" | "authorizationRules" | "forwardDeadLetteredMessagesTo";
 
 // @public
 export type AuthorizationRule = {
@@ -56,7 +56,23 @@ export interface CreateBatchOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface CreateQueueOptions extends Omit<QueueProperties, "status"> {
+export interface CreateQueueOptions {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTtl?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
+    name: string;
+    requiresDuplicateDetection?: boolean;
+    requiresSession?: boolean;
+    userMetadata?: string;
 }
 
 // @public
@@ -133,28 +149,12 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface QueueProperties {
-    authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle?: string;
-    deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTtl?: string;
-    duplicateDetectionHistoryTimeWindow?: string;
-    enableBatchedOperations?: boolean;
-    enablePartitioning?: boolean;
-    forwardDeadLetteredMessagesTo?: string;
-    forwardTo?: string;
-    lockDuration?: string;
-    maxDeliveryCount?: number;
-    maxSizeInMegabytes?: number;
-    name: string;
-    requiresDuplicateDetection?: boolean;
-    requiresSession?: boolean;
-    status?: EntityStatus;
-    userMetadata?: string;
+export interface QueueProperties extends Required<Pick<CreateQueueOptions, UpdatableFieldsForQueue>>, Readonly<Pick<CreateQueueOptions, AllowUndefinedFieldsForQueue>>, Readonly<Required<Omit<CreateQueueOptions, UpdatableFieldsForQueue | AllowUndefinedFieldsForQueue>>> {
+    status: EntityStatus;
 }
 
 // @public
-export interface QueueResponse extends Required<Pick<QueueProperties, UpdatableFields>>, Readonly<Pick<QueueProperties, AllowUndefinedFields>>, Readonly<Required<Omit<QueueProperties, UpdatableFields | AllowUndefinedFields>>>, Response {
+export interface QueueResponse extends QueueProperties, Response {
 }
 
 // @public
@@ -476,7 +476,7 @@ export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, 
 }
 
 // @public
-export type UpdatableFields = "defaultMessageTtl" | "lockDuration" | "deadLetteringOnMessageExpiration" | "duplicateDetectionHistoryTimeWindow" | "maxDeliveryCount";
+export type UpdatableFieldsForQueue = "defaultMessageTtl" | "lockDuration" | "deadLetteringOnMessageExpiration" | "duplicateDetectionHistoryTimeWindow" | "maxDeliveryCount";
 
 // @public
 export interface WaitTimeOptions {

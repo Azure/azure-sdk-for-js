@@ -11,7 +11,6 @@ import {
 import * as Constants from "../util/constants";
 import {
   AuthorizationRule,
-  EntityStatus,
   getAuthorizationRulesOrUndefined,
   getBoolean,
   getCountDetailsOrUndefined,
@@ -21,7 +20,8 @@ import {
   getString,
   getStringOrUndefined,
   MessageCountDetails,
-  getDate
+  getDate,
+  EntityStatus
 } from "../util/utils";
 
 /**
@@ -32,7 +32,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param queue
  */
-export function buildQueueOptions(queue: QueueProperties): InternalQueueOptions {
+export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptions {
   return {
     LockDuration: queue.lockDuration,
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
@@ -44,7 +44,6 @@ export function buildQueueOptions(queue: QueueProperties): InternalQueueOptions 
     MaxDeliveryCount: getStringOrUndefined(queue.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),
-    Status: getStringOrUndefined(queue.status),
     AutoDeleteOnIdle: getStringOrUndefined(queue.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
@@ -129,7 +128,7 @@ export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperti
 /**
  * Represents settable options on a queue
  */
-export interface QueueProperties {
+export interface CreateQueueOptions {
   /**
    * Name of the queue
    */
@@ -214,11 +213,6 @@ export interface QueueProperties {
   authorizationRules?: AuthorizationRule[];
 
   /**
-   * Status of the messaging entity.
-   */
-  status?: EntityStatus;
-
-  /**
    * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
    * For example, an absolute URL input would be of the form
@@ -256,6 +250,44 @@ export interface QueueProperties {
   forwardDeadLetteredMessagesTo?: string;
 }
 
+/**
+ * Fields that are updatable in the CreateQueueOptions.
+ */
+export type UpdatableFieldsForQueue =
+  | "defaultMessageTtl"
+  | "lockDuration"
+  | "deadLetteringOnMessageExpiration"
+  | "duplicateDetectionHistoryTimeWindow"
+  | "maxDeliveryCount";
+
+/**
+ * Fields that can assume undefined values in the QueueResponse.
+ */
+export type AllowUndefinedFieldsForQueue =
+  | "forwardTo"
+  | "authorizationRules"
+  | "forwardDeadLetteredMessagesTo";
+
+/**
+ * Represents the input for updateQueue.
+ *
+ * @export
+ * @interface QueueProperties
+ * @extends {Required<Pick<CreateQueueOptions, UpdatableFieldsForQueue>>}
+ * @extends {Readonly<Pick<CreateQueueOptions, AllowUndefinedFieldsForQueue>>}
+ * @extends {(Readonly<Required<Omit<CreateQueueOptions, UpdatableFieldsForQueue | AllowUndefinedFieldsForQueue>>>)}
+ */
+export interface QueueProperties
+  extends Required<Pick<CreateQueueOptions, UpdatableFieldsForQueue>>,
+    Readonly<Pick<CreateQueueOptions, AllowUndefinedFieldsForQueue>>,
+    Readonly<
+      Required<Omit<CreateQueueOptions, UpdatableFieldsForQueue | AllowUndefinedFieldsForQueue>>
+    > {
+  /**
+   * Status of the messaging entity.
+   */
+  status: EntityStatus;
+}
 /**
  * @internal
  * @ignore

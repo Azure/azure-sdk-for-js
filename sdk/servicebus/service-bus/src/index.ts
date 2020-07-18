@@ -33,7 +33,13 @@ export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
-export { QueueProperties, QueueRuntimeProperties } from "./serializers/queueResourceSerializer";
+export {
+  AllowUndefinedFieldsForQueue,
+  CreateQueueOptions,
+  QueueProperties,
+  QueueRuntimeProperties,
+  UpdatableFieldsForQueue
+} from "./serializers/queueResourceSerializer";
 export {
   RuleProperties,
   SqlParameter,
@@ -46,8 +52,6 @@ export {
 } from "./serializers/subscriptionResourceSerializer";
 export { TopicProperties, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
 export {
-  AllowUndefinedFields,
-  CreateQueueOptions,
   EntitiesResponse,
   NamespacePropertiesResponse,
   QueueResponse,
@@ -59,8 +63,7 @@ export {
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,
-  TopicRuntimePropertiesResponse,
-  UpdatableFields
+  TopicRuntimePropertiesResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {

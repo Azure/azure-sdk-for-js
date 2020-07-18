@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { delay } from "../../src";
-import { QueueProperties } from "../../src/serializers/queueResourceSerializer";
 import { TopicProperties } from "../../src/serializers/topicResourceSerializer";
 import { SubscriptionProperties } from "../../src/serializers/subscriptionResourceSerializer";
 import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import chai from "chai";
+import { CreateQueueOptions } from "../../src/serializers/queueResourceSerializer";
 const should = chai.should();
 
 let client: ServiceBusManagementClient;
@@ -78,7 +78,7 @@ async function retry(
  */
 export async function recreateQueue(
   queueName: string,
-  parameters?: Omit<QueueProperties, "name">
+  parameters?: Omit<CreateQueueOptions, "name">
 ): Promise<void> {
   await getManagementClient();
 
