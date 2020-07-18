@@ -10,8 +10,8 @@ import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
 import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
-import { SubscriptionProperties } from "../src/serializers/subscriptionResourceSerializer";
-import { TopicProperties } from "../src/serializers/topicResourceSerializer";
+import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
+import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
 import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 import { EntityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
@@ -2381,8 +2381,8 @@ async function createEntity(
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
   queueOptions?: Omit<CreateQueueOptions, "name">,
-  topicOptions?: Omit<TopicProperties, "name">,
-  subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
+  topicOptions?: Omit<CreateTopicOptions, "name">,
+  subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
   ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {
@@ -2601,8 +2601,8 @@ async function updateEntity(
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
   queueOptions?: Omit<CreateQueueOptions, "name">,
-  topicOptions?: Omit<TopicProperties, "name">,
-  subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
+  topicOptions?: Omit<CreateTopicOptions, "name">,
+  subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
   ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {

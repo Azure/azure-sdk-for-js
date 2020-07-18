@@ -124,12 +124,9 @@ describe("Operation Options", () => {
     it("updateTopic", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.updateTopic(
-            { name: entityName1 },
-            {
-              abortSignal: AbortController.timeout(1)
-            }
-          )
+          await serviceBusAtomManagementClient.updateTopic({ name: entityName1 } as any, {
+            abortSignal: AbortController.timeout(1)
+          })
       );
     });
     it("deleteTopic", async () => {
@@ -187,7 +184,7 @@ describe("Operation Options", () => {
       await verifyAbortError(
         async () =>
           await serviceBusAtomManagementClient.updateSubscription(
-            { topicName: entityName1, subscriptionName: entityName2 },
+            { topicName: entityName1, subscriptionName: entityName2 } as any,
             {
               abortSignal: AbortController.timeout(1)
             }

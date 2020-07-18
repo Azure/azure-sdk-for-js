@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { delay } from "../../src";
-import { TopicProperties } from "../../src/serializers/topicResourceSerializer";
-import { SubscriptionProperties } from "../../src/serializers/subscriptionResourceSerializer";
+import { CreateTopicOptions } from "../../src/serializers/topicResourceSerializer";
+import { CreateSubscriptionOptions } from "../../src/serializers/subscriptionResourceSerializer";
 import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
@@ -116,7 +116,7 @@ export async function recreateQueue(
  */
 export async function recreateTopic(
   topicName: string,
-  parameters?: Omit<TopicProperties, "name">
+  parameters?: Omit<CreateTopicOptions, "name">
 ): Promise<void> {
   await getManagementClient();
 
@@ -156,7 +156,7 @@ export async function recreateTopic(
 export async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
-  parameters?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">
+  parameters?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">
 ): Promise<void> {
   await getManagementClient();
   /*
