@@ -26,6 +26,12 @@ import { WebSocketOptions } from '@azure/core-amqp';
 export type AllowUndefinedFieldsForQueue = "forwardTo" | "authorizationRules" | "forwardDeadLetteredMessagesTo";
 
 // @public
+export type AllowUndefinedFieldsForSubscription = "forwardTo" | "forwardDeadLetteredMessagesTo";
+
+// @public
+export type AllowUndefinedFieldsForTopic = "authorizationRules";
+
+// @public
 export type AuthorizationRule = {
     claimType: string;
     claimValue: string;
@@ -72,11 +78,46 @@ export interface CreateQueueOptions {
     name: string;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
+    status?: EntityStatus;
     userMetadata?: string;
 }
 
 // @public
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptionsBase {
+}
+
+// @public
+export interface CreateSubscriptionOptions {
+    autoDeleteOnIdle?: string;
+    deadLetteringOnFilterEvaluationExceptions?: boolean;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTtl?: string;
+    enableBatchedOperations?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    requiresSession?: boolean;
+    status?: EntityStatus;
+    subscriptionName: string;
+    topicName: string;
+    userMetadata?: string;
+}
+
+// @public
+export interface CreateTopicOptions {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    defaultMessageTtl?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    maxSizeInMegabytes?: number;
+    name: string;
+    requiresDuplicateDetection?: boolean;
+    status?: EntityStatus;
+    supportOrdering?: boolean;
+    userMetadata?: string;
 }
 
 // @public
@@ -150,7 +191,6 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 
 // @public
 export interface QueueProperties extends Required<Pick<CreateQueueOptions, UpdatableFieldsForQueue>>, Readonly<Pick<CreateQueueOptions, AllowUndefinedFieldsForQueue>>, Readonly<Required<Omit<CreateQueueOptions, UpdatableFieldsForQueue | AllowUndefinedFieldsForQueue>>> {
-    status: EntityStatus;
 }
 
 // @public
@@ -291,9 +331,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     createQueue(queue: CreateQueueOptions, operationOptions?: OperationOptions): Promise<QueueResponse>;
     createRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    createSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
+    createSubscription(subscription: CreateSubscriptionOptions, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
-    createTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    createTopic(topic: CreateTopicOptions, operationOptions?: OperationOptions): Promise<TopicResponse>;
     deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
@@ -401,21 +441,7 @@ export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOp
 }
 
 // @public
-export interface SubscriptionProperties {
-    autoDeleteOnIdle?: string;
-    deadLetteringOnFilterEvaluationExceptions?: boolean;
-    deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTtl?: string;
-    enableBatchedOperations?: boolean;
-    forwardDeadLetteredMessagesTo?: string;
-    forwardTo?: string;
-    lockDuration?: string;
-    maxDeliveryCount?: number;
-    requiresSession?: boolean;
-    status?: EntityStatus;
-    subscriptionName: string;
-    topicName: string;
-    userMetadata?: string;
+export interface SubscriptionProperties extends Required<Pick<CreateSubscriptionOptions, UpdatableFieldsForSubscription>>, Readonly<Pick<CreateSubscriptionOptions, AllowUndefinedFieldsForSubscription>>, Readonly<Required<Omit<CreateSubscriptionOptions, UpdatableFieldsForSubscription | AllowUndefinedFieldsForSubscription>>> {
 }
 
 // @public
@@ -442,19 +468,7 @@ export { TokenCredential }
 export { TokenType }
 
 // @public
-export interface TopicProperties {
-    authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle?: string;
-    defaultMessageTtl?: string;
-    duplicateDetectionHistoryTimeWindow?: string;
-    enableBatchedOperations?: boolean;
-    enablePartitioning?: boolean;
-    maxSizeInMegabytes?: number;
-    name: string;
-    requiresDuplicateDetection?: boolean;
-    status?: EntityStatus;
-    supportOrdering?: boolean;
-    userMetadata?: string;
+export interface TopicProperties extends Required<Pick<CreateTopicOptions, UpdatableFieldsForTopic>>, Readonly<Pick<CreateTopicOptions, AllowUndefinedFieldsForTopic>>, Readonly<Required<Omit<CreateTopicOptions, UpdatableFieldsForTopic | AllowUndefinedFieldsForTopic>>> {
 }
 
 // @public
@@ -477,6 +491,12 @@ export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, 
 
 // @public
 export type UpdatableFieldsForQueue = "defaultMessageTtl" | "lockDuration" | "deadLetteringOnMessageExpiration" | "duplicateDetectionHistoryTimeWindow" | "maxDeliveryCount";
+
+// @public
+export type UpdatableFieldsForSubscription = "lockDuration" | "deadLetteringOnMessageExpiration" | "maxDeliveryCount";
+
+// @public
+export type UpdatableFieldsForTopic = "defaultMessageTtl" | "duplicateDetectionHistoryTimeWindow";
 
 // @public
 export interface WaitTimeOptions {

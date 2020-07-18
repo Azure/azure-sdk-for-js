@@ -47,10 +47,19 @@ export {
   SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 export {
+  AllowUndefinedFieldsForSubscription,
+  CreateSubscriptionOptions,
   SubscriptionProperties,
-  SubscriptionRuntimeProperties
+  SubscriptionRuntimeProperties,
+  UpdatableFieldsForSubscription
 } from "./serializers/subscriptionResourceSerializer";
-export { TopicProperties, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
+export {
+  AllowUndefinedFieldsForTopic,
+  CreateTopicOptions,
+  TopicProperties,
+  TopicRuntimeProperties,
+  UpdatableFieldsForTopic
+} from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
   NamespacePropertiesResponse,
