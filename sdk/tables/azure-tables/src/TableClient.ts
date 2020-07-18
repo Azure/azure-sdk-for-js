@@ -2,25 +2,27 @@
 // Licensed under the MIT license.
 
 import { TableServiceClient } from "./TableServiceClient";
-import { Entity } from "./models";
+import {
+  Entity,
+  ListEntitiesOptions,
+  CreateEntityOptions,
+  UpdateEntityOptions,
+  MergeEntityOptions,
+  SetAccessPolicyOptions
+} from "./models";
 import {
   TableServiceClientOptions,
   QueryOptions,
   GetEntityOptions,
   GetEntityResponse,
-  ListEntitiesOptions,
   ListEntitiesResponse,
-  CreateEntityOptions,
   CreateEntityResponse,
   DeleteEntityOptions,
   DeleteEntityResponse,
-  UpdateEntityOptions,
   UpdateEntityResponse,
-  MergeEntityOptions,
   MergeEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
-  SetAccessPolicyOptions,
   SignedIdentifier,
   SetAccessPolicyResponse
 } from "./generatedModels";
@@ -67,7 +69,7 @@ export class TableClient {
   listEntities(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
-    options?: Omit<ListEntitiesOptions, "queryOptions">
+    options?: ListEntitiesOptions
   ): Promise<ListEntitiesResponse> {
     return this.client.listEntities(this.tableName, query, options);
   }
@@ -77,10 +79,7 @@ export class TableClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  createEntity(
-    entity?: Entity,
-    options?: Omit<CreateEntityOptions, "tableEntityProperties">
-  ): Promise<CreateEntityResponse> {
+  createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse> {
     return this.client.createEntity(this.tableName, entity, options);
   }
 
@@ -114,7 +113,7 @@ export class TableClient {
   updateEntity(
     entity: Entity,
     ifMatch?: string,
-    options?: Omit<UpdateEntityOptions, "tableEntityProperties" | "ifMatch">
+    options?: UpdateEntityOptions
   ): Promise<UpdateEntityResponse> {
     return this.client.updateEntity(this.tableName, entity, ifMatch, options);
   }
@@ -128,7 +127,7 @@ export class TableClient {
   mergeEntity(
     entity: Entity,
     ifMatch?: string,
-    options?: Omit<MergeEntityOptions, "tableEntityProperties" | "ifMatch">
+    options?: MergeEntityOptions
   ): Promise<MergeEntityResponse> {
     return this.client.mergeEntity(this.tableName, entity, ifMatch, options);
   }
@@ -149,7 +148,7 @@ export class TableClient {
    */
   setAccessPolicy(
     acl?: SignedIdentifier[],
-    options?: Omit<SetAccessPolicyOptions, "tableAcl">
+    options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
     return this.client.setAccessPolicy(this.tableName, acl, options);
   }

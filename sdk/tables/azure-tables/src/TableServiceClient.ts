@@ -4,7 +4,15 @@
 import { GeneratedClient } from "./generated/generatedClient";
 import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
-import { Entity } from "./models";
+import {
+  Entity,
+  ListTablesOptions,
+  ListEntitiesOptions,
+  CreateEntityOptions,
+  UpdateEntityOptions,
+  MergeEntityOptions,
+  SetAccessPolicyOptions
+} from "./models";
 import {
   TableServiceClientOptions,
   GetStatisticsOptions,
@@ -18,24 +26,18 @@ import {
   CreateTableResponse,
   DeleteTableOptions,
   DeleteTableResponse,
-  ListTablesOptions,
   QueryOptions,
   ListTablesResponse,
   GetEntityOptions,
   GetEntityResponse,
-  ListEntitiesOptions,
   ListEntitiesResponse,
-  CreateEntityOptions,
   CreateEntityResponse,
   DeleteEntityOptions,
   DeleteEntityResponse,
-  UpdateEntityOptions,
   UpdateEntityResponse,
-  MergeEntityOptions,
   MergeEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
-  SetAccessPolicyOptions,
   SignedIdentifier,
   SetAccessPolicyResponse
 } from "./generatedModels";
@@ -119,7 +121,7 @@ export class TableServiceClient {
   listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
-    options?: Omit<ListTablesOptions, "queryOptions">
+    options?: ListTablesOptions
   ): Promise<ListTablesResponse> {
     return this.table.query({ queryOptions: query, ...options });
   }
@@ -150,7 +152,7 @@ export class TableServiceClient {
     tableName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
-    options?: Omit<ListEntitiesOptions, "queryOptions">
+    options?: ListEntitiesOptions
   ): Promise<ListEntitiesResponse> {
     return this.table.queryEntities(tableName, { queryOptions: query, ...options });
   }
@@ -164,7 +166,7 @@ export class TableServiceClient {
   createEntity(
     tableName: string,
     entity?: Entity,
-    options?: Omit<CreateEntityOptions, "tableEntityProperties">
+    options?: CreateEntityOptions
   ): Promise<CreateEntityResponse> {
     return this.table.insertEntity(tableName, { tableEntityProperties: entity, ...options });
   }
@@ -203,7 +205,7 @@ export class TableServiceClient {
     tableName: string,
     entity: Entity,
     ifMatch?: string,
-    options?: Omit<UpdateEntityOptions, "tableEntityProperties" | "ifMatch">
+    options?: UpdateEntityOptions
   ): Promise<UpdateEntityResponse> {
     return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
       tableEntityProperties: entity,
@@ -223,7 +225,7 @@ export class TableServiceClient {
     tableName: string,
     entity: Entity,
     ifMatch?: string,
-    options?: Omit<MergeEntityOptions, "tableEntityProperties" | "ifMatch">
+    options?: MergeEntityOptions
   ): Promise<MergeEntityResponse> {
     return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
       tableEntityProperties: entity,
@@ -254,7 +256,7 @@ export class TableServiceClient {
   setAccessPolicy(
     tableName: string,
     acl?: SignedIdentifier[],
-    options?: Omit<SetAccessPolicyOptions, "tableAcl">
+    options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
     return this.table.setAccessPolicy(tableName, { tableAcl: acl, ...options });
   }

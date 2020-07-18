@@ -22,16 +22,10 @@ export interface CorsRule {
     maxAgeInSeconds: number;
 }
 
+// Warning: (ae-forgotten-export) The symbol "TableInsertEntityOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface CreateEntityOptions extends coreHttp.OperationOptions {
-    queryOptions?: QueryOptions;
-    requestId?: string;
-    responsePreference?: ResponseFormat;
-    tableEntityProperties?: {
-        [propertyName: string]: any;
-    };
-    timeout?: number;
-}
+export type CreateEntityOptions = Omit<TableInsertEntityOptionalParams, "tableEntityProperties">;
 
 // @public
 export type CreateEntityResponse = TableInsertEntityHeaders & {
@@ -165,14 +159,10 @@ export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceSt
     };
 };
 
+// Warning: (ae-forgotten-export) The symbol "TableQueryEntitiesOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface ListEntitiesOptions extends coreHttp.OperationOptions {
-    nextPartitionKey?: string;
-    nextRowKey?: string;
-    queryOptions?: QueryOptions;
-    requestId?: string;
-    timeout?: number;
-}
+export type ListEntitiesOptions = Omit<TableQueryEntitiesOptionalParams, "queryOptions">;
 
 // @public
 export type ListEntitiesResponse = TableQueryEntitiesHeaders & TableEntityQueryResponse & {
@@ -183,12 +173,10 @@ export type ListEntitiesResponse = TableQueryEntitiesHeaders & TableEntityQueryR
     };
 };
 
+// Warning: (ae-forgotten-export) The symbol "TableQueryOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface ListTablesOptions extends coreHttp.OperationOptions {
-    nextTableName?: string;
-    queryOptions?: QueryOptions;
-    requestId?: string;
-}
+export type ListTablesOptions = Omit<TableQueryOptionalParams, "queryOptions">;
 
 // @public
 export type ListTablesResponse = TableQueryHeaders & TableQueryResponse & {
@@ -208,16 +196,10 @@ export interface Logging {
     write: boolean;
 }
 
+// Warning: (ae-forgotten-export) The symbol "TableMergeEntityOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface MergeEntityOptions extends coreHttp.OperationOptions {
-    ifMatch?: string;
-    queryOptions?: QueryOptions;
-    requestId?: string;
-    tableEntityProperties?: {
-        [propertyName: string]: any;
-    };
-    timeout?: number;
-}
+export type MergeEntityOptions = Omit<TableMergeEntityOptionalParams, "tableEntityProperties" | "ifMatch">;
 
 // @public
 export type MergeEntityResponse = TableMergeEntityHeaders & {
@@ -284,12 +266,10 @@ export interface ServiceSetPropertiesHeaders {
     version?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "TableSetAccessPolicyOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface SetAccessPolicyOptions extends coreHttp.OperationOptions {
-    requestId?: string;
-    tableAcl?: SignedIdentifier[];
-    timeout?: number;
-}
+export type SetAccessPolicyOptions = Omit<TableSetAccessPolicyOptionalParams, "tableAcl">;
 
 // @public
 export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders & {
@@ -463,7 +443,7 @@ export interface TableResponseProperties {
 // @public
 export class TableServiceClient {
     constructor(url: string, options?: TableServiceClientOptions);
-    createEntity(tableName: string, entity?: Entity, options?: Omit<CreateEntityOptions, "tableEntityProperties">): Promise<CreateEntityResponse>;
+    createEntity(tableName: string, entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse>;
     deleteEntity(tableName: string, partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
     deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
@@ -471,12 +451,12 @@ export class TableServiceClient {
     getEntity(tableName: string, partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse>;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;
-    listEntities(tableName: string, query?: QueryOptions, options?: Omit<ListEntitiesOptions, "queryOptions">): Promise<ListEntitiesResponse>;
-    listTables(query?: QueryOptions, options?: Omit<ListTablesOptions, "queryOptions">): Promise<ListTablesResponse>;
-    mergeEntity(tableName: string, entity: Entity, ifMatch?: string, options?: Omit<MergeEntityOptions, "tableEntityProperties" | "ifMatch">): Promise<MergeEntityResponse>;
-    setAccessPolicy(tableName: string, acl?: SignedIdentifier[], options?: Omit<SetAccessPolicyOptions, "tableAcl">): Promise<SetAccessPolicyResponse>;
+    listEntities(tableName: string, query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse>;
+    listTables(query?: QueryOptions, options?: ListTablesOptions): Promise<ListTablesResponse>;
+    mergeEntity(tableName: string, entity: Entity, ifMatch?: string, options?: MergeEntityOptions): Promise<MergeEntityResponse>;
+    setAccessPolicy(tableName: string, acl?: SignedIdentifier[], options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
-    updateEntity(tableName: string, entity: Entity, ifMatch?: string, options?: Omit<UpdateEntityOptions, "tableEntityProperties" | "ifMatch">): Promise<UpdateEntityResponse>;
+    updateEntity(tableName: string, entity: Entity, ifMatch?: string, options?: UpdateEntityOptions): Promise<UpdateEntityResponse>;
 }
 
 // @public
@@ -507,16 +487,10 @@ export interface TableUpdateEntityHeaders {
     version?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "TableUpdateEntityOptionalParams" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface UpdateEntityOptions extends coreHttp.OperationOptions {
-    ifMatch?: string;
-    queryOptions?: QueryOptions;
-    requestId?: string;
-    tableEntityProperties?: {
-        [propertyName: string]: any;
-    };
-    timeout?: number;
-}
+export type UpdateEntityOptions = Omit<TableUpdateEntityOptionalParams, "tableEntityProperties" | "ifMatch">;
 
 // @public
 export type UpdateEntityResponse = TableUpdateEntityHeaders & {
