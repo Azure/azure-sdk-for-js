@@ -138,7 +138,7 @@ export type AllowUndefinedFields =
   | "authorizationRules"
   | "forwardDeadLetteredMessagesTo";
 /**
- * Represents result of create, get, update operations on queue.
+ * Represents result of create, get, and update operations on queue.
  */
 export interface QueueResponse
   extends Required<Pick<QueueProperties, UpdatableFields>>,
