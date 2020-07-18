@@ -172,7 +172,7 @@ const updateOtherProjectDependencySections = (rushPackages, package, depName) =>
 Check rush common-versions for the exact version to replace dev tags for - if that version is present 
 in common-versions - then update common-versions adding the dev version as an exception
 */
-const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, searchVersion, devVersion) => {
+const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, searchVersion) => {
   var allowedAlternativeVersions = commonVersionsConfig["allowedAlternativeVersions"];
   const parsedSearchVersion = semver.parse(searchVersion);
 
@@ -182,7 +182,8 @@ const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, sea
       if (parsedPackageVersion.major == parsedSearchVersion.major &&
         parsedPackageVersion.minor == parsedSearchVersion.minor &&
         parsedPackageVersion.patch == parsedSearchVersion.patch) {
-        allowedAlternativeVersions[package].push(devVersion);
+        var devVersionRange = "^" + parsedSearchVersion.major + "." + parsedSearchVersion.minor + "." + parsedSearchVersion.patch + "-dev";
+        allowedAlternativeVersions[package].push(devVersionRange);
         break;
       }
     }
@@ -225,7 +226,7 @@ async function main(argv) {
     console.log(package);
     rushPackages = updatePackageVersion(rushPackages, package, buildId);
     rushPackages = updateInternalDependencyVersions(rushPackages, package, buildId);
-    await updateCommonVersions(repoRoot, commonVersionsConfig, package, rushPackages[package].json.version, rushPackages[package].newVer);
+    await updateCommonVersions(repoRoot, commonVersionsConfig, package, rushPackages[package].json.version);
     console.log(rushPackages[package].newVer);
   }
 
