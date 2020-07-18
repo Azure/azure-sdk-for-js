@@ -43,6 +43,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     MaxDeliveryCount: getStringOrUndefined(queue.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),
+    Status: getStringOrUndefined(queue.status),
     AutoDeleteOnIdle: getStringOrUndefined(queue.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
@@ -212,6 +213,11 @@ export interface CreateQueueOptions {
   authorizationRules?: AuthorizationRule[];
 
   /**
+   * Status of the messaging entity.
+   */
+  status?: EntityStatus;
+
+  /**
    * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
    * For example, an absolute URL input would be of the form
@@ -281,12 +287,7 @@ export interface QueueProperties
     Readonly<Pick<CreateQueueOptions, AllowUndefinedFieldsForQueue>>,
     Readonly<
       Required<Omit<CreateQueueOptions, UpdatableFieldsForQueue | AllowUndefinedFieldsForQueue>>
-    > {
-  /**
-   * Status of the messaging entity.
-   */
-  status: EntityStatus;
-}
+    > {}
 /**
  * @internal
  * @ignore

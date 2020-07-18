@@ -42,6 +42,7 @@ export function buildSubscriptionOptions(
     ),
     MaxDeliveryCount: getStringOrUndefined(subscription.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscription.enableBatchedOperations),
+    Status: getStringOrUndefined(subscription.status),
     ForwardTo: getStringOrUndefined(subscription.forwardTo),
     UserMetadata: getStringOrUndefined(subscription.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
@@ -190,6 +191,11 @@ export interface CreateSubscriptionOptions {
   enableBatchedOperations?: boolean;
 
   /**
+   * Status of the messaging entity.
+   */
+  status?: EntityStatus;
+
+  /**
    * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
    * For example, an absolute URL input would be of the form
@@ -259,12 +265,7 @@ export interface SubscriptionProperties
           UpdatableFieldsForSubscription | AllowUndefinedFieldsForSubscription
         >
       >
-    > {
-  /**
-   * Status of the messaging entity.
-   */
-  status: EntityStatus;
-}
+    > {}
 /**
  * @internal
  * @ignore

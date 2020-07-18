@@ -37,6 +37,7 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
     EnableBatchedOperations: getStringOrUndefined(topic.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(topic.authorizationRules),
+    Status: getStringOrUndefined(topic.status),
     UserMetadata: getStringOrUndefined(topic.userMetadata),
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
@@ -162,6 +163,11 @@ export interface CreateTopicOptions {
   authorizationRules?: AuthorizationRule[];
 
   /**
+   * Status of the messaging entity.
+   */
+  status?: EntityStatus;
+
+  /**
    * The user provided metadata information associated with the topic.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
@@ -212,12 +218,7 @@ export interface TopicProperties
     Readonly<Pick<CreateTopicOptions, AllowUndefinedFieldsForTopic>>,
     Readonly<
       Required<Omit<CreateTopicOptions, UpdatableFieldsForTopic | AllowUndefinedFieldsForTopic>>
-    > {
-  /**
-   * Status of the messaging entity.
-   */
-  status: EntityStatus;
-}
+    > {}
 
 /**
  * @internal
