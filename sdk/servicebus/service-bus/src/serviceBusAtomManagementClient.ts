@@ -65,10 +65,10 @@ import {
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
-import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-import { createSpan, getCanonicalCode } from "./util/tracing";
 import { parseURL } from "./util/parseUrl";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
+import { createSpan, getCanonicalCode } from "./util/tracing";
+import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -122,27 +122,28 @@ export interface NamespacePropertiesResponse extends NamespaceProperties, Respon
  */
 export interface CreateQueueOptions extends Omit<QueueProperties, "status"> {}
 /**
+ * Fields that are updatable on the QueueProperties.
+ */
+export type UpdatableFields =
+  | "defaultMessageTtl"
+  | "lockDuration"
+  | "deadLetteringOnMessageExpiration"
+  | "duplicateDetectionHistoryTimeWindow"
+  | "maxDeliveryCount";
+/**
+ * Fields that can assume undefined values on the QueueProperties.
+ */
+export type AllowUndefinedFields =
+  | "forwardTo"
+  | "authorizationRules"
+  | "forwardDeadLetteredMessagesTo";
+/**
  * Represents result of create, get, update operations on queue.
  */
 export interface QueueResponse
-  extends Pick<
-      Required<QueueProperties>,
-      | "defaultMessageTtl"
-      | "lockDuration"
-      | "deadLetteringOnMessageExpiration"
-      | "duplicateDetectionHistoryTimeWindow"
-      | "maxDeliveryCount"
-    >,
-    Readonly<
-      Omit<
-        Required<QueueProperties>,
-        | "defaultMessageTtl"
-        | "lockDuration"
-        | "deadLetteringOnMessageExpiration"
-        | "duplicateDetectionHistoryTimeWindow"
-        | "maxDeliveryCount"
-      >
-    >,
+  extends Required<Pick<QueueProperties, UpdatableFields>>,
+    Readonly<Pick<QueueProperties, AllowUndefinedFields>>,
+    Readonly<Required<Omit<QueueProperties, UpdatableFields | AllowUndefinedFields>>>,
     Response {}
 /**
  * Represents runtime info of a queue.

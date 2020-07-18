@@ -23,6 +23,9 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
+export type AllowUndefinedFields = "forwardTo" | "authorizationRules" | "forwardDeadLetteredMessagesTo";
+
+// @public
 export type AuthorizationRule = {
     claimType: string;
     claimValue: string;
@@ -53,7 +56,7 @@ export interface CreateBatchOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface CreateQueueOptions extends Omit<QueueDescription, "status"> {
+export interface CreateQueueOptions extends Omit<QueueProperties, "status"> {
 }
 
 // @public
@@ -79,12 +82,6 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptionsBase, WaitTimeOptions {
-}
-
-// @public
-export interface ListRequestOptions {
-    maxCount?: number;
-    skip?: number;
 }
 
 // @public
@@ -157,7 +154,7 @@ export interface QueueProperties {
 }
 
 // @public
-export interface QueueResponse extends Pick<QueueDescription, "defaultMessageTtl" | "lockDuration" | "deadLetteringOnMessageExpiration" | "duplicateDetectionHistoryTimeWindow" | "maxDeliveryCount">, Readonly<Omit<QueueDescription, "defaultMessageTtl" | "lockDuration" | "deadLetteringOnMessageExpiration" | "duplicateDetectionHistoryTimeWindow" | "maxDeliveryCount">>, Response {
+export interface QueueResponse extends Required<Pick<QueueProperties, UpdatableFields>>, Readonly<Pick<QueueProperties, AllowUndefinedFields>>, Readonly<Required<Omit<QueueProperties, UpdatableFields | AllowUndefinedFields>>>, Response {
 }
 
 // @public
@@ -292,7 +289,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
     createQueue(queue: CreateQueueOptions, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    createRule(topicName: string, subscriptionName: string, rule: RuleDescription, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    createRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     createSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
@@ -477,6 +474,9 @@ export interface TopicRuntimeProperties {
 // @public
 export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
 }
+
+// @public
+export type UpdatableFields = "defaultMessageTtl" | "lockDuration" | "deadLetteringOnMessageExpiration" | "duplicateDetectionHistoryTimeWindow" | "maxDeliveryCount";
 
 // @public
 export interface WaitTimeOptions {

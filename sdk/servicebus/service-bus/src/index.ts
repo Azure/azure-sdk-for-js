@@ -46,6 +46,7 @@ export {
 } from "./serializers/subscriptionResourceSerializer";
 export { TopicProperties, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
 export {
+  AllowUndefinedFields,
   CreateQueueOptions,
   EntitiesResponse,
   NamespacePropertiesResponse,
@@ -58,7 +59,8 @@ export {
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,
-  TopicRuntimePropertiesResponse
+  TopicRuntimePropertiesResponse,
+  UpdatableFields
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
