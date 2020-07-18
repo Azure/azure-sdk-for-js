@@ -28,7 +28,7 @@ import {
  * @param subscription
  */
 export function buildSubscriptionOptions(
-  subscription: SubscriptionProperties
+  subscription: CreateSubscriptionOptions
 ): InternalSubscriptionOptions {
   return {
     LockDuration: subscription.lockDuration,
@@ -42,7 +42,6 @@ export function buildSubscriptionOptions(
     ),
     MaxDeliveryCount: getStringOrUndefined(subscription.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(subscription.enableBatchedOperations),
-    Status: getStringOrUndefined(subscription.status),
     ForwardTo: getStringOrUndefined(subscription.forwardTo),
     UserMetadata: getStringOrUndefined(subscription.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
@@ -120,7 +119,7 @@ export function buildSubscriptionRuntimeProperties(
 /**
  * Represents settable options on a subscription
  */
-export interface SubscriptionProperties {
+export interface CreateSubscriptionOptions {
   /**
    * Name of the subscription
    */
@@ -191,11 +190,6 @@ export interface SubscriptionProperties {
   enableBatchedOperations?: boolean;
 
   /**
-   * Status of the messaging entity.
-   */
-  status?: EntityStatus;
-
-  /**
    * Absolute URL or the name of the queue or topic the
    * messages are to be forwarded to.
    * For example, an absolute URL input would be of the form
@@ -228,6 +222,49 @@ export interface SubscriptionProperties {
   autoDeleteOnIdle?: string;
 }
 
+/**
+ * Fields that are updatable even after the subscription is created.
+ */
+export type UpdatableFieldsForSubscription =
+  | "lockDuration"
+  | "deadLetteringOnMessageExpiration"
+  | "maxDeliveryCount";
+
+/**
+ * Fields that can assume undefined values in the SubscriptionResponse.
+ */
+export type AllowUndefinedFieldsForSubscription = "forwardTo" | "forwardDeadLetteredMessagesTo";
+
+/**
+ * Represents the input for updateSubscription.
+ *
+ * @export
+ * @interface SubscriptionProperties
+ * @extends {Required<Pick<CreateSubscriptionOptions, UpdatableFieldsForSubscription>>}
+ * @extends {Readonly<Pick<CreateSubscriptionOptions, AllowUndefinedFieldsForSubscription>>}
+ * @extends {(Readonly<Required<
+ *         Omit<
+ *           CreateSubscriptionOptions,
+ *           UpdatableFieldsForSubscription | AllowUndefinedFieldsForSubscription
+ *         >
+ *       >>)}
+ */
+export interface SubscriptionProperties
+  extends Required<Pick<CreateSubscriptionOptions, UpdatableFieldsForSubscription>>,
+    Readonly<Pick<CreateSubscriptionOptions, AllowUndefinedFieldsForSubscription>>,
+    Readonly<
+      Required<
+        Omit<
+          CreateSubscriptionOptions,
+          UpdatableFieldsForSubscription | AllowUndefinedFieldsForSubscription
+        >
+      >
+    > {
+  /**
+   * Status of the messaging entity.
+   */
+  status: EntityStatus;
+}
 /**
  * @internal
  * @ignore

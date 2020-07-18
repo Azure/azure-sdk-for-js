@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
-import { QueueResponse } from "../serviceBusAtomManagementClient";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -59,7 +58,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
  * response from the service
  * @param rawQueue
  */
-export function buildQueue(rawQueue: any): Omit<QueueResponse, "_response"> {
+export function buildQueue(rawQueue: any): QueueProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
@@ -251,7 +250,7 @@ export interface CreateQueueOptions {
 }
 
 /**
- * Fields that are updatable in the CreateQueueOptions.
+ * Fields that are updatable even after the queue is created.
  */
 export type UpdatableFieldsForQueue =
   | "defaultMessageTtl"

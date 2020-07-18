@@ -50,6 +50,7 @@ import {
   buildSubscription,
   buildSubscriptionOptions,
   buildSubscriptionRuntimeProperties,
+  CreateSubscriptionOptions,
   InternalSubscriptionOptions,
   SubscriptionProperties,
   SubscriptionResourceSerializer,
@@ -59,6 +60,7 @@ import {
   buildTopic,
   buildTopicOptions,
   buildTopicRuntimeProperties,
+  CreateTopicOptions,
   InternalTopicOptions,
   TopicProperties,
   TopicResourceSerializer,
@@ -69,7 +71,7 @@ import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { createSpan, getCanonicalCode } from "./util/tracing";
-import {  isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
+import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -859,11 +861,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createTopic(
-    topic: TopicProperties,
+    topic: CreateTopicOptions,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse>;
   async createTopic(
-    topicNameOrOptions: string | TopicProperties,
+    topicNameOrOptions: string | CreateTopicOptions,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
@@ -871,7 +873,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       operationOptions
     );
     try {
-      let topic: TopicProperties;
+      let topic: CreateTopicOptions;
       if (typeof topicNameOrOptions === "string") {
         topic = { name: topicNameOrOptions };
       } else {
@@ -1388,15 +1390,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createSubscription(
-    subscription: SubscriptionProperties,
+    subscription: CreateSubscriptionOptions,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse>;
   async createSubscription(
-    topicNameOrSubscriptionOptions: string | SubscriptionProperties,
+    topicNameOrSubscriptionOptions: string | CreateSubscriptionOptions,
     subscriptionNameOrOperationOptions?: string | OperationOptions,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
-    let subscription: SubscriptionProperties;
+    let subscription: CreateSubscriptionOptions;
     let operOptions: OperationOptions | undefined;
     if (typeof subscriptionNameOrOperationOptions === "string") {
       if (typeof topicNameOrSubscriptionOptions !== "string") {
@@ -1408,7 +1410,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       };
       operOptions = operationOptions;
     } else {
-      subscription = topicNameOrSubscriptionOptions as SubscriptionProperties;
+      subscription = topicNameOrSubscriptionOptions as CreateSubscriptionOptions;
       operOptions = subscriptionNameOrOperationOptions;
     }
     const { span, updatedOperationOptions } = createSpan(

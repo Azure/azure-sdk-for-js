@@ -29,7 +29,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param topic
  */
-export function buildTopicOptions(topic: TopicProperties): InternalTopicOptions {
+export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptions {
   return {
     DefaultMessageTimeToLive: topic.defaultMessageTtl,
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
@@ -37,7 +37,6 @@ export function buildTopicOptions(topic: TopicProperties): InternalTopicOptions 
     DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
     EnableBatchedOperations: getStringOrUndefined(topic.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(topic.authorizationRules),
-    Status: getStringOrUndefined(topic.status),
     UserMetadata: getStringOrUndefined(topic.userMetadata),
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
@@ -68,7 +67,7 @@ export function buildTopic(rawTopic: any): TopicProperties {
       rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
       "defaultMessageTtl"
     ),
-    autoDeleteOnIdle: getStringOrUndefined(rawTopic[Constants.AUTO_DELETE_ON_IDLE]),
+    autoDeleteOnIdle: rawTopic[Constants.AUTO_DELETE_ON_IDLE],
 
     requiresDuplicateDetection: getBoolean(
       rawTopic[Constants.REQUIRES_DUPLICATE_DETECTION],
@@ -107,7 +106,7 @@ export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperti
 /**
  * Represents settable options on a topic
  */
-export interface TopicProperties {
+export interface CreateTopicOptions {
   /**
    * Name of the topic
    */
@@ -163,11 +162,6 @@ export interface TopicProperties {
   authorizationRules?: AuthorizationRule[];
 
   /**
-   * Status of the messaging entity.
-   */
-  status?: EntityStatus;
-
-  /**
    * The user provided metadata information associated with the topic.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
@@ -192,6 +186,37 @@ export interface TopicProperties {
    * Specifies whether the topic should be partitioned
    */
   enablePartitioning?: boolean;
+}
+
+/**
+ * Fields that are updatable even after a topic is created.
+ */
+export type UpdatableFieldsForTopic = "defaultMessageTtl" | "duplicateDetectionHistoryTimeWindow";
+
+/**
+ * Fields that can assume undefined values in the TopicResponse.
+ */
+export type AllowUndefinedFieldsForTopic = "authorizationRules";
+
+/**
+ * Represents the input for updateTopic.
+ *
+ * @export
+ * @interface TopicProperties
+ * @extends {Required<Pick<CreateTopicOptions, UpdatableFieldsForTopic>>}
+ * @extends {Readonly<Pick<CreateTopicOptions, AllowUndefinedFieldsForTopic>>}
+ * @extends {(Readonly<Required<Omit<CreateTopicOptions, UpdatableFieldsForTopic | AllowUndefinedFieldsForTopic>>>)}
+ */
+export interface TopicProperties
+  extends Required<Pick<CreateTopicOptions, UpdatableFieldsForTopic>>,
+    Readonly<Pick<CreateTopicOptions, AllowUndefinedFieldsForTopic>>,
+    Readonly<
+      Required<Omit<CreateTopicOptions, UpdatableFieldsForTopic | AllowUndefinedFieldsForTopic>>
+    > {
+  /**
+   * Status of the messaging entity.
+   */
+  status: EntityStatus;
 }
 
 /**
