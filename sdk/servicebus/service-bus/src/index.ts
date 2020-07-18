@@ -48,7 +48,6 @@ export { TopicProperties, TopicRuntimeProperties } from "./serializers/topicReso
 export {
   CreateQueueOptions,
   EntitiesResponse,
-  ListRequestOptions,
   NamespacePropertiesResponse,
   QueueResponse,
   QueueRuntimePropertiesResponse,
