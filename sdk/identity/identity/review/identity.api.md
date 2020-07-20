@@ -14,7 +14,7 @@ export { AccessToken }
 
 // @public
 export class AggregateAuthenticationError extends Error {
-    constructor(errors: any[], errMsg?: string);
+    constructor(errors: any[], errorMessage?: string);
     errors: any[];
 }
 

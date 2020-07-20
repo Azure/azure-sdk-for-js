@@ -152,9 +152,9 @@ export class AggregateAuthenticationError extends Error {
    */
   public errors: any[];
 
-  constructor(errors: any[], errMsg?: string) {
+  constructor(errors: any[], errorMessage?: string) {
     let errorDetail = errors.join("\n");
-    super(`${errMsg}\n\n${errorDetail}`);
+    super(`${errorMessage}\n\n${errorDetail}`);
     this.errors = errors;
 
     // Ensure that this type reports the correct name

@@ -77,3 +77,23 @@ export function getPromiseResolverForTest(): {
     reject: rejecter!
   };
 }
+
+export function defer<T>(): {
+  promise: Promise<T>;
+  resolve: (t: T) => void;
+  reject: (err: Error) => void;
+} {
+  let actualResolve: (t: T) => void;
+  let actualReject: (err: Error) => void;
+
+  const promise = new Promise<T>((resolve, reject) => {
+    actualResolve = resolve;
+    actualReject = reject;
+  });
+
+  return {
+    promise,
+    resolve: actualResolve!,
+    reject: actualReject!
+  };
+}

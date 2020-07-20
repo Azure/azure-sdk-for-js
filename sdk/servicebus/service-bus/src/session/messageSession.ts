@@ -11,13 +11,15 @@ import {
 import {
   AmqpError,
   EventContext,
+  isAmqpError,
   OnAmqpEvent,
   Receiver,
   ReceiverEvents,
-  ReceiverOptions,
-  isAmqpError
+  ReceiverOptions
 } from "rhea-promise";
-import * as log from "../log";
+import { ClientEntityContext } from "../clientEntityContext";
+import { LinkEntity } from "../core/linkEntity";
+import { DispositionStatusOptions } from "../core/managementClient";
 import {
   OnAmqpEventAsPromise,
   OnError,
@@ -25,21 +27,11 @@ import {
   PromiseLike,
   ReceiverHelper
 } from "../core/messageReceiver";
-import { LinkEntity } from "../core/linkEntity";
-import { ClientEntityContext } from "../clientEntityContext";
-import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
-import { throwErrorIfConnectionClosed } from "../util/errors";
+import * as log from "../log";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { DispositionStatusOptions } from "../core/managementClient";
-
-/**
- * Enum to denote who is calling the session receiver
- * @internal
- */
-export enum SessionCallee {
-  standalone = "standalone",
-  sessionManager = "sessionManager"
-}
+import { throwErrorIfConnectionClosed } from "../util/errors";
+import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
+import { getRemainingWaitTimeInMsFn } from "../core/batchingReceiver";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -93,39 +85,14 @@ export interface SessionMessageHandlerOptions {
    */
   maxConcurrentCalls?: number;
 }
-/**
- * @internal
- * Describes the options for creating a Session Manager.
- */
-export interface SessionManagerOptions extends SessionMessageHandlerOptions {
-  /**
-   * @property {number} [maxConcurrentSessions] The maximum number of sessions that the user wants to
-   * handle concurrently.
-   * - **Default**: `2000`.
-   */
-  maxConcurrentSessions?: number;
-  /**
-   * @property The maximum amount of time the receiver will wait to receive a new message. If no new
-   * message is received in this time, then the receiver will be closed.
-   *
-   * If this option is not provided, then receiver link will stay open until manually closed.
-   *
-   * **Caution**: When setting this value, take into account the time taken to process messages. Once
-   * the receiver is closed, operations like complete()/abandon()/defer()/deadletter() cannot be
-   * invoked on messages.
-   */
-  newMessageWaitTimeoutInMs?: number;
-}
 
 /**
  * @internal
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
-export type MessageSessionOptions = SessionManagerOptions &
-  SessionReceiverOptions & {
-    callee?: SessionCallee;
-    receiveMode?: ReceiveMode;
-  };
+export type MessageSessionOptions = SessionReceiverOptions & {
+  receiveMode?: ReceiveMode;
+};
 
 /**
  * @internal
@@ -137,12 +104,16 @@ export class MessageSession extends LinkEntity {
    */
   sessionLockedUntilUtc?: Date;
   /**
-   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId
+   * @property {string} [providedSessionId] The sessionId provided in the MessageSessionOptions. Empty string is valid sessionId.
    */
-  sessionId?: string;
+  private providedSessionId?: string;
+  /**
+   * @property {string} [sessionId] The sessionId for the message session. Empty string is valid sessionId.
+   */
+  sessionId!: string;
   /**
    * @property {number} [maxConcurrentSessions] The maximum number of concurrent sessions that the
-   * client should initate.
+   * client should initiate.
    * - **Default**: `1`.
    */
   maxConcurrentSessions?: number;
@@ -173,21 +144,9 @@ export class MessageSession extends LinkEntity {
    */
   maxAutoRenewDurationInMs: number;
   /**
-   * @property {number} [newMessageWaitTimeoutInMs] The maximum amount of idle time the session
-   * receiver will wait after a message has been received. If no messages are received in that
-   * time frame then the session will be closed.
-   */
-  newMessageWaitTimeoutInMs?: number;
-  /**
    * @property {boolean} autoRenewLock Should lock renewal happen automatically.
    */
   autoRenewLock: boolean;
-  /**
-   * @property {SessionCallee} callee Describes who instantied the MessageSession. Whether it was
-   * called by the SessionManager or it was called standalone.
-   * - Default: "standalone"
-   */
-  callee: SessionCallee;
   /**
    * Denotes if we are currently receiving messages
    */
@@ -247,12 +206,6 @@ export class MessageSession extends LinkEntity {
    * track of when the MessageSession is due for session lock renewal.
    */
   private _sessionLockRenewalTimer?: NodeJS.Timer;
-  /**
-   * @property {NodeJS.Timer} _newMessageReceivedTimer The new message received timer that keeps
-   * track of closing the MessageSession if no message was received in the configured
-   * `newMessageWaitTimeoutInMs` milliseconds.
-   */
-  private _newMessageReceivedTimer?: NodeJS.Timer;
 
   private _totalAutoLockRenewDuration: number;
 
@@ -284,7 +237,7 @@ export class MessageSession extends LinkEntity {
             this.name
           );
           this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-            this.sessionId!,
+            this.sessionId,
             {
               timeoutInMs: 10000
             }
@@ -330,7 +283,7 @@ export class MessageSession extends LinkEntity {
    */
   private _deleteFromCache(): void {
     this._receiver = undefined;
-    delete this._context.messageSessions[this.sessionId!];
+    delete this._context.messageSessions[this.sessionId];
     log.error(
       "[%s] Deleted the receiver '%s' with sessionId '%s' from the client cache.",
       this._context.namespace.connectionId,
@@ -371,17 +324,18 @@ export class MessageSession extends LinkEntity {
           this._receiver.source &&
           this._receiver.source.filter &&
           this._receiver.source.filter[Constants.sessionFilterName];
+
         let errorMessage: string = "";
         // SB allows a sessionId with empty string value :)
 
-        if (this.sessionId == null && receivedSessionId == null) {
-          // Ideally this code path should never be reached as `createReceiver()` should fail instead
+        if (this.providedSessionId == null && receivedSessionId == null) {
+          // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
           // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
           errorMessage = `No unlocked sessions were available`;
-        } else if (this.sessionId != null && receivedSessionId !== this.sessionId) {
+        } else if (this.providedSessionId != null && receivedSessionId !== this.providedSessionId) {
           // This code path is reached if the session is already locked by another receiver.
           // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-          errorMessage = `Failed to get a lock on the session ${this.sessionId}`;
+          errorMessage = `Failed to get a lock on the session ${this.providedSessionId}`;
         }
 
         if (errorMessage) {
@@ -392,7 +346,7 @@ export class MessageSession extends LinkEntity {
           log.error("[%s] %O", this._context.namespace.connectionId, error);
           throw error;
         }
-        if (this.sessionId == null) this.sessionId = receivedSessionId;
+        if (this.providedSessionId == null) this.sessionId = receivedSessionId;
         this.sessionLockedUntilUtc = convertTicksToDate(
           this._receiver.properties["com.microsoft:locked-until-utc"]
         );
@@ -418,12 +372,12 @@ export class MessageSession extends LinkEntity {
           this.name,
           options
         );
-        if (!this._context.messageSessions[this.sessionId!]) {
-          this._context.messageSessions[this.sessionId!] = this;
+        if (!this._context.messageSessions[this.sessionId]) {
+          this._context.messageSessions[this.sessionId] = this;
         }
         this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-        await this._ensureTokenRenewal();
-        await this._ensureSessionLockRenewal();
+        this._ensureTokenRenewal();
+        this._ensureSessionLockRenewal();
       } else {
         log.error(
           "[%s] The receiver '%s' for sessionId '%s' is open -> %s and is connecting " +
@@ -439,7 +393,7 @@ export class MessageSession extends LinkEntity {
       this.isConnecting = false;
       const errObj = translate(err);
       log.error(
-        "[%s] An error occured while creating the receiver '%s': %O",
+        "[%s] An error occurred while creating the receiver '%s': %O",
         this._context.namespace.connectionId,
         this.name,
         errObj
@@ -490,9 +444,9 @@ export class MessageSession extends LinkEntity {
     this._receiverHelper = new ReceiverHelper(() => this._receiver);
     if (!options) options = { sessionId: undefined };
     this.autoComplete = false;
-    this.sessionId = options.sessionId;
+    this.providedSessionId = options.sessionId;
+    if (this.providedSessionId != undefined) this.sessionId = this.providedSessionId;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
-    this.callee = options.callee || SessionCallee.standalone;
     this.maxAutoRenewDurationInMs =
       options.autoRenewLockDurationInMs != null ? options.autoRenewLockDurationInMs : 300 * 1000;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
@@ -693,7 +647,6 @@ export class MessageSession extends LinkEntity {
       );
 
       this.isReceivingMessages = false;
-      if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
       log.messageSession(
         "[%s] Cleared the timers for 'no new message received' task and " +
@@ -758,34 +711,6 @@ export class MessageSession extends LinkEntity {
     this._onError = onError;
     const connectionId = this._context.namespace.connectionId;
 
-    /**
-     * Resets the timer when a new message is received for Session Manager.
-     * It will close the receiver gracefully, if no
-     * messages were received for the configured newMessageWaitTimeoutInMs
-     */
-    const resetTimerOnNewMessageReceived = (): void => {
-      if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-      if (this.newMessageWaitTimeoutInMs) {
-        this._newMessageReceivedTimer = setTimeout(async () => {
-          const msg =
-            `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-            `any messages in the last ${this.newMessageWaitTimeoutInMs} milliseconds. Hence closing it.`;
-          log.error("[%s] %s", this._context.namespace.connectionId, msg);
-
-          if (this.callee === SessionCallee.sessionManager) {
-            // The session manager will not forward this error to user.
-            // Instead, this is taken as a indicator to create a new session client for the next session.
-            const error = translate({
-              condition: "com.microsoft:message-wait-timeout",
-              description: msg
-            });
-            this._notifyError(translate(error));
-          }
-          await this.close();
-        }, this.newMessageWaitTimeoutInMs);
-      }
-    };
-
     if (this._receiver && this._receiver.isOpen()) {
       const onSessionMessage = async (context: EventContext): Promise<void> => {
         // If the receiver got closed in PeekLock mode, avoid processing the message as we
@@ -803,13 +728,8 @@ export class MessageSession extends LinkEntity {
           return;
         }
 
-        resetTimerOnNewMessageReceived();
-        const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
-          this._context,
-          context.message!,
-          context.delivery!,
-          true
-        );
+        const bMessage = this._getServiceBusMessage(context);
+
         try {
           await this._onMessage(bMessage);
         } catch (err) {
@@ -915,19 +835,19 @@ export class MessageSession extends LinkEntity {
    */
   async receiveMessages(
     maxMessageCount: number,
-    maxWaitTimeInMs: number
+    maxWaitTimeInMs: number,
+    maxTimeAfterFirstMessageMs: number
   ): Promise<ServiceBusMessageImpl[]> {
     const brokeredMessages: ServiceBusMessageImpl[] = [];
     this.isReceivingMessages = true;
 
+    const getRemainingWaitTimeInMs = this._getRemainingWaitTimeInMsFn(
+      maxWaitTimeInMs,
+      maxTimeAfterFirstMessageMs
+    );
+
     return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
       let totalWaitTimer: any;
-
-      const setnewMessageWaitTimeoutInMs = (value?: number): void => {
-        this.newMessageWaitTimeoutInMs = value;
-      };
-
-      setnewMessageWaitTimeoutInMs(1000);
 
       // Action to be performed on the "receiver_drained" event.
       const onReceiveDrain: OnAmqpEvent = () => {
@@ -959,14 +879,26 @@ export class MessageSession extends LinkEntity {
 
       // Action to be performed on the "message" event.
       const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
-        resetTimerOnNewMessageReceived();
+        // TODO: this appears to be aggravating a bug that we need to look into more deeply.
+        // The same timeout+drain sequence should work fine for receiveAndDelete but it appears
+        // to cause problems.
+        if (this.receiveMode === ReceiveMode.peekLock) {
+          if (brokeredMessages.length === 0) {
+            // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
+            // and replace it with another timer that is a (probably) much shorter interval.
+            //
+            // This allows the user to get access to received messages earlier and also gives us
+            // a chance to have fewer messages internally that could get lost if the user's
+            // app crashes in receiveAndDelete mode.
+            if (totalWaitTimer) clearTimeout(totalWaitTimer);
+
+            totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
+          }
+        }
+
         try {
-          const data: ServiceBusMessageImpl = new ServiceBusMessageImpl(
-            this._context,
-            context.message!,
-            context.delivery!,
-            true
-          );
+          const data = this._getServiceBusMessage(context);
+
           if (brokeredMessages.length < maxMessageCount) {
             brokeredMessages.push(data);
           }
@@ -992,9 +924,6 @@ export class MessageSession extends LinkEntity {
 
       this._onError = (error: MessagingError | Error) => {
         this.isReceivingMessages = false;
-        // Resetting the newMessageWaitTimeoutInMs to undefined since we are done receiving
-        // a batch of messages.
-        setnewMessageWaitTimeoutInMs();
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
         }
@@ -1008,16 +937,9 @@ export class MessageSession extends LinkEntity {
 
       // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
       const finalAction = (): void => {
-        if (this._newMessageReceivedTimer) {
-          clearTimeout(this._newMessageReceivedTimer);
-        }
         if (totalWaitTimer) {
           clearTimeout(totalWaitTimer);
         }
-
-        // Unsetting the newMessageWaitTimeoutInMs to undefined since we are done receiving
-        // a batch of messages.
-        setnewMessageWaitTimeoutInMs();
 
         // Removing listeners, so that the next receiveMessages() call can set them again.
         if (this._receiver) {
@@ -1051,31 +973,6 @@ export class MessageSession extends LinkEntity {
         }
       };
 
-      /**
-       * Resets the timer when a new message is received. If no messages were received for
-       * `newMessageWaitTimeoutInMs`, the messages received till now are returned. The
-       * receiver link stays open for the next receive call, but doesn't receive messages until then.
-       * The new message wait timer mechanism is used only in `peekLock` mode.
-       */
-      const resetTimerOnNewMessageReceived =
-        this.receiveMode === ReceiveMode.peekLock
-          ? (): void => {
-              if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-              if (this.newMessageWaitTimeoutInMs) {
-                this._newMessageReceivedTimer = setTimeout(async () => {
-                  const msg =
-                    `MessageSession '${this.sessionId}' with name '${this.name}' did not receive ` +
-                    `any messages in the last ${this.newMessageWaitTimeoutInMs} milliseconds. Hence closing it.`;
-                  log.error("[%s] %s", this._context.namespace.connectionId, msg);
-                  finalAction();
-                  if (this.callee === SessionCallee.sessionManager) {
-                    await this.close();
-                  }
-                }, this.newMessageWaitTimeoutInMs);
-              }
-            }
-          : () => {};
-
       const addCreditAndSetTimer = (reuse?: boolean): void => {
         log.batching(
           "[%s] Receiver '%s', adding credit for receiving %d messages.",
@@ -1095,9 +992,9 @@ export class MessageSession extends LinkEntity {
       };
 
       if (this.isOpen()) {
+        addCreditAndSetTimer(true);
         this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
         this._receiver!.on(ReceiverEvents.receiverDrained, onReceiveDrain);
-        addCreditAndSetTimer(true);
       } else {
         const msg =
           `MessageSession "${this.name}" with sessionId "${this.sessionId}", ` +
@@ -1174,6 +1071,17 @@ export class MessageSession extends LinkEntity {
         delivery.reject(error);
       }
     });
+  }
+
+  private _getServiceBusMessage(context: EventContext): ServiceBusMessageImpl {
+    return new ServiceBusMessageImpl(this._context, context.message!, context.delivery!, true);
+  }
+
+  private _getRemainingWaitTimeInMsFn(
+    maxWaitTimeInMs: number,
+    maxTimeAfterFirstMessageInMs: number
+  ): () => number {
+    return getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageInMs);
   }
 
   /**

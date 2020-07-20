@@ -4,7 +4,6 @@
 import * as coreHttp from "@azure/core-http";
 
 import {
-  AnalyzeOperationResult as AnalyzeOperationResultModel,
   FormFieldsReport,
   CopyAuthorizationResult as CopyAuthorizationResultModel,
   KeysResult,
@@ -15,11 +14,11 @@ import {
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
-  OperationStatus
+  OperationStatus,
+  ModelStatus
 } from "./generated/models";
 
 export {
-  AnalyzeOperationResultModel,
   CopyAuthorizationResultModel,
   FormFieldsReport,
   KeysResult,
@@ -28,6 +27,7 @@ export {
   Language,
   LengthUnit,
   ModelsSummary,
+  ModelStatus,
   CustomFormModelStatus,
   OperationStatus,
   TrainingStatus

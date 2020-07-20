@@ -4,8 +4,513 @@
 
 ```ts
 
+import * as coreHttp from '@azure/core-http';
+
+// @public
+export interface AccessPolicy {
+    expiry: Date;
+    permission: string;
+    start: Date;
+}
+
+// @public
+export interface CorsRule {
+    allowedHeaders: string;
+    allowedMethods: string;
+    allowedOrigins: string;
+    exposedHeaders: string;
+    maxAgeInSeconds: number;
+}
+
+// @public
+export interface CreateEntityOptions extends coreHttp.OperationOptions {
+    queryOptions?: QueryOptions;
+    requestId?: string;
+    responsePreference?: ResponseFormat;
+    tableEntityProperties?: {
+        [propertyName: string]: any;
+    };
+    timeout?: number;
+}
+
+// @public
+export type CreateEntityResponse = TableInsertEntityHeaders & {
+    [propertyName: string]: any;
+} & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: {
+            [propertyName: string]: any;
+        };
+        parsedHeaders: TableInsertEntityHeaders;
+    };
+};
+
+// @public
+export interface CreateTableOptions extends coreHttp.OperationOptions {
+    queryOptions?: QueryOptions;
+    requestId?: string;
+    responsePreference?: ResponseFormat;
+}
+
+// @public
+export type CreateTableResponse = TableCreateHeaders & TableResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TableResponse;
+        parsedHeaders: TableCreateHeaders;
+    };
+};
+
+// @public
+export interface DeleteEntityOptions extends coreHttp.OperationOptions {
+    queryOptions?: QueryOptions;
+    requestId?: string;
+    timeout?: number;
+}
+
+// @public
+export type DeleteEntityResponse = TableDeleteEntityHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: TableDeleteEntityHeaders;
+    };
+};
+
+// @public
+export interface DeleteTableOptions extends coreHttp.OperationOptions {
+    requestId?: string;
+}
+
+// @public
+export type DeleteTableResponse = TableDeleteHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: TableDeleteHeaders;
+    };
+};
+
+// @public
+export interface Entity {
+    [propertyName: string]: any;
+    PartitionKey: string;
+    RowKey: string;
+}
+
 // @public (undocumented)
-export function helloWorld(): string;
+export interface GeoReplication {
+    lastSyncTime: Date;
+    status: GeoReplicationStatusType;
+}
+
+// @public
+export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+
+// @public
+export interface GetAccessPolicyOptions extends coreHttp.OperationOptions {
+    requestId?: string;
+    timeout?: number;
+}
+
+// @public
+export type GetAccessPolicyResponse = TableGetAccessPolicyHeaders & SignedIdentifier[] & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SignedIdentifier[];
+        parsedHeaders: TableGetAccessPolicyHeaders;
+    };
+};
+
+// @public
+export interface GetEntityOptions extends coreHttp.OperationOptions {
+    queryOptions?: QueryOptions;
+    requestId?: string;
+    timeout?: number;
+}
+
+// @public
+export type GetEntityResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders & TableEntityQueryResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TableEntityQueryResponse;
+        parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
+    };
+};
+
+// @public
+export interface GetPropertiesOptions extends coreHttp.OperationOptions {
+    requestId?: string;
+    timeout?: number;
+}
+
+// @public
+export type GetPropertiesResponse = ServiceGetPropertiesHeaders & ServiceProperties & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: ServiceProperties;
+        parsedHeaders: ServiceGetPropertiesHeaders;
+    };
+};
+
+// @public
+export interface GetStatisticsOptions extends coreHttp.OperationOptions {
+    requestId?: string;
+    timeout?: number;
+}
+
+// @public
+export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceStats & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TableServiceStats;
+        parsedHeaders: ServiceGetStatisticsHeaders;
+    };
+};
+
+// @public
+export interface ListEntitiesOptions extends coreHttp.OperationOptions {
+    nextPartitionKey?: string;
+    nextRowKey?: string;
+    queryOptions?: QueryOptions;
+    requestId?: string;
+    timeout?: number;
+}
+
+// @public
+export type ListEntitiesResponse = TableQueryEntitiesHeaders & TableEntityQueryResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TableEntityQueryResponse;
+        parsedHeaders: TableQueryEntitiesHeaders;
+    };
+};
+
+// @public
+export interface ListTablesOptions extends coreHttp.OperationOptions {
+    nextTableName?: string;
+    queryOptions?: QueryOptions;
+    requestId?: string;
+}
+
+// @public
+export type ListTablesResponse = TableQueryHeaders & TableQueryResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TableQueryResponse;
+        parsedHeaders: TableQueryHeaders;
+    };
+};
+
+// @public
+export interface Logging {
+    delete: boolean;
+    read: boolean;
+    retentionPolicy: RetentionPolicy;
+    version: string;
+    write: boolean;
+}
+
+// @public
+export interface MergeEntityOptions extends coreHttp.OperationOptions {
+    ifMatch?: string;
+    queryOptions?: QueryOptions;
+    requestId?: string;
+    tableEntityProperties?: {
+        [propertyName: string]: any;
+    };
+    timeout?: number;
+}
+
+// @public
+export type MergeEntityResponse = TableMergeEntityHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: TableMergeEntityHeaders;
+    };
+};
+
+// @public (undocumented)
+export interface Metrics {
+    enabled: boolean;
+    includeAPIs?: boolean;
+    retentionPolicy?: RetentionPolicy;
+    version?: string;
+}
+
+// @public
+export type OdataMetadataFormat = "application/json;odata=nometadata" | "application/json;odata=minimalmetadata" | "application/json;odata=fullmetadata";
+
+// @public
+export interface QueryOptions {
+    filter?: string;
+    format?: OdataMetadataFormat;
+    select?: string;
+    top?: number;
+}
+
+// @public
+export type ResponseFormat = "return-no-content" | "return-content";
+
+// @public
+export interface RetentionPolicy {
+    days?: number;
+    enabled: boolean;
+}
+
+// @public
+export interface ServiceGetPropertiesHeaders {
+    clientRequestId?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface ServiceGetStatisticsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface ServiceProperties {
+    cors?: CorsRule[];
+    hourMetrics?: Metrics;
+    logging?: Logging;
+    minuteMetrics?: Metrics;
+}
+
+// @public
+export interface ServiceSetPropertiesHeaders {
+    clientRequestId?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface SetAccessPolicyOptions extends coreHttp.OperationOptions {
+    requestId?: string;
+    tableAcl?: SignedIdentifier[];
+    timeout?: number;
+}
+
+// @public
+export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: TableSetAccessPolicyHeaders;
+    };
+};
+
+// @public
+export interface SetPropertiesOptions extends coreHttp.OperationOptions {
+    requestId?: string;
+    timeout?: number;
+}
+
+// @public
+export type SetPropertiesResponse = ServiceSetPropertiesHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: ServiceSetPropertiesHeaders;
+    };
+};
+
+// @public
+export interface SignedIdentifier {
+    accessPolicy: AccessPolicy;
+    id: string;
+}
+
+// @public
+export interface TableCreateHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    preferenceApplied?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface TableCreateHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    preferenceApplied?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface TableDeleteEntityHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface TableDeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface TableEntityQueryResponse {
+    odataMetadata?: string;
+    value?: {
+        [propertyName: string]: any;
+    }[];
+}
+
+// @public
+export interface TableGetAccessPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface TableInsertEntityHeaders {
+    clientRequestId?: string;
+    contentType?: string;
+    date?: Date;
+    eTag?: string;
+    preferenceApplied?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface TableInsertEntityHeaders {
+    clientRequestId?: string;
+    contentType?: string;
+    date?: Date;
+    eTag?: string;
+    preferenceApplied?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface TableMergeEntityHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    eTag?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface TableQueryEntitiesHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+    xMsContinuationNextPartitionKey?: string;
+    xMsContinuationNextRowKey?: string;
+}
+
+// @public
+export interface TableQueryEntitiesWithPartitionAndRowKeyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    eTag?: string;
+    requestId?: string;
+    version?: string;
+    xMsContinuationNextPartitionKey?: string;
+    xMsContinuationNextRowKey?: string;
+}
+
+// @public
+export interface TableQueryHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+    xMsContinuationNextTableName?: string;
+}
+
+// @public
+export interface TableQueryResponse {
+    odataMetadata?: string;
+    value?: TableResponseProperties[];
+}
+
+// @public
+export type TableResponse = TableResponseProperties & {
+    odataMetadata?: string;
+};
+
+// @public
+export interface TableResponseProperties {
+    odataEditLink?: string;
+    odataId?: string;
+    odataType?: string;
+    tableName?: string;
+}
+
+// @public
+export class TableServiceClient {
+    constructor(url: string, options?: TableServiceClientOptions);
+    createEntity(tableName: string, entity?: Entity, options?: Omit<CreateEntityOptions, "tableEntityProperties">): Promise<CreateEntityResponse>;
+    createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse>;
+    deleteEntity(tableName: string, partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
+    deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+    getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
+    getEntity(tableName: string, partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse>;
+    getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
+    getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;
+    listEntities(tableName: string, query?: QueryOptions, options?: Omit<ListEntitiesOptions, "queryOptions">): Promise<ListEntitiesResponse>;
+    listTables(query?: QueryOptions, options?: Omit<ListTablesOptions, "queryOptions">): Promise<ListTablesResponse>;
+    mergeEntity(tableName: string, entity: Entity, ifMatch?: string, options?: Omit<MergeEntityOptions, "tableEntityProperties" | "ifMatch">): Promise<MergeEntityResponse>;
+    setAccessPolicy(tableName: string, acl?: SignedIdentifier[], options?: Omit<SetAccessPolicyOptions, "tableAcl">): Promise<SetAccessPolicyResponse>;
+    setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
+    updateEntity(tableName: string, entity: Entity, ifMatch?: string, options?: Omit<UpdateEntityOptions, "tableEntityProperties" | "ifMatch">): Promise<UpdateEntityResponse>;
+}
+
+// @public
+export interface TableServiceClientOptions extends coreHttp.ServiceClientOptions {
+    endpoint?: string;
+    version?: string;
+}
+
+// @public
+export interface TableServiceStats {
+    geoReplication?: GeoReplication;
+}
+
+// @public
+export interface TableSetAccessPolicyHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface TableUpdateEntityHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    eTag?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface UpdateEntityOptions extends coreHttp.OperationOptions {
+    ifMatch?: string;
+    queryOptions?: QueryOptions;
+    requestId?: string;
+    tableEntityProperties?: {
+        [propertyName: string]: any;
+    };
+    timeout?: number;
+}
+
+// @public
+export type UpdateEntityResponse = TableUpdateEntityHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: TableUpdateEntityHeaders;
+    };
+};
 
 
 // (No @packageDocumentation comment for this package)
