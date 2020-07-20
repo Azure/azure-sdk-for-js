@@ -1,5 +1,9 @@
 # Release History
 
+## 1.0.0-preview.5 (Unreleased)
+
+- [Breaking] Removed exports of several internal types, including most internal poller operation states and some unused types. All client poller implementations now return a smaller subset of fields.
+
 ## 1.0.0-preview.4 (2020-07-07)
 
 - [Breaking] Replace `RecognizedReceiptArray` with the more generic `RecognizedFormArray` in the Poller response type returned by `beginRecognizeReceipts` and `beginRecognizeReceiptsFromUrl`.
