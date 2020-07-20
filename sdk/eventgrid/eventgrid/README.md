@@ -5,7 +5,7 @@
 Use the client library to:
 
 - Send events to Event Grid using either the Event Grid, Cloud Events 1.0 schemas, or a custom schema
-- Decode and process events where were delivered to an Event Grid handler
+- Decode and process events which were delivered to an Event Grid handler
 - Generate Shared Access Signatures for Event Grid topics
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventgrid/eventgrid/) |
@@ -94,9 +94,7 @@ const { EventGridClient, AzureKeyCredential } = require("@azure/eventgrid");
 const client = new EventGridClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 // Create a SAS Token which expires on 2020-01-01 at Midnight.
-const token = client.generateSharedAccessSignature(
-  generateSharedAccessSignature(new Date(2020, 0, 1, 0, 0, 0))
-);
+const token = client.generateSharedAccessSignature(new Date(2020, 0, 1, 0, 0, 0));
 ```
 
 ## Key concepts
