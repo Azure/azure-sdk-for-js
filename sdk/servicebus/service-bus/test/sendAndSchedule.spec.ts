@@ -276,7 +276,7 @@ describe("Sender Tests", () => {
   });
 
   for (let index = 0; index < 1000; index++) {
-    it(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
+    it.only(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
       console.log(
         `message count before scheduling the messages = `,
