@@ -20,6 +20,7 @@ class StorageCacheManagementClient extends StorageCacheManagementClientContext {
   operations: operations.Operations;
   skus: operations.Skus;
   usageModels: operations.UsageModels;
+  ascOperations: operations.AscOperations;
   caches: operations.Caches;
   storageTargets: operations.StorageTargets;
 
@@ -35,6 +36,7 @@ class StorageCacheManagementClient extends StorageCacheManagementClientContext {
     this.operations = new operations.Operations(this);
     this.skus = new operations.Skus(this);
     this.usageModels = new operations.UsageModels(this);
+    this.ascOperations = new operations.AscOperations(this);
     this.caches = new operations.Caches(this);
     this.storageTargets = new operations.StorageTargets(this);
   }
