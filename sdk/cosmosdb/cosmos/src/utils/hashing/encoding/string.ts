@@ -1,5 +1,7 @@
+import { BytePrefix } from "./prefix";
+
 export function writeStringForBinaryEncoding(payload: string) {
-  let outputStream = Buffer.from("08", "hex");
+  let outputStream = Buffer.from(BytePrefix.String, "hex");
   const MAX_STRING_BYTES_TO_APPEND = 100;
   const byteArray = [...Buffer.from(payload)];
 
@@ -16,7 +18,7 @@ export function writeStringForBinaryEncoding(payload: string) {
   }
 
   if (isShortString) {
-    outputStream = Buffer.concat([outputStream, Buffer.from("00", "hex")]);
+    outputStream = Buffer.concat([outputStream, Buffer.from(BytePrefix.Undefined, "hex")]);
   }
   return outputStream;
 }

@@ -1,8 +1,9 @@
 import JSBI from "jsbi";
+import { BytePrefix } from "./prefix";
 
 export function writeNumberForBinaryEncodingJSBI(hash: number) {
   let payload = encodeNumberAsUInt64JSBI(hash);
-  let outputStream = Buffer.from("05", "hex");
+  let outputStream = Buffer.from(BytePrefix.Number, "hex");
   const firstChunk = JSBI.asUintN(64, JSBI.signedRightShift(payload, JSBI.BigInt(56)));
 
   outputStream = Buffer.concat([outputStream, Buffer.from(firstChunk.toString(16), "hex")]);

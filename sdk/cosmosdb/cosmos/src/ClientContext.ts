@@ -139,7 +139,6 @@ export class ClientContext {
       request.operationType
     );
     request.headers = await this.buildHeaders(request);
-    // request.headers[Constants.HttpHeaders.ForceRefresh] = "True";
     if (query !== undefined) {
       request.headers[Constants.HttpHeaders.IsQuery] = "true";
       request.headers[Constants.HttpHeaders.ContentType] = QueryJsonContentType;
@@ -544,7 +543,7 @@ export class ClientContext {
     return this.globalEndpointManager.getReadEndpoint();
   }
 
-  public async bulk<T, U = T>({
+  public async bulk<T>({
     body,
     path,
     resourceId,

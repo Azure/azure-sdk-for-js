@@ -249,7 +249,7 @@ describe.only("bulk item operations", function() {
         class: "2010"
       });
     });
-    it.only("handles create, upsert, replace, delete", async function() {
+    it("handles create, upsert, replace, delete", async function() {
       const operations: Operation[] = [
         {
           operationType: "Create",

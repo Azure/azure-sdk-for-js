@@ -1,4 +1,5 @@
 import { doubleToByteArrayJSBI } from "./encoding/number";
+import { BytePrefix } from "./encoding/prefix";
 const MurmurHash = require("./murmurHash").default;
 
 type v1Key = string | number | null | {} | undefined;
@@ -15,22 +16,26 @@ function prefixKeyByType(key: v1Key) {
   let bytes: Buffer;
   switch (typeof key) {
     case "string":
-      bytes = Buffer.concat([Buffer.from("08", "hex"), Buffer.from(key), Buffer.from("FF", "hex")]);
+      bytes = Buffer.concat([
+        Buffer.from(BytePrefix.String, "hex"),
+        Buffer.from(key),
+        Buffer.from(BytePrefix.Infinity, "hex")
+      ]);
       return bytes;
     case "number":
       const numberBytes = doubleToByteArrayJSBI(key);
-      bytes = Buffer.concat([Buffer.from("05", "hex"), numberBytes]);
+      bytes = Buffer.concat([Buffer.from(BytePrefix.String, "hex"), numberBytes]);
       return bytes;
     case "boolean":
-      const prefix = key ? "03" : "02";
+      const prefix = key ? BytePrefix.True : BytePrefix.False;
       return Buffer.from(prefix, "hex");
     case "object":
       if (key === null) {
-        return Buffer.from("01", "hex");
+        return Buffer.from(BytePrefix.Null, "hex");
       }
-      return Buffer.from("00", "hex");
+      return Buffer.from(BytePrefix.Undefined, "hex");
     case "undefined":
-      return Buffer.from("00", "hex");
+      return Buffer.from(BytePrefix.Undefined, "hex");
   }
 }
 
