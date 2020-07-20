@@ -14,10 +14,10 @@ export { AzureKeyCredential }
 
 // @public
 export interface CloudEvent<T> {
-    [keyof: string]: any;
     data?: T;
     datacontenttype?: string;
     dataschema?: string;
+    extensionAttributes?: Record<string, unknown>;
     id: string;
     source: string;
     subject?: string;

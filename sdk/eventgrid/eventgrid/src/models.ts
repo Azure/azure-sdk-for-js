@@ -73,9 +73,9 @@ export interface CloudEvent<T> {
    */
   subject?: string;
   /**
-   * Additional custom properties for the event.
+   * Additional context attributes for the event. The Cloud Event specification refers to these as "extension attributes".
    */
-  [keyof: string]: any;
+  extensionAttributes?: Record<string, unknown>;
 }
 
 export type CustomEventDataDecoder = (o: any) => Promise<any>;

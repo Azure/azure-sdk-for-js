@@ -137,9 +137,15 @@ export class EventGridClient {
       // TODO(matell): If data is of type `Buffer` or other binary data we should Base64 encoded the data and set
       //               `data_base64` instead.  We also need to validate that `datacontenttype` is set in this case.
       return {
-        ...msg,
         specversion: "1.0",
-        datacontenttype: msg.datacontenttype ?? "application/json"
+        type: msg.type,
+        source: msg.source,
+        id: msg.id,
+        time: msg.time,
+        subject: msg.subject,
+        dataschema: msg.dataschema,
+        datacontenttype: msg.datacontenttype ?? "application/json",
+        ...(msg.extensionAttributes ?? [])
       };
     });
 

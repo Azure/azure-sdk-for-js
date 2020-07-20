@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { Serializer } from "@azure/core-http";
+import { CloudEvent as WireCloudEvent } from "./generated/models";
 import { CloudEvent, EventGridEvent, CustomEventDataDecoder } from "./models";
 import {
   EventGridEvent as EventGridEventMapper,
@@ -140,7 +141,33 @@ export class EventGridConsumer {
         throw new TypeError("event is not in the Cloud Event 1.0 schema");
       }
 
-      const deserialized: CloudEvent<any> = serializer.deserialize(CloudEventMapper, o, "");
+      const deserialized: WireCloudEvent = serializer.deserialize(CloudEventMapper, o, "");
+      const modelEvent: Record<string, any> = {
+        specversion: deserialized.specversion,
+        id: deserialized.id,
+        source: deserialized.source,
+        type: deserialized.type
+      };
+
+      if (deserialized.datacontenttype !== undefined) {
+        modelEvent.datacontenttype = deserialized.datacontenttype;
+      }
+
+      if (deserialized.dataschema !== undefined) {
+        modelEvent.dataschema = deserialized.dataschema;
+      }
+
+      if (deserialized.subject !== undefined) {
+        modelEvent.subject = deserialized.subject;
+      }
+
+      if (deserialized.time !== undefined) {
+        modelEvent.time = deserialized.time;
+      }
+
+      if (deserialized.data !== undefined) {
+        modelEvent.data = deserialized.data;
+      }
 
       // If the data the event represents binary, it is encoded as base64 text in a different property on the event and we need to transform it.
       if (deserialized.dataBase64 !== undefined) {
@@ -152,17 +179,33 @@ export class EventGridConsumer {
           throw new TypeError("event data_base64 property should be a string");
         }
 
-        deserialized.data = Buffer.from(deserialized.dataBase64, "base64");
-        delete deserialized.dataBase64;
+        modelEvent.data = Buffer.from(deserialized.dataBase64, "base64");
       }
 
-      if (systemDecoders[deserialized.type]) {
-        deserialized.data = await systemDecoders[deserialized.type](deserialized.data);
-      } else if (this.customDecoders[deserialized.type]) {
-        deserialized.data = await this.customDecoders[deserialized.type](deserialized.data);
+      // If a decoder is registered, apply it to the data.
+      if (systemDecoders[modelEvent.type]) {
+        modelEvent.data = await systemDecoders[modelEvent.type](modelEvent.data);
+      } else if (this.customDecoders[modelEvent.type]) {
+        modelEvent.data = await this.customDecoders[modelEvent.type](modelEvent.data);
       }
 
-      events.push(deserialized as CloudEvent<unknown>);
+      // Build the "extensionsAttributes" property bag by removing all known top level properties.
+      const extensionAttributes = { ...deserialized };
+      delete extensionAttributes.specversion;
+      delete extensionAttributes.id;
+      delete extensionAttributes.source;
+      delete extensionAttributes.type;
+      delete extensionAttributes.datacontenttype;
+      delete extensionAttributes.dataschema;
+      delete extensionAttributes.subject;
+      delete extensionAttributes.time;
+      delete extensionAttributes.data;
+
+      if (Object.keys(extensionAttributes).length > 0) {
+        modelEvent.extensionAttributes = extensionAttributes;
+      }
+
+      events.push(modelEvent as CloudEvent<unknown>);
     }
 
     return events;
