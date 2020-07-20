@@ -21,6 +21,7 @@ import {
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
+import { serviceBusAtomManagementClient } from "./atomManagement.spec";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -277,6 +278,11 @@ describe("Sender Tests", () => {
   for (let index = 0; index < 1000; index++) {
     it(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
       await beforeEachTest(TestClientType.UnpartitionedQueue);
+      console.log(
+        `message count before scheduling the messages = `,
+        (await serviceBusAtomManagementClient.getQueueRuntimeProperties(entityName.queue!))
+          .messageCount
+      );
       const date = new Date();
       const messages = [
         { body: "Hello!" },
@@ -303,7 +309,7 @@ describe("Sender Tests", () => {
       }
 
       const receivedMsgs = await receiver.receiveMessages(3);
-      should.equal(receivedMsgs.length, 3, "Unexpected number of messages");
+      should.equal(receivedMsgs.length, 3, "Unexpected number of messages received");
       for (const seqNum of sequenceNumbers) {
         const msgWithSeqNum = receivedMsgs.find(
           ({ sequenceNumber }) => sequenceNumber?.comp(seqNum) === 0
