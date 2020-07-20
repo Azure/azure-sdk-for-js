@@ -8,7 +8,7 @@ export interface SignatureCredential {
   /**
    * The signature to be used in authentication.
    */
-  signature: string;
+  signature(): string;
 }
 
 /**
@@ -23,7 +23,7 @@ export class EventGridSharedAccessSignatureCredential implements SignatureCreden
   /**
    * The value of the signature to be used in authentication
    */
-  public get signature(): string {
+  public signature(): string {
     return this._signature;
   }
 

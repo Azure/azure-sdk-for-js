@@ -139,7 +139,7 @@ export interface EventGridEvent<T> {
 // @public
 export class EventGridSharedAccessSignatureCredential implements SignatureCredential {
     constructor(signature: string);
-    get signature(): string;
+    signature(): string;
     update(newSignature: string): void;
 }
 
@@ -197,7 +197,7 @@ export type SendEventsOptions = OperationOptions;
 
 // @public
 export interface SignatureCredential {
-    signature: string;
+    signature(): string;
 }
 
 
