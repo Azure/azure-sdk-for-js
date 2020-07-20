@@ -48,7 +48,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc -p .",
+    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test": "npm run build:test:node && npm run build:test:browser",
@@ -90,6 +90,7 @@
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.1.4",
     "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-paging": "^1.1.1",
     "@opentelemetry/api": "^0.6.1",
     "@types/is-buffer": "^2.0.0",
     "@types/long": "^4.0.0",
@@ -102,6 +103,7 @@
     "rhea-promise": "^1.0.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0-preview",
     "@microsoft/api-extractor": "7.7.11",
@@ -160,6 +162,9 @@
     "rollup-plugin-terser": "^5.1.1",
     "ts-node": "^8.3.0",
     "typescript": "~3.9.3",
-    "ws": "^7.1.1"
+    "ws": "^7.1.1",
+    "sinon": "^9.0.2",
+    "@types/sinon": "^9.0.4",
+    "events": "^3.0.0"
   }
 }

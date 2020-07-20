@@ -11,7 +11,6 @@ import {
 
 import { ClientEntityContext } from "../clientEntityContext";
 
-import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
@@ -33,21 +32,6 @@ export class StreamingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.streaming, options);
-
-    this.resetTimerOnNewMessageReceived = () => {
-      if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-      if (this.newMessageWaitTimeoutInMs) {
-        this._newMessageReceivedTimer = setTimeout(async () => {
-          const msg =
-            `StreamingReceiver '${this.name}' did not receive any messages in ` +
-            `the last ${this.newMessageWaitTimeoutInMs} milliseconds. ` +
-            `Hence ending this receive operation.`;
-          log.error("[%s] %s", this._context.namespace.connectionId, msg);
-
-          await this.close();
-        }, this.newMessageWaitTimeoutInMs);
-      }
-    };
   }
 
   /**
