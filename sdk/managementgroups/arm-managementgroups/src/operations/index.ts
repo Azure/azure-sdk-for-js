@@ -10,5 +10,6 @@
 
 export * from "./managementGroups";
 export * from "./managementGroupSubscriptions";
+export * from "./hierarchySettingsOperations";
 export * from "./operations";
 export * from "./entities";

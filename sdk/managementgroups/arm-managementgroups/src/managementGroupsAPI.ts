@@ -20,18 +20,22 @@ class ManagementGroupsAPI extends ManagementGroupsAPIContext {
   // Operation groups
   managementGroups: operations.ManagementGroups;
   managementGroupSubscriptions: operations.ManagementGroupSubscriptions;
+  hierarchySettings: operations.HierarchySettingsOperations;
   operations: operations.Operations;
   entities: operations.Entities;
 
   /**
    * Initializes a new instance of the ManagementGroupsAPI class.
    * @param credentials Credentials needed for the client to connect to Azure.
+   * @param operationResultId The id of the operation result. Possible values include: 'create',
+   * 'delete'
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, options?: Models.ManagementGroupsAPIOptions) {
-    super(credentials, options);
+  constructor(credentials: msRest.ServiceClientCredentials, operationResultId: string, options?: Models.ManagementGroupsAPIOptions) {
+    super(credentials, operationResultId, options);
     this.managementGroups = new operations.ManagementGroups(this);
     this.managementGroupSubscriptions = new operations.ManagementGroupSubscriptions(this);
+    this.hierarchySettings = new operations.HierarchySettingsOperations(this);
     this.operations = new operations.Operations(this);
     this.entities = new operations.Entities(this);
   }
