@@ -55,7 +55,7 @@ describe("BlobClient Node.js only", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("download with with default parameters", async () => {

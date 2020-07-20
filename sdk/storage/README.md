@@ -13,7 +13,7 @@ This project provides client libraries in JavaScript that makes it easy to consu
 - @azure/storage-file-datalake [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake)
 - @azure/storage-file-share [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-share)
 - @azure/storage-queue [Package (npm)](https://www.npmjs.com/package/@azure/storage-queue)
-- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/storage)
+- [API Reference documentation](https://docs.microsoft.com/javascript/api/overview/azure/storage-overview)
 - [Azure Storage REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/)
 
 ## Key concepts

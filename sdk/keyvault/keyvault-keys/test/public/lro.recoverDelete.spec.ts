@@ -27,7 +27,7 @@ describe("Keys client - Long Running Operations - recoverDelete", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

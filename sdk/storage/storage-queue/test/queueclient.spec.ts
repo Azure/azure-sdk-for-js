@@ -25,7 +25,7 @@ describe("QueueClient", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {

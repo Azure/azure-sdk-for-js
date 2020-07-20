@@ -6,11 +6,7 @@
  * form content and fields, which can be used for manual validation and drawing UI as part of an application.
  */
 
-import {
-  FormRecognizerClient,
-  AzureKeyCredential,
-  BeginRecognizeCustomFormPollState
-} from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
 import * as path from "path";
@@ -36,7 +32,7 @@ export async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
-    onProgress: (state: BeginRecognizeCustomFormPollState) => {
+    onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });

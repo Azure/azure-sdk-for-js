@@ -15,7 +15,7 @@ describe("DataLakeServiceClient", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("ListFileSystems with default parameters", async () => {

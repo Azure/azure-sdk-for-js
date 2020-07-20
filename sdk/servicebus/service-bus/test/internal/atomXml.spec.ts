@@ -573,7 +573,7 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: {
+        properties: {
           message: ["hello"]
         }
       }
@@ -589,7 +589,7 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: {
+        properties: {
           message: {}
         }
       }
@@ -605,7 +605,7 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: {
+        properties: {
           message: undefined
         }
       }
@@ -621,11 +621,11 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: 123
+        properties: 123
       }
     },
     output: {
-      testErrorMessage: `Unsupported value for the userProperties 123, expected a JSON object with key-value pairs.`,
+      testErrorMessage: `Unsupported value for the properties 123, expected a JSON object with key-value pairs.`,
       testErrorType: Error
     }
   },
@@ -635,11 +635,11 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: "abcd"
+        properties: "abcd"
       }
     },
     output: {
-      testErrorMessage: `Unsupported value for the userProperties "abcd", expected a JSON object with key-value pairs.`,
+      testErrorMessage: `Unsupported value for the properties "abcd", expected a JSON object with key-value pairs.`,
       testErrorType: Error
     }
   },
@@ -649,11 +649,11 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: ["abcd"]
+        properties: ["abcd"]
       }
     },
     output: {
-      testErrorMessage: `Unsupported value for the userProperties ["abcd"], expected a JSON object with key-value pairs.`,
+      testErrorMessage: `Unsupported value for the properties ["abcd"], expected a JSON object with key-value pairs.`,
       testErrorType: Error
     }
   },
@@ -663,11 +663,11 @@ class MockSerializer implements AtomXmlSerializer {
     input: {
       filter: {
         correlationId: "abcd",
-        userProperties: {}
+        properties: {}
       }
     },
     output: {
-      testErrorMessage: `Unsupported value for the userProperties {}, expected a JSON object with key-value pairs.`,
+      testErrorMessage: `Unsupported value for the properties {}, expected a JSON object with key-value pairs.`,
       testErrorType: Error
     }
   }
@@ -1088,7 +1088,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient.getQueues();
+    const result = await mockServiceBusAtomManagementClient["listQueues"]();
     assertEmptyArray(result);
   });
 
@@ -1101,7 +1101,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient.getTopics();
+    const result = await mockServiceBusAtomManagementClient["listTopics"]();
     assertEmptyArray(result);
   });
 
@@ -1114,7 +1114,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient.getSubscriptions("testTopic");
+    const result = await mockServiceBusAtomManagementClient["listSubscriptions"]("testTopic");
     assertEmptyArray(result);
   });
 
@@ -1127,7 +1127,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient.getRules(
+    const result = await mockServiceBusAtomManagementClient["listRules"](
       "testTopic",
       "testSubscription"
     );
