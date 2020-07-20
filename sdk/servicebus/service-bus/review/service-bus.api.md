@@ -74,7 +74,16 @@ export interface EntitiesResponse<T> extends Array<T>, Pick<PageSettings, "conti
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
 // @public
+export interface ETag {
+    eTag: string;
+}
+
+// @public
 export interface GetMessageIteratorOptions extends OperationOptionsBase, WaitTimeOptions {
+}
+
+// @public
+export interface GetQueueResponse extends QueueResponse, ETag {
 }
 
 // @public
@@ -150,10 +159,6 @@ export interface QueueProperties {
     requiresSession?: boolean;
     status?: EntityStatus;
     userMetadata?: string;
-}
-
-// @public
-export interface QueueResponse extends QueueProperties, Response {
 }
 
 // @public
@@ -302,7 +307,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GetQueueResponse" needs to be exported by the entry point index.d.ts
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<GetQueueResponse>;
     getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimePropertiesResponse>;
     getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>>;
@@ -320,7 +324,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    // Warning: (ae-forgotten-export) The symbol "ETag" needs to be exported by the entry point index.d.ts
     updateQueue(queue: QueueProperties & ETag, operationOptions?: OperationOptions): Promise<QueueResponse>;
     updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
     updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
