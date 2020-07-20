@@ -434,11 +434,13 @@ export class Items {
               orderedResponses[batch.indexes[index]] = operationResponse;
             });
           } catch (err) {
-            console.log({ err });
             // In the case of 410 errors, we need to recompute the partition key ranges
-            // and redo the batch request
-            if (err.status === "410") {
-              return this.bulk(batch.operations);
+            // and redo the batch request, however, 410 errors occur for unsupported
+            // partition key types as well since we don't support them, so for now we throw
+            if (err.code === 410) {
+              throw new Error(
+                "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type"
+              );
             }
           }
         })

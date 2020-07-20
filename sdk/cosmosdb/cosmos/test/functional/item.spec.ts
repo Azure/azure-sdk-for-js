@@ -216,7 +216,7 @@ describe("Item CRUD", function() {
   });
 });
 
-describe.only("bulk item operations", function() {
+describe("bulk item operations", function() {
   describe("with v1 container", function() {
     let container: Container;
     let readItemId: string;
