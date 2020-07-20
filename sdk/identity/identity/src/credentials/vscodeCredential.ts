@@ -5,7 +5,12 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
-import * as keytar from "keytar";
+try {
+  var keytar = require("keytar");
+} catch (er) {
+  keytar = null;
+}
+
 import { CredentialUnavailable } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
@@ -43,6 +48,12 @@ export class VSCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    if (!keytar) {
+      throw new CredentialUnavailable(
+        "VSCode credential requires the optional dependency 'keytar' to work correctly"
+      );
+    }
+
     let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
 
     // Check to make sure the scope we get back is a valid scope
