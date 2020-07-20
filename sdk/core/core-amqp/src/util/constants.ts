@@ -43,6 +43,7 @@ export const Constants = {
   attachEpoch: `com.microsoft:epoch`,
   receiverIdentifierName: `com.microsoft:receiver-name`,
   enableReceiverRuntimeMetricName: `com.microsoft:enable-receiver-runtime-metric`,
+  linkRedirectName: "amqp:link:redirect",
   timespan: `com.microsoft:timespan`,
   uri: `com.microsoft:uri`,
   dateTimeOffset: `com.microsoft:datetime-offset`,

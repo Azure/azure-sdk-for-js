@@ -254,6 +254,7 @@ export const Constants: {
     readonly attachEpoch: "com.microsoft:epoch";
     readonly receiverIdentifierName: "com.microsoft:receiver-name";
     readonly enableReceiverRuntimeMetricName: "com.microsoft:enable-receiver-runtime-metric";
+    readonly linkRedirectName: "amqp:link:redirect";
     readonly timespan: "com.microsoft:timespan";
     readonly uri: "com.microsoft:uri";
     readonly dateTimeOffset: "com.microsoft:datetime-offset";
