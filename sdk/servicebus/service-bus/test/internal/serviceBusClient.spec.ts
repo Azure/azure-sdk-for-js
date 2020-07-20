@@ -27,7 +27,7 @@ describe("serviceBusClient unit tests", () => {
         assert.deepEqual(result, {
           entityPath: "queue",
           receiveMode: lockMode,
-          options: undefined
+          options: {}
         });
       });
     });
@@ -56,7 +56,7 @@ describe("serviceBusClient unit tests", () => {
         assert.deepEqual(result, {
           entityPath: "topic/Subscriptions/subscription",
           receiveMode: lockMode,
-          options: undefined
+          options: {}
         });
       });
     });

@@ -454,7 +454,7 @@ export class ServiceBusClient {
       return this.createReceiver(deadLetterEntityPath, { receiveMode: "peekLock" });
     }
   }
-  
+
   /**
    * Closes the underlying AMQP connection.
    * NOTE: this will also disconnect any Receiver or Sender instances created from this
@@ -469,8 +469,8 @@ export class ServiceBusClient {
  * Helper to validate and extract the common arguments from both the create*Receiver() overloads that
  * have this pattern:
  *
- * queue, lockmode, options
- * topic, subscription, lockmode, options
+ * queue, options
+ * topic, subscription, options
  *
  * @internal
  * @ignore
@@ -487,26 +487,31 @@ export function extractReceiverArguments<
   options?: Omit<OptionsT, "receiveMode">;
 } {
   try {
+    let entityPath: string;
+    let options: OptionsT | undefined;
     if (typeof optionsOrSubscriptionName2 === "string") {
       const topic = queueOrTopicName1;
       const subscription = optionsOrSubscriptionName2;
-
-      return {
-        entityPath: `${topic}/Subscriptions/${subscription}`,
-        receiveMode:
-          definitelyOptions3?.receiveMode === "receiveAndDelete" ? "receiveAndDelete" : "peekLock",
-        options: definitelyOptions3
-      };
+      entityPath = `${topic}/Subscriptions/${subscription}`;
+      options = definitelyOptions3;
     } else {
-      return {
-        entityPath: queueOrTopicName1,
-        receiveMode:
-          optionsOrSubscriptionName2?.receiveMode === "receiveAndDelete"
-            ? "receiveAndDelete"
-            : "peekLock",
-        options: optionsOrSubscriptionName2
-      };
+      entityPath = queueOrTopicName1;
+      options = optionsOrSubscriptionName2;
     }
+    let receiveMode: "peekLock" | "receiveAndDelete";
+    if (options?.receiveMode == undefined || options.receiveMode === "peekLock") {
+      receiveMode = "peekLock";
+    } else if (options.receiveMode === "receiveAndDelete") {
+      receiveMode = "receiveAndDelete";
+    } else {
+      throw new TypeError("Invalid receiveMode provided");
+    }
+    delete options?.receiveMode;
+    return {
+      entityPath,
+      receiveMode,
+      options
+    };
   } catch (error) {
     throw new TypeError("Unable to parse the arguments\n" + error);
   }
