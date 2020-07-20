@@ -47,6 +47,8 @@ export {
 export { TopicProperties, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
+  ETag,
+  GetQueueResponse,
   ListRequestOptions,
   NamespacePropertiesResponse,
   QueueResponse,

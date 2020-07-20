@@ -157,6 +157,10 @@ export interface QueueResponse extends QueueProperties, Response {
 }
 
 // @public
+export interface QueueResponse extends QueueProperties, Response {
+}
+
+// @public
 export interface QueueRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
@@ -298,7 +302,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
-    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GetQueueResponse" needs to be exported by the entry point index.d.ts
+    getQueue(queueName: string, operationOptions?: OperationOptions): Promise<GetQueueResponse>;
     getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimePropertiesResponse>;
     getQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>>;
     getQueuesRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>>;
@@ -315,7 +320,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
-    updateQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    // Warning: (ae-forgotten-export) The symbol "ETag" needs to be exported by the entry point index.d.ts
+    updateQueue(queue: QueueProperties & ETag, operationOptions?: OperationOptions): Promise<QueueResponse>;
     updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
     updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<TopicResponse>;

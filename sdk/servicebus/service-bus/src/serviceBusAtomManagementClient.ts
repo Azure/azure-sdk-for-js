@@ -118,7 +118,7 @@ export interface EntitiesResponse<T>
  */
 export interface QueuesRuntimeInfoResponse extends Array<QueueProperties>, Response {}
 /**
- * Represents result of create, and update operations on queue.
+ * Represents result of create and update operations on queue.
  */
 export interface QueueResponse extends QueueProperties, Response {}
 /**
@@ -144,11 +144,6 @@ export interface NamespacePropertiesResponse extends NamespaceProperties, Respon
  * Represents runtime info of a queue.
  */
 export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, Response {}
-
-/**
- * Represents result of create, get, and update operations on queue.
- */
-export interface QueueResponse extends QueueProperties, Response {}
 
 /**
  * Represents result of create, get, and update operations on topic.
