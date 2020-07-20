@@ -18,9 +18,9 @@ import { LogTester } from "./utils/logHelpers";
 import { InMemoryCheckpointStore } from "../src/inMemoryCheckpointStore";
 import { EventProcessor, FullEventProcessorOptions } from "../src/eventProcessor";
 import { SinonStubbedInstance, createStubInstance } from "sinon";
-import { ConnectionContext } from "../src/connectionContext";
 import { BalancedLoadBalancingStrategy } from "../src/loadBalancerStrategies/balancedStrategy";
 import { GreedyLoadBalancingStrategy } from "../src/loadBalancerStrategies/greedyStrategy";
+import { ConnectionContextManager } from "../src/connectionContextManager";
 
 const should = chai.should();
 const env = getEnvVars();
@@ -60,13 +60,13 @@ describe("EventHubConsumerClient", () => {
       let subscriptionHandlers: SubscriptionEventHandlers;
       let fakeEventProcessor: SinonStubbedInstance<EventProcessor>;
       const fakeEventProcessorConstructor = (
-        connectionContext: ConnectionContext,
+        connectionContextManager: ConnectionContextManager,
         subscriptionEventHandlers: SubscriptionEventHandlers,
         checkpointStore: CheckpointStore,
         options: FullEventProcessorOptions
       ) => {
         subscriptionEventHandlers.should.equal(subscriptionHandlers);
-        should.exist(connectionContext.managementSession);
+        should.exist(connectionContextManager.getGatewayConnectionContext().managementSession);
         isCheckpointStore(checkpointStore).should.be.ok;
 
         validateOptions(options);

@@ -32,7 +32,7 @@ describe("disconnected", function() {
         service.connectionString,
         service.path
       );
-      const clientConnectionContext = client["_context"];
+      const clientConnectionContext = client["_contextManager"].getGatewayConnectionContext();
 
       await client.getPartitionIds({});
       const originalConnectionId = clientConnectionContext.connectionId;
@@ -57,7 +57,7 @@ describe("disconnected", function() {
       );
       const partitionId = "0";
       const partitionProperties = await client.getPartitionProperties(partitionId);
-      const clientConnectionContext = client["_context"];
+      const clientConnectionContext = client["_contextManager"].getGatewayConnectionContext();
 
       let subscription: Subscription | undefined;
       let originalConnectionId: string;

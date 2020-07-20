@@ -8,7 +8,7 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { PartitionPump } from "./partitionPump";
 import { logErrorStackTrace, logger } from "./log";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { ConnectionContext } from "./connectionContext";
+import { ConnectionContextManager } from "./connectionContextManager";
 
 /**
  * The PumpManager handles the creation and removal of PartitionPumps.
@@ -28,7 +28,7 @@ export interface PumpManager {
    */
   createPump(
     startPosition: EventPosition,
-    connectionContext: ConnectionContext,
+    connectionContextManager: ConnectionContextManager,
     partitionProcessor: PartitionProcessor,
     abortSignal: AbortSignalLike
   ): Promise<void>;
@@ -96,13 +96,13 @@ export class PumpManagerImpl implements PumpManager {
   /**
    * Creates and starts a PartitionPump.
    * @param startPosition The position in the partition to start reading from.
-   * @param connectionContext The ConnectionContext to forward to the PartitionPump.
+   * @param connectionContextManager The ConnectionContextManager to forward to the PartitionPump.
    * @param partitionProcessor The PartitionProcessor to forward to the PartitionPump.
    * @ignore
    */
   public async createPump(
     startPosition: EventPosition,
-    connectionContext: ConnectionContext,
+    connectionContextManager: ConnectionContextManager,
     partitionProcessor: PartitionProcessor,
     abortSignal: AbortSignalLike
   ): Promise<void> {
@@ -131,7 +131,7 @@ export class PumpManagerImpl implements PumpManager {
     logger.verbose(`[${this._eventProcessorName}] [${partitionId}] Creating a new pump.`);
 
     const pump = new PartitionPump(
-      connectionContext,
+      connectionContextManager,
       partitionProcessor,
       startPosition,
       this._options

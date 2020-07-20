@@ -151,6 +151,8 @@ export interface EventHubClientOptions {
  * ```
  */
 export interface EventHubConsumerClientOptions extends EventHubClientOptions {
+  allowDirectPartitionConnections?: boolean;
+
   /**
    * Options to tune how the EventHubConsumerClient claims partitions.
    */

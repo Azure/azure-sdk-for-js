@@ -451,7 +451,7 @@ describe("EventHubConsumerClient", function(): void {
       });
 
       const receiver = new EventHubReceiver(
-        consumerClient["_context"],
+        consumerClient["_contextManager"].getGatewayConnectionContext(),
         EventHubConsumerClient.defaultConsumerGroupName,
         partitionId,
         {
@@ -484,7 +484,7 @@ describe("EventHubConsumerClient", function(): void {
       });
 
       const receiver = new EventHubReceiver(
-        consumerClient["_context"],
+        consumerClient["_contextManager"].getGatewayConnectionContext(),
         EventHubConsumerClient.defaultConsumerGroupName,
         partitionId,
         {
@@ -518,7 +518,7 @@ describe("EventHubConsumerClient", function(): void {
       });
 
       const receiver = new EventHubReceiver(
-        consumerClient["_context"],
+        consumerClient["_contextManager"].getGatewayConnectionContext(),
         EventHubConsumerClient.defaultConsumerGroupName,
         partitionId,
         {

@@ -100,6 +100,8 @@ export class EventHubConsumerClient {
 
 // @public
 export interface EventHubConsumerClientOptions extends EventHubClientOptions {
+    // (undocumented)
+    allowDirectPartitionConnections?: boolean;
     loadBalancingOptions?: LoadBalancingOptions;
 }
 

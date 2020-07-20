@@ -14,7 +14,7 @@ import { getTracer } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
-import { ConnectionContext } from "./connectionContext";
+import { ConnectionContextManager } from "./connectionContextManager";
 
 /**
  * @ignore
@@ -28,7 +28,7 @@ export class PartitionPump {
   private _isStopped: boolean = false;
   private _abortController: AbortController;
   constructor(
-    private _context: ConnectionContext,
+    private _contextManager: ConnectionContextManager,
     partitionProcessor: PartitionProcessor,
     private readonly _startPosition: EventPosition,
     options: CommonEventProcessorOptions
@@ -60,8 +60,9 @@ export class PartitionPump {
   }
 
   private async _receiveEvents(partitionId: string): Promise<void> {
+    const gatewayConnectionContext = this._contextManager.getGatewayConnectionContext();
     this._receiver = new EventHubReceiver(
-      this._context,
+      gatewayConnectionContext,
       this._partitionProcessor.consumerGroup,
       partitionId,
       this._startPosition,
@@ -94,8 +95,8 @@ export class PartitionPump {
         const span = createProcessingSpan(
           receivedEvents,
           {
-            eventHubName: this._context.config.entityPath,
-            endpoint: this._context.config.endpoint
+            eventHubName: gatewayConnectionContext.config.entityPath,
+            endpoint: gatewayConnectionContext.config.endpoint
           },
           this._processorOptions
         );

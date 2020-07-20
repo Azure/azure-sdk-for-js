@@ -84,7 +84,9 @@ describe("Event Processor", function(): void {
   describe("unit tests", () => {
     describe("_getStartingPosition", () => {
       before(() => {
-        consumerClient["_context"].managementSession!.getEventHubProperties = async () => {
+        consumerClient[
+          "_contextManager"
+        ].getGatewayConnectionContext().managementSession!.getEventHubProperties = async () => {
           return Promise.resolve({
             name: "boo",
             createdOn: new Date(),
@@ -167,7 +169,7 @@ describe("Event Processor", function(): void {
       ) {
         return new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
+          consumerClient["_contextManager"],
           {
             processEvents: async () => {},
             processError: async () => {}
@@ -227,7 +229,7 @@ describe("Event Processor", function(): void {
         // it's only here so we can call a few private methods on it.
         eventProcessor = new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
+          consumerClient["_contextManager"],
           {
             processEvents: async () => {},
             processError: async (err, context) => {
@@ -310,7 +312,7 @@ describe("Event Processor", function(): void {
 
       const eventProcessor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         {
           processEvents: async () => {},
           processError: async () => {}
@@ -363,23 +365,27 @@ describe("Event Processor", function(): void {
 
       const partitionIds = ["1001", "1002", "1003"];
 
-      const fakeConnectionContext = {
-        managementSession: {
-          getEventHubProperties: async () => {
-            return {
-              partitionIds
-            };
-          }
-        },
-        config: {
-          entityPath: commonFields.eventHubName,
-          host: commonFields.fullyQualifiedNamespace
+      const fakeConnectionContextManager = {
+        getGatewayConnectionContext() {
+          return {
+            managementSession: {
+              getEventHubProperties: async () => {
+                return {
+                  partitionIds
+                };
+              }
+            },
+            config: {
+              entityPath: commonFields.eventHubName,
+              host: commonFields.fullyQualifiedNamespace
+            }
+          };
         }
       };
 
       const ep = new EventProcessor(
         commonFields.consumerGroup,
-        fakeConnectionContext as any,
+        fakeConnectionContextManager as any,
         handlers,
         checkpointStore,
         {
@@ -511,7 +517,7 @@ describe("Event Processor", function(): void {
 
     const eventProcessor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
+      consumerClient["_contextManager"],
       {
         processEvents: async () => {},
         processError: async (err, _) => {
@@ -568,7 +574,7 @@ describe("Event Processor", function(): void {
 
     const eventProcessor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
+      consumerClient["_contextManager"],
       {
         processClose: async () => {
           throw new Error(processCloseErrorMessage);
@@ -615,7 +621,7 @@ describe("Event Processor", function(): void {
   it("should expose an id", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
+      consumerClient["_contextManager"],
       {
         processEvents: async () => {},
         processError: async () => {}
@@ -634,7 +640,7 @@ describe("Event Processor", function(): void {
   it("id can be forced to be a specific value", async function(): Promise<void> {
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
+      consumerClient["_contextManager"],
       {
         processEvents: async () => {},
         processError: async () => {}
@@ -659,7 +665,7 @@ describe("Event Processor", function(): void {
 
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
+      consumerClient["_contextManager"],
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
       {
@@ -689,7 +695,7 @@ describe("Event Processor", function(): void {
 
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
+      consumerClient["_contextManager"],
       {
         processInitialize: async () => {
           didPartitionProcessorStart = true;
@@ -723,7 +729,7 @@ describe("Event Processor", function(): void {
 
     const processor = new EventProcessor(
       EventHubConsumerClient.defaultConsumerGroupName,
-      consumerClient["_context"],
+      consumerClient["_contextManager"],
       subscriptionEventHandler,
       new InMemoryCheckpointStore(),
       {
@@ -775,7 +781,7 @@ describe("Event Processor", function(): void {
 
       const processor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         subscriptionEventHandler,
         new InMemoryCheckpointStore(),
         {
@@ -898,7 +904,7 @@ describe("Event Processor", function(): void {
       const inMemoryCheckpointStore = new InMemoryCheckpointStore();
       const processor1 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
         {
@@ -944,7 +950,7 @@ describe("Event Processor", function(): void {
 
       const processor2 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         new FooPartitionProcessor(),
         inMemoryCheckpointStore,
         { ...defaultOptions, startPosition: earliestEventPosition }
@@ -1144,7 +1150,7 @@ describe("Event Processor", function(): void {
 
       processorByName[`processor-1`] = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         new FooPartitionProcessor(),
         checkpointStore,
         {
@@ -1167,7 +1173,7 @@ describe("Event Processor", function(): void {
 
       processorByName[`processor-2`] = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         new FooPartitionProcessor(),
         checkpointStore,
         {
@@ -1301,7 +1307,7 @@ describe("Event Processor", function(): void {
 
       processorByName[`processor-1`] = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         new FooPartitionProcessor(),
         checkpointStore,
         {
@@ -1324,7 +1330,7 @@ describe("Event Processor", function(): void {
 
       processorByName[`processor-2`] = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         new FooPartitionProcessor(),
         checkpointStore,
         {
@@ -1427,7 +1433,7 @@ describe("Event Processor", function(): void {
         const processorName = `processor-${i}`;
         processorByName[processorName] = new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
+          consumerClient["_contextManager"],
           new FooPartitionProcessor(),
           checkpointStore,
           {
@@ -1505,7 +1511,7 @@ describe("Event Processor", function(): void {
         const processorName = `processor-${i}`;
         processorByName[processorName] = new EventProcessor(
           EventHubConsumerClient.defaultConsumerGroupName,
-          consumerClient["_context"],
+          consumerClient["_contextManager"],
           new FooPartitionProcessor(),
           checkpointStore,
           {
@@ -1616,7 +1622,7 @@ describe("Event Processor", function(): void {
 
       const processor1 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         handlers,
         checkpointStore,
         eventProcessorOptions
@@ -1624,7 +1630,7 @@ describe("Event Processor", function(): void {
 
       const processor2 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         handlers,
         checkpointStore,
         eventProcessorOptions
@@ -1779,7 +1785,7 @@ describe("Event Processor", function(): void {
 
       const processor1 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         handlers,
         checkpointStore,
         eventProcessorOptions
@@ -1787,7 +1793,7 @@ describe("Event Processor", function(): void {
 
       const processor2 = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
-        consumerClient["_context"],
+        consumerClient["_contextManager"],
         handlers,
         checkpointStore,
         eventProcessorOptions

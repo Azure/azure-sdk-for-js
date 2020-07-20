@@ -95,6 +95,7 @@ export interface CommonEventProcessorOptions
  * @ignore
  */
 export interface EventHubConsumerOptions {
+  allowDirectPartitionConnections?: boolean;
   /**
    * @property
    * The owner level associated with an exclusive consumer.

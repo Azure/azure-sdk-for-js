@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import {
   EventHubConsumerClientOptions,
   GetEventHubPropertiesOptions,
@@ -28,6 +27,7 @@ import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStr
 import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
 import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
 import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
+import { ConnectionContextManager } from "./connectionContextManager";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -55,10 +55,7 @@ const defaultConsumerClientOptions: Required<Pick<
  * to load balance multiple instances of your application.
  */
 export class EventHubConsumerClient {
-  /**
-   * Describes the amqp connection context for the client.
-   */
-  private _context: ConnectionContext;
+  private _contextManager: ConnectionContextManager;
   /**
    * The options passed by the user when creating the EventHubClient instance.
    */
@@ -93,7 +90,7 @@ export class EventHubConsumerClient {
    * The name of the Event Hub instance for which this client is created.
    */
   get eventHubName(): string {
-    return this._context.config.entityPath;
+    return this._contextManager.getGatewayConnectionContext().config.entityPath;
   }
 
   /**
@@ -103,7 +100,7 @@ export class EventHubConsumerClient {
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
    */
   get fullyQualifiedNamespace(): string {
-    return this._context.config.host;
+    return this._contextManager.getGatewayConnectionContext().config.host;
   }
 
   /**
@@ -273,7 +270,7 @@ export class EventHubConsumerClient {
         this._clientOptions = checkpointStoreOrOptions5 || {};
       }
 
-      this._context = createConnectionContext(
+      this._contextManager = new ConnectionContextManager(
         connectionStringOrFullyQualifiedNamespace2,
         checkpointStoreOrEventHubNameOrOptions3 as string,
         checkpointStoreOrCredentialOrOptions4,
@@ -295,7 +292,7 @@ export class EventHubConsumerClient {
         this._clientOptions = checkpointStoreOrCredentialOrOptions4 || {};
       }
 
-      this._context = createConnectionContext(
+      this._contextManager = new ConnectionContextManager(
         connectionStringOrFullyQualifiedNamespace2,
         checkpointStoreOrEventHubNameOrOptions3,
         this._clientOptions
@@ -318,7 +315,7 @@ export class EventHubConsumerClient {
           (checkpointStoreOrEventHubNameOrOptions3 as EventHubConsumerClientOptions) || {};
       }
 
-      this._context = createConnectionContext(
+      this._contextManager = new ConnectionContextManager(
         connectionStringOrFullyQualifiedNamespace2,
         this._clientOptions
       );
@@ -347,8 +344,8 @@ export class EventHubConsumerClient {
         return subscription.close();
       })
     );
-    // Close the connection via the connection context.
-    return this._context.close();
+    // Close the connections via the connection context manager.
+    return this._contextManager.close();
   }
 
   /**
@@ -360,7 +357,8 @@ export class EventHubConsumerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getPartitionIds(options: GetPartitionIdsOptions = {}): Promise<Array<string>> {
-    return this._context
+    return this._contextManager
+      .getGatewayConnectionContext()
       .managementSession!.getEventHubProperties({
         ...options,
         retryOptions: this._clientOptions.retryOptions
@@ -382,10 +380,12 @@ export class EventHubConsumerClient {
     partitionId: string,
     options: GetPartitionPropertiesOptions = {}
   ): Promise<PartitionProperties> {
-    return this._context.managementSession!.getPartitionProperties(partitionId, {
-      ...options,
-      retryOptions: this._clientOptions.retryOptions
-    });
+    return this._contextManager
+      .getGatewayConnectionContext()
+      .managementSession!.getPartitionProperties(partitionId, {
+        ...options,
+        retryOptions: this._clientOptions.retryOptions
+      });
   }
 
   /**
@@ -396,10 +396,12 @@ export class EventHubConsumerClient {
    * @throws AbortError if the operation is cancelled via the abortSignal.
    */
   getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
-    return this._context.managementSession!.getEventHubProperties({
-      ...options,
-      retryOptions: this._clientOptions.retryOptions
-    });
+    return this._contextManager
+      .getGatewayConnectionContext()
+      .managementSession!.getEventHubProperties({
+        ...options,
+        retryOptions: this._clientOptions.retryOptions
+      });
   }
 
   /**
@@ -527,7 +529,7 @@ export class EventHubConsumerClient {
 
     const loadBalancingStrategy = this._getLoadBalancingStrategy();
     const eventProcessor = this._createEventProcessor(
-      this._context,
+      this._contextManager,
       subscriptionEventHandlers,
       this._checkpointStore,
       {
@@ -566,7 +568,7 @@ export class EventHubConsumerClient {
     }
 
     const eventProcessor = this._createEventProcessor(
-      this._context,
+      this._contextManager,
       eventHandlers,
       this._checkpointStore,
       {
@@ -584,14 +586,14 @@ export class EventHubConsumerClient {
   }
 
   private _createEventProcessor(
-    connectionContext: ConnectionContext,
+    connectionContextManager: ConnectionContextManager,
     subscriptionEventHandlers: SubscriptionEventHandlers,
     checkpointStore: CheckpointStore,
     options: FullEventProcessorOptions
   ) {
     return new EventProcessor(
       this._consumerGroup,
-      connectionContext,
+      connectionContextManager,
       subscriptionEventHandlers,
       checkpointStore,
       options

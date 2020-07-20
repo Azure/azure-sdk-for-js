@@ -628,8 +628,17 @@ export class EventHubReceiver extends LinkEntity {
       };
     }
 
+    const desiredCapabilities: string[] = [];
+    if (this.options.allowDirectPartitionConnections) {
+      desiredCapabilities.push(Constants.linkRedirectName);
+    }
+
     if (this.options.trackLastEnqueuedEventProperties) {
-      rcvrOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
+      desiredCapabilities.push(Constants.enableReceiverRuntimeMetricName);
+    }
+
+    if (desiredCapabilities.length) {
+      rcvrOptions.desired_capabilities = desiredCapabilities;
     }
 
     const eventPosition = options.eventPosition || this.eventPosition;
