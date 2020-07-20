@@ -86,19 +86,19 @@ async function main() {
   console.log(models);
 
   // Create digital twin
-  const createdTwin = await serviceClient.upsertDigitalTwin(
-    digitalTwinId,
-    temporaryTwin,
-    (enableUpdate = true)
-  );
+  const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, temporaryTwin, {
+    enableUpdate: true,
+  });
   console.log(createdTwin.body);
 
   // Update component
   const componentPath = "Component1";
-  const jsonPatch = {
-    ComponentProp1: "value2",
+  const options = {
+    patchDocument: {
+      ComponentProp1: "value2",
+    },
   };
-  const response = await serviceClient.updateComponent(digitalTwinId, componentPath, jsonPatch);
+  const response = await serviceClient.updateComponent(digitalTwinId, componentPath, options);
   console.log(response);
 
   // Get component

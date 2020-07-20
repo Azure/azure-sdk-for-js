@@ -13,8 +13,7 @@
     "prepack": "npm install && npm run build",
     "pack": "npm pack 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "extract-api": "tsc -p . && api-extractor run --local",
-    "generate-pl": "autorest --typescript --typescript.azure-arm=true --use=@microsoft.azure/autorest.typescript@5.1.0 --add-credentials --model-enum-as-union --license-header=MICROSOFT_MIT_NO_VERSION --output-folder=./src/generated --input-file=swagger/digitaltwins.json"
+    "extract-api": "tsc -p . && api-extractor run --local"
   },
   "files": [
     "dist/",

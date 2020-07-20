@@ -177,7 +177,7 @@ console.log(`Updated component: ${component}`);
 
 ### Create digital twin relationships
 
-`upsertRelationship` creates a relationship on a digital twin provided with Id of a digital twin, name of relationship such as "contains", Id of an relationship such as "FloorContainsRoom" and an application/json relationship to be created. Must contain property with key "\$targetId" to specify the target of the relationship. Sample payloads for relationships can be found [here](https://github.com/Azure/azure-sdk-for-net-pr/blob/feature/IoT-ADT/sdk/iot/Azure.Iot.DigitalTwins/samples/DigitalTwinServiceClientSample/DTDL/Relationships/HospitalRelationships.json "RelationshipExamples").
+`upsertRelationship` creates a relationship on a digital twin provided with Id of a digital twin, name of relationship such as "contains", Id of an relationship such as "FloorContainsRoom" and an application/json relationship to be created. Must contain property with key "\$targetId" to specify the target of the relationship. Sample payloads for relationships can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/digitaltwins/sdk/digitaltwins/digitaltwins/samples/dtdl/relationships/hospitalRelationships.ts "RelationshipExamples").
 
 ```Javascript Snippet:dt_scenario
 const hospitalRelationships = [
@@ -221,7 +221,7 @@ for await (const incomingRelationship of incomingRelationships) {
 
 ### Create event routes
 
-To create an event route, provide an Id of an event route such as "sampleEventRoute" and event route data containing the endpoint and optional filter like the example shown below.
+To create an event route, provide an Id of an event route such as "myEventRouteId" and event route data containing the endpoint and optional filter like the example shown below.
 
 ```Javascript Snippet:dt_scenario
 const eventHubEndpointName = "myEventHubEndpointName";

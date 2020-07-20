@@ -39,11 +39,9 @@ async function main() {
   // Create digital twin based on the created model
   const digitalTwinId = `digitalTwin-${v4()}`;
   const newTwin = buildingTwin;
-  const createdTwin = await serviceClient.upsertDigitalTwin(
-    digitalTwinId,
-    newTwin,
-    (enableUpdate = true)
-  );
+  const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, newTwin, {
+    enableUpdate: true,
+  });
   console.log(createdTwin.body);
 
   // Get digital twin

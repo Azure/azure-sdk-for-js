@@ -12,7 +12,7 @@ Use the client library to:
 - Create and manage digital twins.
 - Create and manage event routes.
 - Create and manage relationships between the models and twins.
-- Publis telemetry to digital twin or component.
+- Publish telemetry to digital twin or component.
 
 [Source code][source] | [NPM package][adt_npm]
 
@@ -24,7 +24,7 @@ For the best development experience, developers should use the official NPM pack
 
 ### Install the package
 
-Install the Azure Digital Twins client library for Javascript with [NPM][https://www.npmjs.com/]:
+Install the Azure Digital Twins client library for Javascript with [NPM][npm_package]:
 
 ```bash
 npm install @azure/digitaltwins
@@ -115,6 +115,7 @@ For more information see the Code of Conduct FAQ or contact opencode@microsoft.c
 [adt_npm]: https://www.npmjs.com/package/@azure/digitaltwins
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [npm]: https://www.npmjs.com/
+[npm_package]: https://www.npmjs.com/search?q=%40azure%2Fdigitaltwins
 [azure_portal]: https://portal.azure.com/
 [azure_rest_api]: https://docs.microsoft.com/en-us/rest/api/azure/
 [token_credential]: https://docs.microsoft.com/en-us/javascript/api/@azure/ms-rest-js/tokencredentials?view=azure-node-latest

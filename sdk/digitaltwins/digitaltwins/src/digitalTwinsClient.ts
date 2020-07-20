@@ -80,13 +80,9 @@ export class DigitalTwinsClient {
   constructor(
     endpoint: string,
     credential: TokenCredential | ServiceClientCredentials,
-    options?: AzureDigitalTwinsAPIOptions
+    options: AzureDigitalTwinsAPIOptions = {}
   ) {
-    if (!options) {
-      const options: AzureDigitalTwinsAPIOptions = {};
-      options.baseUri = endpoint;
-    }
-
+    options.baseUri = endpoint;
     this.client = new GeneratedClient(credential, options);
   }
 
@@ -111,12 +107,8 @@ export class DigitalTwinsClient {
   public upsertDigitalTwin(
     digitalTwinId: string,
     digitalTwinJson: string,
-    disableUpdate: boolean = false
+    options?: DigitalTwinsAddOptionalParams
   ): Promise<DigitalTwinsAddResponse> {
-    var options = <DigitalTwinsAddOptionalParams>{};
-    if (disableUpdate) {
-      options.ifNoneMatch = "*";
-    }
     return this.client.digitalTwins.add(digitalTwinId, digitalTwinJson, options);
   }
 
@@ -170,18 +162,14 @@ export class DigitalTwinsClient {
    * @param digitalTwinId The Id of the digital twin.
    * @param componentPath The component being updated.
    * @param componentPatch The application/json-patch+json operations to be performed on the specified digital twin's component.
-   * @param ifMatch The eTag of the component to update. Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
+   * @param ifMatch The etag of the component to update. Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
   public updateComponent(
     digitalTwinId: string,
     componentPath: string,
-    componentPatch: any,
-    ifMatch?: string
+    options?: DigitalTwinsUpdateComponentOptionalParams
   ): Promise<DigitalTwinsUpdateComponentResponse> {
-    var options = <DigitalTwinsUpdateComponentOptionalParams>{};
-    options.patchDocument = componentPatch;
-    options.ifMatch = ifMatch;
     return this.client.digitalTwins.updateComponent(digitalTwinId, componentPath, options);
   }
 
@@ -210,14 +198,8 @@ export class DigitalTwinsClient {
   public upsertRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    relationship: string,
-    enableUpdate: boolean = true
+    options?: DigitalTwinsAddRelationshipOptionalParams
   ): Promise<DigitalTwinsAddRelationshipResponse> {
-    var options = <DigitalTwinsAddRelationshipOptionalParams>{};
-    options.relationship = relationship;
-    if (!enableUpdate) {
-      options.ifNoneMatch = "*";
-    }
     return this.client.digitalTwins.addRelationship(digitalTwinId, relationshipId, options);
   }
 
