@@ -39,7 +39,7 @@ describe("defaultHttpClient (node)", function() {
       };
     });
 
-    const client = new DefaultHttpClient();
+    const client = new DefaultHttpClient(httpMock.getFetch());
 
     const request1 = new WebResource("http://my.fake.domain/set-cookie");
     const response1 = await client.sendRequest(request1);
@@ -126,7 +126,8 @@ describe("defaultHttpClient (node)", function() {
         (ev) => listener(download, ev)
       );
 
-      const client = new DefaultHttpClient();
+      const client = new DefaultHttpClient(httpMock.getFetch());
+
       const response = await client.sendRequest(request);
       response.status.should.equal(250);
       if (response.blobBody) {

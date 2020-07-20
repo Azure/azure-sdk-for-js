@@ -33,7 +33,7 @@ describe("defaultHttpClient", function() {
     });
 
     const request = new WebResource(resourceUrl, "GET");
-    const httpClient = new DefaultHttpClient();
+    const httpClient = new DefaultHttpClient(httpMock.getFetch());
 
     const response = await httpClient.sendRequest(request);
     response.status.should.equal(404);
@@ -58,7 +58,8 @@ describe("defaultHttpClient", function() {
       undefined,
       controller.signal
     );
-    const client = new DefaultHttpClient();
+    const client = new DefaultHttpClient(httpMock.getFetch());
+
     const promise = client.sendRequest(request);
     controller.abort();
     try {
@@ -90,7 +91,8 @@ describe("defaultHttpClient", function() {
       controller.signal
     );
     controller.abort();
-    const client = new DefaultHttpClient();
+    const client = new DefaultHttpClient(httpMock.getFetch());
+
     const promise = client.sendRequest(request);
     try {
       await promise;
@@ -132,7 +134,8 @@ describe("defaultHttpClient", function() {
         controller.signal
       )
     ];
-    const client = new DefaultHttpClient();
+    const client = new DefaultHttpClient(httpMock.getFetch());
+
     const promises = requests.map((r) => client.sendRequest(r));
     controller.abort();
     // Ensure each promise is individually rejected
@@ -184,7 +187,8 @@ describe("defaultHttpClient", function() {
         (ev) => listener(download, ev)
       );
 
-      const client = new DefaultHttpClient();
+      const client = new DefaultHttpClient(httpMock.getFetch());
+
       const response = await client.sendRequest(request);
       response.should.exist;
       response.status.should.equal(251);
@@ -207,7 +211,8 @@ describe("defaultHttpClient", function() {
       undefined,
       100
     );
-    const client = new DefaultHttpClient();
+    const client = new DefaultHttpClient(httpMock.getFetch());
+
     try {
       await client.sendRequest(request);
       throw new Error("request did not fail as expected");
@@ -221,8 +226,9 @@ describe("defaultHttpClient", function() {
     // eslint-disable-next-line no-invalid-this
     this.timeout(10000);
     const requestUrl = "http://fake.domain";
-    httpMock.passThrough();
     const request = new WebResource(requestUrl, "GET");
+    httpMock.passThrough();
+    // restoring unstubbed fetch behavior, so not passing the local mock
     const client = new DefaultHttpClient();
     try {
       await client.sendRequest(request);
@@ -249,7 +255,8 @@ describe("defaultHttpClient", function() {
     });
 
     const request = new WebResource(requestUrl, "PUT");
-    const client = new DefaultHttpClient();
+    const client = new DefaultHttpClient(httpMock.getFetch());
+
     const response = await client.sendRequest(request);
     response.status.should.equal(200, response.bodyAsText!);
   });

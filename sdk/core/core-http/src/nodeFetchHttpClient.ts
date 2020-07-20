@@ -6,19 +6,15 @@ import * as http from "http";
 import * as https from "https";
 import node_fetch from "node-fetch";
 
-import { FetchHttpClient, CommonRequestInfo } from "./fetchHttpClient";
+import {
+  FetchHttpClient,
+  CommonRequestInfo,
+  CommonRequestInit,
+  CommonResponse
+} from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResourceLike } from "./webResource";
 import { createProxyAgent, ProxyAgent, isUrlHttps } from "./proxyAgent";
-
-interface GlobalWithFetch extends NodeJS.Global {
-  fetch: typeof node_fetch;
-}
-
-const globalWithFetch = global as GlobalWithFetch;
-if (typeof globalWithFetch.fetch !== "function") {
-  globalWithFetch.fetch = node_fetch;
-}
 
 interface AgentCache {
   httpAgent?: http.Agent;
@@ -37,6 +33,20 @@ export class NodeFetchHttpClient extends FetchHttpClient {
   private keepAliveAgents: AgentCache = {};
 
   private readonly cookieJar = new tough.CookieJar(undefined, { looseMode: true });
+
+  /**
+   * As we no longer use the global fetch on NodeJS, we need a way to set the local fetch to a mock for testing.
+   */
+  private _fetch: typeof node_fetch | undefined;
+
+  constructor(_fetch?: typeof node_fetch) {
+    super();
+    this._fetch = _fetch;
+  }
+
+  private getFetch(): typeof node_fetch {
+    return this._fetch || node_fetch;
+  }
 
   private getOrCreateAgent(httpRequest: WebResourceLike): http.Agent | https.Agent {
     const isHttps = isUrlHttps(httpRequest.url);
@@ -87,8 +97,9 @@ export class NodeFetchHttpClient extends FetchHttpClient {
   }
 
   // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
-  async fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response> {
-    return fetch(input, init);
+  async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
+    const response = await this.getFetch()(input, init);
+    return (response as unknown) as CommonResponse;
   }
 
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
