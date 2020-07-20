@@ -61,3 +61,76 @@ export function parseAndWrap(jsonStringOrObject: string | object): any[] {
     return [jsonStringOrObject];
   }
 }
+
+const EVENT_GRID_SCHEMA_METADATA_VERSION = "1";
+
+export function validateEventGridEvent(o: any): void {
+  if (typeof o !== "object") {
+    throw new TypeError("event is not an object");
+  }
+
+  validateRequiredStringProperties(o, [
+    "eventType",
+    "eventTime",
+    "id",
+    "subject",
+    "topic",
+    "dataVersion",
+    "metadataVersion"
+  ]);
+
+  validateRequiredAnyProperties(o, ["data"]);
+
+  if (o.metadataVersion !== EVENT_GRID_SCHEMA_METADATA_VERSION) {
+    throw new TypeError("event is not in the Event Grid schema");
+  }
+}
+
+const CLOUD_EVENT_1_0_SPEC_VERSION = "1.0";
+
+export function validateCloudEventEvent(o: any): void {
+  validateRequiredStringProperties(o, ["type", "source", "id", "specversion"]);
+  validateOptionalStringProperties(o, ["time", "dataschema", "datacontenttype", "subject"]);
+
+  if (typeof o !== "object") {
+    throw new TypeError("event is not an object");
+  }
+
+  if (o.specversion !== CLOUD_EVENT_1_0_SPEC_VERSION) {
+    throw new TypeError("event is not in the Cloud Event 1.0 schema");
+  }
+}
+
+function validateRequiredStringProperties(o: any, propertyNames: string[]): void {
+  for (const propertyName of propertyNames) {
+    if (typeof o[propertyName] === "undefined") {
+      throw new TypeError(`event is missing required property '${propertyName}'`);
+    }
+
+    if (typeof o[propertyName] !== "string") {
+      throw new TypeError(
+        `event property '${propertyName} should be a 'string', but is '${typeof o[propertyName]}'`
+      );
+    }
+  }
+}
+
+function validateRequiredAnyProperties(o: any, propertyNames: string[]): void {
+  for (const propertyName of propertyNames) {
+    if (typeof o[propertyName] === "undefined") {
+      throw new TypeError(`event is missing required property '${propertyName}'`);
+    }
+  }
+}
+
+function validateOptionalStringProperties(o: any, propertyNames: string[]): void {
+  for (const propertyName of propertyNames) {
+    if (typeof o[propertyName] !== "undefined" && typeof o[propertyName] !== "string") {
+      throw new TypeError(
+        `event property '${propertyName}' should be a 'string' but it is a '${typeof o[
+          propertyName
+        ]}'`
+      );
+    }
+  }
+}

@@ -8,38 +8,10 @@ import {
   EventGridEvent as EventGridEventMapper,
   CloudEvent as CloudEventMapper
 } from "./generated/models/mappers";
-import { parseAndWrap } from "./util";
+import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
 import { systemDecoders } from "./systemEventDecoders";
 
 const serializer = new Serializer();
-
-function validateRequiredStringProperty(o: any, propertyName: string): void {
-  if (typeof o[propertyName] === "undefined") {
-    throw new TypeError(`event is missing required property '${propertyName}'`);
-  }
-
-  if (typeof o[propertyName] !== "string") {
-    throw new TypeError(
-      `event property '${propertyName} should be a 'string', but is '${typeof o[propertyName]}'`
-    );
-  }
-}
-
-function validateRequiredAnyProperty(o: any, propertyName: string): void {
-  if (typeof o[propertyName] === "undefined") {
-    throw new TypeError(`event is missing required property '${propertyName}'`);
-  }
-}
-
-function validateOptionalStringProperty(propertyName: string, o: any): void {
-  if (typeof o[propertyName] !== "undefined" && typeof o[propertyName] !== "string") {
-    throw new TypeError(
-      `event property '${propertyName}' should be a 'string' but it is a '${typeof o[
-        propertyName
-      ]}'`
-    );
-  }
-}
 
 /**
  * Options for the Event Grid Consumer
@@ -82,22 +54,7 @@ export class EventGridConsumer {
     const events: EventGridEvent<unknown>[] = [];
 
     for (const o of decodedArray) {
-      if (typeof o !== "object") {
-        throw new TypeError("event is not an object");
-      }
-
-      validateRequiredStringProperty(o, "eventType");
-      validateRequiredStringProperty(o, "eventTime");
-      validateRequiredStringProperty(o, "id");
-      validateRequiredStringProperty(o, "subject");
-      validateRequiredStringProperty(o, "topic");
-      validateRequiredAnyProperty(o, "data");
-      validateRequiredStringProperty(o, "dataVersion");
-      validateRequiredStringProperty(o, "metadataVersion");
-
-      if (o.metadataVersion !== "1") {
-        throw new TypeError("event is not in the Event Grid schema");
-      }
+      validateEventGridEvent(o);
 
       const deserialized: EventGridEvent<any> = serializer.deserialize(EventGridEventMapper, o, "");
 
@@ -132,25 +89,10 @@ export class EventGridConsumer {
     const events: CloudEvent<unknown>[] = [];
 
     for (const o of decodedArray) {
-      if (typeof o !== "object") {
-        throw new TypeError("encoded event is not an object");
-      }
+      validateCloudEventEvent(o);
 
       // Check that the required fields are present and of the correct type and the optional fields are missing
       // or of the correct type.
-
-      validateRequiredStringProperty(o, "type");
-      validateRequiredStringProperty(o, "source");
-      validateRequiredStringProperty(o, "id");
-      validateRequiredStringProperty(o, "specversion");
-      validateOptionalStringProperty(o, "time");
-      validateOptionalStringProperty(o, "dataschema");
-      validateOptionalStringProperty(o, "datacontenttype");
-      validateOptionalStringProperty(o, "subject");
-
-      if (o.specversion !== "1.0") {
-        throw new TypeError("event is not in the Cloud Event 1.0 schema");
-      }
 
       const deserialized: WireCloudEvent = serializer.deserialize(CloudEventMapper, o, "");
       const modelEvent: Record<string, any> = {
