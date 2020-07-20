@@ -433,7 +433,14 @@ export class Items {
             response.result.forEach((operationResponse: OperationResponse, index: number) => {
               orderedResponses[batch.indexes[index]] = operationResponse;
             });
-          } catch (err) {}
+          } catch (err) {
+            console.log({ err });
+            // In the case of 410 errors, we need to recompute the partition key ranges
+            // and redo the batch request
+            if (err.status === "410") {
+              return this.bulk(batch.operations);
+            }
+          }
         })
     );
     return orderedResponses;
