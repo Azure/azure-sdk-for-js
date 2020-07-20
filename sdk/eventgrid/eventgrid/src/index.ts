@@ -3,7 +3,7 @@
 
 export { AzureKeyCredential } from "@azure/core-auth";
 
-export { EventGridEvent, CloudEvent } from "./models";
+export { CustomEventDataDecoder, EventGridEvent, CloudEvent } from "./models";
 
 export {
   EventGridClient,
@@ -18,7 +18,7 @@ export {
   EventGridSharedAccessSignatureCredential
 } from "./sharedAccessSignitureCredential";
 
-export { EventGridConsumer } from "./consumer";
+export { EventGridConsumer, EventGridConsumerOptions } from "./consumer";
 
 export {
   EventHubCaptureFileCreatedEventData,

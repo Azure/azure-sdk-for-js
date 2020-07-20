@@ -78,4 +78,7 @@ export interface CloudEvent<T> {
   extensionAttributes?: Record<string, unknown>;
 }
 
+/**
+ * A function which provides custom logic to be used when decoding events.
+ */
 export type CustomEventDataDecoder = (o: any) => Promise<any>;

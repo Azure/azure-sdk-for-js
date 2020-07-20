@@ -99,6 +99,9 @@ export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData 
 export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
 
 // @public
+export type CustomEventDataDecoder = (o: any) => Promise<any>;
+
+// @public
 export class EventGridClient {
     constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridClientOptions);
     readonly apiVersion: string;
@@ -114,15 +117,18 @@ export type EventGridClientOptions = PipelineOptions;
 
 // @public
 export class EventGridConsumer {
-    constructor(decoders?: Record<string, CustomEventDataDecoder>);
-    // Warning: (ae-forgotten-export) The symbol "CustomEventDataDecoder" needs to be exported by the entry point index.d.ts
-    //
+    constructor(options?: EventGridConsumerOptions);
     // (undocumented)
     readonly customDecoders: Record<string, CustomEventDataDecoder>;
     decodeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
     decodeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
     decodeEventGridEvents(encodedEvents: string): Promise<EventGridEvent<unknown>[]>;
     decodeEventGridEvents(encodedEvents: object): Promise<EventGridEvent<unknown>[]>;
+}
+
+// @public
+export interface EventGridConsumerOptions {
+    customDecoders: Record<string, CustomEventDataDecoder>;
 }
 
 // @public

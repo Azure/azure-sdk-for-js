@@ -3,7 +3,7 @@
 
 import { Serializer } from "@azure/core-http";
 import { CloudEvent as WireCloudEvent } from "./generated/models";
-import { CloudEvent, EventGridEvent, CustomEventDataDecoder } from "./models";
+import { CustomEventDataDecoder, CloudEvent, EventGridEvent } from "./models";
 import {
   EventGridEvent as EventGridEventMapper,
   CloudEvent as CloudEventMapper
@@ -42,12 +42,23 @@ function validateOptionalStringProperty(propertyName: string, o: any): void {
 }
 
 /**
+ * Options for the Event Grid Consumer
+ */
+export interface EventGridConsumerOptions {
+  /**
+   * Custom decoders to use when decoding a specific event's data, based on the type
+   * field of the event.
+   */
+  customDecoders: Record<string, CustomEventDataDecoder>;
+}
+
+/**
  * TODO(matell): Document this.
  */
 export class EventGridConsumer {
   readonly customDecoders: Record<string, CustomEventDataDecoder>;
-  constructor(decoders: Record<string, CustomEventDataDecoder> = {}) {
-    this.customDecoders = decoders;
+  constructor(options?: EventGridConsumerOptions) {
+    this.customDecoders = options?.customDecoders ?? {};
   }
 
   /**
