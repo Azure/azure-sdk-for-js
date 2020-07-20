@@ -2,9 +2,9 @@ import { doubleToByteArrayJSBI } from "./encoding/number";
 import { BytePrefix } from "./encoding/prefix";
 const MurmurHash = require("./murmurHash").default;
 
-type v1Key = string | number | null | {} | undefined;
+type v2Key = string | number | null | {} | undefined;
 
-export function hashV2PartitionKey(partitionKey: v1Key): string {
+export function hashV2PartitionKey(partitionKey: v2Key): string {
   const toHash = prefixKeyByType(partitionKey);
   const hash = MurmurHash.x64.hash128(toHash);
   const reverseBuff: Buffer = reverse(Buffer.from(hash, "hex"));
@@ -12,7 +12,7 @@ export function hashV2PartitionKey(partitionKey: v1Key): string {
   return reverseBuff.toString("hex").toUpperCase();
 }
 
-function prefixKeyByType(key: v1Key) {
+function prefixKeyByType(key: v2Key) {
   let bytes: Buffer;
   switch (typeof key) {
     case "string":
@@ -24,7 +24,7 @@ function prefixKeyByType(key: v1Key) {
       return bytes;
     case "number":
       const numberBytes = doubleToByteArrayJSBI(key);
-      bytes = Buffer.concat([Buffer.from(BytePrefix.String, "hex"), numberBytes]);
+      bytes = Buffer.concat([Buffer.from(BytePrefix.Number, "hex"), numberBytes]);
       return bytes;
     case "boolean":
       const prefix = key ? BytePrefix.True : BytePrefix.False;

@@ -1,7 +1,7 @@
 import assert from "assert";
 import { hashV2PartitionKey } from "../../../src/utils/hashing/v2";
 
-describe.only("effectivePartitionKey", function() {
+describe("effectivePartitionKey", function() {
   describe("computes v2 key", function() {
     const toMatch = [
       {
