@@ -33,7 +33,10 @@ import {
  */
 export class TableClient {
   private client: TableServiceClient;
-  private tableName: string;
+  /**
+   * Name of the table to perform operations on.
+   */
+  public readonly tableName: string;
 
   /**
    * Initializes a new instance of the TableClient class.

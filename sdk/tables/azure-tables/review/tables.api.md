@@ -297,6 +297,7 @@ export class TableClient {
     listEntities(query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse>;
     mergeEntity(entity: Entity, ifMatch?: string, options?: MergeEntityOptions): Promise<MergeEntityResponse>;
     setAccessPolicy(acl?: SignedIdentifier[], options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
+    readonly tableName: string;
     updateEntity(entity: Entity, ifMatch?: string, options?: UpdateEntityOptions): Promise<UpdateEntityResponse>;
 }
 
