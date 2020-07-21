@@ -146,9 +146,9 @@ export const ConnectionContextBase = {
     const connectionOptions: ConnectionOptions = {
       transport: Constants.TLS,
       host: parameters.config.host,
-      hostname: parameters.config.host,
+      hostname: parameters.config.hostname ?? parameters.config.host,
       username: parameters.config.sharedAccessKeyName,
-      port: 5671,
+      port: parameters.config.port ?? 5671,
       reconnect: false,
       properties: {
         product: parameters.connectionProperties.product,
