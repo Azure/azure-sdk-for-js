@@ -5,6 +5,7 @@ import * as log from "../log";
 import { MessagingError, translate } from "@azure/core-amqp";
 import {
   AmqpError,
+  Delivery,
   EventContext,
   OnAmqpEvent,
   ReceiverEvents,
@@ -509,26 +510,69 @@ export class BatchingReceiver extends MessageReceiver {
  * Gets a function that returns the smaller of the two timeouts,
  * taking into account elapsed time from when getRemainingWaitTimeInMsFn
  * was called.
- * 
+ *
  * @param maxWaitTimeInMs Maximum time to wait for the first message
  * @param maxTimeAfterFirstMessageInMs Maximum time to wait after the first message before completing the receive.
- * 
+ *
  * @internal
  * @ignore
  */
 export function getRemainingWaitTimeInMsFn(
-    maxWaitTimeInMs: number,
-    maxTimeAfterFirstMessageInMs: number
-  ): () => number {
-    const startTimeMs = Date.now();
+  maxWaitTimeInMs: number,
+  maxTimeAfterFirstMessageInMs: number
+): () => number {
+  const startTimeMs = Date.now();
 
-    return () => {
-      const remainingTimeMs = maxWaitTimeInMs - (Date.now() - startTimeMs);
+  return () => {
+    const remainingTimeMs = maxWaitTimeInMs - (Date.now() - startTimeMs);
 
-      if (remainingTimeMs < 0) {
-        return 0;
+    if (remainingTimeMs < 0) {
+      return 0;
+    }
+
+    return Math.min(remainingTimeMs, maxTimeAfterFirstMessageInMs);
+  };
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function onSettled() {
+  const connectionId = this._context.namespace.connectionId;
+  const delivery = context.delivery;
+  if (delivery) {
+    const id = delivery.id;
+    const state = delivery.remote_state;
+    const settled = delivery.remote_settled;
+    log.receiver(
+      "[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " + "received.",
+      connectionId,
+      id,
+      settled,
+      state && state.error ? state.error : state
+    );
+    if (settled && this._deliveryDispositionMap.has(id)) {
+      const promise = this._deliveryDispositionMap.get(id) as PromiseLike;
+      clearTimeout(promise.timer);
+      log.receiver(
+        "[%s] Found the delivery with id %d in the map and cleared the timer.",
+        connectionId,
+        id
+      );
+      const deleteResult = this._deliveryDispositionMap.delete(id);
+      log.receiver(
+        "[%s] Successfully deleted the delivery with id %d from the map.",
+        connectionId,
+        id,
+        deleteResult
+      );
+      if (state && state.error && (state.error.condition || state.error.description)) {
+        const error = translate(state.error);
+        return promise.reject(error);
       }
 
-      return Math.min(remainingTimeMs, maxTimeAfterFirstMessageInMs);
-    };
+      return promise.resolve();
+    }
   }
+}
