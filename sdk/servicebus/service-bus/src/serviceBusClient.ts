@@ -125,13 +125,13 @@ export class ServiceBusClient {
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
    * @param {string} queueName The name of the queue to receive from.
-   * @param {{ receiveMode?: "receiveAndDelete" }} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
+   * @param {{ receiveMode: "receiveAndDelete" }} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
    * @returns {Receiver<ReceivedMessage>}
    * @memberof ServiceBusClient
    */
   createReceiver(
     queueName: string,
-    options?: { receiveMode?: "receiveAndDelete" }
+    options: { receiveMode: "receiveAndDelete" }
   ): Receiver<ReceivedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus subscription in peekLock mode.
@@ -169,14 +169,14 @@ export class ServiceBusClient {
    *
    * @param {string} topicName Name of the topic for the subscription we want to receive from.
    * @param {string} subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param {{ receiveMode?: "receiveAndDelete" }} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
+   * @param {{ receiveMode: "receiveAndDelete" }} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
    * @returns {Receiver<ReceivedMessage>}
    * @memberof ServiceBusClient
    */
   createReceiver(
     topicName: string,
     subscriptionName: string,
-    options?: { receiveMode?: "receiveAndDelete" }
+    options: { receiveMode: "receiveAndDelete" }
   ): Receiver<ReceivedMessage>;
   createReceiver(
     queueOrTopicName1: string,
@@ -245,13 +245,13 @@ export class ServiceBusClient {
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
    * @param {string} queueName The name of the queue to receive from.
-   * @param {(CreateSessionReceiverOptions & { receiveMode?: "receiveAndDelete" })} [options] Options include receiveMode(defaulted to receiveAndDelete), options to create session receiver.
+   * @param {(CreateSessionReceiverOptions & { receiveMode: "receiveAndDelete" })} [options] Options include receiveMode(defaulted to receiveAndDelete), options to create session receiver.
    * @returns {Promise<SessionReceiver<ReceivedMessage>>}
    * @memberof ServiceBusClient
    */
   createSessionReceiver(
     queueName: string,
-    options?: CreateSessionReceiverOptions & { receiveMode?: "receiveAndDelete" }
+    options: CreateSessionReceiverOptions & { receiveMode: "receiveAndDelete" }
   ): Promise<SessionReceiver<ReceivedMessage>>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus subscription in peekLock mode.
@@ -289,14 +289,14 @@ export class ServiceBusClient {
    *
    * @param {string} topicName Name of the topic for the subscription we want to receive from.
    * @param {string} subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param {(CreateSessionReceiverOptions & { receiveMode?: "receiveAndDelete" })} [options] Options include receiveMode(defaulted to receiveAndDelete), options to create session receiver.
+   * @param {(CreateSessionReceiverOptions & { receiveMode: "receiveAndDelete" })} [options] Options include receiveMode(defaulted to receiveAndDelete), options to create session receiver.
    * @returns {Promise<SessionReceiver<ReceivedMessage>>}
    * @memberof ServiceBusClient
    */
   createSessionReceiver(
     topicName: string,
     subscriptionName: string,
-    options?: CreateSessionReceiverOptions & { receiveMode?: "receiveAndDelete" }
+    options: CreateSessionReceiverOptions & { receiveMode: "receiveAndDelete" }
   ): Promise<SessionReceiver<ReceivedMessage>>;
   async createSessionReceiver(
     queueOrTopicName1: string,
@@ -379,13 +379,13 @@ export class ServiceBusClient {
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
    * @param {string} queueName The name of the queue to receive from.
-   * @param {{ receiveMode?: "receiveAndDelete" }} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
+   * @param {{ receiveMode: "receiveAndDelete" }} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
    * @returns {Receiver<ReceivedMessage>}
    * @memberof ServiceBusClient
    */
   createDeadLetterReceiver(
     queueName: string,
-    options?: { receiveMode?: "receiveAndDelete" }
+    options: { receiveMode: "receiveAndDelete" }
   ): Receiver<ReceivedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue in peekLock mode.
@@ -425,14 +425,14 @@ export class ServiceBusClient {
    *
    * @param {string} topicName Name of the topic for the subscription we want to receive from.
    * @param {string} subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param {{ receiveMode?: "receiveAndDelete" }} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
+   * @param {{ receiveMode: "receiveAndDelete" }} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
    * @returns {Receiver<ReceivedMessage>}
    * @memberof ServiceBusClient
    */
   createDeadLetterReceiver(
     topicName: string,
     subscriptionName: string,
-    options?: { receiveMode?: "receiveAndDelete" }
+    options: { receiveMode: "receiveAndDelete" }
   ): Receiver<ReceivedMessage>;
   createDeadLetterReceiver(
     queueOrTopicName1: string,
