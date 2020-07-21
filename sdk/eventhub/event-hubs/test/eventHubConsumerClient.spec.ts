@@ -471,744 +471,776 @@ describe("EventHubConsumerClient", () => {
     });
   });
 
-  describe("functional tests", () => {
-    let clients: EventHubConsumerClient[];
-    let producerClient: EventHubProducerClient;
-    let partitionIds: string[];
-    let lastEventPositionPerPartition: { [partitionId: string]: EventPosition };
-    const subscriptions: Subscription[] = [];
+  const allowDirectPartitionConnections = [false, true];
+  allowDirectPartitionConnections.forEach((directPartitionConnectionsEnabled) => {
+    describe(`functional tests (allowDirectPartitionConnections: ${directPartitionConnectionsEnabled})`, () => {
+      let clients: EventHubConsumerClient[];
+      let producerClient: EventHubProducerClient;
+      let partitionIds: string[];
+      let lastEventPositionPerPartition: { [partitionId: string]: EventPosition };
+      const subscriptions: Subscription[] = [];
 
-    beforeEach(async () => {
-      producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
+      beforeEach(async () => {
+        producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
 
-      partitionIds = await producerClient.getPartitionIds();
-      // ensure we have at least 2 partitions
-      partitionIds.length.should.gte(2);
+        partitionIds = await producerClient.getPartitionIds();
+        // ensure we have at least 2 partitions
+        partitionIds.length.should.gte(2);
 
-      lastEventPositionPerPartition = {};
-      for (const id of partitionIds) {
-        const stats = await producerClient.getPartitionProperties(id);
-        lastEventPositionPerPartition[id] = {
-          sequenceNumber: stats.lastEnqueuedSequenceNumber,
-          isInclusive: false
-        };
-      }
+        lastEventPositionPerPartition = {};
+        for (const id of partitionIds) {
+          const stats = await producerClient.getPartitionProperties(id);
+          lastEventPositionPerPartition[id] = {
+            sequenceNumber: stats.lastEnqueuedSequenceNumber,
+            isInclusive: false
+          };
+        }
 
-      clients = [];
-    });
+        clients = [];
+      });
 
-    afterEach(async () => {
-      for (const subscription of subscriptions) {
-        await subscription.close();
-      }
+      afterEach(async () => {
+        for (const subscription of subscriptions) {
+          await subscription.close();
+        }
 
-      for (const client of clients) {
-        await client.close();
-      }
+        for (const client of clients) {
+          await client.close();
+        }
 
-      clients = [];
-      await producerClient.close();
-    });
+        clients = [];
+        await producerClient.close();
+      });
 
-    describe("#close()", function(): void {
-      it("stops any actively running subscriptions", async function(): Promise<void> {
-        const subscriptions: Subscription[] = [];
-        const client = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString,
-          service.path
-        );
+      describe("#close()", function(): void {
+        it("stops any actively running subscriptions", async function(): Promise<void> {
+          const subscriptions: Subscription[] = [];
+          const client = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path
+          );
+          client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
 
-        // Spin up multiple subscriptions.
-        for (const partitionId of partitionIds) {
-          subscriptions.push(
-            client.subscribe(partitionId, {
-              async processError() {
-                /* no-op for test */
+          // Spin up multiple subscriptions.
+          for (const partitionId of partitionIds) {
+            subscriptions.push(
+              client.subscribe(partitionId, {
+                async processError() {
+                  /* no-op for test */
+                },
+                async processEvents() {
+                  /* no-op for test */
+                }
+              })
+            );
+          }
+
+          // Assert that the subscriptions are all running.
+          for (const subscription of subscriptions) {
+            subscription.isRunning.should.equal(true, "The subscription should be running.");
+          }
+
+          // Stop the client, which should stop the subscriptions.
+          await client.close();
+
+          // Assert that the subscriptions are all not running.
+          for (const subscription of subscriptions) {
+            subscription.isRunning.should.equal(false, "The subscription should not be running.");
+          }
+
+          client["_subscriptions"].size.should.equal(
+            0,
+            "Some dangling subscriptions are still hanging around!"
+          );
+        });
+
+        it("gracefully stops running subscriptions", async function(): Promise<void> {
+          const client = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path
+          );
+          client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
+
+          const startingPositions = await getStartingPositionsForTests(client);
+
+          let waitForInitializeResolver: () => void;
+          const waitForInitialize = new Promise<void>(
+            (resolve) => (waitForInitializeResolver = resolve)
+          );
+          let waitForCloseResolver: (reason: CloseReason) => void;
+          const waitForClose = new Promise<CloseReason>(
+            (resolve) => (waitForCloseResolver = resolve)
+          );
+          let unexpectedError: Error | undefined;
+          let eventsWereReceived = false;
+
+          const subscription = client.subscribe(
+            partitionIds[0],
+            {
+              async processInitialize() {
+                waitForInitializeResolver();
+              },
+              async processError(err) {
+                unexpectedError = err;
               },
               async processEvents() {
-                /* no-op for test */
+                eventsWereReceived = true;
+              },
+              async processClose(reason) {
+                waitForCloseResolver(reason);
               }
-            })
+            },
+            {
+              startPosition: startingPositions
+            }
           );
-        }
 
-        // Assert that the subscriptions are all running.
-        for (const subscription of subscriptions) {
+          // Assert that the subscription is running.
           subscription.isRunning.should.equal(true, "The subscription should be running.");
-        }
 
-        // Stop the client, which should stop the subscriptions.
-        await client.close();
+          // Wait until we see a `processInitialze` handler get invoked.
+          // This lets us know that the subscription is starting to read from a partition.
+          await waitForInitialize;
 
-        // Assert that the subscriptions are all not running.
-        for (const subscription of subscriptions) {
+          // Stop the client, which should stop the subscriptions.
+          await client.close();
+
+          // Ensure that the `processClose` handler was invoked with the expected reason.
+          const closeReason = await waitForClose;
+          closeReason.should.equal(
+            CloseReason.Shutdown,
+            "Subscription closed for an unexpected reason."
+          );
+
+          // Ensure no errors were thrown.
+          should.not.exist(unexpectedError, "Did not expect to observe an error.");
+
+          // Ensure the event handler wasn't called.
+          eventsWereReceived.should.equal(false, "Should not have received events.");
+
+          // Assert that the subscription is not running.
           subscription.isRunning.should.equal(false, "The subscription should not be running.");
-        }
 
-        client["_subscriptions"].size.should.equal(
-          0,
-          "Some dangling subscriptions are still hanging around!"
-        );
-      });
-
-      it("gracefully stops running subscriptions", async function(): Promise<void> {
-        const client = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString,
-          service.path
-        );
-
-        const startingPositions = await getStartingPositionsForTests(client);
-
-        let waitForInitializeResolver: () => void;
-        const waitForInitialize = new Promise<void>(
-          (resolve) => (waitForInitializeResolver = resolve)
-        );
-        let waitForCloseResolver: (reason: CloseReason) => void;
-        const waitForClose = new Promise<CloseReason>(
-          (resolve) => (waitForCloseResolver = resolve)
-        );
-        let unexpectedError: Error | undefined;
-        let eventsWereReceived = false;
-
-        const subscription = client.subscribe(
-          partitionIds[0],
-          {
-            async processInitialize() {
-              waitForInitializeResolver();
-            },
-            async processError(err) {
-              unexpectedError = err;
-            },
-            async processEvents() {
-              eventsWereReceived = true;
-            },
-            async processClose(reason) {
-              waitForCloseResolver(reason);
-            }
-          },
-          {
-            startPosition: startingPositions
-          }
-        );
-
-        // Assert that the subscription is running.
-        subscription.isRunning.should.equal(true, "The subscription should be running.");
-
-        // Wait until we see a `processInitialze` handler get invoked.
-        // This lets us know that the subscription is starting to read from a partition.
-        await waitForInitialize;
-
-        // Stop the client, which should stop the subscriptions.
-        await client.close();
-
-        // Ensure that the `processClose` handler was invoked with the expected reason.
-        const closeReason = await waitForClose;
-        closeReason.should.equal(
-          CloseReason.Shutdown,
-          "Subscription closed for an unexpected reason."
-        );
-
-        // Ensure no errors were thrown.
-        should.not.exist(unexpectedError, "Did not expect to observe an error.");
-
-        // Ensure the event handler wasn't called.
-        eventsWereReceived.should.equal(false, "Should not have received events.");
-
-        // Assert that the subscription is not running.
-        subscription.isRunning.should.equal(false, "The subscription should not be running.");
-
-        client["_subscriptions"].size.should.equal(
-          0,
-          "Some dangling subscriptions are still hanging around!"
-        );
-      });
-    });
-
-    describe("Reinitialize partition processing after error", function(): void {
-      it("when subscribed to single partition", async function(): Promise<void> {
-        const partitionId = "0";
-        const consumerClient1 = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString,
-          service.path
-        );
-        const consumerClient2 = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString,
-          service.path
-        );
-
-        clients.push(consumerClient1, consumerClient2);
-
-        // keep track of the handlers called on subscription 1
-        const handlerCalls = {
-          initialize: 0,
-          close: 0
-        };
-        const subscriptionHandlers1: SubscriptionEventHandlers = {
-          async processError() {},
-          async processEvents() {
-            if (!handlerCalls.close) {
-              // start the 2nd subscription that will kick the 1st subscription off
-              subscription2 = consumerClient2.subscribe(partitionId, subscriptionHandlers2, {
-                ownerLevel: 1,
-                maxBatchSize: 1,
-                maxWaitTimeInSeconds: 1
-              });
-            } else {
-              // stop this subscription, we know close was called so we've restarted
-              await subscription1.close();
-            }
-          },
-          async processClose() {
-            handlerCalls.close++;
-          },
-          async processInitialize() {
-            handlerCalls.initialize++;
-          }
-        };
-        const subscriptionHandlers2: SubscriptionEventHandlers = {
-          async processError() {},
-          async processEvents() {
-            // stop this subscription since it already should have forced the 1st subscription to have an error.
-            await subscription2!.close();
-          }
-        };
-        let subscription2: Subscription | undefined;
-        const subscription1 = consumerClient1.subscribe(partitionId, subscriptionHandlers1, {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 1
+          client["_subscriptions"].size.should.equal(
+            0,
+            "Some dangling subscriptions are still hanging around!"
+          );
         });
-
-        await loopUntil({
-          maxTimes: 10,
-          name: "Wait for subscription1 to recover",
-          timeBetweenRunsMs: 5000,
-          async until() {
-            return !subscription1.isRunning && !subscription2!.isRunning;
-          }
-        });
-
-        // Initialize may be called multiple times while the 2nd subscription is running.
-        // We want to make sure it has been called at least twice to verify that subscription1
-        // attempts to recover.
-        handlerCalls.initialize.should.be.greaterThan(1);
-        handlerCalls.close.should.be.greaterThan(1);
       });
 
-      it("when subscribed to multiple partitions", async function(): Promise<void> {
-        const consumerClient1 = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString,
-          service.path
-        );
-        const consumerClient2 = new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString,
-          service.path
-        );
+      describe("Reinitialize partition processing after error", function(): void {
+        it("when subscribed to single partition", async function(): Promise<void> {
+          const partitionId = "0";
+          const consumerClient1 = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path
+          );
+          const consumerClient2 = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path
+          );
 
-        clients.push(consumerClient1, consumerClient2);
+          clients.push(consumerClient1, consumerClient2);
+          clients.forEach(
+            (client) =>
+              (client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled)
+          );
 
-        const partitionIds = await consumerClient1.getPartitionIds();
-
-        const partitionHandlerCalls: {
-          [partitionId: string]: {
-            initialize: number;
-            processEvents: boolean;
-            close: number;
+          // keep track of the handlers called on subscription 1
+          const handlerCalls = {
+            initialize: 0,
+            close: 0
           };
-        } = {};
+          const subscriptionHandlers1: SubscriptionEventHandlers = {
+            async processError() {},
+            async processEvents() {
+              if (!handlerCalls.close) {
+                // start the 2nd subscription that will kick the 1st subscription off
+                subscription2 = consumerClient2.subscribe(partitionId, subscriptionHandlers2, {
+                  ownerLevel: 1,
+                  maxBatchSize: 1,
+                  maxWaitTimeInSeconds: 1
+                });
+              } else {
+                // stop this subscription, we know close was called so we've restarted
+                await subscription1.close();
+              }
+            },
+            async processClose() {
+              handlerCalls.close++;
+            },
+            async processInitialize() {
+              handlerCalls.initialize++;
+            }
+          };
+          const subscriptionHandlers2: SubscriptionEventHandlers = {
+            async processError() {},
+            async processEvents() {
+              // stop this subscription since it already should have forced the 1st subscription to have an error.
+              await subscription2!.close();
+            }
+          };
+          let subscription2: Subscription | undefined;
+          const subscription1 = consumerClient1.subscribe(partitionId, subscriptionHandlers1, {
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1
+          });
 
-        // keep track of the handlers called on subscription 1
-        for (const id of partitionIds) {
-          partitionHandlerCalls[id] = { initialize: 0, processEvents: false, close: 0 };
-        }
+          await loopUntil({
+            maxTimes: 10,
+            name: "Wait for subscription1 to recover",
+            timeBetweenRunsMs: 5000,
+            async until() {
+              return !subscription1.isRunning && !subscription2!.isRunning;
+            }
+          });
 
-        const subscriptionHandlers1: SubscriptionEventHandlers = {
-          async processError() {},
-          async processEvents(_, context) {
-            partitionHandlerCalls[context.partitionId].processEvents = true;
-          },
-          async processClose(_, context) {
-            partitionHandlerCalls[context.partitionId].close++;
-            // reset processEvents count
-            partitionHandlerCalls[context.partitionId].processEvents = false;
-          },
-          async processInitialize(context) {
-            partitionHandlerCalls[context.partitionId].initialize++;
-          }
-        };
-
-        const subscription1 = consumerClient1.subscribe(subscriptionHandlers1, {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 1
+          // Initialize may be called multiple times while the 2nd subscription is running.
+          // We want to make sure it has been called at least twice to verify that subscription1
+          // attempts to recover.
+          handlerCalls.initialize.should.be.greaterThan(1);
+          handlerCalls.close.should.be.greaterThan(1);
         });
 
-        await loopUntil({
-          maxTimes: 10,
-          name: "Wait for subscription1 to read from all partitions",
-          timeBetweenRunsMs: 1000,
-          async until() {
-            // wait until we've seen processEvents invoked for each partition.
-            return (
-              partitionIds.filter((id) => {
-                return partitionHandlerCalls[id].processEvents;
-              }).length === partitionIds.length
-            );
-          }
-        });
-
-        const partitionsReadFromSub2 = new Set<string>();
-        const subscriptionHandlers2: SubscriptionEventHandlers = {
-          async processError() {},
-          async processEvents(_, context) {
-            partitionsReadFromSub2.add(context.partitionId);
-          }
-        };
-
-        // start 2nd subscription with an ownerLevel so it triggers the close handlers on the 1st subscription.
-        const subscription2 = consumerClient2.subscribe(subscriptionHandlers2, {
-          maxBatchSize: 1,
-          maxWaitTimeInSeconds: 1,
-          ownerLevel: 1
-        });
-
-        await loopUntil({
-          maxTimes: 10,
-          name:
-            "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
-          timeBetweenRunsMs: 1000,
-          async until() {
-            const sub1CloseHandlersCalled = Boolean(
-              partitionIds.filter((id) => {
-                return partitionHandlerCalls[id].close > 0;
-              }).length === partitionIds.length
-            );
-            return partitionsReadFromSub2.size === partitionIds.length && sub1CloseHandlersCalled;
-          }
-        });
-
-        // close subscription2 so subscription1 can recover.
-        await subscription2.close();
-
-        await loopUntil({
-          maxTimes: 10,
-          name: "Wait for subscription1 to recover",
-          timeBetweenRunsMs: 1000,
-          async until() {
-            // wait until we've seen an additional processEvent for each partition.
-            return (
-              partitionIds.filter((id) => {
-                return partitionHandlerCalls[id].processEvents;
-              }).length === partitionIds.length
-            );
-          }
-        });
-
-        await subscription1.close();
-
-        for (const id of partitionIds) {
-          partitionHandlerCalls[id].initialize.should.be.greaterThan(
-            1,
-            `Initialize on partition ${id} was not called more than 1 time.`
+        it("when subscribed to multiple partitions", async function(): Promise<void> {
+          const consumerClient1 = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path
           );
-          partitionHandlerCalls[id].close.should.be.greaterThan(
-            1,
-            `Close on partition ${id} was not called more than 1 time.`
+          const consumerClient2 = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path
           );
-        }
+
+          clients.push(consumerClient1, consumerClient2);
+          clients.forEach(
+            (client) =>
+              (client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled)
+          );
+
+          const partitionIds = await consumerClient1.getPartitionIds();
+
+          const partitionHandlerCalls: {
+            [partitionId: string]: {
+              initialize: number;
+              processEvents: boolean;
+              close: number;
+            };
+          } = {};
+
+          // keep track of the handlers called on subscription 1
+          for (const id of partitionIds) {
+            partitionHandlerCalls[id] = { initialize: 0, processEvents: false, close: 0 };
+          }
+
+          const subscriptionHandlers1: SubscriptionEventHandlers = {
+            async processError() {},
+            async processEvents(_, context) {
+              partitionHandlerCalls[context.partitionId].processEvents = true;
+            },
+            async processClose(_, context) {
+              partitionHandlerCalls[context.partitionId].close++;
+              // reset processEvents count
+              partitionHandlerCalls[context.partitionId].processEvents = false;
+            },
+            async processInitialize(context) {
+              partitionHandlerCalls[context.partitionId].initialize++;
+            }
+          };
+
+          const subscription1 = consumerClient1.subscribe(subscriptionHandlers1, {
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1
+          });
+
+          await loopUntil({
+            maxTimes: 10,
+            name: "Wait for subscription1 to read from all partitions",
+            timeBetweenRunsMs: 1000,
+            async until() {
+              // wait until we've seen processEvents invoked for each partition.
+              return (
+                partitionIds.filter((id) => {
+                  return partitionHandlerCalls[id].processEvents;
+                }).length === partitionIds.length
+              );
+            }
+          });
+
+          const partitionsReadFromSub2 = new Set<string>();
+          const subscriptionHandlers2: SubscriptionEventHandlers = {
+            async processError() {},
+            async processEvents(_, context) {
+              partitionsReadFromSub2.add(context.partitionId);
+            }
+          };
+
+          // start 2nd subscription with an ownerLevel so it triggers the close handlers on the 1st subscription.
+          const subscription2 = consumerClient2.subscribe(subscriptionHandlers2, {
+            maxBatchSize: 1,
+            maxWaitTimeInSeconds: 1,
+            ownerLevel: 1
+          });
+
+          await loopUntil({
+            maxTimes: 10,
+            name:
+              "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
+            timeBetweenRunsMs: 1000,
+            async until() {
+              const sub1CloseHandlersCalled = Boolean(
+                partitionIds.filter((id) => {
+                  return partitionHandlerCalls[id].close > 0;
+                }).length === partitionIds.length
+              );
+              return partitionsReadFromSub2.size === partitionIds.length && sub1CloseHandlersCalled;
+            }
+          });
+
+          // close subscription2 so subscription1 can recover.
+          await subscription2.close();
+
+          await loopUntil({
+            maxTimes: 10,
+            name: "Wait for subscription1 to recover",
+            timeBetweenRunsMs: 1000,
+            async until() {
+              // wait until we've seen an additional processEvent for each partition.
+              return (
+                partitionIds.filter((id) => {
+                  return partitionHandlerCalls[id].processEvents;
+                }).length === partitionIds.length
+              );
+            }
+          });
+
+          await subscription1.close();
+
+          for (const id of partitionIds) {
+            partitionHandlerCalls[id].initialize.should.be.greaterThan(
+              1,
+              `Initialize on partition ${id} was not called more than 1 time.`
+            );
+            partitionHandlerCalls[id].close.should.be.greaterThan(
+              1,
+              `Close on partition ${id} was not called more than 1 time.`
+            );
+          }
+        });
       });
-    });
 
-    it("Receive from specific partitions, no coordination", async function(): Promise<void> {
-      const logTester = new LogTester(
-        [
-          "EventHubConsumerClient subscribing to specific partition (0), no checkpoint store.",
-          "Single partition target: 0",
-          "No partitions owned, skipping abandoning."
-        ],
-        [
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger
-        ]
-      );
+      it("Receive from specific partitions, no coordination", async function(): Promise<void> {
+        const logTester = new LogTester(
+          [
+            "EventHubConsumerClient subscribing to specific partition (0), no checkpoint store.",
+            "Single partition target: 0",
+            "No partitions owned, skipping abandoning."
+          ],
+          [
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger
+          ]
+        );
 
-      const tester = new ReceivedMessagesTester(["0"], false);
+        const tester = new ReceivedMessagesTester(["0"], false);
 
-      clients.push(
-        new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path
-        )
-      );
+        clients.push(
+          new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString!,
+            service.path
+          )
+        );
+        clients.forEach(
+          (client) =>
+            (client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled)
+        );
 
-      const subscription = clients[0].subscribe("0", tester, {
-        startPosition: lastEventPositionPerPartition
-      });
-
-      subscriptions.push(subscription);
-
-      await tester.runTestAndPoll(producerClient);
-      await subscription.close(); // or else we won't see the partition abandoning messages
-
-      logTester.assert();
-    });
-
-    it("Receive from all partitions, no coordination", async function(): Promise<void> {
-      const logTester = new LogTester(
-        ["EventHubConsumerClient subscribing to all partitions, no checkpoint store."],
-        [
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger
-        ]
-      );
-
-      const tester = new ReceivedMessagesTester(partitionIds, false);
-
-      clients.push(
-        new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path
-        )
-      );
-
-      const subscription = clients[0].subscribe(tester, {
-        startPosition: lastEventPositionPerPartition
-      });
-
-      await tester.runTestAndPoll(producerClient);
-      subscriptions.push(subscription);
-
-      logTester.assert();
-    });
-
-    it("Receive from all partitions, no coordination but through multiple subscribe() calls", async function(): Promise<
-      void
-    > {
-      const logTester = new LogTester(
-        [
-          ...partitionIds.map(
-            (partitionId) =>
-              `EventHubConsumerClient subscribing to specific partition (${partitionId}), no checkpoint store.`,
-            `Abandoning owned partitions`
-          ),
-          ...partitionIds.map((partitionId) => `Single partition target: ${partitionId}`)
-        ],
-        [
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger
-        ]
-      );
-
-      const tester = new ReceivedMessagesTester(partitionIds, false);
-
-      clients.push(
-        new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path
-        )
-      );
-
-      for (const partitionId of await partitionIds) {
-        const subscription = clients[0].subscribe(partitionId, tester, {
+        const subscription = clients[0].subscribe("0", tester, {
           startPosition: lastEventPositionPerPartition
         });
+
         subscriptions.push(subscription);
-      }
 
-      await tester.runTestAndPoll(producerClient);
+        await tester.runTestAndPoll(producerClient);
+        await subscription.close(); // or else we won't see the partition abandoning messages
 
-      logTester.assert();
-    });
-
-    it("Receive from all partitions, coordinating with the same partition manager and using the default LoadBalancingStrategy", async function(): Promise<
-      void
-    > {
-      // fast forward our partition manager so it starts reading from the latest offset
-      // instead of the beginning of time.
-      const logTester = new LogTester(
-        [
-          "EventHubConsumerClient subscribing to all partitions, using a checkpoint store.",
-          /Starting event processor with ID /,
-          "Abandoning owned partitions"
-        ],
-        [
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger
-        ]
-      );
-
-      const checkpointStore = new InMemoryCheckpointStore();
-
-      clients.push(
-        new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // specifying your own checkpoint store activates the "production ready" code path that
-          // also uses the BalancedLoadBalancingStrategy
-          checkpointStore
-        )
-      );
-
-      const tester = new ReceivedMessagesTester(partitionIds, true);
-
-      const subscriber1 = clients[0].subscribe(tester, {
-        startPosition: lastEventPositionPerPartition
-      });
-      subscriptions.push(subscriber1);
-
-      clients.push(
-        new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // specifying your own checkpoint store activates the "production ready" code path that
-          // also uses the BalancedLoadBalancingStrategy
-          checkpointStore
-        )
-      );
-
-      const subscriber2 = clients[1].subscribe(tester, {
-        startPosition: lastEventPositionPerPartition
-      });
-      subscriptions.push(subscriber2);
-
-      await tester.runTestAndPoll(producerClient);
-
-      // or else we won't see the abandoning message
-      for (const subscription of subscriptions) {
-        await subscription.close();
-      }
-      logTester.assert();
-    });
-
-    it("Receive from all partitions, coordinating with the same partition manager and using the GreedyLoadBalancingStrategy", async function(): Promise<
-      void
-    > {
-      // fast forward our partition manager so it starts reading from the latest offset
-      // instead of the beginning of time.
-      const logTester = new LogTester(
-        [
-          "EventHubConsumerClient subscribing to all partitions, using a checkpoint store.",
-          /Starting event processor with ID /,
-          "Abandoning owned partitions"
-        ],
-        [
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger,
-          logger.verbose as debug.Debugger
-        ]
-      );
-
-      const checkpointStore = new InMemoryCheckpointStore();
-
-      clients.push(
-        new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // specifying your own checkpoint store activates the "production ready" code path that
-          checkpointStore,
-          {
-            loadBalancingOptions: {
-              strategy: "greedy"
-            }
-          }
-        )
-      );
-
-      const tester = new ReceivedMessagesTester(partitionIds, true);
-
-      const subscriber1 = clients[0].subscribe(tester, {
-        startPosition: lastEventPositionPerPartition
-      });
-      subscriptions.push(subscriber1);
-
-      clients.push(
-        new EventHubConsumerClient(
-          EventHubConsumerClient.defaultConsumerGroupName,
-          service.connectionString!,
-          service.path,
-          // specifying your own checkpoint store activates the "production ready" code path that
-          checkpointStore,
-          {
-            loadBalancingOptions: {
-              strategy: "greedy"
-            }
-          }
-        )
-      );
-
-      const subscriber2 = clients[1].subscribe(tester, {
-        startPosition: lastEventPositionPerPartition
-      });
-      subscriptions.push(subscriber2);
-
-      await tester.runTestAndPoll(producerClient);
-
-      // or else we won't see the abandoning message
-      for (const subscription of subscriptions) {
-        await subscription.close();
-      }
-      logTester.assert();
-    });
-
-    it("Stops receiving events if close is immediately called, single partition.", async function(): Promise<
-      void
-    > {
-      const partitionId = "0";
-      const client = new EventHubConsumerClient(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        service.connectionString,
-        service.path
-      );
-
-      clients.push(client);
-
-      let initializeCalled = 0;
-      let closeCalled = 0;
-
-      const subscription = client.subscribe(partitionId, {
-        async processError() {},
-        async processEvents() {},
-        async processClose() {
-          closeCalled++;
-        },
-        async processInitialize() {
-          initializeCalled++;
-        }
+        logTester.assert();
       });
 
-      await subscription.close();
+      it("Receive from all partitions, no coordination", async function(): Promise<void> {
+        const logTester = new LogTester(
+          ["EventHubConsumerClient subscribing to all partitions, no checkpoint store."],
+          [
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger
+          ]
+        );
 
-      await loopUntil({
-        maxTimes: 10,
-        name: "Wait for the subscription to stop running.",
-        timeBetweenRunsMs: 100,
-        async until() {
-          return !subscription.isRunning;
-        }
+        const tester = new ReceivedMessagesTester(partitionIds, false);
+
+        clients.push(
+          new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString!,
+            service.path
+          )
+        );
+        clients.forEach(
+          (client) =>
+            (client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled)
+        );
+
+        const subscription = clients[0].subscribe(tester, {
+          startPosition: lastEventPositionPerPartition
+        });
+
+        await tester.runTestAndPoll(producerClient);
+        subscriptions.push(subscription);
+
+        logTester.assert();
       });
 
-      // If `processInitialize` is called, then `processClose` should be called as well.
-      // Otherwise, we shouldn't see either called.
-      initializeCalled.should.equal(
-        closeCalled,
-        "processClose was not called the same number of times as processInitialize."
-      );
-    });
-
-    it("Stops receiving events if close is immediately called, multiple partitions.", async function(): Promise<
-      void
-    > {
-      const client = new EventHubConsumerClient(
-        EventHubConsumerClient.defaultConsumerGroupName,
-        service.connectionString,
-        service.path
-      );
-
-      clients.push(client);
-
-      let initializeCalled = 0;
-      let closeCalled = 0;
-
-      const subscription = client.subscribe({
-        async processError() {},
-        async processEvents() {},
-        async processClose() {
-          closeCalled++;
-        },
-        async processInitialize() {
-          initializeCalled++;
-        }
-      });
-
-      await subscription.close();
-
-      await loopUntil({
-        maxTimes: 10,
-        name: "Wait for the subscription to stop running.",
-        timeBetweenRunsMs: 100,
-        async until() {
-          return !subscription.isRunning;
-        }
-      });
-
-      // If `processInitialize` is called, then `processClose` should be called as well.
-      // Otherwise, we shouldn't see either called.
-      initializeCalled.should.equal(
-        closeCalled,
-        "processClose was not called the same number of times as processInitialize."
-      );
-    });
-
-    describe("processError", function(): void {
-      it("supports awaiting subscription.close on non partition-specific errors", async function(): Promise<
+      it("Receive from all partitions, no coordination but through multiple subscribe() calls", async function(): Promise<
         void
       > {
-        // Use an invalid Event Hub name to trigger a non partition-specific error.
+        const logTester = new LogTester(
+          [
+            ...partitionIds.map(
+              (partitionId) =>
+                `EventHubConsumerClient subscribing to specific partition (${partitionId}), no checkpoint store.`,
+              `Abandoning owned partitions`
+            ),
+            ...partitionIds.map((partitionId) => `Single partition target: ${partitionId}`)
+          ],
+          [
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger
+          ]
+        );
+
+        const tester = new ReceivedMessagesTester(partitionIds, false);
+
+        clients.push(
+          new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString!,
+            service.path
+          )
+        );
+        clients.forEach(
+          (client) =>
+            (client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled)
+        );
+
+        for (const partitionId of await partitionIds) {
+          const subscription = clients[0].subscribe(partitionId, tester, {
+            startPosition: lastEventPositionPerPartition
+          });
+          subscriptions.push(subscription);
+        }
+
+        await tester.runTestAndPoll(producerClient);
+
+        logTester.assert();
+      });
+
+      it("Receive from all partitions, coordinating with the same partition manager and using the default LoadBalancingStrategy", async function(): Promise<
+        void
+      > {
+        // fast forward our partition manager so it starts reading from the latest offset
+        // instead of the beginning of time.
+        const logTester = new LogTester(
+          [
+            "EventHubConsumerClient subscribing to all partitions, using a checkpoint store.",
+            /Starting event processor with ID /,
+            "Abandoning owned partitions"
+          ],
+          [
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger
+          ]
+        );
+
+        const checkpointStore = new InMemoryCheckpointStore();
+
+        clients.push(
+          new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString!,
+            service.path,
+            // specifying your own checkpoint store activates the "production ready" code path that
+            // also uses the BalancedLoadBalancingStrategy
+            checkpointStore
+          )
+        );
+        clients[0]["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
+
+        const tester = new ReceivedMessagesTester(partitionIds, true);
+
+        const subscriber1 = clients[0].subscribe(tester, {
+          startPosition: lastEventPositionPerPartition
+        });
+        subscriptions.push(subscriber1);
+
+        clients.push(
+          new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString!,
+            service.path,
+            // specifying your own checkpoint store activates the "production ready" code path that
+            // also uses the BalancedLoadBalancingStrategy
+            checkpointStore
+          )
+        );
+        clients[1]["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
+
+        const subscriber2 = clients[1].subscribe(tester, {
+          startPosition: lastEventPositionPerPartition
+        });
+        subscriptions.push(subscriber2);
+
+        await tester.runTestAndPoll(producerClient);
+
+        // or else we won't see the abandoning message
+        for (const subscription of subscriptions) {
+          await subscription.close();
+        }
+        logTester.assert();
+      });
+
+      it("Receive from all partitions, coordinating with the same partition manager and using the GreedyLoadBalancingStrategy", async function(): Promise<
+        void
+      > {
+        // fast forward our partition manager so it starts reading from the latest offset
+        // instead of the beginning of time.
+        const logTester = new LogTester(
+          [
+            "EventHubConsumerClient subscribing to all partitions, using a checkpoint store.",
+            /Starting event processor with ID /,
+            "Abandoning owned partitions"
+          ],
+          [
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger,
+            logger.verbose as debug.Debugger
+          ]
+        );
+
+        const checkpointStore = new InMemoryCheckpointStore();
+
+        clients.push(
+          new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString!,
+            service.path,
+            // specifying your own checkpoint store activates the "production ready" code path that
+            checkpointStore,
+            {
+              loadBalancingOptions: {
+                strategy: "greedy"
+              }
+            }
+          )
+        );
+        clients[0]["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
+
+        const tester = new ReceivedMessagesTester(partitionIds, true);
+
+        const subscriber1 = clients[0].subscribe(tester, {
+          startPosition: lastEventPositionPerPartition
+        });
+        subscriptions.push(subscriber1);
+
+        clients.push(
+          new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString!,
+            service.path,
+            // specifying your own checkpoint store activates the "production ready" code path that
+            checkpointStore,
+            {
+              loadBalancingOptions: {
+                strategy: "greedy"
+              }
+            }
+          )
+        );
+        clients[1]["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
+
+        const subscriber2 = clients[1].subscribe(tester, {
+          startPosition: lastEventPositionPerPartition
+        });
+        subscriptions.push(subscriber2);
+
+        await tester.runTestAndPoll(producerClient);
+
+        // or else we won't see the abandoning message
+        for (const subscription of subscriptions) {
+          await subscription.close();
+        }
+        logTester.assert();
+      });
+
+      it("Stops receiving events if close is immediately called, single partition.", async function(): Promise<
+        void
+      > {
+        const partitionId = "0";
         const client = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          "Fake-Hub"
+          service.path
         );
+        client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
+        clients.push(client);
 
-        let subscription: Subscription;
-        const caughtErr: Error = await new Promise((resolve) => {
-          subscription = client.subscribe({
-            processEvents: async () => {},
-            processError: async (err, context) => {
-              if (!context.partitionId) {
-                await subscription.close();
-                resolve(err);
-              }
-            }
-          });
+        let initializeCalled = 0;
+        let closeCalled = 0;
+
+        const subscription = client.subscribe(partitionId, {
+          async processError() {},
+          async processEvents() {},
+          async processClose() {
+            closeCalled++;
+          },
+          async processInitialize() {
+            initializeCalled++;
+          }
         });
 
-        should.exist(caughtErr);
+        await subscription.close();
 
-        await client.close();
+        await loopUntil({
+          maxTimes: 10,
+          name: "Wait for the subscription to stop running.",
+          timeBetweenRunsMs: 100,
+          async until() {
+            return !subscription.isRunning;
+          }
+        });
+
+        // If `processInitialize` is called, then `processClose` should be called as well.
+        // Otherwise, we shouldn't see either called.
+        initializeCalled.should.equal(
+          closeCalled,
+          "processClose was not called the same number of times as processInitialize."
+        );
       });
 
-      it("supports awaiting subscription.close on partition-specific errors", async function(): Promise<
+      it("Stops receiving events if close is immediately called, multiple partitions.", async function(): Promise<
         void
       > {
-        // Use an invalid Event Hub name to trigger a non partition-specific error.
         const client = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
           service.path
         );
 
-        let subscription: Subscription;
-        const caughtErr: Error = await new Promise((resolve) => {
-          // Subscribe to an invalid partition id to trigger a partition-specific error.
-          subscription = client.subscribe("-1", {
-            processEvents: async () => {},
-            processError: async (err, context) => {
-              if (context.partitionId) {
-                await subscription.close();
-                resolve(err);
-              }
-            }
-          });
+        client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
+        clients.push(client);
+
+        let initializeCalled = 0;
+        let closeCalled = 0;
+
+        const subscription = client.subscribe({
+          async processError() {},
+          async processEvents() {},
+          async processClose() {
+            closeCalled++;
+          },
+          async processInitialize() {
+            initializeCalled++;
+          }
         });
 
-        should.exist(caughtErr);
+        await subscription.close();
 
-        await client.close();
+        await loopUntil({
+          maxTimes: 10,
+          name: "Wait for the subscription to stop running.",
+          timeBetweenRunsMs: 100,
+          async until() {
+            return !subscription.isRunning;
+          }
+        });
+
+        // If `processInitialize` is called, then `processClose` should be called as well.
+        // Otherwise, we shouldn't see either called.
+        initializeCalled.should.equal(
+          closeCalled,
+          "processClose was not called the same number of times as processInitialize."
+        );
+      });
+
+      describe("processError", function(): void {
+        it("supports awaiting subscription.close on non partition-specific errors", async function(): Promise<
+          void
+        > {
+          // Use an invalid Event Hub name to trigger a non partition-specific error.
+          const client = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            "Fake-Hub"
+          );
+          client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
+
+          let subscription: Subscription;
+          const caughtErr: Error = await new Promise((resolve) => {
+            subscription = client.subscribe({
+              processEvents: async () => {},
+              processError: async (err, context) => {
+                if (!context.partitionId) {
+                  await subscription.close();
+                  resolve(err);
+                }
+              }
+            });
+          });
+
+          should.exist(caughtErr);
+
+          await client.close();
+        });
+
+        it("supports awaiting subscription.close on partition-specific errors", async function(): Promise<
+          void
+        > {
+          // Use an invalid Event Hub name to trigger a non partition-specific error.
+          const client = new EventHubConsumerClient(
+            EventHubConsumerClient.defaultConsumerGroupName,
+            service.connectionString,
+            service.path
+          );
+          client["_allowDirectPartitionConnections"] = directPartitionConnectionsEnabled;
+
+          let subscription: Subscription;
+          const caughtErr: Error = await new Promise((resolve) => {
+            // Subscribe to an invalid partition id to trigger a partition-specific error.
+            subscription = client.subscribe("-1", {
+              processEvents: async () => {},
+              processError: async (err, context) => {
+                if (context.partitionId) {
+                  await subscription.close();
+                  resolve(err);
+                }
+              }
+            });
+          });
+
+          should.exist(caughtErr);
+
+          await client.close();
+        });
       });
     });
   });
