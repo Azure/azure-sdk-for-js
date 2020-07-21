@@ -10,13 +10,13 @@ import { createRecordedClient, testEnv } from "./utils/recordedClient";
 
 import {
   AzureKeyCredential,
-  EventGridClient,
+  EventGridPublisherClient,
   EventGridSharedAccessSignatureCredential
 } from "../src/index";
 
-describe("EventGridClient", function() {
+describe("EventGridPublisherClient", function() {
   let recorder: Recorder;
-  let client: EventGridClient;
+  let client: EventGridPublisherClient;
 
   this.timeout(10000);
 
@@ -196,7 +196,7 @@ describe("EventGridClient", function() {
       // number of bytes as an actual EventGrid Access Key.
       const key = "dGhpcyBpcyBub3QgYSByZWFsIEV2ZW50R3JpZCBrZXk=";
 
-      const client = new EventGridClient(
+      const client = new EventGridPublisherClient(
         "https://eg-topic.westus-2.eventgrid.azure.net/api/events",
         new AzureKeyCredential(key)
       );
@@ -214,7 +214,7 @@ describe("EventGridClient", function() {
       const signature =
         "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%2012%3A00%3A00%20AM&s=ZzvNAYRyvJwDrOJKYxbNAPNCoSqgOJVLFi4IMXOrW2Q%3D";
 
-      const client = new EventGridClient(
+      const client = new EventGridPublisherClient(
         "https://eg-topic.westus-2.eventgrid.azure.net/api/events",
         new EventGridSharedAccessSignatureCredential(signature)
       );

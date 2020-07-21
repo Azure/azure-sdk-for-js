@@ -48,7 +48,7 @@ Install the Azure Event Grid client library for JavaScript with `npm`:
 npm install @azure/eventgrid
 ```
 
-### Create and authenticate a `EventGridClient`
+### Create and authenticate a `EventGridPublisherClient`
 
 To create a client object to access the Event Grid API, you will need the `endpoint` of your Event Grid topic and a `credential`. The Event Grid client can use either an Access Key or Shared Access Signature (SAS) created from an access key.
 
@@ -69,9 +69,9 @@ az eventgrid topic key list --resource-group <your-resource-group-name> --name <
 Once you have an API key and endpoint, you can use the `AzureKeyCredential` class to authenticate the client as follows:
 
 ```js
-const { EventGridClient, AzureKeyCredential } = require("@azure/eventgrid");
+const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
 
-const client = new EventGridClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new EventGridPublisherClient("<endpoint>", new AzureKeyCredential("<API key>"));
 ```
 
 #### Using a SAS Token
@@ -79,20 +79,23 @@ const client = new EventGridClient("<endpoint>", new AzureKeyCredential("<API ke
 Like an access key, a SAS token allows access to sending events to an Event Grid topic. Unlike an access key, which can be used until it is regenerated, a SAS token has an experation time, at which point it is no longer valid. To use a SAS token for authentication, use the `EventGridSharedAccesSignatureCredential` as follows:
 
 ```js
-const { EventGridClient, EventGridSharedAccessSignatureCredential } = require("@azure/eventgrid");
+const {
+  EventGridPublisherClient,
+  EventGridSharedAccessSignatureCredential
+} = require("@azure/eventgrid");
 
-const client = new EventGridClient(
+const client = new EventGridPublisherClient(
   "<endpoint>",
   new EventGridSharedAccessSignatureCredential("<SAS Token>")
 );
 ```
 
-You can generate a SAS token by using the `generateSharedAccessSigniture` instance method on the `EventGridClient` type. Because the Topic's Access Key is used as part of generating the SAS token, you need to create the `EventGridClient` using an Access Key:
+You can generate a SAS token by using the `generateSharedAccessSigniture` instance method on the `EventGridPublisherClient` type. Because the Topic's Access Key is used as part of generating the SAS token, you need to create the `EventGridPublisherClient` using an Access Key:
 
 ```js
-const { EventGridClient, AzureKeyCredential } = require("@azure/eventgrid");
+const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
 
-const client = new EventGridClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new EventGridPublisherClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 // Create a SAS Token which expires on 2020-01-01 at Midnight.
 const token = client.generateSharedAccessSignature(new Date(2020, 0, 1, 0, 0, 0));
@@ -100,13 +103,13 @@ const token = client.generateSharedAccessSignature(new Date(2020, 0, 1, 0, 0, 0)
 
 ## Key concepts
 
-### EventGridClient
+### EventGridPublisherClient
 
-`EventGridClient` is used sending events to an Event Grid Topic or an Event Grid Domain.
+`EventGridPublisherClient` is used sending events to an Event Grid Topic or an Event Grid Domain.
 
 ### Event Schemas
 
-Event Grid supports multiple schemas for encoding events. When a Custom Topic or Domain is created, you specify the schema that will be used when publishing events. While you may configure your topic to use a _custom schema_ it is more common to use the already defined _Event Grid schema_ or _CloudEvents 1.0 schema_. [CloudEvents](https://cloudevents.io/) is a Cloud Native Computing Foundation project which produces a specification for describing event data in a common way. Regardless of what schmea your topic or domain is configured to use, `EventGridClient` will be used to publish events to it. However, you must use the correct method for publishing:
+Event Grid supports multiple schemas for encoding events. When a Custom Topic or Domain is created, you specify the schema that will be used when publishing events. While you may configure your topic to use a _custom schema_ it is more common to use the already defined _Event Grid schema_ or _CloudEvents 1.0 schema_. [CloudEvents](https://cloudevents.io/) is a Cloud Native Computing Foundation project which produces a specification for describing event data in a common way. Regardless of what schmea your topic or domain is configured to use, `EventGridPublisherClient` will be used to publish events to it. However, you must use the correct method for publishing:
 
 | Schema       | Publishing Method     |
 | ------------ | --------------------- |
@@ -126,9 +129,9 @@ TODO
 
 ```js
 const { v4: uuidv4 } = require("uuid");
-const { EventGridClient, AzureKeyCredential } = require("@azure/eventgrid");
+const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
 
-const client = new EventGridClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new EventGridPublisherClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 await client.sendEvents([
   {
@@ -150,9 +153,9 @@ Publishing events to an Event Grid Domain is similar to publish to an Event Grid
 
 ```js
 const { v4: uuidv4 } = require("uuid");
-const { EventGridClient, AzureKeyCredential } = require("@azure/eventgrid");
+const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
 
-const client = new EventGridClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new EventGridPublisherClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 await client.sendEvents([
   {

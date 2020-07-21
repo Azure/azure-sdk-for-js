@@ -102,20 +102,6 @@ export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData &
 export type CustomEventDataDecoder = (o: any) => Promise<any>;
 
 // @public
-export class EventGridClient {
-    constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridClientOptions);
-    readonly apiVersion: string;
-    readonly endpointUrl: string;
-    generateSharedAccessSignature(expiresOnUtc: Date): Promise<string>;
-    sendCloudEvents(events: CloudEvent<any>[], options?: SendCloudEventsOptions): Promise<RestResponse>;
-    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<RestResponse>;
-    sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<RestResponse>;
-}
-
-// @public
-export type EventGridClientOptions = PipelineOptions;
-
-// @public
 export class EventGridConsumer {
     constructor(options?: EventGridConsumerOptions);
     // (undocumented)
@@ -141,6 +127,20 @@ export interface EventGridEvent<T> {
     subject: string;
     topic?: string;
 }
+
+// @public
+export class EventGridPublisherClient {
+    constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
+    readonly apiVersion: string;
+    readonly endpointUrl: string;
+    generateSharedAccessSignature(expiresOnUtc: Date): Promise<string>;
+    sendCloudEvents(events: CloudEvent<any>[], options?: SendCloudEventsOptions): Promise<RestResponse>;
+    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<RestResponse>;
+    sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<RestResponse>;
+}
+
+// @public
+export type EventGridPublisherClientOptions = PipelineOptions;
 
 // @public
 export class EventGridSharedAccessSignatureCredential implements SignatureCredential {

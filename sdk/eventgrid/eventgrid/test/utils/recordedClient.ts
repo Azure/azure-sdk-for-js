@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 
-import { EventGridClient } from "../../src/index";
+import { EventGridPublisherClient } from "../../src/index";
 import { KeyCredential } from "@azure/core-auth";
 
 if (isNode) {
@@ -15,7 +15,7 @@ if (isNode) {
 }
 
 export interface RecordedClient {
-  client: EventGridClient;
+  client: EventGridPublisherClient;
   recorder: Recorder;
 }
 
@@ -61,7 +61,7 @@ export function createRecordedClient(
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new EventGridClient(endpoint, credential),
+    client: new EventGridPublisherClient(endpoint, credential),
     recorder
   };
 }

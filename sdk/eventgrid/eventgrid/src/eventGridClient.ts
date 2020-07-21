@@ -22,7 +22,7 @@ import { dateToServiceTimeString, isKeyCredentialLike } from "./util";
 /**
  * Options for the Event Grid Client.
  */
-export type EventGridClientOptions = PipelineOptions;
+export type EventGridPublisherClientOptions = PipelineOptions;
 
 /**
  * Options for the send events operation.
@@ -40,9 +40,9 @@ export type SendCloudEventsOptions = OperationOptions;
 export type SendCustomSchemaEventsOptions = OperationOptions;
 
 /**
- * Client class for interacting with the Event Grid Service.
+ * Client class for publishing events to the Event Grid Service.
  */
-export class EventGridClient {
+export class EventGridPublisherClient {
   /**
    * The URL to the Event Grid endpoint.
    */
@@ -65,13 +65,13 @@ export class EventGridClient {
   private readonly keyCredential?: KeyCredential;
 
   /**
-   * Creates an instance of EventGridClient.
+   * Creates an instance of EventGridPublisherClient.
    *
    * Example usage:
    * ```ts
-   * import { EventGridClient, AzureKeyCredential } from "@azure/eventgrid";
+   * import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
    *
-   * const client = new EventGridClient(
+   * const client = new EventGridPublisherClient(
    *    "<service endpoint>",
    *    new AzureKeyCredential("<api key>")
    * );
@@ -84,7 +84,7 @@ export class EventGridClient {
   constructor(
     endpointUrl: string,
     credential: KeyCredential | SignatureCredential,
-    options: EventGridClientOptions = {}
+    options: EventGridPublisherClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
 
@@ -166,7 +166,7 @@ export class EventGridClient {
 
   /**
    * Generate a shared access signature, which allows a client to send events to an Event Grid Topic for a limited period of time. This
-   * function may only be called when the EventGridClient was constructed with a KeyCredential instance.
+   * function may only be called when the EventGridPublisherClient was constructed with a KeyCredential instance.
    *
    * @param expiresOn The time at which the shared signature is no longer valid.
    */
