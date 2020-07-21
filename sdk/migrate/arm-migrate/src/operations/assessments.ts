@@ -12,17 +12,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/assessmentsMappers";
 import * as Parameters from "../models/parameters";
-import { AzureMigrateContext } from "../azureMigrateContext";
+import { AzureMigrateV2Context } from "../azureMigrateV2Context";
 
 /** Class representing a Assessments. */
 export class Assessments {
-  private readonly client: AzureMigrateContext;
+  private readonly client: AzureMigrateV2Context;
 
   /**
    * Create a Assessments.
-   * @param {AzureMigrateContext} client Reference to the service client.
+   * @param {AzureMigrateV2Context} client Reference to the service client.
    */
-  constructor(client: AzureMigrateContext) {
+  constructor(client: AzureMigrateV2Context) {
     this.client = client;
   }
 
@@ -144,7 +144,7 @@ export class Assessments {
 
   /**
    * Create a new assessment with the given name and the specified settings. Since name of an
-   * assessment in a project is a unique identiefier, if an assessment with the name provided already
+   * assessment in a project is a unique identifier, if an assessment with the name provided already
    * exists, then the existing assessment is updated.
    *
    * Any PUT operation, resulting in either create or update on an assessment, will cause the
@@ -285,7 +285,7 @@ export class Assessments {
 const serializer = new msRest.Serializer(Mappers);
 const listByGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -304,7 +304,8 @@ const listByGroupOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AssessmentsListByGroupHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.AssessmentsListByGroupHeaders
     }
   },
   serializer
@@ -312,7 +313,7 @@ const listByGroupOperationSpec: msRest.OperationSpec = {
 
 const listByProjectOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/assessments",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/assessments",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -330,7 +331,8 @@ const listByProjectOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AssessmentsListByProjectHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.AssessmentsListByProjectHeaders
     }
   },
   serializer
@@ -338,7 +340,7 @@ const listByProjectOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -358,7 +360,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AssessmentsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.AssessmentsGetHeaders
     }
   },
   serializer
@@ -366,7 +369,7 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -397,7 +400,8 @@ const createOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AssessmentsCreateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.AssessmentsCreateHeaders
     }
   },
   serializer
@@ -405,7 +409,7 @@ const createOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments/{assessmentName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -423,8 +427,12 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {
       headersMapper: Mappers.AssessmentsDeleteHeaders
     },
+    204: {
+      headersMapper: Mappers.AssessmentsDeleteHeaders
+    },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.AssessmentsDeleteHeaders
     }
   },
   serializer
@@ -432,7 +440,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getReportDownloadUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/projects/{projectName}/groups/{groupName}/assessments/{assessmentName}/downloadUrl",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/assessmentProjects/{projectName}/groups/{groupName}/assessments/{assessmentName}/downloadUrl",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -452,7 +460,8 @@ const getReportDownloadUrlOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.AssessmentsGetReportDownloadUrlHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.AssessmentsGetReportDownloadUrlHeaders
     }
   },
   serializer

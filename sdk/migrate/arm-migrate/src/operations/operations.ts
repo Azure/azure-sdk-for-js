@@ -12,17 +12,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
 import * as Mappers from "../models/operationsMappers";
 import * as Parameters from "../models/parameters";
-import { AzureMigrateContext } from "../azureMigrateContext";
+import { AzureMigrateV2Context } from "../azureMigrateV2Context";
 
 /** Class representing a Operations. */
 export class Operations {
-  private readonly client: AzureMigrateContext;
+  private readonly client: AzureMigrateV2Context;
 
   /**
    * Create a Operations.
-   * @param {AzureMigrateContext} client Reference to the service client.
+   * @param {AzureMigrateV2Context} client Reference to the service client.
    */
-  constructor(client: AzureMigrateContext) {
+  constructor(client: AzureMigrateV2Context) {
     this.client = client;
   }
 

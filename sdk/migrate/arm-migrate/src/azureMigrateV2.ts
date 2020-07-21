@@ -12,35 +12,35 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
-import { AzureMigrateContext } from "./azureMigrateContext";
+import { AzureMigrateV2Context } from "./azureMigrateV2Context";
 
 
-class AzureMigrate extends AzureMigrateContext {
+class AzureMigrateV2 extends AzureMigrateV2Context {
   // Operation groups
-  location: operations.Location;
-  assessmentOptions: operations.AssessmentOptions;
   projects: operations.Projects;
   machines: operations.Machines;
   groups: operations.Groups;
   assessments: operations.Assessments;
   assessedMachines: operations.AssessedMachines;
+  hyperVCollectors: operations.HyperVCollectors;
+  vMwareCollectors: operations.VMwareCollectors;
   operations: operations.Operations;
 
   /**
-   * Initializes a new instance of the AzureMigrate class.
+   * Initializes a new instance of the AzureMigrateV2 class.
    * @param credentials Credentials needed for the client to connect to Azure.
    * @param subscriptionId Azure Subscription Id in which project was created.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMigrateOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMigrateV2Options) {
     super(credentials, subscriptionId, options);
-    this.location = new operations.Location(this);
-    this.assessmentOptions = new operations.AssessmentOptions(this);
     this.projects = new operations.Projects(this);
     this.machines = new operations.Machines(this);
     this.groups = new operations.Groups(this);
     this.assessments = new operations.Assessments(this);
     this.assessedMachines = new operations.AssessedMachines(this);
+    this.hyperVCollectors = new operations.HyperVCollectors(this);
+    this.vMwareCollectors = new operations.VMwareCollectors(this);
     this.operations = new operations.Operations(this);
   }
 }
@@ -48,9 +48,9 @@ class AzureMigrate extends AzureMigrateContext {
 // Operation Specifications
 
 export {
-  AzureMigrate,
-  AzureMigrateContext,
-  Models as AzureMigrateModels,
-  Mappers as AzureMigrateMappers
+  AzureMigrateV2,
+  AzureMigrateV2Context,
+  Models as AzureMigrateV2Models,
+  Mappers as AzureMigrateV2Mappers
 };
 export * from "./operations";

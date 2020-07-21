@@ -13,7 +13,8 @@ import * as msRest from "@azure/ms-rest-js";
 export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
-    serializedName: "Accept-Language",
+    serializedName: "accept-language",
+    defaultValue: 'en-US',
     type: {
       name: "String"
     }
@@ -25,7 +26,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-02-02',
+    defaultValue: '2019-10-01',
     type: {
       name: "String"
     }
@@ -51,6 +52,16 @@ export const assessmentName: msRest.OperationURLParameter = {
     }
   }
 };
+export const assessmentOptionsName: msRest.OperationURLParameter = {
+  parameterPath: "assessmentOptionsName",
+  mapper: {
+    required: true,
+    serializedName: "assessmentOptionsName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const groupName: msRest.OperationURLParameter = {
   parameterPath: "groupName",
   mapper: {
@@ -61,11 +72,11 @@ export const groupName: msRest.OperationURLParameter = {
     }
   }
 };
-export const locationName: msRest.OperationURLParameter = {
-  parameterPath: "locationName",
+export const hyperVCollectorName: msRest.OperationURLParameter = {
+  parameterPath: "hyperVCollectorName",
   mapper: {
     required: true,
-    serializedName: "locationName",
+    serializedName: "hyperVCollectorName",
     type: {
       name: "String"
     }
@@ -80,6 +91,17 @@ export const machineName: msRest.OperationURLParameter = {
       name: "String"
     }
   }
+};
+export const nextPageLink: msRest.OperationURLParameter = {
+  parameterPath: "nextPageLink",
+  mapper: {
+    required: true,
+    serializedName: "nextLink",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 export const projectName: msRest.OperationURLParameter = {
   parameterPath: "projectName",
@@ -106,6 +128,16 @@ export const subscriptionId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const vmWareCollectorName: msRest.OperationURLParameter = {
+  parameterPath: "vmWareCollectorName",
+  mapper: {
+    required: true,
+    serializedName: "vmWareCollectorName",
     type: {
       name: "String"
     }
