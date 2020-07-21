@@ -15,11 +15,7 @@ import {
   CreateConnectionContextBaseParameters,
   EventHubConnectionConfig,
   SharedKeyCredential,
-  TokenCredential,
-  isTokenCredential,
-  parseConnectionString,
-  EventHubConnectionStringModel,
-  ConnectionConfig
+  TokenCredential
 } from "@azure/core-amqp";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./models/public";
@@ -446,75 +442,4 @@ export namespace ConnectionContext {
     logger.verbose("[%s] Created connection context successfully.", connectionContext.connectionId);
     return connectionContext;
   }
-}
-
-/**
- * Helper method to create a ConnectionContext from the input passed to either
- * EventHubProducerClient or EventHubConsumerClient constructors
- *
- * @ignore
- * @internal
- */
-export function createConnectionContext(
-  hostOrConnectionString: string,
-  eventHubNameOrOptions?: string | EventHubClientOptions,
-  credentialOrOptions?: TokenCredential | EventHubClientOptions,
-  options?: EventHubClientOptions
-): ConnectionContext {
-  let connectionString;
-  let config;
-  let credential: TokenCredential | SharedKeyCredential;
-  hostOrConnectionString = String(hostOrConnectionString);
-
-  if (!isTokenCredential(credentialOrOptions)) {
-    const parsedCS = parseConnectionString<EventHubConnectionStringModel>(hostOrConnectionString);
-    if (
-      !(parsedCS.EntityPath || (typeof eventHubNameOrOptions === "string" && eventHubNameOrOptions))
-    ) {
-      throw new TypeError(
-        `Either provide "eventHubName" or the "connectionString": "${hostOrConnectionString}", ` +
-          `must contain "EntityPath=<your-event-hub-name>".`
-      );
-    }
-    if (
-      parsedCS.EntityPath &&
-      typeof eventHubNameOrOptions === "string" &&
-      eventHubNameOrOptions &&
-      parsedCS.EntityPath !== eventHubNameOrOptions
-    ) {
-      throw new TypeError(
-        `The entity path "${parsedCS.EntityPath}" in connectionString: "${hostOrConnectionString}" ` +
-          `doesn't match with eventHubName: "${eventHubNameOrOptions}".`
-      );
-    }
-    connectionString = hostOrConnectionString;
-    if (typeof eventHubNameOrOptions !== "string") {
-      // connectionstring and/or options were passed to constructor
-      config = EventHubConnectionConfig.create(connectionString);
-      options = eventHubNameOrOptions;
-    } else {
-      // connectionstring, eventHubName and/or options were passed to constructor
-      const eventHubName = eventHubNameOrOptions;
-      config = EventHubConnectionConfig.create(connectionString, eventHubName);
-      options = credentialOrOptions;
-    }
-    // Since connectionstring was passed, create a SharedKeyCredential
-    credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
-  } else {
-    // host, eventHubName, a TokenCredential and/or options were passed to constructor
-    const eventHubName = eventHubNameOrOptions;
-    let host = hostOrConnectionString;
-    credential = credentialOrOptions;
-    if (!eventHubName) {
-      throw new TypeError(`"eventHubName" is missing`);
-    }
-
-    if (!host.endsWith("/")) host += "/";
-    connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;EntityPath=${eventHubName}`;
-    config = EventHubConnectionConfig.create(connectionString);
-  }
-
-  ConnectionConfig.validate(config);
-
-  return ConnectionContext.create(config, credential, options);
 }

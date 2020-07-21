@@ -4,7 +4,7 @@
 import { isTokenCredential, TokenCredential } from "@azure/core-amqp";
 import { getTracer } from "@azure/core-tracing";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
-import { ConnectionContext, createConnectionContext } from "./connectionContext";
+import { ConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 import { EventData } from "./eventData";
@@ -22,6 +22,7 @@ import {
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { getParentSpan, OperationOptions } from "./util/operationOptions";
+import { ConnectionContextManager } from "./connectionContextManager";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.
@@ -40,6 +41,10 @@ export class EventHubProducerClient {
    * Describes the amqp connection context for the client.
    */
   private _context: ConnectionContext;
+  /**
+   * Used to create `ConnectionContexts` to the service gateway and direct nodes.
+   */
+  private _contextManager: ConnectionContextManager;
 
   /**
    * The options passed by the user when creating the EventHubClient instance.
@@ -124,12 +129,13 @@ export class EventHubProducerClient {
     credentialOrOptions3?: TokenCredential | EventHubClientOptions,
     options4?: EventHubClientOptions
   ) {
-    this._context = createConnectionContext(
+    this._contextManager = new ConnectionContextManager(
       fullyQualifiedNamespaceOrConnectionString1,
       eventHubNameOrOptions2,
       credentialOrOptions3,
       options4
     );
+    this._context = this._contextManager.getGatewayConnectionContext();
     if (typeof eventHubNameOrOptions2 !== "string") {
       this._clientOptions = eventHubNameOrOptions2 || {};
     } else if (!isTokenCredential(credentialOrOptions3)) {
@@ -325,7 +331,7 @@ export class EventHubProducerClient {
    * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(): Promise<void> {
-    await this._context.close();
+    await this._contextManager.close();
 
     for (const pair of this._sendersMap) {
       await pair[1].close();

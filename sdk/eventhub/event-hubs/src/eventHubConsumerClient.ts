@@ -55,6 +55,9 @@ const defaultConsumerClientOptions: Required<Pick<
  * to load balance multiple instances of your application.
  */
 export class EventHubConsumerClient {
+  /**
+   * Used to create `ConnectionContexts` to the service gateway and direct nodes.
+   */
   private _contextManager: ConnectionContextManager;
   /**
    * The options passed by the user when creating the EventHubClient instance.
