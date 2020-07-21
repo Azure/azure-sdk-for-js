@@ -27,7 +27,7 @@ export class Operations {
   }
 
   /**
-   * Lists all of the available billing REST API operations.
+   * Lists the available billing REST API operations.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */
@@ -51,7 +51,7 @@ export class Operations {
   }
 
   /**
-   * Lists all of the available billing REST API operations.
+   * Lists the available billing REST API operations.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListNextResponse>
@@ -85,7 +85,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Billing/operations",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

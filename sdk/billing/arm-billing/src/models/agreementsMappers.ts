@@ -9,6 +9,7 @@
 export {
   AddressDetails,
   Agreement,
+  AgreementListResult,
   Amount,
   AvailableBalance,
   AzurePlan,
@@ -28,7 +29,6 @@ export {
   Document,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentAccountSummary,
   EnrollmentPolicies,
   ErrorDetails,
