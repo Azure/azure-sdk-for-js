@@ -10,6 +10,13 @@ import { VSCodeCredential } from "./vscodeCredential";
 import { TokenCredential } from "@azure/core-http";
 
 /**
+ * Provides options to configure the default Azure credentials.
+ */
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+  tenantId?: string;
+}
+
+/**
  * Provides a default {@link ChainedTokenCredential} configuration for
  * applications that will be deployed to Azure.  The following credential
  * types will be tried, in order:
@@ -26,7 +33,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
+  constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions) {
     let credentials = [];
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
