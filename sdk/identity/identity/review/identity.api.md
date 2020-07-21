@@ -85,8 +85,13 @@ export class CredentialUnavailable extends Error {
 
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
-    // Warning: (ae-forgotten-export) The symbol "DefaultAzureCredentialOptions" needs to be exported by the entry point index.d.ts
     constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions);
+}
+
+// @public
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+    // (undocumented)
+    tenantId?: string;
 }
 
 // @public
@@ -166,10 +171,15 @@ export class UsernamePasswordCredential implements TokenCredential {
 
 // @public
 export class VSCodeCredential implements TokenCredential {
-    // Warning: (ae-forgotten-export) The symbol "VSCodeCredentialOptions" needs to be exported by the entry point index.d.ts
     constructor(options?: VSCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface VSCodeCredentialOptions extends TokenCredentialOptions {
+    // (undocumented)
+    tenantId?: string;
+}
 
 
 // (No @packageDocumentation comment for this package)

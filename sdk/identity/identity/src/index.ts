@@ -10,7 +10,7 @@ export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
-export { VSCodeCredential } from "./credentials/vscodeCredential";
+export { VSCodeCredential, VSCodeCredentialOptions } from "./credentials/vscodeCredential";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 
 export {
@@ -24,7 +24,7 @@ export {
   DeviceCodeInfo
 } from "./credentials/deviceCodeCredential";
 
-export { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
+export { DefaultAzureCredential, DefaultAzureCredentialOptions } from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export {
