@@ -87,6 +87,20 @@ export type DeleteTableResponse = TableDeleteHeaders & {
 };
 
 // @public
+export class EdmGuid {
+    constructor(guid: string);
+    get value(): string;
+    set value(guid: string);
+    }
+
+// @public
+export class EdmInt64 {
+    constructor(integer: string);
+    get value(): string;
+    set value(integer: string);
+    }
+
+// @public
 export interface Entity {
     [propertyName: string]: any;
     PartitionKey: string;
@@ -162,13 +176,6 @@ export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceSt
         parsedHeaders: ServiceGetStatisticsHeaders;
     };
 };
-
-// @public
-export class Guid {
-    constructor(guid: string);
-    get value(): string;
-    set value(guid: string);
-    }
 
 // @public
 export type ListEntitiesOptions = Omit<TableQueryEntitiesOptionalParams, "queryOptions">;
