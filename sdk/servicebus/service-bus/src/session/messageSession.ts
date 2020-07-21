@@ -20,18 +20,13 @@ import {
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "../core/linkEntity";
 import { DispositionStatusOptions } from "../core/managementClient";
-import {
-  OnAmqpEventAsPromise,
-  OnError,
-  OnMessage,
-  PromiseLike,
-  ReceiverHelper
-} from "../core/messageReceiver";
+import { OnAmqpEventAsPromise, OnError, OnMessage, ReceiverHelper } from "../core/messageReceiver";
 import * as log from "../log";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 import { getRemainingWaitTimeInMsFn } from "../core/batchingReceiver";
+import { sharedOnSettled, PromiseLike } from "../core/shared";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -457,40 +452,8 @@ export class MessageSession extends LinkEntity {
     this._onSettled = (context: EventContext) => {
       const connectionId = this._context.namespace.connectionId;
       const delivery = context.delivery;
-      if (delivery) {
-        const id = delivery.id;
-        const state = delivery.remote_state;
-        const settled = delivery.remote_settled;
-        log.receiver(
-          "[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " + "received.",
-          connectionId,
-          id,
-          settled,
-          state && state.error ? state.error : state
-        );
-        if (settled && this._deliveryDispositionMap.has(id)) {
-          const promise = this._deliveryDispositionMap.get(id) as PromiseLike;
-          clearTimeout(promise.timer);
-          log.receiver(
-            "[%s] Found the delivery with id %d in the map and cleared the timer.",
-            connectionId,
-            id
-          );
-          const deleteResult = this._deliveryDispositionMap.delete(id);
-          log.receiver(
-            "[%s] Successfully deleted the delivery with id %d from the map.",
-            connectionId,
-            id,
-            deleteResult
-          );
-          if (state && state.error && (state.error.condition || state.error.description)) {
-            const error = translate(state.error);
-            return promise.reject(error);
-          }
 
-          return promise.resolve();
-        }
-      }
+      sharedOnSettled(connectionId, delivery, this._deliveryDispositionMap);
     };
 
     this._notifyError = (error: MessagingError | Error) => {
