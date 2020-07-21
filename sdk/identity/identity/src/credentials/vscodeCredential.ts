@@ -4,18 +4,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from '../client/identityClient';
+import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 try {
-  var keytar = require('keytar')
+  var keytar = require("keytar");
 } catch (er) {
-  keytar = null
+  keytar = null;
 }
 
 import { CredentialUnavailable } from "../client/errors";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
-const CommonTenantId = 'common';
-const AzureAccountClientId = 'aebc6443-996d-45c2-90f0-388ff96faa56'; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
-const VSCodeUserName = 'VS Code Azure';
+const CommonTenantId = "common";
+const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
+const VSCodeUserName = "VS Code Azure";
+const logger = credentialLogger("VSCodeCredential");
 
 /**
  * Connect to Azure using the credential provided by the VSCode extension 'Azure Account'.
@@ -27,12 +29,10 @@ export class VSCodeCredential implements TokenCredential {
 
   /**
    * Creates an instance of VSCodeCredential to use for automatically authenicating via VSCode.
-   * 
-   * @param options Options for configuring the client which makes the authentication request. 
+   *
+   * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(
-    options?: TokenCredentialOptions
-  ) {
+  constructor(options?: TokenCredentialOptions) {
     this.identityClient = new IdentityClient(options);
   }
 
@@ -49,14 +49,18 @@ export class VSCodeCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     if (!keytar) {
-      throw new CredentialUnavailable("VSCode credential requires the optional dependency 'keytar' to work correctly");
+      throw new CredentialUnavailable(
+        "VSCode credential requires the optional dependency 'keytar' to work correctly"
+      );
     }
 
     let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
 
     // Check to make sure the scope we get back is a valid scope
     if (!scopeString.match(/^[0-9a-zA-Z-.:/]+$/)) {
-      throw new Error("Invalid scope was specified by the user or calling client")
+      const error = new Error("Invalid scope was specified by the user or calling client");
+      logger.getToken.info(formatError(error));
+      throw error;
     }
 
     if (scopeString.indexOf("offline_access") < 0) {
@@ -66,20 +70,29 @@ export class VSCodeCredential implements TokenCredential {
     let refreshToken = await keytar.findPassword(VSCodeUserName);
     if (refreshToken) {
       let tokenResponse = await this.identityClient.refreshAccessToken(
-          CommonTenantId,
-          AzureAccountClientId,
-          scopeString,
-          refreshToken,
-          undefined
-        );
-      
+        CommonTenantId,
+        AzureAccountClientId,
+        scopeString,
+        refreshToken,
+        undefined
+      );
+
       if (tokenResponse) {
+        logger.getToken.info(formatSuccess(scopes));
         return tokenResponse.accessToken;
       } else {
-        throw new CredentialUnavailable("Could not retrieve the token associated with VSCode. Have you connected using the 'Azure Account' extension recently?");
+        const error = new CredentialUnavailable(
+          "Could not retrieve the token associated with VSCode. Have you connected using the 'Azure Account' extension recently?"
+        );
+        logger.getToken.info(formatError(error));
+        throw error;
       }
     } else {
-      throw new CredentialUnavailable("Could not retrieve the token associated with VSCode. Did you connect using the 'Azure Account' extension?");
+      const error = new CredentialUnavailable(
+        "Could not retrieve the token associated with VSCode. Did you connect using the 'Azure Account' extension?"
+      );
+      logger.getToken.info(formatError(error));
+      throw error;
     }
   }
 }
