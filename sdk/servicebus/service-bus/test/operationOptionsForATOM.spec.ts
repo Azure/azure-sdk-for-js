@@ -190,7 +190,7 @@ describe("Operation Options", () => {
       await verifyAbortError(
         async () =>
           await serviceBusAtomManagementClient.updateSubscription(
-            { topicName: enitityName1, subscriptionName: enitityName2 },
+            { topicName: enitityName1, subscriptionName: enitityName2, eTag: "" },
             {
               abortSignal: AbortController.timeout(1)
             }

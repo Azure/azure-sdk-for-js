@@ -236,7 +236,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     requestPolicyFactories.push(
       // TODO: Update the userAgent in ConnectionContext to properly distinguish among Node and browser (Reference: EventHubs)
       //       And use the same userAgent string for both ServiceBusManagementClient and the ServiceBusClient.
-      tracingPolicy({ userAgent: `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}` })
+      tracingPolicy({
+        userAgent: `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}`
+      })
     );
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
@@ -424,7 +426,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return this.appendETag<QueueProperties>(this.buildQueueResponse(response));
+      return this.appendETag(this.buildQueueResponse(response));
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -1481,7 +1483,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     operationOptions?: OperationOptions
-  ): Promise<SubscriptionResponse> {
+  ): Promise<SubscriptionResponse & ETag> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-getSubscription",
       operationOptions
@@ -1497,7 +1499,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         updatedOperationOptions
       );
 
-      return this.buildSubscriptionResponse(response);
+      return this.appendETag(this.buildSubscriptionResponse(response));
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
@@ -1829,7 +1831,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateSubscription(
-    subscription: SubscriptionProperties,
+    subscription: SubscriptionProperties & ETag,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
     const { span, updatedOperationOptions } = createSpan(
@@ -1857,6 +1859,9 @@ export class ServiceBusManagementClient extends ServiceClient {
         subscription.topicName,
         subscription.subscriptionName
       );
+
+      if (!updatedOperationOptions.requestOptions) updatedOperationOptions.requestOptions = {};
+      updatedOperationOptions.requestOptions.customHeaders = { "If-Match": subscription.eTag };
 
       const response: HttpOperationResponse = await this.putResource(
         fullPath,

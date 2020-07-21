@@ -430,7 +430,7 @@ describe("Atom management - Authentication", function(): void {
   }
 );
 
-describe("Get request - eTag", () => {
+describe.only("Get request - eTag", () => {
   it("success case", async () => {
     await recreateQueue(managementQueue1);
     let getResponse = await serviceBusAtomManagementClient.getQueue(managementQueue1);
@@ -466,6 +466,64 @@ describe("Get request - eTag", () => {
       errorWasThrown = true;
     }
     should.equal(errorWasThrown, true, "Error was not thrown");
+  });
+
+  it("success case - subscription", async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+    let getResponse = await serviceBusAtomManagementClient.getSubscription(
+      managementTopic1,
+      managementSubscription1
+    );
+    getResponse.maxDeliveryCount = getResponse.maxDeliveryCount
+      ? getResponse.maxDeliveryCount + 1
+      : 10;
+    try {
+      console.log(getResponse.eTag);
+      const updateResponse = await serviceBusAtomManagementClient.updateSubscription(getResponse);
+      should.equal(
+        updateResponse.maxDeliveryCount,
+        getResponse.maxDeliveryCount,
+        "Unexpected maxDeliveryCount in the update response."
+      );
+      await delay(2000);
+
+      const getResponse2 = await serviceBusAtomManagementClient.getSubscription(
+        managementTopic1,
+        managementSubscription1
+      );
+      should.not.equal(getResponse2.eTag, getResponse.eTag, "Unexpected eTag in the get response.");
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  it("failure case", async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+    let getResponse = await serviceBusAtomManagementClient.getSubscription(
+      managementTopic1,
+      managementSubscription1
+    );
+    getResponse.maxDeliveryCount = getResponse.maxDeliveryCount
+      ? getResponse.maxDeliveryCount + 1
+      : 10;
+    // let errorWasThrown = false;
+    try {
+      getResponse.eTag = "abc";
+      const updateResponse = await serviceBusAtomManagementClient.updateSubscription(getResponse);
+      should.equal(
+        updateResponse.maxDeliveryCount,
+        getResponse.maxDeliveryCount,
+        "Unexpected maxDeliveryCount in the update response."
+      );
+      console.log(updateResponse._response.status);
+      await delay(2000);
+    } catch (error) {
+      should.equal(error.statusCode, 412, "Unexpected error code in the error thrown");
+      // errorWasThrown = true;
+    }
+    // should.equal(errorWasThrown, true, "Error was not thrown");
   });
 });
 
