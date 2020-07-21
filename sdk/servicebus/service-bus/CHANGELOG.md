@@ -3,13 +3,25 @@
 ## 7.0.0-preview.5 (Unreleased)
 
 - Adding `deadLetterErrorDescription` and `deadLetterReason` properties on the received messages. Previously, they were under the `properties` in the message.
+
   OLD: `message.properties["DeadLetterReason"]` and `message.properties["DeadLetterErrorDescription"]`
   NEW: `message.deadLetterReason` and `message.deadLetterErrorDescription`
+
   [PR 10106](https://github.com/Azure/azure-sdk-for-js/pull/10106)
+
 - Adds tracing support to the methods under `ServiceBusManagementClient`.
   [PR 9987](https://github.com/Azure/azure-sdk-for-js/pull/9987)
 
 ### Breaking Changes
+
+- `receiveMode` parameter in the `createReceiver()`, `createSessionReceiver()` and `createDeadletterReceiver()` methods has been moved into the options bag with the default value `"peekLock"` mode.
+
+  Example:
+
+  - OLD: `createReceiver(<queue-name>, "peekLock")` and `createReceiver(<queue-name>, "receiveAndDelete")`
+  - NEW: `createReceiver(<queue-name>)` and `createReceiver(<queue-name>, {receiveMode: "receiveAndDelete"})`
+
+  [PR 10102](https://github.com/Azure/azure-sdk-for-js/pull/10102)
 
 - Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`,`getQueuesRuntimeInfo()`, etc.
   [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
