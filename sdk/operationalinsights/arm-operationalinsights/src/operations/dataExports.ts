@@ -9,7 +9,6 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/dataExportsMappers";
 import * as Parameters from "../models/parameters";
@@ -68,9 +67,35 @@ export class DataExports {
    * @param [options] The optional parameters
    * @returns Promise<Models.DataExportsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, options?: msRest.RequestOptionsBase): Promise<Models.DataExportsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,workspaceName,dataExportName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.DataExportsCreateOrUpdateResponse>;
+  createOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, options?: msRest.RequestOptionsBase): Promise<Models.DataExportsCreateOrUpdateResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param dataExportName The data export rule name.
+   * @param parameters The parameters required to create or update a data export.
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, callback: msRest.ServiceCallback<Models.DataExport>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
+   * @param dataExportName The data export rule name.
+   * @param parameters The parameters required to create or update a data export.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DataExport>): void;
+  createOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataExport>, callback?: msRest.ServiceCallback<Models.DataExport>): Promise<Models.DataExportsCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        dataExportName,
+        parameters,
+        options
+      },
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.DataExportsCreateOrUpdateResponse>;
   }
 
   /**
@@ -144,28 +169,6 @@ export class DataExports {
       deleteMethodOperationSpec,
       callback);
   }
-
-  /**
-   * Create or update a data export.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace.
-   * @param dataExportName The data export rule name.
-   * @param parameters The parameters required to create or update a data export.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginCreateOrUpdate(resourceGroupName: string, workspaceName: string, dataExportName: string, parameters: Models.DataExport, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        workspaceName,
-        dataExportName,
-        parameters,
-        options
-      },
-      beginCreateOrUpdateOperationSpec,
-      options);
-  }
 }
 
 // Operation Specifications
@@ -195,59 +198,7 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataExportName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataExport
-    },
-    404: {},
-    default: {
-      bodyMapper: Mappers.DataExportErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName,
-    Parameters.dataExportName1
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    404: {},
-    default: {
-      bodyMapper: Mappers.DataExportErrorResponse
-    }
-  },
-  serializer
-};
-
-const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
   urlParameters: [
@@ -276,6 +227,57 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.DataExport
     },
+    default: {
+      bodyMapper: Mappers.DataExportErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.dataExportName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.DataExport
+    },
+    default: {
+      bodyMapper: Mappers.DataExportErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataExports/{dataExportName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.dataExportName1
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    404: {},
     default: {
       bodyMapper: Mappers.DataExportErrorResponse
     }
