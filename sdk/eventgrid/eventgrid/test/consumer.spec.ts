@@ -12,9 +12,9 @@ chaiUse(chaiPromises);
 describe("EventGridConsumer", function() {
   const consumer = new EventGridConsumer();
 
-  describe("#decodeEventGridEvents", function() {
-    it("decodes a single event", async () => {
-      const events = await consumer.decodeEventGridEvents(
+  describe("#deserializeEventGridEvents", function() {
+    it("deserializes a single event", async () => {
+      const events = await consumer.deserializeEventGridEvents(
         testData.customTestEvent1.eventGridSchema.encodedEvent
       );
 
@@ -22,8 +22,8 @@ describe("EventGridConsumer", function() {
       assert.deepStrictEqual(events[0], testData.customTestEvent1.eventGridSchema.expected);
     });
 
-    it("decoded a batch with a single event ", async () => {
-      const events = await consumer.decodeEventGridEvents(
+    it("deserialized a batch with a single event ", async () => {
+      const events = await consumer.deserializeEventGridEvents(
         wrapEncodedEventsInArray([testData.customTestEvent1.eventGridSchema])
       );
 
@@ -31,8 +31,8 @@ describe("EventGridConsumer", function() {
       assert.deepStrictEqual(events[0], testData.customTestEvent1.eventGridSchema.expected);
     });
 
-    it("decodes an batch of multiple events", async () => {
-      const events = await consumer.decodeEventGridEvents(
+    it("deserializes an batch of multiple events", async () => {
+      const events = await consumer.deserializeEventGridEvents(
         wrapEncodedEventsInArray([
           testData.customTestEvent1.eventGridSchema,
           testData.customTestEvent2.eventGridSchema
@@ -44,8 +44,8 @@ describe("EventGridConsumer", function() {
       assert.deepStrictEqual(events[1], testData.customTestEvent2.eventGridSchema.expected);
     });
 
-    it("decodes system events correctly", async () => {
-      const events = await consumer.decodeEventGridEvents(
+    it("deserializes system events correctly", async () => {
+      const events = await consumer.deserializeEventGridEvents(
         testData.containerRegistryPushedEvent.eventGridSchema.encodedEvent
       );
 
@@ -69,7 +69,7 @@ describe("EventGridConsumer", function() {
         delete o[property];
 
         assert.isRejected(
-          consumer.decodeEventGridEvents(JSON.stringify(o)),
+          consumer.deserializeEventGridEvents(JSON.stringify(o)),
           /missing required property/
         );
       }
@@ -80,15 +80,15 @@ describe("EventGridConsumer", function() {
       o.metadataVersion = "2";
 
       assert.isRejected(
-        consumer.decodeEventGridEvents(JSON.stringify(o)),
+        consumer.deserializeEventGridEvents(JSON.stringify(o)),
         /event is not in the Event Grid schema/
       );
     });
   });
 
-  describe("#decodeCloudEvents", function() {
-    it("decodes a single event", async () => {
-      const events = await consumer.decodeCloudEvents(
+  describe("#deserializeCloudEvents", function() {
+    it("deserializes a single event", async () => {
+      const events = await consumer.deserializeCloudEvents(
         testData.customTestEvent1.cloudEventSchema.encodedEvent
       );
 
@@ -96,8 +96,8 @@ describe("EventGridConsumer", function() {
       assert.deepStrictEqual(events[0], testData.customTestEvent1.cloudEventSchema.expected);
     });
 
-    it("decoded a batch with a single event ", async () => {
-      const events = await consumer.decodeCloudEvents(
+    it("deserialized a batch with a single event ", async () => {
+      const events = await consumer.deserializeCloudEvents(
         wrapEncodedEventsInArray([testData.customTestEvent1.cloudEventSchema])
       );
 
@@ -105,8 +105,8 @@ describe("EventGridConsumer", function() {
       assert.deepStrictEqual(events[0], testData.customTestEvent1.cloudEventSchema.expected);
     });
 
-    it("decodes an batch of multiple events", async () => {
-      const events = await consumer.decodeCloudEvents(
+    it("deserializes an batch of multiple events", async () => {
+      const events = await consumer.deserializeCloudEvents(
         wrapEncodedEventsInArray([
           testData.customTestEvent1.cloudEventSchema,
           testData.customTestEvent2.cloudEventSchema
@@ -118,8 +118,8 @@ describe("EventGridConsumer", function() {
       assert.deepStrictEqual(events[1], testData.customTestEvent2.cloudEventSchema.expected);
     });
 
-    it("decodes system events correctly", async () => {
-      const events = await consumer.decodeCloudEvents(
+    it("deserializes system events correctly", async () => {
+      const events = await consumer.deserializeCloudEvents(
         testData.containerRegistryPushedEvent.cloudEventSchema.encodedEvent
       );
 
@@ -136,7 +136,7 @@ describe("EventGridConsumer", function() {
         delete o[property];
 
         assert.isRejected(
-          consumer.decodeCloudEvents(JSON.stringify(o)),
+          consumer.deserializeCloudEvents(JSON.stringify(o)),
           /missing required property/
         );
       }
@@ -147,7 +147,7 @@ describe("EventGridConsumer", function() {
       o.specversion = "2.0";
 
       assert.isRejected(
-        consumer.decodeCloudEvents(JSON.stringify(o)),
+        consumer.deserializeCloudEvents(JSON.stringify(o)),
         /event is not in the Cloud Event 1.0 schema/
       );
     });

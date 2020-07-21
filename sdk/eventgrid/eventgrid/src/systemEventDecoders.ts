@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Mapper, Serializer } from "@azure/core-http";
-import { CustomEventDataDecoder } from "./models";
+import { CustomEventDataDeserializer } from "./models";
 import { EventHubCaptureFileCreatedEventData } from "./generated/models/mappers";
 import {
   ContainerRegistryEventData,
@@ -19,13 +19,13 @@ const serializer = new Serializer({
   ContainerRegistryEventSource: ContainerRegistryEventSource
 });
 
-function makeDecoderFromMapper(
+function makeDeserializerFromMapper(
   mapper: Mapper,
-  initialDecoders?: CustomEventDataDecoder[]
-): CustomEventDataDecoder {
+  initialDesializers?: CustomEventDataDeserializer[]
+): CustomEventDataDeserializer {
   return async function(o: any): Promise<any> {
-    if (initialDecoders) {
-      for (const decoder of initialDecoders) {
+    if (initialDesializers) {
+      for (const decoder of initialDesializers) {
         o = await decoder(o);
       }
     }
@@ -34,7 +34,7 @@ function makeDecoderFromMapper(
   };
 }
 
-async function jsonParseDecoder(o: any): Promise<any> {
+async function jsonParseDeserializer(o: any): Promise<any> {
   if (typeof o === "string") {
     return JSON.parse(o);
   }
@@ -42,20 +42,24 @@ async function jsonParseDecoder(o: any): Promise<any> {
   return o;
 }
 
-export const systemDecoders: Record<string, CustomEventDataDecoder> = {
-  "Microsoft.ContainerRegistry.ChartDeleted": makeDecoderFromMapper(ContainerRegistryEventData, [
-    jsonParseDecoder
-  ]),
-  "Microsoft.ContainerRegistry.ChartPushed": makeDecoderFromMapper(ContainerRegistryEventData, [
-    jsonParseDecoder
-  ]),
-  "Microsoft.ContainerRegistry.ImageDeleted": makeDecoderFromMapper(ContainerRegistryEventData, [
-    jsonParseDecoder
-  ]),
-  "Microsoft.ContainerRegistry.ImagePushed": makeDecoderFromMapper(ContainerRegistryEventData, [
-    jsonParseDecoder
-  ]),
-  "Microsoft.EventHub.CaptureFileCreated": makeDecoderFromMapper(
+export const systemDeserializers: Record<string, CustomEventDataDeserializer> = {
+  "Microsoft.ContainerRegistry.ChartDeleted": makeDeserializerFromMapper(
+    ContainerRegistryEventData,
+    [jsonParseDeserializer]
+  ),
+  "Microsoft.ContainerRegistry.ChartPushed": makeDeserializerFromMapper(
+    ContainerRegistryEventData,
+    [jsonParseDeserializer]
+  ),
+  "Microsoft.ContainerRegistry.ImageDeleted": makeDeserializerFromMapper(
+    ContainerRegistryEventData,
+    [jsonParseDeserializer]
+  ),
+  "Microsoft.ContainerRegistry.ImagePushed": makeDeserializerFromMapper(
+    ContainerRegistryEventData,
+    [jsonParseDeserializer]
+  ),
+  "Microsoft.EventHub.CaptureFileCreated": makeDeserializerFromMapper(
     EventHubCaptureFileCreatedEventData
   )
 };

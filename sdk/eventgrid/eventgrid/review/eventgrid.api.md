@@ -99,22 +99,22 @@ export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData 
 export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
 
 // @public
-export type CustomEventDataDecoder = (o: any) => Promise<any>;
+export type CustomEventDataDeserializer = (o: any) => Promise<any>;
 
 // @public
 export class EventGridConsumer {
     constructor(options?: EventGridConsumerOptions);
     // (undocumented)
-    readonly customDecoders: Record<string, CustomEventDataDecoder>;
-    decodeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
-    decodeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
-    decodeEventGridEvents(encodedEvents: string): Promise<EventGridEvent<unknown>[]>;
-    decodeEventGridEvents(encodedEvents: object): Promise<EventGridEvent<unknown>[]>;
+    readonly customDeserializers: Record<string, CustomEventDataDeserializer>;
+    deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
+    deserializeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
+    deserializeEventGridEvents(encodedEvents: string): Promise<EventGridEvent<unknown>[]>;
+    deserializeEventGridEvents(encodedEvents: object): Promise<EventGridEvent<unknown>[]>;
 }
 
 // @public
 export interface EventGridConsumerOptions {
-    customDecoders: Record<string, CustomEventDataDecoder>;
+    customDeserializers: Record<string, CustomEventDataDeserializer>;
 }
 
 // @public

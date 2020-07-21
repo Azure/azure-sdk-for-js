@@ -3,13 +3,13 @@
 
 import { Serializer } from "@azure/core-http";
 import { CloudEvent as WireCloudEvent } from "./generated/models";
-import { CustomEventDataDecoder, CloudEvent, EventGridEvent } from "./models";
+import { CustomEventDataDeserializer, CloudEvent, EventGridEvent } from "./models";
 import {
   EventGridEvent as EventGridEventMapper,
   CloudEvent as CloudEventMapper
 } from "./generated/models/mappers";
 import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
-import { systemDecoders } from "./systemEventDecoders";
+import { systemDeserializers } from "./systemEventDecoders";
 
 const serializer = new Serializer();
 
@@ -18,35 +18,40 @@ const serializer = new Serializer();
  */
 export interface EventGridConsumerOptions {
   /**
-   * Custom decoders to use when decoding a specific event's data, based on the type
+   * Custom deserializers to use when decoding a specific event's data, based on the type
    * field of the event.
    */
-  customDecoders: Record<string, CustomEventDataDecoder>;
+  customDeserializers: Record<string, CustomEventDataDeserializer>;
 }
 
 /**
  * TODO(matell): Document this.
  */
 export class EventGridConsumer {
-  readonly customDecoders: Record<string, CustomEventDataDecoder>;
+  readonly customDeserializers: Record<string, CustomEventDataDeserializer>;
   constructor(options?: EventGridConsumerOptions) {
-    this.customDecoders = options?.customDecoders ?? {};
+    this.customDeserializers = options?.customDeserializers ?? {};
   }
 
   /**
-   * Decodes events encoded in the Event Grid schema.
+   * Deserializes events encoded in the Event Grid schema.
    *
    * @param encodedEvents the JSON encoded representation of either a single event or an array of
    * events, encoded in the Event Grid Schema.
    */
-  public async decodeEventGridEvents(encodedEvents: string): Promise<EventGridEvent<unknown>[]>;
+  public async deserializeEventGridEvents(
+    encodedEvents: string
+  ): Promise<EventGridEvent<unknown>[]>;
+
   /**
-   * Decodes events encoded in the Event Grid schema.
+   * Deserializes events encoded in the Event Grid schema.
    *
    * @param encodedEvents an object representing a single event, encoded in the Event Grid schema.
    */
-  public async decodeEventGridEvents(encodedEvents: object): Promise<EventGridEvent<unknown>[]>;
-  public async decodeEventGridEvents(
+  public async deserializeEventGridEvents(
+    encodedEvents: object
+  ): Promise<EventGridEvent<unknown>[]>;
+  public async deserializeEventGridEvents(
     encodedEvents: string | object
   ): Promise<EventGridEvent<unknown>[]> {
     const decodedArray = parseAndWrap(encodedEvents);
@@ -58,10 +63,12 @@ export class EventGridConsumer {
 
       const deserialized: EventGridEvent<any> = serializer.deserialize(EventGridEventMapper, o, "");
 
-      if (systemDecoders[deserialized.eventType]) {
-        deserialized.data = await systemDecoders[deserialized.eventType](deserialized.data);
-      } else if (this.customDecoders[deserialized.eventType]) {
-        deserialized.data = await this.customDecoders[deserialized.eventType](deserialized.data);
+      if (systemDeserializers[deserialized.eventType]) {
+        deserialized.data = await systemDeserializers[deserialized.eventType](deserialized.data);
+      } else if (this.customDeserializers[deserialized.eventType]) {
+        deserialized.data = await this.customDeserializers[deserialized.eventType](
+          deserialized.data
+        );
       }
 
       events.push(deserialized as EventGridEvent<unknown>);
@@ -71,19 +78,22 @@ export class EventGridConsumer {
   }
 
   /**
-   * Decodes events encoded in the Cloud Events 1.0 schema.
+   * Deserializes events encoded in the Cloud Events 1.0 schema.
    *
    * @param encodedEvents the JSON encoded representation of either a single event or an array of
    * events, encoded in the Cloud Events 1.0 Schema.
    */
-  public async decodeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
+  public async deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
+
   /**
-   * Decodes events encoded in the Cloud Events 1.0 schema.
+   * Deserializes events encoded in the Cloud Events 1.0 schema.
    *
    * @param encodedEvents an object representing a single event, encoded in the Cloud Events 1.0 schema.
    */
-  public async decodeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
-  public async decodeCloudEvents(encodedEvents: string | object): Promise<CloudEvent<unknown>[]> {
+  public async deserializeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
+  public async deserializeCloudEvents(
+    encodedEvents: string | object
+  ): Promise<CloudEvent<unknown>[]> {
     const decodedArray = parseAndWrap(encodedEvents);
 
     const events: CloudEvent<unknown>[] = [];
@@ -136,10 +146,10 @@ export class EventGridConsumer {
       }
 
       // If a decoder is registered, apply it to the data.
-      if (systemDecoders[modelEvent.type]) {
-        modelEvent.data = await systemDecoders[modelEvent.type](modelEvent.data);
-      } else if (this.customDecoders[modelEvent.type]) {
-        modelEvent.data = await this.customDecoders[modelEvent.type](modelEvent.data);
+      if (systemDeserializers[modelEvent.type]) {
+        modelEvent.data = await systemDeserializers[modelEvent.type](modelEvent.data);
+      } else if (this.customDeserializers[modelEvent.type]) {
+        modelEvent.data = await this.customDeserializers[modelEvent.type](modelEvent.data);
       }
 
       // Build the "extensionsAttributes" property bag by removing all known top level properties.

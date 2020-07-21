@@ -81,4 +81,4 @@ export interface CloudEvent<T> {
 /**
  * A function which provides custom logic to be used when decoding events.
  */
-export type CustomEventDataDecoder = (o: any) => Promise<any>;
+export type CustomEventDataDeserializer = (o: any) => Promise<any>;
