@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Constants,
-  ErrorNameConditionMapper,
-  Func,
-  MessagingError,
-  translate
-} from "@azure/core-amqp";
+import { Constants, ErrorNameConditionMapper, MessagingError, translate } from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
@@ -25,8 +19,9 @@ import * as log from "../log";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
-import { getRemainingWaitTimeInMsFn } from "../core/batchingReceiver";
+import { getRemainingWaitTimeInMsFn, receiveMessages } from "../core/batchingReceiver";
 import { sharedOnSettled, PromiseLike } from "../core/shared";
+import { AbortSignalLike } from "@azure/core-http";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -799,173 +794,40 @@ export class MessageSession extends LinkEntity {
   async receiveMessages(
     maxMessageCount: number,
     maxWaitTimeInMs: number,
-    maxTimeAfterFirstMessageMs: number
+    maxTimeAfterFirstMessageMs: number,
+    userAbortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
-    const brokeredMessages: ServiceBusMessageImpl[] = [];
-    this.isReceivingMessages = true;
+    try {
+      return await receiveMessages(
+        this._receiver!,
+        this.receiveMode,
+        this._deliveryDispositionMap,
+        maxMessageCount,
+        maxWaitTimeInMs,
+        maxTimeAfterFirstMessageMs,
+        (maxWaitTimeInMs, maxTimeAfterFirstMessageMs) =>
+          this._getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageMs),
+        (context) => this._getServiceBusMessage(context),
+        userAbortSignal
+      );
+    } catch (error) {
+      log.error(
+        "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
+        this._context.namespace.connectionId,
+        this.name,
+        error
+      );
+      throw error;
+    } finally {
+      this.isReceivingMessages = false;
 
-    const getRemainingWaitTimeInMs = this._getRemainingWaitTimeInMsFn(
-      maxWaitTimeInMs,
-      maxTimeAfterFirstMessageMs
-    );
+      // TODO: this is something I need to think about. Should we/could we trigger the receiver error function?
+      // Should we link in an abortSignal?
+    }
 
-    return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
-      let totalWaitTimer: any;
-
-      // Action to be performed on the "receiver_drained" event.
-      const onReceiveDrain: OnAmqpEvent = () => {
-        this._receiver!.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        this._receiver!.drain = false;
-
-        this.isReceivingMessages = false;
-
-        log.messageSession(
-          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
-          this._context.namespace.connectionId,
-          this.name,
-          brokeredMessages.length
-        );
-
-        resolve(brokeredMessages);
-      };
-
-      // Action to be performed after the max wait time is over.
-      const actionAfterWaitTimeout: Func<void, void> = (): void => {
-        log.batching(
-          "[%s] Batching Receiver '%s'  max wait time in milliseconds %d over.",
-          this._context.namespace.connectionId,
-          this.name,
-          maxWaitTimeInMs
-        );
-        return finalAction();
-      };
-
-      // Action to be performed on the "message" event.
-      const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
-        // TODO: this appears to be aggravating a bug that we need to look into more deeply.
-        // The same timeout+drain sequence should work fine for receiveAndDelete but it appears
-        // to cause problems.
-        if (this.receiveMode === ReceiveMode.peekLock) {
-          if (brokeredMessages.length === 0) {
-            // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
-            // and replace it with another timer that is a (probably) much shorter interval.
-            //
-            // This allows the user to get access to received messages earlier and also gives us
-            // a chance to have fewer messages internally that could get lost if the user's
-            // app crashes in receiveAndDelete mode.
-            if (totalWaitTimer) clearTimeout(totalWaitTimer);
-
-            totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
-          }
-        }
-
-        try {
-          const data = this._getServiceBusMessage(context);
-
-          if (brokeredMessages.length < maxMessageCount) {
-            brokeredMessages.push(data);
-          }
-        } catch (err) {
-          // Removing listeners, so that the next receiveMessages() call can set them again.
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
-
-          log.error(
-            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            err
-          );
-          reject(err instanceof Error ? err : new Error(JSON.stringify(err)));
-        }
-        if (brokeredMessages.length === maxMessageCount) {
-          finalAction();
-        }
-      };
-
-      this._onError = (error: MessagingError | Error) => {
-        this.isReceivingMessages = false;
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
-        }
-        // Removing listeners, so that the next receiveMessages() call can set them again.
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        }
-        reject(error);
-      };
-
-      // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (): void => {
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
-        }
-
-        // Removing listeners, so that the next receiveMessages() call can set them again.
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        }
-
-        if (this._receiver && this._receiver.credit > 0) {
-          log.messageSession(
-            "[%s] Receiver '%s': Draining leftover credits(%d).",
-            this._context.namespace.connectionId,
-            this.name,
-            this._receiver.credit
-          );
-
-          // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
-          this._receiver.drain = true;
-          this._receiver.addCredit(1);
-        } else {
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
-
-          this.isReceivingMessages = false;
-          log.messageSession(
-            "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
-            this._context.namespace.connectionId,
-            this.name,
-            brokeredMessages.length
-          );
-          resolve(brokeredMessages);
-        }
-      };
-
-      const addCreditAndSetTimer = (reuse?: boolean): void => {
-        log.batching(
-          "[%s] Receiver '%s', adding credit for receiving %d messages.",
-          this._context.namespace.connectionId,
-          this.name,
-          maxMessageCount
-        );
-        // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
-        // number of messages concurrently. We will return the user an array of messages that can
-        // be of size upto maxMessageCount. Then the user needs to accordingly dispose
-        // (complete,/abandon/defer/deadletter) the messages from the array.
-        this._receiverHelper.addCredit(maxMessageCount);
-        let msg: string = "[%s] Setting the wait timer for %d milliseconds for receiver '%s'.";
-        if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs, this.name);
-        totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs);
-      };
-
-      if (this.isOpen()) {
-        addCreditAndSetTimer(true);
-        this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.on(ReceiverEvents.receiverDrained, onReceiveDrain);
-      } else {
-        const msg =
-          `MessageSession "${this.name}" with sessionId "${this.sessionId}", ` +
-          `is already closed. Hence cannot receive messages in a batch.`;
-        log.error("[%s] %s", this._context.namespace.connectionId, msg);
-        reject(new Error(msg));
-      }
-    });
+    // there was a this.close() that we might want to care about.
+    // const brokeredMessages: ServiceBusMessageImpl[] = [];
+    // this.isReceivingMessages = true;
   }
 
   /**
@@ -1036,7 +898,9 @@ export class MessageSession extends LinkEntity {
     });
   }
 
-  private _getServiceBusMessage(context: EventContext): ServiceBusMessageImpl {
+  private _getServiceBusMessage(
+    context: Pick<EventContext, "message" | "delivery">
+  ): ServiceBusMessageImpl {
     return new ServiceBusMessageImpl(this._context, context.message!, context.delivery!, true);
   }
 
