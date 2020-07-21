@@ -72,6 +72,11 @@ export interface CommonEventProcessorOptions
    * Retry Options to be used when receiving events
    */
   retryOptions?: RetryOptions;
+  /**
+   * Allows communication directly with the back-end service while receiving messages.
+   * Note: The client will start communicating with the back-end service over port range 104xx.
+   */
+  allowDirectPartitionConnections?: boolean;
 }
 
 /**

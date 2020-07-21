@@ -208,7 +208,9 @@ export class EventHubReceiver extends LinkEntity {
       name: context.config.getReceiverAddress(partitionId, consumerGroup)
     });
     this.consumerGroup = consumerGroup;
-    this.address = context.config.getReceiverAddress(partitionId, this.consumerGroup);
+    this.address =
+      this.directPartitionAddress ||
+      context.config.getReceiverAddress(partitionId, this.consumerGroup);
     this.audience = context.config.getReceiverAudience(partitionId, this.consumerGroup);
     this.ownerLevel = options.ownerLevel;
     this.eventPosition = eventPosition;

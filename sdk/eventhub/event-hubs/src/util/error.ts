@@ -3,6 +3,35 @@
 
 import { logErrorStackTrace, logger } from "../log";
 import { ConnectionContext } from "../connectionContext";
+import { MessagingError } from "@azure/core-amqp";
+
+/**
+ * LinkRedirectError is a type of `MessagingError`.
+ * It contains information used to create a new connection.
+ * @internal
+ * @ignore
+ */
+export interface LinkRedirectError extends MessagingError {
+  code: "LinkRedirectError";
+  info: {
+    hostname: string;
+    port: string;
+    address: string;
+  };
+}
+
+/**
+ * The extracted info from a `LinkRedirectError` that can be used
+ * to create a new connection.
+ * @internal
+ * @ignore
+ */
+export interface LinkRedirectErrorInfo {
+  host: string;
+  hostname: string;
+  port: number;
+  address: string;
+}
 
 /**
  * @internal
@@ -43,4 +72,51 @@ export function throwTypeErrorIfParameterMissing(
     logErrorStackTrace(error);
     throw error;
   }
+}
+
+/**
+ * Indicates whether the provided error is a `MessagingError`.
+ * @param err An error to check against.
+ * @internal
+ * @ignore
+ */
+export function isMessagingError(err: any): err is MessagingError {
+  return err && err.name === "MessagingError";
+}
+
+/**
+ * Indicates whether the provided error is a valid `LinkRedirectError`.
+ * @param err An error to check against.
+ * @internal
+ * @ignore
+ */
+export function isValidLinkRedirectError(err: any): err is LinkRedirectError {
+  if (!isMessagingError(err) || err.code !== "LinkRedirectError" || !err.info) {
+    return false;
+  }
+
+  for (const field of ["hostname", "port", "address"] as Array<keyof LinkRedirectError["info"]>) {
+    if (!Object.prototype.hasOwnProperty.call(err.info, field)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+/**
+ * Extracts the redirect info from a `LinkRedirectError`.
+ * @param err A LinkRedirectError to extract redirect info from.
+ * @internal
+ * @ignore
+ */
+export function extractInfoFromLinkRedirectError(err: LinkRedirectError): LinkRedirectErrorInfo {
+  const info = err.info;
+
+  return {
+    address: info.address,
+    port: parseInt(info.port, 10),
+    host: info.hostname.split(":")[0],
+    hostname: info.hostname
+  };
 }

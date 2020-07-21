@@ -3,12 +3,12 @@
 
 import {
   CheckpointStore,
+  CloseReason,
   EventHubProducerClient,
+  EventPosition,
   Subscription,
   SubscriptionEventHandlers,
-  latestEventPosition,
-  logger,
-  CloseReason
+  logger
 } from "../src";
 import { EventHubConsumerClient, isCheckpointStore } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars, loopUntil, getStartingPositionsForTests } from "./utils/testUtils";
@@ -475,15 +475,24 @@ describe("EventHubConsumerClient", () => {
     let clients: EventHubConsumerClient[];
     let producerClient: EventHubProducerClient;
     let partitionIds: string[];
+    let lastEventPositionPerPartition: { [partitionId: string]: EventPosition };
     const subscriptions: Subscription[] = [];
 
     beforeEach(async () => {
       producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
 
       partitionIds = await producerClient.getPartitionIds();
-
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
+
+      lastEventPositionPerPartition = {};
+      for (const id of partitionIds) {
+        const stats = await producerClient.getPartitionProperties(id);
+        lastEventPositionPerPartition[id] = {
+          sequenceNumber: stats.lastEnqueuedSequenceNumber,
+          isInclusive: false
+        };
+      }
 
       clients = [];
     });
@@ -839,7 +848,7 @@ describe("EventHubConsumerClient", () => {
       );
 
       const subscription = clients[0].subscribe("0", tester, {
-        startPosition: latestEventPosition
+        startPosition: lastEventPositionPerPartition
       });
 
       subscriptions.push(subscription);
@@ -871,7 +880,7 @@ describe("EventHubConsumerClient", () => {
       );
 
       const subscription = clients[0].subscribe(tester, {
-        startPosition: latestEventPosition
+        startPosition: lastEventPositionPerPartition
       });
 
       await tester.runTestAndPoll(producerClient);
@@ -911,7 +920,7 @@ describe("EventHubConsumerClient", () => {
 
       for (const partitionId of await partitionIds) {
         const subscription = clients[0].subscribe(partitionId, tester, {
-          startPosition: latestEventPosition
+          startPosition: lastEventPositionPerPartition
         });
         subscriptions.push(subscription);
       }
@@ -955,7 +964,7 @@ describe("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
       const subscriber1 = clients[0].subscribe(tester, {
-        startPosition: latestEventPosition
+        startPosition: lastEventPositionPerPartition
       });
       subscriptions.push(subscriber1);
 
@@ -971,7 +980,7 @@ describe("EventHubConsumerClient", () => {
       );
 
       const subscriber2 = clients[1].subscribe(tester, {
-        startPosition: latestEventPosition
+        startPosition: lastEventPositionPerPartition
       });
       subscriptions.push(subscriber2);
 
@@ -1022,7 +1031,7 @@ describe("EventHubConsumerClient", () => {
       const tester = new ReceivedMessagesTester(partitionIds, true);
 
       const subscriber1 = clients[0].subscribe(tester, {
-        startPosition: latestEventPosition
+        startPosition: lastEventPositionPerPartition
       });
       subscriptions.push(subscriber1);
 
@@ -1042,7 +1051,7 @@ describe("EventHubConsumerClient", () => {
       );
 
       const subscriber2 = clients[1].subscribe(tester, {
-        startPosition: latestEventPosition
+        startPosition: lastEventPositionPerPartition
       });
       subscriptions.push(subscriber2);
 

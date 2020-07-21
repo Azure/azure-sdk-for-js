@@ -15,6 +15,8 @@ import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 import { ConnectionContextManager } from "./connectionContextManager";
+import { isValidLinkRedirectError, extractInfoFromLinkRedirectError } from "./util/error";
+import { ConnectionContext } from "./connectionContext";
 
 /**
  * @ignore
@@ -59,23 +61,66 @@ export class PartitionPump {
     );
   }
 
-  private async _receiveEvents(partitionId: string): Promise<void> {
-    const gatewayConnectionContext = this._contextManager.getGatewayConnectionContext();
+  /**
+   * Creates a new `EventHubReceiver` using the provided `connectionContext`.
+   * If the `PartitionPump` already has a receiver, the receiver is closed
+   * while the new one is created.
+   * @param partitionId The partition the receiver should read messages from.
+   * @param connectionContext The connection context used to connect to the service.
+   * @param lastSeenSequenceNumber The sequence number to begin receiving messages from (exclusive).
+   * If `-1`, then the PartitionPump's startPosition will be used instead.
+   */
+  private _setOrReplaceReceiver(
+    partitionId: string,
+    connectionContext: ConnectionContext,
+    lastSeenSequenceNumber: number
+  ): EventHubReceiver {
+    // Close the existing receiver if one already exists.
+    const oldReceiver = this._receiver;
+    if (oldReceiver) {
+      oldReceiver.close().catch(() => {
+        /* no-op */
+      });
+    }
+
+    // Determine what the new EventPosition should be.
+    // If this PartitionPump has received events, we'll start from the last
+    // seen sequenceNumber (exclusive).
+    // Otherwise, use the `_startPosition`.
+    const currentEventPosition: EventPosition =
+      lastSeenSequenceNumber >= 0
+        ? {
+            sequenceNumber: lastSeenSequenceNumber,
+            isInclusive: false
+          }
+        : this._startPosition;
+
+    // Set or replace the PartitionPump's receiver.
     this._receiver = new EventHubReceiver(
-      gatewayConnectionContext,
+      connectionContext,
       this._partitionProcessor.consumerGroup,
       partitionId,
-      this._startPosition,
+      currentEventPosition,
       {
         ownerLevel: this._processorOptions.ownerLevel,
         trackLastEnqueuedEventProperties: this._processorOptions.trackLastEnqueuedEventProperties,
-        retryOptions: this._processorOptions.retryOptions
+        retryOptions: this._processorOptions.retryOptions,
+        allowDirectPartitionConnections: this._processorOptions.allowDirectPartitionConnections
       }
     );
 
+    return this._receiver;
+  }
+
+  private async _receiveEvents(partitionId: string): Promise<void> {
+    let lastSeenSequenceNumber = -1;
+    const gatewayConnectionContext = this._contextManager.getGatewayConnectionContext();
+    let currentContext = gatewayConnectionContext;
+
+    let receiver = this._setOrReplaceReceiver(partitionId, currentContext, lastSeenSequenceNumber);
     while (this._isReceiving) {
       try {
-        const receivedEvents = await this._receiver.receiveBatch(
+        const receivedEvents = await receiver.receiveBatch(
           this._processorOptions.maxBatchSize,
           this._processorOptions.maxWaitTimeInSeconds,
           this._abortController.signal
@@ -83,13 +128,18 @@ export class PartitionPump {
 
         if (
           this._processorOptions.trackLastEnqueuedEventProperties &&
-          this._receiver.lastEnqueuedEventProperties
+          receiver.lastEnqueuedEventProperties
         ) {
-          this._partitionProcessor.lastEnqueuedEventProperties = this._receiver.lastEnqueuedEventProperties;
+          this._partitionProcessor.lastEnqueuedEventProperties =
+            receiver.lastEnqueuedEventProperties;
         }
         // avoid calling user's processEvents handler if the pump was stopped while receiving events
         if (!this._isReceiving) {
           return;
+        }
+
+        if (receivedEvents.length) {
+          lastSeenSequenceNumber = receivedEvents[receivedEvents.length - 1].sequenceNumber;
         }
 
         const span = createProcessingSpan(
@@ -114,6 +164,31 @@ export class PartitionPump {
           `An error was thrown while receiving or processing events on partition "${this._partitionProcessor.partitionId}"`
         );
         logErrorStackTrace(err);
+
+        // If the user has opted into direct partition connections, handle LinkRedirectErrors.
+        if (
+          this._processorOptions.allowDirectPartitionConnections &&
+          isValidLinkRedirectError(err)
+        ) {
+          const redirectInfo = extractInfoFromLinkRedirectError(err);
+          // Create a new receiver using the info returned by the `LinkRedirectError`.
+          const directConnectionContext = this._contextManager.getDirectConnectionContext(
+            redirectInfo
+          );
+
+          receiver = this._setOrReplaceReceiver(
+            partitionId,
+            directConnectionContext,
+            lastSeenSequenceNumber
+          );
+          // Remove the direct connection from the ContextManager since we are no longer using it.
+          // If we were using the gatewayConnectionContext, this is a no-op.
+          this._contextManager.removeDirectConnectionContext(currentContext);
+          currentContext = directConnectionContext;
+          // Skip to the beginning of the while loop using the new receiver.
+          continue;
+        }
+
         // forward error to user's processError and swallow errors they may throw
         try {
           await this._partitionProcessor.processError(err);
@@ -139,6 +214,18 @@ export class PartitionPump {
               err
             );
           }
+        } else if (currentContext !== gatewayConnectionContext) {
+          // We encountered a retryable error but were using a direct connection to the partition's node.
+          // The node processing the partition may have changed, so switch back to the service gateway
+          // so we can get a new LinkRedirectError and a new address.
+          receiver = this._setOrReplaceReceiver(
+            partitionId,
+            gatewayConnectionContext,
+            lastSeenSequenceNumber
+          );
+          // Remove the direct connection from the ContextManager since we are no longer using it.
+          this._contextManager.removeDirectConnectionContext(currentContext);
+          currentContext = gatewayConnectionContext;
         }
       }
     }

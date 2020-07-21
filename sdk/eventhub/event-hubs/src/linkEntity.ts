@@ -76,6 +76,14 @@ export class LinkEntity {
    */
   audience: string;
   /**
+   * The Event Hub audience for a direct node that processes a partition.
+   */
+  directPartitionAudience?: string;
+  /**
+   * The Event Hub address for a direct node that processes a partition.
+   */
+  directPartitionAddress?: string;
+  /**
    * @property [partitionId] The partitionId associated with the link entity.
    */
   partitionId?: string;
@@ -110,6 +118,8 @@ export class LinkEntity {
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
+    this.directPartitionAddress = context.config.directPartitionAddress;
+    this.directPartitionAudience = context.config.directPartitionAudience;
     this.name = `${options.name}-${uuid()}`;
     this.partitionId = options.partitionId;
   }
@@ -170,7 +180,8 @@ export class LinkEntity {
       this.address
     );
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
+      const audience = this.directPartitionAudience || this.audience;
+      return this._context.cbsSession.negotiateClaim(audience, tokenObject, tokenType);
     });
     logger.verbose(
       "[%s] Negotiated claim for %s '%s' with with address: %s",

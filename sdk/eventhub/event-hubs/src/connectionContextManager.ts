@@ -1,4 +1,4 @@
-import { ConnectionContext } from "./connectionContext";
+import { ConnectionContext, ConnectionContextConfig } from "./connectionContext";
 import {
   ConnectionConfig,
   EventHubConnectionConfig,
@@ -10,29 +10,37 @@ import {
 } from "@azure/core-amqp";
 import { EventHubClientOptions } from "./models/public";
 
-export interface ConnectionContextManagerOptions extends EventHubClientOptions {
-  allowDirectPartitionConnections?: boolean;
-}
-
+/**
+ * The information needed to connect directly to a service node.
+ * @internal
+ * @ignore
+ */
 export interface GetDirectConnectionContextOptions {
   address: string;
   host: string;
   hostname: string;
+  port: number;
 }
 
+/**
+ * Manages the creation of `ConnectionContext` that can be used to
+ * connect to the service gateway or directly to a service node.
+ * @internal
+ * @ignore
+ */
 export class ConnectionContextManager {
   private readonly _credential: TokenCredential | SharedKeyCredential;
-  private readonly _gatewayConnectionConfig: EventHubConnectionConfig;
+  private readonly _gatewayConnectionConfig: ConnectionContextConfig;
   private readonly _gatewayConnectionContext: ConnectionContext;
-  private readonly _options: ConnectionContextManagerOptions;
+  private readonly _options: EventHubClientOptions;
 
   private readonly _directConnectionsSet: Set<ConnectionContext> = new Set();
 
   constructor(
     hostOrConnectionString: string,
-    eventHubNameOrOptions?: string | ConnectionContextManagerOptions,
-    credentialOrOptions?: TokenCredential | ConnectionContextManagerOptions,
-    options?: ConnectionContextManagerOptions
+    eventHubNameOrOptions?: string | EventHubClientOptions,
+    credentialOrOptions?: TokenCredential | EventHubClientOptions,
+    options?: EventHubClientOptions
   ) {
     let config: EventHubConnectionConfig;
     let credential: TokenCredential | SharedKeyCredential;
@@ -106,26 +114,30 @@ export class ConnectionContextManager {
     return this._gatewayConnectionContext;
   }
 
-  public getDirectConnectionContext(
-    host: string,
-    // hostname: string,
-    // port: number,
-    address: string
-  ): ConnectionContext {
-    const config = EventHubConnectionConfig.createFromConnectionConfig({
+  public getDirectConnectionContext({
+    host,
+    hostname,
+    port,
+    address
+  }: GetDirectConnectionContextOptions): ConnectionContext {
+    const config: ConnectionContextConfig = EventHubConnectionConfig.createFromConnectionConfig({
       ...this._gatewayConnectionConfig,
-      host
+      host,
+      hostname,
+      port
     });
-    config.getReceiverAddress = () => {
-      return address;
-    };
-    (config as any).name = address;
+    config.directPartitionAddress = address;
+    config.directPartitionAudience = address;
 
     const connectionContext = ConnectionContext.create(config, this._credential, this._options);
 
+    // Hold onto the connectionContext so we can close it if necessary.
     this._directConnectionsSet.add(connectionContext);
-
     return connectionContext;
+  }
+
+  public removeDirectConnectionContext(connectionContext: ConnectionContext) {
+    this._directConnectionsSet.delete(connectionContext);
   }
 
   public async close(): Promise<void> {

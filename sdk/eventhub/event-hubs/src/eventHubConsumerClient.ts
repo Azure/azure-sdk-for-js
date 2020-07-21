@@ -64,6 +64,12 @@ export class EventHubConsumerClient {
   private _id = uuid();
 
   /**
+   * Allows communication directly with the back-end service while receiving messages.
+   * Note: The client will start communicating with the back-end service over port range 104xx.
+   */
+  private _allowDirectPartitionConnections: boolean = false;
+
+  /**
    * The Subscriptions that were spawned by calling `subscribe()`.
    * Subscriptions that have been stopped by the user will not
    * be present in this set.
@@ -541,7 +547,8 @@ export class EventHubConsumerClient {
         ownerId: this._id,
         retryOptions: this._clientOptions.retryOptions,
         loadBalancingStrategy,
-        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs
+        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs,
+        allowDirectPartitionConnections: this._allowDirectPartitionConnections
       }
     );
 
@@ -578,7 +585,8 @@ export class EventHubConsumerClient {
         ownerLevel: getOwnerLevel(subscribeOptions, this._userChoseCheckpointStore),
         retryOptions: this._clientOptions.retryOptions,
         loadBalancingStrategy: new UnbalancedLoadBalancingStrategy(),
-        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs ?? 10000
+        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs ?? 10000,
+        allowDirectPartitionConnections: this._allowDirectPartitionConnections
       }
     );
 

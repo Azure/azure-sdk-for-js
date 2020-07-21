@@ -26,6 +26,23 @@ import { EventHubClientOptions } from "./models/public";
 import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 
 /**
+ * Describes the connection config object that is created after parsing an EventHub connection string.
+ * It also provides some convenience methods for getting the address and audience for different entities.
+ * @internal
+ * @ignore
+ */
+export type ConnectionContextConfig = EventHubConnectionConfig & {
+  /**
+   * The Event Hub audience for a direct node that processes a partition.
+   */
+  directPartitionAudience?: string;
+  /**
+   * The Event Hub address for a direct node that processes a partition.
+   */
+  directPartitionAddress?: string;
+};
+
+/**
  * @internal
  * @ignore
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
@@ -36,7 +53,7 @@ export interface ConnectionContext extends ConnectionContextBase {
    * @property config The EventHub connection config that is created after
    * parsing the connection string.
    */
-  readonly config: EventHubConnectionConfig;
+  readonly config: ConnectionContextConfig;
   /**
    * @property wasConnectionCloseCalled Indicates whether the close() method was
    * called on theconnection object.
@@ -150,7 +167,7 @@ export namespace ConnectionContext {
   }
 
   export function create(
-    config: EventHubConnectionConfig,
+    config: ConnectionContextConfig,
     tokenCredential: SharedKeyCredential | TokenCredential,
     options?: ConnectionContextOptions
   ): ConnectionContext {
