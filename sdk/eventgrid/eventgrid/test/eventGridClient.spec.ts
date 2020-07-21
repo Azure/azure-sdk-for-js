@@ -4,7 +4,6 @@
 
 import { assert } from "chai";
 
-import { isNode } from "@azure/core-http";
 import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
@@ -191,41 +190,39 @@ describe("EventGridClient", function() {
     });
   });
 
-  // TODO(matell): generateSharedAccessSigniture used `createHmac` which is specific to node. When we get this working in the browser
-  //               we need to enable this test there as well.
-  if (isNode) {
-    describe("#generateSharedAccessSigniture", () => {
-      it("generates the correct signiture", () => {
-        // This is not a real key, it's the base64 encoding of "this is not a real EventGrid key", which happens to be the same
-        // number of bytes as an actual EventGrid Access Key.
-        const key = "dGhpcyBpcyBub3QgYSByZWFsIEV2ZW50R3JpZCBrZXk=";
+  describe("#generateSharedAccessSigniture", () => {
+    it("generates the correct signiture", async () => {
+      // This is not a real key, it's the base64 encoding of "this is not a real EventGrid key", which happens to be the same
+      // number of bytes as an actual EventGrid Access Key.
+      const key = "dGhpcyBpcyBub3QgYSByZWFsIEV2ZW50R3JpZCBrZXk=";
 
-        const client = new EventGridClient(
-          "https://eg-topic.westus-2.eventgrid.azure.net/api/events",
-          new AzureKeyCredential(key)
-        );
+      const client = new EventGridClient(
+        "https://eg-topic.westus-2.eventgrid.azure.net/api/events",
+        new AzureKeyCredential(key)
+      );
 
-        const sig = client.generateSharedAccessSignature(new Date(Date.UTC(2020, 0, 1, 0, 0, 0)));
-        assert.equal(
-          sig,
-          "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%2012%3A00%3A00%20AM&s=ZzvNAYRyvJwDrOJKYxbNAPNCoSqgOJVLFi4IMXOrW2Q%3D"
-        );
-      });
-
-      it("fails when a signature credential was used", () => {
-        const signature =
-          "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%2012%3A00%3A00%20AM&s=ZzvNAYRyvJwDrOJKYxbNAPNCoSqgOJVLFi4IMXOrW2Q%3D";
-
-        const client = new EventGridClient(
-          "https://eg-topic.westus-2.eventgrid.azure.net/api/events",
-          new EventGridSharedAccessSignatureCredential(signature)
-        );
-
-        assert.throws(
-          () => client.generateSharedAccessSignature(new Date(Date.UTC(2020, 0, 1, 0, 0, 0))),
-          /may only be called when the client is constructed with a key credential/
-        );
-      });
+      const sig = await client.generateSharedAccessSignature(
+        new Date(Date.UTC(2020, 0, 1, 0, 0, 0))
+      );
+      assert.equal(
+        sig,
+        "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%2012%3A00%3A00%20AM&s=ZzvNAYRyvJwDrOJKYxbNAPNCoSqgOJVLFi4IMXOrW2Q%3D"
+      );
     });
-  }
+
+    it("fails when a signature credential was used", () => {
+      const signature =
+        "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%2012%3A00%3A00%20AM&s=ZzvNAYRyvJwDrOJKYxbNAPNCoSqgOJVLFi4IMXOrW2Q%3D";
+
+      const client = new EventGridClient(
+        "https://eg-topic.westus-2.eventgrid.azure.net/api/events",
+        new EventGridSharedAccessSignatureCredential(signature)
+      );
+
+      assert.isRejected(
+        client.generateSharedAccessSignature(new Date(Date.UTC(2020, 0, 1, 0, 0, 0))),
+        /may only be called when the client is constructed with a key credential/
+      );
+    });
+  });
 });

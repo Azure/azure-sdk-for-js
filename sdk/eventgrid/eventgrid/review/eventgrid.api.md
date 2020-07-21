@@ -106,7 +106,7 @@ export class EventGridClient {
     constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    generateSharedAccessSignature(expiresOnUtc: Date): string;
+    generateSharedAccessSignature(expiresOnUtc: Date): Promise<string>;
     sendCloudEvents(events: CloudEvent<any>[], options?: SendCloudEventsOptions): Promise<RestResponse>;
     sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<RestResponse>;
     sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<RestResponse>;

@@ -42,6 +42,10 @@
       }
     ]
   },
+  "browser": {
+    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
+    "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:autorest": "autorest ./swagger/README.md --typescript --v3",

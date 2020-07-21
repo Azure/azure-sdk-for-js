@@ -19,6 +19,7 @@ Use the client library to:
 ### Currently supported environments
 
 - Node.js version 8.x.x or higher
+- Browser JavaScript
 
 ### Prerequisites
 

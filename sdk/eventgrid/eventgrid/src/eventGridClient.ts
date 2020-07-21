@@ -9,7 +9,7 @@ import {
   OperationOptions
 } from "@azure/core-http";
 
-import { createHmac } from "crypto";
+import { hmac } from "./utils/hmac";
 
 import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
@@ -170,7 +170,7 @@ export class EventGridClient {
    *
    * @param expiresOn The time at which the shared signature is no longer valid.
    */
-  generateSharedAccessSignature(expiresOnUtc: Date): string {
+  async generateSharedAccessSignature(expiresOnUtc: Date): Promise<string> {
     if (!this.keyCredential) {
       throw new Error(
         "generateSharedAccessSignature may only be called when the client is constructed with a key credential"
@@ -181,11 +181,8 @@ export class EventGridClient {
     const unsignedSas = `r=${encodeURIComponent(
       `${this.endpointUrl}?apiVersion=${this.apiVersion}`
     )}&e=${encodeURIComponent(expiresOnString)}`;
-    const digest = createHmac("sha256", Buffer.from(this.keyCredential?.key, "base64"))
-      .update(unsignedSas)
-      .digest()
-      .toString("base64");
-
-    return `${unsignedSas}&s=${encodeURIComponent(digest)}`;
+    return hmac(this.keyCredential!.key, unsignedSas).then(
+      (digest) => `${unsignedSas}&s=${encodeURIComponent(digest)}`
+    );
   }
 }
