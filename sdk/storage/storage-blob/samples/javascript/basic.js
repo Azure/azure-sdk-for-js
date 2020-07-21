@@ -88,12 +88,12 @@ async function main() {
 // A helper method used to read a Node.js readable stream into string
 async function streamToString(readableStream) {
   return new Promise((resolve, reject) => {
-    const chunks = [];
+    let buffer;
     readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+      buffer = buffer ? Buffer.concat([buffer, data]) : data;
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(buffer);
     });
     readableStream.on("error", reject);
   });
