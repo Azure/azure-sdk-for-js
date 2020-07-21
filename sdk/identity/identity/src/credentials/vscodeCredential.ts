@@ -28,7 +28,7 @@ export class VSCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
 
   /**
-   * Creates an instance of VSCodeCredential to use for automatically authenicating via VSCode.
+   * Creates an instance of VSCodeCredential to use for automatically authenticating via VSCode.
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
