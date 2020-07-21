@@ -284,8 +284,8 @@ export const DataSource: msRest.CompositeMapper = {
           name: "Object"
         }
       },
-      eTag: {
-        serializedName: "eTag",
+      etag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -410,7 +410,10 @@ export const LinkedStorageAccountsResource: msRest.CompositeMapper = {
           name: "Enum",
           allowedValues: [
             "CustomLogs",
-            "AzureWatson"
+            "AzureWatson",
+            "Query",
+            "Ingestion",
+            "Alerts"
           ]
         }
       },
@@ -1271,8 +1274,8 @@ export const SavedSearch: msRest.CompositeMapper = {
     className: "SavedSearch",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      eTag: {
-        serializedName: "eTag",
+      etag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
