@@ -11,7 +11,7 @@
     "outDir": "dist-esm",
     "preserveConstEnums": true,
     "removeComments": false,
-    "target": "es2020",
+    "target": "es6",
     "sourceMap": true,
     "inlineSources": true,
     "newLine": "LF",
