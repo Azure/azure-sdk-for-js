@@ -164,6 +164,13 @@ export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceSt
 };
 
 // @public
+export class Guid {
+    constructor(guid: string);
+    get value(): string;
+    set value(guid: string);
+    }
+
+// @public
 export type ListEntitiesOptions = Omit<TableQueryEntitiesOptionalParams, "queryOptions">;
 
 // @public
