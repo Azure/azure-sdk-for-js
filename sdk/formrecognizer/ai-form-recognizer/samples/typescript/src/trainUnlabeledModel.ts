@@ -6,11 +6,7 @@
  * See recognizeForm.ts to recognize forms using a custom model.
  */
 
-import {
-  FormTrainingClient,
-  AzureKeyCredential,
-  BeginTrainingPollState
-} from "@azure/ai-form-recognizer";
+import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -27,7 +23,7 @@ export async function main() {
   const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-    onProgress: (state: BeginTrainingPollState) => {
+    onProgress: (state) => {
       console.log(`training status: ${state.status}`);
     }
   });

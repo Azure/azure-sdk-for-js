@@ -13,7 +13,6 @@
 import {
   FormRecognizerClient,
   AzureKeyCredential,
-  BeginRecognizeReceiptPollState,
   FormField,
   RecognizedForm
 } from "@azure/ai-form-recognizer";
@@ -94,7 +93,7 @@ export async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
-    onProgress: (state: BeginRecognizeReceiptPollState) => {
+    onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });

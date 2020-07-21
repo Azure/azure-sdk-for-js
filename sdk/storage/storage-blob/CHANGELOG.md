@@ -2,6 +2,7 @@
 
 ## 12.2.0 (Unreleased)
 
+- Added RehydratePriority to BlobProperties and BlobItemProperties.
 
 ## 12.2.0-preview.1 (2020.07)
 

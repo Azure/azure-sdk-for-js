@@ -363,6 +363,16 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
  */
 export interface ReceivedMessage extends ServiceBusMessage {
   /**
+   * @property The reason for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterReason?: string;
+  /**
+   * @property The error description for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterErrorDescription?: string;
+  /**
    * @property The lock token is a reference to the lock that is being held by the broker in
    * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
    * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
@@ -557,7 +567,7 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 
 /**
  * @ignore
- * Converts given AmqpMessage to ReceivedMessageInfo
+ * Converts given AmqpMessage to ReceivedMessage
  */
 export function fromAmqpMessage(
   msg: AmqpMessage,
@@ -661,7 +671,9 @@ export function fromAmqpMessage(
           )
         : undefined,
     ...sbmsg,
-    ...props
+    ...props,
+    deadLetterReason: sbmsg.properties?.DeadLetterReason,
+    deadLetterErrorDescription: sbmsg.properties?.DeadLetterErrorDescription
   };
 
   log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
@@ -857,6 +869,16 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * @readonly
    */
   readonly _amqpMessage: AmqpMessage;
+  /**
+   * @property The reason for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterReason?: string;
+  /**
+   * @property The error description for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterErrorDescription?: string;
   /**
    * @property Boolean denoting if the message has already been settled.
    * @readonly

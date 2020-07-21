@@ -153,8 +153,8 @@ describe("dead lettering", () => {
     const deadLetterMessages = await deadLetterReceiver.receiveMessages(1);
     should.exist(deadLetterMessages[0]);
 
-    const reason = deadLetterMessages[0]!.properties!["DeadLetterReason"];
-    const description = deadLetterMessages[0]!.properties!["DeadLetterErrorDescription"];
+    const reason = deadLetterMessages[0].deadLetterReason;
+    const description = deadLetterMessages[0].deadLetterErrorDescription;
     const customProperty = deadLetterMessages[0]!.properties!["customProperty"];
 
     should.equal(reason, expected.reason);
