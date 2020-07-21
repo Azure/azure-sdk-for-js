@@ -106,8 +106,6 @@ export class TableClient {
 
   /**
    * Update entity in the table.
-   * @param partitionKey The partition key of the entity.
-   * @param rowKey The row key of the entity.
    * @param entity The properties of the updated entity.
    * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
    * @param options The options parameters.
