@@ -13,7 +13,7 @@ export { AccessToken }
 
 // @public
 export class AggregateAuthenticationError extends Error {
-    constructor(errors: any[], errMsg?: string);
+    constructor(errors: any[], errorMessage?: string);
     errors: any[];
 }
 
@@ -73,7 +73,6 @@ export class CredentialUnavailable extends Error {
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
     constructor(tokenCredentialOptions?: TokenCredentialOptions);
-    static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[];
 }
 
 // @public

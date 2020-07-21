@@ -79,13 +79,6 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
       `SharedKey ${this.factory.accountName}:${signature}`
     );
 
-    // Workaround for https://github.com/axios/axios/issues/2107
-    // We should always keep the 'content-length' header once the issue is solved
-    // For a better explanation about this workaround, look here: https://github.com/Azure/azure-sdk-for-js/pull/3273
-    if (typeof request.body !== "function" && !(request.body && request.onUploadProgress)) {
-      request.headers.remove(HeaderConstants.CONTENT_LENGTH);
-    }
-
     // console.log(`[URL]:${request.url}`);
     // console.log(`[HEADERS]:${request.headers.toString()}`);
     // console.log(`[STRING TO SIGN]:${JSON.stringify(stringToSign)}`);

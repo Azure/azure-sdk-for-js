@@ -31,7 +31,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param queue
  */
-export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions {
+export function buildQueueOptions(queue: QueueProperties): InternalQueueOptions {
   return {
     LockDuration: queue.lockDuration,
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
@@ -59,7 +59,7 @@ export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions
  * response from the service
  * @param rawQueue
  */
-export function buildQueue(rawQueue: any): QueueDescription {
+export function buildQueue(rawQueue: any): QueueProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
@@ -113,22 +113,22 @@ export function buildQueue(rawQueue: any): QueueDescription {
  * response from the service
  * @param rawQueue
  */
-export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
+export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
     messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
-    createdOn: getDate(rawQueue[Constants.CREATED_AT], "createdOn"),
-    updatedOn: getDate(rawQueue[Constants.UPDATED_AT], "updatedOn"),
-    accessedOn: getDate(rawQueue[Constants.ACCESSED_AT], "accessedOn")
+    createdAt: getDate(rawQueue[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getDate(rawQueue[Constants.UPDATED_AT], "updatedAt"),
+    accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt")
   };
 }
 
 /**
  * Represents settable options on a queue
  */
-export interface QueueDescription {
+export interface QueueProperties {
   /**
    * Name of the queue
    */
@@ -226,7 +226,7 @@ export interface QueueDescription {
   forwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the queue.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -354,7 +354,7 @@ export interface InternalQueueOptions {
   ForwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the queue.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -386,7 +386,7 @@ export interface InternalQueueOptions {
 /**
  * Represents runtime info attributes of a queue entity
  */
-export interface QueueRuntimeInfo {
+export interface QueueRuntimeProperties {
   /**
    * Name of the queue
    */
@@ -395,17 +395,17 @@ export interface QueueRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdOn: Date;
+  createdAt: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedOn: Date;
+  updatedAt: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedOn: Date;
+  accessedAt: Date;
 
   /**
    * The entity's message count.

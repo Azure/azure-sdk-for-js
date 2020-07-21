@@ -13,8 +13,8 @@ describe("FileServiceClient", () => {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("ListShares with default parameters", async () => {

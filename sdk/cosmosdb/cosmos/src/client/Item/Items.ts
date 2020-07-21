@@ -49,7 +49,7 @@ export class Items {
   constructor(
     public readonly container: Container,
     private readonly clientContext: ClientContext
-  ) {}
+  ) { }
 
   /**
    * Queries all items.
@@ -274,14 +274,14 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
-    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
-
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
       body.id = uuid();
     }
+
+    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
+    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     const err = {};
     if (!isResourceValid(body, err)) {

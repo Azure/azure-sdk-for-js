@@ -1,9 +1,17 @@
 # Release History
 
-## 3.7.3 (Unreleased)
+## 3.7.5 (Unreleased)
 
 
-## 3.7.2 (Unreleased)
+## 3.7.4 (2020-6-30)
+
+- BUGFIX: Properly escape ASCII "DEL" character in partition key header
+
+## 3.7.3 (2020-6-29)
+
+- BUGFIX: Cannot create item with automatic id generation and a container partitioned on ID (#9734)
+
+## 3.7.2 (2020-6-16)
 
 - BUGFIX: Internal abort signal incorrectly triggered when user passes a custom abort signal. See #9510 for details.
 

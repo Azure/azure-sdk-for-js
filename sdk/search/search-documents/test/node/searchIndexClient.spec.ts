@@ -34,7 +34,7 @@ describe("SearchClient", function() {
 
   afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
     if (!isPlaybackMode()) {
       await indexClient.deleteIndex(TEST_INDEX_NAME);

@@ -9,7 +9,7 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  RestResponse 
+  RestResponse
 } from "@azure/core-http";
 import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
@@ -30,7 +30,7 @@ import {
   GeneratedClientCopyCustomModelResponse as CopyCustomModelResponseModel,
   GeneratedClientTrainCustomModelAsyncResponse
 } from "./generated/models";
-import { TrainPollerClient, BeginTrainingPoller, BeginTrainingPollState } from "./lro/train/poller";
+import { TrainPollerClient, BeginTrainingPoller } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerClientOptions, FormRecognizerOperationOptions } from "./common";
 import {
@@ -40,24 +40,17 @@ import {
   CustomFormModelInfo,
   CopyAuthorization,
   CopyAuthorizationResultModel,
-  ListCustomModelsResponse
+  ListCustomModelsResponse,
+  OperationStatus,
+  ModelStatus
 } from "./models";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import { toFormModelResponse } from "./transforms";
-import {
-  CopyModelPollerClient,
-  BeginCopyModelPoller,
-  BeginCopyModelPollState
-} from "./lro/copy/poller";
+import { CopyModelPollerClient, BeginCopyModelPoller } from "./lro/copy/poller";
 import { FormRecognizerClient } from "./formRecognizerClient";
 
-export {
-  RestResponse,
-  TrainPollerClient,
-  BeginTrainingPollState,
-  BeginCopyModelPollState,
-  CopyModelPollerClient
-};
+export { RestResponse };
+
 /**
  * Options for model listing operation.
  */
@@ -94,11 +87,21 @@ export type CopyModelOptions = FormRecognizerOperationOptions;
 export type GetCopyModelResultOptions = FormRecognizerOperationOptions;
 
 /**
+ * The status of a copy model operation
+ */
+export type CopyModelOperationState = PollOperationState<CustomFormModel> & {
+  /**
+   * A string representing the current status of the operation.
+   */
+  status: OperationStatus;
+};
+
+/**
  * Options for begin copy model operation
  */
 export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
   updateIntervalInMs?: number;
-  onProgress?: (state: BeginCopyModelPollState) => void;
+  onProgress?: (state: CopyModelOperationState) => void;
   resumeFrom?: string;
 };
 
@@ -111,11 +114,21 @@ export type TrainingFileFilter = FormRecognizerOperationOptions & {
 };
 
 /**
+ * The status of a form training operation
+ */
+export type TrainingOperationState = PollOperationState<CustomFormModelInfo> & {
+  /**
+   * A string representing the current status of the operation.
+   */
+  status: ModelStatus;
+};
+
+/**
  * Options for starting model training operation.
  */
 export type BeginTrainingOptions = TrainingFileFilter & {
   updateIntervalInMs?: number;
-  onProgress?: (state: BeginTrainingPollState) => void;
+  onProgress?: (state: TrainingOperationState) => void;
   resumeFrom?: string;
 };
 
@@ -310,10 +323,15 @@ export class FormTrainingClient {
   }
 
   private async *listModelsPage(
-    _settings: PageSettings,
+    settings: PageSettings,
     options: ListModelsOptions = {}
   ): AsyncIterableIterator<ListCustomModelsResponse> {
-    let result = await this.list(options);
+    let result: ListCustomModelsResponse;
+    if (settings.continuationToken) {
+      result = await this.listNextPage(settings.continuationToken, options);
+    } else {
+      result = await this.list(options);
+    }
     yield result;
 
     while (result.nextLink) {
@@ -472,9 +490,10 @@ export class FormTrainingClient {
     trainingFilesUrl: string,
     useTrainingLabels: boolean,
     options: BeginTrainingOptions = {}
-  ): Promise<PollerLike<PollOperationState<CustomFormModel>, CustomFormModel>> {
+  ): Promise<PollerLike<TrainingOperationState, CustomFormModel>> {
     const trainPollerClient: TrainPollerClient = {
-      getCustomModel: (modelId: string, options: GetModelOptions) => this.getCustomModel(modelId, options),
+      getCustomModel: (modelId: string, options: GetModelOptions) =>
+        this.getCustomModel(modelId, options),
       trainCustomModelInternal: (
         source: string,
         _useLabelFile?: boolean,
@@ -520,7 +539,7 @@ export class FormTrainingClient {
       return {
         resourceId: resourceId,
         resourceRegion: resourceRegion,
-        //expiresOn: new Date(response.expirationDateTimeTicks),
+        expiresOn: new Date(response.expirationDateTimeTicks * 1000), // Convert to ms
         ...(response as CopyAuthorizationResultModel)
       };
     } catch (e) {
@@ -563,7 +582,7 @@ export class FormTrainingClient {
     modelId: string,
     target: CopyAuthorization,
     options: BeginCopyModelOptions = {}
-  ): Promise<PollerLike<PollOperationState<CustomFormModelInfo>, CustomFormModelInfo>> {
+  ): Promise<PollerLike<CopyModelOperationState, CustomFormModelInfo>> {
     const copyModelClient: CopyModelPollerClient = {
       beginCopyModel: (...args) => this.beginCopyModelInternal(...args),
       getCopyModelResult: (...args) => this.getCopyModelResult(...args)

@@ -48,7 +48,7 @@ describe("LeaseClient", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   // lease management:

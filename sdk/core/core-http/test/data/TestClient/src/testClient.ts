@@ -1,10 +1,5 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-/* jshint latedef:false */
-/* jshint forin:false */
-/* jshint noempty:false */
 
 "use strict";
 

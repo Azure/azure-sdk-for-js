@@ -1,80 +1,89 @@
 let nock = require('nock');
 
-module.exports.testInfo = {"container":"container156816860589908987","blob":"blob156816860630803840"}
+module.exports.hash = "11a3908521116429253a64da4d5e6b7d";
+
+module.exports.testInfo = {"uniqueName":{"container":"container159210827735706655","blob":"blob159210827761908793"},"newDate":{}}
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156816860589908987')
+  .put('/container159210827735706655')
   .query(true)
-  .reply(201, "", [ 'Content-Length',
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Last-Modified',
-  'Wed, 11 Sep 2019 02:23:26 GMT',
+  'Sun, 14 Jun 2020 04:17:57 GMT',
   'ETag',
-  '"0x8D7365F06EF1D62"',
+  '"0x8D81019EADF93BB"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd53b1c00-001e-0032-6c47-683e2c000000',
+  'c130969c-201e-003e-6b02-42dadf000000',
   'x-ms-client-request-id',
-  '243064dc-7806-41cf-affc-14438810f3ea',
+  '7fe3d3a6-7ef2-47ca-86f7-bf12080cb228',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'Date',
-  'Wed, 11 Sep 2019 02:23:25 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:56 GMT'
+]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .put('/container156816860589908987/blob156816860630803840', "Hello World")
-  .reply(201, "", [ 'Content-Length',
+  .put('/container159210827735706655/blob159210827761908793', "Hello World")
+  .reply(201, "", [
+  'Content-Length',
   '0',
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Wed, 11 Sep 2019 02:23:26 GMT',
+  'Sun, 14 Jun 2020 04:17:57 GMT',
   'ETag',
-  '"0x8D7365F072DFCD1"',
+  '"0x8D81019EB087507"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '0ec3f3a6-601e-004f-3147-68a2e4000000',
+  'c130970d-201e-003e-5902-42dadf000000',
   'x-ms-client-request-id',
-  '4337534f-68d8-4d60-a4bd-692a0347c7df',
+  'dca0292a-099e-42b9-8e92-66fc1d831a05',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'x-ms-content-crc64',
   'YeJLfssylmU=',
   'x-ms-request-server-encrypted',
   'true',
+  'x-ms-version-id',
+  '2020-06-14T04:17:57.6352007Z',
   'Date',
-  'Wed, 11 Sep 2019 02:23:26 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:56 GMT'
+]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .get('/container156816860589908987/blob156816860630803840')
-  .reply(200, "Hello World", [ 'Content-Length',
+  .get('/container159210827735706655/blob159210827761908793')
+  .reply(200, "Hello World", [
+  'Content-Length',
   '11',
   'Content-Type',
   'application/octet-stream',
   'Content-MD5',
   'sQqNsWTgdUEFt6mb5y4/5Q==',
   'Last-Modified',
-  'Wed, 11 Sep 2019 02:23:26 GMT',
+  'Sun, 14 Jun 2020 04:17:57 GMT',
   'Accept-Ranges',
   'bytes',
   'ETag',
-  '"0x8D7365F072DFCD1"',
+  '"0x8D81019EB087507"',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'fd55bfac-801e-0045-3c47-68bb6d000000',
+  'c1309713-201e-003e-5f02-42dadf000000',
   'x-ms-client-request-id',
-  '6f78329b-c1ca-4a34-baba-4a2764733ea8',
+  '8b956a92-aaf6-4039-b2e1-48ed178d05a2',
   'x-ms-version',
-  '2019-02-02',
-  'x-ms-tag-count',
-  '0',
+  '2019-12-12',
+  'x-ms-version-id',
+  '2020-06-14T04:17:57.6352007Z',
+  'x-ms-is-current-version',
+  'true',
   'x-ms-creation-time',
-  'Wed, 11 Sep 2019 02:23:26 GMT',
+  'Sun, 14 Jun 2020 04:17:57 GMT',
   'x-ms-lease-status',
   'unlocked',
   'x-ms-lease-state',
@@ -83,27 +92,24 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'BlockBlob',
   'x-ms-server-encrypted',
   'true',
-  'Access-Control-Expose-Headers',
-  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,x-ms-tag-count,Content-Type,Last-Modified,ETag,x-ms-creation-time,Content-MD5,x-ms-lease-status,x-ms-lease-state,x-ms-blob-type,x-ms-server-encrypted,Accept-Ranges,Content-Length,Date,Transfer-Encoding',
-  'Access-Control-Allow-Origin',
-  '*',
   'Date',
-  'Wed, 11 Sep 2019 02:23:26 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:56 GMT'
+]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
-  .delete('/container156816860589908987')
+  .delete('/container159210827735706655')
   .query(true)
-  .reply(202, "", [ 'Content-Length',
+  .reply(202, "", [
+  'Content-Length',
   '0',
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '40729d4a-d01e-0056-4747-688e8c000000',
+  'c1309717-201e-003e-6302-42dadf000000',
   'x-ms-client-request-id',
-  '256bf9f8-5e40-4517-a59c-577c9ed4a97b',
+  '19e4dcac-79c5-4659-b6ed-7f98a505c148',
   'x-ms-version',
-  '2019-02-02',
+  '2019-12-12',
   'Date',
-  'Wed, 11 Sep 2019 02:23:26 GMT' ]);
-
+  'Sun, 14 Jun 2020 04:17:56 GMT'
+]);
