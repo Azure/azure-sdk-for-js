@@ -41,7 +41,7 @@ export interface AccessPolicy {
 export type AccessTier = 'P4' | 'P6' | 'P10' | 'P15' | 'P20' | 'P30' | 'P40' | 'P50' | 'P60' | 'P70' | 'P80' | 'Hot' | 'Cool' | 'Archive';
 
 // @public
-export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2';
+export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2' | 'FileStorage' | 'BlockBlobStorage';
 
 // @public
 export class AccountSASPermissions {
@@ -660,6 +660,7 @@ export interface BlobGetPropertiesHeaders {
     objectReplicationRules?: {
         [propertyName: string]: string;
     };
+    rehydratePriority?: RehydratePriority;
     requestId?: string;
     tagCount?: number;
     version?: string;
@@ -863,6 +864,7 @@ export interface BlobProperties {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
+    rehydratePriority?: RehydratePriority;
     // (undocumented)
     remainingRetentionDays?: number;
     // (undocumented)
@@ -2784,6 +2786,7 @@ export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Stan
 
 // @public
 export interface StaticWebsite {
+    defaultIndexDocumentPath?: string;
     enabled: boolean;
     errorDocument404Path?: string;
     indexDocument?: string;
