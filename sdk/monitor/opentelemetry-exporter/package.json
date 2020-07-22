@@ -1,7 +1,7 @@
 {
   "name": "@azure/monitor-opentelemetry-exporter",
   "author": "appinsightssdk@microsoft.com",
-  "version": "1.0.0-preview.4",
+  "version": "1.0.0-preview.5",
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
   "main": "dist-esm/src/index.js",
   "module": "dist-esm/src/index.js",
