@@ -80,8 +80,6 @@ export interface ServiceBusManagementClientOptions {
   proxySettings?: ProxySettings;
   /**
    * Options for adding user agent details to outgoing requests.
-   *
-   * @type {UserAgentOptions}
    */
   userAgentOptions?: UserAgentOptions;
 }

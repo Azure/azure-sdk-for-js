@@ -27,8 +27,6 @@ export interface ServiceBusClientOptions {
   webSocketOptions?: WebSocketOptions;
   /**
    * Options for adding user agent details to outgoing requests.
-   *
-   * @type {UserAgentOptions}
    */
   userAgentOptions?: UserAgentOptions;
 }
