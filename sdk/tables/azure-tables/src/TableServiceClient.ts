@@ -228,7 +228,7 @@ export class TableServiceClient {
    */
   createEntity(
     tableName: string,
-    entity?: Entity,
+    entity: Entity,
     options?: CreateEntityOptions
   ): Promise<CreateEntityResponse> {
     return this.table.insertEntity(tableName, { tableEntityProperties: entity, ...options });

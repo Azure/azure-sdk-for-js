@@ -153,7 +153,7 @@ export class TableClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse> {
+  createEntity(entity: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse> {
     return this.client.createEntity(this.tableName, entity, options);
   }
 
