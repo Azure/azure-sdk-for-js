@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ConnectionContext, ConnectionContextConfig } from "./connectionContext";
 import {
   ConnectionConfig,
