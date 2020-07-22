@@ -4,7 +4,7 @@
 
 Today, in Azure SDKs for JS, one of the primary core packages we ship is `@azure/core-http`. This package forms the runtime for all the auto-generated Azure SDKs by providing the mechanism to route HTTP requests through a pipeline made of different policies like retry, logging, tracing etc. As of this document being written it sits at version 1.1.5. Due to a number factors discussed in this document, there is a desire to create a new major version of this package (i.e. "2.0.0") that would include breaking changes.
 
-Since `@azure/core-http` is intended only for indirect use by most consumers, a major version change would not be largely disruptive. Currently, in order to preserve compatibility and not complicate the story for servicing, a new package has been created that is currently named `@azure/core-https`. This name is not final.
+Azure customers are indirect consumers of this package via the SDKs for different Azure services. Therefore, a major version change would not be largely disruptive. Currently, in order to preserve compatibility and not complicate the story for servicing, a new package has been created that is currently named `@azure/core-https`. This name is not final.
 
 ## Motivations, Context, and History
 
