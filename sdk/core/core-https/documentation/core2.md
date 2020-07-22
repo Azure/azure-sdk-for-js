@@ -1,4 +1,4 @@
-# Azure SDK for JS Core 2.0
+# Azure Core 2.0 for JS SDKs
 
 ## What do you mean 2.0?
 
