@@ -188,13 +188,13 @@ function x86Hash32(bytes: Buffer, seed?: number) {
   let h1 = seed;
 
   let k1 = 0;
-  let i;
 
   const c1 = 0xcc9e2d51;
   const c2 = 0x1b873593;
+  let j = 0;
 
-  for (let j = 0; j < blocks; j = j + 4) {
-    k1 = bytes[j] | (bytes[j + 1] << 8) | (bytes[j + 2] << 16) | (bytes[j + 3] << 24);
+  for (let i = 0; i < blocks; i = i + 4) {
+    k1 = bytes[i] | (bytes[i + 1] << 8) | (bytes[i + 2] << 16) | (bytes[i + 3] << 24);
 
     k1 = _x86Multiply(k1, c1);
     k1 = _x86Rotl(k1, 15);
@@ -203,20 +203,20 @@ function x86Hash32(bytes: Buffer, seed?: number) {
     h1 ^= k1;
     h1 = _x86Rotl(h1, 13);
     h1 = _x86Multiply(h1, 5) + 0xe6546b64;
-    i = j;
+    j = i + 4;
   }
 
   k1 = 0;
 
   switch (remainder) {
     case 3:
-      k1 ^= bytes[i + 2] << 16;
+      k1 ^= bytes[j + 2] << 16;
 
     case 2:
-      k1 ^= bytes[i + 1] << 8;
+      k1 ^= bytes[j + 1] << 8;
 
     case 1:
-      k1 ^= bytes[i];
+      k1 ^= bytes[j];
       k1 = _x86Multiply(k1, c1);
       k1 = _x86Rotl(k1, 15);
       k1 = _x86Multiply(k1, c2);
@@ -253,7 +253,7 @@ function x86Hash128(bytes: Buffer, seed?: number) {
   const c2 = 0xab0e9789;
   const c3 = 0x38b34ae5;
   const c4 = 0xa1e38b93;
-  let j;
+  let j = 0;
 
   for (let i = 0; i < blocks; i = i + 16) {
     k1 = bytes[i] | (bytes[i + 1] << 8) | (bytes[i + 2] << 16) | (bytes[i + 3] << 24);
@@ -296,7 +296,7 @@ function x86Hash128(bytes: Buffer, seed?: number) {
     h4 = _x86Rotl(h4, 13);
     h4 += h1;
     h4 = _x86Multiply(h4, 5) + 0x32ac3b17;
-    j = i;
+    j = i + 16;
   }
 
   k1 = 0;
@@ -417,7 +417,7 @@ function x64Hash128(bytes: Buffer, seed?: number) {
 
   const c1 = [0x87c37b91, 0x114253d5];
   const c2 = [0x4cf5ad43, 0x2745937f];
-  let j;
+  let j = 0;
 
   for (let i = 0; i < blocks; i = i + 16) {
     k1 = [
@@ -446,7 +446,7 @@ function x64Hash128(bytes: Buffer, seed?: number) {
     h2 = _x64Rotl(h2, 31);
     h2 = _x64Add(h2, h1);
     h2 = _x64Add(_x64Multiply(h2, [0, 5]), [0, 0x38495ab5]);
-    j = i;
+    j = i + 16;
   }
 
   k1 = [0, 0];
