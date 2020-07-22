@@ -74,6 +74,13 @@ export interface CreateQueueOptions {
 }
 
 // @public
+export interface CreateRuleOptions {
+    action?: SqlRuleAction;
+    filter?: SqlRuleFilter | CorrelationRuleFilter;
+    name: string;
+}
+
+// @public
 export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptionsBase {
 }
 
@@ -278,9 +285,9 @@ export { RetryOptions }
 
 // @public
 export interface RuleProperties {
-    action?: SqlRuleAction;
-    filter?: SqlRuleFilter | CorrelationRuleFilter;
-    name: string;
+    action: SqlRuleAction;
+    filter: SqlRuleFilter | CorrelationRuleFilter;
+    readonly name: string;
 }
 
 // @public
@@ -337,7 +344,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
     createQueue(queue: CreateQueueOptions, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    createRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    createRule(topicName: string, subscriptionName: string, rule: CreateRuleOptions, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     createSubscription(subscription: CreateSubscriptionOptions, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
