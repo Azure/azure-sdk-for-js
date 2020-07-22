@@ -606,8 +606,7 @@ describe("EventHubConsumerClient", function(): void {
             processError: async (err) => {
               resolve(err);
             }
-          },
-          { maxWaitTimeInSeconds: 0 } // TODO: Remove after https://github.com/Azure/azure-sdk-for-js/pull/9543 is merged
+          }
         );
       });
       await subscription!.close();

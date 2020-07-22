@@ -18,8 +18,12 @@
   message, rather than how long to wait for an entire set of messages. This change allows for a faster return
   of messages to your application.
   [PR 9968](https://github.com/Azure/azure-sdk-for-js/pull/9968)
+  [PR 10107](https://github.com/Azure/azure-sdk-for-js/pull/10107)
 - `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
   [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
+- Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
+  where attempting to create AMQP links when the AMQP connection was in the
+  process of closing resulted in a `TypeError` in an uncaught exception.
 
 - The terms `RuntimeInfo` and `Description` are replaced with `RuntimeProperties` and `Properties` to better align with guidelines around the kind of suffixes we use for naming methods and interfaces.
 

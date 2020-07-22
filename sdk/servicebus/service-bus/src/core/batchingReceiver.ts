@@ -479,28 +479,11 @@ export class BatchingReceiver extends MessageReceiver {
     });
   }
 
-  /**
-   * Gets a function that will calculate the correct amount of time to wait
-   * for the next message to arrive.
-   *
-   * @param maxWaitTimeInMs The maximum amount of time to wait for the first message.
-   * @param maxTimeAfterFirstMessageInMs The maximum time to wait after the first message.
-   */
   private _getRemainingWaitTimeInMsFn(
     maxWaitTimeInMs: number,
     maxTimeAfterFirstMessageInMs: number
   ): () => number {
-    const startTimeMs = Date.now();
-
-    return () => {
-      const remainingTimeMs = maxWaitTimeInMs - (Date.now() - startTimeMs);
-
-      if (remainingTimeMs < 0) {
-        return 0;
-      }
-
-      return Math.min(remainingTimeMs, maxTimeAfterFirstMessageInMs);
-    };
+    return getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageInMs);
   }
 
   private _getServiceBusMessage(context: EventContext): ServiceBusMessageImpl {
@@ -521,3 +504,31 @@ export class BatchingReceiver extends MessageReceiver {
     return bReceiver;
   }
 }
+
+/**
+ * Gets a function that returns the smaller of the two timeouts,
+ * taking into account elapsed time from when getRemainingWaitTimeInMsFn
+ * was called.
+ * 
+ * @param maxWaitTimeInMs Maximum time to wait for the first message
+ * @param maxTimeAfterFirstMessageInMs Maximum time to wait after the first message before completing the receive.
+ * 
+ * @internal
+ * @ignore
+ */
+export function getRemainingWaitTimeInMsFn(
+    maxWaitTimeInMs: number,
+    maxTimeAfterFirstMessageInMs: number
+  ): () => number {
+    const startTimeMs = Date.now();
+
+    return () => {
+      const remainingTimeMs = maxWaitTimeInMs - (Date.now() - startTimeMs);
+
+      if (remainingTimeMs < 0) {
+        return 0;
+      }
+
+      return Math.min(remainingTimeMs, maxTimeAfterFirstMessageInMs);
+    };
+  }
