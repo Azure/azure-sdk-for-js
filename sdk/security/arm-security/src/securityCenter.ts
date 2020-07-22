@@ -27,6 +27,8 @@ class SecurityCenter extends SecurityCenterContext {
   iotSecuritySolutionAnalytics: operations.IotSecuritySolutionAnalytics;
   iotSecuritySolutionsAnalyticsAggregatedAlert: operations.IotSecuritySolutionsAnalyticsAggregatedAlert;
   iotSecuritySolutionsAnalyticsRecommendation: operations.IotSecuritySolutionsAnalyticsRecommendation;
+  iotAlertTypes: operations.IotAlertTypes;
+  iotAlerts: operations.IotAlerts;
   locations: operations.Locations;
   operations: operations.Operations;
   tasks: operations.Tasks;
@@ -38,10 +40,10 @@ class SecurityCenter extends SecurityCenterContext {
   regulatoryComplianceStandards: operations.RegulatoryComplianceStandards;
   regulatoryComplianceControls: operations.RegulatoryComplianceControls;
   regulatoryComplianceAssessments: operations.RegulatoryComplianceAssessments;
-  serverVulnerabilityAssessment: operations.ServerVulnerabilityAssessmentOperations;
   subAssessments: operations.SubAssessments;
   automations: operations.Automations;
   alertsSuppressionRules: operations.AlertsSuppressionRules;
+  serverVulnerabilityAssessment: operations.ServerVulnerabilityAssessmentOperations;
   assessmentsMetadata: operations.AssessmentsMetadata;
   assessments: operations.Assessments;
   adaptiveApplicationControls: operations.AdaptiveApplicationControls;
@@ -50,10 +52,13 @@ class SecurityCenter extends SecurityCenterContext {
   topology: operations.Topology;
   jitNetworkAccessPolicies: operations.JitNetworkAccessPolicies;
   discoveredSecuritySolutions: operations.DiscoveredSecuritySolutions;
+  securitySolutionsReferenceData: operations.SecuritySolutionsReferenceDataOperations;
   externalSecuritySolutions: operations.ExternalSecuritySolutions;
   secureScores: operations.SecureScores;
   secureScoreControls: operations.SecureScoreControls;
   secureScoreControlDefinitions: operations.SecureScoreControlDefinitions;
+  securitySolutions: operations.SecuritySolutions;
+  connectors: operations.Connectors;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
@@ -75,6 +80,8 @@ class SecurityCenter extends SecurityCenterContext {
     this.iotSecuritySolutionAnalytics = new operations.IotSecuritySolutionAnalytics(this);
     this.iotSecuritySolutionsAnalyticsAggregatedAlert = new operations.IotSecuritySolutionsAnalyticsAggregatedAlert(this);
     this.iotSecuritySolutionsAnalyticsRecommendation = new operations.IotSecuritySolutionsAnalyticsRecommendation(this);
+    this.iotAlertTypes = new operations.IotAlertTypes(this);
+    this.iotAlerts = new operations.IotAlerts(this);
     this.locations = new operations.Locations(this);
     this.operations = new operations.Operations(this);
     this.tasks = new operations.Tasks(this);
@@ -86,10 +93,10 @@ class SecurityCenter extends SecurityCenterContext {
     this.regulatoryComplianceStandards = new operations.RegulatoryComplianceStandards(this);
     this.regulatoryComplianceControls = new operations.RegulatoryComplianceControls(this);
     this.regulatoryComplianceAssessments = new operations.RegulatoryComplianceAssessments(this);
-    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(this);
     this.subAssessments = new operations.SubAssessments(this);
     this.automations = new operations.Automations(this);
     this.alertsSuppressionRules = new operations.AlertsSuppressionRules(this);
+    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(this);
     this.assessmentsMetadata = new operations.AssessmentsMetadata(this);
     this.assessments = new operations.Assessments(this);
     this.adaptiveApplicationControls = new operations.AdaptiveApplicationControls(this);
@@ -98,10 +105,13 @@ class SecurityCenter extends SecurityCenterContext {
     this.topology = new operations.Topology(this);
     this.jitNetworkAccessPolicies = new operations.JitNetworkAccessPolicies(this);
     this.discoveredSecuritySolutions = new operations.DiscoveredSecuritySolutions(this);
+    this.securitySolutionsReferenceData = new operations.SecuritySolutionsReferenceDataOperations(this);
     this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
     this.secureScores = new operations.SecureScores(this);
     this.secureScoreControls = new operations.SecureScoreControls(this);
     this.secureScoreControlDefinitions = new operations.SecureScoreControlDefinitions(this);
+    this.securitySolutions = new operations.SecuritySolutions(this);
+    this.connectors = new operations.Connectors(this);
   }
 }
 
