@@ -199,6 +199,9 @@ export class PartitionPump {
 
         // close the partition processor if a non-retryable error was encountered
         if (typeof err !== "object" || !(err as MessagingError).retryable) {
+          // Remove the direct connection from the ContextManager since we are no longer using it.
+          // If we were using the gatewayConnectionContext, this is a no-op.
+          this._contextManager.removeDirectConnectionContext(currentContext);
           try {
             // If the exception indicates that the partition was stolen (i.e some other consumer with same ownerlevel
             // started consuming the partition), update the closeReason
