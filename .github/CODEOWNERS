@@ -39,6 +39,9 @@
 
 /sdk/search/ @xirzec @sarangan12
 
+/sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
+/sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
+
 # Smoke Tests
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
