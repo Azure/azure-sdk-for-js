@@ -43,6 +43,7 @@ import {
 } from "./serializers/queueResourceSerializer";
 import {
   buildRule,
+  CreateRuleOptions,
   RuleProperties,
   RuleResourceSerializer
 } from "./serializers/ruleResourceSerializer";
@@ -222,7 +223,9 @@ export class ServiceBusManagementClient extends ServiceClient {
     requestPolicyFactories.push(
       // TODO: Update the userAgent in ConnectionContext to properly distinguish among Node and browser (Reference: EventHubs)
       //       And use the same userAgent string for both ServiceBusManagementClient and the ServiceBusClient.
-      tracingPolicy({ userAgent: `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}` })
+      tracingPolicy({
+        userAgent: `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}`
+      })
     );
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
@@ -1972,7 +1975,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createRule(
     topicName: string,
     subscriptionName: string,
-    rule: RuleProperties,
+    rule: CreateRuleOptions,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     const { span, updatedOperationOptions } = createSpan(
@@ -2172,6 +2175,10 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   /**
    * Updates properties on the Rule by the given name based on the given options.
+   * All rule properties must be set even if one of them is being updated.
+   * Therefore, the suggested flow is to use `getRule()` to get the complete set of rule properties,
+   * update as needed and then pass it to `updateRule()`.
+   *
    * @param topicName
    * @param subscriptionName
    * @param rule Options to configure the Rule being updated.
@@ -2295,7 +2302,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       | InternalQueueOptions
       | InternalTopicOptions
       | InternalSubscriptionOptions
-      | RuleProperties,
+      | CreateRuleOptions,
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {}
