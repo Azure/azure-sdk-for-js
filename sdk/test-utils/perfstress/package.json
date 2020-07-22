@@ -78,7 +78,7 @@
     "eslint": "^6.1.0",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
-    "karma": "^4.0.1",
+    "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
