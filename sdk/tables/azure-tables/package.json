@@ -48,6 +48,9 @@
     "README.md",
     "LICENSE"
   ],
+  "browser": {
+    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
+  },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",

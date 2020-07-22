@@ -3,6 +3,7 @@
 
 import { EdmGuid } from "./EdmGuid";
 import { EdmInt64 } from "./EdmInt64";
+import { isBuffer, encodeByteArray, decodeString } from "./utils/bufferSerializer";
 
 const Edm = {
   DateTime: "Edm.DateTime",
@@ -15,6 +16,7 @@ export function serialize(obj: any): object {
   const serialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (value instanceof Date) {
+      serialized[key] = value;
       serialized[`${key}@odata.type`] = Edm.DateTime;
     } else if (value instanceof EdmInt64) {
       serialized[key] = value.value;
@@ -22,6 +24,9 @@ export function serialize(obj: any): object {
     } else if (value instanceof EdmGuid) {
       serialized[key] = value.value;
       serialized[`${key}@odata.type`] = Edm.Guid;
+    } else if (isBuffer(value)) {
+      serialized[key] = encodeByteArray(value as any);
+      serialized[`${key}@odata.type`] = Edm.Binary;
     } else {
       serialized[key] = value;
     }
@@ -37,6 +42,8 @@ function getTypedObject(value: any, type: string): any {
       return new EdmInt64(value);
     case Edm.Guid:
       return new EdmGuid(value);
+    case Edm.Binary:
+      return decodeString(value);
     default:
       return value;
   }
