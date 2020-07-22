@@ -27,7 +27,7 @@ As the JS team has gained experience shipping track 2 client libraries, we reali
 - The request pipeline should be re-usable outside of AutoRest generated code (e.g. Cosmos.)
 - The request pipeline should be easily customizable by client libraries and consumers.
 - Performance of the majority use case should be optimized and have few allocations.
-- Future improvements to codegen should be easy to phase in.
+- Future improvements to code generator should be easy to phase in.
 
 ## Scope of work
 
