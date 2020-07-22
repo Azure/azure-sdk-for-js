@@ -195,30 +195,97 @@ export interface CreateTopicOptions {
 }
 
 /**
- * Fields that are updatable even after a topic is created.
- */
-export type UpdatableFieldsForTopic = "defaultMessageTtl" | "duplicateDetectionHistoryTimeWindow";
-
-/**
- * Fields that can assume undefined values in the TopicResponse.
- */
-export type AllowUndefinedFieldsForTopic = "authorizationRules";
-
-/**
  * Represents the input for updateTopic.
  *
  * @export
  * @interface TopicProperties
- * @extends {Required<Pick<CreateTopicOptions, UpdatableFieldsForTopic>>}
- * @extends {Readonly<Pick<CreateTopicOptions, AllowUndefinedFieldsForTopic>>}
- * @extends {(Readonly<Required<Omit<CreateTopicOptions, UpdatableFieldsForTopic | AllowUndefinedFieldsForTopic>>>)}
  */
-export interface TopicProperties
-  extends Required<Pick<CreateTopicOptions, UpdatableFieldsForTopic>>,
-    Readonly<Pick<CreateTopicOptions, AllowUndefinedFieldsForTopic>>,
-    Readonly<
-      Required<Omit<CreateTopicOptions, UpdatableFieldsForTopic | AllowUndefinedFieldsForTopic>>
-    > {}
+export interface TopicProperties {
+  /**
+   * Name of the topic
+   */
+  readonly name: string;
+
+  /**
+   * Determines how long a message lives in the associated subscriptions.
+   * Subscriptions inherit the TTL from the topic unless they are created explicitly
+   * with a smaller TTL. Based on whether dead-lettering is enabled, a message whose
+   * TTL has expired will either be moved to the subscription’s associated dead-letter
+   * sub-queue or will be permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  defaultMessageTtl: string;
+
+  /**
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
+   * that will cause the topic to exceed this value will fail. All messages that are
+   * stored in the topic or any of its subscriptions count towards this value.
+   * Multiple copies of a message that reside in one or multiple subscriptions count
+   * as a single messages. For example, if message m exists once in subscription s1
+   * and twice in subscription s2, m is counted as a single message.
+   */
+  readonly maxSizeInMegabytes: number;
+
+  /**
+   * If enabled, the topic will detect duplicate messages within the time span
+   * specified by the DuplicateDetectionHistoryTimeWindow property.
+   * Settable only at topic creation time.
+   */
+  readonly requiresDuplicateDetection: boolean;
+
+  /**
+   * Specifies the time span during which the Service Bus will detect message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  duplicateDetectionHistoryTimeWindow: string;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  readonly enableBatchedOperations: boolean;
+
+  /**
+   * Authorization rules on the topic
+   */
+  readonly authorizationRules?: AuthorizationRule[];
+
+  /**
+   * Status of the messaging entity.
+   */
+  readonly status: EntityStatus;
+
+  /**
+   * The user provided metadata information associated with the topic.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
+   */
+  readonly userMetadata: string;
+
+  /**
+   * Specifies whether the topic supports message ordering.
+   */
+  readonly supportOrdering: boolean;
+
+  /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  readonly autoDeleteOnIdle: string;
+
+  /**
+   * Specifies whether the topic should be partitioned
+   */
+  readonly enablePartitioning: boolean;
+}
 
 /**
  * @internal

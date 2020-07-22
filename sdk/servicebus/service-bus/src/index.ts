@@ -34,11 +34,9 @@ export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
 export {
-  AllowUndefinedFieldsForQueue,
   CreateQueueOptions,
   QueueProperties,
-  QueueRuntimeProperties,
-  UpdatableFieldsForQueue
+  QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
 export {
   RuleProperties,
@@ -47,18 +45,14 @@ export {
   SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 export {
-  AllowUndefinedFieldsForSubscription,
   CreateSubscriptionOptions,
   SubscriptionProperties,
-  SubscriptionRuntimeProperties,
-  UpdatableFieldsForSubscription
+  SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
 export {
-  AllowUndefinedFieldsForTopic,
   CreateTopicOptions,
   TopicProperties,
-  TopicRuntimeProperties,
-  UpdatableFieldsForTopic
+  TopicRuntimeProperties
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,

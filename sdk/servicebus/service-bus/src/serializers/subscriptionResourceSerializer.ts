@@ -229,43 +229,119 @@ export interface CreateSubscriptionOptions {
 }
 
 /**
- * Fields that are updatable even after the subscription is created.
- */
-export type UpdatableFieldsForSubscription =
-  | "lockDuration"
-  | "deadLetteringOnMessageExpiration"
-  | "maxDeliveryCount";
-
-/**
- * Fields that can assume undefined values in the SubscriptionResponse.
- */
-export type AllowUndefinedFieldsForSubscription = "forwardTo" | "forwardDeadLetteredMessagesTo";
-
-/**
  * Represents the input for updateSubscription.
  *
  * @export
  * @interface SubscriptionProperties
- * @extends {Required<Pick<CreateSubscriptionOptions, UpdatableFieldsForSubscription>>}
- * @extends {Readonly<Pick<CreateSubscriptionOptions, AllowUndefinedFieldsForSubscription>>}
- * @extends {(Readonly<Required<
- *         Omit<
- *           CreateSubscriptionOptions,
- *           UpdatableFieldsForSubscription | AllowUndefinedFieldsForSubscription
- *         >
- *       >>)}
  */
-export interface SubscriptionProperties
-  extends Required<Pick<CreateSubscriptionOptions, UpdatableFieldsForSubscription>>,
-    Readonly<Pick<CreateSubscriptionOptions, AllowUndefinedFieldsForSubscription>>,
-    Readonly<
-      Required<
-        Omit<
-          CreateSubscriptionOptions,
-          UpdatableFieldsForSubscription | AllowUndefinedFieldsForSubscription
-        >
-      >
-    > {}
+export interface SubscriptionProperties {
+  /**
+   * Name of the subscription
+   */
+  readonly subscriptionName: string;
+
+  /**
+   * Name of the topic
+   */
+  readonly topicName: string;
+
+  /**
+   * The default lock duration is applied to subscriptions that do not define a lock
+   * duration. Settable only at subscription creation time.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  lockDuration: string;
+
+  /**
+   * If set to true, the subscription will be session-aware and only SessionReceiver
+   * will be supported. Session-aware subscription are not supported through REST.
+   * Settable only at subscription creation time.
+   */
+  readonly requiresSession: boolean;
+
+  /**
+   * Determines how long a message lives in the subscription. Based on whether
+   * dead-lettering is enabled, a message whose TTL has expired will either be moved
+   * to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  readonly defaultMessageTtl: string;
+
+  /**
+   * If it is enabled and a message expires, the Service Bus moves the message from
+   * the queue into the subscription’s dead-letter sub-queue. If disabled, message
+   * will be permanently deleted from the subscription’s main queue.
+   * Settable only at subscription creation time.
+   */
+  deadLetteringOnMessageExpiration: boolean;
+
+  /**
+   * Determines how the Service Bus handles a message that causes an exception during
+   * a subscription’s filter evaluation. If the value is set to true, the message that
+   * caused the exception will be moved to the subscription’s dead-letter sub-queue.
+   * Otherwise, it will be discarded. By default this parameter is set to true,
+   * allowing the user a chance to investigate the cause of the exception.
+   * It can occur from a malformed message or some incorrect assumptions being made
+   * in the filter about the form of the message. Settable only at topic creation time.
+   */
+  readonly deadLetteringOnFilterEvaluationExceptions: boolean;
+
+  /**
+   * The maximum delivery count of messages after which if it is still not settled,
+   * gets moved to the dead-letter sub-queue.
+   *
+   */
+  maxDeliveryCount: number;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  readonly enableBatchedOperations: boolean;
+
+  /**
+   * Status of the messaging entity.
+   */
+  readonly status: EntityStatus;
+
+  /**
+   * Absolute URL or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
+   */
+  readonly forwardTo?: string;
+
+  /**
+   * The user provided metadata information associated with the subscription.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
+   */
+  readonly userMetadata: string;
+
+  /**
+   * Absolute URL or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
+   */
+  readonly forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  readonly autoDeleteOnIdle: string;
+}
+
 /**
  * @internal
  * @ignore

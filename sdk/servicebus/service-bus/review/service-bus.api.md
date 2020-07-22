@@ -23,15 +23,6 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
-export type AllowUndefinedFieldsForQueue = "forwardTo" | "authorizationRules" | "forwardDeadLetteredMessagesTo";
-
-// @public
-export type AllowUndefinedFieldsForSubscription = "forwardTo" | "forwardDeadLetteredMessagesTo";
-
-// @public
-export type AllowUndefinedFieldsForTopic = "authorizationRules";
-
-// @public
 export type AuthorizationRule = {
     claimType: string;
     claimValue: string;
@@ -190,7 +181,24 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface QueueProperties extends Required<Pick<CreateQueueOptions, UpdatableFieldsForQueue>>, Readonly<Pick<CreateQueueOptions, AllowUndefinedFieldsForQueue>>, Readonly<Required<Omit<CreateQueueOptions, UpdatableFieldsForQueue | AllowUndefinedFieldsForQueue>>> {
+export interface QueueProperties {
+    readonly authorizationRules?: AuthorizationRule[];
+    readonly autoDeleteOnIdle: string;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    readonly enableBatchedOperations: boolean;
+    readonly enablePartitioning: boolean;
+    readonly forwardDeadLetteredMessagesTo?: string;
+    readonly forwardTo?: string;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    readonly maxSizeInMegabytes: number;
+    readonly name: string;
+    readonly requiresDuplicateDetection: boolean;
+    readonly requiresSession: boolean;
+    readonly status: EntityStatus;
+    readonly userMetadata: string;
 }
 
 // @public
@@ -441,7 +449,21 @@ export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOp
 }
 
 // @public
-export interface SubscriptionProperties extends Required<Pick<CreateSubscriptionOptions, UpdatableFieldsForSubscription>>, Readonly<Pick<CreateSubscriptionOptions, AllowUndefinedFieldsForSubscription>>, Readonly<Required<Omit<CreateSubscriptionOptions, UpdatableFieldsForSubscription | AllowUndefinedFieldsForSubscription>>> {
+export interface SubscriptionProperties {
+    readonly autoDeleteOnIdle: string;
+    readonly deadLetteringOnFilterEvaluationExceptions: boolean;
+    deadLetteringOnMessageExpiration: boolean;
+    readonly defaultMessageTtl: string;
+    readonly enableBatchedOperations: boolean;
+    readonly forwardDeadLetteredMessagesTo?: string;
+    readonly forwardTo?: string;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    readonly requiresSession: boolean;
+    readonly status: EntityStatus;
+    readonly subscriptionName: string;
+    readonly topicName: string;
+    readonly userMetadata: string;
 }
 
 // @public
@@ -468,7 +490,19 @@ export { TokenCredential }
 export { TokenType }
 
 // @public
-export interface TopicProperties extends Required<Pick<CreateTopicOptions, UpdatableFieldsForTopic>>, Readonly<Pick<CreateTopicOptions, AllowUndefinedFieldsForTopic>>, Readonly<Required<Omit<CreateTopicOptions, UpdatableFieldsForTopic | AllowUndefinedFieldsForTopic>>> {
+export interface TopicProperties {
+    readonly authorizationRules?: AuthorizationRule[];
+    readonly autoDeleteOnIdle: string;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    readonly enableBatchedOperations: boolean;
+    readonly enablePartitioning: boolean;
+    readonly maxSizeInMegabytes: number;
+    readonly name: string;
+    readonly requiresDuplicateDetection: boolean;
+    readonly status: EntityStatus;
+    readonly supportOrdering: boolean;
+    readonly userMetadata: string;
 }
 
 // @public
@@ -488,15 +522,6 @@ export interface TopicRuntimeProperties {
 // @public
 export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
 }
-
-// @public
-export type UpdatableFieldsForQueue = "defaultMessageTtl" | "lockDuration" | "deadLetteringOnMessageExpiration" | "duplicateDetectionHistoryTimeWindow" | "maxDeliveryCount";
-
-// @public
-export type UpdatableFieldsForSubscription = "lockDuration" | "deadLetteringOnMessageExpiration" | "maxDeliveryCount";
-
-// @public
-export type UpdatableFieldsForTopic = "defaultMessageTtl" | "duplicateDetectionHistoryTimeWindow";
 
 // @public
 export interface WaitTimeOptions {
