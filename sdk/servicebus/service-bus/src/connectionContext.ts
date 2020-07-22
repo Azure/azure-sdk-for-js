@@ -99,7 +99,7 @@ export namespace ConnectionContext {
     if (!options) options = {};
     const userAgent = `${formatUserAgentPrefix(
       options.userAgentOptions?.userAgentPrefix
-    )} (${getRuntimeInfo()})`;
+    )} ${getRuntimeInfo()}`;
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
       tokenCredential: tokenCredential,

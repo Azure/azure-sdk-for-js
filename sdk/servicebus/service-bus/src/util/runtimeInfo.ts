@@ -19,5 +19,5 @@ export function getRuntimeInfo(): string {
     value: `(${os.arch()}-${os.type()}-${os.release()})`
   };
 
-  return `${[runtimeInfo, osInfo]}`;
+  return `${runtimeInfo.key}/${runtimeInfo.value} ${osInfo.key}/${osInfo.value}`;
 }

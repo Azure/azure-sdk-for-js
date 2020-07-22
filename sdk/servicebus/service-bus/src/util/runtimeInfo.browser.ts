@@ -18,5 +18,5 @@ export function getRuntimeInfo(): string {
     value: (navigator.oscpu || navigator.platform).replace(" ", "")
   };
 
-  return `${[osInfo]}`;
+  return `${osInfo.key}/${osInfo.value}`;
 }
