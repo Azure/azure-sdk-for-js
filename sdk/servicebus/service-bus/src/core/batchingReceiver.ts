@@ -782,6 +782,12 @@ export function receiveMessages(
         if (shouldRemoveDrain === "removeDrainHandler") {
           receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
         }
+
+        // TODO: need to check if onSettled needs to live beyond this call (I think it does but maybe we can
+        // work something out)
+        receiver.on(ReceiverEvents.settled, onSettled);
+        receiver.on(ReceiverEvents.receiverClose, onReceiveClose);
+        receiver.session.on(SessionEvents.sessionClose, onSessionClose);
       }
 
       if (totalWaitTimer) {
