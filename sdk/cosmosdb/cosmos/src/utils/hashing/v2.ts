@@ -1,5 +1,6 @@
 import { doubleToByteArrayJSBI } from "./encoding/number";
 import { BytePrefix } from "./encoding/prefix";
+// tslint:disable-next-line
 const MurmurHash = require("./murmurHash").default;
 
 type v2Key = string | number | null | {} | undefined;
@@ -19,7 +20,7 @@ function prefixKeyByType(key: v2Key) {
       bytes = Buffer.concat([
         Buffer.from(BytePrefix.String, "hex"),
         Buffer.from(key),
-        Buffer.from(BytePrefix.Infinity, "hex")
+        Buffer.from(BytePrefix.Infinity, "hex"),
       ]);
       return bytes;
     case "number":

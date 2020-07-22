@@ -27,7 +27,7 @@ describe("DataLakeFileSystemClient Node.js only", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("getAccessPolicy", async () => {

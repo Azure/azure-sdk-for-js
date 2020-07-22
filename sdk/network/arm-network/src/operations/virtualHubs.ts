@@ -173,6 +173,18 @@ export class VirtualHubs {
   }
 
   /**
+   * Gets the effective routes configured for the Virtual Hub resource or the specified resource .
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  getEffectiveVirtualHubRoutes(resourceGroupName: string, virtualHubName: string, options?: Models.VirtualHubsGetEffectiveVirtualHubRoutesOptionalParams): Promise<msRest.RestResponse> {
+    return this.beginGetEffectiveVirtualHubRoutes(resourceGroupName,virtualHubName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
    * @param resourceGroupName The resource group name of the VirtualHub.
    * @param virtualHubName The name of the VirtualHub.
@@ -207,6 +219,24 @@ export class VirtualHubs {
         options
       },
       beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Gets the effective routes configured for the Virtual Hub resource or the specified resource .
+   * @param resourceGroupName The resource group name of the VirtualHub.
+   * @param virtualHubName The name of the VirtualHub.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginGetEffectiveVirtualHubRoutes(resourceGroupName: string, virtualHubName: string, options?: Models.VirtualHubsBeginGetEffectiveVirtualHubRoutesOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualHubName,
+        options
+      },
+      beginGetEffectiveVirtualHubRoutesOperationSpec,
       options);
   }
 
@@ -426,6 +456,37 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginGetEffectiveVirtualHubRoutesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/effectiveRoutes",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.virtualHubName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "effectiveRoutesParameters"
+    ],
+    mapper: Mappers.EffectiveRoutesParameters
+  },
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

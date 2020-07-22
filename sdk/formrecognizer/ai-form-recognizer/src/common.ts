@@ -7,15 +7,10 @@ import { SourcePath } from "./generated/models";
 import { getFirstFourBytesFromBlob, streamToBuffer } from "./utils/utils.node";
 import { MAX_INPUT_DOCUMENT_SIZE } from "./constants";
 
-
 /**
  * Content types supported by Form Recognizer service.
  */
-export type FormContentType =
-  | "application/pdf"
-  | "image/jpeg"
-  | "image/png"
-  | "image/tiff";
+export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
 
 /**
  * Client options used to configure Form Recognizer API requests.

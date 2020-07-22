@@ -28,7 +28,7 @@ import {
  * @param subscription
  */
 export function buildSubscriptionOptions(
-  subscription: SubscriptionDescription
+  subscription: SubscriptionProperties
 ): InternalSubscriptionOptions {
   return {
     LockDuration: subscription.lockDuration,
@@ -57,7 +57,7 @@ export function buildSubscriptionOptions(
  * the response from the service
  * @param rawSubscription
  */
-export function buildSubscription(rawSubscription: any): SubscriptionDescription {
+export function buildSubscription(rawSubscription: any): SubscriptionProperties {
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
@@ -103,22 +103,24 @@ export function buildSubscription(rawSubscription: any): SubscriptionDescription
  * the response from the service
  * @param rawSubscription
  */
-export function buildSubscriptionRuntimeInfo(rawSubscription: any): SubscriptionRuntimeInfo {
+export function buildSubscriptionRuntimeProperties(
+  rawSubscription: any
+): SubscriptionRuntimeProperties {
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
     messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
     messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
-    createdOn: getDate(rawSubscription[Constants.CREATED_AT], "createdOn"),
-    updatedOn: getDate(rawSubscription[Constants.UPDATED_AT], "updatedOn"),
-    accessedOn: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedOn")
+    createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
+    updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
+    accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
   };
 }
 
 /**
  * Represents settable options on a subscription
  */
-export interface SubscriptionDescription {
+export interface SubscriptionProperties {
   /**
    * Name of the subscription
    */
@@ -202,7 +204,7 @@ export interface SubscriptionDescription {
   forwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the subscription description.
+   * The user provided metadata information associated with the subscription.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -305,7 +307,7 @@ export interface InternalSubscriptionOptions {
   ForwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the subscription description.
+   * The user provided metadata information associated with the subscription.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -332,7 +334,7 @@ export interface InternalSubscriptionOptions {
 /**
  * Represents runtime info attributes of a subscription entity
  */
-export interface SubscriptionRuntimeInfo {
+export interface SubscriptionRuntimeProperties {
   /**
    * Name of the subscription
    */
@@ -357,17 +359,17 @@ export interface SubscriptionRuntimeInfo {
   /**
    * Created at timestamp
    */
-  createdOn: Date;
+  createdAt: Date;
 
   /**
    * Updated at timestamp
    */
-  updatedOn: Date;
+  updatedAt: Date;
 
   /**
    * Accessed at timestamp
    */
-  accessedOn: Date;
+  accessedAt: Date;
 }
 
 /**

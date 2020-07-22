@@ -15,8 +15,8 @@ describe("Authentication", () => {
     credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("invalid connection string gives a decent error message", () => {

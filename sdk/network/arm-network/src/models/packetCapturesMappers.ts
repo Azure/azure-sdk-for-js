@@ -16,4 +16,4 @@ export {
   PacketCaptureQueryStatusResult,
   PacketCaptureResult,
   PacketCaptureStorageLocation
-} from "../models/mappers";
+} from "./mappers";

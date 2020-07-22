@@ -30,7 +30,7 @@ describe("ProxyPolicy (browser)", function() {
 
   describe("for browser", () => {
     it("should throw an Error while constructing object", () => {
-      const construct = () =>
+      const construct = (): ProxyPolicy =>
         new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
       construct.should.throw();
     });

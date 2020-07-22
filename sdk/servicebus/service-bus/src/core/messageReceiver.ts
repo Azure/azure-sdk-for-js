@@ -18,7 +18,8 @@ import {
   OnAmqpEvent,
   Receiver,
   ReceiverOptions,
-  isAmqpError
+  isAmqpError,
+  ReceiverEvents
 } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
@@ -144,12 +145,6 @@ export class MessageReceiver extends LinkEntity {
    */
   maxAutoRenewDurationInMs: number;
   /**
-   * @property {number} [newMessageWaitTimeoutInMs] The maximum amount of idle time the
-   * receiver will wait after a message has been received. If no messages are received by this
-   * time then the receive operation will end.
-   */
-  newMessageWaitTimeoutInMs?: number;
-  /**
    * @property {boolean} autoRenewLock Should lock renewal happen automatically.
    */
   autoRenewLock: boolean;
@@ -220,15 +215,6 @@ export class MessageReceiver extends LinkEntity {
     NodeJS.Timer | undefined
   >();
   /**
-   * @property {NodeJS.Timer} _newMessageReceivedTimer The timer that keeps track of time since the
-   * last message was received.
-   */
-  protected _newMessageReceivedTimer?: NodeJS.Timer;
-  /**
-   * Resets the `_newMessageReceivedTimer` timer when a new message is received.
-   */
-  protected resetTimerOnNewMessageReceived: () => void;
-  /**
    * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for a
    * specific messageId.
    */
@@ -245,23 +231,29 @@ export class MessageReceiver extends LinkEntity {
    * to bring its link back up due to a retryable issue.
    */
   private _isDetaching: boolean = false;
+  private _stopReceivingMessages: boolean = false;
+
+  public get receiverHelper(): ReceiverHelper {
+    return this._receiverHelper;
+  }
+  private _receiverHelper: ReceiverHelper;
 
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
+
     if (!options) options = {};
     this._retryOptions = options.retryOptions || {};
     this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
+    this._receiverHelper = new ReceiverHelper(() => this._receiver);
+
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
-    this.resetTimerOnNewMessageReceived = () => {
-      /** */
-    };
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this.maxAutoRenewDurationInMs =
@@ -346,7 +338,6 @@ export class MessageReceiver extends LinkEntity {
         return;
       }
 
-      this.resetTimerOnNewMessageReceived();
       const connectionId = this._context.namespace.connectionId;
       const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
         this._context,
@@ -513,9 +504,7 @@ export class MessageReceiver extends LinkEntity {
         }
         return;
       } finally {
-        if (this._receiver) {
-          this._receiver.addCredit(1);
-        }
+        this._receiverHelper.addCredit(1);
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -583,9 +572,6 @@ export class MessageReceiver extends LinkEntity {
           );
         }
       }
-      if (this._newMessageReceivedTimer) {
-        clearTimeout(this._newMessageReceivedTimer);
-      }
     };
 
     this._onSessionError = (context: EventContext) => {
@@ -608,9 +594,6 @@ export class MessageReceiver extends LinkEntity {
           );
           this._onError!(sbError);
         }
-      }
-      if (this._newMessageReceivedTimer) {
-        clearTimeout(this._newMessageReceivedTimer);
       }
     };
 
@@ -709,6 +692,58 @@ export class MessageReceiver extends LinkEntity {
         );
       }
     };
+  }
+
+  /**
+   * Prevents us from receiving any further messages.
+   */
+  public stopReceivingMessages(): Promise<void> {
+    log.receiver(
+      `[${this.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
+    );
+    this._stopReceivingMessages = true;
+
+    return this.drainReceiver();
+  }
+
+  private drainReceiver(): Promise<void> {
+    log.receiver(`[${this.name}] Receiver is starting drain.`);
+
+    const drainPromise = new Promise<void>((resolve) => {
+      if (this._receiver == null) {
+        log.receiver(`[${this.name}] Internal receiver has been removed. Not draining.`);
+        resolve();
+        return;
+      }
+
+      this._receiver.once(ReceiverEvents.receiverDrained, () => {
+        log.receiver(`[${this.name}] Receiver has been drained.`);
+        resolve();
+      });
+
+      this._receiver.drain = true;
+      // this is not actually adding another credit - it'll just
+      // cause the drain call to start.
+      this._receiver.addCredit(1);
+    });
+
+    return drainPromise;
+  }
+
+  /**
+   * Adds credits to the receiver, respecting any state that
+   * indicates the receiver is closed or should not continue
+   * to receive more messages.
+   *
+   * @param credits Number of credits to add.
+   */
+  protected addCredit(credits: number): boolean {
+    if (this._stopReceivingMessages || this._receiver == null) {
+      return false;
+    }
+
+    this._receiver.addCredit(credits);
+    return true;
   }
 
   /**
@@ -982,7 +1017,7 @@ export class MessageReceiver extends LinkEntity {
               await this.close();
             } else {
               if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                this._receiver.addCredit(this.maxConcurrentCalls);
+                this._receiverHelper.addCredit(this.maxConcurrentCalls);
               }
             }
             return;
@@ -1043,7 +1078,6 @@ export class MessageReceiver extends LinkEntity {
       this.receiverType,
       this._context.entityPath
     );
-    if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
     this._clearAllMessageLockRenewTimers();
     if (this._receiver) {
       const receiverLink = this._receiver;
@@ -1136,5 +1170,85 @@ export class MessageReceiver extends LinkEntity {
       result
     );
     return result;
+  }
+}
+
+/**
+ * Wraps the receiver with some higher level operations for managing state
+ * like credits, draining, etc...
+ *
+ * @internal
+ * @ignore
+ */
+export class ReceiverHelper {
+  private _stopReceivingMessages: boolean = false;
+
+  constructor(private _getCurrentReceiver: () => Receiver | undefined) {}
+
+  /**
+   * Adds credits to the receiver, respecting any state that
+   * indicates the receiver is closed or should not continue
+   * to receive more messages.
+   *
+   * @param credits Number of credits to add.
+   * @returns true if credits were added, false if there is no current receiver instance
+   * or `stopReceivingMessages` has been called.
+   */
+  public addCredit(credits: number): boolean {
+    const receiver = this._getCurrentReceiver();
+
+    if (this._stopReceivingMessages || receiver == null) {
+      return false;
+    }
+
+    receiver.addCredit(credits);
+    return true;
+  }
+
+  /**
+   * Prevents us from receiving any further messages.
+   */
+  public async stopReceivingMessages(): Promise<void> {
+    const receiver = this._getCurrentReceiver();
+
+    if (receiver == null) {
+      return;
+    }
+
+    log.receiver(
+      `[${receiver.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
+    );
+    this._stopReceivingMessages = true;
+
+    return this.drain();
+  }
+
+  /**
+   * Initiates a drain for the current receiver and resolves when
+   * the drain has completed.
+   */
+  public async drain(): Promise<void> {
+    const receiver = this._getCurrentReceiver();
+
+    if (receiver == null) {
+      return;
+    }
+
+    log.receiver(`[${receiver.name}] Receiver is starting drain.`);
+
+    const drainPromise = new Promise<void>((resolve) => {
+      receiver.once(ReceiverEvents.receiverDrained, () => {
+        log.receiver(`[${receiver.name}] Receiver has been drained.`);
+        receiver.drain = false;
+        resolve();
+      });
+
+      receiver.drain = true;
+      // this is not actually adding another credit - it'll just
+      // cause the drain call to start.
+      receiver.addCredit(1);
+    });
+
+    return drainPromise;
   }
 }

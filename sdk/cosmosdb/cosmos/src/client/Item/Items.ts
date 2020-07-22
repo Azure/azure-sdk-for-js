@@ -19,7 +19,7 @@ import {
   Operation,
   getPartitionKeyToHash,
   addPKToOperation,
-  OperationResponse
+  OperationResponse,
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -95,7 +95,7 @@ export class Items {
         resultFn: (result) => (result ? result.Documents : []),
         query,
         options: innerOptions,
-        partitionKey: options.partitionKey
+        partitionKey: options.partitionKey,
       });
     };
 
@@ -274,14 +274,14 @@ export class Items {
     body: T,
     options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
-    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
-    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
-
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
     if ((body.id === undefined || body.id === "") && !options.disableAutomaticIdGeneration) {
       body.id = uuid();
     }
+
+    const { resource: partitionKeyDefinition } = await this.container.readPartitionKeyDefinition();
+    const partitionKey = extractPartitionKey(body, partitionKeyDefinition);
 
     const err = {};
     if (!isResourceValid(body, err)) {
@@ -297,7 +297,7 @@ export class Items {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey
+      partitionKey,
     });
 
     const ref = new Item(
@@ -366,7 +366,7 @@ export class Items {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey
+      partitionKey,
     });
 
     const ref = new Item(
@@ -389,7 +389,7 @@ export class Items {
     options?: RequestOptions
   ): Promise<OperationResponse[]> {
     const {
-      resources: partitionKeyRanges
+      resources: partitionKeyRanges,
     } = await this.container.readPartitionKeyRanges().fetchAll();
     const { resource: definition } = await this.container.getPartitionKeyDefinition();
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
@@ -398,7 +398,7 @@ export class Items {
         max: keyRange.maxExclusive,
         rangeId: keyRange.id,
         indexes: [],
-        operations: []
+        operations: [],
       };
     });
     operations
@@ -408,7 +408,7 @@ export class Items {
         const isV2 = definition.version && definition.version === 2;
         const toHashKey = getPartitionKeyToHash(operation, partitionProp);
         const hashed = isV2 ? hashV2PartitionKey(toHashKey) : hashV1PartitionKey(toHashKey);
-        let batchForKey = batches.find((batch: Batch) => {
+        const batchForKey = batches.find((batch: Batch) => {
           return isKeyInRange(batch.min, batch.max, hashed);
         });
         batchForKey.operations.push(operation);
@@ -428,7 +428,7 @@ export class Items {
               partitionKeyRange: batch.rangeId,
               path,
               resourceId: this.container.url,
-              options
+              options,
             });
             response.result.forEach((operationResponse: OperationResponse, index: number) => {
               orderedResponses[batch.indexes[index]] = operationResponse;

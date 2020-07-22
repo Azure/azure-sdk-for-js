@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { CosmosHeaders } from "../index";
 
-interface ErrorBody {
+export interface ErrorBody {
   code: string;
   message: string;
   /**
@@ -23,7 +23,7 @@ export interface PartitionedQueryExecutionInfo {
 /**
  * @ignore
  */
-interface QueryRange {
+export interface QueryRange {
   min: string;
   max: string;
   isMinInclusive: boolean;

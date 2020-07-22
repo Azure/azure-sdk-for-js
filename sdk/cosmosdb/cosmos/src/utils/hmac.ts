@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { createHmac } from "crypto";
 
 export async function hmac(key: string, message: string) {

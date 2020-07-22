@@ -33,8 +33,8 @@ The following steps will help you setup the AAD credentials.
 ### Assign owner role to the registered application
 
 - In the Azure portal, go to your Azure Event Hubs namespace and assign the **Azure Event Hubs Data Owner** role to the registered application.
-- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Azure Event Hubs namespace in the Azure portal)<br>
-  _Doing this would allow the registered application manage the resource, i.e., entity creation, deletion, etc.,_<br>
+- This can be done from `Role assignment` section of `Access control (IAM)` tab (in the left-side-navbar of your Azure Event Hubs namespace in the Azure portal)  
+  _Doing this would allow the registered application manage the resource, i.e., entity creation, deletion, etc._
 - For more information on securing your Azure Event Hubs namespace: [Learn more](https://docs.microsoft.com/en-us/azure/event-hubs/authorize-access-event-hubs)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Fevent-hubs%2Ftest%2FREADME.png)

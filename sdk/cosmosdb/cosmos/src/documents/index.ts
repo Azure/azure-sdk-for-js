@@ -15,3 +15,4 @@ export * from "./PermissionMode";
 export * from "./TriggerOperation";
 export * from "./TriggerType";
 export * from "./UserDefinedFunctionType";
+export * from "./GeospatialType";

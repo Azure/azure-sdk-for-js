@@ -19,7 +19,7 @@ describe("ShareClient Node.js only", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setAccessPolicy", async () => {

@@ -36,7 +36,7 @@ describe("ContainerClient", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -63,6 +63,34 @@ describe("ContainerClient", () => {
     assert.ok(result.date);
     assert.ok(!result.blobPublicAccess);
     assert.ok(result.clientRequestId); // As default pipeline involves UniqueRequestIDPolicy
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await containerClient.createIfNotExists();
+    assert.equal(res.succeeded, false);
+    assert.equal(res.errorCode, "ContainerAlreadyExists");
+
+    const containerName2 = recorder.getUniqueName("container2");
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
+    const res2 = await containerClient2.createIfNotExists();
+    assert.equal(res2.succeeded, true);
+    assert.ok(res2.etag);
+
+    await containerClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const containerName2 = recorder.getUniqueName("container2");
+    const containerClient2 = blobServiceClient.getContainerClient(containerName2);
+    await containerClient2.create();
+    const res = await containerClient2.deleteIfExists();
+    assert.ok(res.succeeded);
+
+    const containerName3 = recorder.getUniqueName("container3");
+    const containerClient3 = blobServiceClient.getContainerClient(containerName3);
+    const res2 = await containerClient3.deleteIfExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "ContainerNotFound");
   });
 
   it("create with default parameters", (done) => {

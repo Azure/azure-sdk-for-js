@@ -292,7 +292,7 @@ export class SearchClient<T> {
     // Technically, we should also leverage nextLink, but the generated code
     // doesn't support this yet.
     while (result.continuationToken) {
-      const decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
+      const decodedContinuation = this.decodeContinuationToken(result.continuationToken);
       result = await this.searchDocuments(
         searchText,
         options,

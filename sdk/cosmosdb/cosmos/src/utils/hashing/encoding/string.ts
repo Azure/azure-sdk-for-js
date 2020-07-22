@@ -13,7 +13,9 @@ export function writeStringForBinaryEncoding(payload: string) {
     index++
   ) {
     let charByte = byteArray[index];
-    if (charByte < 0xff) charByte++;
+    if (charByte < 0xff) {
+      charByte++;
+    }
     outputStream = Buffer.concat([outputStream, Buffer.from(charByte.toString(16), "hex")]);
   }
 

@@ -144,3 +144,5 @@ export async function readStreamToLocalFile(
  * Promisified version of fs.stat().
  */
 export const fsStat = util.promisify(fs.stat);
+
+export const fsCreateReadStream = fs.createReadStream;

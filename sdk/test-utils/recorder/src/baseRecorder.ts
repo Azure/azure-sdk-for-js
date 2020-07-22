@@ -107,7 +107,7 @@ export abstract class BaseRecorder {
    * @memberof BaseRecorder
    */
   public abstract playback(environmentSetup: RecorderEnvironmentSetup, filePath: string): void;
-  public abstract stop(): void;
+  public abstract async stop(): Promise<void>;
 }
 
 export class NockRecorder extends BaseRecorder {
@@ -139,7 +139,7 @@ export class NockRecorder extends BaseRecorder {
     ).testInfo;
   }
 
-  public stop(): void {
+  public async stop(): Promise<void> {
     if (isRecordMode()) {
       // Importing "nock" library in the recording and appending the testInfo part in the recording
       const importNockStatement =
@@ -215,6 +215,7 @@ export class NockRecorder extends BaseRecorder {
 // This class overrides requests' 'open', 'send' and 'onreadystatechange' functions, adding our own code to them to deal with requests
 export class NiseRecorder extends BaseRecorder {
   private recordings: any[] = [];
+  private recordingInFlight: Promise<void>[] = [];
   private xhr: nise.FakeXMLHttpRequestStatic | undefined;
 
   constructor(hash: string, testSuiteTitle: string, testTitle: string) {
@@ -317,7 +318,7 @@ export class NiseRecorder extends BaseRecorder {
             // More info on readyState - https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/readyState
             if (req.readyState === 4) {
               // Record the request once the response is obtained
-              self.recordRequest(req, data);
+              self.recordingInFlight.push(self.recordRequest(req, data));
             }
             // Sometimes the client doesn't implement an 'onreadystatechange' function, so we need to make sure it exists before calling the original implementation
             if (reqStateChange) {
@@ -403,8 +404,9 @@ export class NiseRecorder extends BaseRecorder {
     };
   }
 
-  public stop(): void {
+  public async stop(): Promise<void> {
     if (isRecordMode()) {
+      await Promise.all(this.recordingInFlight);
       // recordings at this point are in the JSON format.
       this.recordings = this.filterSecrets(this.recordings);
 

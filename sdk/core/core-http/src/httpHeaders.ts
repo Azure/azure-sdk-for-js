@@ -4,7 +4,7 @@
 /**
  * A collection of HttpHeaders that can be sent with a HTTP request.
  */
-function getHeaderKey(headerName: string) {
+function getHeaderKey(headerName: string): string {
   return headerName.toLowerCase();
 }
 

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PartitionLoadBalancer } from "../partitionLoadBalancer";
 import { RetryOptions } from "@azure/core-amqp";
 import { SubscribeOptions } from "../eventHubConsumerClientModels";
+import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy";
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -40,7 +40,7 @@ export type OperationNames = "getEventHubProperties" | "getPartitionIds" | "getP
  * @internal
  * @ignore
  */
-export interface CommonEventProcessorOptions  // make the 'maxBatchSize', 'maxWaitTimeInSeconds', 'ownerLevel' fields required extends // for our internal classes (these are optional for external users)
+export interface CommonEventProcessorOptions
   extends Required<Pick<SubscribeOptions, "maxBatchSize" | "maxWaitTimeInSeconds">>,
     Pick<
       SubscribeOptions,
@@ -51,14 +51,9 @@ export interface CommonEventProcessorOptions  // make the 'maxBatchSize', 'maxWa
       >
     > {
   /**
-   * The amount of time to wait between each attempt at claiming partitions.
+   * A load balancing strategy that determines how to claim partitions.
    */
-  loopIntervalInMs?: number;
-
-  /**
-   * A load balancer to use to find targets or a specific partition to target.
-   */
-  processingTarget?: PartitionLoadBalancer | string;
+  loadBalancingStrategy: LoadBalancingStrategy;
 
   /**
    * An optional ownerId to use rather than using an internally generated ID

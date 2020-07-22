@@ -13,8 +13,8 @@ describe("QueueServiceClient", () => {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("listQueues with default parameters", async () => {
