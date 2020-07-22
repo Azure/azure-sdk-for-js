@@ -23,7 +23,10 @@ const logger = credentialLogger("VSCodeCredential");
  * Provides options to configure the Visual Studio Code credential.
  */
 export interface VSCodeCredentialOptions extends TokenCredentialOptions {
-    tenantId?: string;
+  /**
+   * Optionally pass in a Tenant ID to be used as part of the credential 
+   */
+  tenantId?: string;
 }
 
 /**
