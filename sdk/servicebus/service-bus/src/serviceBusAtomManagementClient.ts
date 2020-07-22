@@ -10,7 +10,6 @@ import {
 import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  getDefaultUserAgentValue,
   HttpOperationResponse,
   OperationOptions,
   ProxySettings,
@@ -252,7 +251,6 @@ export class ServiceBusManagementClient extends ServiceClient {
       },
       authPolicy
     );
-    serviceClientOptions.userAgent = `${userAgentPrefix} ${getDefaultUserAgentValue()}`;
     super(credentials, serviceClientOptions);
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
