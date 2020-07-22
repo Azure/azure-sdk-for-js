@@ -49,7 +49,7 @@ function getTypedObject(value: any, type: string): any {
   }
 }
 
-function deserialize(obj?: any): object | undefined {
+export function deserialize(obj?: any): object | undefined {
   if (obj === undefined) return undefined;
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {

@@ -43,7 +43,7 @@ import {
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
-import { serialize, deserializeObjectsArray } from "./serialization";
+import { serialize, deserialize, deserializeObjectsArray } from "./serialization";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -215,8 +215,8 @@ export class TableServiceClient {
       rowKey,
       options
     );
-    if (response.value !== undefined) {
-      response.value = deserializeObjectsArray(response.value) as any;
+    if (response._response.parsedBody !== undefined) {
+      response.value = deserialize(response._response.parsedBody) as any;
     }
     return response;
   }
