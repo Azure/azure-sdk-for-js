@@ -84,7 +84,7 @@ async function runScenario() {
 
 async function getSessionState(sessionId: string) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
     sessionId: sessionId
   });
 
@@ -116,7 +116,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) 
 
 async function processMessageFromSession(sessionId: string) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
     sessionId
   });
 
@@ -142,9 +142,7 @@ async function processMessageFromSession(sessionId: string) {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${
-        messages[0].body.event_details
-      }'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
     );
     await messages[0].complete();
   } else {
