@@ -68,21 +68,17 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
 /**
  * @internal
  * @ignore
- * Helper utility to retrieve rule `action` value from given input,
- * or undefined if not passed in.
+ * Helper utility to retrieve rule `action` value from given input.
  * @param value
  */
-function getRuleActionOrUndefined(value: any): SqlRuleAction | undefined {
-  if (value == undefined) {
-    return undefined;
-  } else {
-    return {
-      sqlExpression: value["SqlExpression"],
-      sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
-      compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
-      requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
-    };
-  }
+function getRuleAction(value: any): SqlRuleAction {
+  return {
+    sqlExpression: value["SqlExpression"],
+    sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
+    compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
+    requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
+  };
+}
 }
 
 /**
