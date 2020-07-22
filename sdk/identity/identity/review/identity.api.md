@@ -40,13 +40,9 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
 // @public
 export enum AzureAuthorityHosts {
-    // (undocumented)
     AzureChina = "https://login.chinacloudapi.cn",
-    // (undocumented)
     AzureGermany = "https://login.microsoftonline.de",
-    // (undocumented)
     AzureGovernment = "https://login.microsoftonline.us",
-    // (undocumented)
     AzurePublicCloud = "https://login.microsoftonline.com"
 }
 
@@ -90,7 +86,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
 // @public
 export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
-    // (undocumented)
     tenantId?: string;
 }
 
@@ -177,7 +172,6 @@ export class VSCodeCredential implements TokenCredential {
 
 // @public
 export interface VSCodeCredentialOptions extends TokenCredentialOptions {
-    // (undocumented)
     tenantId?: string;
 }
 
