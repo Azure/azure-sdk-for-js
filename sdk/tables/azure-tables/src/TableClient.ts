@@ -127,7 +127,7 @@ export class TableClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  getEntity(
+  public getEntity(
     partitionKey: string,
     rowKey: string,
     options?: GetEntityOptions
@@ -140,7 +140,7 @@ export class TableClient {
    * @param query The OData query parameters.
    * @param options The options parameters.
    */
-  listEntities(
+  public listEntities(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
     options?: ListEntitiesOptions
@@ -153,7 +153,10 @@ export class TableClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  createEntity(entity: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse> {
+  public createEntity(
+    entity: Entity,
+    options?: CreateEntityOptions
+  ): Promise<CreateEntityResponse> {
     return this.client.createEntity(this.tableName, entity, options);
   }
 
@@ -166,7 +169,7 @@ export class TableClient {
    *                (*).
    * @param options The options parameters.
    */
-  deleteEntity(
+  public deleteEntity(
     partitionKey: string,
     rowKey: string,
     ifMatch: string,
@@ -181,7 +184,7 @@ export class TableClient {
    * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
    * @param options The options parameters.
    */
-  updateEntity(
+  public updateEntity(
     entity: Entity,
     ifMatch?: string,
     options?: UpdateEntityOptions
@@ -195,7 +198,7 @@ export class TableClient {
    * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a merge will be performed if an existing entity is found.
    * @param options The options parameters.
    */
-  mergeEntity(
+  public mergeEntity(
     entity: Entity,
     ifMatch?: string,
     options?: MergeEntityOptions
@@ -208,7 +211,7 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options The options parameters.
    */
-  getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse> {
+  public getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse> {
     return this.client.getAccessPolicy(this.tableName, options);
   }
 
@@ -217,7 +220,7 @@ export class TableClient {
    * @param acl The Access Control List for the table.
    * @param options The options parameters.
    */
-  setAccessPolicy(
+  public setAccessPolicy(
     acl?: SignedIdentifier[],
     options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
