@@ -9,8 +9,9 @@
   "scripts": {
     "clean": "rimraf dist-esm types dist",
     "build:browser": "echo skipped",
-    "build:node": "tsc -p .",
-    "build": "tsc -p .",
+    "build:node": "echo skipped",
+    "build": "echo skipped",
+    "compile": "tsc -p .",
     "lint": "eslint . --ext .ts",
     "test": "c8 ts-mocha -p ./tsconfig.json 'test/**/*.test.ts'",
     "test:node": "c8 ts-mocha -p ./tsconfig.json 'test/**/*.test.ts'",
