@@ -102,4 +102,5 @@ describe("Certificates client - lro - delete", () => {
 
     await testClient.purgeCertificate(certificateName);
   });
+
 });

@@ -70,11 +70,7 @@ describe("Certificates client - list certificates in various ways", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      const createPoller = await client.beginCreateCertificate(
-        name,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
+      const createPoller = await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
       await createPoller.pollUntilDone();
     }
 
@@ -96,11 +92,7 @@ describe("Certificates client - list certificates in various ways", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      const createPoller = await client.beginCreateCertificate(
-        name,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
+      const createPoller = await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
       await createPoller.pollUntilDone();
     }
     for (const name of certificateNames) {
@@ -126,11 +118,7 @@ describe("Certificates client - list certificates in various ways", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      const createPoller = await client.beginCreateCertificate(
-        name,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
+      const createPoller = await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
       await createPoller.pollUntilDone();
     }
     let found = 0;
@@ -163,11 +151,7 @@ describe("Certificates client - list certificates in various ways", () => {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     for (const name of certificateNames) {
-      const createPoller = await client.beginCreateCertificate(
-        name,
-        basicCertificatePolicy,
-        testPollerProperties
-      );
+      const createPoller = await client.beginCreateCertificate(name, basicCertificatePolicy, testPollerProperties);
       await createPoller.pollUntilDone();
     }
     for (const name of certificateNames) {
