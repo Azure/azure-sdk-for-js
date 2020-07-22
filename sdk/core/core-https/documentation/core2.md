@@ -33,7 +33,7 @@ As the JS team has gained experience shipping track 2 client libraries, we reali
 
 ### Separation of Concerns
 
-One major goal of this work is to decompose the library into three separate packages: `@azure/core-https`, `@azure/core-client`, and `@azure/core-xml`. This is to enable smaller dependency graphs and bundles for individual client libraries.
+One major goal of this work is to split the library into three separate packages: `@azure/core-https`, `@azure/core-client`, and `@azure/core-xml`. This is to enable smaller dependency graphs and bundles for individual client libraries.
 
 The first package, `@azure/core-https` will not be AutoRest-specific and is intended to be usable by any client that wants to make requests using a pipeline in a way that follows our SDK design guidelines.
 
