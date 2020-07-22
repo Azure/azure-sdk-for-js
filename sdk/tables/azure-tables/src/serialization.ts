@@ -42,7 +42,8 @@ function getTypedObject(value: any, type: string): any {
   }
 }
 
-export function deserialize(obj: any): object {
+function deserialize(obj?: any): object | undefined {
+  if (obj === undefined) return undefined;
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.indexOf("@odata.type") === -1) {
@@ -52,4 +53,8 @@ export function deserialize(obj: any): object {
     }
   }
   return deserialized;
+}
+
+export function deserializeObjectsArray(objArray?: object[]): (object | undefined)[] | undefined {
+  return objArray?.map((obj) => deserialize(obj));
 }
