@@ -2,7 +2,7 @@ import { doubleToByteArrayJSBI, writeNumberForBinaryEncodingJSBI } from "./encod
 import { writeStringForBinaryEncoding } from "./encoding/string";
 import { BytePrefix } from "./encoding/prefix";
 // tslint:disable-next-line
-const MurmurHash = require("./murmurHash").default;
+import MurmurHash from "./murmurHash";
 
 const MAX_STRING_CHARS = 100;
 

@@ -1,7 +1,7 @@
 import { doubleToByteArrayJSBI } from "./encoding/number";
 import { BytePrefix } from "./encoding/prefix";
 // tslint:disable-next-line
-const MurmurHash = require("./murmurHash").default;
+import MurmurHash from "./murmurHash";
 
 type v2Key = string | number | null | {} | undefined;
 
