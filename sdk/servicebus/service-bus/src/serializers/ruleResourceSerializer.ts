@@ -28,7 +28,7 @@ export function buildRule(rawRule: any): RuleProperties {
   return {
     name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),
-    action: getRuleActionOrUndefined(rawRule["Action"])
+    action: getRuleAction(rawRule["Action"])
   };
 }
 
@@ -79,12 +79,11 @@ function getRuleAction(value: any): SqlRuleAction {
     requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
   };
 }
-}
 
 /**
- * Represents all attributes of a rule entity
+ * Represents the options to create a rule for a subscription.
  */
-export interface RuleProperties {
+export interface CreateRuleOptions {
   /**
    * Name of the rule
    */
@@ -103,6 +102,30 @@ export interface RuleProperties {
    * associated filter apply.
    */
   action?: SqlRuleAction;
+}
+
+/**
+ * Represents all the attributes of a rule.
+ */
+export interface RuleProperties {
+  /**
+   * Name of the rule
+   */
+  readonly name: string;
+
+  /**
+   * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
+   * the expression string is interpreted as a SQL92 expression which must
+   * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+   * a `SqlRuleFilter` can be defined.
+   */
+  filter: SqlRuleFilter | CorrelationRuleFilter;
+
+  /**
+   * The SQL like expression that can be executed on the message should the
+   * associated filter apply.
+   */
+  action: SqlRuleAction;
 }
 
 /**
