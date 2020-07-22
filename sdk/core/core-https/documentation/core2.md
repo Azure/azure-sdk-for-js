@@ -12,7 +12,7 @@ In ancient times (~5 years ago), Microsoft provided SDKs for NodeJS developers w
 
 Another package `ms-rest-azure` was created to house Azure-specific components and authetication code that worked with a variety of credentials like Service Principal, Device Token, Managed Identity etc. At this point, support for TypeScript came in the form of hand-authored type declaration files.
 
-Later, there emerged a desire for isomorphic packages, packages that worked in both the browser as well as Node. As part of this effort, code was to be generated in TypeScript directly and a new repo was created: `azure-sdk-for-js`.
+Later, there emerged a desire for isomorphic packages, packages that worked in both the browser as well as Node. This required a new runtime and code generator. As part of this effort, code was generated in TypeScript directly and a new repo was created: `azure-sdk-for-js`.
 
 A new code generator was created (`autorest.typescript`) that replaced the existing one (`autorest.nodejs`.) `ms-rest` became `@azure/ms-rest-js`. The authentication pieces from `@ms-rest-azure` were put into `@azure/ms-rest-nodeauth` and an equivalent package was created for the browser called `@azure/ms-rest-browserauth`. All remaining parts of `ms-rest-azure` were placed into `@azure/ms-rest-azure-js`.
 
