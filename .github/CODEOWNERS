@@ -9,35 +9,68 @@
 /sdk/ @ramya-rao-a
 
 # Core
-/sdk/core/abort-controller/ @chradek @xirzec @bterlson                               %Azure.Core
-/sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru          %Azure.Core
-/sdk/core/core-auth/ @daviwil @xirzec @bterlson                                      %Azure.Core
-/sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng                 %Azure.Core
-/sdk/core/core-lro/ @sadasant @xirzec @bterlson                                      %Azure.Core
-/sdk/core/core-paging/ @daviwil @xirzec @bterlson                                    %Azure.Core
-/sdk/core/core-tracing/ @xirzec @bterlson @chradek                                   %Azure.Core
-/sdk/core/logger @xirzec @bterlson @chradek                                          %Azure.Core
+# PRLabel: %Azure.Core
+/sdk/core/abort-controller/ @chradek @xirzec @bterlson
+
+# PRLabel: %Azure.Core
+/sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+
+# PRLabel: %Azure.Core
+/sdk/core/core-auth/ @daviwil @xirzec @bterlson
+
+# PRLabel: %Azure.Core
+/sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
+
+# PRLabel: %Azure.Core
+/sdk/core/core-lro/ @sadasant @xirzec @bterlson
+
+# PRLabel: %Azure.Core
+/sdk/core/core-paging/ @daviwil @xirzec @bterlson
+
+# PRLabel: %Azure.Core
+/sdk/core/core-tracing/ @xirzec @bterlson @chradek
+
+# PRLabel: %Azure.Core
+/sdk/core/logger @xirzec @bterlson @chradek
 
 # Service teams
-/sdk/appconfiguration/ @richardpark-msft @chradek                                    %AzConfig
+# PRLabel: %AzConfig
+/sdk/appconfiguration/ @richardpark-msft @chradek
 
-/sdk/batch/ @xingwu1 @matthchr @bgklein                                              %Batch
-/sdk/cosmosdb/ @southpolesteve @zfoster                                              %Cosmos
+# PRLabel: %Batch
+/sdk/batch/ @xingwu1 @matthchr @bgklein
 
-/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru                %Event Hubs
-/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru              %Service Bus
+# PRLabel: %Cosmos
+/sdk/cosmosdb/ @southpolesteve @zfoster
 
-/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant                          %Azure.Identity
-/sdk/keyvault/ @jonathandturner @sadasant                                            %KeyVault
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377  %Storage
+# PRLabel: %Event Hubs
+/sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
-/sdk/tables/ @mahdiva @joheredi                                                      %Tables
+# PRLabel: %Service Bus
+/sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+
+# PRLabel: %Azure.Identity
+/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
+
+# PRLabel: %KeyVault
+/sdk/keyvault/ @jonathandturner @sadasant
+
+# PRLabel: %Storage
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377  
+
+# PRLabel: %Tables
+/sdk/tables/ @mahdiva @joheredi
 
 /sdk/test-utils/ @HarshaNalluru @sadasant
-/sdk/textanalytics/ @xirzec @willmtemple                                             %Cognitive - Text Analytics
-/sdk/formrecognizer/ @jeremymeng @willmtemple                                        %Cognitive - Form Recognizer
 
-/sdk/search/ @xirzec @sarangan12                                                     %Search
+# PRLabel: %Cognitive - Text Analytics
+/sdk/textanalytics/ @xirzec @willmtemple
+
+# PRLabel: %Cognitive - Form Recognizer
+/sdk/formrecognizer/ @jeremymeng @willmtemple
+
+# PRLabel: %Search
+/sdk/search/ @xirzec @sarangan12
 
 # Smoke Tests
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
