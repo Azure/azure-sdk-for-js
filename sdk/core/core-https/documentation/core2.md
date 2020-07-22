@@ -18,7 +18,7 @@ A new code generator was created (`autorest.typescript`) that replaced the exist
 
 `@azure/ms-rest-js` was used as the basis for `@azure/core-http` when the JS team for the new Azure SDK was formed. This was nice as it bootstrapped the ability to make HTTP requests and provided broad compatibility with many track 1 clients that still exist in the `@azure/sdk-for-js` repository today.
 
-The downside is that much of the code had evolved organically over time, experienced incomplete upgrades to various layers, and had dead code that wasn't really needed anymore. We mitigated this during the 1.0 GA timeframe by manually declaring cleaner public interfaces (e.g. `OperationOptions` over `RequestOptionsBase`) but many of the internal interfaces were still messy, loosely typed, or confusing.
+The downside is that much of the code had evolved organically over time, experienced incomplete upgrades to various layers, and had dead code that wasn't really needed anymore. We mitigated this during the 1.0 GA timeframe in Nov 2020 by manually declaring cleaner public interfaces (e.g. `OperationOptions` over `RequestOptionsBase`) but many of the internal interfaces were still messy, loosely typed, or confusing.
 
 As the JS team has gained experience shipping track 2 client libraries, we realized that the technical debt accumulated in `@azure/core-http` was costing us in terms of maintainability and performance. After multiple internal discussions about what exactly needed to change in order to move forward, a plan emerged to modernize `@azure/core-http` and give us a more robust core to build upon.
 
