@@ -20,20 +20,36 @@ const VSCodeUserName = "VS Code Azure";
 const logger = credentialLogger("VSCodeCredential");
 
 /**
+ * Provides options to configure the Visual Studio Code credential.
+ */
+export interface VSCodeCredentialOptions extends TokenCredentialOptions {
+  /**
+   * Optionally pass in a Tenant ID to be used as part of the credential 
+   */
+  tenantId?: string;
+}
+
+/**
  * Connect to Azure using the credential provided by the VSCode extension 'Azure Account'.
  * Once the user has logged in via the extension, this credential can share the same refresh token
  * that is cached by the extension.
  */
 export class VSCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
+  private tenantId: string;
 
   /**
    * Creates an instance of VSCodeCredential to use for automatically authenticating via VSCode.
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  constructor(options?: TokenCredentialOptions) {
+  constructor(options?: VSCodeCredentialOptions) {
     this.identityClient = new IdentityClient(options);
+    if (options && options.tenantId) {
+      this.tenantId = options.tenantId;
+    } else {
+      this.tenantId = CommonTenantId;
+    }
   }
 
   /**
@@ -70,7 +86,7 @@ export class VSCodeCredential implements TokenCredential {
     let refreshToken = await keytar.findPassword(VSCodeUserName);
     if (refreshToken) {
       let tokenResponse = await this.identityClient.refreshAccessToken(
-        CommonTenantId,
+        this.tenantId,
         AzureAccountClientId,
         scopeString,
         refreshToken,
