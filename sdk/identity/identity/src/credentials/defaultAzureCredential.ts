@@ -38,10 +38,8 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     credentials.push(new AzureCliCredential());
     credentials.push(new VSCodeCredential(tokenCredentialOptions));
 
-    super(
-      ...credentials
-    );
+    super(...credentials);
     this.UnavailableMessage =
-      "DefaultAzureCredential failed to retrieve a token from the included credentials";
+      "DefaultAzureCredential => failed to retrieve a token from the included credentials";
   }
 }

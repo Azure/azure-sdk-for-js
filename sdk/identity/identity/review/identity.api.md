@@ -5,6 +5,7 @@
 ```ts
 
 import { AccessToken } from '@azure/core-http';
+import { AzureLogger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -13,7 +14,7 @@ export { AccessToken }
 
 // @public
 export class AggregateAuthenticationError extends Error {
-    constructor(errors: any[], errMsg?: string);
+    constructor(errors: any[], errorMessage?: string);
     errors: any[];
 }
 
@@ -116,7 +117,7 @@ export { GetTokenOptions }
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-}
+    }
 
 // @public
 export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
@@ -140,7 +141,7 @@ export enum KnownAuthorityHosts {
 }
 
 // @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public
 export class ManagedIdentityCredential implements TokenCredential {

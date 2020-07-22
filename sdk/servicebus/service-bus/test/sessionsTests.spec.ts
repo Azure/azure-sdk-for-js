@@ -398,9 +398,6 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     // Simulate a disconnect being called with a non-retryable error.
     (receiver as any)["_context"].namespace.connection["_connection"].idle();
 
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSessionSample());
     console.log("Waiting for 2nd message");
