@@ -2,6 +2,7 @@
 
 ## 3.7.5 (Unreleased)
 
+- FEATURE: Throws when initializing ClientContext with an invalid endpoint
 
 ## 3.7.4 (2020-6-30)
 
