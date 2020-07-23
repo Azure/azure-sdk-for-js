@@ -175,6 +175,7 @@ if ($ProvisionerApplicationId) {
         }
     }
 }
+
 # Set standard environment variables from configuration
 $azContext = Get-AzContext;
 $environmentVariables['AZURE_AUTHORITY_HOST'] = $azContext.Environment.ActiveDirectoryAuthority
