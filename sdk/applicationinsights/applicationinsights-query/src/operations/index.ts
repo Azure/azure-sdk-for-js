@@ -11,3 +11,4 @@
 export * from "./metrics";
 export * from "./events";
 export * from "./query";
+export * from "./metadata";

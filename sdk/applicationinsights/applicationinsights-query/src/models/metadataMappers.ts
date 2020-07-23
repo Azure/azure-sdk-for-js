@@ -11,10 +11,10 @@ export {
   ErrorDetail,
   ErrorInfo,
   ErrorResponse,
-  MetricsPostBodySchema,
-  MetricsPostBodySchemaParameters,
-  MetricsResult,
-  MetricsResultInfo,
-  MetricsResultsItem,
-  MetricsSegmentInfo
+  MetadataApplication,
+  MetadataFunction,
+  MetadataResults,
+  MetadataTable,
+  MetadataTableColumnsItem,
+  MetadataTableGroup
 } from "../models/mappers";
