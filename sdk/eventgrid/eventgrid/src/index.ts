@@ -21,6 +21,11 @@ export {
 export { EventGridConsumer, EventGridConsumerOptions } from "./consumer";
 
 export {
+  generateSharedAccessSignature,
+  GenerateSharedAccessSignatureOptions
+} from "./generateSharedAccessSignature";
+
+export {
   EventHubCaptureFileCreatedEventData,
   ContainerRegistryArtifactEventTarget,
   ContainerRegistryEventData,

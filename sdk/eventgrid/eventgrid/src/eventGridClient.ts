@@ -11,13 +11,11 @@ import {
 
 import { v4 as uuidv4 } from "uuid";
 
-import { hmac } from "./utils/hmac";
 import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { CloudEvent, EventGridEvent } from "./models";
-import { dateToServiceTimeString, isKeyCredentialLike } from "./util";
 
 /**
  * Options for the Event Grid Client.
@@ -59,12 +57,6 @@ export class EventGridPublisherClient {
   private readonly client: GeneratedClient;
 
   /**
-   * The credential used to construct the client, when it is constructed with a shared key instead of a
-   * signature.
-   */
-  private readonly keyCredential?: KeyCredential;
-
-  /**
    * Creates an instance of EventGridPublisherClient.
    *
    * Example usage:
@@ -87,12 +79,6 @@ export class EventGridPublisherClient {
     options: EventGridPublisherClientOptions = {}
   ) {
     this.endpointUrl = endpointUrl;
-
-    // If the user suplied a key credential (instead of a signature credential), save it on the client so we can generate
-    // SAS tokens with `generateSharedAccessSignature`.
-    if (isKeyCredentialLike(credential)) {
-      this.keyCredential = credential;
-    }
 
     const libInfo = `azsdk-js-eventgrid/${SDK_VERSION}`;
     const pipelineOptions = { ...options };
@@ -173,27 +159,5 @@ export class EventGridPublisherClient {
     options?: SendCustomSchemaEventsOptions
   ): Promise<RestResponse> {
     return this.client.publishCustomEventEvents(this.endpointUrl, events, options);
-  }
-
-  /**
-   * Generate a shared access signature, which allows a client to send events to an Event Grid Topic for a limited period of time. This
-   * function may only be called when the EventGridPublisherClient was constructed with a KeyCredential instance.
-   *
-   * @param expiresOn The time at which the shared signature is no longer valid.
-   */
-  async generateSharedAccessSignature(expiresOnUtc: Date): Promise<string> {
-    if (!this.keyCredential) {
-      throw new Error(
-        "generateSharedAccessSignature may only be called when the client is constructed with a key credential"
-      );
-    }
-
-    const expiresOnString = dateToServiceTimeString(expiresOnUtc);
-    const unsignedSas = `r=${encodeURIComponent(
-      `${this.endpointUrl}?apiVersion=${this.apiVersion}`
-    )}&e=${encodeURIComponent(expiresOnString)}`;
-    return hmac(this.keyCredential!.key, unsignedSas).then(
-      (digest) => `${unsignedSas}&s=${encodeURIComponent(digest)}`
-    );
   }
 }

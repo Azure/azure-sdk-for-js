@@ -90,15 +90,17 @@ const client = new EventGridPublisherClient(
 );
 ```
 
-You can generate a SAS token by using the `generateSharedAccessSigniture` instance method on the `EventGridPublisherClient` type. Because the Topic's Access Key is used as part of generating the SAS token, you need to create the `EventGridPublisherClient` using an Access Key:
+You can generate a SAS token by using the `generateSharedAccessSigniture` function.
 
 ```js
-const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
-
-const client = new EventGridPublisherClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const { generateSharedAccessSignature, AzureKeyCredential } = require("@azure/eventgrid");
 
 // Create a SAS Token which expires on 2020-01-01 at Midnight.
-const token = client.generateSharedAccessSignature(new Date(2020, 0, 1, 0, 0, 0));
+const token = generateSharedAccessSignature(
+  "<endpoint>",
+  new AzureKeyCredential("<API key>"),
+  new Date(2020, 0, 1, 0, 0, 0)
+);
 ```
 
 ## Key concepts
