@@ -81,7 +81,7 @@ export async function main() {
   const downloadBlockBlobResponse: BlobDownloadResponseModel = await blockBlobClient.download(0);
   console.log(
     "Downloaded blob content",
-    await streamToString(downloadBlockBlobResponse.readableStreamBody!)
+    (await streamToBuffer(downloadBlockBlobResponse.readableStreamBody!)).toString()
   );
 
   // Delete container
@@ -91,14 +91,14 @@ export async function main() {
 }
 
 // A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream: NodeJS.ReadableStream) {
+async function streamToBuffer(readableStream: NodeJS.ReadableStream) {
   return new Promise((resolve, reject) => {
-    const chunks: string[] = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+    let buffer: Buffer;
+    readableStream.on("data", (data: Buffer) => {
+      buffer = buffer ? Buffer.concat([buffer, data]) : data;
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(buffer);
     });
     readableStream.on("error", reject);
   });
