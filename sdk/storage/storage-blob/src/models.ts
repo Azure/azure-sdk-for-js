@@ -46,6 +46,27 @@ export interface AppendBlobRequestConditions
     AppendPositionAccessConditions {}
 
 /**
+ * Specifies HTTP options for conditional requests based on modification time.
+ */
+export interface ModifiedCondition {
+  /**
+   * Specify this header value to operate only on a blob if it has been modified since the
+   * specified date/time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * Specify this header value to operate only on a blob if it has not been modified since the
+   * specified date/time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Conditions to meet for the container.
+ */
+export interface ContainerRequestConditions extends LeaseAccessConditions, ModifiedCondition {}
+
+/**
  * Represents the access tier on a blob.
  * For detailed information about block blob level tiering see {@link https://docs.microsoft.com/azure/storage/blobs/storage-blob-storage-tiers|Hot, cool and archive storage tiers.}
  */

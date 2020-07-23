@@ -97,7 +97,8 @@ import {
   Tags,
   PageBlobRequestConditions,
   PremiumPageBlobTier,
-  toAccessTier
+  toAccessTier,
+  ContainerRequestConditions
 } from "./models";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
@@ -5808,6 +5809,7 @@ export class BlobLeaseClient {
   private _leaseId: string;
   private _url: string;
   private _containerOrBlobOperation: Container | StorageBlob;
+  private _isContainer: boolean;
 
   /**
    * Gets the lease Id.
@@ -5845,8 +5847,10 @@ export class BlobLeaseClient {
     this._url = client.url;
 
     if (client instanceof ContainerClient) {
+      this._isContainer = true;
       this._containerOrBlobOperation = new Container(clientContext);
     } else {
+      this._isContainer = false;
       this._containerOrBlobOperation = new StorageBlob(clientContext);
     }
 
@@ -5877,6 +5881,18 @@ export class BlobLeaseClient {
       "BlobLeaseClient-acquireLease",
       options.tracingOptions
     );
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.ifTags)
+    ) {
+      throw new RangeError(
+        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+      );
+    }
+
     try {
       return await this._containerOrBlobOperation.acquireLease({
         abortSignal: options.abortSignal,
@@ -5912,6 +5928,18 @@ export class BlobLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan("BlobLeaseClient-changeLease", options.tracingOptions);
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.ifTags)
+    ) {
+      throw new RangeError(
+        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+      );
+    }
+
     try {
       const response = await this._containerOrBlobOperation.changeLease(
         this._leaseId,
@@ -5951,6 +5979,18 @@ export class BlobLeaseClient {
       "BlobLeaseClient-releaseLease",
       options.tracingOptions
     );
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.ifTags)
+    ) {
+      throw new RangeError(
+        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+      );
+    }
+
     try {
       return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
@@ -5980,6 +6020,18 @@ export class BlobLeaseClient {
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
     const { span, spanOptions } = createSpan("BlobLeaseClient-renewLease", options.tracingOptions);
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.ifTags)
+    ) {
+      throw new RangeError(
+        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+      );
+    }
+
     try {
       return await this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
@@ -6015,6 +6067,18 @@ export class BlobLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan("BlobLeaseClient-breakLease", options.tracingOptions);
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.ifTags)
+    ) {
+      throw new RangeError(
+        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+      );
+    }
+
     try {
       const operationOptions: ContainerBreakLeaseOptionalParams = {
         abortSignal: options.abortSignal,
@@ -6118,10 +6182,10 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
   /**
    * Conditions to meet when deleting the container.
    *
-   * @type {BlobRequestConditions}
+   * @type {ContainerRequestConditions}
    * @memberof ContainerDeleteMethodOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: ContainerRequestConditions;
 }
 
 /**
@@ -6160,10 +6224,10 @@ export interface ContainerSetMetadataOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {BlobRequestConditions}
+   * @type {ContainerRequestConditions}
    * @memberof ContainerSetMetadataOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: ContainerRequestConditions;
 }
 
 /**
@@ -6265,10 +6329,10 @@ export interface ContainerSetAccessPolicyOptions extends CommonOptions {
   /**
    * Conditions to meet when setting the access policy.
    *
-   * @type {BlobRequestConditions}
+   * @type {ContainerRequestConditions}
    * @memberof ContainerSetAccessPolicyOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: ContainerRequestConditions;
 }
 
 /**
@@ -7043,18 +7107,7 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    if (
-      (options.conditions.ifMatch && options.conditions.ifMatch !== ETagNone) ||
-      (options.conditions.ifNoneMatch && options.conditions.ifNoneMatch !== ETagNone)
-    ) {
-      throw new RangeError(
-        "the IfMatch and IfNoneMatch access conditions must have their default\
-        values because they are ignored by the service"
-      );
-    }
-
     const { span, spanOptions } = createSpan("ContainerClient-delete", options.tracingOptions);
-
     try {
       return await this.containerContext.deleteMethod({
         abortSignal: options.abortSignal,
@@ -7143,14 +7196,9 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    if (
-      options.conditions.ifUnmodifiedSince ||
-      (options.conditions.ifMatch && options.conditions.ifMatch !== ETagNone) ||
-      (options.conditions.ifNoneMatch && options.conditions.ifNoneMatch !== ETagNone)
-    ) {
+    if (options.conditions.ifUnmodifiedSince) {
       throw new RangeError(
-        "the IfUnmodifiedSince, IfMatch, and IfNoneMatch must have their default values\
-        because they are ignored by the blob service"
+        "the IfUnmodifiedSince must have their default values because they are ignored by the blob service"
       );
     }
 
