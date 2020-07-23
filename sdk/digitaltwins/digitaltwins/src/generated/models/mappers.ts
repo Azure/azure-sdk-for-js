@@ -319,7 +319,7 @@ export const DigitalTwinsGetByIdHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DigitalTwinsGetByIdHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -335,7 +335,7 @@ export const DigitalTwinsAddHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DigitalTwinsAddHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -351,7 +351,7 @@ export const DigitalTwinsUpdateHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DigitalTwinsUpdateHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -367,7 +367,7 @@ export const DigitalTwinsGetRelationshipByIdHeaders: coreHttp.CompositeMapper = 
     name: "Composite",
     className: "DigitalTwinsGetRelationshipByIdHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -383,7 +383,7 @@ export const DigitalTwinsAddRelationshipHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DigitalTwinsAddRelationshipHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -399,7 +399,7 @@ export const DigitalTwinsUpdateRelationshipHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DigitalTwinsUpdateRelationshipHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -415,7 +415,7 @@ export const DigitalTwinsGetComponentHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DigitalTwinsGetComponentHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"
@@ -431,7 +431,7 @@ export const DigitalTwinsUpdateComponentHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "DigitalTwinsUpdateComponentHeaders",
     modelProperties: {
-      eTag: {
+      etag: {
         serializedName: "etag",
         type: {
           name: "String"

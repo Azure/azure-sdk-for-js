@@ -407,7 +407,7 @@ export interface DigitalTwinsGetByIdHeaders {
   /**
    * Weak Etag.
    */
-  eTag: string;
+  etag: string;
 }
 
 /**
@@ -417,7 +417,7 @@ export interface DigitalTwinsAddHeaders {
   /**
    * Weak Etag.
    */
-  eTag: string;
+  etag: string;
 }
 
 /**
@@ -427,7 +427,7 @@ export interface DigitalTwinsUpdateHeaders {
   /**
    * Weak Etag.
    */
-  eTag: string;
+  etag: string;
 }
 
 /**
@@ -437,7 +437,7 @@ export interface DigitalTwinsGetRelationshipByIdHeaders {
   /**
    * Weak Etag.
    */
-  eTag: string;
+  etag: string;
 }
 
 /**
@@ -447,7 +447,7 @@ export interface DigitalTwinsAddRelationshipHeaders {
   /**
    * Weak Etag.
    */
-  eTag: string;
+  etag: string;
 }
 
 /**
@@ -457,7 +457,7 @@ export interface DigitalTwinsUpdateRelationshipHeaders {
   /**
    * Weak Etag.
    */
-  eTag: string;
+  etag: string;
 }
 
 /**
@@ -467,7 +467,7 @@ export interface DigitalTwinsGetComponentHeaders {
   /**
    * Weak Etag.
    */
-  eTag: string;
+  etag: string;
 }
 
 /**
@@ -477,7 +477,7 @@ export interface DigitalTwinsUpdateComponentHeaders {
   /**
    * Weak Etag.
    */
-  eTag: string;
+  etag: string;
 }
 
 /**

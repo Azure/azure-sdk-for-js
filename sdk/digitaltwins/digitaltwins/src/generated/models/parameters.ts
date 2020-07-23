@@ -20,18 +20,6 @@ export const acceptLanguage: coreHttp.OperationParameter = {
     }
   }
 };
-export const apiVersion: coreHttp.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2020-05-31-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
 export const componentPath: coreHttp.OperationURLParameter = {
   parameterPath: "componentPath",
   mapper: {

@@ -9,7 +9,7 @@ import {
 } from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { v4 } from "uuid";
-import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/src/azureDigitalTwinsAPI";
+import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
 import {
   AzureDigitalTwinsAPIOptions,
   DigitalTwinsGetByIdResponse,
@@ -46,7 +46,7 @@ import {
   EventRoutesAddOptionalParams,
   QueryQueryTwinsResponse,
   QuerySpecification,
-} from "./generated/src/models";
+} from "./generated/models";
 
 /**
  * Client for Azure IoT DigitalTwins API.
@@ -828,4 +828,4 @@ export {
   QueryQueryTwinsResponse,
   QueryResult,
   QuerySpecification,
-} from "./generated/src/models";
+} from "./generated/models";

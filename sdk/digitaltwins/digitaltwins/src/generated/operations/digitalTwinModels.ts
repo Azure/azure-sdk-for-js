@@ -221,9 +221,6 @@ const serializer = new coreHttp.Serializer(Mappers);
 const addOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "models",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
@@ -275,8 +272,7 @@ const listOperationSpec: coreHttp.OperationSpec = {
   path: "models",
   queryParameters: [
     Parameters.dependenciesFor,
-    Parameters.includeModelDefinition,
-    Parameters.apiVersion
+    Parameters.includeModelDefinition
   ],
   headerParameters: [
     Parameters.acceptLanguage,
@@ -300,8 +296,7 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
     Parameters.id
   ],
   queryParameters: [
-    Parameters.includeModelDefinition,
-    Parameters.apiVersion
+    Parameters.includeModelDefinition
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -322,9 +317,6 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   path: "models/{id}",
   urlParameters: [
     Parameters.id
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -359,9 +351,6 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   path: "models/{id}",
   urlParameters: [
     Parameters.id
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

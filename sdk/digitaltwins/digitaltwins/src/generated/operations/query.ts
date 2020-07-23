@@ -63,9 +63,6 @@ const serializer = new coreHttp.Serializer(Mappers);
 const queryTwinsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   path: "query",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.acceptLanguage
   ],

@@ -625,9 +625,6 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.id
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
@@ -654,9 +651,6 @@ const addOperationSpec: coreHttp.OperationSpec = {
   path: "digitaltwins/{id}",
   urlParameters: [
     Parameters.id
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifNoneMatch,
@@ -699,9 +693,6 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.id
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.ifMatch,
     Parameters.acceptLanguage
@@ -720,9 +711,6 @@ const updateOperationSpec: coreHttp.OperationSpec = {
   path: "digitaltwins/{id}",
   urlParameters: [
     Parameters.id
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -766,9 +754,6 @@ const getRelationshipByIdOperationSpec: coreHttp.OperationSpec = {
     Parameters.id,
     Parameters.relationshipId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
@@ -796,9 +781,6 @@ const addRelationshipOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.id,
     Parameters.relationshipId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifNoneMatch,
@@ -841,9 +823,6 @@ const deleteRelationshipOperationSpec: coreHttp.OperationSpec = {
     Parameters.id,
     Parameters.relationshipId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.ifMatch,
     Parameters.acceptLanguage
@@ -863,9 +842,6 @@ const updateRelationshipOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.id,
     Parameters.relationshipId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -908,8 +884,7 @@ const listRelationshipsOperationSpec: coreHttp.OperationSpec = {
     Parameters.id
   ],
   queryParameters: [
-    Parameters.relationshipName,
-    Parameters.apiVersion
+    Parameters.relationshipName
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -931,9 +906,6 @@ const listIncomingRelationshipsOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.id
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
@@ -953,9 +925,6 @@ const sendTelemetryOperationSpec: coreHttp.OperationSpec = {
   path: "digitaltwins/{id}/telemetry",
   urlParameters: [
     Parameters.id
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.dtId,
@@ -988,9 +957,6 @@ const sendComponentTelemetryOperationSpec: coreHttp.OperationSpec = {
     Parameters.id,
     Parameters.componentPath
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.dtId,
     Parameters.dtTimestamp,
@@ -1022,9 +988,6 @@ const getComponentOperationSpec: coreHttp.OperationSpec = {
     Parameters.id,
     Parameters.componentPath
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
@@ -1052,9 +1015,6 @@ const updateComponentOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.id,
     Parameters.componentPath
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.ifMatch,

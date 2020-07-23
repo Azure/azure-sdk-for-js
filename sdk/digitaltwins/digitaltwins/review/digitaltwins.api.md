@@ -62,7 +62,7 @@ export type DigitalTwinModelsListResponse = PagedModelDataCollection & {
 
 // @public
 export interface DigitalTwinsAddHeaders {
-    eTag: string;
+    etag: string;
 }
 
 // @public
@@ -72,7 +72,7 @@ export interface DigitalTwinsAddOptionalParams extends coreHttp.RequestOptionsBa
 
 // @public
 export interface DigitalTwinsAddRelationshipHeaders {
-    eTag: string;
+    etag: string;
 }
 
 // @public
@@ -122,12 +122,12 @@ export class DigitalTwinsClient {
     publishComponentTelemetry(digitalTwinId: string, componentPath: string, payload: string, messageId?: string): Promise<RestResponse>;
     publishTelemetry(digitalTwinId: string, payload: any, messageId?: string): Promise<RestResponse>;
     queryTwins(query?: string): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
-    updateComponent(digitalTwinId: string, componentPath: string, componentPatch: any, ifMatch?: string): Promise<DigitalTwinsUpdateComponentResponse>;
+    updateComponent(digitalTwinId: string, componentPath: string, options?: DigitalTwinsUpdateComponentOptionalParams): Promise<DigitalTwinsUpdateComponentResponse>;
     updateDigitalTwin(digitalTwinId: string, twinPatch: any, options?: DigitalTwinsUpdateOptionalParams): Promise<DigitalTwinsUpdateResponse>;
     updateRelationship(digitalTwinId: string, relationshipId: string, options?: DigitalTwinsUpdateRelationshipOptionalParams): Promise<DigitalTwinsUpdateRelationshipResponse>;
-    upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, disableUpdate?: boolean): Promise<DigitalTwinsAddResponse>;
+    upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: DigitalTwinsAddOptionalParams): Promise<DigitalTwinsAddResponse>;
     upsertEventRoute(eventRouteId: string, endpointName: string, filter?: string): Promise<RestResponse>;
-    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: string, enableUpdate?: boolean): Promise<DigitalTwinsAddRelationshipResponse>;
+    upsertRelationship(digitalTwinId: string, relationshipId: string, options?: DigitalTwinsAddRelationshipOptionalParams): Promise<DigitalTwinsAddRelationshipResponse>;
 }
 
 // @public
@@ -142,7 +142,7 @@ export interface DigitalTwinsDeleteRelationshipOptionalParams extends coreHttp.R
 
 // @public
 export interface DigitalTwinsGetByIdHeaders {
-    eTag: string;
+    etag: string;
 }
 
 // @public
@@ -157,7 +157,7 @@ export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & {
 
 // @public
 export interface DigitalTwinsGetComponentHeaders {
-    eTag: string;
+    etag: string;
 }
 
 // @public
@@ -203,7 +203,7 @@ export interface DigitalTwinsSendTelemetryOptionalParams extends coreHttp.Reques
 
 // @public
 export interface DigitalTwinsUpdateComponentHeaders {
-    eTag: string;
+    etag: string;
 }
 
 // @public
@@ -221,7 +221,7 @@ export type DigitalTwinsUpdateComponentResponse = DigitalTwinsUpdateComponentHea
 
 // @public
 export interface DigitalTwinsUpdateHeaders {
-    eTag: string;
+    etag: string;
 }
 
 // @public
@@ -231,7 +231,7 @@ export interface DigitalTwinsUpdateOptionalParams extends coreHttp.RequestOption
 
 // @public
 export interface DigitalTwinsUpdateRelationshipHeaders {
-    eTag: string;
+    etag: string;
 }
 
 // @public

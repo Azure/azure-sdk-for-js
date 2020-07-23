@@ -183,9 +183,6 @@ const serializer = new coreHttp.Serializer(Mappers);
 const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "eventroutes",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.maxItemCount1
@@ -207,9 +204,6 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [
     Parameters.id
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
@@ -229,9 +223,6 @@ const addOperationSpec: coreHttp.OperationSpec = {
   path: "eventroutes/{id}",
   urlParameters: [
     Parameters.id
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -257,9 +248,6 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   path: "eventroutes/{id}",
   urlParameters: [
     Parameters.id
-  ],
-  queryParameters: [
-    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

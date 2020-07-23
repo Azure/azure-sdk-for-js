@@ -12,12 +12,11 @@ import * as Models from "./models";
 import * as coreHttp from "@azure/core-http";
 import * as coreArm from "@azure/core-arm";
 
-const packageName = "";
-const packageVersion = "";
+const packageName = "@azure/digitaltwins";
+const packageVersion = "1.0.0-preview.1";
 
 export class AzureDigitalTwinsAPIContext extends coreArm.AzureServiceClient {
   credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials;
-  apiVersion?: string;
 
   /**
    * Initializes a new instance of the AzureDigitalTwinsAPI class.
@@ -39,7 +38,6 @@ export class AzureDigitalTwinsAPIContext extends coreArm.AzureServiceClient {
 
     super(credentials, options);
 
-    this.apiVersion = '2020-05-31-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://digitaltwins-name.digitaltwins.azure.net";
