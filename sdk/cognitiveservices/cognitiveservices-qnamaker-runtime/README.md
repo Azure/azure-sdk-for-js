@@ -26,12 +26,11 @@ npm install @azure/ms-rest-azure-js
 
 ##### Sample code
 
-```typescript
-import {
-  QnAMakerRuntimeClient, 
-  QnAMakerRuntimeModels 
-} from "@azure/cognitiveservices-qnamaker-runtime";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const {
+  QnAMakerRuntimeClient 
+} = require("@azure/cognitiveservices-qnamaker-runtime");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const QNAMAKER_KEY = process.env["QNAMAKER_KEY"] || "<QNAMAKER_KEY>";
@@ -49,7 +48,7 @@ async function main() {
   const top = 1;
 
   // Find only answers that contain these metadata
-  const strictFilters: QnAMakerRuntimeModels.MetadataDTO[] = [{ name: "editorial", value: "chitchat" }];
+  const strictFilters = [{ name: "editorial", value: "chitchat" }];
 
   const result = await client.runtime.generateAnswer(
     kbid,
