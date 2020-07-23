@@ -82,6 +82,15 @@
       }
     ]
   },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "backupAndRestore.js",
+      "listCertificates.js",
+      "mergeCertificate.js",
+      "contacts.js",
+      "deleteAndRecover.js"
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.1.4",

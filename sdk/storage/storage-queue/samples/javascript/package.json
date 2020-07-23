@@ -31,15 +31,5 @@
   },
   "devDependencies": {
     "rimraf": "^3.0.0"
-  },
-  "//smokeTestConfiguration": {
-    "skip": [
-      "anonymousCred.js",
-      "azureAdAuth.js",
-      "basic.js",
-      "customPipeline.js",
-      "iterators.js",
-      "sharedKeyCred.js"
-    ]
   }
 }

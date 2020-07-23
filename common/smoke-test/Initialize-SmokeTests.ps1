@@ -156,7 +156,7 @@ foreach ($entry in $manifest) {
   Write-Verbose "Preparing samples for $($entry.Name)"
   node "$repoRoot/common/tools/dev-tool/launch.js" samples prep --directory $entry.PackageDirectory --use-packages
 
-  $packageSpec = (Get-Content -Path "$($entry.SamplesDirectory)/package.json"
+  $packageSpec = (Get-Content -Path "$($entry.PackageDirectory)/package.json"
     | ConvertFrom-Json -AsHashtable)
 
   # Set outputs

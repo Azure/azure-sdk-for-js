@@ -28,16 +28,5 @@
     "@azure/ai-form-recognizer": "latest",
     "@azure/identity": "latest",
     "dotenv": "^8.2.0"
-  },
-  "//smokeTestConfiguration": {
-    "skip": [
-      "customModelManagement.js",
-      "differentiateLabeledUnlabeled.js",
-      "getBoundingBoxes.js",
-      "recognizeCustomForm.js",
-      "trainLabeledModel.js",
-      "trainUnlabeledModel.js",
-      "copyModel.js"
-    ]
   }
 }

@@ -32,21 +32,5 @@
   },
   "devDependencies": {
     "rimraf": "^3.0.0"
-  },
-  "//smokeTestConfiguration": {
-    "skip": [
-      "advanced.js",
-      "anonymousCred.js",
-      "azureAdAuth.js",
-      "basic.js",
-      "customPipeline.js",
-      "customizedClientHeaders.js",
-      "iterators-blobs-hierarchy.js",
-      "iterators-blobs.js",
-      "iterators-containers.js",
-      "iterators-without-await.js",
-      "readingSnapshot.js",
-      "sharedKeyCred.js"
-    ]
   }
 }

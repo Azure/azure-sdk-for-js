@@ -35,16 +35,5 @@
     "@types/node": "^8.0.0",
     "@types/ws": "^6.0.0",
     "rimraf": "^3.0.0"
-  },
-  "//smokeTestConfiguration": {
-    "skip": [
-      "browseMessages.js",
-      "receiveMessagesLoop.js",
-      "receiveMessagesStreaming.js",
-      "scheduledMessages.js",
-      "sendMessages.js",
-      "session.js",
-      "useProxy.js"
-    ]
   }
 }

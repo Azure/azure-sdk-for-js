@@ -87,8 +87,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "//metadata": {
-    "constantPaths": [
-      {
+    "constantPaths": [{
         "path": "src/generated/src/storageClientContext.ts",
         "prefix": "packageVersion"
       },
@@ -96,6 +95,17 @@
         "path": "src/utils/constants.ts",
         "prefix": "SDK_VERSION"
       }
+    ]
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "advanced.js",
+      "anonymousCred.js",
+      "basic.js",
+      "customPipeline.js",
+      "iterators-files-and-directories.js",
+      "iterators-shares.js",
+      "sharedKeyCred.js"
     ]
   },
   "dependencies": {
