@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { createSandbox } from "sinon";
+import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
 import { SecretClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/secretsModels";
 import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
@@ -11,6 +11,7 @@ import { env } from "@azure/test-utils-recorder";
 
 describe("The Secrets client should set the apiVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
+
   const mockHttpClient: HttpClient = {
     async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
       return {
@@ -25,15 +26,25 @@ describe("The Secrets client should set the apiVersion", () => {
     }
   };
 
-  it("it should default to the latest API version", async function() {
-    const sandbox = createSandbox();
-    const spy = sandbox.spy(mockHttpClient, "sendRequest");
+  let sandbox: SinonSandbox;
+  let spy: SinonSpy<[WebResourceLike], Promise<HttpOperationResponse>>;
+  let credential: ClientSecretCredential;
+  beforeEach(async () => {
+    sandbox = createSandbox();
+    spy = sandbox.spy(mockHttpClient, "sendRequest");
 
-    const credential = await new ClientSecretCredential(
+    credential = await new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!
     );
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  it("it should default to the latest API version", async function() {
     const client = new SecretClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient
     });
@@ -44,31 +55,31 @@ describe("The Secrets client should set the apiVersion", () => {
       calls[0].args[0].url,
       `https://keyVaultName.vault.azure.net/secrets/secretName?api-version=${LATEST_API_VERSION}`
     );
-
-    sandbox.restore();
   });
 
-  it("it should allow us to specify an API version", async function() {
-    const sandbox = createSandbox();
-    const spy = sandbox.spy(mockHttpClient, "sendRequest");
+  // Adding this to the source would change the public API.
+  type ApIVersions = "7.0" | "7.1-preview";
 
-    const credential = await new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!
-    );
-    const client = new SecretClient(keyVaultUrl, credential, {
-      apiVersion: "7.0",
-      httpClient: mockHttpClient
-    });
-    await client.setSecret("secretName", "value");
+  it("it should allow us to specify an API version from a specific set of versions", async function() {
+    const versions: ApIVersions[] = ["7.0", "7.1-preview"];
+    for (const apiVersion in versions) {
+      const credential = await new ClientSecretCredential(
+        env.AZURE_TENANT_ID!,
+        env.AZURE_CLIENT_ID!,
+        env.AZURE_CLIENT_SECRET!
+      );
+      const client = new SecretClient(keyVaultUrl, credential, {
+        apiVersion: apiVersion as ApIVersions,
+        httpClient: mockHttpClient
+      });
+      await client.setSecret("secretName", "value");
 
-    const calls = spy.getCalls();
-    assert.equal(
-      calls[0].args[0].url,
-      "https://keyVaultName.vault.azure.net/secrets/secretName?api-version=7.0"
-    );
-
-    sandbox.restore();
+      const calls = spy.getCalls();
+      const lastCall = calls[calls.length - 1];
+      assert.equal(
+        lastCall.args[0].url,
+        `https://keyVaultName.vault.azure.net/secrets/secretName?api-version=${apiVersion}`
+      );
+    }
   });
 });
