@@ -847,7 +847,7 @@ describe("BlobClient - Verify Name Properties", () => {
   });
 });
 
-describe.only("BlobClient - Object Replication", () => {
+describe("BlobClient - Object Replication", () => {
   const srcContainerName = "orssrc";
   const destContainerName = "orsdst";
   const blobName = "orsBlob";
