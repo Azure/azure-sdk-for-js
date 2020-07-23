@@ -18,7 +18,7 @@ export interface CloudEvent<T> {
     datacontenttype?: string;
     dataschema?: string;
     extensionAttributes?: Record<string, unknown>;
-    id: string;
+    id?: string;
     source: string;
     subject?: string;
     time?: Date;
@@ -121,9 +121,9 @@ export interface EventGridConsumerOptions {
 export interface EventGridEvent<T> {
     data: T;
     dataVersion: string;
-    eventTime: Date;
+    eventTime?: Date;
     eventType: string;
-    id: string;
+    id?: string;
     subject: string;
     topic?: string;
 }

@@ -10,13 +10,14 @@ export interface EventGridEvent<T> {
    */
   eventType: string;
   /**
-   * The time the event was generated.
+   * The time the event was generated. If not provided, the current time will be used.
    */
-  eventTime: Date;
+  eventTime?: Date;
   /**
-   * An unique identifier for the event.
+   * An unique identifier for the event. If an ID is not provided, a random UUID will be generated
+   * and used.
    */
-  id: string;
+  id?: string;
   /**
    * The resource path of the event source.
    */
@@ -48,9 +49,10 @@ export interface CloudEvent<T> {
    */
   source: string;
   /**
-   * An identifier for the event. The combination of id and source must be unique for each distinct event.
+   * An identifier for the event. The combination of id and source must be unique for each distinct event. If an ID is not provided,
+   * a random UUID will be generated and used.
    */
-  id: string;
+  id?: string;
   /**
    * The time the event was generated.
    */
@@ -66,7 +68,6 @@ export interface CloudEvent<T> {
   /**
    * Event data specific to the event type.
    */
-
   data?: T;
   /**
    * This describes the subject of the event in the context of the event producer (identified by source).

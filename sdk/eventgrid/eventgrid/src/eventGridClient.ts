@@ -9,11 +9,11 @@ import {
   OperationOptions
 } from "@azure/core-http";
 
-import { hmac } from "./utils/hmac";
+import { v4 as uuidv4 } from "uuid";
 
+import { hmac } from "./utils/hmac";
 import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
-
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { CloudEvent, EventGridEvent } from "./models";
@@ -120,7 +120,18 @@ export class EventGridPublisherClient {
    * @param message One or more events to publish
    */
   sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<RestResponse> {
-    return this.client.publishEvents(this.endpointUrl, events, options);
+    const toPublish = (events || []).map((evt) => {
+      return {
+        eventType: evt.eventType,
+        eventTime: evt.eventTime ?? new Date(),
+        id: evt.id ?? uuidv4(),
+        subject: evt.subject,
+        topic: evt.topic,
+        data: evt.data,
+        dataVersion: evt.dataVersion
+      };
+    });
+    return this.client.publishEvents(this.endpointUrl, toPublish, options);
   }
 
   /**
@@ -133,19 +144,19 @@ export class EventGridPublisherClient {
     events: CloudEvent<any>[],
     options?: SendCloudEventsOptions
   ): Promise<RestResponse> {
-    const toPublish = events.map((msg) => {
+    const toPublish = (events || []).map((evt) => {
       // TODO(matell): If data is of type `Buffer` or other binary data we should Base64 encoded the data and set
       //               `data_base64` instead.  We also need to validate that `datacontenttype` is set in this case.
       return {
         specversion: "1.0",
-        type: msg.type,
-        source: msg.source,
-        id: msg.id,
-        time: msg.time,
-        subject: msg.subject,
-        dataschema: msg.dataschema,
-        datacontenttype: msg.datacontenttype ?? "application/json",
-        ...(msg.extensionAttributes ?? [])
+        type: evt.type,
+        source: evt.source,
+        id: evt.id ?? uuidv4(),
+        time: evt.time ?? new Date(),
+        subject: evt.subject,
+        dataschema: evt.dataschema,
+        datacontenttype: evt.datacontenttype ?? "application/json",
+        ...(evt.extensionAttributes ?? [])
       };
     });
 
