@@ -29,7 +29,7 @@ describe("EventGridPublisherClient", function() {
       ));
     });
 
-    afterEach(() => {
+    afterEach(function() {
       recorder.stop();
     });
 
@@ -87,7 +87,7 @@ describe("EventGridPublisherClient", function() {
       ));
     });
 
-    afterEach(() => {
+    afterEach(function() {
       recorder.stop();
     });
 
@@ -147,7 +147,7 @@ describe("EventGridPublisherClient", function() {
       ));
     });
 
-    afterEach(() => {
+    afterEach(function() {
       recorder.stop();
     });
 
