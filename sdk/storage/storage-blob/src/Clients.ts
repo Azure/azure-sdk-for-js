@@ -98,7 +98,8 @@ import {
   PageBlobRequestConditions,
   PremiumPageBlobTier,
   toAccessTier,
-  ContainerRequestConditions
+  ContainerRequestConditions,
+  TagConditions
 } from "./models";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
@@ -487,10 +488,10 @@ export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {ModifiedAccessConditions}
+   * @type {TagConditions}
    * @memberof BlobSetTagsOptions
    */
-  modifiedAccessConditions?: ModifiedAccessConditions;
+  conditions?: TagConditions;
 }
 
 /**
@@ -511,10 +512,10 @@ export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {ModifiedAccessConditions}
+   * @type {TagConditions}
    * @memberof BlobGetTagsOptions
    */
-  modifiedAccessConditions?: ModifiedAccessConditions;
+  conditions?: TagConditions;
 }
 
 /**
@@ -867,10 +868,10 @@ export interface BlobSetTierOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {BlobRequestConditions}
+   * @type {LeaseAccessConditions & TagConditions}
    * @memberof BlobSetTierOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: LeaseAccessConditions & TagConditions;
   /**
    * Rehydrate Priority - possible values include 'High', 'Standard'.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
@@ -3437,10 +3438,10 @@ export interface BlockBlobGetBlockListOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {BlobRequestConditions}
+   * @type {LeaseAccessConditions & TagConditions}
    * @memberof BlockBlobGetBlockListOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: LeaseAccessConditions & TagConditions;
 }
 
 /**

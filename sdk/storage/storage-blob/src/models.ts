@@ -48,7 +48,7 @@ export interface AppendBlobRequestConditions
 /**
  * Specifies HTTP options for conditional requests based on modification time.
  */
-export interface ModifiedCondition {
+export interface ModificationConditions {
   /**
    * Specify this header value to operate only on a blob if it has been modified since the
    * specified date/time.
@@ -62,9 +62,31 @@ export interface ModifiedCondition {
 }
 
 /**
+ * Specifies HTTP options for conditional requests based on ETag matching.
+ */
+export interface MatchConditions {
+  /**
+   * Specify an ETag value to operate only on blobs with a matching value.
+   */
+  ifMatch?: string;
+  /**
+   * Specify an ETag value to operate only on blobs without a matching value.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Specifies HTTP options for conditional requests based on blob tags.
+ */
+export interface TagConditions {
+  // Optional SQL statement to apply to the Tags of the Blob.
+  ifTags?: string;
+}
+
+/**
  * Conditions to meet for the container.
  */
-export interface ContainerRequestConditions extends LeaseAccessConditions, ModifiedCondition {}
+export interface ContainerRequestConditions extends LeaseAccessConditions, ModificationConditions {}
 
 /**
  * Represents the access tier on a blob.
