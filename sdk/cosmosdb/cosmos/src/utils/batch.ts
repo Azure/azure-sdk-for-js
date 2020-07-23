@@ -30,35 +30,35 @@ export function isKeyInRange(min: string, max: string, key: string) {
   return isAfterMinInclusive && isBeforeMax;
 }
 
-interface OperationBase {
+export interface OperationBase {
   partitionKey?: string;
   ifMatch?: string;
   ifNoneMatch?: string;
 }
 
-type OperationWithItem = OperationBase & {
+export type OperationWithItem = OperationBase & {
   resourceBody: JSONObject;
 };
 
-type CreateOperation = OperationWithItem & {
+export type CreateOperation = OperationWithItem & {
   operationType: "Create";
 };
 
-type UpsertOperation = OperationWithItem & {
+export type UpsertOperation = OperationWithItem & {
   operationType: "Upsert";
 };
 
-type ReadOperation = OperationBase & {
+export type ReadOperation = OperationBase & {
   operationType: "Read";
   id: string;
 };
 
-type DeleteOperation = OperationBase & {
+export type DeleteOperation = OperationBase & {
   operationType: "Delete";
   id: string;
 };
 
-type ReplaceOperation = OperationWithItem & {
+export type ReplaceOperation = OperationWithItem & {
   operationType: "Replace";
   id: string;
 };

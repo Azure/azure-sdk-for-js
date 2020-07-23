@@ -5,6 +5,17 @@ export { StatusCodes } from "./common";
 export { extractPartitionKey } from "./extractPartitionKey";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {
+  Operation,
+  OperationResponse,
+  CreateOperation,
+  UpsertOperation,
+  ReplaceOperation,
+  DeleteOperation,
+  ReadOperation,
+  OperationBase,
+  OperationWithItem,
+} from "./utils/batch";
+export {
   ConnectionMode,
   ConsistencyLevel,
   ConnectionPolicy,
@@ -24,7 +35,7 @@ export {
   PermissionMode,
   TriggerOperation,
   TriggerType,
-  UserDefinedFunctionType
+  UserDefinedFunctionType,
 } from "./documents";
 
 export { Constants, OperationType, ResourceType, HTTPMethod } from "./common";
@@ -37,7 +48,7 @@ export {
   SqlQuerySpec,
   JSONValue,
   JSONArray,
-  JSONObject
+  JSONObject,
 } from "./queryExecutionContext";
 export { QueryIterator } from "./queryIterator";
 export * from "./queryMetrics";

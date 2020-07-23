@@ -54,17 +54,17 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
-    bulk<T>({ body, path, resourceId, partitionKeyRange, options }: {
+    bulk<T>({ body, path, resourceId, partitionKeyRangeId, options, }: {
         body: T;
         path: string;
-        partitionKeyRange: string;
+        partitionKeyRangeId: string;
         resourceId: string;
         options?: RequestOptions;
     }): Promise<Response<any>>;
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -73,7 +73,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -81,7 +81,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response<T & Resource>>;
     // (undocumented)
-    execute<T>({ sprocLink, params, options, partitionKey }: {
+    execute<T>({ sprocLink, params, options, partitionKey, }: {
         sprocLink: string;
         params?: any[];
         options?: RequestOptions;
@@ -99,7 +99,7 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -114,7 +114,7 @@ export class ClientContext {
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
-    read<T>({ path, resourceType, resourceId, options, partitionKey }: {
+    read<T>({ path, resourceType, resourceId, options, partitionKey, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -122,7 +122,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response<T & Resource>>;
     // (undocumented)
-    replace<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -131,7 +131,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response<T & Resource>>;
     // (undocumented)
-    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -492,6 +492,11 @@ export interface CosmosHeaders {
     [key: string]: any;
 }
 
+// @public (undocumented)
+export type CreateOperation = OperationWithItem & {
+    operationType: "Create";
+};
+
 // @public
 export class Database {
     constructor(client: CosmosClient, id: string, clientContext: ClientContext);
@@ -575,6 +580,12 @@ export enum DataType {
 
 // @public (undocumented)
 export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
+
+// @public (undocumented)
+export type DeleteOperation = OperationBase & {
+    operationType: "Delete";
+    id: string;
+};
 
 // @public (undocumented)
 export interface ErrorBody {
@@ -770,9 +781,6 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    // Warning: (ae-forgotten-export) The symbol "Operation" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "OperationResponse" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     bulk(operations: Operation[], options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
@@ -872,6 +880,31 @@ export class Offers {
 }
 
 // @public (undocumented)
+export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation;
+
+// @public (undocumented)
+export interface OperationBase {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    partitionKey?: string;
+}
+
+// @public (undocumented)
+export interface OperationResponse {
+    // (undocumented)
+    eTag?: string;
+    // (undocumented)
+    requestCharge: number;
+    // (undocumented)
+    resourceBody?: JSONObject;
+    // (undocumented)
+    statusCode: number;
+}
+
+// @public (undocumented)
 export enum OperationType {
     // (undocumented)
     Batch = "batch",
@@ -890,6 +923,11 @@ export enum OperationType {
     // (undocumented)
     Upsert = "upsert"
 }
+
+// @public (undocumented)
+export type OperationWithItem = OperationBase & {
+    resourceBody: JSONObject;
+};
 
 // @public (undocumented)
 export interface PartitionedQueryExecutionInfo {
@@ -1148,6 +1186,18 @@ export interface QueryRange {
     // (undocumented)
     min: string;
 }
+
+// @public (undocumented)
+export type ReadOperation = OperationBase & {
+    operationType: "Read";
+    id: string;
+};
+
+// @public (undocumented)
+export type ReplaceOperation = OperationWithItem & {
+    operationType: "Replace";
+    id: string;
+};
 
 // @public (undocumented)
 export interface RequestContext {
@@ -1606,6 +1656,11 @@ export interface UniqueKeyPolicy {
     // (undocumented)
     uniqueKeys: UniqueKey[];
 }
+
+// @public (undocumented)
+export type UpsertOperation = OperationWithItem & {
+    operationType: "Upsert";
+};
 
 // @public
 export class User {

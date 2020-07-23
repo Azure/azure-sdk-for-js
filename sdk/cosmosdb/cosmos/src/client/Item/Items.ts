@@ -425,7 +425,7 @@ export class Items {
           try {
             const response = await this.clientContext.bulk({
               body: batch.operations,
-              partitionKeyRange: batch.rangeId,
+              partitionKeyRangeId: batch.rangeId,
               path,
               resourceId: this.container.url,
               options,
