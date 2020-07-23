@@ -438,6 +438,10 @@ the ARM template. See also https://docs.microsoft.com/azure/architecture/best-pr
 Note: The value specified for this parameter will be overriden and generated
 by New-TestResources.ps1 if $CI is specified.
 
+.PARAMETER ResourceGroupName
+Set this value to deploy directly to a Resource Group that has already been
+created.
+
 .PARAMETER ServiceDirectory
 A directory under 'sdk' in the repository root - optionally with subdirectories
 specified - in which to discover ARM templates named 'test-resources.json'.
