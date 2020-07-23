@@ -76,16 +76,15 @@ function SetEnvironmentVariable {
   }
 }
 
-# TODO: Use the script file's location instead of pushd/popd
-pushd ../../
-
-Write-Verbose "Reading manifest..."
-# $manifest = (Get-Content -Path common/smoke-test/samples-manifest.json | ConvertFrom-Json)
+$repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
 
 Write-Verbose "Detecting samples..."
-$javascriptSamples = (Get-ChildItem .\ -Filter "javascript" -Directory -Recurse
+$javascriptSamples = (Get-ChildItem $repoRoot -Filter "javascript" -Directory -Recurse
   | Where-Object {
-    ($_.Parent.Name -eq "samples") -and ($_.Parent.Parent.Parent.Parent.Name -eq "sdk") -and (Test-Path "$_/package.json") })
+    ($_.Parent.Name -eq "samples") `
+      -and (((Join-Path -Path $_ -AdditionalChildPath ../../../../ -Resolve) | Get-Item).Name -eq "sdk") `
+      -and (Test-Path "$_/package.json")
+  })
 
 $manifest = $javascriptSamples | ForEach-Object {
   # Example: C:\code\azure-sdk-for-js\sdk\appconfiguration\app-configuration\samples\javascript
@@ -93,7 +92,7 @@ $manifest = $javascriptSamples | ForEach-Object {
     Name               = $_.Parent.Parent.Name; # Package name for example "app-configuration"
     PackageDirectory   = $_.Parent.Parent.FullName; # Path to "app-configuration" part from example
     ResourcesDirectory = $_.Parent.Parent.Parent.Name; # Service Directory for example "appconfiguration"
-    SamplesDirectory   = $_.FullName; # Samples directory
+    SamplesDirectory   = "$($_.Parent.Parent.FullName)/dist-samples/javascript"; # Samples directory
   }
 }
 
@@ -106,6 +105,8 @@ $resourceGroupName = "rg-smoke-$baseName"
 # Use the same resource group name that New-TestResources.ps1 generates
 SetEnvironmentVariable -Name 'AZURE_RESOURCEGROUP_NAME' -Value $resourceGroupName
 
+
+
 foreach ($entry in $manifest) {
   try {
     Write-Verbose "Deploying resources for $($entry.Name)..."
@@ -115,7 +116,7 @@ foreach ($entry in $manifest) {
       # -BaseName so that all resources are created within the same resource
       # group for easier cleanup. All created environment variables are returned
       # to $deployOutput so they can be set in the user's context or in CI.
-      $deployOutput = eng/common/TestResources/New-TestResources.ps1 `
+      $deployOutput = &"$repoRoot/eng/common/TestResources/New-TestResources.ps1" `
         -BaseName  $baseName `
         -ResourceGroupName $resourceGroupName `
         -ServiceDirectory $entry.ResourcesDirectory `
@@ -153,7 +154,7 @@ foreach ($entry in $manifest) {
   }
 
   Write-Verbose "Preparing samples for $($entry.Name)"
-  node common/scripts/prep-samples.js $entry.PackageDirectory --use-packages
+  node "$repoRoot/common/tools/dev-tool/launch.js" samples prep --directory $entry.PackageDirectory --use-packages
 
   $packageSpec = (Get-Content -Path "$($entry.SamplesDirectory)/package.json"
     | ConvertFrom-Json -AsHashtable)
@@ -173,12 +174,12 @@ foreach ($entry in $manifest) {
 }
 
 Write-Verbose "Writing run-manifest.json"
-($runManifest | ConvertTo-Json -AsArray | Set-Content -Path common/smoke-test/run-manifest.json -Force)
+($runManifest | ConvertTo-Json -AsArray | Set-Content -Path "$repoRoot/common/smoke-test/run-manifest.json" -Force)
 
 Write-Verbose "Writing dependencies into Smoke Test package.json"
-$runnerPackageSpec = Get-Content common/smoke-test/package.json | ConvertFrom-Json -AsHashtable
+$runnerPackageSpec = Get-Content "$repoRoot/common/smoke-test/package.json" | ConvertFrom-Json -AsHashtable
 $runnerPackageSpec.dependencies = $dependencies
-($runnerPackageSpec | ConvertTo-Json | Set-Content common/smoke-test/package.json)
+($runnerPackageSpec | ConvertTo-Json | Set-Content "$repoRoot/common/smoke-test/package.json")
 
 SetEnvironmentVariable -Name "NODE_PATH" -Value "$PSScriptRoot/node_modules"
 
@@ -188,8 +189,6 @@ if ($CI) {
   Write-Host "##vso[task.complete result=Succeeded;]DONE"
 }
 
-# TODO: use current script location instead of changing directories
-popd
 
 <#
 .SYNOPSIS
