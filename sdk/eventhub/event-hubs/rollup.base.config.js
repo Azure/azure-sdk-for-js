@@ -107,12 +107,14 @@ export function browserConfig(test = false) {
           "if (isNode)": "if (false)"
         }
       ),
-
-      // dotenv doesn't work in the browser, so replace it with a no-op function
-      shim({
-        dotenv: `export function config() { }`
-      }),
-
+      ...(!test
+        ? []
+        : [
+            shim({
+              // dotenv doesn't work in the browser, so replace it with a no-op function
+              dotenv: `export function config() { }`
+            })
+          ]),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
