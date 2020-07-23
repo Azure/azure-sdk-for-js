@@ -34,12 +34,12 @@ export async function main() {
 
   try {
     for (let i = 0; i < 20; i++) {
-      const messages = await queueReceiver.peekMessages();
-      if (!messages.length) {
+      const [message] = await queueReceiver.peekMessages(1);
+      if (!message) {
         console.log("No more messages to peek");
         break;
       }
-      console.log(`Peeking message #${i}: ${messages[0].body}`);
+      console.log(`Peeking message #${i}: ${message.body}`);
     }
     await queueReceiver.close();
   } finally {
