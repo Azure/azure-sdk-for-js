@@ -27,9 +27,7 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 
 ```javascript
-const {
-  QnAMakerRuntimeClient 
-} = require("@azure/cognitiveservices-qnamaker-runtime");
+const { QnAMakerRuntimeClient } = require("@azure/cognitiveservices-qnamaker-runtime");
 const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
