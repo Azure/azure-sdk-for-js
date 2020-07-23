@@ -2434,7 +2434,6 @@ export const Workspace: msRest.CompositeMapper = {
         }
       },
       managedResourceGroupName: {
-        readOnly: true,
         serializedName: "properties.managedResourceGroupName",
         type: {
           name: "String"

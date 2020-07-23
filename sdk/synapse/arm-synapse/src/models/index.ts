@@ -1598,10 +1598,12 @@ export interface Workspace extends TrackedResource {
    */
   sqlAdministratorLoginPassword?: string;
   /**
-   * Workspace managed resource group
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Workspace managed resource group. The resource group name uniquely identifies the resource
+   * group within the user subscriptionId. The resource group name must be no longer than 90
+   * characters long, and must be alphanumeric characters (Char.IsLetterOrDigit()) and '-', '_',
+   * '(', ')' and'.'. Note that the name cannot end with '.'
    */
-  readonly managedResourceGroupName?: string;
+  managedResourceGroupName?: string;
   /**
    * Resource provisioning state
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
