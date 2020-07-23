@@ -76,7 +76,7 @@ async function main() {
   const downloadBlockBlobResponse = await blockBlobClient.download(0);
   console.log(
     "Downloaded blob content",
-    await streamToString(downloadBlockBlobResponse.readableStreamBody)
+    (await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)).toString()
   );
 
   // Delete container
@@ -86,7 +86,7 @@ async function main() {
 }
 
 // A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream) {
+async function streamToBuffer(readableStream) {
   return new Promise((resolve, reject) => {
     let buffer;
     readableStream.on("data", (data) => {
