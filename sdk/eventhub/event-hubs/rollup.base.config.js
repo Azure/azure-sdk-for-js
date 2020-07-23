@@ -108,11 +108,9 @@ export function browserConfig(test = false) {
         }
       ),
 
-      // dotenv, path doesn't work in the browser, so replace it with a no-op function
+      // dotenv doesn't work in the browser, so replace it with a no-op function
       shim({
-        fs: `export default {}`,
-        dotenv: `export function config() { }`,
-        path: `export default {}`
+        dotenv: `export function config() { }`
       }),
 
       nodeResolve({
