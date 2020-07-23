@@ -125,7 +125,7 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     conditions?: AppendBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
-    sourceConditions?: ModifiedAccessConditions;
+    sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
 }
@@ -1176,7 +1176,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
     metadata?: Metadata;
-    sourceConditions?: ModifiedAccessConditions;
+    sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentMD5?: Uint8Array;
     tags?: Tags;
 }
@@ -2101,6 +2101,12 @@ export interface Logging {
 }
 
 // @public
+export interface MatchConditions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
 export interface Metadata {
     [propertyName: string]: string;
 }
@@ -2398,7 +2404,7 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     conditions?: PageBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
-    sourceConditions?: ModifiedAccessConditions;
+    sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
 }

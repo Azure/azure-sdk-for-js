@@ -908,6 +908,23 @@ describe("BlobClient", () => {
       });
     });
 
+    it("async copy's source blob", async () => {
+      const newBlobClient = containerClient.getBlockBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.beginCopyFromURL(blobClient.url, { sourceConditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+
+      await newBlobClient.beginCopyFromURL(blobClient.url, {
+        sourceConditions: tagConditionMet
+      });
+    });
+
     it("sync copy's destination blob", async () => {
       const newBlobClient = containerClient.getBlockBlobClient(
         recorder.getUniqueName("copiedblob")

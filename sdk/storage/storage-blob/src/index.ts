@@ -38,7 +38,8 @@ export {
   PageBlobRequestConditions,
   TagConditions,
   ContainerRequestConditions,
-  ModificationConditions
+  ModificationConditions,
+  MatchConditions
 } from "./models";
 export { RestError };
 export {

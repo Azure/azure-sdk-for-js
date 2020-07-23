@@ -19,7 +19,8 @@ export {
   Tags,
   TagConditions,
   ContainerRequestConditions,
-  ModificationConditions
+  ModificationConditions,
+  MatchConditions
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";

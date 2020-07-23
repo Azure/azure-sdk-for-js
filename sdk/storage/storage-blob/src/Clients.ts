@@ -99,7 +99,9 @@ import {
   PremiumPageBlobTier,
   toAccessTier,
   ContainerRequestConditions,
-  TagConditions
+  TagConditions,
+  MatchConditions,
+  ModificationConditions
 } from "./models";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
@@ -829,10 +831,10 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {ModifiedAccessConditions}
+   * @type {MatchConditions & ModificationConditions}
    * @memberof BlobSyncCopyFromURLOptions
    */
-  sourceConditions?: ModifiedAccessConditions;
+  sourceConditions?: MatchConditions & ModificationConditions;
   /**
    * Specify the md5 calculated for the range of bytes that must be read from the copy source.
    *
@@ -2278,7 +2280,8 @@ export class BlobClient extends StorageClient {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
+          sourceIfTags: options.sourceConditions.ifTags
         },
         rehydratePriority: options.rehydratePriority,
         tier: toAccessTier(options.tier),
@@ -2501,10 +2504,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {ModifiedAccessConditions}
+   * @type {MatchConditions & ModificationConditions}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
-  sourceConditions?: ModifiedAccessConditions;
+  sourceConditions?: MatchConditions & ModificationConditions;
   /**
    * An MD5 hash of the append block content from the URI.
    * This hash is used to verify the integrity of the append block during transport of the data from the URI.
@@ -4990,10 +4993,10 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {ModifiedAccessConditions}
+   * @type {MatchConditions & ModificationConditions}
    * @memberof PageBlobUploadPagesFromURLOptions
    */
-  sourceConditions?: ModifiedAccessConditions;
+  sourceConditions?: MatchConditions & ModificationConditions;
   /**
    * An MD5 hash of the content from the URI.
    * This hash is used to verify the integrity of the content during transport of the data from the URI.
