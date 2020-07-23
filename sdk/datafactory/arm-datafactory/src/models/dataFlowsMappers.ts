@@ -391,6 +391,7 @@ export {
   ResponsysSource,
   RestResourceDataset,
   RestServiceLinkedService,
+  RestSink,
   RestSource,
   RetryPolicy,
   SalesforceLinkedService,
