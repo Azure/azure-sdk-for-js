@@ -86,17 +86,17 @@ async function main() {
 }
 
 // A helper method used to read a Node.js readable stream into string
-async function streamToBuffer(readableStream) {
-  return new Promise((resolve, reject) => {
-    let buffer;
-    readableStream.on("data", (data) => {
-      buffer = buffer ? Buffer.concat([buffer, data]) : data;
+async function streamToBuffer(readableStream: NodeJS.ReadableStream) {
+    return new Promise((resolve, reject) => {
+        let buffer = [];
+        readableStream.on("data", (data) => {
+            buffer.push(typeof data === "string" ? Buffer.from(data) : data);
+        });
+        readableStream.on("end", () => {
+            resolve(Buffer.concat(buffer));
+        });
+        readableStream.on("error", reject);
     });
-    readableStream.on("end", () => {
-      resolve(buffer);
-    });
-    readableStream.on("error", reject);
-  });
 }
 
 main().catch((err) => {
