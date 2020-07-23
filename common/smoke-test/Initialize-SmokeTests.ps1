@@ -82,11 +82,9 @@ function SetEnvironmentVariable {
 $repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
 
 Write-Verbose "Detecting samples..."
-$javascriptSamples = (Get-ChildItem "$repoRoot/sdk" -Filter "javascript" -Directory -Recurse
+$javascriptSamples = (Get-ChildItem -Path "$repoRoot/sdk/*/*/samples/javascript/" -Directory
   | Where-Object {
-    ($_.Parent.Name -eq "samples") `
-      -and (((Join-Path -Path $_ ../../../../ -Resolve) | Get-Item).Name -eq "sdk") `
-      -and (Test-Path "$_/package.json") `
+    (Test-Path "$_/package.json") `
       -and ( ($ServiceDirectory -eq '') -or (((Join-Path $_ ../../../) | Get-Item).Name -eq $ServiceDirectory))
   })
 
