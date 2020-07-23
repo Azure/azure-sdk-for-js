@@ -5,6 +5,9 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
 try {
   var keytar = require("keytar");
 } catch (er) {
@@ -20,11 +23,43 @@ const VSCodeUserName = "VS Code Azure";
 const logger = credentialLogger("VSCodeCredential");
 
 /**
+ * Attempts to load the tenant from the VSCode configurations of the current OS.
+ * If it fails at any point, returns undefined.
+ */
+function getTenantIdFromVSCode(): string | undefined {
+  const commonSettingsPath = ["Code", "User", "settings.json"];
+  const homedir = os.homedir();
+
+  function loadTenant(...pathSegments: string[]): string | undefined {
+    const settingsPath = path.join(...pathSegments, ...commonSettingsPath);
+    const settings = JSON.parse(fs.readFileSync(settingsPath, { encoding: "utf8" }));
+    return settings?.azure?.tenant
+  }
+
+  try {
+    switch (process.platform) {
+      case "win32":
+        const appData = process.env.APPDATA!;
+        return appData ? loadTenant(appData) : undefined;
+      case "darwin":
+        return loadTenant(homedir, "Library", "Application Support");
+      case "linux":
+        return loadTenant(homedir, ".config");
+      default:
+        return;
+    }
+  } catch (e) {
+    logger.info("Failed to find the ")
+    return;
+  }
+}
+
+/**
  * Provides options to configure the Visual Studio Code credential.
  */
 export interface VSCodeCredentialOptions extends TokenCredentialOptions {
   /**
-   * Optionally pass in a Tenant ID to be used as part of the credential 
+   * Optionally pass in a Tenant ID to be used as part of the credential
    */
   tenantId?: string;
 }
@@ -45,10 +80,11 @@ export class VSCodeCredential implements TokenCredential {
    */
   constructor(options?: VSCodeCredentialOptions) {
     this.identityClient = new IdentityClient(options);
+    const settingsTenant = getTenantIdFromVSCode();
     if (options && options.tenantId) {
       this.tenantId = options.tenantId;
     } else {
-      this.tenantId = CommonTenantId;
+      this.tenantId = settingsTenant || CommonTenantId;
     }
   }
 
