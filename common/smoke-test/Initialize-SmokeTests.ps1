@@ -35,6 +35,9 @@ param (
   [hashtable] $AdditionalParameters,
 
   [Parameter()]
+  [string] $ServiceDirectory = '',
+
+  [Parameter()]
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
 
   # Captures any arguments not declared here (prevents no parameter errors)
@@ -79,20 +82,25 @@ function SetEnvironmentVariable {
 $repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
 
 Write-Verbose "Detecting samples..."
-$javascriptSamples = (Get-ChildItem $repoRoot -Filter "javascript" -Directory -Recurse
+$javascriptSamples = (Get-ChildItem "$repoRoot/sdk" -Filter "javascript" -Directory -Recurse
   | Where-Object {
     ($_.Parent.Name -eq "samples") `
-      -and (((Join-Path -Path $_ -AdditionalChildPath ../../../../ -Resolve) | Get-Item).Name -eq "sdk") `
-      -and (Test-Path "$_/package.json")
+      -and (((Join-Path -Path $_ ../../../../ -Resolve) | Get-Item).Name -eq "sdk") `
+      -and (Test-Path "$_/package.json") `
+      -and ( ($ServiceDirectory -eq '') -or (((Join-Path $_ ../../../) | Get-Item).Name -eq $ServiceDirectory))
   })
 
 $manifest = $javascriptSamples | ForEach-Object {
   # Example: C:\code\azure-sdk-for-js\sdk\appconfiguration\app-configuration\samples\javascript
   @{
-    Name               = $_.Parent.Parent.Name; # Package name for example "app-configuration"
-    PackageDirectory   = $_.Parent.Parent.FullName; # Path to "app-configuration" part from example
-    ResourcesDirectory = $_.Parent.Parent.Parent.Name; # Service Directory for example "appconfiguration"
-    SamplesDirectory   = "$($_.Parent.Parent.FullName)/dist-samples/javascript"; # Samples directory
+    # Package name for example "app-configuration"
+    Name               = ((Join-Path $_ ../../) | Get-Item).Name;
+
+    # Path to "app-configuration" part from example
+    PackageDirectory   = ((Join-Path $_ ../../) | Get-Item).FullName;
+
+    # Service Directory for example "appconfiguration"
+    ResourcesDirectory = ((Join-Path $_ ../../../) | Get-Item).Name;
   }
 }
 
@@ -104,8 +112,6 @@ $resourceGroupName = "rg-smoke-$baseName"
 
 # Use the same resource group name that New-TestResources.ps1 generates
 SetEnvironmentVariable -Name 'AZURE_RESOURCEGROUP_NAME' -Value $resourceGroupName
-
-
 
 foreach ($entry in $manifest) {
   try {
@@ -154,15 +160,19 @@ foreach ($entry in $manifest) {
   }
 
   Write-Verbose "Preparing samples for $($entry.Name)"
-  node "$repoRoot/common/tools/dev-tool/launch.js" samples prep --directory $entry.PackageDirectory --use-packages
+  dev-tool samples prep --directory $entry.PackageDirectory --use-packages
 
-  $packageSpec = (Get-Content -Path "$($entry.PackageDirectory)/package.json"
-    | ConvertFrom-Json -AsHashtable)
+  # Resolve full path for samples location. This has to be set after sample
+  # prep because the directory will not resolve until the folder exists.
+  $entry.SamplesDirectory = Join-Path -Path $entry.PackageDirectory -ChildPath 'dist-samples/javascript' -Resolve
 
   # Set outputs
   $runManifest += $entry
 
-  # Also include the sample's dependencies in our all-up dependencies
+  # Set sample's dependencies in all-up dependencies for smoke tests
+  $packageSpec = (Get-Content -Path "$($entry.SamplesDirectory)/package.json"
+    | ConvertFrom-Json -AsHashtable)
+
   foreach ($dep in $packageSpec.dependencies.Keys) {
     if ($dep.StartsWith('@azure/')) {
       $dependencies[$dep] = "dev"
@@ -171,6 +181,8 @@ foreach ($entry in $manifest) {
       $dependencies[$dep] = $packageSpec.dependencies[$dep]
     }
   }
+
+
 }
 
 Write-Verbose "Writing run-manifest.json"

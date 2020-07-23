@@ -14,7 +14,7 @@ async function main() {
     console.log(`Importing samples for ${entry.Name}...`);
 
     // Read configuration from package.json's //smokeTestConfiguration field
-    const packageJson = require(`${entry.SamplesDirectory}/package.json`);
+    const packageJson = require(`${entry.PackageDirectory}/package.json`);
     const smokeTestConfig = packageJson["//smokeTestConfiguration"] || {};
 
     if (smokeTestConfig.skipFolder) {
@@ -102,7 +102,7 @@ async function executeSample(sample) {
 // logs error messages.
 if (process.argv[2] == "--devops-logging") {
   const oldConsoleError = console.error;
-  console.error = function() {
+  console.error = function () {
     // Mutate arguments to use new warning format
     arguments[0] = `##vso[task.logissue type=error]${arguments[0]}`;
     oldConsoleError.call(this, ...arguments);

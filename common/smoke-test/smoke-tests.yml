@@ -53,6 +53,11 @@ jobs:
         inputs:
           versionSpec: $(NodeVersion)
 
+      - pwsh: npm install -g
+        inputs:
+          workingDirector: $(Build.SourcesDirectory)/common/tools/dev-tool
+        displayName: Install dev-tool
+
       # New-TestResources command requires Az module
       - pwsh: Install-Module -Name Az -Scope CurrentUser -AllowClobber -Force -Verbose
         displayName: Install Azure PowerShell module
