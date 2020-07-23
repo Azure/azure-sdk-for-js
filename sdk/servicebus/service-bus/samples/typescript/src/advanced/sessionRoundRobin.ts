@@ -136,7 +136,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 async function roundRobinThroughAvailableSessions(): Promise<void> {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
 
-  const receiverPromises = [];
+  const receiverPromises: Promise<void>[] = [];
 
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
     receiverPromises.push(

@@ -84,15 +84,6 @@ export interface ListRequestOptions {
 }
 
 // @public
-export type MessageCountDetails = {
-    activeMessageCount: number;
-    deadLetterMessageCount: number;
-    scheduledMessageCount: number;
-    transferMessageCount: number;
-    transferDeadLetterMessageCount: number;
-};
-
-// @public
 export interface MessageHandlerOptions {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
@@ -159,11 +150,15 @@ export interface QueueResponse extends QueueProperties, Response {
 // @public
 export interface QueueRuntimeProperties {
     accessedAt: Date;
+    activeMessageCount: number;
     createdAt: Date;
-    messageCount?: number;
-    messageCountDetails?: MessageCountDetails;
+    deadLetterMessageCount: number;
     name: string;
+    scheduledMessageCount: number;
     sizeInBytes?: number;
+    totalMessageCount?: number;
+    transferDeadLetterMessageCount: number;
+    transferMessageCount: number;
     updatedAt: Date;
 }
 
@@ -424,11 +419,15 @@ export interface SubscriptionResponse extends SubscriptionProperties, Response {
 // @public
 export interface SubscriptionRuntimeProperties {
     accessedAt: Date;
+    activeMessageCount: number;
     createdAt: Date;
-    messageCount: number;
-    messageCountDetails?: MessageCountDetails;
+    deadLetterMessageCount: number;
+    scheduledMessageCount: number;
     subscriptionName: string;
     topicName: string;
+    totalMessageCount: number;
+    transferDeadLetterMessageCount: number;
+    transferMessageCount: number;
     updatedAt: Date;
 }
 

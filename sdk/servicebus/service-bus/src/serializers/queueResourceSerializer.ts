@@ -13,13 +13,12 @@ import {
   EntityStatus,
   getAuthorizationRulesOrUndefined,
   getBoolean,
-  getCountDetailsOrUndefined,
+  getMessageCountDetails,
   getInteger,
   getIntegerOrUndefined,
   getRawAuthorizationRules,
   getString,
   getStringOrUndefined,
-  MessageCountDetails,
   getDate
 } from "../util/utils";
 
@@ -114,11 +113,12 @@ export function buildQueue(rawQueue: any): QueueProperties {
  * @param rawQueue
  */
 export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperties {
+  const messageCountDetails = getMessageCountDetails(rawQueue[Constants.COUNT_DETAILS]);
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
-    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
-    messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
+    totalMessageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
+    ...messageCountDetails,
     createdAt: getDate(rawQueue[Constants.CREATED_AT], "createdAt"),
     updatedAt: getDate(rawQueue[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt")
@@ -411,12 +411,32 @@ export interface QueueRuntimeProperties {
    * The entity's message count.
    *
    */
-  messageCount?: number;
+  totalMessageCount?: number;
 
   /**
-   * Message count details
+   * The number of active messages in the queue.
    */
-  messageCountDetails?: MessageCountDetails;
+  activeMessageCount: number;
+
+  /**
+   * The number of messages that have been dead lettered.
+   */
+  deadLetterMessageCount: number;
+
+  /**
+   * The number of scheduled messages.
+   */
+  scheduledMessageCount: number;
+
+  /**
+   * The number of messages transferred to another queue, topic, or subscription
+   */
+  transferMessageCount: number;
+
+  /**
+   * The number of messages transferred to the dead letter queue.
+   */
+  transferDeadLetterMessageCount: number;
 
   /**
    * The entity's size in bytes.
