@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function isBuffer(value: any): boolean {
+export function isUint8Array(value: any): boolean {
   return value instanceof Uint8Array;
 }
 

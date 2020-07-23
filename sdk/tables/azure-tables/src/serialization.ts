@@ -3,7 +3,7 @@
 
 import { EdmGuid } from "./EdmGuid";
 import { EdmInt64 } from "./EdmInt64";
-import { isBuffer, encodeByteArray, decodeString } from "./utils/bufferSerializer";
+import { isUint8Array, encodeByteArray, decodeString } from "./utils/bufferSerializer";
 
 const Edm = {
   DateTime: "Edm.DateTime",
@@ -24,8 +24,8 @@ export function serialize(obj: any): object {
     } else if (value instanceof EdmGuid) {
       serialized[key] = value.value;
       serialized[`${key}@odata.type`] = Edm.Guid;
-    } else if (isBuffer(value)) {
-      serialized[key] = encodeByteArray(value as any);
+    } else if (isUint8Array(value)) {
+      serialized[key] = encodeByteArray(value as Uint8Array);
       serialized[`${key}@odata.type`] = Edm.Binary;
     } else {
       serialized[key] = value;
@@ -49,8 +49,8 @@ function getTypedObject(value: any, type: string): any {
   }
 }
 
-export function deserialize(obj?: any): object | undefined {
-  if (obj === undefined) return undefined;
+export function deserialize(obj?: any): object {
+  if (obj === undefined) return {};
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.indexOf("@odata.type") === -1) {
@@ -62,6 +62,6 @@ export function deserialize(obj?: any): object | undefined {
   return deserialized;
 }
 
-export function deserializeObjectsArray(objArray?: object[]): (object | undefined)[] | undefined {
-  return objArray?.map((obj) => deserialize(obj));
+export function deserializeObjectsArray(objArray?: object[]): object[] {
+  return (objArray || []).map((obj) => deserialize(obj));
 }

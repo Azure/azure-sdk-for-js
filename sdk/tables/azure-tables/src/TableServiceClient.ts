@@ -215,9 +215,7 @@ export class TableServiceClient {
       rowKey,
       options
     );
-    if (response._response.parsedBody !== undefined) {
-      response.value = deserialize(response._response.parsedBody) as any;
-    }
+    response.value = deserialize(response._response.parsedBody) as any;
     return response;
   }
 
@@ -234,9 +232,7 @@ export class TableServiceClient {
     options?: ListEntitiesOptions
   ): Promise<ListEntitiesResponse> {
     const response = await this.table.queryEntities(tableName, { queryOptions: query, ...options });
-    if (response.value !== undefined) {
-      response.value = deserializeObjectsArray(response.value) as any;
-    }
+    response.value = deserializeObjectsArray(response.value);
     return response;
   }
 
