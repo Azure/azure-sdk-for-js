@@ -483,6 +483,13 @@ export interface BlobSetTagsOptions extends CommonOptions {
    * @memberof BlobSetTagsOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet for the blob to perform this operation.
+   *
+   * @type {ModifiedAccessConditions}
+   * @memberof BlobSetTagsOptions
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -500,6 +507,13 @@ export interface BlobGetTagsOptions extends CommonOptions {
    * @memberof BlobGetTagsOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet for the blob to perform this operation.
+   *
+   * @type {ModifiedAccessConditions}
+   * @memberof BlobGetTagsOptions
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
 /**
@@ -852,10 +866,10 @@ export interface BlobSetTierOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {LeaseAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlobSetTierOptions
    */
-  conditions?: LeaseAccessConditions;
+  conditions?: BlobRequestConditions;
   /**
    * Rehydrate Priority - possible values include 'High', 'Standard'.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
@@ -1323,7 +1337,8 @@ export class BlobClient extends StorageClient {
               ifMatch: options.conditions!.ifMatch || res.etag,
               ifModifiedSince: options.conditions!.ifModifiedSince,
               ifNoneMatch: options.conditions!.ifNoneMatch,
-              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince
+              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
+              ifTags: options.conditions?.ifTags
             },
             range: rangeToString({
               count: offset + res.contentLength! - start,
@@ -1654,7 +1669,7 @@ export class BlobClient extends StorageClient {
     const { span, spanOptions } = createSpan("BlobClient-setTags", options.tracingOptions);
     try {
       return await this.blobContext.setTags({
-        abortSignal: options.abortSignal,
+        ...options,
         spanOptions,
         tags: toBlobTags(tags)
       });
@@ -1680,7 +1695,7 @@ export class BlobClient extends StorageClient {
     const { span, spanOptions } = createSpan("BlobClient-getTags", options.tracingOptions);
     try {
       const response = await this.blobContext.getTags({
-        abortSignal: options.abortSignal,
+        ...options,
         spanOptions
       });
       const wrappedResponse: BlobGetTagsResponse = {
@@ -1943,6 +1958,7 @@ export class BlobClient extends StorageClient {
       return await this.blobContext.setTier(toAccessTier(tier)!, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         rehydratePriority: options.rehydratePriority,
         spanOptions
       });
@@ -3420,10 +3436,10 @@ export interface BlockBlobGetBlockListOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {LeaseAccessConditions}
+   * @type {BlobRequestConditions}
    * @memberof BlockBlobGetBlockListOptions
    */
-  conditions?: LeaseAccessConditions;
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -4099,6 +4115,7 @@ export class BlockBlobClient extends BlobClient {
       const res = await this.blockBlobContext.getBlockList(listType, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
 

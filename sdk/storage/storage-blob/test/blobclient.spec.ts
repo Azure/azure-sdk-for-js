@@ -20,6 +20,7 @@ import {
   RehydratePriority
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
+import { base64encode } from "../src/utils/utils.common";
 dotenv.config();
 
 describe("BlobClient", () => {
@@ -449,19 +450,19 @@ describe("BlobClient", () => {
     );
   });
 
-  it("abortCopyFromClient should failed for a completed copy operation", async () => {
+  it.only("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.copyId);
     delay(1 * 1000);
 
     try {
-      await newBlobClient.beginCopyFromURL(result.copyId!);
+      await newBlobClient.abortCopyFromURL(result.copyId!);
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
     } catch (err) {
-      assert.ok((err as any).response.parsedBody.Code === "InvalidHeaderValue");
+      assert.ok((err.details.errorCode = "NoPendingCopyOperation"));
     }
   });
 
@@ -767,8 +768,7 @@ describe("BlobClient", () => {
         guid = "ca761232ed4211cebacd00aa0057b224";
       }
 
-      const existsRes = await blobClient.exists({ conditions: { leaseId: guid } });
-      console.log(existsRes);
+      await blobClient.exists({ conditions: { leaseId: guid } });
     } catch (err) {
       assert.equal(err.details.errorCode, "LeaseIdMismatchWithBlobOperation");
       exceptionCaught = true;
@@ -802,6 +802,359 @@ describe("BlobClient", () => {
 
   it("getProperties and listBlob RehydratePriority = Standard", async () => {
     await checkRehydratePriority("Standard");
+  });
+
+  describe.only("conditional tags", () => {
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    const tagConditionMet = { ifTags: "tag1 = 'val1'" };
+    const tagConditionUnmet = { ifTags: "tag1 = 'val2'" };
+
+    beforeEach(async function() {
+      await blobClient.setTags(tags);
+    });
+
+    async function throwExpectedError(promise: Promise<any>, errorCode: string): Promise<boolean> {
+      let expectedExceptionCaught = false;
+      try {
+        await promise;
+      } catch (e) {
+        assert.equal(e.details?.errorCode, errorCode);
+        expectedExceptionCaught = true;
+      }
+      return expectedExceptionCaught;
+    }
+
+    it("getTags", async () => {
+      await blobClient.getTags({ modifiedAccessConditions: tagConditionMet });
+      assert.ok(
+        await throwExpectedError(
+          blobClient.getTags({ modifiedAccessConditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+    });
+
+    it("setTags", async () => {
+      const tags2 = {
+        tag1: "val"
+      };
+      await blobClient.setTags(tags2, { modifiedAccessConditions: tagConditionMet });
+
+      assert.ok(
+        await throwExpectedError(
+          blobClient.setTags(tags, { modifiedAccessConditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+    });
+
+    it("lease blob", async () => {
+      const guid = "ca761232ed4211cebacd00aa0057b223";
+      const duration = 15;
+      const leaseClient = blobClient.getBlobLeaseClient(guid);
+      await leaseClient.acquireLease(duration, { conditions: tagConditionMet });
+
+      const result = await blobClient.getProperties();
+      assert.equal(result.leaseDuration, "fixed");
+      assert.equal(result.leaseState, "leased");
+      assert.equal(result.leaseStatus, "locked");
+
+      const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
+      assert.ok(
+        await throwExpectedError(
+          leaseClient.changeLease(newGuid, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+    });
+
+    it("async copy's destination blob", async () => {
+      const newBlobClient = containerClient.getBlockBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+      const tags2 = {
+        tag: "val"
+      };
+      await newBlobClient.upload(content, content.length, { tags: tags2 });
+
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.beginCopyFromURL(blobClient.url, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+
+      await newBlobClient.beginCopyFromURL(blobClient.url, {
+        conditions: { ifTags: "tag = 'val'" }
+      });
+    });
+
+    it("sync copy's destination blob", async () => {
+      const newBlobClient = containerClient.getBlockBlobClient(
+        recorder.getUniqueName("copiedblob")
+      );
+      const tags2 = {
+        tag: "val"
+      };
+      await newBlobClient.upload(content, content.length, { tags: tags2 });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+            conditions: tagConditionUnmet
+          }),
+          "ConditionNotMet"
+        )
+      );
+
+      await newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
+        conditions: { ifTags: "tag = 'val'" }
+      });
+    });
+
+    it("download", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.download(undefined, undefined, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.download(undefined, undefined, { conditions: tagConditionMet });
+    });
+
+    it("getProperties", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.getProperties({ conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.getProperties({ conditions: tagConditionMet });
+    });
+
+    it("delete", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.delete({ conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.delete({ conditions: tagConditionMet });
+    });
+
+    it("setHTTPHeaders", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.setHTTPHeaders({}, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.setHTTPHeaders({}, { conditions: tagConditionMet });
+    });
+
+    it("setMetadata", async () => {
+      const metadata = {
+        a: "a",
+        b: "b"
+      };
+      assert.ok(
+        await throwExpectedError(
+          blobClient.setMetadata(metadata, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.setMetadata(metadata, { conditions: tagConditionMet });
+    });
+
+    it("createSnapshot", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.createSnapshot({ conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.createSnapshot({ conditions: tagConditionMet });
+    });
+
+    it("setAccessTier", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blobClient.setAccessTier("Hot", { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blobClient.setAccessTier("Hot", { conditions: tagConditionMet });
+    });
+
+    it("AppendBlobClient.create", async () => {
+      const newBlobClient = containerClient.getAppendBlobClient(
+        recorder.getUniqueName("appendBlob")
+      );
+      await newBlobClient.create({ tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.create({ conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.create({ conditions: tagConditionMet });
+    });
+
+    it("AppendBlobClient.appendBlock", async () => {
+      const newBlobClient = containerClient.getAppendBlobClient(
+        recorder.getUniqueName("appendBlob")
+      );
+      await newBlobClient.create({ tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.appendBlock(content, content.length, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.appendBlock(content, content.length, { conditions: tagConditionMet });
+    });
+
+    it("BlockBlobClient.upload", async () => {
+      assert.ok(
+        await throwExpectedError(
+          blockBlobClient.upload(content, content.length, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blockBlobClient.upload(content, content.length, { conditions: tagConditionMet });
+    });
+
+    it("BlockBlobClient.commitBlockList", async () => {
+      const body = "HelloWorld";
+      await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
+      await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
+
+      assert.ok(
+        await throwExpectedError(
+          blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
+            conditions: tagConditionUnmet
+          }),
+          "ConditionNotMet"
+        )
+      );
+      await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], {
+        conditions: tagConditionMet
+      });
+    });
+
+    it("BlockBlobClient.getBlockList", async () => {
+      const body = "HelloWorld";
+      await blockBlobClient.stageBlock(base64encode("1"), body, body.length);
+      await blockBlobClient.stageBlock(base64encode("2"), body, body.length);
+      await blockBlobClient.commitBlockList([base64encode("1"), base64encode("2")], { tags });
+
+      assert.ok(
+        await throwExpectedError(
+          blockBlobClient.getBlockList("all", { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await blockBlobClient.getBlockList("all", { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.create", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.create(512, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.create(512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.uploadPages", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.uploadPages("a".repeat(512), 0, 512, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.uploadPages("a".repeat(512), 0, 512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.clearPages", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.clearPages(0, 512, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.clearPages(0, 512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.getPageRanges", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.getPageRanges(0, 512, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.getPageRanges(0, 512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.getPageRangesDiff", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      const snapshotResult = await newBlobClient.createSnapshot();
+      assert.ok(snapshotResult.snapshot);
+      await newBlobClient.uploadPages("a".repeat(512), 0, 512);
+
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.getPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+            conditions: tagConditionUnmet
+          }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.getPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+        conditions: tagConditionMet
+      });
+    });
+
+    it("PageBlobClient.resize", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.resize(1024, { conditions: tagConditionUnmet }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.resize(1024, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.updateSequenceNumber", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient.updateSequenceNumber("increment", undefined, {
+            conditions: tagConditionUnmet
+          }),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient.updateSequenceNumber("increment", undefined, {
+        conditions: tagConditionMet
+      });
+    });
   });
 });
 
