@@ -450,7 +450,7 @@ describe("BlobClient", () => {
     );
   });
 
-  it.only("abortCopyFromClient should failed for a completed copy operation", async () => {
+  it("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.copyId);
@@ -804,7 +804,7 @@ describe("BlobClient", () => {
     await checkRehydratePriority("Standard");
   });
 
-  describe.only("conditional tags", () => {
+  describe("conditional tags", () => {
     const tags = {
       tag1: "val1",
       tag2: "val2"
@@ -829,10 +829,10 @@ describe("BlobClient", () => {
     }
 
     it("getTags", async () => {
-      await blobClient.getTags({ modifiedAccessConditions: tagConditionMet });
+      await blobClient.getTags({ conditions: tagConditionMet });
       assert.ok(
         await throwExpectedError(
-          blobClient.getTags({ modifiedAccessConditions: tagConditionUnmet }),
+          blobClient.getTags({ conditions: tagConditionUnmet }),
           "ConditionNotMet"
         )
       );
@@ -842,11 +842,11 @@ describe("BlobClient", () => {
       const tags2 = {
         tag1: "val"
       };
-      await blobClient.setTags(tags2, { modifiedAccessConditions: tagConditionMet });
+      await blobClient.setTags(tags2, { conditions: tagConditionMet });
 
       assert.ok(
         await throwExpectedError(
-          blobClient.setTags(tags, { modifiedAccessConditions: tagConditionUnmet }),
+          blobClient.setTags(tags, { conditions: tagConditionUnmet }),
           "ConditionNotMet"
         )
       );
@@ -870,6 +870,21 @@ describe("BlobClient", () => {
           "ConditionNotMet"
         )
       );
+    });
+
+    it("lease container should throw for unsupported conditions options", async () => {
+      const guid = "ca761232ed4211cebacd00aa0057b223";
+      const duration = 15;
+      const leaseClient = containerClient.getBlobLeaseClient(guid);
+
+      let exceptionCaught = false;
+      try {
+        await leaseClient.acquireLease(duration, { conditions: tagConditionMet });
+      } catch (err) {
+        assert.ok(err instanceof RangeError);
+        exceptionCaught = true;
+      }
+      assert.ok(exceptionCaught);
     });
 
     it("async copy's destination blob", async () => {

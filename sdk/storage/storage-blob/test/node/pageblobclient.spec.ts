@@ -330,7 +330,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.equal(pResp.contentLength, "2048");
   });
 
-  describe.only("conditional tags", () => {
+  describe("conditional tags", () => {
     const tags = {
       tag1: "val1",
       tag2: "val2"

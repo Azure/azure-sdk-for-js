@@ -357,7 +357,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 
-  it.only("query should work with conditional tags", async function() {
+  it("query should work with conditional tags", async function() {
     recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length, { tags: { tag: "val" } });

@@ -79,7 +79,9 @@ export interface MatchConditions {
  * Specifies HTTP options for conditional requests based on blob tags.
  */
 export interface TagConditions {
-  // Optional SQL statement to apply to the Tags of the Blob.
+  /**
+   * Optional SQL statement to apply to the tags of the blob.
+   */
   ifTags?: string;
 }
 

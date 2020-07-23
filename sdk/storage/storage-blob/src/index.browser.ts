@@ -13,7 +13,14 @@ export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
-export { BlockBlobTier, PremiumPageBlobTier, Tags } from "./models";
+export {
+  BlockBlobTier,
+  PremiumPageBlobTier,
+  Tags,
+  TagConditions,
+  ContainerRequestConditions,
+  ModificationConditions
+} from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";

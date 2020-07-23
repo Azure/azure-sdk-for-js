@@ -148,7 +148,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.equal(downloadResponse.contentLength!, content.length * 2);
   });
 
-  it.only("conditional tags for appendBlockFromURL's destination blob", async () => {
+  it("conditional tags for appendBlockFromURL's destination blob", async () => {
     const newBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob"));
     const tags2 = {
       tag: "val"

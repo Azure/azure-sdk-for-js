@@ -1671,7 +1671,8 @@ export class BlobClient extends StorageClient {
     const { span, spanOptions } = createSpan("BlobClient-setTags", options.tracingOptions);
     try {
       return await this.blobContext.setTags({
-        ...options,
+        abortSignal: options.abortSignal,
+        modifiedAccessConditions: options.conditions,
         spanOptions,
         tags: toBlobTags(tags)
       });
@@ -1697,7 +1698,8 @@ export class BlobClient extends StorageClient {
     const { span, spanOptions } = createSpan("BlobClient-getTags", options.tracingOptions);
     try {
       const response = await this.blobContext.getTags({
-        ...options,
+        abortSignal: options.abortSignal,
+        modifiedAccessConditions: options.conditions,
         spanOptions
       });
       const wrappedResponse: BlobGetTagsResponse = {

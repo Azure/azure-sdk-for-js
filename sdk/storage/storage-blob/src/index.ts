@@ -35,7 +35,10 @@ export {
   AppendBlobRequestConditions,
   BlobRequestConditions,
   Metadata,
-  PageBlobRequestConditions
+  PageBlobRequestConditions,
+  TagConditions,
+  ContainerRequestConditions,
+  ModificationConditions
 } from "./models";
 export { RestError };
 export {

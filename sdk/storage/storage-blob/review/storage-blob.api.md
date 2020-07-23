@@ -688,6 +688,7 @@ export interface BlobGetTagsHeaders {
 // @public
 export interface BlobGetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    conditions?: TagConditions;
 }
 
 // @public
@@ -1104,6 +1105,7 @@ export interface BlobSetTagsHeaders {
 // @public
 export interface BlobSetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    conditions?: TagConditions;
 }
 
 // @public
@@ -1125,7 +1127,7 @@ export interface BlobSetTierHeaders {
 // @public
 export interface BlobSetTierOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: LeaseAccessConditions;
+    conditions?: LeaseAccessConditions & TagConditions;
     rehydratePriority?: RehydratePriority;
 }
 
@@ -1301,7 +1303,7 @@ export interface BlockBlobGetBlockListHeaders {
 // @public
 export interface BlockBlobGetBlockListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: LeaseAccessConditions;
+    conditions?: LeaseAccessConditions & TagConditions;
 }
 
 // @public
@@ -1593,7 +1595,7 @@ export interface ContainerDeleteIfExistsResponse extends ContainerDeleteResponse
 // @public
 export interface ContainerDeleteMethodOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
+    conditions?: ContainerRequestConditions;
 }
 
 // @public
@@ -1787,6 +1789,10 @@ export interface ContainerRenewLeaseOptions extends CommonOptions {
 }
 
 // @public
+export interface ContainerRequestConditions extends LeaseAccessConditions, ModificationConditions {
+}
+
+// @public
 export class ContainerSASPermissions {
     add: boolean;
     create: boolean;
@@ -1815,7 +1821,7 @@ export interface ContainerSetAccessPolicyHeaders {
 // @public
 export interface ContainerSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
+    conditions?: ContainerRequestConditions;
 }
 
 // @public
@@ -1840,7 +1846,7 @@ export interface ContainerSetMetadataHeaders {
 // @public
 export interface ContainerSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
+    conditions?: ContainerRequestConditions;
 }
 
 // @public
@@ -2106,6 +2112,12 @@ export interface Metrics {
     // (undocumented)
     retentionPolicy?: RetentionPolicy;
     version?: string;
+}
+
+// @public
+export interface ModificationConditions {
+    ifModifiedSince?: Date;
+    ifUnmodifiedSince?: Date;
 }
 
 // @public
@@ -2836,6 +2848,11 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 
 // @public
 export type SyncCopyStatusType = 'success';
+
+// @public
+export interface TagConditions {
+    ifTags?: string;
+}
 
 // @public
 export type Tags = Record<string, string>;
