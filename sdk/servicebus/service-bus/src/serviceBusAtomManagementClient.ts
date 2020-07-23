@@ -2382,7 +2382,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         const err = new RestError(
           `The messaging entity "${name}" being requested cannot be found.`,
           "MessageEntityNotFoundError",
-          404,
+          response.status,
           stripRequest(webResource),
           stripResponse(response)
         );
