@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { GeneratedClientOptionalParams } from "./models";
 
 const packageName = "@azure/ai-form-recognizer";
-const packageVersion = "1.0.0-preview.5";
+const packageVersion = "1.0.0";
 
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -40,7 +40,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
 
     this.requestContentType = "application/json; charset=utf-8";
 
-    this.baseUri = options.endpoint || "{endpoint}/formrecognizer/v2.0-preview";
+    this.baseUri = options.endpoint || "{endpoint}/formrecognizer/v2.0";
 
     // Parameter assignments
     this.endpoint = endpoint;
