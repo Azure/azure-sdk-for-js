@@ -367,7 +367,14 @@ describe("PageBlobClient Node.js only", () => {
         recorder.getUniqueName("destPageBlob")
       );
 
-      await destPageBlobClient.startCopyIncremental(copySource);
+      const copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
+      if (copyResponse.copyStatus === "pending") {
+        // May fail as the copy succeeded during between? If so, ignore error in the abort as we don't care.
+        try {
+          await destPageBlobClient.abortCopyFromURL(copyResponse.copyId!);
+        } catch (err) {}
+      }
+
       await destPageBlobClient.setTags(tags);
 
       const snapshotResult1 = await pageBlobClient.createSnapshot();
