@@ -76,11 +76,11 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/core/keyVaultClientContext.ts",
+        "path": "src/generated/keyVaultClientContext.ts",
         "prefix": "packageVersion"
       },
       {
-        "path": "src/core/utils/constants.ts",
+        "path": "src/generated/utils/constants.ts",
         "prefix": "SDK_VERSION"
       }
     ]
