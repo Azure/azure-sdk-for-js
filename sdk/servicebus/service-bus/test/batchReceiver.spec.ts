@@ -266,7 +266,7 @@ describe.only("Batching Receiver", () => {
       await testPeekMsgsLength(deadLetterReceiver, 0);
     }
 
-    it.only(
+    it(
       noSessionTestClientType + ": Multiple abandons until maxDeliveryCount.",
       async function(): Promise<void> {
         await beforeEachTest(noSessionTestClientType);

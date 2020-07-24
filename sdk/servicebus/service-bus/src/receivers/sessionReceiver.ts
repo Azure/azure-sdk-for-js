@@ -475,7 +475,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     }
 
     try {
-      this._messageSession.receive(onMessage, onError, options);
+      this._messageSession.subscribe(onMessage, onError, options);
     } catch (err) {
       onError(err);
     }

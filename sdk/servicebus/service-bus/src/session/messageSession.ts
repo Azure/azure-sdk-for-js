@@ -19,7 +19,7 @@ import * as log from "../log";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
-import { getRemainingWaitTimeInMsFn, receiveMessages } from "../core/batchingReceiver";
+import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
 import { sharedOnSettled, PromiseLike } from "../core/shared";
 import { AbortSignalLike } from "@azure/core-http";
 
@@ -140,7 +140,13 @@ export class MessageSession extends LinkEntity {
   /**
    * Denotes if we are currently receiving messages
    */
-  isReceivingMessages: boolean;
+  get isReceivingMessages(): boolean {
+    return this._batchingReceiverLite.isReceivingMessages || this._isReceivingMessagesForSubscriber;
+  }
+
+  private _batchingReceiverLite: BatchingReceiverLite;
+  private _isReceivingMessagesForSubscriber: boolean;
+
   /**
    * @property {Receiver} [_receiver] The AMQP receiver link.
    */
@@ -430,7 +436,6 @@ export class MessageSession extends LinkEntity {
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
     this._context.isSessionEnabled = true;
-    this.isReceivingMessages = false;
     this._receiverHelper = new ReceiverHelper(() => this._receiver);
     if (!options) options = { sessionId: undefined };
     this.autoComplete = false;
@@ -442,6 +447,15 @@ export class MessageSession extends LinkEntity {
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
     this.autoRenewLock =
       this.maxAutoRenewDurationInMs > 0 && this.receiveMode === ReceiveMode.peekLock;
+
+    this._isReceivingMessagesForSubscriber = false;
+    this._batchingReceiverLite = new BatchingReceiverLite(
+      context,
+      async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
+        return this._receiver!;
+      },
+      this.receiveMode
+    );
 
     // setting all the handlers
     this._onSettled = (context: EventContext) => {
@@ -604,7 +618,6 @@ export class MessageSession extends LinkEntity {
         this.name
       );
 
-      this.isReceivingMessages = false;
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
       log.messageSession(
         "[%s] Cleared the timers for 'no new message received' task and " +
@@ -617,6 +630,9 @@ export class MessageSession extends LinkEntity {
         this._deleteFromCache();
         await this._closeLink(receiverLink);
       }
+
+      this._isReceivingMessagesForSubscriber = false;
+      await this._batchingReceiverLite.close();
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the message session with id '%s': %O.",
@@ -656,12 +672,13 @@ export class MessageSession extends LinkEntity {
    *
    * @returns void
    */
-  receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+  subscribe(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
     if (!options) options = {};
-    this.isReceivingMessages = true;
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
+
+    this._isReceivingMessagesForSubscriber = true;
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
@@ -686,7 +703,12 @@ export class MessageSession extends LinkEntity {
           return;
         }
 
-        const bMessage = this._getServiceBusMessage(context);
+        const bMessage = new ServiceBusMessageImpl(
+          this._context,
+          context.message!,
+          context.delivery!,
+          true
+        );
 
         try {
           await this._onMessage(bMessage);
@@ -773,7 +795,7 @@ export class MessageSession extends LinkEntity {
       // adding credit
       this._receiverHelper.addCredit(this.maxConcurrentCalls);
     } else {
-      this.isReceivingMessages = false;
+      this._isReceivingMessagesForSubscriber = false;
       const msg =
         `MessageSession with sessionId '${this.sessionId}' and name '${this.name}' ` +
         `has either not been created or is not open.`;
@@ -794,22 +816,16 @@ export class MessageSession extends LinkEntity {
   async receiveMessages(
     maxMessageCount: number,
     maxWaitTimeInMs: number,
-    maxTimeAfterFirstMessageMs: number,
+    maxTimeAfterFirstMessageInMs: number,
     userAbortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
     try {
-      return await receiveMessages(
-        this._receiver!,
-        this.receiveMode,
-        this._deliveryDispositionMap,
+      return await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
-        maxTimeAfterFirstMessageMs,
-        (maxWaitTimeInMs, maxTimeAfterFirstMessageMs) =>
-          this._getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageMs),
-        (context) => this._getServiceBusMessage(context),
+        maxTimeAfterFirstMessageInMs,
         userAbortSignal
-      );
+      });
     } catch (error) {
       log.error(
         "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
@@ -818,16 +834,7 @@ export class MessageSession extends LinkEntity {
         error
       );
       throw error;
-    } finally {
-      this.isReceivingMessages = false;
-
-      // TODO: this is something I need to think about. Should we/could we trigger the receiver error function?
-      // Should we link in an abortSignal?
     }
-
-    // there was a this.close() that we might want to care about.
-    // const brokeredMessages: ServiceBusMessageImpl[] = [];
-    // this.isReceivingMessages = true;
   }
 
   /**
@@ -896,19 +903,6 @@ export class MessageSession extends LinkEntity {
         delivery.reject(error);
       }
     });
-  }
-
-  private _getServiceBusMessage(
-    context: Pick<EventContext, "message" | "delivery">
-  ): ServiceBusMessageImpl {
-    return new ServiceBusMessageImpl(this._context, context.message!, context.delivery!, true);
-  }
-
-  private _getRemainingWaitTimeInMsFn(
-    maxWaitTimeInMs: number,
-    maxTimeAfterFirstMessageInMs: number
-  ): () => number {
-    return getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageInMs);
   }
 
   /**

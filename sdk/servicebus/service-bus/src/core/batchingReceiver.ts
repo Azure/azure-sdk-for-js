@@ -23,7 +23,6 @@ import { ClientEntityContext } from "../clientEntityContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
-import { sharedOnSettled, PromiseLike } from "./shared";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
@@ -34,11 +33,6 @@ import { sharedOnSettled, PromiseLike } from "./shared";
  */
 export class BatchingReceiver extends MessageReceiver {
   /**
-   * @property Indicates whether the batching receiver has
-   * an ongoing receive request that has not been resolved/rejected yet.
-   */
-  isReceivingMessages: boolean = false;
-  /**
    * Instantiate a new BatchingReceiver.
    *
    * @constructor
@@ -47,6 +41,42 @@ export class BatchingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.batching, options);
+
+    this._batchingReceiverLite = new BatchingReceiverLite(
+      context,
+      async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
+        let lastError: Error | AmqpError | undefined;
+
+        const rcvrOptions = this._createReceiverOptions(false, {
+          onError: (context) => {
+            lastError = context.error || context?.session?.error || context?.receiver?.error;
+          },
+          onSessionError: (context) => {
+            lastError = context.error || context?.session?.error || context?.receiver?.error;
+          },
+          // ignored for now - the next call will just fail so they'll get an appropriate error from somewhere else.
+          onClose: async () => {},
+          onSessionClose: async () => {},
+          // we don't add credits initially so we don't need to worry about handling any messages.
+          onMessage: async () => {}
+        });
+
+        await this._init(rcvrOptions, abortSignal);
+
+        if (lastError != null) {
+          throw lastError;
+        }
+
+        return this._receiver!;
+      },
+      this.receiveMode
+    );
+  }
+
+  private _batchingReceiverLite: BatchingReceiverLite;
+
+  get isReceivingMessages() {
+    return this._batchingReceiverLite.isReceivingMessages;
   }
 
   /**
@@ -55,12 +85,16 @@ export class BatchingReceiver extends MessageReceiver {
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(connectionError?: AmqpError | Error): Promise<void> {
-    // TODO: connectionError needs to get propagated?
     // Clears the token renewal timer. Closes the link and its session if they are open.
     await this._closeLink(this._receiver);
 
-    // TODO: not quite the same, but the sentiment is there.
-    this._receiver?.emit(ReceiverEvents.receiverClose, { error: connectionError });
+    if (connectionError == null) {
+      connectionError = new Error(
+        "Unknown error occurred on the AMQP connection while receiving messages."
+      );
+    }
+
+    await this._batchingReceiverLite.close(connectionError);
   }
 
   /**
@@ -80,7 +114,6 @@ export class BatchingReceiver extends MessageReceiver {
     userAbortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
-    this.isReceivingMessages = true;
 
     try {
       log.batching(
@@ -88,55 +121,18 @@ export class BatchingReceiver extends MessageReceiver {
         this._context.namespace.connectionId,
         this.name
       );
+
       // while creating the receiver link for batching receiver the max concurrent calls
       // i.e. the credit_window on the link is set to zero. After the link is created
       // successfully, we add credit which is the maxMessageCount specified by the user.
       this.maxConcurrentCalls = 0;
 
-      // const rcvrOptions = this._createReceiverOptions(false, {
-      //   onMessage: onReceiveMessage,
-      //   onError: onReceiveError,
-      //   onSessionError: onSessionError,
-      //   onSettled: onSettled,
-      //   onClose: onReceiveClose,
-      //   onSessionClose: onSessionClose
-      // });
-
-      await this._init(undefined, userAbortSignal);
-
-      if (!this._receiver) {
-        return [];
-      }
-
-      // .then(() => {
-      //   if (!this._receiver) {
-      //     // there's a really small window here where the receiver can be closed
-      //     // if that happens we'll just resolve to an empty array of messages.
-      //     return resolve([]);
-      //   }
-
-      //   // TODO: long-term we probably need to split the code in this promise. This check
-      //   // is just a band-aid for now.
-      //   if (!abortSignal?.aborted) {
-      //     this._receiver.on(ReceiverEvents.receiverDrained, onReceiveDrain);
-      //     addCreditAndSetTimer();
-      //   }
-      //   return;
-      // })
-      // .catch(reject);
-
-      return await receiveMessages(
-        this._receiver!,
-        this.receiveMode,
-        this._deliveryDispositionMap,
+      return await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,
         maxTimeAfterFirstMessageInMs,
-        (maxWaitTimeInMs, maxTimeAfterFirstMessageInMs) =>
-          this._getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageInMs),
-        (context) => this._getServiceBusMessage(context),
         userAbortSignal
-      );
+      });
     } catch (error) {
       log.error(
         "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
@@ -145,349 +141,7 @@ export class BatchingReceiver extends MessageReceiver {
         error
       );
       throw error;
-    } finally {
-      this.isReceivingMessages = false;
-
-      // TODO: this is something I need to think about. Should we/could we trigger the receiver error function?
-      // Should we link in an abortSignal?
     }
-  }
-
-  // private _receiveImpl(
-  //   maxMessageCount: number,
-  //   maxWaitTimeInMs: number,
-  //   maxTimeAfterFirstMessageMs: number,
-  //   abortSignal?: AbortSignalLike
-  // ): Promise<ServiceBusMessageImpl[]> {
-  //   const getRemainingWaitTimeInMs = this._getRemainingWaitTimeInMsFn(
-  //     maxWaitTimeInMs,
-  //     maxTimeAfterFirstMessageMs
-  //   );
-
-  //   const brokeredMessages: ServiceBusMessageImpl[] = [];
-
-  //   this.isReceivingMessages = true;
-  //   return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
-  //     let totalWaitTimer: NodeJS.Timer | undefined;
-
-  //     // eslint-disable-next-line prefer-const
-  //     let cleanupBeforeResolveOrReject: (
-  //       receiver: Receiver | undefined,
-  //       shouldRemoveDrain: "removeDrainHandler" | "leaveDrainHandler"
-  //     ) => void;
-
-  //     const onSessionError: OnAmqpEvent = (context: EventContext) => {
-  //       cleanupBeforeResolveOrReject(this._receiver || context.receiver!, "removeDrainHandler");
-
-  //       const sessionError = context.session && context.session.error;
-  //       let error: Error | MessagingError;
-  //       if (sessionError) {
-  //         error = translate(sessionError);
-  //         log.error(
-  //           "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
-  //           this._context.namespace.connectionId,
-  //           this.name,
-  //           error
-  //         );
-  //       } else {
-  //         error = new MessagingError("An error occurred while receiving messages.");
-  //       }
-  //       reject(error);
-  //     };
-
-  //     this._connectionErrorHandler = (error: AmqpError | Error): void => {
-  //       cleanupBeforeResolveOrReject(this._receiver, "removeDrainHandler");
-
-  //       // Return the collected messages if in ReceiveAndDelete mode because otherwise they are lost forever
-  //       if (this.receiveMode === ReceiveMode.receiveAndDelete && brokeredMessages.length) {
-  //         log.batching(
-  //           "[%s] Receiver '%s': Connection disconnected. Resolving receiveMessages() with %d messages.",
-  //           this._context.namespace.connectionId,
-  //           this.name,
-  //           brokeredMessages.length
-  //         );
-  //         return resolve(brokeredMessages);
-  //       }
-
-  //       reject(translate(error));
-  //     };
-
-  //     let removeAbortSignalListenersFn: (() => void) | undefined = undefined;
-
-  //     // Final action to be performed after
-  //     // - maxMessageCount is reached or
-  //     // - maxWaitTime is passed or
-  //     // - newMessageWaitTimeoutInSeconds is passed since the last message was received
-  //     const finalAction = (): void => {
-  //       cleanupBeforeResolveOrReject(this._receiver, "leaveDrainHandler");
-
-  //       // Drain any pending credits.
-  //       if (this._receiver && this._receiver.isOpen() && this._receiver.credit > 0) {
-  //         log.batching(
-  //           "[%s] Receiver '%s': Draining leftover credits(%d).",
-  //           this._context.namespace.connectionId,
-  //           this.name,
-  //           this._receiver.credit
-  //         );
-
-  //         // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
-  //         this._receiver.drain = true;
-  //         this._receiver.addCredit(1);
-  //       } else {
-  //         if (this._receiver) {
-  //           this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-  //         }
-
-  //         log.batching(
-  //           "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
-  //           this._context.namespace.connectionId,
-  //           this.name,
-  //           brokeredMessages.length
-  //         );
-  //         resolve(brokeredMessages);
-  //       }
-  //     };
-
-  //     // Action to be performed on the "message" event.
-  //     const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
-  //       // TODO: this appears to be aggravating a bug that we need to look into more deeply.
-  //       // The same timeout+drain sequence should work fine for receiveAndDelete but it appears
-  //       // to cause problems.
-  //       if (this.receiveMode === ReceiveMode.peekLock) {
-  //         if (brokeredMessages.length === 0) {
-  //           // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
-  //           // and replace it with another timer that is a (probably) much shorter interval.
-  //           //
-  //           // This allows the user to get access to received messages earlier and also gives us
-  //           // a chance to have fewer messages internally that could get lost if the user's
-  //           // app crashes in receiveAndDelete mode.
-  //           if (totalWaitTimer) clearTimeout(totalWaitTimer);
-
-  //           totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
-  //         }
-  //       }
-
-  //       try {
-  //         const data: ServiceBusMessageImpl = this._getServiceBusMessage(context);
-  //         if (brokeredMessages.length < maxMessageCount) {
-  //           brokeredMessages.push(data);
-  //         }
-  //       } catch (err) {
-  //         const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-  //         log.error(
-  //           "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
-  //           this._context.namespace.connectionId,
-  //           this.name,
-  //           errObj
-  //         );
-  //         reject(errObj);
-  //       }
-  //       if (brokeredMessages.length === maxMessageCount) {
-  //         finalAction();
-  //       }
-  //     };
-
-  //     const onSessionClose: OnAmqpEventAsPromise = async (context: EventContext) => {
-  //       try {
-  //         const sessionError = context.session && context.session.error;
-  //         if (sessionError) {
-  //           log.error(
-  //             "[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
-  //             this._context.namespace.connectionId,
-  //             this.name,
-  //             sessionError
-  //           );
-  //         }
-  //       } catch (err) {
-  //         log.error(
-  //           "[%s] Receiver '%s' error in onSessionClose handler:\n%O",
-  //           this._context.namespace.connectionId,
-  //           this.name,
-  //           translate(err)
-  //         );
-  //       }
-  //     };
-
-  //     // Action to be performed on the "receiver_drained" event.
-  //     const onReceiveDrain: OnAmqpEvent = () => {
-  //       if (this._receiver) {
-  //         this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-  //         this._receiver.drain = false;
-  //       }
-
-  //       log.batching(
-  //         "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
-  //         this._context.namespace.connectionId,
-  //         this.name,
-  //         brokeredMessages.length
-  //       );
-
-  //       resolve(brokeredMessages);
-  //     };
-
-  //     const onReceiveClose: OnAmqpEventAsPromise = async (context: EventContext) => {
-  //       try {
-  //         const receiverError = context.receiver && context.receiver.error;
-  //         if (receiverError) {
-  //           log.error(
-  //             "[%s] 'receiver_close' event occurred. The associated error is: %O",
-  //             this._context.namespace.connectionId,
-  //             receiverError
-  //           );
-  //         }
-  //       } catch (err) {
-  //         log.error(
-  //           "[%s] Receiver '%s' error in onClose handler:\n%O",
-  //           this._context.namespace.connectionId,
-  //           this.name,
-  //           translate(err)
-  //         );
-  //       }
-  //     };
-
-  //     // Action to be taken when an error is received.
-  //     const onReceiveError: OnAmqpEvent = (context: Pick<EventContext, "receiver">) => {
-  //       const receiver = this._receiver || context.receiver!;
-  //       cleanupBeforeResolveOrReject(receiver, "removeDrainHandler");
-
-  //       const receiverError = context.receiver && context.receiver.error;
-  //       let error: Error | MessagingError;
-  //       if (receiverError) {
-  //         error = translate(receiverError);
-  //         log.error(
-  //           "[%s] Receiver '%s' received an error:\n%O",
-  //           this._context.namespace.connectionId,
-  //           this.name,
-  //           error
-  //         );
-  //       } else {
-  //         error = new MessagingError("An error occurred while receiving messages.");
-  //       }
-  //       reject(error);
-  //     };
-
-  //     cleanupBeforeResolveOrReject = (
-  //       receiver: Receiver | undefined,
-  //       shouldRemoveDrain:
-  //         | "removeDrainHandler" // remove drain handler (not waiting or initiating a drain)
-  //         | "leaveDrainHandler" // listener for drain is removed when it is determined we dont need to drain or when drain is completed
-  //     ): void => {
-  //       if (receiver != null) {
-  //         receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-  //         receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-  //         receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
-
-  //         if (shouldRemoveDrain === "removeDrainHandler") {
-  //           receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-  //         }
-  //       }
-
-  //       if (totalWaitTimer) {
-  //         clearTimeout(totalWaitTimer);
-  //       }
-
-  //       if (removeAbortSignalListenersFn) {
-  //         removeAbortSignalListenersFn();
-  //         removeAbortSignalListenersFn = undefined;
-  //       }
-  //     };
-
-  //     removeAbortSignalListenersFn = checkAndRegisterWithAbortSignal((err) => {
-  //       cleanupBeforeResolveOrReject(this._receiver, "removeDrainHandler");
-  //       reject(err);
-  //     }, abortSignal);
-
-  //     // Action to be performed after the max wait time is over.
-  //     const actionAfterWaitTimeout = (): void => {
-  //       log.batching(
-  //         "[%s] Batching Receiver '%s'  max wait time in milliseconds %d over.",
-  //         this._context.namespace.connectionId,
-  //         this.name,
-  //         maxWaitTimeInMs
-  //       );
-  //       return finalAction();
-  //     };
-
-  //     const onSettled: OnAmqpEvent = (context: EventContext) => {
-  //       const connectionId = this._context.namespace.connectionId;
-  //       const delivery = context.delivery;
-  //       sharedOnSettled(connectionId, delivery, this._deliveryDispositionMap);
-  //     };
-
-  //     const addCreditAndSetTimer = (reuse?: boolean): void => {
-  //       log.batching(
-  //         "[%s] Receiver '%s', adding credit for receiving %d messages.",
-  //         this._context.namespace.connectionId,
-  //         this.name,
-  //         maxMessageCount
-  //       );
-  //       // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
-  //       // number of messages concurrently. We will return the user an array of messages that can
-  //       // be of size upto maxMessageCount. Then the user needs to accordingly dispose
-  //       // (complete/abandon/defer/deadletter) the messages from the array.
-  //       this._receiver!.addCredit(maxMessageCount);
-  //       let msg: string = "[%s] Setting the wait timer for %d milliseconds for receiver '%s'.";
-  //       if (reuse) msg += " Receiver link already present, hence reusing it.";
-  //       log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs, this.name);
-  //       totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs);
-  //     };
-
-  //     if (!this.isOpen()) {
-  //       log.batching(
-  //         "[%s] Receiver '%s', setting max concurrent calls to 0.",
-  //         this._context.namespace.connectionId,
-  //         this.name
-  //       );
-  //       // while creating the receiver link for batching receiver the max concurrent calls
-  //       // i.e. the credit_window on the link is set to zero. After the link is created
-  //       // successfully, we add credit which is the maxMessageCount specified by the user.
-  //       this.maxConcurrentCalls = 0;
-  //       const rcvrOptions = this._createReceiverOptions(false, {
-  //         onMessage: onReceiveMessage,
-  //         onError: onReceiveError,
-  //         onSessionError: onSessionError,
-  //         onSettled: onSettled,
-  //         onClose: onReceiveClose,
-  //         onSessionClose: onSessionClose
-  //       });
-  //       this._init(rcvrOptions, abortSignal)
-  //         .then(() => {
-  //           if (!this._receiver) {
-  //             // there's a really small window here where the receiver can be closed
-  //             // if that happens we'll just resolve to an empty array of messages.
-  //             return resolve([]);
-  //           }
-
-  //           // TODO: long-term we probably need to split the code in this promise. This check
-  //           // is just a band-aid for now.
-  //           if (!abortSignal?.aborted) {
-  //             this._receiver.on(ReceiverEvents.receiverDrained, onReceiveDrain);
-  //             addCreditAndSetTimer();
-  //           }
-  //           return;
-  //         })
-  //         .catch(reject);
-  //     } else {
-  //       addCreditAndSetTimer(true);
-  //       this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
-  //       this._receiver!.on(ReceiverEvents.receiverError, onReceiveError);
-  //       this._receiver!.on(ReceiverEvents.receiverDrained, onReceiveDrain);
-  //       this._receiver!.session.on(SessionEvents.sessionError, onSessionError);
-  //     }
-  //   });
-  // }
-
-  private _getRemainingWaitTimeInMsFn(
-    maxWaitTimeInMs: number,
-    maxTimeAfterFirstMessageInMs: number
-  ): () => number {
-    return getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageInMs);
-  }
-
-  private _getServiceBusMessage(
-    context: Pick<EventContext, "message" | "delivery">
-  ): ServiceBusMessageImpl {
-    return new ServiceBusMessageImpl(this._context, context.message!, context.delivery!, true);
   }
 
   /**
@@ -534,331 +188,328 @@ export function getRemainingWaitTimeInMsFn(
 }
 
 /**
+ * Useful interface that mimics EventEmitter without requiring us to actually
+ * import the events definition (which is annoying with browsers).
+ *
  * @internal
  * @ignore
- *
- * @param maxMessageCount
- * @param maxWaitTimeInMs
- * @param maxTimeAfterFirstMessageMs
- * @param userAbortSignal
  */
-export function receiveMessages(
-  receiver: Pick<
-    Receiver,
-    "name" | "once" | "isOpen" | "credit" | "addCredit" | "drain" | "removeListener" | "on"
-  > & {
-    session: Pick<Session, "once" | "removeListener" | "on">;
+type EventEmitterLike<T extends Receiver | Session> = Pick<T, "once" | "removeListener" | "on">;
+
+/**
+ * The bare minimum needed to receive messages for batched
+ * message receiving.
+ *
+ * @internal
+ * @ignore
+ */
+export type MinimalReceiver = Pick<Receiver, "name" | "isOpen" | "credit" | "addCredit" | "drain"> &
+  EventEmitterLike<Receiver> & {
+    session: EventEmitterLike<Session>;
   } & {
     connection: {
       id: string;
     };
-  },
-  receiveMode: ReceiveMode,
-  // these are _purely_ logging parameters and should be pulled out another way.
-  // connectionId: string,
-  deliveryDispositionMap: Map<number, PromiseLike>,
-  maxMessageCount: number,
-  maxWaitTimeInMs: number,
-  maxTimeAfterFirstMessageMs: number,
-  _getRemainingWaitTimeInMsFn: typeof getRemainingWaitTimeInMsFn,
-  _getServiceBusMessage: (
+  };
+
+/**
+ * @internal
+ * @ignore
+ */
+type MessageAndDelivery = Pick<EventContext, "message" | "delivery">;
+
+/**
+ * @internal
+ * @ignore
+ */
+interface ReceiveMessageArgs {
+  maxMessageCount: number;
+  maxWaitTimeInMs: number;
+  maxTimeAfterFirstMessageInMs: number;
+  userAbortSignal?: AbortSignalLike;
+}
+
+/**
+ * The internals of a batching receiver minus anything that would require us to hold onto a client entity context
+ * or a receiver on a permanent basis.
+ *
+ * Usable with both session and non-session receivers.
+ *
+ * @internal
+ * @ignore
+ */
+export class BatchingReceiverLite {
+  constructor(
+    clientEntityContext: ClientEntityContext,
+    private _getCurrentReceiver: (abortSignal?: AbortSignalLike) => Promise<MinimalReceiver>,
+    private _receiveMode: ReceiveMode
+  ) {
+    this._createServiceBusMessage = (context: MessageAndDelivery) => {
+      return new ServiceBusMessageImpl(
+        clientEntityContext,
+        context.message!,
+        context.delivery!,
+        true
+      );
+    };
+
+    this._getRemainingWaitTimeInMsFn = (
+      maxWaitTimeInMs: number,
+      maxTimeAfterFirstMessageInMs: number
+    ) => getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageInMs);
+
+    this.isReceivingMessages = false;
+  }
+
+  private _createServiceBusMessage: (
     context: Pick<EventContext, "message" | "delivery">
-  ) => ServiceBusMessageImpl,
-  userAbortSignal?: AbortSignalLike
-): Promise<ServiceBusMessageImpl[]> {
-  const getRemainingWaitTimeInMs = _getRemainingWaitTimeInMsFn(
-    maxWaitTimeInMs,
-    maxTimeAfterFirstMessageMs
-  );
+  ) => ServiceBusMessageImpl;
 
-  const connectionId = receiver.connection.id;
+  private _getRemainingWaitTimeInMsFn: typeof getRemainingWaitTimeInMsFn;
+  private _closeHandler: ((connectionError?: AmqpError | Error) => void) | undefined;
 
-  const brokeredMessages: ServiceBusMessageImpl[] = [];
+  isReceivingMessages: boolean;
 
-  return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
-    let totalWaitTimer: NodeJS.Timer | undefined;
+  /**
+   * Receives a set of messages,
+   *
+   * @internal
+   * @ignore
+   */
+  public async receiveMessages(args: ReceiveMessageArgs): Promise<ServiceBusMessageImpl[]> {
+    try {
+      this.isReceivingMessages = true;
+      const receiver = await this._getCurrentReceiver(args.userAbortSignal);
+      return await this._receiveMessagesImpl(receiver, args);
+    } finally {
+      this.isReceivingMessages = false;
+    }
+  }
 
-    // eslint-disable-next-line prefer-const
-    let cleanupBeforeResolveOrReject: (
-      shouldRemoveDrain: "removeDrainHandler" | "leaveDrainHandler"
-    ) => void;
+  /**
+   * Closes the receiver (optionally with an error), cancelling any current operations.
+   *
+   * @param connectionError An optional error (rhea doesn't always deliver one for certain disconnection events)
+   */
+  close(connectionError?: Error | AmqpError) {
+    if (this._closeHandler) {
+      this._closeHandler(connectionError);
+      this._closeHandler = undefined;
+    }
+  }
 
-    const onSessionError: OnAmqpEvent = (context: EventContext) => {
-      cleanupBeforeResolveOrReject("removeDrainHandler");
+  private _receiveMessagesImpl(
+    receiver: MinimalReceiver,
+    args: ReceiveMessageArgs
+  ): Promise<ServiceBusMessageImpl[]> {
+    const getRemainingWaitTimeInMs = this._getRemainingWaitTimeInMsFn(
+      args.maxWaitTimeInMs,
+      args.maxTimeAfterFirstMessageInMs
+    );
 
-      const sessionError = context.session && context.session.error;
-      let error: Error | MessagingError;
-      if (sessionError) {
-        error = translate(sessionError);
-        log.error(
-          "[%s] 'session_close' event occurred for Receiver '%s' received an error:\n%O",
-          connectionId,
-          receiver.name, // TODO: this.name === receiver.name? Most of the time?
-          error
-        );
-      } else {
-        error = new MessagingError("An error occurred while receiving messages.");
-      }
-      reject(error);
-    };
+    const brokeredMessages: ServiceBusMessageImpl[] = [];
+    const loggingPrefix = `[${receiver.connection.id}|r:${receiver.name}`;
 
-    // TODO: I think we can not do this by simply adding in a ...something? I'm not sure. Can I just add
-    // a single event handler to the receiver (for ReceiverClose) and not bother coordinating this anywhere?
+    return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
+      let totalWaitTimer: NodeJS.Timer | undefined;
 
-    const connectionErrorHandler = (error: AmqpError | Error): void => {
-      cleanupBeforeResolveOrReject("removeDrainHandler");
+      // eslint-disable-next-line prefer-const
+      let cleanupBeforeResolveOrReject: (
+        shouldRemoveDrain: "removeDrainHandler" | "leaveDrainHandler"
+      ) => void;
 
-      // Return the collected messages if in ReceiveAndDelete mode because otherwise they are lost forever
-      if (receiveMode === ReceiveMode.receiveAndDelete && brokeredMessages.length) {
-        log.batching(
-          "[%s] Receiver '%s': Connection disconnected. Resolving receiveMessages() with %d messages.",
-          connectionId,
-          receiver.name,
-          brokeredMessages.length
-        );
-        return resolve(brokeredMessages);
-      }
+      const onError: OnAmqpEvent = (context: EventContext) => {
+        cleanupBeforeResolveOrReject("removeDrainHandler");
 
-      reject(translate(error));
-    };
+        const eventType = context.session?.error != null ? "session_error" : "receiver_error";
+        let error = context.session?.error || context.receiver?.error;
 
-    receiver.once(ReceiverEvents.receiverError, connectionErrorHandler);
-    receiver.session.once(SessionEvents.sessionError, connectionErrorHandler);
-
-    let abortSignalCleanupFunction: (() => void) | undefined = undefined;
-
-    // Final action to be performed after
-    // - maxMessageCount is reached or
-    // - maxWaitTime is passed or
-    // - newMessageWaitTimeoutInSeconds is passed since the last message was received
-    const finalAction = (): void => {
-      cleanupBeforeResolveOrReject("leaveDrainHandler");
-
-      // Drain any pending credits.
-      if (receiver.isOpen() && receiver.credit > 0) {
-        log.batching(
-          "[%s] Receiver '%s': Draining leftover credits(%d).",
-          connectionId,
-          receiver.name,
-          receiver.credit
-        );
-
-        // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
-        receiver.drain = true;
-        receiver.addCredit(1);
-      } else {
-        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-
-        log.batching(
-          "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
-          connectionId,
-          receiver.name,
-          brokeredMessages.length
-        );
-        resolve(brokeredMessages);
-      }
-    };
-
-    // Action to be performed on the "message" event.
-    const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
-      // TODO: this appears to be aggravating a bug that we need to look into more deeply.
-      // The same timeout+drain sequence should work fine for receiveAndDelete but it appears
-      // to cause problems.
-      if (receiveMode === ReceiveMode.peekLock) {
-        if (brokeredMessages.length === 0) {
-          // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
-          // and replace it with another timer that is a (probably) much shorter interval.
-          //
-          // This allows the user to get access to received messages earlier and also gives us
-          // a chance to have fewer messages internally that could get lost if the user's
-          // app crashes in receiveAndDelete mode.
-          if (totalWaitTimer) clearTimeout(totalWaitTimer);
-
-          totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
-        }
-      }
-
-      try {
-        const data: ServiceBusMessageImpl = _getServiceBusMessage(context);
-        if (brokeredMessages.length < maxMessageCount) {
-          brokeredMessages.push(data);
-        }
-      } catch (err) {
-        const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-        log.error(
-          "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
-          connectionId,
-          receiver.name,
-          errObj
-        );
-        reject(errObj);
-      }
-      if (brokeredMessages.length === maxMessageCount) {
-        finalAction();
-      }
-    };
-
-    const onSessionClose: OnAmqpEventAsPromise = async (context: EventContext) => {
-      try {
-        const sessionError = context.session && context.session.error;
-        if (sessionError) {
+        if (error) {
+          error = translate(error);
           log.error(
-            "[%s] 'session_close' event occurred for receiver '%s'. The associated error is: %O",
-            connectionId,
-            receiver.name,
-            sessionError
+            `${loggingPrefix} '${eventType}' event occurred. Received an error:\n%O`,
+            error
           );
+        } else {
+          error = new MessagingError("An error occurred while receiving messages.");
         }
-      } catch (err) {
-        log.error(
-          "[%s] Receiver '%s' error in onSessionClose handler:\n%O",
-          connectionId,
-          receiver.name,
-          translate(err)
-        );
-      }
-    };
+        reject(error);
+      };
 
-    // Action to be performed on the "receiver_drained" event.
-    const onReceiveDrain: OnAmqpEvent = () => {
-      receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-      receiver.drain = false;
+      this._closeHandler = (error?: AmqpError | Error): void => {
+        cleanupBeforeResolveOrReject("removeDrainHandler");
 
-      log.batching(
-        "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
-        connectionId,
-        receiver.name,
-        brokeredMessages.length
-      );
-
-      resolve(brokeredMessages);
-    };
-
-    const onReceiveClose: OnAmqpEventAsPromise = async (context: EventContext) => {
-      try {
-        const receiverError = context.receiver && context.receiver.error;
-        if (receiverError) {
-          log.error(
-            "[%s] 'receiver_close' event occurred. The associated error is: %O",
-            connectionId,
-            receiverError
+        if (
+          // no error, just closing. Go ahead and return what we have.
+          error == null ||
+          // Return the collected messages if in ReceiveAndDelete mode because otherwise they are lost forever
+          (this._receiveMode === ReceiveMode.receiveAndDelete && brokeredMessages.length)
+        ) {
+          log.batching(
+            `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
           );
+          return resolve(brokeredMessages);
         }
-      } catch (err) {
-        log.error(
-          "[%s] Receiver '%s' error in onClose handler:\n%O",
-          connectionId,
-          receiver.name,
-          translate(err)
-        );
-      }
-    };
 
-    // Action to be taken when an error is received.
-    const onReceiveError: OnAmqpEvent = (context: Pick<EventContext, "receiver">) => {
-      cleanupBeforeResolveOrReject("removeDrainHandler");
+        reject(translate(error));
+      };
 
-      const receiverError = context.receiver && context.receiver.error;
-      let error: Error | MessagingError;
-      if (receiverError) {
-        error = translate(receiverError);
-        log.error("[%s] Receiver '%s' received an error:\n%O", connectionId, receiver.name, error);
-      } else {
-        error = new MessagingError("An error occurred while receiving messages.");
-      }
-      reject(error);
-    };
+      let abortSignalCleanupFunction: (() => void) | undefined = undefined;
 
-    cleanupBeforeResolveOrReject = (
-      shouldRemoveDrain:
-        | "removeDrainHandler" // remove drain handler (not waiting or initiating a drain)
-        | "leaveDrainHandler" // listener for drain is removed when it is determined we dont need to drain or when drain is completed
-    ): void => {
-      if (receiver != null) {
-        receiver.removeListener(ReceiverEvents.receiverError, onReceiveError);
-        receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        receiver.session.removeListener(SessionEvents.sessionError, onSessionError);
+      // Final action to be performed after
+      // - maxMessageCount is reached or
+      // - maxWaitTime is passed or
+      // - newMessageWaitTimeoutInSeconds is passed since the last message was received
+      const finalAction = (): void => {
+        cleanupBeforeResolveOrReject("leaveDrainHandler");
 
-        if (shouldRemoveDrain === "removeDrainHandler") {
+        // Drain any pending credits.
+        if (receiver.isOpen() && receiver.credit > 0) {
+          log.batching(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
+
+          // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
+          receiver.drain = true;
+          receiver.addCredit(1);
+        } else {
           receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+
+          log.batching(
+            `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
+          );
+          resolve(brokeredMessages);
+        }
+      };
+
+      // Action to be performed on the "message" event.
+      const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
+        // TODO: this appears to be aggravating a bug that we need to look into more deeply.
+        // The same timeout+drain sequence should work fine for receiveAndDelete but it appears
+        // to cause problems.
+        if (this._receiveMode === ReceiveMode.peekLock) {
+          if (brokeredMessages.length === 0) {
+            // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
+            // and replace it with another timer that is a (probably) much shorter interval.
+            //
+            // This allows the user to get access to received messages earlier and also gives us
+            // a chance to have fewer messages internally that could get lost if the user's
+            // app crashes in receiveAndDelete mode.
+            if (totalWaitTimer) clearTimeout(totalWaitTimer);
+
+            totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
+          }
         }
 
-        // TODO: need to check if onSettled needs to live beyond this call (I think it does but maybe we can
-        // work something out)
-        receiver.on(ReceiverEvents.settled, onSettled);
-        receiver.on(ReceiverEvents.receiverClose, onReceiveClose);
-        receiver.session.on(SessionEvents.sessionClose, onSessionClose);
-      }
+        try {
+          const data: ServiceBusMessageImpl = this._createServiceBusMessage(context);
+          if (brokeredMessages.length < args.maxMessageCount) {
+            brokeredMessages.push(data);
+          }
+        } catch (err) {
+          const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
+          log.error(
+            `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage:\n%O`,
+            errObj
+          );
+          reject(errObj);
+        }
+        if (brokeredMessages.length === args.maxMessageCount) {
+          finalAction();
+        }
+      };
 
-      if (totalWaitTimer) {
-        clearTimeout(totalWaitTimer);
-      }
+      const onClose: OnAmqpEventAsPromise = async (context: EventContext) => {
+        const type = context.session?.error != null ? "session_closed" : "receiver_closed";
+        const error = context.session?.error || context.receiver?.error;
 
-      if (abortSignalCleanupFunction) {
-        abortSignalCleanupFunction();
-      }
-      abortSignalCleanupFunction = undefined;
-    };
+        try {
+          if (error) {
+            log.error(
+              `${loggingPrefix} '${type}' event occurred. The associated error is: %O`,
+              error
+            );
+          }
+        } catch (err) {
+          log.error(`${loggingPrefix} error thrown in ${type} handler:\n%O`, translate(err));
+        }
+      };
 
-    abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
-      cleanupBeforeResolveOrReject("removeDrainHandler");
-      reject(err);
-    }, userAbortSignal);
+      // Action to be performed on the "receiver_drained" event.
+      const onReceiveDrain: OnAmqpEvent = () => {
+        receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+        receiver.drain = false;
 
-    // Action to be performed after the max wait time is over.
-    const actionAfterWaitTimeout = (): void => {
-      log.batching(
-        "[%s] Batching Receiver '%s'  max wait time in milliseconds %d over.",
-        connectionId,
-        receiver.name,
-        maxWaitTimeInMs
-      );
-      return finalAction();
-    };
+        log.batching(
+          `${loggingPrefix} Drained, resolving receiveMessages() with ${brokeredMessages.length} messages.`
+        );
 
-    const onSettled: OnAmqpEvent = (context: EventContext) => {
-      const delivery = context.delivery;
-      sharedOnSettled(connectionId, delivery, deliveryDispositionMap);
-    };
+        resolve(brokeredMessages);
+      };
 
-    const addCreditAndSetTimer = (reuse?: boolean): void => {
-      log.batching(
-        "[%s] Receiver '%s', adding credit for receiving %d messages.",
-        connectionId,
-        receiver.name,
-        maxMessageCount
-      );
-      // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
-      // number of messages concurrently. We will return the user an array of messages that can
-      // be of size upto maxMessageCount. Then the user needs to accordingly dispose
-      // (complete/abandon/defer/deadletter) the messages from the array.
-      receiver.addCredit(maxMessageCount);
-      let msg: string = "[%s] Setting the wait timer for %d milliseconds for receiver '%s'.";
-      if (reuse) msg += " Receiver link already present, hence reusing it.";
-      log.batching(msg, connectionId, maxWaitTimeInMs, receiver.name);
-      totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs);
-    };
+      cleanupBeforeResolveOrReject = (
+        shouldRemoveDrain:
+          | "removeDrainHandler" // remove drain handler (not waiting or initiating a drain)
+          | "leaveDrainHandler" // listener for drain is removed when it is determined we dont need to drain or when drain is completed
+      ): void => {
+        if (receiver != null) {
+          receiver.removeListener(ReceiverEvents.receiverError, onError);
+          receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
+          receiver.session.removeListener(SessionEvents.sessionError, onError);
+          receiver.removeListener(ReceiverEvents.receiverClose, onClose);
+          receiver.session.removeListener(SessionEvents.sessionClose, onClose);
 
-    // while creating the receiver link for batching receiver the max concurrent calls
-    // i.e. the credit_window on the link is set to zero. After the link is created
-    // successfully, we add credit which is the maxMessageCount specified by the user.
+          if (shouldRemoveDrain === "removeDrainHandler") {
+            receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
+          }
+        }
 
-    // TODO: this was an artifact of being part of the shared MessageReceiver object
-    // oddly enough I don't think it would have affected anything since we override every
-    // event handler.
-    // this.maxConcurrentCalls = 0;
+        if (totalWaitTimer) {
+          clearTimeout(totalWaitTimer);
+        }
 
-    addCreditAndSetTimer(true);
-    receiver.on(ReceiverEvents.message, onReceiveMessage);
+        if (abortSignalCleanupFunction) {
+          abortSignalCleanupFunction();
+        }
+        abortSignalCleanupFunction = undefined;
+      };
 
-    // TODO: should these be "once" only?
-    receiver.on(ReceiverEvents.receiverError, onReceiveError);
-    receiver.on(ReceiverEvents.receiverDrained, onReceiveDrain);
-    receiver.on(ReceiverEvents.settled, onSettled);
-    receiver.session.on(SessionEvents.sessionError, onSessionError);
+      abortSignalCleanupFunction = checkAndRegisterWithAbortSignal((err) => {
+        cleanupBeforeResolveOrReject("removeDrainHandler");
+        reject(err);
+      }, args.userAbortSignal);
 
-    // TODO: could these be the same handler? They're basically the same.
-    receiver.on(ReceiverEvents.receiverClose, onReceiveClose);
-    receiver.session.on(SessionEvents.sessionClose, onSessionClose);
-  });
+      // Action to be performed after the max wait time is over.
+      const actionAfterWaitTimeout = (): void => {
+        log.batching(
+          `${loggingPrefix}  Batching, max wait time in milliseconds ${args.maxWaitTimeInMs} over.`
+        );
+        return finalAction();
+      };
+
+      const addCreditAndSetTimer = (reuse?: boolean): void => {
+        log.batching(
+          `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
+        );
+        // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
+        // number of messages concurrently. We will return the user an array of messages that can
+        // be of size upto maxMessageCount. Then the user needs to accordingly dispose
+        // (complete/abandon/defer/deadletter) the messages from the array.
+        receiver.addCredit(args.maxMessageCount);
+
+        let msg: string = `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds`;
+        if (reuse) msg += " Receiver link already present, hence reusing it.";
+        log.batching(msg);
+
+        totalWaitTimer = setTimeout(actionAfterWaitTimeout, args.maxWaitTimeInMs);
+      };
+
+      addCreditAndSetTimer(true);
+      receiver.on(ReceiverEvents.message, onReceiveMessage);
+      receiver.on(ReceiverEvents.receiverError, onError);
+      receiver.on(ReceiverEvents.receiverClose, onClose);
+      receiver.on(ReceiverEvents.receiverDrained, onReceiveDrain);
+
+      receiver.session.on(SessionEvents.sessionError, onError);
+      receiver.session.on(SessionEvents.sessionClose, onClose);
+    });
+  }
 }

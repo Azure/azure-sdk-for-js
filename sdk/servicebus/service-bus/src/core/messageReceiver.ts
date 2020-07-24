@@ -40,7 +40,6 @@ interface CreateReceiverOptions {
   onClose: OnAmqpEventAsPromise;
   onSessionClose: OnAmqpEventAsPromise;
   onError: OnAmqpEvent;
-  onSettled: OnAmqpEvent;
   onSessionError: OnAmqpEvent;
 }
 
@@ -190,11 +189,6 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onAmqpError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSettled The message handler that will be set as the handler on the
-   * underlying rhea receiver for the "settled" event.
-   */
-  protected _onSettled: OnAmqpEvent;
-  /**
    * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
    */
   protected wasCloseInitiated?: boolean;
@@ -275,13 +269,6 @@ export class MessageReceiver extends LinkEntity {
       }
     };
     // setting all the handlers
-    this._onSettled = (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const delivery = context.delivery;
-
-      sharedOnSettled(connectionId, delivery, this._deliveryDispositionMap);
-    };
-
     this._onAmqpMessage = async (context: EventContext) => {
       // If the receiver got closed in PeekLock mode, avoid processing the message as we
       // cannot settle the message.
@@ -728,8 +715,7 @@ export class MessageReceiver extends LinkEntity {
             /* */
           }),
         onError: this._onAmqpError,
-        onSessionError: this._onSessionError,
-        onSettled: this._onSettled
+        onSessionError: this._onSessionError
       };
     }
     const rcvrOptions: ReceiverOptions = {
@@ -743,6 +729,13 @@ export class MessageReceiver extends LinkEntity {
         address: this.address
       },
       credit_window: 0,
+      onSettled: (context) => {
+        return sharedOnSettled(
+          this._context.namespace.connection.id,
+          context.delivery,
+          this._deliveryDispositionMap
+        );
+      },
       ...options
     };
 
