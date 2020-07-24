@@ -9,35 +9,71 @@
 /sdk/ @ramya-rao-a
 
 # Core
+# PRLabel: %Azure.Core
 /sdk/core/abort-controller/ @chradek @xirzec @bterlson
+
+# PRLabel: %Azure.Core
 /sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+
+# PRLabel: %Azure.Core
 /sdk/core/core-auth/ @daviwil @xirzec @bterlson
+
+# PRLabel: %Azure.Core
 /sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
+
+# PRLabel: %Azure.Core
 /sdk/core/core-lro/ @sadasant @xirzec @bterlson
+
+# PRLabel: %Azure.Core
 /sdk/core/core-paging/ @daviwil @xirzec @bterlson
+
+# PRLabel: %Azure.Core
 /sdk/core/core-tracing/ @xirzec @bterlson @chradek
+
+# PRLabel: %Azure.Core
 /sdk/core/logger @xirzec @bterlson @chradek
 
 # Service teams
+# PRLabel: %AzConfig
 /sdk/appconfiguration/ @richardpark-msft @chradek
 
+# PRLabel: %Batch
 /sdk/batch/ @xingwu1 @matthchr @bgklein
+
+# PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
 
+# PRLabel: %Event Hubs
 /sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
+
+# PRLabel: %Service Bus
 /sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
+# PRLabel: %Azure.Identity
 /sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
-/sdk/keyvault/ @jonathandturner @sadasant
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
+# PRLabel: %KeyVault
+/sdk/keyvault/ @jonathandturner @sadasant
+
+# PRLabel: %Storage
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377  
+
+# PRLabel: %Tables
 /sdk/tables/ @mahdiva @joheredi
 
 /sdk/test-utils/ @HarshaNalluru @sadasant
+
+# PRLabel: %Cognitive - Text Analytics
 /sdk/textanalytics/ @xirzec @willmtemple
+
+# PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @jeremymeng @willmtemple
 
+# PRLabel: %Search
 /sdk/search/ @xirzec @sarangan12
+
+/sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
+/sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
 
 # Smoke Tests
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve

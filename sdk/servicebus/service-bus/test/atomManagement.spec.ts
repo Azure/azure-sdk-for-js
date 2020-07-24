@@ -525,14 +525,12 @@ describe("Atom management - Authentication", function(): void {
     alwaysBeExistingEntity: managementQueue1,
     output: {
       sizeInBytes: 0,
-      messageCount: 0,
-      messageCountDetails: {
-        activeMessageCount: 0,
-        deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
-        transferMessageCount: 0,
-        transferDeadLetterMessageCount: 0
-      },
+      totalMessageCount: 0,
+      activeMessageCount: 0,
+      deadLetterMessageCount: 0,
+      scheduledMessageCount: 0,
+      transferMessageCount: 0,
+      transferDeadLetterMessageCount: 0,
       name: managementQueue1
     }
   },
@@ -549,14 +547,12 @@ describe("Atom management - Authentication", function(): void {
     entityType: EntityType.SUBSCRIPTION,
     alwaysBeExistingEntity: managementSubscription1,
     output: {
-      messageCount: 0,
-      messageCountDetails: {
-        activeMessageCount: 0,
-        deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
-        transferMessageCount: 0,
-        transferDeadLetterMessageCount: 0
-      },
+      totalMessageCount: 0,
+      activeMessageCount: 0,
+      deadLetterMessageCount: 0,
+      scheduledMessageCount: 0,
+      transferMessageCount: 0,
+      transferDeadLetterMessageCount: 0,
       topicName: managementTopic1,
       subscriptionName: managementSubscription1
     }
@@ -627,14 +623,12 @@ describe("Atom management - Authentication", function(): void {
       alwaysBeExistingEntity: managementQueue1,
       output: {
         sizeInBytes: 0,
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         name: managementQueue1
       }
     },
@@ -642,14 +636,12 @@ describe("Atom management - Authentication", function(): void {
       alwaysBeExistingEntity: managementQueue2,
       output: {
         sizeInBytes: 0,
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         name: managementQueue2
       }
     }
@@ -678,14 +670,12 @@ describe("Atom management - Authentication", function(): void {
     1: {
       alwaysBeExistingEntity: managementSubscription1,
       output: {
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
         subscriptionName: managementSubscription1
       }
@@ -693,14 +683,12 @@ describe("Atom management - Authentication", function(): void {
     2: {
       alwaysBeExistingEntity: managementSubscription2,
       output: {
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
         subscriptionName: managementSubscription2
       }

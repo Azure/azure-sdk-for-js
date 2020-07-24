@@ -255,8 +255,8 @@ const serviceBusManagementClient = new ServiceBusManagementClient("<connectionSt
 const createQueueResponse = await serviceBusManagementClient.createQueue(queueName);
 console.log("Created queue with name - ", createQueueResponse.name);
 
-const queueRuntimeInfo = await serviceBusManagementClient.getQueueRuntimeInfo(queueName);
-console.log("Number of messages in the queue = ", queueRuntimeInfo.messageCount);
+const queueRuntimeProperties = await serviceBusManagementClient.getQueueRuntimeProperties(queueName);
+console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
 
 await serviceBusManagementClient.deleteQueue(queueName);
 ```
