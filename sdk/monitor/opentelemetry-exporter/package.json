@@ -9,6 +9,7 @@
   "scripts": {
     "clean": "rimraf dist-esm types dist",
     "build:browser": "echo skipped",
+    "build:test": "echo skipped",
     "build:node": "tsc -p .",
     "build": "npm run build:node && npm run build:browser",
     "lint": "eslint . --ext .ts",
