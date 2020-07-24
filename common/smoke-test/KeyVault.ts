@@ -2,7 +2,7 @@
 // Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 // ------------------------------------
-import { DefaultAzureCredential, KnownAuthorityHosts } from "@azure/identity";
+import { DefaultAzureCredential, AzureAuthorityHosts } from "@azure/identity";
 import { SecretClient } from "@azure/keyvault-secrets";
 
 const uuidv1 = require("uuid/v1");
@@ -13,10 +13,10 @@ export class KeyVaultSecrets {
   private static secretValue: string;
 
   private static authorityHostMap: { [alias: string]: string } = {
-    AzureCloud: KnownAuthorityHosts.AzurePublicCloud,
-    AzureChinaCloud: KnownAuthorityHosts.AzureChina,
-    AzureGermanCloud: KnownAuthorityHosts.AzureGermany,
-    AzureUSGovernment: KnownAuthorityHosts.AzureGovernment
+    AzureCloud: AzureAuthorityHosts.AzurePublicCloud,
+    AzureChinaCloud: AzureAuthorityHosts.AzureChina,
+    AzureGermanCloud: AzureAuthorityHosts.AzureGermany,
+    AzureUSGovernment: AzureAuthorityHosts.AzureGovernment
   };
 
   static async Run() {
@@ -32,7 +32,7 @@ export class KeyVaultSecrets {
 
     const authorityHost = this.getAuthorityHost(
       process.env["AZURE_CLOUD"] || "",
-      KnownAuthorityHosts.AzurePublicCloud
+      AzureAuthorityHosts.AzurePublicCloud
     );
 
     // DefaultAzureCredential expects the following three environment variables:

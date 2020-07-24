@@ -83,7 +83,7 @@ describe("IdentityClient", function() {
     if (!isNode) {
       return this.skip();
     }
-    process.env.AZURE_AUTHORITY_HOST ="http://totallyinsecure.lol";
+    process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
     assert.throws(
       () => {
         new IdentityClient();
@@ -91,7 +91,7 @@ describe("IdentityClient", function() {
       Error,
       "The authorityHost address must use the 'https' protocol."
     );
-    process.env.AZURE_AUTHORITY_HOST ="httpsomg.com";
+    process.env.AZURE_AUTHORITY_HOST = "httpsomg.com";
     assert.throws(
       () => {
         new IdentityClient();
@@ -101,11 +101,9 @@ describe("IdentityClient", function() {
     );
 
     // While we have the environment variable, ensure correct precedence
-    assert(
-        new IdentityClient({authorityHost: "https://correct.url"})
-    );
+    assert(new IdentityClient({ authorityHost: "https://correct.url" }));
 
-    delete process.env.AZURE_AUTHORITY_HOST;    
+    delete process.env.AZURE_AUTHORITY_HOST;
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {

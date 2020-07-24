@@ -306,6 +306,23 @@ export const Autoscale: msRest.CompositeMapper = {
   }
 };
 
+export const AutoscaleConfigurationUpdateParameter: msRest.CompositeMapper = {
+  serializedName: "AutoscaleConfigurationUpdateParameter",
+  type: {
+    name: "Composite",
+    className: "AutoscaleConfigurationUpdateParameter",
+    modelProperties: {
+      autoscale: {
+        serializedName: "autoscale",
+        type: {
+          name: "Composite",
+          className: "Autoscale"
+        }
+      }
+    }
+  }
+};
+
 export const HardwareProfile: msRest.CompositeMapper = {
   serializedName: "HardwareProfile",
   type: {
@@ -665,6 +682,28 @@ export const StorageProfile: msRest.CompositeMapper = {
   }
 };
 
+export const NetworkSettings: msRest.CompositeMapper = {
+  serializedName: "NetworkSettings",
+  type: {
+    name: "Composite",
+    className: "NetworkSettings",
+    modelProperties: {
+      publicNetworkAccess: {
+        serializedName: "publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      outboundOnlyPublicNetworkAccessType: {
+        serializedName: "outboundOnlyPublicNetworkAccessType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DiskEncryptionProperties: msRest.CompositeMapper = {
   serializedName: "DiskEncryptionProperties",
   type: {
@@ -699,6 +738,23 @@ export const DiskEncryptionProperties: msRest.CompositeMapper = {
         serializedName: "msiResourceId",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionInTransitProperties: msRest.CompositeMapper = {
+  serializedName: "EncryptionInTransitProperties",
+  type: {
+    name: "Composite",
+    className: "EncryptionInTransitProperties",
+    modelProperties: {
+      isEncryptionInTransitEnabled: {
+        serializedName: "isEncryptionInTransitEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -779,10 +835,24 @@ export const ClusterCreateProperties: msRest.CompositeMapper = {
           className: "DiskEncryptionProperties"
         }
       },
+      encryptionInTransitProperties: {
+        serializedName: "encryptionInTransitProperties",
+        type: {
+          name: "Composite",
+          className: "EncryptionInTransitProperties"
+        }
+      },
       minSupportedTlsVersion: {
         serializedName: "minSupportedTlsVersion",
         type: {
           name: "String"
+        }
+      },
+      networkSettings: {
+        serializedName: "networkSettings",
+        type: {
+          name: "Composite",
+          className: "NetworkSettings"
         }
       }
     }
@@ -1120,10 +1190,24 @@ export const ClusterGetProperties: msRest.CompositeMapper = {
           className: "DiskEncryptionProperties"
         }
       },
+      encryptionInTransitProperties: {
+        serializedName: "encryptionInTransitProperties",
+        type: {
+          name: "Composite",
+          className: "EncryptionInTransitProperties"
+        }
+      },
       minSupportedTlsVersion: {
         serializedName: "minSupportedTlsVersion",
         type: {
           name: "String"
+        }
+      },
+      networkSettings: {
+        serializedName: "networkSettings",
+        type: {
+          name: "Composite",
+          className: "NetworkSettings"
         }
       }
     }

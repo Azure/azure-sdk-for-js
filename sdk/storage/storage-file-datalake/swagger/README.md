@@ -104,3 +104,13 @@ directive:
   transform: >
     $["x-ms-client-name"] = "etag";
 ```
+
+### workaround: adding parameter location for `PathSetAccessControlRecursiveMode`
+
+``` yaml
+directive:
+- from: swagger-document
+  where: $["parameters"].PathSetAccessControlRecursiveMode
+  transform: >
+    $["x-ms-parameter-location"] = "method";
+```

@@ -302,12 +302,11 @@ export function isJSONLikeObject(value: any): boolean {
  * @internal
  * @ignore
  * Helper utility to retrieve message count details from given input,
- * or undefined if not passed in.
  * @param value
  */
-export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
+export function getMessageCountDetails(value: any): MessageCountDetails {
   if (value == undefined) {
-    return undefined;
+    value = {};
   }
   return {
     activeMessageCount: parseInt(value["d2p1:ActiveMessageCount"]) || 0,
