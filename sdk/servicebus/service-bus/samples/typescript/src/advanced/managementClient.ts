@@ -21,7 +21,7 @@ dotenv.config();
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-export async function main() {
+async function main() {
   // You can also use AAD credentials from `@azure/identity` along with the host url
   // instead of the connection string for authentication.
   const serviceBusManagementClient = new ServiceBusManagementClient(connectionString);
@@ -38,7 +38,7 @@ export async function main() {
   console.log("(Updated)max delivery count = ", updateQueueResponse.maxDeliveryCount);
 
   const queueRuntimeProperties = await serviceBusManagementClient.getQueueRuntimeProperties(queueName);
-  console.log("Number of messages in the queue = ", queueRuntimeProperties.messageCount);
+  console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
 
   const namespaceInfo = await serviceBusManagementClient.getNamespaceProperties();
   console.log("Type of the namespace - ", namespaceInfo.namespaceType);

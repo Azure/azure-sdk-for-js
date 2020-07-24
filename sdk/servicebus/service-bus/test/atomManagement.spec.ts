@@ -135,13 +135,13 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
   }
 
   [
-    "getQueues",
-    "getQueuesRuntimeProperties",
-    "getTopics",
-    "getTopicsRuntimeProperties",
-    "getSubscriptions",
-    "getSubscriptionsRuntimeProperties",
-    "getRules"
+    "listQueues",
+    "listQueuesRuntimeProperties",
+    "listTopics",
+    "listTopicsRuntimeProperties",
+    "listSubscriptions",
+    "listSubscriptionsRuntimeProperties",
+    "listRules"
   ].forEach((methodName) => {
     describe(`${methodName}`, () => {
       function getIter() {
@@ -517,14 +517,12 @@ describe("Atom management - Authentication", function(): void {
     alwaysBeExistingEntity: managementQueue1,
     output: {
       sizeInBytes: 0,
-      messageCount: 0,
-      messageCountDetails: {
-        activeMessageCount: 0,
-        deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
-        transferMessageCount: 0,
-        transferDeadLetterMessageCount: 0
-      },
+      totalMessageCount: 0,
+      activeMessageCount: 0,
+      deadLetterMessageCount: 0,
+      scheduledMessageCount: 0,
+      transferMessageCount: 0,
+      transferDeadLetterMessageCount: 0,
       name: managementQueue1
     }
   },
@@ -541,14 +539,12 @@ describe("Atom management - Authentication", function(): void {
     entityType: EntityType.SUBSCRIPTION,
     alwaysBeExistingEntity: managementSubscription1,
     output: {
-      messageCount: 0,
-      messageCountDetails: {
-        activeMessageCount: 0,
-        deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
-        transferMessageCount: 0,
-        transferDeadLetterMessageCount: 0
-      },
+      totalMessageCount: 0,
+      activeMessageCount: 0,
+      deadLetterMessageCount: 0,
+      scheduledMessageCount: 0,
+      transferMessageCount: 0,
+      transferDeadLetterMessageCount: 0,
       topicName: managementTopic1,
       subscriptionName: managementSubscription1
     }
@@ -619,14 +615,12 @@ describe("Atom management - Authentication", function(): void {
       alwaysBeExistingEntity: managementQueue1,
       output: {
         sizeInBytes: 0,
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         name: managementQueue1
       }
     },
@@ -634,14 +628,12 @@ describe("Atom management - Authentication", function(): void {
       alwaysBeExistingEntity: managementQueue2,
       output: {
         sizeInBytes: 0,
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         name: managementQueue2
       }
     }
@@ -670,14 +662,12 @@ describe("Atom management - Authentication", function(): void {
     1: {
       alwaysBeExistingEntity: managementSubscription1,
       output: {
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
         subscriptionName: managementSubscription1
       }
@@ -685,14 +675,12 @@ describe("Atom management - Authentication", function(): void {
     2: {
       alwaysBeExistingEntity: managementSubscription2,
       output: {
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
         subscriptionName: managementSubscription2
       }
@@ -2540,10 +2528,10 @@ async function getEntitiesRuntimeProperties(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient["listQueuesRuntimeProperties"]();
+      const queueResponse = await serviceBusAtomManagementClient["getQueuesRuntimeProperties"]();
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient["listTopicsRuntimeProperties"]();
+      const topicResponse = await serviceBusAtomManagementClient["getTopicsRuntimeProperties"]();
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2552,7 +2540,7 @@ async function getEntitiesRuntimeProperties(
         );
       }
       const subscriptionResponse = await serviceBusAtomManagementClient[
-        "listSubscriptionsRuntimeProperties"
+        "getSubscriptionsRuntimeProperties"
       ](topicPath);
       return subscriptionResponse;
   }
@@ -2739,13 +2727,13 @@ async function listEntities(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient["listQueues"]({
+      const queueResponse = await serviceBusAtomManagementClient["getQueues"]({
         skip,
         maxCount
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient["listTopics"]({
+      const topicResponse = await serviceBusAtomManagementClient["getTopics"]({
         skip,
         maxCount
       });
@@ -2757,7 +2745,7 @@ async function listEntities(
         );
       }
       const subscriptionResponse = await serviceBusAtomManagementClient[
-        "listSubscriptions"
+        "getSubscriptions"
       ](topicPath, { skip, maxCount });
       return subscriptionResponse;
     case EntityType.RULE:
@@ -2766,7 +2754,7 @@ async function listEntities(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      const ruleResponse = await serviceBusAtomManagementClient["listRules"](
+      const ruleResponse = await serviceBusAtomManagementClient["getRules"](
         topicPath,
         subscriptionPath,
         { skip, maxCount }

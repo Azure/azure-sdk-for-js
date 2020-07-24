@@ -2,6 +2,31 @@
 
 ## 3.7.5 (Unreleased)
 
+- FEATURE: Adds bulk request to container.items. Allows aggregate bulk request for up to 100 operations on items with the types: Create, Upsert, Read, Replace, Delete
+
+```js
+// up to 100 operations
+const operations: Operation[] = [
+  {
+    operationType: "Create",
+    resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" }
+  },
+  {
+    operationType: "Upsert",
+    resourceBody: { id: addEntropy("doc2"), name: "other", key: "A" }
+  },
+  {
+    operationType: "Read",
+    id: "readItemId",
+    partitionKey: `["key"]`
+  }
+];
+
+await database.container.items.bulk(operations);
+```
+
+- FEATURE: Throws when initializing ClientContext with an invalid endpoint
+
 ## 3.7.4 (2020-6-30)
 
 - BUGFIX: Properly escape ASCII "DEL" character in partition key header

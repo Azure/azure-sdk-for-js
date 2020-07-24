@@ -1,8 +1,16 @@
 # Release History
 
-## 1.1.0-preview.5 (Unreleased)
+## 1.1.0-preview.6 (Unreleased)
+
+
+## 1.1.0-preview.5 (2020-07-22)
+
+- Make the keytar dependency optional, allowing for building and running on platforms not supported by keytar [PR #10142](https://github.com/Azure/azure-sdk-for-js/pull/10142)
+- DefaultAzureCredential and VSCodeCrential can now take a tenant id as part of the options object
+- KnownAuthorityHosts has been renamed to AzureAuthorityHosts
 
 ## 1.1.0-preview.4 (2020-06-09)
+
 - Switch to using CredentialUnavailable to differentiate from expected and unexpected errors during DefaultAzureCredential startup. [PR #8172](https://github.com/Azure/azure-sdk-for-js/pull/8127)
 - Make all developer credentials public as well as the list used by DefaultAzureCredential [PR #9274](https://github.com/Azure/azure-sdk-for-js/pull/9274)
 

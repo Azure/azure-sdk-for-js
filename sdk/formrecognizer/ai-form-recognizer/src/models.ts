@@ -166,16 +166,6 @@ export interface FormTableCell {
 }
 
 /**
- * Represents a row of data table cells in recognized table.
- */
-export interface FormTableRow {
-  /**
-   * List of data table cells in a {@link FormTableRow}
-   */
-  cells: FormTableCell[];
-}
-
-/**
  * Information about the recognized table contained in a page.
  */
 export interface FormTable {
@@ -188,9 +178,9 @@ export interface FormTable {
    */
   columnCount: number;
   /**
-   * List of rows in the data table
+   * List of cells in the data table
    */
-  rows: FormTableRow[];
+  cells: FormTableCell[];
 }
 
 /**

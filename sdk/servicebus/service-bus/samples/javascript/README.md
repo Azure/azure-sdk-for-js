@@ -20,7 +20,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [advanced/sessionRoundRobin.js][advanced-session-round-robin]       | uses `SessionReceiver`'s ability to get the next available session to round-robin through all sessions in a Queue/Subscription                                                |
 | [advanced/sessionState.js][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how SessionState information can be read and maintained in an application                                                       |
 | [advanced/managementClient.js][advanced-management-client]          | demonstrates how the ServiceBusManagementClient can be used to manage the resources of a service bus namespace                                                                |
-| [advanced/listingEntities.js][advanced-listing-entities]            | Async iterable iterators with pagination support for all the listing methods under ServiceBusManagementClient like `getQueues()`, `getTopics()`,`getQueuesRuntimeInfo()`, etc |
+| [advanced/listingEntities.js][advanced-listing-entities]            | Async iterable iterators with pagination support for all the listing methods under ServiceBusManagementClient like `listQueues()`, `listTopics()`,`listQueuesRuntimeProperties()`, etc |
 
 ## Prerequisites
 
