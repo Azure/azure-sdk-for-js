@@ -532,6 +532,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       sizeInBytes: 0,
       subscriptionCount: 0,
+      scheduledMessageCount: 0,
       name: managementTopic1
     }
   },
@@ -542,7 +543,6 @@ describe("Atom management - Authentication", function(): void {
       totalMessageCount: 0,
       activeMessageCount: 0,
       deadLetterMessageCount: 0,
-      scheduledMessageCount: 0,
       transferMessageCount: 0,
       transferDeadLetterMessageCount: 0,
       topicName: managementTopic1,
@@ -645,6 +645,7 @@ describe("Atom management - Authentication", function(): void {
       output: {
         sizeInBytes: 0,
         subscriptionCount: 0,
+        scheduledMessageCount: 0,
         name: managementTopic1
       }
     },
@@ -653,6 +654,7 @@ describe("Atom management - Authentication", function(): void {
       output: {
         sizeInBytes: 0,
         subscriptionCount: 0,
+        scheduledMessageCount: 0,
         name: managementTopic2
       }
     }
@@ -665,7 +667,6 @@ describe("Atom management - Authentication", function(): void {
         totalMessageCount: 0,
         activeMessageCount: 0,
         deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
         transferMessageCount: 0,
         transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
@@ -678,7 +679,6 @@ describe("Atom management - Authentication", function(): void {
         totalMessageCount: 0,
         activeMessageCount: 0,
         deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
         transferMessageCount: 0,
         transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
