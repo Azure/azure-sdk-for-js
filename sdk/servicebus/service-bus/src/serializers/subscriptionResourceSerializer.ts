@@ -15,8 +15,7 @@ import {
   getInteger,
   getString,
   getStringOrUndefined,
-  getDate,
-  MessageCountDetails
+  getDate
 } from "../util/utils";
 
 /**
@@ -106,17 +105,15 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
 export function buildSubscriptionRuntimeProperties(
   rawSubscription: any
 ): SubscriptionRuntimeProperties {
-  type MakeTOptional<M, T extends keyof M> = Partial<Pick<M, T>> & Omit<M, T>;
-  const messageCountDetails: MakeTOptional<
-    MessageCountDetails,
-    "scheduledMessageCount"
-  > = getMessageCountDetails(rawSubscription[Constants.COUNT_DETAILS]);
-  delete messageCountDetails.scheduledMessageCount;
+  const messageCountDetails = getMessageCountDetails(rawSubscription[Constants.COUNT_DETAILS]);
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
     totalMessageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
-    ...messageCountDetails,
+    activeMessageCount: messageCountDetails.activeMessageCount,
+    deadLetterMessageCount: messageCountDetails.deadLetterMessageCount,
+    transferDeadLetterMessageCount: messageCountDetails.transferDeadLetterMessageCount,
+    transferMessageCount: messageCountDetails.transferMessageCount,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
     updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
