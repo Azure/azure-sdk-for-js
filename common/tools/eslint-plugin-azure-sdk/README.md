@@ -78,9 +78,9 @@ Some rules (see table below) are fixable using the `--fix` ESLint option (added 
 
 ### Rules
 
-| Rule                                                                                                                                      | Default                   | Fixable            | Release |
-| ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------ | ------- |
-| [**github-source-headers**]https://github.com/Azure/azure-sdk-for-js/blob/master/common/tools/eslint-plugin-azure-sdk/docs/rules/github-source-headers.md)                                           | :triangular_flag_on_post: | :heavy_check_mark: | `1.1.0` |
+| Rule                                                                                                                                                                                                  | Default                   | Fixable            | Release |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------- | ------------------ | ------- |
+| [**github-source-headers**]https://github.com/Azure/azure-sdk-for-js/blob/master/common/tools/eslint-plugin-azure-sdk/docs/rules/github-source-headers.md)                                            | :triangular_flag_on_post: | :heavy_check_mark: | `1.1.0` |
 | [**ts-apisurface-standardized-verbs**](https://github.com/Azure/azure-sdk-for-js/blob/master/common/tools/eslint-plugin-azure-sdk/docs/rules/ts-apisurface-standardized-verbs.md)                     | :triangular_flag_on_post: | :x:                | `1.2.0` |
 | [**ts-apisurface-supportcancellation**](https://github.com/Azure/azure-sdk-for-js/blob/master/common/tools/eslint-plugin-azure-sdk/docs/rules/ts-apisurface-supportcancellation.md)                   | :triangular_flag_on_post: | :x:                | `1.2.0` |
 | [**ts-config-allowsyntheticdefaultimports**](https://github.com/Azure/azure-sdk-for-js/blob/master/common/tools/eslint-plugin-azure-sdk/docs/rules/ts-config-allowsyntheticdefaultimports.md)         | :triangular_flag_on_post: | :heavy_check_mark: | `1.0.0` |
