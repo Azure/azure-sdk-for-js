@@ -450,19 +450,19 @@ describe("Transforms", () => {
 
     const transformed = toFormTable(originalTable, formPages);
 
-    assert.equal(transformed.rows.length, originalTable.rows);
-    assert.equal(transformed.rows[0].cells[0].text, originalTable.cells[0].text);
-    assert.equal(transformed.rows[1].cells[1].confidence, originalTable.cells[3].confidence);
+    assert.equal(transformed.rowCount, originalTable.rows);
+    assert.equal(transformed.cells[0].text, originalTable.cells[0].text);
+    assert.equal(transformed.cells[3].confidence, originalTable.cells[3].confidence);
 
-    assert.equal(transformed.rows[0].cells[0].isHeader, true);
-    assert.equal(transformed.rows[0].cells[0].isFooter, false);
-    assert.equal(transformed.rows[0].cells[0].rowSpan, 1);
-    assert.equal(transformed.rows[0].cells[0].columnSpan, 1);
+    assert.equal(transformed.cells[0].isHeader, true);
+    assert.equal(transformed.cells[0].isFooter, false);
+    assert.equal(transformed.cells[0].rowSpan, 1);
+    assert.equal(transformed.cells[0].columnSpan, 1);
 
-    assert.equal(transformed.rows[2].cells[0].isHeader, false);
-    assert.equal(transformed.rows[2].cells[0].isFooter, true);
-    assert.equal(transformed.rows[2].cells[0].rowSpan, 1);
-    assert.equal(transformed.rows[2].cells[0].columnSpan, 2);
+    assert.equal(transformed.cells[4].isHeader, false);
+    assert.equal(transformed.cells[4].isFooter, true);
+    assert.equal(transformed.cells[4].rowSpan, 1);
+    assert.equal(transformed.cells[4].columnSpan, 2);
   });
 
   it("toRecognizedForm() should handle empty page", () => {

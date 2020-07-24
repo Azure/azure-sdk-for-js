@@ -15,11 +15,13 @@ import {
   earliestEventPosition,
   EventHubConsumerClient,
   EventHubProducerClient,
-  Subscription
+  Subscription,
+  EventPosition
 } from "../src";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { EventHubReceiver } from "../src/eventHubReceiver";
+import { translate } from "@azure/core-amqp";
 const env = getEnvVars();
 
 const allowDirectPartitionConnections = [false, true];
@@ -551,6 +553,107 @@ allowDirectPartitionConnections.forEach((directPartitionConnectionsEnabled) => {
 
         await receiver.close();
       });
+
+      it("should not lose messages on error", async () => {
+        const partitionId = partitionIds[0];
+        const { lastEnqueuedSequenceNumber } = await producerClient.getPartitionProperties(
+          partitionId
+        );
+  
+        // Ensure the receiver only looks at new messages.
+        const startPosition: EventPosition = {
+          sequenceNumber: lastEnqueuedSequenceNumber,
+          isInclusive: false
+        };
+  
+        // Send a message we expect to receive.
+        const message: EventData = { body: "remember me!" };
+        await producerClient.sendBatch([message], { partitionId });
+  
+        // Disable retries to make it easier to test scenario.
+        const receiver = new EventHubReceiver(
+          consumerClient["_context"],
+          EventHubConsumerClient.defaultConsumerGroupName,
+          partitionId,
+          startPosition,
+          {
+            retryOptions: {
+              maxRetries: 0
+            }
+          }
+        );
+  
+        // Periodically check that the receiver's checkpoint has been updated.
+        const checkpointInterval = setInterval(() => {
+          if (receiver.checkpoint > -1) {
+            clearInterval(checkpointInterval);
+            const error = translate(new Error("I break receivers for fun."));
+            receiver["_onError"]!(error);
+          }
+        }, 50);
+  
+        try {
+          // There is only 1 message.
+          // We expect to see an error.
+          await receiver.receiveBatch(2, 60);
+          throw new Error(`Test failure`);
+        } catch (err) {
+          err.message.should.not.equal("Test failure");
+          receiver.checkpoint.should.be.greaterThan(-1, "Did not see a message come through.");
+        } finally {
+          clearInterval(checkpointInterval);
+        }
+  
+        const events = await receiver.receiveBatch(1);
+        events.length.should.equal(1, "Unexpected number of events received.");
+        events[0].body.should.equal(message.body, "Unexpected message received.");
+      });
+  
+      it("should not lose messages between retries", async () => {
+        const partitionId = partitionIds[0];
+        const { lastEnqueuedSequenceNumber } = await producerClient.getPartitionProperties(
+          partitionId
+        );
+  
+        // Ensure the receiver only looks at new messages.
+        const startPosition: EventPosition = {
+          sequenceNumber: lastEnqueuedSequenceNumber,
+          isInclusive: false
+        };
+  
+        // Send a message we expect to receive.
+        const message: EventData = { body: "remember me!" };
+        await producerClient.sendBatch([message], { partitionId });
+  
+        // Disable retries to make it easier to test scenario.
+        const receiver = new EventHubReceiver(
+          consumerClient["_context"],
+          EventHubConsumerClient.defaultConsumerGroupName,
+          partitionId,
+          startPosition,
+          {
+            retryOptions: {
+              maxRetries: 1
+            }
+          }
+        );
+  
+        // Periodically check that the receiver's checkpoint has been updated.
+        const checkpointInterval = setInterval(() => {
+          if (receiver.checkpoint > -1) {
+            clearInterval(checkpointInterval);
+            const error = translate(new Error("I break receivers for fun.")) as MessagingError;
+            error.retryable = true;
+            receiver["_onError"]!(error);
+          }
+        }, 50);
+  
+        // There is only 1 message.
+        const events = await receiver.receiveBatch(2, 20);
+  
+        events.length.should.equal(1, "Unexpected number of events received.");
+        events[0].body.should.equal(message.body, "Unexpected message received.");
+      });
     });
 
     describe("subscribe() with trackLastEnqueuedEventProperties", function(): void {
@@ -599,27 +702,28 @@ allowDirectPartitionConnections.forEach((directPartitionConnectionsEnabled) => {
         await subscription!.close();
       });
     });
+  });
 
-    describe("Negative scenarios", function(): void {
-      it("should throw MessagingEntityNotFoundError for non existing consumer group", async function(): Promise<
-        void
-      > {
-        const badConsumerClient = new EventHubConsumerClient(
-          "boo",
-          service.connectionString,
-          service.path
-        );
-        let subscription: Subscription | undefined;
-        const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
-          subscription = badConsumerClient.subscribe({
-            processEvents: async () => {},
-            processError: async (err) => {
-              resolve(err);
-            }
-          });
+  describe("Negative scenarios", function(): void {
+    it("should throw MessagingEntityNotFoundError for non existing consumer group", async function(): Promise<
+      void
+    > {
+      const badConsumerClient = new EventHubConsumerClient(
+        "boo",
+        service.connectionString,
+        service.path
+      );
+      let subscription: Subscription | undefined;
+      const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
+        subscription = badConsumerClient.subscribe({
+          processEvents: async () => {},
+          processError: async (err) => {
+            resolve(err);
+          }
         });
-        await subscription!.close();
-        await badConsumerClient.close();
+      });
+      await subscription!.close();
+      await badConsumerClient.close();
 
         should.exist(caughtErr);
         should.equal((caughtErr as MessagingError).code, "MessagingEntityNotFoundError");
