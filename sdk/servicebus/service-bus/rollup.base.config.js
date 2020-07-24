@@ -120,11 +120,6 @@ export function browserConfig(test = false) {
         net: `export default {}`,
         tls: `export default {}`,
         dotenv: `export function config() { }`,
-        os: `
-          export function arch() { return "javascript" }
-          export function type() { return "Browser" }
-          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
-        `,
         path: `export default {}`,
         dns: `export function resolve() { }`,
         glob: `export default {}`
