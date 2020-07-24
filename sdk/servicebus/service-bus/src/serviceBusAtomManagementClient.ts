@@ -9,19 +9,18 @@ import {
 } from "@azure/core-amqp";
 import {
   bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions,
   HttpOperationResponse,
   OperationOptions,
-  proxyPolicy,
   ProxySettings,
   RequestPolicyFactory,
   RestError,
   ServiceClient,
-  ServiceClientOptions,
   signingPolicy,
   stripRequest,
   stripResponse,
-  tracingPolicy,
   URLBuilder,
+  UserAgentOptions,
   WebResource
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -65,10 +64,10 @@ import {
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
-import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-import { createSpan, getCanonicalCode } from "./util/tracing";
 import { parseURL } from "./util/parseUrl";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
+import { createSpan, getCanonicalCode } from "./util/tracing";
+import { formatUserAgentPrefix, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -78,6 +77,10 @@ export interface ServiceBusManagementClientOptions {
    * Proxy related settings
    */
   proxySettings?: ProxySettings;
+  /**
+   * Options for adding user agent details to outgoing requests.
+   */
+  userAgentOptions?: UserAgentOptions;
 }
 
 /**
@@ -206,28 +209,20 @@ export class ServiceBusManagementClient extends ServiceClient {
     credential: TokenCredential,
     options?: ServiceBusManagementClientOptions
   );
-
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
     options3?: ServiceBusManagementClientOptions
   ) {
-    const requestPolicyFactories: RequestPolicyFactory[] = [];
     let options: ServiceBusManagementClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
-    requestPolicyFactories.push(
-      // TODO: Update the userAgent in ConnectionContext to properly distinguish among Node and browser (Reference: EventHubs)
-      //       And use the same userAgent string for both ServiceBusManagementClient and the ServiceBusClient.
-      tracingPolicy({ userAgent: `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}` })
-    );
+    let authPolicy: RequestPolicyFactory;
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
       credentials = credentialOrOptions2;
-      requestPolicyFactories.push(
-        bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope)
-      );
+      authPolicy = bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope);
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
@@ -244,15 +239,18 @@ export class ServiceBusManagementClient extends ServiceClient {
         connectionStringObj.SharedAccessKeyName,
         connectionStringObj.SharedAccessKey
       );
-      requestPolicyFactories.push(signingPolicy(credentials));
+      authPolicy = signingPolicy(credentials);
     }
-    if (options && options.proxySettings) {
-      requestPolicyFactories.push(proxyPolicy(options.proxySettings));
-    }
-    const serviceClientOptions: ServiceClientOptions = {
-      requestPolicyFactories: requestPolicyFactories
-    };
-
+    const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
+    const serviceClientOptions = createPipelineFromOptions(
+      {
+        proxyOptions: options.proxySettings,
+        userAgentOptions: {
+          userAgentPrefix
+        }
+      },
+      authPolicy
+    );
     super(credentials, serviceClientOptions);
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
